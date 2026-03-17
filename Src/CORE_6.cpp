@@ -1504,7 +1504,8 @@ int clear_completely_the_patch()
 
 int show_title()
 {
-    logo.Blit((largeur_ecran/2)-150,(hauteur_ecran/2));//ne s'affiche que en 32 bits
+    //logo.Blit((largeur_ecran/2)-150,(hauteur_ecran/2));//ne s'affiche que en 32 bits
+    if(logo.IsValid()) logo.Blit((largeur_ecran/2)-150,(hauteur_ecran/2));
     neuroTitle.Print("WHITE CAT", (largeur_ecran/2)-200,(hauteur_ecran/2)-200);
     neuromoyen.Print(nickname_version, (largeur_ecran/2)+200,(hauteur_ecran/2)-260);
     neuro.Print("http://www.le-chat-noir-numerique.fr", (largeur_ecran/2)-160,(hauteur_ecran/2)-170);
@@ -2773,26 +2774,28 @@ int scan_audiofolder()
         strcpy(list_audio_files[o],"");
     }
     //detection
-    struct al_ffblk f;
-    bool isSomeone=0;
-    int nrbe_de_fichiers=0;
-    sprintf(rep_audio,"%s\\audio\\%s\\",mondirectory,audio_folder);
-    chdir(rep_audio);
-
-    if(!al_findfirst("*.*",&f,-1))
+WIN32_FIND_DATA f;
+HANDLE hFind;
+bool isSomeone=0;
+int nrbe_de_fichiers=0;
+char search_audio[512];
+sprintf(search_audio,"%s\\audio\\%s\\*.*",mondirectory,audio_folder);
+hFind = FindFirstFile(search_audio, &f);
+if(hFind != INVALID_HANDLE_VALUE)
+{
+    do
     {
-        while(!al_findnext(&f))
-        {//19/12/14 correction christoph ruiserge
-            int f_name_len = strlen(f.name);
+        int f_name_len = strlen(f.cFileName);
+
             for(unsigned int a=0; a< f_name_len; a++)
             {
                 //19/12/14 correction christoph ruiserge
-                if(f.name[a]=='.' && a<=f_name_len-3)
+                if(f.cFileName[a]=='.' && a<=f_name_len-3)
                 {
-                    if((f.name[a+1]=='W' &&  f.name[a+2]=='A' &&  f.name[a+3]=='V')
-                            ||(f.name[a+1]=='w' &&  f.name[a+2]=='a' &&  f.name[a+3]=='v')
-                            ||(f.name[a+1]=='M' &&  f.name[a+2]=='P' &&  f.name[a+3]=='3')
-                            ||(f.name[a+1]=='m' &&  f.name[a+2]=='p' &&  f.name[a+3]=='3')
+                    if((f.cFileName[a+1]=='W' &&  f.cFileName[a+2]=='A' &&  f.cFileName[a+3]=='V')
+                            ||(f.cFileName[a+1]=='w' &&  f.cFileName[a+2]=='a' &&  f.cFileName[a+3]=='v')
+                            ||(f.cFileName[a+1]=='M' &&  f.cFileName[a+2]=='P' &&  f.cFileName[a+3]=='3')
+                            ||(f.cFileName[a+1]=='m' &&  f.cFileName[a+2]=='p' &&  f.cFileName[a+3]=='3')
                       )
                     {
                         isSomeone=true;
@@ -2807,12 +2810,13 @@ int scan_audiofolder()
             // we've found a directory!
             if(isSomeone && nrbe_de_fichiers<128)
             {
-                sprintf(list_audio_files[nrbe_de_fichiers+1],f.name);
+                sprintf(list_audio_files[nrbe_de_fichiers+1],f.cFileName);
                 nrbe_de_fichiers++;
             }
-        }
     }
-    al_findclose(&f);
+    while(FindNextFile(hFind, &f));
+    FindClose(hFind);
+}
     audio_number_total_in_folder=nrbe_de_fichiers;
 //REROLL
     sprintf(rep,"%s\\",mondirectory);

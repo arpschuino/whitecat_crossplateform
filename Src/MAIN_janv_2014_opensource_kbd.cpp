@@ -794,7 +794,11 @@ int main_actions_on_screen()
 
 
 int main() {
-
+GetModuleFileName(NULL, mondirectory, 512);
+// Enlever le nom de l'exe pour garder seulement le dossier
+for(int i=strlen(mondirectory)-1; i>=0; i--) {
+    if(mondirectory[i]=='\\') { mondirectory[i]='\0'; break; }
+}
 load_screen_config();
 
 Settings::SetWindowBorder(false);//plus de momde border window, car inutilisable avec les menus
@@ -875,10 +879,36 @@ else {Setup::SetupScreen( largeur_ecran, hauteur_ecran,FULLSCREEN, desktop_color
 
     Canvas::Fill(CouleurFond);
     Canvas::Refresh();
-
-
-
-   save_load_print_to_screen("Loaded Gfx");
+    FILE* dbg = fopen("debug_crash.txt","w");
+    if(dbg){fprintf(dbg,"After Canvas::Refresh\n");fclose(dbg);}
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before save_load_print\n");fclose(dbg);}
+    save_load_print_to_screen("Loaded Gfx");
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before Load_setup_conf\n");fclose(dbg);}
+    Load_setup_conf();
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before GlobInit\n");fclose(dbg);}
+    GlobInit();
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before InitMidi\n");fclose(dbg);}
+    InitMidi();
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before load_dmx_conf\n");fclose(dbg);}
+    load_dmx_conf();
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before load_artnet_conf\n");fclose(dbg);}
+    load_artnet_conf();
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before Load_Video_Conf\n");fclose(dbg);}
+    Load_Video_Conf();
+    dbg = fopen("debug_crash.txt","a");
+if(dbg){fprintf(dbg,"After Load_Video_Conf\n");fclose(dbg);}
+    dbg = fopen("debug_crash.txt","a");
+    if(dbg){fprintf(dbg,"Before load_gel_list\n");fclose(dbg);}
+    //load_gel_list_numerical();
+dbg = fopen("debug_crash.txt","a");
+if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
 
 
    sprintf(string_last_ch,"Last Ch. selected: %d", last_ch_selected);
@@ -930,8 +960,10 @@ else {Setup::SetupScreen( largeur_ecran, hauteur_ecran,FULLSCREEN, desktop_color
  save_load_print_to_screen("Loading Art-netnetwork conf");
 
 
- save_load_print_to_screen("Loading Video conf");
- Load_Video_Conf();
+FILE* dbg4 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg4){fprintf(dbg4,"mondirectory=%s rep_saves=%s nomduspectacle=%s\n",mondirectory,rep_saves,nomduspectacle);fclose(dbg4);}
+
+
  sprintf(tmp_ip_artnet,ip_artnet);
 
 
@@ -942,7 +974,7 @@ else {Setup::SetupScreen( largeur_ecran, hauteur_ecran,FULLSCREEN, desktop_color
  On_Open_name_of_directory();
 
  save_load_print_to_screen("Loading Gels List");
- load_gel_list_numerical();
+ //load_gel_list_numerical();
  idf++;
 
  Canvas::Fill(CouleurFond);

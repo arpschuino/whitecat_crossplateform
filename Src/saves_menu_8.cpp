@@ -43,41 +43,39 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int scan_savesfolder()
 {
-    struct al_ffblk f;
+    WIN32_FIND_DATA f;
+    HANDLE hFind;
     bool isDir;
     int nbre_de_shows=0;
-    sprintf(rep,"%s\\saves",mondirectory);
-    chdir(rep);
-
-    if(!al_findfirst("*.*",&f,-1))
+    char search_saves[512];
+    sprintf(search_saves,"%s\\saves\\*.*",mondirectory);
+    hFind = FindFirstFile(search_saves, &f);
+    if(hFind != INVALID_HANDLE_VALUE)
     {
-
-            while(!al_findnext(&f))
-            {
-            int f_name_len = strlen(f.name);
+        do
+        {
+            int f_name_len = strlen(f.cFileName);
             isDir=true;
-            // check if it's a dir or a file
             for(unsigned int a=0;a<f_name_len;a++)
             {
-                if(f.name[a]=='.')
+                if(f.cFileName[a]=='.')
                 {
                     isDir=false;
                     break;
                 }
             }
-            // we've found a directory!
             if(isDir)
             {
-		    sprintf(list_save_files[nbre_de_shows],f.name);
-		    nbre_de_shows++;
+                sprintf(list_save_files[nbre_de_shows],f.cFileName);
+                nbre_de_shows++;
             }
-            }
+        }
+        while(FindNextFile(hFind, &f));
+        FindClose(hFind);
     }
-    al_findclose(&f);
-//reroll
-sprintf(rep,"%s\\",mondirectory);
-chdir (rep);
-return(0);
+    sprintf(rep,"%s\\",mondirectory);
+    chdir(rep);
+    return(0);
 }
 
 //sab 02/03/2014 int scan_importfolder(char *subdir)
@@ -87,33 +85,27 @@ for(int i=0;i<127;i++)
 {
  strcpy(list_import_files[i],"");
 }
-
-    struct al_ffblk f;
-    bool isSomeone;
+    WIN32_FIND_DATA f;
+    HANDLE hFind;
     int nrbe_de_fichiers=0;
-    sprintf(rep,"%s\\import_export\\%s",mondirectory,subdir);
-    chdir(rep);
-
-    if(!al_findfirst("*.*",&f,-1))
+    char search_import[512];
+    sprintf(search_import,"%s\\import_export\\%s*.*",mondirectory,subdir);
+    hFind = FindFirstFile(search_import, &f);
+    if(hFind != INVALID_HANDLE_VALUE)
     {
-            while(!al_findnext(&f))
+        do
+        {
+            if(nrbe_de_fichiers<127)
             {
-            isSomeone=true;
-
-
-            // we've found a directory!
-            if(isSomeone && nrbe_de_fichiers<127)
-            {
-		    sprintf(list_import_files[nrbe_de_fichiers],f.name);
-		    nrbe_de_fichiers++;
+                sprintf(list_import_files[nrbe_de_fichiers],f.cFileName);
+                nrbe_de_fichiers++;
             }
-            }
+        }
+        while(FindNextFile(hFind, &f));
+        FindClose(hFind);
     }
-    al_findclose(&f);
-//REROLL
-sprintf(rep,"%s\\",mondirectory);
-chdir (rep);
-//sab 02/03/2014 return(0);
+    sprintf(rep,"%s\\",mondirectory);
+    chdir(rep);
 }
 
 

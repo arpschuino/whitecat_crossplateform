@@ -600,6 +600,16 @@ int get_current_time()
 
 int load_gel_list_numerical()
 {
+FILE* dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"Inside load_gel_list step 1\n");fclose(dbg3);}
+sprintf(rep,"%s\\",mondirectory);
+chdir(rep);
+dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"Inside load_gel_list step 2\n");fclose(dbg3);}
+sprintf(rep,"%s\\ressources",mondirectory);
+chdir(rep);
+dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"Inside load_gel_list step 3 - before fopen\n");fclose(dbg3);}
 sprintf(rep,"%s\\",mondirectory);
 chdir(rep);
 sprintf(rep,"%s\\ressources",mondirectory);
@@ -619,18 +629,26 @@ marker_de_gel[i]=0;
 }
 
 FILE *f=NULL;
-
+dbg3=NULL;
 
 if ((f=fopen("gel_list_num_order.txt", "rt"))== NULL)
 {
+    dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+    if(dbg3){fprintf(dbg3,"gel fopen FAILED\n");fclose(dbg3);}
     sprintf(string_save_load_report[0],"Error opening %s","gel_list_num_order.txt"); b_report_error[0]=1;
     idf++;
 }
 else
     {
+        dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+        if(dbg3){fprintf(dbg3,"gel fopen OK\n");fclose(dbg3);}
+        int line_count = 0;
 	do {
 		if (fgets(line,256,f)!=NULL)
 		{
+line_count++;
+dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"parsing line %d\n", line_count);fclose(dbg3);}
 		sscanf(line,"%s\t%d\t%s\t%d\t%d\t%d\t%f\n",&tmp_name_of_mark,&tmp_ref,&tmp_name_of_gel,&tmprvb[0],&tmprvb[1],&tmprvb[2],&transmission);
 
         if(strcmp(tmp_name_of_mark,"Lee")==0){index_type_of_gel=0;}
@@ -657,7 +675,11 @@ else
 		else break;
 	}
 	while (index_ok!=0);
-
+dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"parsing done, closing file\n");fclose(dbg3);}
+fclose(f);
+dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg3){fprintf(dbg3,"file closed, returning\n");fclose(dbg3);}
 }
 
 sprintf(rep,"%s\\",mondirectory);
@@ -4772,8 +4794,24 @@ return(0);
 
 int Load_Show()
 {
-sprintf(rep,"%s\%s\%s",mondirectory,rep_saves,nomduspectacle);
+ FILE* dbg4 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg4){fprintf(dbg4,"Load_Show started, rep=%s\n",rep);fclose(dbg4);}
+
+sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
+
+sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
+FILE* dbg4b = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg4b){fprintf(dbg4b,"rep after sprintf=%s\n",rep);fclose(dbg4b);}
+chdir(rep);
+
 chdir (rep);
+
+chdir(rep);
+FILE* dbg4c = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
+if(dbg4c){fprintf(dbg4c,"After chdir, starting fread\n");fclose(dbg4c);}
+
+int fread_count = 0;
+
 FILE *fp;
 reset_error_on_save_load();
 reset_all_bangers();
