@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug WhiteCat",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "C:/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "C:/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
