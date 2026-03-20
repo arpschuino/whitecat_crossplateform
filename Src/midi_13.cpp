@@ -49,7 +49,7 @@ int do_midi_call_order(int control)
 
 fader_selected_for_record=control;
 dock_selected_for_record=detect_dock_used(control) ;
-//appel par bouton midi des actions sur le dock selectionné
+//appel par bouton midi des actions sur le dock selectionnï¿½
  //maj au 17 juin 2012 Plot version en alpha -> harmonisation des F1 F2 F3 suite au rv beta testeur paris
  if(index_do_dock==1  && index_direct_chan==0   && index_affect_chaser_to_dock==0  && index_affect_time==0 && index_affect_color_to_dock==0 && index_do_affect_net_to_dock==0
  && index_affect_dmxin==0 && index_affect_video_tracking_to_dock==0 && index_affect_audio_to_dock==0 && gridplayer_to_affect_is==-1
@@ -177,10 +177,10 @@ if(control<=47)
 if((FaderLocked[control]==1 && LockFader_is_FullLevel[control]==1)|| (FaderLocked[control]==0 ))
 {
 
-if(midi_levels[control]==127){fader_set_level(control,255);}//pour mettre à full
+if(midi_levels[control]==127){fader_set_level(control,255);}//pour mettre ï¿½ full
 else {fader_set_level(control,midi_levels[control]*2);}
 //Fader[control]=midi_levels[control]*2;
-//if(midi_levels[control]==127){Fader[control]=255;}//pour mettre à full
+//if(midi_levels[control]==127){Fader[control]=255;}//pour mettre ï¿½ full
 //index_fader_is_manipulated[control]=1;
 }
 }
@@ -599,7 +599,7 @@ do_recall_fadersstate( stockage_all_at_zero_state[0],stockage_all_at_zero_state[
 if(control>=556 && control<605)
 {
 do_midi_call_order(control-556);
-midi_levels[control]=0;//clean de l'état midi pour visu
+midi_levels[control]=0;//clean de l'ï¿½tat midi pour visu
 /*if(enable_launchpad==1){launchpad_impulsion(control,red);}      */
 }
 
@@ -627,7 +627,7 @@ niveauGMaster=255;
 
 for (int bum=0;bum<4;bum++)
 {
-//616 à 619 faders audio level
+//616 ï¿½ 619 faders audio level
 if (control==616+bum)
 {
 player_niveauson[bum]=midi_levels[control];
@@ -650,7 +650,7 @@ break;
 }
 }
 }
-//620 à 623 faders audio Pan
+//620 ï¿½ 623 faders audio Pan
 if (control==620+bum)
 {
 if(player_ignited[bum]==1)
@@ -684,7 +684,7 @@ break;
 }
 }
 }
-//624 à 627 faders audio Pitch
+//624 ï¿½ 627 faders audio Pitch
 if (control==624+bum)
 {
 if(player_ignited[bum]==1)
@@ -1170,8 +1170,8 @@ if (control==734)
 {
 start_time_for_banger[index_banger_selected]=actual_time;
 end_time_for_banger[index_banger_selected]=0;
-//reset du banger concerné
-for (int o=0;o<6;o++)//reset des évènements
+//reset du banger concernï¿½
+for (int o=0;o<6;o++)//reset des ï¿½vï¿½nements
 {
 event_sended[index_banger_selected][o]=0;
 if(bangers_delay[index_banger_selected][o]>end_time_for_banger[index_banger_selected])
@@ -1570,7 +1570,7 @@ is_dock_for_lfo_selected[control-802][docktotouch]=toggle(is_dock_for_lfo_select
 //Loop ALL the dock
 if(control>=851 && control<900 )
 {
-bool index_choose_mode_dkloop=0;//0 toggle tt le monde / 1 copie l etat du dck selctionné dans tt le monde
+bool index_choose_mode_dkloop=0;//0 toggle tt le monde / 1 copie l etat du dck selctionnï¿½ dans tt le monde
 
 for (int ck=0;ck<core_user_define_nb_docks-1;ck++)
 {
@@ -1586,7 +1586,7 @@ for(int op=0;op<core_user_define_nb_docks;op++)
 }
 break;
 case 1:
-//tout le monde prend la valeur du dock selectionné
+//tout le monde prend la valeur du dock selectionnï¿½
 for(int j=0;j<core_user_define_nb_docks;j++)
 {
 if(DockIsSelected[control-851][j]==1)
@@ -1701,7 +1701,7 @@ break;
 984 All
 985 Seek
 986 Off
-987 -> 990 P1 à P4
+987 -> 990 P1 ï¿½ P4
 
 */
 if(control==981 && midi_levels[control]>0)
@@ -1728,7 +1728,7 @@ if(control==986 && midi_levels[control]>0)
 {
 chaser_select_off_all_track(chaser_selected);
 }
-//Preset  1 à 4
+//Preset  1 ï¿½ 4
 if(control==987 && midi_levels[control]>0)
 {
 chaser_load_from_preset(chaser_selected,0);
@@ -1809,7 +1809,7 @@ track_level[chaser_selected][control-1023]=midi_levels[control];
 }
 
 
-//Chasers Affectation des états des steps à la volée en midi
+//Chasers Affectation des ï¿½tats des steps ï¿½ la volï¿½e en midi
 if(control>=1048 && control<1113 && index_enable_edit_chaser==1 && launchpad_chaser_mode==1)
 {
 int piste=(int)((float)(control-1048)/8);
@@ -2042,7 +2042,7 @@ chaser_is_playing[the_chaser]=toggle(chaser_is_playing[the_chaser]);
 if(chaser_is_playing[the_chaser]==1)//snap du temps at beg
 {
 chaser_start_time[the_chaser]=actual_time;
-//bug olivier marche arriere arrière ligne
+//bug olivier marche arriere arriï¿½re ligne
 if(chaser_step_is[chaser_selected]<0){chaser_step_is[chaser_selected]=0;}
 else if(chaser_step_is[chaser_selected]>35){chaser_step_is[chaser_selected]=35;}
 }
@@ -2543,7 +2543,7 @@ if(numeric_postext==0 && index_window_chasers==1)
             {
             set_chaser_tempo_unit(chaser_selected);
             }
-            else//si chiffre de chaser tapé
+            else//si chiffre de chaser tapï¿½
             {
             int chazr=atoi(numeric);
             if(chazr>0 && chazr<127)
@@ -2556,7 +2556,7 @@ if(numeric_postext==0 && index_window_chasers==1)
 do_light_send_tap=1;
 }
 
-//rajout appels fenêtres
+//rajout appels fenï¿½tres
 if(control>=1329 && control<1343)
 {
 switch(control)
@@ -2647,7 +2647,7 @@ if(control>=1343 && control<=1470)
 bang_is_sended[control-1343]=toggle(bang_is_sended[control-1343]);
 switch (bang_is_sended[control-1343])
 {
-case 0://reset des send events et on demarre à la souris le banger
+case 0://reset des send events et on demarre ï¿½ la souris le banger
   for (int y=0;y<6;y++){event_sended[control-1343][y]=0;}
   start_time_for_banger[control-1343]=actual_time;
 
@@ -2674,7 +2674,7 @@ if(bangers_type[control-1343][y]!=0 )
     event_sended[control-1343][y]=1;
 }
 }
-bang_is_sended[control-1343]=1;//bloquage de l envoi des autres évènements
+bang_is_sended[control-1343]=1;//bloquage de l envoi des autres ï¿½vï¿½nements
 break;
 }
 }
@@ -3070,7 +3070,7 @@ else if(control==1609)//toggle Layer mode
 plot_layer_mode=toggle(plot_layer_mode);
 }
 
-else if(control>=1610 && control<=1614)//les relatifs en édition
+else if(control>=1610 && control<=1614)//les relatifs en ï¿½dition
 {
 int rx=control-1610;
 switch(mode_relatif_xy_solo)
@@ -3198,7 +3198,7 @@ previous_draw_ghost_to_do[draw_preset_selected]=draw_ghost_to_do[draw_preset_sel
 draw_ghost_to_do[draw_preset_selected]=((float)(midi_levels[control])/127);
 }
 
-//1656 désaffecté
+//1656 dï¿½saffectï¿½
 
 
 if(control==1657)//erase drawing
@@ -3315,13 +3315,13 @@ echo_grid_channel_position[echo_selected]++;
 }
 }
 
-//les 3 sliders de paramètre de Echo: Gravity Mass et Energy
+//les 3 sliders de paramï¿½tre de Echo: Gravity Mass et Energy
 if(control>=1693 && control<= 1695)
 {
  echo_global_params[echo_selected][control-1693]= (float)(midi_levels[control])/127;
 }
 
-if(control==1696)//mode level ou ground pour l édition de channel
+if(control==1696)//mode level ou ground pour l ï¿½dition de channel
 {
 if(index_main_clear==1 && index_enable_edit_echo==1)
 {
@@ -3568,7 +3568,7 @@ else
 {
     if(miditable[1][i]==ischan && miditable[2][i]==ispitch
     && ischan!=999 && istyp!=999 && ispitch!=999
-    )//enlevé le typ pour simplifier les histoires de flash
+    )//enlevï¿½ le typ pour simplifier les histoires de flash
     {
      val_raccrochage_midi[i]=isvel;
      if((is_raccrochage_midi_remote[i]==0) || ((miditable[0][1277]==istyp) && (miditable[1][1277]==ischan) && (miditable[2][1277]==ispitch)))
@@ -3641,133 +3641,87 @@ return(0);
 
 
 /* ------------------------------------------------------------------------- */
-static char * EvAquire ( MidiEvPtr e)
+static void process_midi_message()
 {
+    // istyp, ischan, ispitch, isvel already set by process_midi_input()
 
-	istyp=(int)EvType(e);
-    ischan=(int)Chan(e);
-    ispitch=(int)Pitch(e);
-    isvel=(int)Vel(e);
-
- //moniteur mis à jour
+ //moniteur mis ï¿½ jour
     sprintf(typ,TblLibEv[istyp]);
     sprintf (my_midi_original_string, "Raw: Chan:%-2d Pitch:%-2d Vel:%-2d Typ: %s",	ischan,ispitch,isvel, typ);
 
     //christoph 12/05/15 pour midi twister
     if(cheat_key_off_to_key_on==1 && istyp==2)//key off
-    {   istyp=1;
-        isvel=0;//écrasement de la vélocité du key off
+    {   
+      istyp=1;
+      isvel=0;//ï¿½crasement de la vï¿½locitï¿½ du key off
     }
 
     //trichage key on vel 0 at key off
     if(cheat_key_off==1 && (istyp==0 || istyp==1) && isvel==0 )//eviter le flash key off
     {
-    istyp=2;
+      istyp=2;
     }
     //affinage midi cheat change signal
     switch(midi_change_vel_type[ischan][ispitch])
     {
-    case 0:
-    break;
-    case 1://inversion 0-127>127-0
-    tempvel=isvel;
-    isvel=127-tempvel;
-    break;
-    case 2://toggle
-    if(isvel>0)
-    {
-    midi_recognize_on_off[ischan][ispitch]=toggle(midi_recognize_on_off[ischan][ispitch]);
-    }
-    isvel=127*midi_recognize_on_off[ischan][ispitch];
-    break;
-    case 3://midi key on vel 0= midi key off
-    if((istyp==0 || istyp==1) && isvel==0 )//eviter le flash key off
-    {
-    istyp=2;
-    }
-    break;
-    case 4://midi key off = midi key on vel 0
-    if(istyp==2)  //eviter le flash key off
-    {
-    istyp=1; isvel=0;
-    }
-    break;
-    case 5://pad to triggers
-    if(isvel>0 && isvel<127){isvel=127;}
-    break;
-    case 6://CC 0 devient Koff pour touch osc
-    if(isvel==0){istyp=2;}
-    break;
-    default:
-     break;
+      case 0:
+        break;
+      case 1://inversion 0-127>127-0
+        tempvel=isvel;
+        isvel=127-tempvel;
+        break;
+      case 2://toggle
+        if(isvel>0)
+        {
+          midi_recognize_on_off[ischan][ispitch]=toggle(midi_recognize_on_off[ischan][ispitch]);
+        }
+        isvel=127*midi_recognize_on_off[ischan][ispitch];
+        break;
+      case 3://midi key on vel 0= midi key off
+        if((istyp==0 || istyp==1) && isvel==0 )//eviter le flash key off
+        {
+          istyp=2;
+        }
+        break;
+      case 4://midi key off = midi key on vel 0
+        if(istyp==2)  //eviter le flash key off
+        {
+          istyp=1; isvel=0;
+        }
+        break;
+      case 5://pad to triggers
+        if(isvel>0 && isvel<127){isvel=127;}
+        break;
+      case 6://CC 0 devient Koff pour touch osc
+        if(isvel==0){istyp=2;}
+        break;
+      default:
+        break;
     }
 
     add_to_midi_historic();
-    //moniteur mis à jour
+    //moniteur mis ï¿½ jour
     sprintf(typ,TblLibEv[istyp]);
     sprintf (my_midi_string, "%s Ch:%-2d P:%-2d Vel:%-2d ",typ,ischan,ispitch,isvel);
 
     ventilate_midi_to_midiarray();
-
-
-
-    return (0);
 }
 
 /* ------------------------------------------------------------------------- */
-pascal void Display ( MidiEvPtr e)
-{
-
-	//sab 02/03/2014 unused var char s[120];
-
-	if (e) {
-		EvAquire (e);
-
-		MidiFreeEv(e);
-	}
-}
-
-
+/* MIDI reception - rewritten using midi_backend.h (RtMidi)                  */
+/* Jacques Bouault - arpschuino.fr - 2026                                    */
 /* ------------------------------------------------------------------------- */
-pascal void DisplayTask (short ref)
+void process_midi_input()
 {
-
-	long n;
-
-	n= MidiCountEvs(ref);
-	while (n > 16) {
-		MidiFreeEv (MidiGetEv (ref));
-		n--;
-	}
-	while (n--) {
-		Display (MidiGetEv (ref));
-	}
-}
-
-pascal void MSALARMAPI ReceivePolling ( long date, short r, long a, long b, long c)
-{
-
-	long n;
-
-	n= MidiCountEvs (r);
-
-	if (n) {
-		DisplayTask(r);
-		MidiTask (ReceivePolling, date+100, r, a, 0, 0);
-	}
-	else MidiSetRcvAlarm (r, ReceiveEvents);
-}
-
-
-/* ------------------------------------------------------------------------- */
-
-/* ------------------------------------------------------------------------- */
-pascal void MSALARMAPI ReceiveEvents(short r)
-{
-//nvelle version
-	MidiEvPtr ev;
-	while ( (ev=MidiGetEv(r)) ){Display(ev);}
-
+    MidiMessage msg;
+    while(midi_backend_poll(msg))
+    {
+        istyp    = msg.type;
+        ischan   = msg.channel;
+        ispitch  = msg.pitch;
+        isvel    = msg.velocity;
+        process_midi_message();
+    }
 }
 
 
@@ -3803,11 +3757,11 @@ int PrintSlotsInfosDevices(short driverRef)
 
             if(sInfos.direction== MidiInputSlot)
             {
-            //ok pour avoir l info de connecté ou pas
+            //ok pour avoir l info de connectï¿½ ou pas
            if(!MidiIsSlotConnected (0,slotRef )){midi_in_is_connected[i]=0;}
            else{midi_in_is_connected[i]=1;}
 
-           compt_midi_in++;//permet après de definir la position des out
+           compt_midi_in++;//permet aprï¿½s de definir la position des out
 
                 sprintf(temp_device_name,"%s", sInfos.name);
                 strncpy (tableau_peripheriques_in[i],temp_device_name,32);
@@ -4942,7 +4896,7 @@ else if(pp==1)
 {
   petitchiffre.Print("OPTIONS / PRESETS",cfg_midiX+30+(pp*150),cfg_midiY+20);
 }
-//bouton config Faders de 1 à 48
+//bouton config Faders de 1 ï¿½ 48
 else if(pp==2)
 {
   petitchiffre.Print("MIDI AFFECT",cfg_midiX+30+(pp*150),cfg_midiY+20);

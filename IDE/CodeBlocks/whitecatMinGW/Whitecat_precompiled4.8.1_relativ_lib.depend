@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-<<<<<<< HEAD
-1393969030 source:c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\main_janv_2014_opensource_kbd.cpp
-=======
+2 
+
 1394040553 source:c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\main_janv_2014_opensource_kbd.cpp
->>>>>>> debug0.8.5
+
+1394040554 ug0.8.5
 	<allegro.h>
 	<winalleg.h>
 	<OpenLayer.hpp>
@@ -84,6 +84,16 @@
 	<CFG_config_panel_8.cpp>
 	<chasers_visu.cpp>
 	<graphics_rebuild1.cpp>
+	<setjmp.h>
+	"hpdf.h"
+	<winsock2.h>
+	"opencv2/opencv.hpp"
+	"opencv/cv.h"
+	"opencv/highgui.h"
+	<odmxusb.cpp>
+	<odmxusb.h>
+	<dmx_enttec_pro.cpp>
+	<dmx_sunlite.cpp>
 
 1392976650 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro.h
 	"allegro/base.h"
@@ -130,29 +140,35 @@
 	<dmalloc.h>
 	"internal/alconfig.h"
 
-1379878921 c:\mingw\include\errno.h
+1512590989 c:\mingw\include\errno.h
+	<_mingw.h>
+	"ptw32_errno.h"
+
+1512590989 c:\mingw\include\_mingw.h
+	<msvcrtver.h>
+	<w32api.h>
+
+1512591001 c:\mingw\include\sdkddkver.h
+
+1512590989 c:\mingw\include\limits.h
 	<_mingw.h>
 
-1379878920 c:\mingw\include\_mingw.h
-	<sdkddkver.h>
-
-1379879794 c:\mingw\include\sdkddkver.h
+1512590989 c:\mingw\include\stdlib.h
 	<_mingw.h>
+	<stddef.h>
+	<locale.h>
 
-1379878922 c:\mingw\include\limits.h
-	<_mingw.h>
-
-1379878923 c:\mingw\include\stdlib.h
+1512590989 c:\mingw\include\time.h
+	<sys/types.h>
 	<_mingw.h>
 	<stddef.h>
 
-1379878922 c:\mingw\include\time.h
+1512590989 c:\mingw\include\string.h
 	<_mingw.h>
 	<stddef.h>
-
-1379878924 c:\mingw\include\string.h
-	<_mingw.h>
-	<stddef.h>
+	<strings.h>
+	"strings.h"
+	"wchar.h"
 
 1230115188 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\internal\alconfig.h
 	"allegro/platform/alplatf.h"
@@ -182,40 +198,38 @@
 	<unistd.h>
 	<sys/farptr.h>
 
-1379878923 c:\mingw\include\dir.h
-	<io.h>
+1512590989 c:\mingw\include\dir.h
+	"io.h"
 
-1379878921 c:\mingw\include\io.h
+1512590989 c:\mingw\include\io.h
 	<_mingw.h>
 	<sys/types.h>
-	<string.h>
-	<string.h>
+	"stdint.h"
 
-1379878925 c:\mingw\include\sys\types.h
+1512590989 c:\mingw\include\sys\types.h
 	<_mingw.h>
 	<stddef.h>
 
-1379878922 c:\mingw\include\fcntl.h
+1512590989 c:\mingw\include\fcntl.h
 	<_mingw.h>
 	<io.h>
 
-1379878923 c:\mingw\include\unistd.h
+1512590989 c:\mingw\include\unistd.h
 	<_mingw.h>
-	<io.h>
-	<process.h>
-	<getopt.h>
-	<sys/types.h>
+	"io.h"
+	"process.h"
+	"getopt.h"
 
-1379878923 c:\mingw\include\process.h
+1512590989 c:\mingw\include\process.h
 	<_mingw.h>
 	<sys/types.h>
-	<stdint.h>
+	"stdint.h"
 
-1379878922 c:\mingw\include\stdint.h
+1512590989 c:\mingw\include\stdint.h
 	<_mingw.h>
 	<stddef.h>
 
-1379878920 c:\mingw\include\getopt.h
+1512590989 c:\mingw\include\getopt.h
 	<_mingw.h>
 
 1181987548 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alwatcom.h
@@ -226,15 +240,13 @@
 	<direct.h>
 	<malloc.h>
 
-1379878921 c:\mingw\include\conio.h
+1512590989 c:\mingw\include\conio.h
 	<_mingw.h>
 
-1379878923 c:\mingw\include\direct.h
-	<_mingw.h>
-	<stddef.h>
-	<io.h>
+1512590989 c:\mingw\include\direct.h
+	"dos.h"
 
-1379878923 c:\mingw\include\malloc.h
+1512590989 c:\mingw\include\malloc.h
 	<_mingw.h>
 	<stdlib.h>
 
@@ -278,11 +290,12 @@
 	<fcntl.h>
 	<unistd.h>
 
-1379878922 c:\mingw\include\stdio.h
+1512590989 c:\mingw\include\stdio.h
 	<_mingw.h>
 	<stddef.h>
-	<stdarg.h>
-	<sys/types.h>
+	"sys/types.h"
+	"stdarg.h"
+	<locale.h>
 
 1301041104 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alucfg.h
 	<fcntl.h>
@@ -297,7 +310,7 @@
 	<inttypes.h>
 	<stdint.h>
 
-1379878920 c:\mingw\include\inttypes.h
+1512590989 c:\mingw\include\inttypes.h
 	<_mingw.h>
 	<stdint.h>
 	<stddef.h>
@@ -467,8 +480,7 @@
 	<afxwin.h>
 	<windows.h>
 
-1379879797 c:\mingw\include\windows.h
-	<_mingw.h>
+1512591001 c:\mingw\include\windows.h
 	<winresrc.h>
 	<stdarg.h>
 	<windef.h>
@@ -494,11 +506,10 @@
 	<winperf.h>
 	<commdlg.h>
 	<winspool.h>
-	<winsock.h>
+	"_winsock.h"
 	<ole2.h>
 
-1379879798 c:\mingw\include\winresrc.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winresrc.h
 	<winuser.h>
 	<winnt.h>
 	<winver.h>
@@ -506,181 +517,150 @@
 	<dlgs.h>
 	<commctrl.h>
 
-1379879799 c:\mingw\include\winuser.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winuser.h
+	<windef.h>
+	<wingdi.h>
+	<stdarg.h>
+	<dbt.h>
 
-1379879798 c:\mingw\include\winnt.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winnt.h
+	<windef.h>
 	<winerror.h>
 	<string.h>
 	<basetsd.h>
 	<pshpack4.h>
 	<poppack.h>
 
-1379879797 c:\mingw\include\winerror.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winerror.h
 
-1379879780 c:\mingw\include\basetsd.h
-	<_mingw.h>
+1512591001 c:\mingw\include\basetsd.h
 
-1379879792 c:\mingw\include\pshpack4.h
+1512591001 c:\mingw\include\pshpack4.h
 
-1379879791 c:\mingw\include\poppack.h
+1512591001 c:\mingw\include\poppack.h
 
-1379879799 c:\mingw\include\winver.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winver.h
 
-1379879781 c:\mingw\include\dde.h
-	<_mingw.h>
+1512591001 c:\mingw\include\dde.h
 
-1379879782 c:\mingw\include\dlgs.h
-	<_mingw.h>
+1512591001 c:\mingw\include\dlgs.h
 
-1379879781 c:\mingw\include\commctrl.h
-	<_mingw.h>
+1512591001 c:\mingw\include\commctrl.h
 	<prsht.h>
 
-1379879791 c:\mingw\include\prsht.h
-	<_mingw.h>
+1512591001 c:\mingw\include\prsht.h
 
-1379879797 c:\mingw\include\windef.h
-	<_mingw.h>
+1512591001 c:\mingw\include\windef.h
+	<w32api.h>
 	<winnt.h>
 
-1379879797 c:\mingw\include\wincon.h
-	<_mingw.h>
+1512591001 c:\mingw\include\wincon.h
 
-1379879797 c:\mingw\include\winbase.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winbase.h
+	<stdarg.h>
+	<windef.h>
 
-1379879798 c:\mingw\include\wingdi.h
-	<_mingw.h>
+1512591001 c:\mingw\include\wingdi.h
+	<windef.h>
 
-1379879798 c:\mingw\include\winnls.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winnls.h
 
-1379879798 c:\mingw\include\winnetwk.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winnetwk.h
 
-1379879798 c:\mingw\include\winreg.h
-	<_mingw.h>
-	<reason.h>
+1512591001 c:\mingw\include\winreg.h
 
 1379879792 c:\mingw\include\reason.h
 	<_mingw.h>
 
-1379879799 c:\mingw\include\winsvc.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winsvc.h
 
-1379879780 c:\mingw\include\cderr.h
-	<_mingw.h>
+1512591001 c:\mingw\include\cderr.h
 
-1379879781 c:\mingw\include\ddeml.h
-	<_mingw.h>
+1512591001 c:\mingw\include\ddeml.h
 
-1379879784 c:\mingw\include\imm.h
-	<_mingw.h>
+1512591001 c:\mingw\include\imm.h
 
-1379879787 c:\mingw\include\lzexpand.h
-	<_mingw.h>
+1512591001 c:\mingw\include\lzexpand.h
 
-1379879788 c:\mingw\include\mmsystem.h
-	<_mingw.h>
+1512591001 c:\mingw\include\mmsystem.h
 
-1379879788 c:\mingw\include\nb30.h
-	<_mingw.h>
+1512591001 c:\mingw\include\nb30.h
 
-1379879793 c:\mingw\include\rpc.h
+1512591001 c:\mingw\include\rpc.h
 	<windows.h>
-	<_mingw.h>
 	<rpcdce.h>
 	<rpcnsi.h>
 	<rpcnterr.h>
 	<winerror.h>
 	<excpt.h>
 
-1379879793 c:\mingw\include\rpcdce.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcdce.h
 	<basetyps.h>
 	<rpcdcep.h>
 
-1379879780 c:\mingw\include\basetyps.h
-	<_mingw.h>
+1512591001 c:\mingw\include\basetyps.h
 
-1379879793 c:\mingw\include\rpcdcep.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcdcep.h
 
-1379879793 c:\mingw\include\rpcnsi.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcnsi.h
 
-1379879793 c:\mingw\include\rpcnterr.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcnterr.h
 
-1379878922 c:\mingw\include\excpt.h
+1512590989 c:\mingw\include\excpt.h
 	<_mingw.h>
 	<windef.h>
 
-1379879795 c:\mingw\include\shellapi.h
-	<_mingw.h>
+1512591001 c:\mingw\include\shellapi.h
 	<pshpack2.h>
 	<poppack.h>
 
-1379879792 c:\mingw\include\pshpack2.h
+1512591001 c:\mingw\include\pshpack2.h
 
-1379879798 c:\mingw\include\winperf.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winperf.h
 
-1379879781 c:\mingw\include\commdlg.h
-	<_mingw.h>
+1512591001 c:\mingw\include\commdlg.h
 	<unknwn.h>
 	<prsht.h>
 
-1379879796 c:\mingw\include\unknwn.h
-	<_mingw.h>
+1512591001 c:\mingw\include\unknwn.h
 	<windows.h>
 	<objfwd.h>
 	<wtypes.h>
 
-1379879789 c:\mingw\include\objfwd.h
-	<_mingw.h>
+1512591001 c:\mingw\include\objfwd.h
 	<basetyps.h>
 
-1379879799 c:\mingw\include\wtypes.h
-	<_mingw.h>
+1512591001 c:\mingw\include\wtypes.h
 	<rpc.h>
 	<rpcndr.h>
 
-1379879793 c:\mingw\include\rpcndr.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcndr.h
 	<rpcnsip.h>
 	<objfwd.h>
 
-1379879793 c:\mingw\include\rpcnsip.h
-	<_mingw.h>
+1512591001 c:\mingw\include\rpcnsip.h
 
-1379879798 c:\mingw\include\winspool.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winspool.h
 
-1379879798 c:\mingw\include\winsock.h
-	<_mingw.h>
+1512591001 c:\mingw\include\winsock.h
 	<windows.h>
+	<winerror.h>
+	<sys/bsdtypes.h>
+	<sys/time.h>
 	<mswsock.h>
 
-1379879788 c:\mingw\include\mswsock.h
-	<_mingw.h>
+1512591001 c:\mingw\include\mswsock.h
 
-1379879790 c:\mingw\include\ole2.h
-	<_mingw.h>
+1512591001 c:\mingw\include\ole2.h
 	<winerror.h>
 	<objbase.h>
 	<olectlid.h>
 	<oleauto.h>
 	<oleidl.h>
 
-1379879789 c:\mingw\include\objbase.h
+1512591001 c:\mingw\include\objbase.h
 	<rpc.h>
 	<rpcndr.h>
-	<_mingw.h>
 	<stdlib.h>
 	<basetyps.h>
 	<wtypes.h>
@@ -688,27 +668,21 @@
 	<objidl.h>
 	<cguid.h>
 
-1379879790 c:\mingw\include\objidl.h
-	<_mingw.h>
+1512591001 c:\mingw\include\objidl.h
 	<objfwd.h>
 
-1379879780 c:\mingw\include\cguid.h
-	<_mingw.h>
+1512591001 c:\mingw\include\cguid.h
 
-1379879791 c:\mingw\include\olectlid.h
-	<_mingw.h>
+1512591001 c:\mingw\include\olectlid.h
 
-1379879790 c:\mingw\include\oleauto.h
-	<_mingw.h>
+1512591001 c:\mingw\include\oleauto.h
 	<oaidl.h>
 
-1379879789 c:\mingw\include\oaidl.h
-	<_mingw.h>
+1512591001 c:\mingw\include\oaidl.h
 	<windows.h>
 	<ole2.h>
 
-1379879791 c:\mingw\include\oleidl.h
-	<_mingw.h>
+1512591001 c:\mingw\include\oleidl.h
 	<objfwd.h>
 
 1392976650 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer.hpp
@@ -764,7 +738,7 @@
 	"allegrogl/gl_ext.h"
 	"allegrogl/alleggl_config.h"
 
-1379879809 c:\mingw\include\gl\gl.h
+1512591001 c:\mingw\include\gl\gl.h
 
 1177747558 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\gl_ext.h
 	"allegrogl/gl_header_detect.h"
@@ -876,7 +850,7 @@
 	<iostream>
 	"Declspec.hpp"
 
-1379878920 c:\mingw\include\math.h
+1512590989 c:\mingw\include\math.h
 	<_mingw.h>
 
 1392012440 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\pendingload.hpp
@@ -1051,27 +1025,22 @@
 
 1201723010 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\loadpng.h
 
-1379878920 c:\mingw\include\assert.h
+1512590989 c:\mingw\include\assert.h
 	<_mingw.h>
 
-1379879784 c:\mingw\include\iphlpapi.h
-	<_mingw.h>
+1512591001 c:\mingw\include\iphlpapi.h
 	<iprtrmib.h>
 	<ipexport.h>
 	<iptypes.h>
 
-1379879784 c:\mingw\include\iprtrmib.h
-	<_mingw.h>
+1512591001 c:\mingw\include\iprtrmib.h
 	<ipifcons.h>
 
-1379879784 c:\mingw\include\ipifcons.h
-	<_mingw.h>
+1512591001 c:\mingw\include\ipifcons.h
 
-1379879784 c:\mingw\include\ipexport.h
-	<_mingw.h>
+1512591001 c:\mingw\include\ipexport.h
 
-1379879784 c:\mingw\include\iptypes.h
-	<_mingw.h>
+1512591001 c:\mingw\include\iptypes.h
 	<sys/types.h>
 
 1393457128 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\audiere-1.9.4-win32\include\audiere.h
@@ -1152,31 +1121,18 @@
 1393457132 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\midishare\include\midishare.h
 	"windows.h"
 
-<<<<<<< HEAD
-1393969752 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\whitecat.h
-	"Crossplateform.h"
+1394040553 D
 
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\crossplateform.h
-=======
 1394045181 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\whitecat.h
+	"Crossplateform.h"
 	"Crossplateform.h"
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\crossplateform.h
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\my_window_file_sample.h
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\patch_splines_2.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grider_calculs8.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\midi_core.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\core_6.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_export_pdf2.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grider_calculs8.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\midi_core.cpp
@@ -1184,30 +1140,10 @@
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\core_6.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_export_pdf2.cpp
->>>>>>> debug0.8.5
-	<setjmp.h>
-	"hpdf.h"
 
-1379878920 c:\mingw\include\setjmp.h
+1512590989 c:\mingw\include\setjmp.h
 	<_mingw.h>
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_export_import.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_menu_8.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\gestionaire_fenetres2.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\gui_boutons_rebuild1.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grider_core8.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\wizard_operations.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\faders_operations.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\chasers_core_5.cpp
-=======
 1394043333 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_export_import.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\saves_menu_8.cpp
@@ -1223,23 +1159,11 @@
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\faders_operations.cpp
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\chasers_core_5.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\mover_spline6.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\mover_2013.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\plot_core9.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\plot9.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\audio_core5.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\save_show_13.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\network_artnet_3.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\plot_core9.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\plot9.cpp
@@ -1249,34 +1173,17 @@
 1394041956 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\save_show_13.cpp
 
 1394044474 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\network_artnet_3.cpp
->>>>>>> debug0.8.5
-	<winsock2.h>
 
-1379879798 c:\mingw\include\winsock2.h
-	<_mingw.h>
-	<windows.h>
+1512591001 c:\mingw\include\winsock2.h
+	"winsock.h"
+	"nspapi.h"
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\logicals_intres.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\logicals_intres.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\channels_9_core.cpp
 	<allegro.h>
 	<OpenLayer.hpp>
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\wizard.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grand_master.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\faders_core_24.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\audio_visu4.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\icat_core14.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\wizard.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grand_master.cpp
@@ -1286,7 +1193,6 @@
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\audio_visu4.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\icat_core14.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\arduino_device_core.cpp
 	"serial.cpp"
@@ -1296,19 +1202,11 @@
 
 1393457127 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\cserial\serial.h
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\banger_core_8.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\banger_visu_8.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\call_everybody_5.cpp
-=======
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\banger_core_8.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\banger_visu_8.cpp
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\call_everybody_5.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\patch_core.cpp
 
@@ -1326,25 +1224,10 @@
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\numpad_visuel.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\keyboard_functions2.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\keyboard_routines2.cpp
-	<allegro.h>
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\minifaders_core.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\minifaders_visu.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\faders_visuels_26.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\channels_10_visu.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\video_tracking_core.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\keyboard_functions2.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\keyboard_routines2.cpp
+	<allegro.h>
 	<allegro.h>
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\minifaders_core.cpp
@@ -1356,10 +1239,6 @@
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\channels_10_visu.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\video_tracking_core.cpp
->>>>>>> debug0.8.5
-	"opencv2/opencv.hpp"
-	"opencv/cv.h"
-	"opencv/highgui.h"
 
 1392976650 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\opencv.hpp
 	"opencv2/core/core_c.h"
@@ -1395,7 +1274,7 @@
 	"tegra_round.hpp"
 	"emmintrin.h"
 
-1379878923 c:\mingw\include\float.h
+1512590989 c:\mingw\include\float.h
 	<_mingw.h>
 
 1392976650 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\core.hpp
@@ -1810,33 +1689,16 @@
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\list_proj_core.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\list_proj_visu.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\sequentiel_6_core.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\icat14.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\list_proj_visu.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\sequentiel_6_core.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\icat14.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\network_mac_adress_3.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\midi_launchpad.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grider8.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\sequentiel_7_visu.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\draw3.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\echo3.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\grider8.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\sequentiel_7_visu.cpp
@@ -1844,21 +1706,12 @@
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\draw3.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\echo3.cpp
->>>>>>> debug0.8.5
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\my_window_file_sample.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\procs_visuels_rebuild1.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\dmx_functions_13.cpp
-=======
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\dmx_functions_13.cpp
->>>>>>> debug0.8.5
-	<odmxusb.cpp>
-	<odmxusb.h>
-	<dmx_enttec_pro.cpp>
-	<dmx_sunlite.cpp>
 
 1393457132 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\odmxusb.cpp
 	"odmxusb.h"
@@ -1874,22 +1727,24 @@
 	<assert.h>
 	<tchar.h>
 
-1379878921 c:\mingw\include\tchar.h
+1512590989 c:\mingw\include\tchar.h
 	<_mingw.h>
 	<wchar.h>
 
-1379878921 c:\mingw\include\wchar.h
+1512590989 c:\mingw\include\wchar.h
 	<_mingw.h>
-	<stddef.h>
-	<stdarg.h>
 	<wctype.h>
 	<sys/types.h>
-	<stdint.h>
-	<string.h>
-	<string.h>
-	<stdint.h>
+	"stdio.h"
+	"stdlib.h"
+	"direct.h"
+	"sys/stat.h"
+	"io.h"
+	"time.h"
+	"locale.h"
+	"process.h"
 
-1379878921 c:\mingw\include\wctype.h
+1512590989 c:\mingw\include\wctype.h
 	<_mingw.h>
 	<stddef.h>
 
@@ -1898,38 +1753,24 @@
 
 1393457130 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\whitecatlib\lib\windows\dashard\_dashard.h
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\midi_13.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\cfg_screen.cpp
-=======
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\midi_13.cpp
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\cfg_screen.cpp
->>>>>>> debug0.8.5
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\arduino_core_6_uno.cpp
 
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\arduino_6_uno.cpp
 
-<<<<<<< HEAD
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\cfg_config_panel_8.cpp
-
-1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\chasers_visu.cpp
-
-1393969030 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\graphics_rebuild1.cpp
-=======
 1394040553 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\cfg_config_panel_8.cpp
 
 1393057912 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\chasers_visu.cpp
 
 1394040554 c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\graphics_rebuild1.cpp
->>>>>>> debug0.8.5
 
 1393457519 source:c:\users\bibi\documents\depot_christoph\whitecat_crossplateform\src\whitecat_private.rc
 	<windows.h>
 
-1394569484 source:c:\whitecat_crossplateform\src\main_janv_2014_opensource_kbd.cpp
+1773778533 source:c:\whitecat_crossplateform\src\main_janv_2014_opensource_kbd.cpp
 	<allegro.h>
 	<winalleg.h>
 	<OpenLayer.hpp>
@@ -1939,6 +1780,8 @@
 	<Iphlpapi.h>
 	<audiere.h>
 	<jpgalleg.h>
+	<vector>
+	<SmoothData.cpp>
 	<hpdf.h>
 	<MidiShare.h>
 	<whitecat.h>
@@ -1996,6 +1839,7 @@
 	<iCat14.cpp>
 	<network_MAC_adress_3.cpp>
 	<midi_launchpad.cpp>
+	<bazooKAT.cpp>
 	<grider8.cpp>
 	<sequentiel_7_visu.cpp>
 	<Draw3.cpp>
@@ -2011,7 +1855,7 @@
 	<chasers_visu.cpp>
 	<graphics_rebuild1.cpp>
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro.h
 	"allegro/base.h"
 	"allegro/system.h"
 	"allegro/debug.h"
@@ -2044,7 +1888,7 @@
 	"allegro/alcompat.h"
 	"allegro/fix.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\base.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\base.h
 	<errno.h>
 	<limits.h>
 	<stdarg.h>
@@ -2056,7 +1900,7 @@
 	<dmalloc.h>
 	"internal/alconfig.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\internal\alconfig.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\internal\alconfig.h
 	"allegro/platform/alplatf.h"
 	"allegro/platform/aldjgpp.h"
 	"allegro/platform/alwatcom.h"
@@ -2073,9 +1917,9 @@
 	"allegro/platform/alpspcfg.h"
 	"allegro/platform/astdint.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alplatf.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alplatf.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\aldjgpp.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\aldjgpp.h
 	<pc.h>
 	<dir.h>
 	<dpmi.h>
@@ -2084,7 +1928,7 @@
 	<unistd.h>
 	<sys/farptr.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alwatcom.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alwatcom.h
 	<io.h>
 	<i86.h>
 	<conio.h>
@@ -2092,225 +1936,225 @@
 	<direct.h>
 	<malloc.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almngw32.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almngw32.h
 	<io.h>
 	<fcntl.h>
 	<direct.h>
 	<malloc.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\aldmc.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\aldmc.h
 	<io.h>
 	<fcntl.h>
 	<stdint.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\albcc32.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\albcc32.h
 	<io.h>
 	<fcntl.h>
 	<direct.h>
 	<malloc.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almsvc.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almsvc.h
 	<io.h>
 	<fcntl.h>
 	<direct.h>
 	<malloc.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\albecfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\albecfg.h
 	<fcntl.h>
 	<unistd.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almaccfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\almaccfg.h
 	<MacTypes.h>
 	<QuickDraw.h>
 	<FCntl.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alosxcfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alosxcfg.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alqnxcfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alqnxcfg.h
 	<stdio.h>
 	<stdlib.h>
 	<fcntl.h>
 	<unistd.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alucfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alucfg.h
 	<fcntl.h>
 	<unistd.h>
 	"allegro/platform/alunixac.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alpspcfg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\alpspcfg.h
 	<fcntl.h>
 	<unistd.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\astdint.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\astdint.h
 	<inttypes.h>
 	<stdint.h>
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\system.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\system.h
 	"base.h"
 	"unicode.h"
 	"config.h"
 	"inline/system.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\unicode.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\unicode.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\config.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\config.h
 	"base.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\system.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\system.inl
 	"allegro/debug.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\debug.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\debug.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\mouse.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\mouse.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\timer.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\timer.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\keyboard.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\keyboard.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\joystick.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\joystick.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\palette.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\palette.h
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\gfx.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\gfx.h
 	"3d.h"
 	"base.h"
 	"fixed.h"
 	"inline/gfx.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\3d.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\3d.h
 	"base.h"
 	"fixed.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fixed.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fixed.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\gfx.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\gfx.inl
 	"allegro/debug.h"
 	"asm.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\asm.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\asm.inl
 	"allegro/platform/al386gcc.h"
 	"allegro/platform/al386vc.h"
 	"allegro/platform/al386wat.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386gcc.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386gcc.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386vc.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386vc.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386wat.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\platform\al386wat.h
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\color.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\color.h
 	"base.h"
 	"palette.h"
 	"inline/color.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\color.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\color.inl
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\draw.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\draw.h
 	"base.h"
 	"fixed.h"
 	"gfx.h"
 	"inline/draw.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\draw.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\draw.inl
 	"allegro/debug.h"
 	"allegro/3d.h"
 	"gfx.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\rle.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\rle.h
 	"base.h"
 	"gfx.h"
 	"inline/rle.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\rle.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\rle.inl
 	"allegro/debug.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\compiled.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\compiled.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\text.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\text.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\font.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\font.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fli.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fli.h
 	"base.h"
 	"palette.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\gui.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\gui.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\sound.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\sound.h
 	"base.h"
 	"digi.h"
 	"stream.h"
 	"midi.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\digi.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\digi.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\stream.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\stream.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\midi.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\midi.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\file.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\file.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\lzss.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\lzss.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\datafile.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\datafile.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fmaths.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fmaths.h
 	"base.h"
 	"fixed.h"
 	"inline/fmaths.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\fmaths.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\fmaths.inl
 	"asm.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\matrix.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\matrix.h
 	"base.h"
 	"fixed.h"
 	"fmaths.h"
 	"inline/matrix.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\matrix.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\matrix.inl
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\quat.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\quat.h
 	"base.h"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\3dmaths.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\3dmaths.h
 	"base.h"
 	"fixed.h"
 	"inline/3dmaths.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\3dmaths.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\3dmaths.inl
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\alcompat.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\alcompat.h
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fix.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\fix.h
 	"fixed.h"
 	"fmaths.h"
 	"inline/fix.inl"
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\fix.inl
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\inline\fix.inl
 
-1393360072 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\winalleg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\winalleg.h
 	<afxwin.h>
 	<windows.h>
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer.hpp
 	"OpenLayer/GarbageCollector.hpp"
 	"OpenLayer/Includes.hpp"
 	"OpenLayer/Animation.hpp"
@@ -2340,20 +2184,20 @@
 	"OpenLayer/loadpng.h"
 	"OpenLayer/GfxRend.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\garbagecollector.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\garbagecollector.hpp
 	<list>
 	"Includes.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\includes.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\includes.hpp
 	"Declspec.hpp"
 	<allegro.h>
 	<alleggl.h>
 	<string>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\declspec.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\declspec.hpp
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\alleggl.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\alleggl.h
 	<allegro.h>
 	<winalleg.h>
 	<OpenGL/OpenGL.h>
@@ -2363,7 +2207,7 @@
 	"allegrogl/gl_ext.h"
 	"allegrogl/alleggl_config.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\gl_ext.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\gl_ext.h
 	"allegrogl/gl_header_detect.h"
 	"allegrogl/GLext/gl_ext_defs.h"
 	"allegrogl/GLext/wgl_ext_defs.h"
@@ -2381,44 +2225,44 @@
 	"allegrogl/GLext/glx_ext_list.h"
 	"allegrogl/GLext/wgl_ext_list.h"
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\gl_header_detect.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\gl_header_detect.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_defs.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_defs.h
 	<stddef.h>
 	<stddef.h>
 
-1393360074 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_defs.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_defs.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_defs.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_defs.h
 	<GL/glx.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_api.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_api.h
 
-1393360074 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_api.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_api.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_api.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_api.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_alias.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_alias.h
 
-1393360074 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_alias.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_alias.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_alias.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_alias.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_list.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\gl_ext_list.h
 
-1393360074 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_list.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\glx_ext_list.h
 
-1393360074 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_list.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\glext\wgl_ext_list.h
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\alleggl_config.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegrogl\alleggl_config.h
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\animation.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\animation.hpp
 	"Includes.hpp"
 	"Bitmap.hpp"
 	"Declspec.hpp"
 	<vector>
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\bitmap.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\bitmap.hpp
 	"Includes.hpp"
 	"GarbageCollector.hpp"
 	"Rgba.hpp"
@@ -2433,39 +2277,39 @@
 	<string>
 	<math.h>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rgba.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rgba.hpp
 	"Includes.hpp"
 	"Transforms.hpp"
 	"Declspec.hpp"
 	<string>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\transforms.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\transforms.hpp
 	"Includes.hpp"
 	"Vec2D.hpp"
 	"Placement.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\vec2d.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\vec2d.hpp
 	<cmath>
 	<string>
 	<sstream>
 	"General.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\general.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\general.hpp
 	<sstream>
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\placement.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\placement.hpp
 	"Matrix.hpp"
 	"Vec2D.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\matrix.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\matrix.hpp
 	"Vec2D.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\internal.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\internal.hpp
 	"Includes.hpp"
 	<string>
 	<math.h>
@@ -2473,35 +2317,35 @@
 	<iostream>
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\pendingload.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\pendingload.hpp
 	"Includes.hpp"
 	"GarbageCollector.hpp"
 	"TextureInfo.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\textureinfo.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\textureinfo.hpp
 	"Includes.hpp"
 	"Vec2D.hpp"
 	"Rgba.hpp"
 	"OlRectangle.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\olrectangle.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\olrectangle.hpp
 	<cmath>
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\collisions.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\collisions.hpp
 	"Vec2D.hpp"
 	"Declspec.hpp"
 	<utility>
 	<vector>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rendermodes.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rendermodes.hpp
 	"Rgba.hpp"
 	"TextureInfo.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\gldriver.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\gldriver.hpp
 	"Includes.hpp"
 	"Internal.hpp"
 	"Vec2D.hpp"
@@ -2510,24 +2354,24 @@
 	"Declspec.hpp"
 	<string>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\setup.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\setup.hpp
 	"Includes.hpp"
 	"Declspec.hpp"
 	<string>
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\blenders.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\blenders.hpp
 	"Includes.hpp"
 	"Declspec.hpp"
 	<stack>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\fpscounter.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\fpscounter.hpp
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\settings.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\settings.hpp
 	"Includes.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\textrenderer.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\textrenderer.hpp
 	"Includes.hpp"
 	"Rgba.hpp"
 	"GarbageCollector.hpp"
@@ -2536,7 +2380,7 @@
 	"Glyph.hpp"
 	<glyph.h>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\glyph.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\glyph.hpp
 	<math.h>
 	<map>
 	"Rgba.hpp"
@@ -2546,19 +2390,19 @@
 	"Declspec.hpp"
 	<ft2build.h>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\point.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\point.hpp
 	"Shape.hpp"
 	"Vec2D.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\shape.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\shape.hpp
 	"Includes.hpp"
 	"Rgba.hpp"
 	"Vec2D.hpp"
 	"Collisions.hpp"
 	"Declspec.hpp"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\canvas.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\canvas.hpp
 	"Includes.hpp"
 	"Bitmap.hpp"
 	"Rectangle.hpp"
@@ -2568,7 +2412,7 @@
 	<map>
 	<string>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rectangle.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rectangle.hpp
 	"Shape.hpp"
 	"Point.hpp"
 	"Settings.hpp"
@@ -2576,7 +2420,7 @@
 	"Declspec.hpp"
 	<cmath>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\polygon.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\polygon.hpp
 	"RawLineStrip.hpp"
 	"Vec2D.hpp"
 	"Rgba.hpp"
@@ -2591,12 +2435,12 @@
 	<vector>
 	"Internal.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rawlinestrip.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\rawlinestrip.hpp
 	"Rgba.hpp"
 	"Bitmap.hpp"
 	"Declspec.hpp"
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\linestrip.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\linestrip.hpp
 	"Shape.hpp"
 	"Vec2D.hpp"
 	"Placement.hpp"
@@ -2605,28 +2449,28 @@
 	"Declspec.hpp"
 	<list>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\line.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\line.hpp
 	"Shape.hpp"
 	"Vec2D.hpp"
 	"Settings.hpp"
 	"Declspec.hpp"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\glyph.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\glyph.h
 	<allegro.h>
 	<allegro/internal/aintern.h>
 	<SDL/SDL.h>
 	<stdio.h>
 
-1393360073 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\internal\aintern.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\allegro\internal\aintern.h
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\texturedpoly.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\texturedpoly.hpp
 	"Polygon.hpp"
 	"Vec2D.hpp"
 	"Declspec.hpp"
 	<vector>
 	<utility>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\circle.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\circle.hpp
 	"Shape.hpp"
 	"Settings.hpp"
 	"Rgba.hpp"
@@ -2635,161 +2479,161 @@
 	<cmath>
 	<vector>
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\loadpng.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\loadpng.h
 
-1393360080 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\gfxrend.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\openlayer\gfxrend.hpp
 	"Includes.hpp"
 	"Rgba.hpp"
 	"Settings.hpp"
 	"Declspec.hpp"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\loadpng.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\loadpng.h
 
-1393360067 c:\whitecat_crossplateform\whitecatlib\lib\windows\audiere-1.9.4-win32\include\audiere.h
+1773613935 c:\whitecat_crossplateform\whitecatlib\lib\windows\audiere-1.9.4-win32\include\audiere.h
 	<vector>
 	<string>
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\jpgalleg.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\jpgalleg.h
 	<allegro.h>
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf.h
 	"hpdf_consts.h"
 	"hpdf_types.h"
 	"hpdf_consts.h"
 	"hpdf_doc.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_consts.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_consts.h
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_types.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_types.h
 	<stdlib.h>
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_doc.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_doc.h
 	"hpdf_catalog.h"
 	"hpdf_image.h"
 	"hpdf_pages.h"
 	"hpdf_outline.h"
 	"hpdf_ext_gstate.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_catalog.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_catalog.h
 	"hpdf_objects.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_objects.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_objects.h
 	"hpdf_encoder.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_encoder.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_encoder.h
 	"hpdf_consts.h"
 	"hpdf_streams.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_streams.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_streams.h
 	"hpdf_list.h"
 	"hpdf_encrypt.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_list.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_list.h
 	"hpdf_error.h"
 	"hpdf_mmgr.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_error.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_error.h
 	"hpdf_types.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_mmgr.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_mmgr.h
 	"hpdf_types.h"
 	"hpdf_error.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_encrypt.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_encrypt.h
 	"hpdf_mmgr.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_image.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_image.h
 	"hpdf_objects.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_pages.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_pages.h
 	"hpdf_gstate.h"
 	"hpdf_ext_gstate.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_gstate.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_gstate.h
 	"hpdf_font.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_font.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_font.h
 	"hpdf_fontdef.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_fontdef.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_fontdef.h
 	"hpdf_objects.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_ext_gstate.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_ext_gstate.h
 	"hpdf_objects.h"
 
-1393360071 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_outline.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\hpdf_outline.h
 	"hpdf_objects.h"
 
-1393360097 c:\whitecat_crossplateform\whitecatlib\lib\windows\midishare\include\midishare.h
+1773613937 c:\whitecat_crossplateform\whitecatlib\lib\windows\midishare\include\midishare.h
 	"windows.h"
 
-1394920038 c:\whitecat_crossplateform\src\whitecat.h
+1773613335 c:\whitecat_crossplateform\src\whitecat.h
 	"Crossplateform.h"
 
-1393967705 c:\whitecat_crossplateform\src\crossplateform.h
+1773613335 c:\whitecat_crossplateform\src\crossplateform.h
 
-1393270260 c:\whitecat_crossplateform\src\my_window_file_sample.h
+1773613335 c:\whitecat_crossplateform\src\my_window_file_sample.h
 
-1393270260 c:\whitecat_crossplateform\src\patch_splines_2.cpp
+1773613335 c:\whitecat_crossplateform\src\patch_splines_2.cpp
 
-1393967301 c:\whitecat_crossplateform\src\grider_calculs8.cpp
+1773613335 c:\whitecat_crossplateform\src\grider_calculs8.cpp
 
-1393270260 c:\whitecat_crossplateform\src\midi_core.cpp
+1773613335 c:\whitecat_crossplateform\src\midi_core.cpp
 
-1394920287 c:\whitecat_crossplateform\src\core_6.cpp
+1773782865 c:\whitecat_crossplateform\src\core_6.cpp
 
-1393969709 c:\whitecat_crossplateform\src\saves_export_pdf2.cpp
+1773613335 c:\whitecat_crossplateform\src\saves_export_pdf2.cpp
 	<setjmp.h>
 	"hpdf.h"
 
-1394048994 c:\whitecat_crossplateform\src\saves_export_import.cpp
+1773613335 c:\whitecat_crossplateform\src\saves_export_import.cpp
 
-1393967301 c:\whitecat_crossplateform\src\saves_menu_8.cpp
+1773613335 c:\whitecat_crossplateform\src\saves_menu_8.cpp
 
-1394920274 c:\whitecat_crossplateform\src\gestionaire_fenetres2.cpp
+1773613335 c:\whitecat_crossplateform\src\gestionaire_fenetres2.cpp
 
-1393969782 c:\whitecat_crossplateform\src\gui_boutons_rebuild1.cpp
+1773613335 c:\whitecat_crossplateform\src\gui_boutons_rebuild1.cpp
 
-1393967301 c:\whitecat_crossplateform\src\grider_core8.cpp
+1773613335 c:\whitecat_crossplateform\src\grider_core8.cpp
 
-1393967301 c:\whitecat_crossplateform\src\wizard_operations.cpp
+1773613335 c:\whitecat_crossplateform\src\wizard_operations.cpp
 
-1393967301 c:\whitecat_crossplateform\src\faders_operations.cpp
+1773613335 c:\whitecat_crossplateform\src\faders_operations.cpp
 
-1393967301 c:\whitecat_crossplateform\src\chasers_core_5.cpp
+1773613335 c:\whitecat_crossplateform\src\chasers_core_5.cpp
 
-1393270260 c:\whitecat_crossplateform\src\mover_spline6.cpp
+1773613335 c:\whitecat_crossplateform\src\mover_spline6.cpp
 
-1393270260 c:\whitecat_crossplateform\src\mover_2013.cpp
+1773613335 c:\whitecat_crossplateform\src\mover_2013.cpp
 
-1393967301 c:\whitecat_crossplateform\src\plot_core9.cpp
+1773781932 c:\whitecat_crossplateform\src\plot_core9.cpp
 
-1393967301 c:\whitecat_crossplateform\src\plot9.cpp
+1773613335 c:\whitecat_crossplateform\src\plot9.cpp
 
-1393967301 c:\whitecat_crossplateform\src\audio_core5.cpp
+1773613335 c:\whitecat_crossplateform\src\audio_core5.cpp
 
-1394048994 c:\whitecat_crossplateform\src\save_show_13.cpp
+1773779704 c:\whitecat_crossplateform\src\save_show_13.cpp
 
-1394048994 c:\whitecat_crossplateform\src\network_artnet_3.cpp
+1773613335 c:\whitecat_crossplateform\src\network_artnet_3.cpp
 	<winsock2.h>
 
-1393967301 c:\whitecat_crossplateform\src\logicals_intres.cpp
+1773613335 c:\whitecat_crossplateform\src\logicals_intres.cpp
 
-1393270260 c:\whitecat_crossplateform\src\channels_9_core.cpp
+1773613335 c:\whitecat_crossplateform\src\channels_9_core.cpp
 	<allegro.h>
 	<OpenLayer.hpp>
 
-1393967301 c:\whitecat_crossplateform\src\wizard.cpp
+1773613335 c:\whitecat_crossplateform\src\wizard.cpp
 
-1393270260 c:\whitecat_crossplateform\src\grand_master.cpp
+1773613335 c:\whitecat_crossplateform\src\grand_master.cpp
 
-1393967301 c:\whitecat_crossplateform\src\faders_core_24.cpp
+1773613335 c:\whitecat_crossplateform\src\faders_core_24.cpp
 
-1393270260 c:\whitecat_crossplateform\src\audio_visu4.cpp
+1773613335 c:\whitecat_crossplateform\src\audio_visu4.cpp
 
-1393967301 c:\whitecat_crossplateform\src\icat_core14.cpp
+1773613335 c:\whitecat_crossplateform\src\icat_core14.cpp
 
-1393270260 c:\whitecat_crossplateform\src\arduino_device_core.cpp
+1773613335 c:\whitecat_crossplateform\src\arduino_device_core.cpp
 	"serial.cpp"
 
 1393971694 c:\whitecat_crossplateform\whitecatlib\lib\windows\cserial\serial.cpp
@@ -2797,47 +2641,47 @@
 
 1393360088 c:\whitecat_crossplateform\whitecatlib\lib\windows\cserial\serial.h
 
-1393971718 c:\whitecat_crossplateform\src\banger_core_8.cpp
+1773613335 c:\whitecat_crossplateform\src\banger_core_8.cpp
 
-1393270260 c:\whitecat_crossplateform\src\banger_visu_8.cpp
+1773613335 c:\whitecat_crossplateform\src\banger_visu_8.cpp
 
-1393967301 c:\whitecat_crossplateform\src\call_everybody_5.cpp
+1773613335 c:\whitecat_crossplateform\src\call_everybody_5.cpp
 
-1393270260 c:\whitecat_crossplateform\src\patch_core.cpp
+1773613335 c:\whitecat_crossplateform\src\patch_core.cpp
 
-1393270260 c:\whitecat_crossplateform\src\patch_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\patch_visu.cpp
 
-1393270260 c:\whitecat_crossplateform\src\time_core_3.cpp
+1773613335 c:\whitecat_crossplateform\src\time_core_3.cpp
 
-1393270260 c:\whitecat_crossplateform\src\time_visu_3.cpp
+1773613335 c:\whitecat_crossplateform\src\time_visu_3.cpp
 
-1393270260 c:\whitecat_crossplateform\src\trichro_core2.cpp
+1773613335 c:\whitecat_crossplateform\src\trichro_core2.cpp
 
-1393270260 c:\whitecat_crossplateform\src\trichro_visu2.cpp
+1773613335 c:\whitecat_crossplateform\src\trichro_visu2.cpp
 
-1393270260 c:\whitecat_crossplateform\src\numpad_core.cpp
+1773613335 c:\whitecat_crossplateform\src\numpad_core.cpp
 
-1393270260 c:\whitecat_crossplateform\src\numpad_visuel.cpp
+1773613335 c:\whitecat_crossplateform\src\numpad_visuel.cpp
 
-1393967301 c:\whitecat_crossplateform\src\keyboard_functions2.cpp
+1773613335 c:\whitecat_crossplateform\src\keyboard_functions2.cpp
 
-1393967301 c:\whitecat_crossplateform\src\keyboard_routines2.cpp
+1773613335 c:\whitecat_crossplateform\src\keyboard_routines2.cpp
 	<allegro.h>
 
-1393967301 c:\whitecat_crossplateform\src\minifaders_core.cpp
+1773613335 c:\whitecat_crossplateform\src\minifaders_core.cpp
 
-1393967301 c:\whitecat_crossplateform\src\minifaders_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\minifaders_visu.cpp
 
-1393967301 c:\whitecat_crossplateform\src\faders_visuels_26.cpp
+1773613335 c:\whitecat_crossplateform\src\faders_visuels_26.cpp
 
-1393967301 c:\whitecat_crossplateform\src\channels_10_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\channels_10_visu.cpp
 
-1393967301 c:\whitecat_crossplateform\src\video_tracking_core.cpp
+1773613335 c:\whitecat_crossplateform\src\video_tracking_core.cpp
 	"opencv2/opencv.hpp"
-	"opencv/cv.h"
-	"opencv/highgui.h"
+	"opencv2/cv/cv.h"
+	"opencv2/highui/highgui.h"
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\opencv.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\opencv.hpp
 	"opencv2/core/core_c.h"
 	"opencv2/core/core.hpp"
 	"opencv2/flann/miniflann.hpp"
@@ -2853,10 +2697,10 @@
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/contrib/contrib.hpp"
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\core_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\core_c.h
 	"opencv2/core/types_c.h"
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\types_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\types_c.h
 	<assert.h>
 	<stdlib.h>
 	<string.h>
@@ -2871,7 +2715,7 @@
 	"tegra_round.hpp"
 	"emmintrin.h"
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\core.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\core.hpp
 	"opencv2/core/types_c.h"
 	"opencv2/core/version.hpp"
 	<limits.h>
@@ -2887,88 +2731,88 @@
 	"opencv2/core/operations.hpp"
 	"opencv2/core/mat.hpp"
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\version.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\version.hpp
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\operations.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\operations.hpp
 	<string.h>
 	<limits.h>
 	<ext/atomicity.h>
 	<bits/atomicity.h>
 	<limits>
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\mat.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\core\mat.hpp
 	<limits.h>
 	<string.h>
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\miniflann.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\miniflann.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/flann/defines.h"
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\defines.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\defines.h
 	"config.h"
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\config.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\flann\config.h
 
-1393360078 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\imgproc_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\imgproc_c.h
 	"opencv2/core/core_c.h"
 	"opencv2/imgproc/types_c.h"
 
-1393360078 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\types_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\types_c.h
 	"opencv2/core/core_c.h"
 
-1393360078 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\imgproc.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\imgproc\imgproc.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/types_c.h"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\photo\photo.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\photo\photo.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 	"opencv2/photo/photo_c.h"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\photo\photo_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\photo\photo_c.h
 	"opencv2/core/core_c.h"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\video.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\video.hpp
 	"opencv2/video/tracking.hpp"
 	"opencv2/video/background_segm.hpp"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\tracking.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\tracking.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\background_segm.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\video\background_segm.hpp
 	"opencv2/core/core.hpp"
 	<list>
 
-1393360077 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\features2d\features2d.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\features2d\features2d.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/flann/miniflann.hpp"
 	<limits>
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\objdetect\objdetect.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\objdetect\objdetect.hpp
 	"opencv2/core/core.hpp"
 	<map>
 	<deque>
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\calib3d\calib3d.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\calib3d\calib3d.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/features2d/features2d.hpp"
 
-1393360079 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\ml\ml.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\ml\ml.hpp
 	"opencv2/core/core.hpp"
 	<limits.h>
 	<map>
 	<string>
 	<iostream>
 
-1393360078 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\highgui\highgui_c.h
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\highgui\highgui_c.h
 	"opencv2/core/core_c.h"
 
-1393360078 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\highgui\highgui.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\highgui\highgui.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/highgui/highgui_c.h"
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\contrib.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\contrib.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/imgproc/imgproc.hpp"
 	"opencv2/features2d/features2d.hpp"
@@ -2976,11 +2820,11 @@
 	"opencv2/contrib/retina.hpp"
 	"opencv2/contrib/openfabmap.hpp"
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\retina.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\retina.hpp
 	"opencv2/core/core.hpp"
 	<valarray>
 
-1393360076 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\openfabmap.hpp
+1773613936 c:\whitecat_crossplateform\whitecatlib\lib\windows\compiledlibsforgcc4_8_1\include\opencv2\contrib\openfabmap.hpp
 	"opencv2/core/core.hpp"
 	"opencv2/features2d/features2d.hpp"
 	<vector>
@@ -3299,72 +3143,72 @@
 	"opencv2/highgui/highgui_c.h"
 	"opencv2/highgui/highgui.hpp"
 
-1393270260 c:\whitecat_crossplateform\src\video_tracking_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\video_tracking_visu.cpp
 
-1393270260 c:\whitecat_crossplateform\src\list_proj_core.cpp
+1773613335 c:\whitecat_crossplateform\src\list_proj_core.cpp
 
-1393967301 c:\whitecat_crossplateform\src\list_proj_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\list_proj_visu.cpp
 
-1393967301 c:\whitecat_crossplateform\src\sequentiel_6_core.cpp
+1773613335 c:\whitecat_crossplateform\src\sequentiel_6_core.cpp
 
-1393971746 c:\whitecat_crossplateform\src\icat14.cpp
+1773613335 c:\whitecat_crossplateform\src\icat14.cpp
 
-1393917733 c:\whitecat_crossplateform\src\network_mac_adress_3.cpp
+1773613335 c:\whitecat_crossplateform\src\network_mac_adress_3.cpp
 
-1393270260 c:\whitecat_crossplateform\src\midi_launchpad.cpp
+1773613335 c:\whitecat_crossplateform\src\midi_launchpad.cpp
 
-1393967301 c:\whitecat_crossplateform\src\grider8.cpp
+1773613335 c:\whitecat_crossplateform\src\grider8.cpp
 
-1393967301 c:\whitecat_crossplateform\src\sequentiel_7_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\sequentiel_7_visu.cpp
 
-1393270260 c:\whitecat_crossplateform\src\draw3.cpp
+1773613335 c:\whitecat_crossplateform\src\draw3.cpp
 
-1393967301 c:\whitecat_crossplateform\src\echo3.cpp
+1773613335 c:\whitecat_crossplateform\src\echo3.cpp
 
-1393270260 c:\whitecat_crossplateform\src\my_window_file_sample.cpp
+1773613335 c:\whitecat_crossplateform\src\my_window_file_sample.cpp
 
-1393270260 c:\whitecat_crossplateform\src\procs_visuels_rebuild1.cpp
+1773613335 c:\whitecat_crossplateform\src\procs_visuels_rebuild1.cpp
 
-1394048994 c:\whitecat_crossplateform\src\dmx_functions_13.cpp
+1773613335 c:\whitecat_crossplateform\src\dmx_functions_13.cpp
 	<odmxusb.cpp>
 	<odmxusb.h>
 	<dmx_enttec_pro.cpp>
 	<dmx_sunlite.cpp>
 
-1393360098 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\odmxusb.cpp
+1773613937 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\odmxusb.cpp
 	"odmxusb.h"
 
-1393360098 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\odmxusb.h
+1773613937 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\odmxusb.h
 	<windows.h>
 	"FTD2XX.H"
 
-1393360097 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\ftd2xx.h
+1773613937 c:\whitecat_crossplateform\whitecatlib\lib\windows\odmxusb_terry\ftd2xx.h
 
-1394048994 c:\whitecat_crossplateform\src\dmx_enttec_pro.cpp
+1773613335 c:\whitecat_crossplateform\src\dmx_enttec_pro.cpp
 	<process.h>
 	<assert.h>
 	<tchar.h>
 
-1394048994 c:\whitecat_crossplateform\src\dmx_sunlite.cpp
+1773613335 c:\whitecat_crossplateform\src\dmx_sunlite.cpp
 	<_DasHard.h>
 
-1393360088 c:\whitecat_crossplateform\whitecatlib\lib\windows\dashard\_dashard.h
+1773613937 c:\whitecat_crossplateform\whitecatlib\lib\windows\dashard\_dashard.h
 
-1394570422 c:\whitecat_crossplateform\src\midi_13.cpp
+1773613335 c:\whitecat_crossplateform\src\midi_13.cpp
 
-1393967301 c:\whitecat_crossplateform\src\cfg_screen.cpp
+1773613335 c:\whitecat_crossplateform\src\cfg_screen.cpp
 
-1393971952 c:\whitecat_crossplateform\src\arduino_core_6_uno.cpp
+1773613335 c:\whitecat_crossplateform\src\arduino_core_6_uno.cpp
 
-1393970125 c:\whitecat_crossplateform\src\arduino_6_uno.cpp
+1773613335 c:\whitecat_crossplateform\src\arduino_6_uno.cpp
 
-1393967301 c:\whitecat_crossplateform\src\cfg_config_panel_8.cpp
+1773613335 c:\whitecat_crossplateform\src\cfg_config_panel_8.cpp
 
-1393270260 c:\whitecat_crossplateform\src\chasers_visu.cpp
+1773613335 c:\whitecat_crossplateform\src\chasers_visu.cpp
 
-1393967301 c:\whitecat_crossplateform\src\graphics_rebuild1.cpp
+1773613335 c:\whitecat_crossplateform\src\graphics_rebuild1.cpp
 
-1394048994 source:c:\whitecat_crossplateform\src\whitecat_private.rc
+1773613335 source:c:\whitecat_crossplateform\src\whitecat_private.rc
 	<windows.h>
 
 1395135705 source:c:\users\bibi\documents\github\whitecat_crossplateform\src\main_janv_2014_opensource_kbd.cpp
@@ -4781,4 +4625,54 @@
 1395132706 c:\users\bibi\documents\github\whitecat_crossplateform\src\chasers_visu.cpp
 
 1395132706 c:\users\bibi\documents\github\whitecat_crossplateform\src\graphics_rebuild1.cpp
+
+1512590989 c:\mingw\include\msvcrtver.h
+	<_mingw.h>
+
+1512591001 c:\mingw\include\w32api.h
+	<sdkddkver.h>
+
+1512590989 c:\mingw\include\locale.h
+	<_mingw.h>
+	<stddef.h>
+
+1512590989 c:\mingw\include\strings.h
+	<_mingw.h>
+	<stddef.h>
+
+1512590989 c:\mingw\include\dos.h
+	"io.h"
+
+1512590989 c:\mingw\include\sys\stat.h
+	<sys/types.h>
+
+1512591001 c:\mingw\include\dbt.h
+	<windef.h>
+
+1512591001 c:\mingw\include\_winsock.h
+	<sdkddkver.h>
+	<winsock2.h>
+	<winsock.h>
+
+1512590989 c:\mingw\include\sys\bsdtypes.h
+	<_mingw.h>
+
+1512590989 c:\mingw\include\sys\time.h
+	<time.h>
+
+1512591001 c:\mingw\include\nspapi.h
+	"_winsock.h"
+	"wtypes.h"
+
+1773613335 c:\whitecat_crossplateform\src\smoothdata.cpp
+	<SmoothData.h>
+
+1773613335 c:\whitecat_crossplateform\src\smoothdata.h
+
+1773613335 c:\whitecat_crossplateform\src\serial.cpp
+	"Serial.h"
+
+1773613335 c:\whitecat_crossplateform\src\serial.h
+
+1773613335 c:\whitecat_crossplateform\src\bazookat.cpp
 

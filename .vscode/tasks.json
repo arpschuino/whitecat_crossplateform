@@ -16,6 +16,19 @@
                 "isDefault": true
             },
             "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Run WhiteCat",
+            "type": "shell",
+            "command": "D:/nextCloud/ARPSCHUINO_PARTAGE/codes/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe",
+            "options": {
+                "cwd": "D:/nextCloud/ARPSCHUINO_PARTAGE/codes/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/c"]
+                }
+            },
+            "group": "test"
         }
     ]
 }

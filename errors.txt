@@ -1,0 +1,1355 @@
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:60:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/SmoothData.cpp: In member function 'void SmoothData::damper()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/SmoothData.cpp:96:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(_damper_blocking_mode)
+                             ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:139:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_calculs8.cpp: In function 'int gridder_prepare_cross(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_calculs8.cpp:245:33: warning: switch condition has type bool [-Wswitch-bool]
+ switch(grider_goto_mode[grid_pl])
+                                 ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:139:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_calculs8.cpp: In function 'int do_grid()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_calculs8.cpp:464:34: warning: switch condition has type bool [-Wswitch-bool]
+ switch(grider_is_playing[grid_pl])
+                                  ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:144:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int fader_set_level(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:113:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(fader_damper_is_on[cmptfader])
+                                     ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:144:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int do_clock_level_modification(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:819:31: warning: switch condition has type bool [-Wswitch-bool]
+ switch(clocklevel_absolutemode)
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int generate_channel_preview_patch_list()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:873:27: warning: switch condition has type bool [-Wswitch-bool]
+                 switch(tem)
+                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int refresh_hauteur_fenetre_grider()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:1926:35: warning: switch condition has type bool [-Wswitch-bool]
+     switch(show_global_view_grider)
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int Get_channels_from_memory(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:2002:31: warning: switch condition has type bool [-Wswitch-bool]
+             switch(index_blind)
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int search_and_desaffect_previous_midi_signal(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:2040:41: warning: switch condition has type bool [-Wswitch-bool]
+         switch(toggle_numerical_midi_way)
+                                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int attribute_midi_to_control(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:2158:45: warning: switch condition has type bool [-Wswitch-bool]
+             switch(toggle_numerical_midi_way)//numeric pitch
+                                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int scan_audiofolder()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:2790:36: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+             for(unsigned int a=0; a< f_name_len; a++)
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:2793:44: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+                 if(f.cFileName[a]=='.' && a<=f_name_len-3)
+                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int set_channel_scroll(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:3443:33: warning: switch condition has type bool [-Wswitch-bool]
+     switch (ClassicalChannelView)
+                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp: In function 'int do_action_on_selected_minifaders(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:4723:46: warning: switch condition has type bool [-Wswitch-bool]
+                 switch(FaderLocked[cmptfader])
+                                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:4838:48: warning: switch condition has type bool [-Wswitch-bool]
+                 switch(index_choose_mode_dkloop)
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5016:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player1->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5028:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player2->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5040:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player3->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5052:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player4->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5064:71: warning: switch condition has type bool [-Wswitch-bool]
+                             switch(player_is_playing[the_audio_player])//inversed by action
+                                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5081:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player1->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5093:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player2->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5105:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player3->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5117:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player4->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5129:71: warning: switch condition has type bool [-Wswitch-bool]
+                             switch(player_is_playing[the_audio_player])//inversed by action
+                                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5146:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player1->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5158:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player2->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5170:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player3->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5182:60: warning: switch condition has type bool [-Wswitch-bool]
+                                 switch(player4->isPlaying())
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5194:71: warning: switch condition has type bool [-Wswitch-bool]
+                             switch(player_is_playing[the_audio_player])//inversed by action
+                                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5220:61: warning: switch condition has type bool [-Wswitch-bool]
+                         switch(chaser_is_playing[the_chaser])
+                                                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CORE_6.cpp:5236:66: warning: switch condition has type bool [-Wswitch-bool]
+                         switch(player_is_playing[the_grid_player])
+                                                                  ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:149:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp: In function 'int draw_pdf_echo_config()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:518:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_is_echo_mode[pr])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:532:40: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_channel_manipulate_mode[pr])
+                                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp: In function 'int draw_pdf_chaser(int, HPDF_Page)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:821:36: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_time_mode[chaser_num])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:834:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[chaser_num])
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:850:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_playing[chaser_num])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:960:36: warning: switch condition has type bool [-Wswitch-bool]
+ switch( track_is_on[chaser_num][ly])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp: In function 'int print_ch_macro(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:1565:31: warning: switch condition has type bool [-Wswitch-bool]
+ switch(macro_channel_on[cp][m])
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp: In function 'int do_pdf_export()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:3928:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(fader_damper_is_on[f])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:3980:27: warning: switch condition has type bool [-Wswitch-bool]
+ switch(ActionnateStopOn[f])
+                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:4307:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(dock_color_type[t])
+                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_export_pdf2.cpp:4320:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(dock_color_type[t])
+                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:151:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp: In function 'int scan_savesfolder()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp:59:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+             for(unsigned int a=0;a<f_name_len;a++)
+                                   ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:151:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp: In function 'int check_import_type()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp:199:33: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+           for(unsigned int a=0;a<f_name_len;a++)
+                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp: In function 'int selecteur_binary_save_solo_global(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp:1099:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (index_save_global_is)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp: In function 'int Save_Menu(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp:1364:40: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_save_mode_export_or_binary)
+                                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp: In function 'int do_logical_Save_Menu(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/saves_menu_8.cpp:1408:40: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_save_mode_export_or_binary)
+                                        ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:152:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/gestionaire_fenetres2.cpp: In function 'int check_save_load_report_window()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/gestionaire_fenetres2.cpp:303:35: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_show_save_load_report)
+                                   ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:154:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/gui_boutons_rebuild1.cpp: In function 'void command_button_logical(int, int, int, std::string, std::string, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/gui_boutons_rebuild1.cpp:992:42: warning: switch condition has type bool [-Wswitch-bool]
+               switch(index_show_main_menu)
+                                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:155:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp: In function 'int do_logical_TheStepBox(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp:144:20: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_blind)
+                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp:164:46: warning: switch condition has type bool [-Wswitch-bool]
+  switch(to_step_editing_mode[num_grid_player])
+                                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp:201:20: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_blind)
+                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp:251:47: warning: switch condition has type bool [-Wswitch-bool]
+   switch(to_step_editing_mode[num_grid_player])
+                                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp: In function 'int do_logical_Grider_Box(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/grider_core8.cpp:965:31: warning: switch condition has type bool [-Wswitch-bool]
+ switch(show_global_view_grider)
+                               ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:158:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_operations.cpp: In function 'int do_direct_channel(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_operations.cpp:527:28: warning: switch condition has type bool [-Wswitch-bool]
+ switch(multiple_direct_chan)
+                            ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:159:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int refresh_launchpad_on_chaser()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:119:35: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[chaser_selected])
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int chaser_calcul_time_joint(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:151:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[numchaser])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int do_chaser()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:254:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[nch])
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:265:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[nch])
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:271:33: warning: switch condition has type bool [-Wswitch-bool]
+ switch( chaser_aller_retour[nch])
+                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:296:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[nch])
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:302:33: warning: switch condition has type bool [-Wswitch-bool]
+ switch( chaser_aller_retour[nch])
+                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:353:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_time_mode[nch])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:379:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_time_mode[nch])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int chaser_seek_at_beg(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:613:28: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[numchase])
+                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int Track_draw_logical(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:866:35: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[chaser_selected])
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp: In function 'int do_logical_fenetre_chasers(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_core_5.cpp:1006:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[chaser_selected])
+                                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:164:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp: In function 'int scan_planfolder()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp:274:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+             for(unsigned int a=0;a<f_name_len;a++)
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp:276:44: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+                 if(f.cFileName[a]=='.' && a<=f_name_len-3)
+                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp: In function 'int group_ungroup_selected_shapes()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp:338:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_there_is_a_group)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp: In function 'int logical_plot_menu_bare(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp:3003:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(plot_layer_mode)
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot_core9.cpp:3041:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(plot_layer_mode)
+                       ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:165:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int draw_channel_of_symbol(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:51:40: warning: switch condition has type bool [-Wswitch-bool]
+  switch( symbol_is_selected[calc][symb])
+                                        ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:165:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_symbol_list(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2630:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_edit_symbol_plot)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2688:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_edit_symbol_plot)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2705:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_edit_symbol_plot)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_shape_line(int, int, int, int, float, float, int, bool)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2765:18: warning: switch condition has type bool [-Wswitch-bool]
+ switch(isselected)
+                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_shape_stripline(float, float, float, float, float, float, int, int, bool, bool)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2838:18: warning: switch condition has type bool [-Wswitch-bool]
+ switch(isselected)
+                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_shape_curtain(int, int, int, int, float, float, int, bool)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:2947:18: warning: switch condition has type bool [-Wswitch-bool]
+ switch(isselected)
+                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_shape_list(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:3223:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_edit_symbol_plot)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int shape_edition(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:3496:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_edit_symbol_plot)
+                              ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:165:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_plan(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:4857:27: warning: switch condition has type bool [-Wswitch-bool]
+ switch(plot_name_text_size)
+                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:4914:28: warning: switch condition has type bool [-Wswitch-bool]
+ switch( plot_name_text_size)
+                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_levels(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:4955:19: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_blind)
+                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_draw_legend(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:5043:19: warning: switch condition has type bool [-Wswitch-bool]
+ switch(legend_view)
+                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp: In function 'int plot_legend_menu(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\plot9.cpp:5159:19: warning: switch condition has type bool [-Wswitch-bool]
+ switch(legend_view)
+                   ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:167:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp: In function 'int AffectSoundFile(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:126:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[player])
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:160:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[player])
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:193:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[player])
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:226:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[player])
+                                ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:167:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp: In function 'int do_logical_lecteur_audio(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:768:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:780:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:792:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:804:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:889:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:902:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:915:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:928:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:1360:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:1373:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:1386:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/audio_core5.cpp:1399:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:169:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp: In function 'int load_gel_list_numerical()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:652:136: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'char (*)[72]' [-Wformat=]
+   sscanf(line,"%s\t%d\t%s\t%d\t%d\t%d\t%f\n",&tmp_name_of_mark,&tmp_ref,&tmp_name_of_gel,&tmprvb[0],&tmprvb[1],&tmprvb[2],&transmission);
+                                                                                                                                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:652:136: warning: format '%s' expects argument of type 'char*', but argument 5 has type 'char (*)[96]' [-Wformat=]
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:169:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp: In function 'int Save_Show()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:2528:66: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+ if (fwrite(tmp_data, sizeof(float),fader_damper_levels_size, fp) !=fader_damper_levels_size)
+                                                                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:3091:60: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+ if(fwrite (bpm_personnal, sizeof(int),midi_clock_size, fp) != midi_clock_size)
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp: In function 'int Load_Show()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:5631:65: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+ if (fread(tmp_data, sizeof(float),fader_damper_levels_size, fp) !=fader_damper_levels_size)
+                                                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:6231:60: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+ if (fread( bpm_personnal, sizeof(int),midi_clock_size, fp) !=midi_clock_size)
+                                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/save_show_13.cpp:4813:5: warning: unused variable 'fread_count' [-Wunused-variable]
+ int fread_count = 0;
+     ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:172:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp: In function 'int entetes_confirmation()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:57:22: warning: switch condition has type bool [-Wswitch-bool]
+    switch(index_blind)
+                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:146:20: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_blind)
+                    ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:172:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:419:35: warning: switch condition has type bool [-Wswitch-bool]
+  switch(wizard_amplitude_is_global)
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:432:35: warning: switch condition has type bool [-Wswitch-bool]
+  switch(wizard_amplitude_is_global)
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:449:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch( multiple_direct_chan)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:588:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_grid_tostep_or_not)//mode un pas ou mode serie de pas
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:706:50: warning: switch condition has type bool [-Wswitch-bool]
+ switch(channel_view_mode_builder[channel_view_is])//solo ou all
+                                                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp: In function 'int operations_confirmation()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:806:22: warning: switch condition has type bool [-Wswitch-bool]
+    switch(index_blind)
+                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:877:23: warning: switch condition has type bool [-Wswitch-bool]
+     switch(index_blind)
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:1397:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_grid_tostep_or_not)
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/logicals_intres.cpp:1530:50: warning: switch condition has type bool [-Wswitch-bool]
+ switch(channel_view_mode_builder[channel_view_is])//all ou solo
+                                                  ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:174:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_9_core.cpp: In function 'int DoMouseLevel()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_9_core.cpp:210:20: warning: switch condition has type bool [-Wswitch-bool]
+  switch(over_family)
+                    ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:175:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/wizard.cpp: In function 'int Box_mem_to_mem(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/wizard.cpp:201:34: warning: switch condition has type bool [-Wswitch-bool]
+ switch(wizard_amplitude_is_global)
+                                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/wizard.cpp: In function 'int fenetre_wizard(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/wizard.cpp:774:28: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_wizard_ch_mode)
+                            ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:177:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp: In function 'int do_logical_lfo_fader_functions(int, int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:870:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_choose_mode_dkloop)
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp: In function 'int do_logical_FaderSpace(int, int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1351:32: warning: switch condition has type bool [-Wswitch-bool]
+   switch(FaderLocked[cmptfader])
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1435:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1446:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1457:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1468:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1479:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1496:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1507:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1518:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1529:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1540:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1557:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1568:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1579:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1590:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1601:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1621:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_playing[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1634:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_grid_player])
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1771:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1784:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1797:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1810:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1824:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1842:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1855:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1868:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1881:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1895:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1913:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1926:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1939:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1952:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1966:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1980:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:1992:44: warning: switch condition has type bool [-Wswitch-bool]
+ switch(grider_autostopmode[the_grid_player])
+                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_core_24.cpp:2021:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(autolaunch[cmptfader])
+                             ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:180:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp: In function 'int refresh_continuously_iCat_sliders()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:292:55: warning: switch condition has type bool [-Wswitch-bool]
+         switch (iCat_orientation_slider[iCatPageis][i])
+                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:388:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:433:52: warning: switch condition has type bool [-Wswitch-bool]
+      switch (iCat_orientation_slider[iCatPageis][i])
+                                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:469:55: warning: switch condition has type bool [-Wswitch-bool]
+         switch (iCat_orientation_slider[iCatPageis][i])
+                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:493:55: warning: switch condition has type bool [-Wswitch-bool]
+         switch (iCat_orientation_slider[iCatPageis][i])
+                                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:522:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:541:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:564:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:582:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:601:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:620:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:640:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:660:53: warning: switch condition has type bool [-Wswitch-bool]
+       switch (iCat_orientation_slider[iCatPageis][i])
+                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp: In function 'int refresh_continuously_iCat_buttons()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:730:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:749:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:766:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:781:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:796:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:811:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:826:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:841:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:857:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:893:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:928:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:959:52: warning: switch condition has type bool [-Wswitch-bool]
+                       switch(check_button_state[ck])
+                                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:978:52: warning: switch condition has type bool [-Wswitch-bool]
+                       switch(check_button_state[ck])
+                                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1009:22: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_go)
+                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1037:36: warning: switch condition has type bool [-Wswitch-bool]
+       switch(check_button_state[ck])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1049:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_pause)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1078:29: warning: switch condition has type bool [-Wswitch-bool]
+        switch( index_do_dock)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1090:31: warning: switch condition has type bool [-Wswitch-bool]
+        switch( index_do_modify)
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1102:31: warning: switch condition has type bool [-Wswitch-bool]
+        switch( index_do_report)
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1114:32: warning: switch condition has type bool [-Wswitch-bool]
+        switch( index_main_clear)
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1127:32: warning: switch condition has type bool [-Wswitch-bool]
+       switch( index_false_shift)
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1135:34: warning: switch condition has type bool [-Wswitch-bool]
+       switch( index_false_control)
+                                  ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1159:35: warning: switch condition has type bool [-Wswitch-bool]
+      switch(check_button_state[ck])
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp: In function 'int To_iCat_DrawSlider(int, int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1338:49: warning: switch condition has type bool [-Wswitch-bool]
+ switch ( iCat_orientation_slider[iCatPageis][id])
+                                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1364:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1486:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1527:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1577:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1617:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1663:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1694:24: warning: switch condition has type bool [-Wswitch-bool]
+ switch(tracker_16b_edit)
+                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1718:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1761:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1804:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1850:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1893:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/icat_core14.cpp:1936:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][id])
+                                                ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_device_core.cpp:44:0,
+                 from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:182:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/serial.cpp: In member function 'BOOL CSerial::Flush()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/serial.cpp:26:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_device_core.cpp:44:0,
+                 from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:182:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/serial.cpp: In member function 'BOOL CSerial::Open(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/serial.cpp:70:9: warning: unused variable 'dwError' [-Wunused-variable]
+   DWORD dwError = GetLastError();
+         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/serial.cpp:61:16: warning: variable 'ucSet' set but not used [-Wunused-but-set-variable]
+  unsigned char ucSet;
+                ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:183:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp: In function 'int Bang_event_back(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:135:38: warning: switch condition has type bool [-Wswitch-bool]
+      switch(FaderLocked[the_fader_is])
+                                      ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:183:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:461:27: warning: switch condition has type bool [-Wswitch-bool]
+      switch (cheat_key_off)
+                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:1429:41: warning: switch condition has type bool [-Wswitch-bool]
+      switch(midi_send_out[616+param1_is])
+                                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp: In function 'int Bang_event(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:1518:38: warning: switch condition has type bool [-Wswitch-bool]
+      switch(FaderLocked[the_fader_is])
+                                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3184:27: warning: switch condition has type bool [-Wswitch-bool]
+      switch (Midi_Force_Go)
+                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3351:51: warning: switch condition has type bool [-Wswitch-bool]
+       switch(track_is_on[param1_is-1][param2_is-1])
+                                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3601:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3615:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3636:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3658:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3672:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:3692:25: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_blind)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp: In function 'int do_logical_feedback_banger(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/banger_core_8.cpp:4892:39: warning: switch condition has type bool [-Wswitch-bool]
+ switch (bang_is_sended[banger_overoll])
+                                       ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:191:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp: In function 'int report_gels_to_rvb_trichro(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:149:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_use_transmission)
+                              ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:191:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp: In function 'int do_logical_Interface_Trichromie(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:394:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_paste_on_the_fly)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:434:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_paste_on_the_fly)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:470:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_paste_on_the_fly)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:504:30: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_paste_on_the_fly)
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_core2.cpp:614:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(show_designer_list)
+                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:192:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_visu2.cpp: In function 'int Interface_Trichromie(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/trichro_visu2.cpp:289:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(show_designer_list)
+                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:193:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/numpad_core.cpp: In function 'int do_wheel_level_job(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/numpad_core.cpp:54:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_do_hipass)
+                       ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:195:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int check_channel_minus()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:99:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int check_channel_plus()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:195:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int select_channel_minus()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:294:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int select_channel_plus()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:385:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:195:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_affectation()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:620:24: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_do_hipass)
+                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_add_ch()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:709:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_minus_ch()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:768:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_up()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:807:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_do_hipass)
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_down()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:918:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_do_hipass)
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_thruth()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:1102:40: warning: switch condition has type bool [-Wswitch-bool]
+            switch (ClassicalChannelView)
+                                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp: In function 'int key_select_inv()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/keyboard_functions2.cpp:1324:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch (ClassicalChannelView)
+                             ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:198:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/minifaders_visu.cpp: In function 'int mini_faders_panel_visu(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/minifaders_visu.cpp:901:65: warning: switch condition has type bool [-Wswitch-bool]
+                     switch(ActionnateStopOn[cmptfader+(lfad*24)])
+                                                                 ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:199:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_visuels_26.cpp: In function 'int FaderSpace(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_visuels_26.cpp:664:45: warning: switch condition has type bool [-Wswitch-bool]
+             switch(fader_fx_route[cmptfader])
+                                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_visuels_26.cpp:816:54: warning: switch condition has type bool [-Wswitch-bool]
+                         switch(FaderLocked[cmptfader])
+                                                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/faders_visuels_26.cpp:964:51: warning: switch condition has type bool [-Wswitch-bool]
+                 switch(ActionnateStopOn[cmptfader])
+                                                   ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:200:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp: In function 'int ChannelScroller(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp:57:32: warning: switch condition has type bool [-Wswitch-bool]
+     switch(ClassicalChannelView)
+                                ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:200:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp: In function 'int ClassicalChannelSpace(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp:195:39: warning: switch condition has type bool [-Wswitch-bool]
+                     switch(index_blind)//differencec avec mem enregistrée
+                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp: In function 'int Draw_Channel_Preset_View(int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp:641:39: warning: switch condition has type bool [-Wswitch-bool]
+                     switch(index_blind)//differencec avec mem enregistrée
+                                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp: In function 'int ChannelsMenuSelection(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/channels_10_visu.cpp:923:32: warning: switch condition has type bool [-Wswitch-bool]
+     switch(multiple_direct_chan)
+                                ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:201:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/video_tracking_core.cpp: In function 'int do_logical_Interface_video_window(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/video_tracking_core.cpp:559:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch (tracker_clearmode)
+                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/video_tracking_core.cpp:585:20: warning: switch condition has type bool [-Wswitch-bool]
+ switch(edit_tracker)
+                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/video_tracking_core.cpp:600:20: warning: switch condition has type bool [-Wswitch-bool]
+ switch(move_tracker)
+                    ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:205:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/list_proj_visu.cpp: In function 'int Channel_macros_visu(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/list_proj_visu.cpp:208:46: warning: switch condition has type bool [-Wswitch-bool]
+ switch( macro_channel_on[last_ch_selected][i])
+                                              ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:209:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp: In function 'int Menu_edition_iCat_sliders(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:283:72: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][iCat_select_editing_slider])
+                                                                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp: In function 'int check_button(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2362:30: warning: switch condition has type bool [-Wswitch-bool]
+       switch(FaderLocked[fis])
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2402:38: warning: switch condition has type bool [-Wswitch-bool]
+       switch(index_choose_mode_dkloop)
+                                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2439:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2450:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2461:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2472:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2483:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2500:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2511:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2522:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2533:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2544:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2561:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2572:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2583:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2594:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2605:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2625:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_playing[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2638:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_grid_player])
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2753:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2766:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2779:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2792:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2806:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2824:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2837:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2850:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2863:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2877:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2895:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2908:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2921:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2934:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2948:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2962:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:2974:44: warning: switch condition has type bool [-Wswitch-bool]
+ switch(grider_autostopmode[the_grid_player])
+                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:3065:85: warning: switch condition has type bool [-Wswitch-bool]
+       switch(minifaders_selected[iCat_affectation_bouton_value_is[iCatPageis][bt]-1])
+                                                                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:3375:35: warning: switch condition has type bool [-Wswitch-bool]
+ switch (bang_is_sended[bangeriCat])
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp: In function 'int check_slider(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:3561:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][sl])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:3579:48: warning: switch condition has type bool [-Wswitch-bool]
+ switch (iCat_orientation_slider[iCatPageis][sl])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/iCat14.cpp:3780:41: warning: switch condition has type bool [-Wswitch-bool]
+ switch(slider_is_touched[iCatPageis][sl])
+                                         ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:210:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/network_MAC_adress_3.cpp: In function 'int do_artnet_affect_config(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/network_MAC_adress_3.cpp:178:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(allow_artnet_in)
+                       ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:210:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/network_MAC_adress_3.cpp:195:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(allow_artnet_in)
+                       ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:211:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_launchpad.cpp: In function 'int launchpad_refresh_buffer_led()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_launchpad.cpp:243:19: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_pause)
+                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_launchpad.cpp:337:36: warning: switch condition has type bool [-Wswitch-bool]
+ switch (chaser_way[chaser_selected])
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_launchpad.cpp:431:31: warning: switch condition has type bool [-Wswitch-bool]
+ switch(midi_launchpad_state[l])
+                               ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:219:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp: In function 'int do_bouncing_levels(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp:80:24: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_way[ech][b])
+                        ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp: In function 'int do_logical_echo_window(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp:357:51: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_channel_manipulate_mode[echo_selected])
+                                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp: In function 'int echo_window(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/echo3.cpp:693:51: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_channel_manipulate_mode[echo_selected])
+                                                   ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:226:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp: In function 'int Merger_Faders()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:835:28: warning: switch condition has type bool [-Wswitch-bool]
+  switch(fader_fx_route[cif])
+                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:855:29: warning: switch condition has type bool [-Wswitch-bool]
+   switch(fader_fx_route[cif])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:876:28: warning: switch condition has type bool [-Wswitch-bool]
+  switch(fader_fx_route[cif])
+                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:903:29: warning: switch condition has type bool [-Wswitch-bool]
+   switch(fader_fx_route[cif])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:932:29: warning: switch condition has type bool [-Wswitch-bool]
+   switch(fader_fx_route[cif])
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp: In function 'int calculs_etats_faders_et_contenus()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:1070:48: warning: switch condition has type bool [-Wswitch-bool]
+           switch (index_fader_is_manipulated[f])
+                                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp: In function 'int Merger()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/dmx_functions_13.cpp:1222:24: warning: switch condition has type bool [-Wswitch-bool]
+  switch(freeze_array[i])
+                        ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:228:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'int do_midi_job(int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:375:22: warning: switch condition has type bool [-Wswitch-bool]
+ switch (Midi_Force_Go)
+                      ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:730:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:741:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:752:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:763:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:809:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:822:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:835:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:848:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1008:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1021:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1034:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1047:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1220:21: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_do_dock)
+                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1580:32: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_choose_mode_dkloop)
+                                ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1687:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[chaser_selected])
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1863:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1874:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1885:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1896:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1907:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1924:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1935:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1946:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1957:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1968:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1985:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:1996:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2007:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2018:29: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4->isPlaying())
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2029:43: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_audio_player])//inversed by action
+                                           ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2049:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_playing[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2062:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_playing[the_grid_player])
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2198:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2211:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2224:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2237:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2251:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2269:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2282:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2295:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2308:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2322:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2340:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player1-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2353:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player2-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2366:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player3-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2379:30: warning: switch condition has type bool [-Wswitch-bool]
+  switch(player4-> getRepeat())
+                              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2393:42: warning: switch condition has type bool [-Wswitch-bool]
+ switch(player_is_onloop[the_audio_player])//inversed by action
+                                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2407:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_is_in_loop[the_chaser])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2419:44: warning: switch condition has type bool [-Wswitch-bool]
+ switch(grider_autostopmode[the_grid_player])
+                                            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2485:25: warning: switch condition has type bool [-Wswitch-bool]
+   switch(index_midi_mute)
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2507:33: warning: switch condition has type bool [-Wswitch-bool]
+ switch (autolaunch[control-1278])
+                                 ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2648:37: warning: switch condition has type bool [-Wswitch-bool]
+ switch (bang_is_sended[control-1343])
+                                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:2866:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch( index_plot_window)
+                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3035:23: warning: switch condition has type bool [-Wswitch-bool]
+ switch(plot_layer_mode)
+                       ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3328:51: warning: switch condition has type bool [-Wswitch-bool]
+ switch(echo_channel_manipulate_mode[echo_selected])
+                                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'int add_to_midi_historic()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3625:36: warning: zero-length ms_printf format string [-Wformat-zero-length]
+         sprintf(midi_historic[i],"");
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'void process_midi_message()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3711:14: error: return-statement with a value, in function returning 'void' [-fpermissive]
+     return (0);
+              ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'void process_midi_input()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3727:25: error: 'EvAquire_rtmidi' was not declared in this scope
+         EvAquire_rtmidi();
+                         ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'int clock_wheel(int, int, int, float)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:4389:31: warning: switch condition has type bool [-Wswitch-bool]
+ switch(clocklevel_absolutemode)
+                               ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp: In function 'int midi_clock_part(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:4481:28: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_midi_clock_on)
+                            ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:232:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_core_6_UNO.cpp: In function 'int arduino_do_digital_in_whitecat()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_core_6_UNO.cpp:391:28: warning: switch condition has type bool [-Wswitch-bool]
+  switch(FaderLocked[vfader])
+                            ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:233:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_6_UNO.cpp: In function 'int do_arduino_config(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_6_UNO.cpp:185:36: warning: switch condition has type bool [-Wswitch-bool]
+ switch (arduino_device_0_is_ignited)
+                                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/arduino_6_UNO.cpp:203:36: warning: switch condition has type bool [-Wswitch-bool]
+ switch (arduino_device_0_is_ignited)
+                                    ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:362:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CFG_config_panel_8.cpp: In function 'int do_main_config(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CFG_config_panel_8.cpp:680:21: warning: switch condition has type bool [-Wswitch-bool]
+ switch(Midi_Force_Go)
+                     ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CFG_config_panel_8.cpp:847:29: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_allow_multicore)
+                             ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CFG_config_panel_8.cpp: In function 'int do_dmx_config(int, int, int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/CFG_config_panel_8.cpp:1291:33: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_allow_sunlite_dmxIN)
+                                 ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:364:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_visu.cpp: In function 'int chaser_window(int, int)':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/chasers_visu.cpp:738:35: warning: switch condition has type bool [-Wswitch-bool]
+ switch(chaser_way[chaser_selected])
+                                   ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp: In function 'void dixiemes_de_secondes()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:510:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(index_patch_window)
+                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp: In function 'void ticker_full_loop()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:584:26: warning: switch condition has type bool [-Wswitch-bool]
+ switch(im_moving_a_window)
+                          ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp: In function 'int _mangled_main()':
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:1141:26: warning: switch condition has type bool [-Wswitch-bool]
+  switch(index_art_polling)
+                          ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_CORE.cpp:47:0,
+                 from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:142:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h: At global scope:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:190:12: warning: 'int midi_backend_send(int, int, int, int)' defined but not used [-Wunused-function]
+ static int midi_backend_send(int type, int channel, int pitch, int velocity)
+            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:234:12: warning: 'int midi_backend_get_device_count_out()' defined but not used [-Wunused-function]
+ static int midi_backend_get_device_count_out()
+            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:240:20: warning: 'std::string midi_backend_get_device_name_in(int)' defined but not used [-Wunused-function]
+ static std::string midi_backend_get_device_name_in(int index)
+                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:251:20: warning: 'std::string midi_backend_get_device_name_out(int)' defined but not used [-Wunused-function]
+ static std::string midi_backend_get_device_name_out(int index)
+                    ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:266:12: warning: 'int midi_backend_open_device_in(int)' defined but not used [-Wunused-function]
+ static int midi_backend_open_device_in(int index)
+            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:280:12: warning: 'int midi_backend_open_device_out(int)' defined but not used [-Wunused-function]
+ static int midi_backend_open_device_out(int index)
+            ^
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_backend.h:297:12: warning: 'int midi_backend_send_system(unsigned char)' defined but not used [-Wunused-function]
+ static int midi_backend_send_system(unsigned char status)
+            ^
+In file included from D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src\MAIN_janv_2014_opensource_kbd.cpp:228:0:
+D:\nextCloud\ARPSCHUINO_PARTAGE\codes\whitecat_crossplateform\Src/midi_13.cpp:3644:13: warning: 'void process_midi_message()' defined but not used [-Wunused-function]
+ static void process_midi_message()
+             ^

@@ -1140,14 +1140,15 @@ if(arduino_device_0_is_ignited==1 &&  ticks_arduino!= old_ticks_arduino
 
  switch(index_art_polling)
  {
-    case 0:
-    main_actions_on_screen();
-    break;
-    case 1:
+   case 0:
+      process_midi_input();
+      main_actions_on_screen();
+      break;
+   case 1:
       if((bytesreceived = recvfrom(sock,artpollreply_message,sizeof(artpollreply_message),0,(SOCKADDR*)&sinS,&sinsize)!=0))
       {      AnalyseArtPollReply();      }
       Procedure("Art-Net Polling","Please wait 3 seconds, polling network ...");
-    break;
+      break;
    }
 //DEBUG
 sprintf(string_debug,"%d",index_decay_tracker);
