@@ -155,6 +155,8 @@ static int midi_backend_init()
 static int midi_backend_close()
 {
     if (rtmidi_in) {
+        rtmidi_in->cancelCallback();
+        Sleep(100); // laisse le temps au thread de se terminer
         rtmidi_in->closePort();
         delete rtmidi_in;
         rtmidi_in = NULL;

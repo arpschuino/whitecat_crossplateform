@@ -554,62 +554,67 @@ END_OF_FUNCTION(dixiemes_de_secondes);
 
 
 ///////////////FULL LOOP FUNCTION/////////////////////////////////////////////
-int ticker_full_loop_rate = BPS_TO_TIMER(10000);
+int ticker_full_loop_rate = BPS_TO_TIMER(1000);
 void ticker_full_loop()
 {
 
-if(core_do_calculations[2]==1 && starting_wcat==0)
-{
+   if(core_do_calculations[2]==1 && starting_wcat==0)
+   {
 
-for (int i=0;i<core_user_define_nb_bangers;i++)
-{
-//Mise en oeuvre de la boucle
-do_loop_bang(i);
-do_bang(i);
-}
-sound_core_processing();
-}
-
-if(mouse_button==1 && mouse_released==0)
-{
-switch(im_moving_a_window)
-{
-case 0:
-check_graphics_mouse_handling();
-break;
-case 1:
-move_window(window_focus_id);
-break;
-}
-}
-if(index_quit==0 && index_is_saving==0)
-{
-
-
- if (enable_iCat==1 && iCat_serveur_is_initialized==1 && do_send_icat_init_page==0)
+      for (int i=0;i<core_user_define_nb_bangers;i++)
       {
+         //Mise en oeuvre de la boucle
+         do_loop_bang(i);
+         do_bang(i);
+      }
+      sound_core_processing();
+   }
+
+   if(mouse_button==1 && mouse_released==0)
+   {
+      switch(im_moving_a_window)
+      {
+         case 0:
+         check_graphics_mouse_handling();
+         break;
+         case 1:
+         move_window(window_focus_id);
+         break;
+      }
+   }
+   if(index_quit==0 && index_is_saving==0)
+   {
+
+
+   if (enable_iCat==1 && iCat_serveur_is_initialized==1 && do_send_icat_init_page==0)
+   {
       bytesreceivediCat=recvfrom(sockRiCat,fantastick_message,sizeof(fantastick_message),0,(SOCKADDR*)&sinServiCat,&sinsizeServiCat);
       if(bytesreceivediCat>0 && (fantastick_message[0]!='I' &&  fantastick_message[1] !='P'))//caractere d arret
       {
-      fantastick_message[bytesreceivediCat]='\0';
+         fantastick_message[bytesreceivediCat]='\0';
       }
       ReceiveFantastick();
       DoJobFantastickTouch();
       Fantastick_check_string();
 
       if(refresh_icatpage_please==1){load_iCat_page ( iCatPageis);do_send_icat_init_page=1; refresh_icatpage_please=0;      }
-      }
+   }
 
 
- if(allow_artnet_in==1 && artnet_serveur_is_initialized==1 )
-      {
+   if(allow_artnet_in==1 && artnet_serveur_is_initialized==1 )
+   {
       if((bytesreceived=recvfrom(sock,artnet_message,sizeof(artnet_message),0,(SOCKADDR*)&sinServ,&sinsizeServ)>0))
-      {receiving_bytes=1;ReceiveArtDmx();}
-      else {receiving_bytes=0;}
+      {
+         receiving_bytes=1;ReceiveArtDmx();
       }
-commandes_clavier();
-DoMouseLevel();
-}
+      else 
+      {
+         receiving_bytes=0;
+      }
+   }
+   commandes_clavier();
+   DoMouseLevel();
+   }
 }
 END_OF_FUNCTION(ticker_full_loop);
 
@@ -1107,62 +1112,57 @@ starting_wcat=0;
 
 while(index_quit!=1)
 {
+   MemoiresExistantes[0]=1;
+   show_im_recording_a_time=0;// met à zéro l'affichage du stock visuel du time
+
+   //must be in main loop to avoid freezing
+   if(arduino_device_0_is_ignited==1 &&  ticks_arduino!= old_ticks_arduino
+   && index_is_saving==0 && init_done==1 && index_writing_curve==0 &&  index_quit==0)
+   {
 
 
-MemoiresExistantes[0]=1;
-show_im_recording_a_time=0;// met à zéro l'affichage du stock visuel du time
+      arduino_merge_and_do_data_out();
+      arduino_read();//doit etre posé après data out
+      serial0.Flush();
 
-//must be in main loop to avoid freezing
-if(arduino_device_0_is_ignited==1 &&  ticks_arduino!= old_ticks_arduino
-  && index_is_saving==0 && init_done==1 && index_writing_curve==0 &&  index_quit==0)
-{
+      old_ticks_arduino=ticks_arduino;
 
 
-    arduino_merge_and_do_data_out();
-    arduino_read();//doit etre posé après data out
-    serial0.Flush();
+      arduino_do_digital_in_whitecat();arduino_do_analog_in_whitecat();
 
-    old_ticks_arduino=ticks_arduino;
-
-
-    arduino_do_digital_in_whitecat();arduino_do_analog_in_whitecat();
-
-}
-
- switch(index_art_polling)
- {
-   case 0:
-      process_midi_input();
-      main_actions_on_screen();
-      break;
-   case 1:
-      if((bytesreceived = recvfrom(sock,artpollreply_message,sizeof(artpollreply_message),0,(SOCKADDR*)&sinS,&sinsize)!=0))
-      {      AnalyseArtPollReply();      }
-      Procedure("Art-Net Polling","Please wait 3 seconds, polling network ...");
-      break;
    }
-//DEBUG
-sprintf(string_debug,"%d",index_decay_tracker);
 
-if(there_is_change_on_show_save_state==1)
-{
-check_save_load_report_window();
-there_is_change_on_show_save_state=0;
-}
+   switch(index_art_polling)
+   {
+      case 0:
+         process_midi_input();
+         main_actions_on_screen();
+         rest(10);
+         break;
+      case 1:
+         if((bytesreceived = recvfrom(sock,artpollreply_message,sizeof(artpollreply_message),0,(SOCKADDR*)&sinS,&sinsize)!=0))
+         {      AnalyseArtPollReply();      }
+         Procedure("Art-Net Polling","Please wait 3 seconds, polling network ...");
+         break;
+   }
+   //DEBUG
+   sprintf(string_debug,"%d",index_decay_tracker);
+
+   if(there_is_change_on_show_save_state==1)
+   {
+   check_save_load_report_window();
+   there_is_change_on_show_save_state=0;
+   }
 
 
-Canvas::Refresh();
-//19/12/14 bazookat ignition
+   Canvas::Refresh();
+   //19/12/14 bazookat ignition
 
 
+   if(index_do_a_screen_capture==1){do_a_screen_capture();index_do_a_screen_capture=0;}
+   if(index_do_a_plot_screen_capture==1 ){do_plot_screen_capture(plot_name_of_capture);index_do_a_plot_screen_capture=0;}
 
-
-
-
-
-if(index_do_a_screen_capture==1){do_a_screen_capture();index_do_a_screen_capture=0;}
-if(index_do_a_plot_screen_capture==1 ){do_plot_screen_capture(plot_name_of_capture);index_do_a_plot_screen_capture=0;}
-
+   rest(5); // limite le CPU - 5ms de pause par cycle
 }
 
 entered_main=0;
@@ -1208,9 +1208,19 @@ Save_setup_conf();
 
 }
 destroy_bitmap(bmp_buffer_trichro);
-
+remove_int(ticker_full_loop);
+remove_int(ticker);
+remove_int(ticker_dmxIn);
+remove_int(ticker_artnet);
+remove_int(ticker_arduino);
+remove_int(dixiemes_de_secondes);
+remove_int(ticker_midi_clock);
 remove_timer();
 WSACleanup ();//liberation librairie socket
+midi_backend_close();
+Sleep(200);
+WSACleanup();
+exit(0);
 return 0;
 }
 END_OF_MAIN()
