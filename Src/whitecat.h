@@ -717,7 +717,7 @@ bool index_midi_mute=0;
 bool index_auto_mute_cuelist_speed=0;
 int index_midi_auto_desaffect=0;
 short		myRefNum; // application reference number
-MidiFilterPtr	myFilter; // events filter
+//MidiFilterPtr	myFilter; // events filter
 //MidiName AppliName = "white cat";
 bool index_midi_clock_on=0;
 

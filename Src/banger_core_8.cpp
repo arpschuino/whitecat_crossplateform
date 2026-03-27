@@ -2204,15 +2204,15 @@ switch(bangers_action[banger_num][event_num])
      }
      break;
      case 27:
-     midi_send_type_message(typeStart);
+     midi_backend_send_system(MIDI_START);
      sprintf(string_event,"Midi Msg START");
      break;
      case 28:
-     midi_send_type_message(typeStop);
+     midi_backend_send_system(MIDI_STOP);
      sprintf(string_event,"Midi Msg STOP");
      break;
      case 29:
-     midi_send_type_message(typeContinue);
+     midi_backend_send_system(MIDI_CONTINUE);
      sprintf(string_event,"Midi Msg CONTINUE");
      break;
      default:

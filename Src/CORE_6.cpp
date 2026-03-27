@@ -40,7 +40,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Global fonctions for the core of whitecat
 *
  **/
-
+#include <cstdio>
 
 int reset_numeric_entry()
 {
@@ -3565,69 +3565,30 @@ int load_Fader_state_to_midi_array()
 }
 
 
-int send_my_midi_note( int letype,  int lechannel, int lanote, int lavelocite, int laduree)
+int send_my_midi_note(int letype, int lechannel, int lanote, int lavelocite, int laduree)
 {
-    MidiEvPtr eMid;
-    if ((eMid = MidiNewEv(letype)))
-    {
-        Port(eMid) = 0;
-        Chan(eMid) = lechannel;
-        Pitch(eMid)= lanote;
-        Vel(eMid)  = lavelocite;
-        Dur(eMid)= laduree;
-        MidiSendIm(myRefNum, eMid);
-
-    }
+    midi_backend_send(letype, lechannel, lanote, lavelocite);
     return(0);
 }
 
-int send_my_midi_note_delayed( int letype,  int lechannel, int lanote, int lavelocite, int laduree, int delay)
+int send_my_midi_note_delayed(int letype, int lechannel, int lanote, int lavelocite, int laduree, int delay)
 {
-    MidiEvPtr eMid;
-    long  dt = MidiGetTime();
-    if ((eMid = MidiNewEv(letype)))
-    {
-        Port(eMid) = 0;
-        Chan(eMid) = lechannel;
-        Pitch(eMid)= lanote;
-        Vel(eMid)  = lavelocite;
-        Dur(eMid)= laduree;
-        MidiSendAt(myRefNum, MidiCopyEv(eMid), dt+delay);
-
-    }
+    Sleep(delay);
+    midi_backend_send(letype, lechannel, lanote, lavelocite);
     return(0);
 }
 
-
-int send_immidiateley_my_midi_cc( int letype,  int lechannel, int lanote, int lavelocite)
+int send_immidiateley_my_midi_cc(int letype, int lechannel, int lanote, int lavelocite)
 {
-    MidiEvPtr eIMid;
-
-    if ((eIMid = MidiNewEv(letype)))
-    {
-        Port(eIMid) = 0;
-        Chan(eIMid) = lechannel;
-        Pitch(eIMid)= lanote;
-        Vel(eIMid)  = lavelocite;
-        //Dur(eIMid)= 10;
-        MidiSendIm(myRefNum, eIMid);
-    }
-
+    midi_backend_send(letype, lechannel, lanote, lavelocite);
     return(0);
 }
 
 int midi_send_type_message(int msgmidi)
 {
-     MidiEvPtr eIMid;
-        if ((eIMid = MidiNewEv(msgmidi)))
-        {
-        Port(eIMid) = 0;
-        /*Chan(eIMid) = 0;
-        Pitch(eIMid)= 0;
-        Vel(eIMid)  = 0;*/
-        MidiSendIm(myRefNum, eIMid);
-        }
-  return(0);
+    // Start/Stop/Continue sont geres par midi_backend_send_system()
+    // Cette fonction est gardee pour compatibilite
+    return(0);
 }
 
 int emit_midi_out()

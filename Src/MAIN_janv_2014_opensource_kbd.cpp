@@ -58,6 +58,8 @@ WWWWWWWW           C  WWWWWWWW   |
 #include <vector>
 
 #include <SmoothData.cpp>
+
+#include "midi_backend.h"
 //création du damper sur les faders
 std::vector<SmoothData> Fader_dampered(48);
 
@@ -95,7 +97,7 @@ template <class T> const T& Tmax ( const T& a, const T& b ) {
 }
 
 #include <hpdf.h>
-#include <MidiShare.h>
+//#include <MidiShare.h>
 #include <whitecat.h>
 
 volatile int ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
@@ -113,20 +115,9 @@ So, each MIDI Clock is sent at a rate of 60,000,000/(24 * BPM) microseconds).
 void ticker_midi_clock()
 {
 
-     if(index_midi_clock_on==1)
+if(index_midi_clock_on==1)
     {
-    MidiEvPtr eMid;
-    //long  dt = MidiGetTime();
-    if ((eMid = MidiNewEv(typeClock)))
-    {
-        Port(eMid) = 0;
-        Chan(eMid) = 0;
-        Pitch(eMid)= 0;
-        Vel(eMid)  = 0;
-        Dur(eMid)= 0;
-        MidiSendAt(myRefNum, MidiCopyEv(eMid), 0);
-
-    }
+    midi_backend_send_system(0xF8); // MIDI Clock
     }
 }
 END_OF_FUNCTION(ticker_midi_clock);
