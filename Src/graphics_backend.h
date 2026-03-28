@@ -1345,6 +1345,13 @@ namespace Canvas {
         if (!wc_sdl_renderer) return;
         wc_process_events();       // Pomper les evenements SDL / Pump SDL events
         SDL_RenderPresent(wc_sdl_renderer);
+        // Cap at ~60 fps to avoid GPU spinlock when vsync is unavailable.
+        // SDL_RenderPresent blocks on vsync if available; this is the fallback.
+        static Uint32 last_frame = 0;
+        Uint32 now = SDL_GetTicks();
+        Uint32 elapsed = now - last_frame;
+        if (elapsed < 16) SDL_Delay(16 - elapsed);
+        last_frame = SDL_GetTicks();
     }
 
     // Clipping region / Zone de clip
@@ -1437,12 +1444,17 @@ namespace Setup {
             exit(-1);
         }
 
+        // Try hardware + vsync first
         wc_sdl_renderer = SDL_CreateRenderer(
             wc_sdl_window, -1,
             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
         );
         if (!wc_sdl_renderer) {
-            // Fallback soft renderer
+            // Try hardware without vsync (vsync enforced manually in Refresh)
+            wc_sdl_renderer = SDL_CreateRenderer(wc_sdl_window, -1, SDL_RENDERER_ACCELERATED);
+        }
+        if (!wc_sdl_renderer) {
+            // Last resort: software renderer
             wc_sdl_renderer = SDL_CreateRenderer(wc_sdl_window, -1, SDL_RENDERER_SOFTWARE);
         }
         if (!wc_sdl_renderer) {
