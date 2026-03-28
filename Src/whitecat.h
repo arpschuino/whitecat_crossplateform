@@ -405,7 +405,7 @@ bool index_level_attribue=0;//pour deselection lors d une resaisie nouvelle
 
 bool index_affect_color_to_dock=0;
 int dock_color_selected=0;
-BITMAP *bmp_buffer_trichro;
+SDL_Surface *bmp_buffer_trichro;
 char string_dock_col_sel[36];
 //////////////////////MEMOIRES//////////////////////////////////////////////////
 int mem_to_resurrect=0;

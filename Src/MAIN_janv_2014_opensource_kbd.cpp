@@ -43,18 +43,14 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 //pour whitecat solo
-#include <allegro.h>
-#include <winalleg.h>
-#include <OpenLayer.hpp>
-
+// --- Migration SDL2 (2026) : Allegro4 + OpenLayer + Audiere → SDL2 ---
+#include "graphics_backend.h"   // remplace allegro.h + winalleg.h + OpenLayer.hpp
+#include "audio_backend.h"      // remplace audiere.h
 
 #include <stdio.h>
-#include <loadpng.h>
 #include <assert.h>
 #include <Iphlpapi.h>
-#include <audiere.h>
 
-#include <jpgalleg.h>
 #include <vector>
 
 #include <SmoothData.cpp>
@@ -789,7 +785,7 @@ int main_actions_on_screen()
 }
 
 
-int main() {
+int main(int /*argc*/, char** /*argv*/) {
 GetModuleFileName(NULL, mondirectory, 512);
 // Enlever le nom de l'exe pour garder seulement le dossier
 for(int i=strlen(mondirectory)-1; i>=0; i--) {
