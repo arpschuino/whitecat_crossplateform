@@ -4,7 +4,7 @@
         {
             "label": "Build WhiteCat",
             "type": "shell",
-            "command": "D:/nextCloud/ARPSCHUINO_PARTAGE/codes/whitecat_crossplateform/build.bat",
+            "command": "${workspaceFolder}/build.bat",
             "options": {
                 "shell": {
                     "executable": "cmd.exe",
