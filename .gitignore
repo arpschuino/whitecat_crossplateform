@@ -238,3 +238,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# compilateur portable (ne pas commiter les binaires)
+tools/
