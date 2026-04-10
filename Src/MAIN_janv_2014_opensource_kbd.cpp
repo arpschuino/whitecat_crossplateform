@@ -551,7 +551,7 @@ END_OF_FUNCTION(dixiemes_de_secondes);
 
 
 ///////////////FULL LOOP FUNCTION/////////////////////////////////////////////
-int ticker_full_loop_rate = BPS_TO_TIMER(100); // 10ms - was 1ms (1000Hz), overkill under SDL threading
+int ticker_full_loop_rate = BPS_TO_TIMER(50); // 20ms - 50Hz, sufficient for keyboard/mouse/network
 void ticker_full_loop()
 {
 

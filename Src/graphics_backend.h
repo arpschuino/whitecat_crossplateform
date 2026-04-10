@@ -782,6 +782,8 @@ static inline int set_display_switch_mode(int) { return 0; }
 // Traitement des evenements SDL (appele dans Canvas::Refresh)
 // SDL event processing (called inside Canvas::Refresh)
 // ============================================================
+static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier
+
 static void wc_process_events() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -792,6 +794,7 @@ static void wc_process_events() {
             break;
 
         case SDL_MOUSEMOTION: {
+            wc_last_input_ms = SDL_GetTicks();
             int mx = e.motion.x;
             int my = e.motion.y;
             // Respect mouse range
@@ -806,6 +809,7 @@ static void wc_process_events() {
         }
 
         case SDL_MOUSEBUTTONDOWN:
+            wc_last_input_ms = SDL_GetTicks();
             mouse_x = e.button.x;
             mouse_y = e.button.y;
             if (e.button.button == SDL_BUTTON_LEFT)  mouse_b |= 1;
@@ -834,11 +838,13 @@ static void wc_process_events() {
             break;
 
         case SDL_MOUSEWHEEL:
+            wc_last_input_ms = SDL_GetTicks();
             mouse_z += e.wheel.y;
             position_mouse_z += e.wheel.y;
             break;
 
         case SDL_KEYDOWN: {
+            wc_last_input_ms = SDL_GetTicks();
             SDL_Keymod mod = SDL_GetModState();
             key_shifts = 0;
             if (mod & KMOD_SHIFT)   key_shifts |= KB_SHIFT_FLAG;
@@ -1409,12 +1415,14 @@ namespace Canvas {
         if (!wc_sdl_renderer) return;
         wc_process_events();       // Pomper les evenements SDL / Pump SDL events
         SDL_RenderPresent(wc_sdl_renderer);
-        // Cap at ~60 fps to avoid GPU spinlock when vsync is unavailable.
-        // SDL_RenderPresent blocks on vsync if available; this is the fallback.
+        // Adaptive frame cap:
+        //   active (input in last 500ms) → ~30fps (33ms)
+        //   idle                         → ~5fps (200ms) — saves CPU when console untouched
         static Uint32 last_frame = 0;
         Uint32 now = SDL_GetTicks();
         Uint32 elapsed = now - last_frame;
-        if (elapsed < 16) SDL_Delay(16 - elapsed);
+        Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 33 : 200;
+        if (elapsed < cap_ms) SDL_Delay(cap_ms - elapsed);
         last_frame = SDL_GetTicks();
     }
 
@@ -1528,6 +1536,7 @@ namespace Setup {
         }
 
         SDL_SetRenderDrawBlendMode(wc_sdl_renderer, SDL_BLENDMODE_BLEND);
+
 
         // Etendre la plage souris a la taille de la fenetre
         wc_mouse_range_x2 = w - 1;
