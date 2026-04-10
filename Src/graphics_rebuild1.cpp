@@ -43,46 +43,28 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int RetourInfos(int x_info,int y_info)
 {
-#define RL(msg) { FILE* _d=fopen(WC_LOG_FILE,"a"); if(_d){fprintf(_d,"RI: " msg "\n");fclose(_d);} }
-    RL("start")
     neuro.Print(string_numeric_entry,x_info,y_info+15);
-    RL("petitchiffre 1")
     petitchiffre.Print(string_last_ch,x_info,y_info+30);
-    RL("petitchiffre 2")
     petitchiffre.Print(string_last_copy_mem,x_info+170,y_info+30);
-    RL("VisuHue")
     Rect VisuHue(Vec2D(x_info+290,y_info+15),Vec2D(30,20));
     Rgba CouleurPreviewHue(r_pick,v_pick,b_pick,255);
     VisuHue.Draw(CouleurPreviewHue);
-    RL("VisuChroma")
     Rgba CouleurPreviewChroma(my_red,my_green,my_blue,255);
     Rect VisuChroma(Vec2D(x_info+325,y_info+15),Vec2D(30,20));
     VisuChroma.Draw(CouleurPreviewChroma);
-    RL("petitpetitchiffre dock")
     petitpetitchiffre.Print(string_dock_col_sel,x_info+293,y_info+30);
-    RL("secondary feedback")
     petitchiffre.Print(string_secondary_feeback,x_info,y_info+45);
-    RL("dmx params")
     petitchiffrerouge.Print(string_display_dmx_params,x_info,y_info+60);
-    RL("midi in")
     petitchiffre.Print(">>MIDI IN:",x_info, y_info+75);
     petitchiffre.Print(my_midi_string,x_info+70, y_info+75);
-    RL("time")
     petitchiffre.Print("Time Is:",x_info,y_info+90);
     petitchiffre.Print(tmp_time,x_info+60,y_info+90);
     sprintf(visu_chrono_str,"Chrono: %d..%d.%d",time_minutes,time_secondes, time_centiemes);
     petitchiffre.Print(visu_chrono_str,x_info+170,y_info+90);
-    RL("last order")
     petitchiffrerouge.Print(string_Last_Order,x_info, y_info+105);
-    RL("diodes_artnet")
     diodes_artnet(x_info,y_info+120);
-    RL("light_temoin")
     if(index_do_light_diode_artnet==1){light_temoin_universe(incoming_universe,x_info,y_info+120);index_do_light_diode_artnet=0;}
     if((myDMXinterfaceis==1 && index_init_dmx_ok==1) || index_artnet_doubledmx==1){light_temoin_emission(Univers,x_info,y_info+120);}
-    RL("done")
-    { FILE* _c=fopen("wc_chk.txt","a"); if(_c){fprintf(_c,"after-done\n");fclose(_c);} }
-#undef RL
-    { FILE* _c=fopen("wc_chk.txt","a"); if(_c){fprintf(_c,"before-return\n");fclose(_c);} }
     return(0);
 }
 
@@ -102,13 +84,10 @@ if(window_opened[i]>0 && window_opened[i]<max_window_identity_is){petitpetitchif
 
 int Boxes()
 {
-#define BL(msg) { FILE* _b=fopen(WC_LOG_FILE,"a"); if(_b){fprintf(_b,"B:" msg "\n");fclose(_b);} }
-BL("ChannelScroller")
 ChannelScroller(ChScrollX, ChScrollY);
 if(ClassicalChannelView ==1)
 {
 Canvas::SetClipping(0,ChannelYMenu+hauteur_ChannelMenu,largeur_ecran,hauteur_ecran);
-BL("ClassicalChannelSpace")
 ClassicalChannelSpace(XChannels, YChannels,  scroll_channelspace);
 Canvas::DisableClipping();
 }
@@ -130,11 +109,8 @@ pos_y_vision+=((channel_number_of_lines[i])* (70))+ hauteur_preset_titre;
 Canvas::DisableClipping();
 }
 
-BL("RetourInfos")
 RetourInfos(680,40);
-BL("grand_master")
 grand_master(1050, 55);//x y largeur
-BL("show_windows_list_id")
 show_windows_list_id(1100, 50);//debug windows
 petitchiffre.Print(versionis,680,195);
 petitchiffre.Print(nickname_version,680,205);
@@ -161,11 +137,9 @@ False.Draw(CouleurBlind.WithAlpha(index_false_control*alpha_blinker));
 False.DrawOutline(CouleurLigne.WithAlpha(0.5));
 petitchiffre.Print("F-Ctrl",980,277);
 
-BL("windows_loop")
 //////////////AFFICHAGES CONDITIONNES//////////////////////////////////////////////
 for (int f=63;f>=0;f--)
 {
-     if(window_opened[f]!=0){ FILE* _b=fopen(WC_LOG_FILE,"a"); if(_b){fprintf(_b,"B:win f=%d v=%d\n",f,window_opened[f]);fclose(_b);} }
      switch (window_opened[f])
      {
         case W_SAVEREPORT:
@@ -284,11 +258,7 @@ for (int f=63;f>=0;f--)
         break;
       }
    }
-BL("after_loop")
-
-BL("ChannelsMenuSelection")
 ChannelsMenuSelection(ChannelXMenu,ChannelYMenu);//menu par dessus
-BL("end")
 
 //over windows if text
 if(numeric_postext>0 || index_type==1)
@@ -306,7 +276,6 @@ neuro.Print(string_numeric_entry,680,55);//input chaine clavier numerique
 }
 /////////////////////////////////
 
-#undef BL
 return(0);
 
 }

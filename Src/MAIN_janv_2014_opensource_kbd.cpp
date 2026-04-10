@@ -906,17 +906,11 @@ if(dbg){fprintf(dbg,"After Load_Video_Conf\n");fclose(dbg);}
 dbg = fopen(WC_LOG_FILE,"a");
 if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
 
-#define DLOG(msg) { FILE* _d=fopen(WC_LOG_FILE,"a"); if(_d){fprintf(_d,msg "\n");fclose(_d);} }
-
-   DLOG("Before sprintf string_last_ch")
    sprintf(string_last_ch,"Last Ch. selected: %d", last_ch_selected);
    sprintf(string_Last_Order,">> This is Last Order");
 
-  DLOG("Before save_load_print Loading setup conf")
   save_load_print_to_screen("Loading setup conf");
-  DLOG("Before Load_setup_conf 2")
  Load_setup_conf(); //avant tout sinon, le cfg ecrit ailleurs et ca fout la zone
-  DLOG("Before save_load_print Init Arrays")
  save_load_print_to_screen("Init Arrays");
 
 //sauvegarde chargement, en tout dernier
@@ -925,35 +919,25 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
  specify_who_to_save_load[r]=1;
  }
 
-  DLOG("Before GlobInit 2")
  GlobInit();//rajout version 0.8.2.3
-  DLOG("Before reset_all_bangers")
 //reset des bangs
  reset_all_bangers();
-  DLOG("Before generation_Tableau")
  generation_Tableau_noms_clavier_FR() ;
 // generation_Tableau_noms_fonctions() ;
-  DLOG("Before InitMidi 2")
  save_load_print_to_screen("Init Midi");
  InitMidi();//init avant les appels de fichiers
  midi_init_sepecial_case_key_on();//pour régler pb de cle flashs et key on key off
-  DLOG("Before load_onstart_config")
  ////////////////////////////////////////////////////////////
 
  load_onstart_config();
-  DLOG("Before load_core_config")
  load_core_config();
-  DLOG("Before load_dmx_conf 2")
   ///////////////////////////////////////////////////////
  save_load_print_to_screen("Loading Dmx conf");
  load_dmx_conf();
-  DLOG("Before load_artnet_conf 2")
  save_load_print_to_screen("Loading Art-net conf");
  load_artnet_conf();
 
-  DLOG("Before detection_mise_en_place_carte_reseaux")
  detection_mise_en_place_carte_reseaux();
- DLOG("After detection_mise_en_place_carte_reseaux")
  //opening double dmx conf
  if(index_artnet_doubledmx==1)
  {
@@ -965,16 +949,12 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
          ArtDmx();
  save_load_print_to_screen("Double DMX Art-net ON");
  }
- DLOG("Before load_network_conf")
  load_network_conf();//icat
- DLOG("Before load_show_coming_from")
  save_load_print_to_screen("Loading Art-netnetwork conf");
  sprintf(tmp_ip_artnet,ip_artnet);
  load_show_coming_from();
  idf++;
- DLOG("Before On_Open_name_of_directory")
  On_Open_name_of_directory();
- DLOG("Before InitSound")
  save_load_print_to_screen("Loading Gels List");
  //load_gel_list_numerical();
  idf++;
@@ -982,19 +962,14 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
  Canvas::Refresh();
  save_load_print_to_screen("Init Sound");
  InitSound();
- DLOG("Before Load_Show")
  Load_Show();
- DLOG("After Load_Show")
  // Ferme toutes les fenetres au démarrage : évite crash dans rendu de fenetres mal initialisées
  memset(window_opened, 0, sizeof(window_opened));
  init_kbd_custom();
  save_load_print_to_screen("Init Keyboard");
  Show_report_save_load();
- DLOG("Before Init_dmx_interface")
  save_load_print_to_screen("Init Dmx");
  Init_dmx_interface();
- DLOG("After Init_dmx_interface")
- DLOG("Before scan_importfolder")
 
  if(camera_on_open==1)
  {
@@ -1009,7 +984,6 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
 
 scan_importfolder("");
 scan_savesfolder();
-DLOG("Before open_arduino_on_open check")
 
 if( open_arduino_on_open==1)
 {
@@ -1017,37 +991,29 @@ save_load_print_to_screen("Init Arduino");
 arduino_init(0);
 }
 
-DLOG("Before prepare_move_values")
 prepare_move_values(dock_move_selected);//prepa
 Prepare_Cross_Spline(dock_move_selected);
-DLOG("Before Init Backamnesia")
 save_load_print_to_screen("Init Backamnesia");
  if(set_display_switch_mode(SWITCH_BACKGROUND))
  {set_display_switch_mode(SWITCH_BACKAMNESIA);}
-DLOG("After Init Backamnesia")
 init_done=1;
 if(there_is_an_error_on_save_load==1){index_show_save_load_report=1;there_is_change_on_show_save_state=1;    }
 
  mouse_released=0;
  entered_main=1;
 //launchpad séparé
-DLOG("Before reset_launchpad")
 if(enable_launchpad==1)
 {reset_launchpad();}
 
-DLOG("Before init_artnet_variables")
  init_artnet_variables();
-DLOG("Before initialisation_serveur_artnet")
 //serveur
     if(allow_artnet_in==1 && artnet_serveur_is_initialized==0)
       {
 	initialisation_serveur_artnet();
      }
-DLOG("Before init_iphone_fonts")
  init_iphone_fonts();
  if (enable_iCat==1)
  {
- DLOG("Before iCat init")
  initialisation_clientserveur_iCat();
 
  nbrbytessendediCat=sendto(sockiCat, "opengl 1",sizeof("opengl 1"),0,(SOCKADDR*)&siniCat,sinsizeiCat);
@@ -1059,18 +1025,13 @@ DLOG("Before init_iphone_fonts")
  }
 
 
-DLOG("Before create_bitmap")
 bmp_buffer_trichro= create_bitmap(315,550);
 clear_bitmap(bmp_buffer_trichro);
-DLOG("Before rafraichissement")
 rafraichissement_padwheel();
 rafraichissement_clockwheel();
-DLOG("Before recalculate_draw_sizes")
 recalculate_draw_sizes(draw_preset_selected);
-DLOG("Before bang_is_sended")
 //init du flash de bang en cours
 bang_is_sended[index_banger_selected]=1;
-DLOG("Before starting_wcat=1 / audio init")
 rest(100);
 starting_wcat=1;
 for(int i=0;i<4;i++)
@@ -1083,9 +1044,6 @@ for(int i=0;i<4;i++)
  }
 rest(10);
 }
-DLOG("After audio init")
-DLOG("Before player position restore")
-
 if(index_loading_a_sound_file!=0)
 {
 for(int i=0;i<4;i++)
@@ -1116,7 +1074,6 @@ for(int i=0;i<4;i++)
 }
 
 
-DLOG("Before reset_temp_state")
 reset_temp_state_for_channel_macros_launch();//christoph 18/12/14 pour intialisation au démarrage de wcat des channels macros
 
 starting_wcat=0;
@@ -1132,12 +1089,9 @@ signal(SIGABRT, sigabrt_handler);
     fprintf(_d,"=== END MAP ===\n");
     fclose(_d);
 }}
-DLOG("Entering main loop")
-static int first_frame = 1;
 try {
 while(index_quit!=1)
 {
-   if(first_frame) { DLOG("First frame start") first_frame=0; }
    MemoiresExistantes[0]=1;
    show_im_recording_a_time=0;// met à zéro l'affichage du stock visuel du time
 
