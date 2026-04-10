@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Gère les fonction GUI de l'affichage des channels dmx
+*   Gï¿½re les fonction GUI de l'affichage des channels dmx
 *
 *   GUI fonctions for the dmx channels
 *
@@ -141,11 +141,11 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
     {
         if (l==42)
         {
-            maxchan_per_ligne=9;   //derniere ligne à 512
+            maxchan_per_ligne=9;   //derniere ligne ï¿½ 512
         }
 
-//on affiche et actionne que si les données
-//sont dans la fenetre de l espace circuit cad si la ligne et son incréments sont inferieurs au y de l espace fader // AFFICHAGE ONLY SELECTION PLUS BAS
+//on affiche et actionne que si les donnï¿½es
+//sont dans la fenetre de l espace circuit cad si la ligne et son incrï¿½ments sont inferieurs au y de l espace fader // AFFICHAGE ONLY SELECTION PLUS BAS
         if
         (
             (index_show_faders==0 && ((((ychan*l)+ 40 - (int)((float)(scroll)* Ch_Scroll_Factor))>0)&&(((ychan*l) + 60 - (int)((float)(scroll)* Ch_Scroll_Factor))<hauteur_ecran)))
@@ -192,7 +192,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     }
 
 //BLIND
-                    switch(index_blind)//differencec avec mem enregistrée
+                    switch(index_blind)//differencec avec mem enregistrï¿½e
                     {
                     case 0:
                         if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
@@ -201,7 +201,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         }
                         break;
                     case 1:
-//difference avec mem enregistrée
+//difference avec mem enregistrï¿½e
                         if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
@@ -238,16 +238,16 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 
                     if(index_inspekt==1)
                     {
-//Affiche du dernier dock survolé
+//Affiche du dernier dock survolï¿½
                         if (show_who_is_in_FADER_DOCK[num_circ]==1 )
                         {
                             ChannelRect.DrawOutline(CouleurFader);
-//affichage du niveau du dock survolé
+//affichage du niveau du dock survolï¿½
                             LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+15,((ypos_l)+ 92 - ypos_ch)));
                             LevelOverdock.Draw(CouleurFader);
                         }
 //affichage du master  qui envoie le plus haut niveau au circuit
-                        if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 à 48 quand attribué
+                        if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 ï¿½ 48 quand attribuï¿½
                         {
                             petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),((ypos_l) + 72 - ypos_ch),CENTER);
                         }
@@ -410,7 +410,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     }
 
 
-//premier dimmer patché
+//premier dimmer patchï¿½
                     if(index_show_first_dim==1)
                     {
                         for(int llo=0; llo<4; llo++)
@@ -452,7 +452,7 @@ int Draw_Channel_Preset_Title(int xchan, int ychan, int prst_v)
     Rect Build(Vec2D(xchan+520,ychan),Vec2D(55,20));
     Build.SetRoundness(3);
 
-    if(prst_v!=0)//pas la vue patchée
+    if(prst_v!=0)//pas la vue patchï¿½e
     {
         Rect M(Vec2D(xchan+435,ychan),Vec2D(20,20));
         M.SetRoundness(3);
@@ -638,7 +638,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                     }
 
 //BLIND
-                    switch(index_blind)//differencec avec mem enregistrée
+                    switch(index_blind)//differencec avec mem enregistrï¿½e
                     {
                     case 0:
                         if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
@@ -647,7 +647,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         }
                         break;
                     case 1:
-//difference avec mem enregistrée
+//difference avec mem enregistrï¿½e
                         if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
@@ -684,16 +684,16 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
                     if(index_inspekt==1)
                     {
-//Affiche du dernier dock survolé
+//Affiche du dernier dock survolï¿½
                         if (show_who_is_in_FADER_DOCK[num_circ]==1 )
                         {
                             ChannelRect.DrawOutline(CouleurFader);
-//affichage du niveau du dock survolé
+//affichage du niveau du dock survolï¿½
                             LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+15, ypos_ch+52));
                             LevelOverdock.Draw(CouleurFader);
                         }
 //affichage du master  qui envoie le plus haut niveau au circuit
-                        if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 à 48 quand attribué
+                        if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 ï¿½ 48 quand attribuï¿½
                         {
                             petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),ypos_ch+32,CENTER);
                         }
@@ -855,7 +855,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         }
                     }
 
-//premier dimmer patché
+//premier dimmer patchï¿½
                     if(index_show_first_dim==1)
                     {
                         for(int llo=0; llo<4; llo++)
@@ -898,7 +898,6 @@ int ChannelsMenuSelection(int chx, int chy)
         show_type_midi(1644,"Classical Channel View");
     }
 
-
     Rect ChooseChannelView(Vec2D(chx+80,chy+5),Vec2D(10,10));
     char tmp_hain[24];
     for(int lv=0; lv<2; lv++)
@@ -917,7 +916,6 @@ int ChannelsMenuSelection(int chx, int chy)
             }
         }
     }
-
 
     command_button_view(chx+270,chy+1,index_blind,"BLIND","Shift-F10",754);// int x, inty ,bool state, char *textedesc, int midiaffectation
     switch(multiple_direct_chan)
@@ -956,10 +954,9 @@ int ChannelsMenuSelection(int chx, int chy)
     default:
         break;
     }
-    command_button_view(chx+690,chy+1,index_midi_mute,"MidiMute","",1277);// int x, inty ,bool state, char *textedesc, int midiaffectation
-    command_button_view(chx+760,chy+1,index_global_midi_send_on_faders,"M.Out Fad.","",1593);// int x, inty ,bool state, char *textedesc, int midiaffectation
-
-    command_button_view(chx+830,chy+1,index_do_dock,"STORE","F1",743);// int x, inty ,bool state, char *textedesc, int midiaffectation
+    command_button_view(chx+690,chy+1,index_midi_mute,"MidiMute","",1277);
+    command_button_view(chx+760,chy+1,index_global_midi_send_on_faders,"M.Out Fad.","",1593);
+    command_button_view(chx+830,chy+1,index_do_dock,"STORE","F1",743);
     command_button_view(chx+900,chy+1,index_do_modify,"MODIFY","F2",744);
     command_button_view(chx+970,chy+1,index_do_report,"REPORT","F3",745);
     command_button_view(chx+1040,chy+1,index_main_clear,"CLEAR","F4",746);

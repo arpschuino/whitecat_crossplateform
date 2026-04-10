@@ -41,7 +41,7 @@ exit /b 1
 if not exist "%OUT%" mkdir "%OUT%"
 echo [build] Compilation en cours...
 
-"%GCC%" -Wall -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -std=c++11 -g ^
+"%GCC%" -w -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -std=c++11 -g ^
  -I%SDL2%\include ^
  -I%WC%\lib\windows\Cserial ^
  -I%WC%\lib\windows\dashard ^

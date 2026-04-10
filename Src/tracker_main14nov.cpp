@@ -36,7 +36,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Je ne sais pas ce qu'est le tracker dans whitecat et il fait appel à un include de chat_dock_tracker_14nov2009.cpp, fhichier que je n'ai vu nul part
+*   Je ne sais pas ce qu'est le tracker dans whitecat et il fait appel ï¿½ un include de chat_dock_tracker_14nov2009.cpp, fhichier que je n'ai vu nul part
 *
 *   I don't know what is the tracker in whitecat sources
 *
@@ -253,8 +253,7 @@ sock=socket(AF_INET,SOCK_DGRAM,0); //On initialise le socket avec SOCK_DGRAM pou
 sprintf(string_Last_Order,"INIT socket");
  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &broadcast,
         sizeof broadcast) == -1) {
-        perror("\a\nsetsockopt (SO_BROADCAST)");
-        exit(1);
+        sprintf(string_Last_Order,">>Tracker: setsockopt SO_BROADCAST failed (non-fatal)");
     }
 
 bind(sock,(SOCKADDR*)&sin,sizeof(sin)); //Liaison entre la structure et la socket

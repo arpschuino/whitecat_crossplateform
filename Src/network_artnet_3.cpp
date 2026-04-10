@@ -258,6 +258,7 @@ for(int u=0;u<8;u++)
 sprintf(IP_detected_dmxOUT[u],"-");
 }
 
+if(phe == NULL) return(0);
 struct in_addr **addr_list;
 addr_list = (struct in_addr **)phe->h_addr_list;
 
@@ -289,14 +290,16 @@ int initialisation_serveur_artnet()
 	 memset(artnet_message,0,sizeof(artnet_message));
 	 gethostname(hostnamebuffer, sizeof(hostnamebuffer));
 	 phe = gethostbyname(hostnamebuffer);
+	 if(phe != NULL)
+	 {
 	  int Ipsearch = 0;
      while((phe->h_addr_list[Ipsearch+1])!=NULL)
      {
      Ipsearch++;
       }
      detection_reseaux();
-
 memcpy(&sinServ.sin_addr.s_addr, phe->h_addr_list[network_OUT_is_selected], phe->h_length);
+	 }
 
 artnet_serveur_is_initialized=1;
 return(0);
@@ -316,14 +319,15 @@ int detection_mise_en_place_carte_reseaux()
 {
 WSADATA wsa;
 WSAStartup(MAKEWORD(2,0),&wsa);
-//adresse locale et nom de machine
  gethostname(hostnamebuffer, sizeof(hostnamebuffer));
  phe = gethostbyname(hostnamebuffer);
-
+ if(phe != NULL)
+ {
  int Ipsearch = 0;
  while((phe->h_addr_list[Ipsearch+1])!=NULL)
  {
  Ipsearch++;
+ }
  }
  detection_reseaux();
 return(0);
@@ -376,8 +380,7 @@ if(index_broadcast==1)//init broadcast mode, sinon est en unicast
 {
  if (setsockopt(sockartnet, SOL_SOCKET, SO_BROADCAST, &broadcast,
         sizeof broadcast) == -1) {
-        perror("setsockopt (SO_BROADCAST)");
-        exit(1);
+        sprintf(string_Last_Order,">>ArtNet: setsockopt SO_BROADCAST failed (non-fatal)");
     }
 }
 

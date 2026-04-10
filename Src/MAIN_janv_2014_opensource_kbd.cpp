@@ -235,6 +235,7 @@ return(0);
 /////////////////TIMER POUR DATA ET REFRESH RATE////////////////////////////////
 void ticker_dmxIn() // nettoyage des ticker pour verifier stabilité
 {
+if(starting_wcat) return;
 Receive_DMX_IN();
 }
 END_OF_FUNCTION(ticker_dmxIn);
@@ -550,34 +551,21 @@ END_OF_FUNCTION(dixiemes_de_secondes);
 
 
 ///////////////FULL LOOP FUNCTION/////////////////////////////////////////////
-int ticker_full_loop_rate = BPS_TO_TIMER(1000);
+int ticker_full_loop_rate = BPS_TO_TIMER(100); // 10ms - was 1ms (1000Hz), overkill under SDL threading
 void ticker_full_loop()
 {
 
    if(core_do_calculations[2]==1 && starting_wcat==0)
    {
-
       for (int i=0;i<core_user_define_nb_bangers;i++)
       {
-         //Mise en oeuvre de la boucle
          do_loop_bang(i);
          do_bang(i);
       }
       sound_core_processing();
    }
 
-   if(mouse_button==1 && mouse_released==0)
-   {
-      switch(im_moving_a_window)
-      {
-         case 0:
-         check_graphics_mouse_handling();
-         break;
-         case 1:
-         move_window(window_focus_id);
-         break;
-      }
-   }
+   // check_graphics_mouse_handling/move_window déplacés dans le main loop (thread safety)
    if(index_quit==0 && index_is_saving==0)
    {
 
@@ -785,12 +773,43 @@ int main_actions_on_screen()
 }
 
 
+static void wc_open_log(FILE** out) {
+    *out = fopen(WC_LOG_FILE, "a"); // WC_LOG_FILE = %TEMP%\wc_debug.txt
+}
+static void sigabrt_handler(int) {
+    FILE* f; wc_open_log(&f);
+    if(f){ fprintf(f,"*** SIGABRT: abort() called, timer=%s\n", wc_current_timer); fclose(f); }
+    signal(SIGABRT, SIG_DFL); raise(SIGABRT);
+}
+static LONG WINAPI crash_handler(EXCEPTION_POINTERS* ep) {
+    FILE* f; wc_open_log(&f);
+    if(f) {
+        fprintf(f,"*** CRASH: code=0x%08lX addr=0x%p thread=%lu timer=%s\n",
+            ep->ExceptionRecord->ExceptionCode,
+            ep->ExceptionRecord->ExceptionAddress,
+            GetCurrentThreadId(),
+            wc_current_timer);
+        fclose(f);
+    }
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+static void wc_terminate_handler() {
+    FILE* f; wc_open_log(&f);
+    if(f){ fprintf(f,"*** TERMINATE: std::terminate called, timer=%s\n", wc_current_timer); fclose(f); }
+    abort();
+}
+static void wc_atexit_handler() {
+    FILE* f; wc_open_log(&f);
+    if(f){ fprintf(f,"*** atexit: process exiting normally (exit() appele)\n"); fclose(f); }
+}
+
 int main(int /*argc*/, char** /*argv*/) {
 GetModuleFileName(NULL, mondirectory, 512);
 // Enlever le nom de l'exe pour garder seulement le dossier
 for(int i=strlen(mondirectory)-1; i>=0; i--) {
     if(mondirectory[i]=='\\') { mondirectory[i]='\0'; break; }
 }
+{ char _tmp[512]; if(GetTempPathA(512,_tmp)>0) snprintf(wc_log_path,512,"%swc_debug.txt",_tmp); } // log dans %TEMP%
 load_screen_config();
 
 Settings::SetWindowBorder(false);//plus de momde border window, car inutilisable avec les menus
@@ -814,38 +833,23 @@ else {Setup::SetupScreen( largeur_ecran, hauteur_ecran,FULLSCREEN, desktop_color
 
    jpgalleg_init();
 
-   LOCK_FUNCTION(ticker_dmxIn);
-   install_int_ex(ticker_dmxIn , ticker_dmxIn_rate);
+   mouse_callback = my_callback;
 
-
-   LOCK_FUNCTION(ticker_artnet);
-   LOCK_VARIABLE(ticks_for_artnet);
-   install_int_ex(ticker_artnet , ticker_artnet_rate);
-
-   rest(100);
-
-   LOCK_VARIABLE(ticks);
-   LOCK_FUNCTION(ticker);
-   install_int_ex(ticker , ticker_rate);
-
-   LOCK_VARIABLE(ticks_arduino);
-   LOCK_FUNCTION(ticker_arduino);
-   install_int_ex(ticker_arduino ,BPS_TO_TIMER(ARDUINO_RATE));
-
-
-    LOCK_FUNCTION(my_callback);
-    mouse_callback = my_callback;
-
-
-   LOCK_FUNCTION(dixiemes_de_secondes);
-   install_int_ex(dixiemes_de_secondes , ticker_dixiemes_de_secondes_check);
-
-
-   LOCK_FUNCTION( ticker_full_loop);
-   install_int_ex(ticker_full_loop,ticker_full_loop_rate );
-
-    LOCK_FUNCTION(ticker_midi_clock);
-    install_int_ex(ticker_midi_clock,ticker_midi_clock_rate );
+   SetUnhandledExceptionFilter(crash_handler);
+   std::set_terminate(wc_terminate_handler);
+   signal(SIGABRT, sigabrt_handler);
+   atexit(wc_atexit_handler);
+   starting_wcat=1; // bloque les timers pendant toute l'init (réinitialisé à 0 ligne ~1098)
+   // Init texture cache + mutex avant les timers (thread safety garantie)
+   if (!wc_cache_mutex) wc_cache_mutex = SDL_CreateMutex();
+   if (!wc_cache) wc_cache = (WC_CacheSlot*)calloc(WC_CACHE_SIZE, sizeof(WC_CacheSlot));
+   install_int_ex(ticker_dmxIn, ticker_dmxIn_rate, "ticker_dmxIn");
+   install_int_ex(ticker_artnet, ticker_artnet_rate, "ticker_artnet");
+   install_int_ex(ticker, ticker_rate, "ticker");
+   install_int_ex(ticker_arduino, BPS_TO_TIMER(ARDUINO_RATE), "ticker_arduino");
+   install_int_ex(dixiemes_de_secondes, ticker_dixiemes_de_secondes_check, "dixiemes_de_secondes");
+   install_int_ex(ticker_full_loop, ticker_full_loop_rate, "ticker_full_loop");
+   install_int_ex(ticker_midi_clock, ticker_midi_clock_rate, "ticker_midi_clock");
 
    load_indexes();
    LoadWhiteCatColorProfil();
@@ -871,44 +875,48 @@ else {Setup::SetupScreen( largeur_ecran, hauteur_ecran,FULLSCREEN, desktop_color
 
     Canvas::Fill(CouleurFond);
     Canvas::Refresh();
-    FILE* dbg = fopen("debug_crash.txt","w");
+    FILE* dbg = fopen(WC_LOG_FILE,"w");
     if(dbg){fprintf(dbg,"After Canvas::Refresh\n");fclose(dbg);}
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before save_load_print\n");fclose(dbg);}
     save_load_print_to_screen("Loaded Gfx");
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before Load_setup_conf\n");fclose(dbg);}
     Load_setup_conf();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before GlobInit\n");fclose(dbg);}
     GlobInit();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before InitMidi\n");fclose(dbg);}
     InitMidi();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before load_dmx_conf\n");fclose(dbg);}
     load_dmx_conf();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before load_artnet_conf\n");fclose(dbg);}
     load_artnet_conf();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before Load_Video_Conf\n");fclose(dbg);}
     Load_Video_Conf();
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
 if(dbg){fprintf(dbg,"After Load_Video_Conf\n");fclose(dbg);}
-    dbg = fopen("debug_crash.txt","a");
+    dbg = fopen(WC_LOG_FILE,"a");
     if(dbg){fprintf(dbg,"Before load_gel_list\n");fclose(dbg);}
     //load_gel_list_numerical();
-dbg = fopen("debug_crash.txt","a");
+dbg = fopen(WC_LOG_FILE,"a");
 if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
 
+#define DLOG(msg) { FILE* _d=fopen(WC_LOG_FILE,"a"); if(_d){fprintf(_d,msg "\n");fclose(_d);} }
 
+   DLOG("Before sprintf string_last_ch")
    sprintf(string_last_ch,"Last Ch. selected: %d", last_ch_selected);
    sprintf(string_Last_Order,">> This is Last Order");
 
-
+  DLOG("Before save_load_print Loading setup conf")
   save_load_print_to_screen("Loading setup conf");
+  DLOG("Before Load_setup_conf 2")
  Load_setup_conf(); //avant tout sinon, le cfg ecrit ailleurs et ca fout la zone
+  DLOG("Before save_load_print Init Arrays")
  save_load_print_to_screen("Init Arrays");
 
 //sauvegarde chargement, en tout dernier
@@ -917,26 +925,35 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
  specify_who_to_save_load[r]=1;
  }
 
-
+  DLOG("Before GlobInit 2")
  GlobInit();//rajout version 0.8.2.3
+  DLOG("Before reset_all_bangers")
 //reset des bangs
  reset_all_bangers();
+  DLOG("Before generation_Tableau")
  generation_Tableau_noms_clavier_FR() ;
 // generation_Tableau_noms_fonctions() ;
+  DLOG("Before InitMidi 2")
  save_load_print_to_screen("Init Midi");
  InitMidi();//init avant les appels de fichiers
  midi_init_sepecial_case_key_on();//pour régler pb de cle flashs et key on key off
+  DLOG("Before load_onstart_config")
  ////////////////////////////////////////////////////////////
 
  load_onstart_config();
+  DLOG("Before load_core_config")
  load_core_config();
+  DLOG("Before load_dmx_conf 2")
   ///////////////////////////////////////////////////////
  save_load_print_to_screen("Loading Dmx conf");
  load_dmx_conf();
+  DLOG("Before load_artnet_conf 2")
  save_load_print_to_screen("Loading Art-net conf");
  load_artnet_conf();
 
+  DLOG("Before detection_mise_en_place_carte_reseaux")
  detection_mise_en_place_carte_reseaux();
+ DLOG("After detection_mise_en_place_carte_reseaux")
  //opening double dmx conf
  if(index_artnet_doubledmx==1)
  {
@@ -948,39 +965,36 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
          ArtDmx();
  save_load_print_to_screen("Double DMX Art-net ON");
  }
+ DLOG("Before load_network_conf")
  load_network_conf();//icat
+ DLOG("Before load_show_coming_from")
  save_load_print_to_screen("Loading Art-netnetwork conf");
-
-
-FILE* dbg4 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg4){fprintf(dbg4,"mondirectory=%s rep_saves=%s nomduspectacle=%s\n",mondirectory,rep_saves,nomduspectacle);fclose(dbg4);}
-
-
  sprintf(tmp_ip_artnet,ip_artnet);
-
-
  load_show_coming_from();
  idf++;
-
-
+ DLOG("Before On_Open_name_of_directory")
  On_Open_name_of_directory();
-
+ DLOG("Before InitSound")
  save_load_print_to_screen("Loading Gels List");
  //load_gel_list_numerical();
  idf++;
-
  Canvas::Fill(CouleurFond);
  Canvas::Refresh();
  save_load_print_to_screen("Init Sound");
  InitSound();
+ DLOG("Before Load_Show")
  Load_Show();
-
+ DLOG("After Load_Show")
+ // Ferme toutes les fenetres au démarrage : évite crash dans rendu de fenetres mal initialisées
+ memset(window_opened, 0, sizeof(window_opened));
  init_kbd_custom();
  save_load_print_to_screen("Init Keyboard");
  Show_report_save_load();
-
+ DLOG("Before Init_dmx_interface")
  save_load_print_to_screen("Init Dmx");
  Init_dmx_interface();
+ DLOG("After Init_dmx_interface")
+ DLOG("Before scan_importfolder")
 
  if(camera_on_open==1)
  {
@@ -995,7 +1009,7 @@ if(dbg4){fprintf(dbg4,"mondirectory=%s rep_saves=%s nomduspectacle=%s\n",mondire
 
 scan_importfolder("");
 scan_savesfolder();
-
+DLOG("Before open_arduino_on_open check")
 
 if( open_arduino_on_open==1)
 {
@@ -1003,35 +1017,37 @@ save_load_print_to_screen("Init Arduino");
 arduino_init(0);
 }
 
-
+DLOG("Before prepare_move_values")
 prepare_move_values(dock_move_selected);//prepa
 Prepare_Cross_Spline(dock_move_selected);
-
+DLOG("Before Init Backamnesia")
 save_load_print_to_screen("Init Backamnesia");
  if(set_display_switch_mode(SWITCH_BACKGROUND))
  {set_display_switch_mode(SWITCH_BACKAMNESIA);}
-
-
+DLOG("After Init Backamnesia")
 init_done=1;
 if(there_is_an_error_on_save_load==1){index_show_save_load_report=1;there_is_change_on_show_save_state=1;    }
 
  mouse_released=0;
  entered_main=1;
 //launchpad séparé
+DLOG("Before reset_launchpad")
 if(enable_launchpad==1)
 {reset_launchpad();}
 
+DLOG("Before init_artnet_variables")
  init_artnet_variables();
-
+DLOG("Before initialisation_serveur_artnet")
 //serveur
     if(allow_artnet_in==1 && artnet_serveur_is_initialized==0)
       {
 	initialisation_serveur_artnet();
      }
-
+DLOG("Before init_iphone_fonts")
  init_iphone_fonts();
  if (enable_iCat==1)
  {
+ DLOG("Before iCat init")
  initialisation_clientserveur_iCat();
 
  nbrbytessendediCat=sendto(sockiCat, "opengl 1",sizeof("opengl 1"),0,(SOCKADDR*)&siniCat,sinsizeiCat);
@@ -1043,20 +1059,19 @@ if(enable_launchpad==1)
  }
 
 
+DLOG("Before create_bitmap")
 bmp_buffer_trichro= create_bitmap(315,550);
 clear_bitmap(bmp_buffer_trichro);
-
-
+DLOG("Before rafraichissement")
 rafraichissement_padwheel();
 rafraichissement_clockwheel();
-
+DLOG("Before recalculate_draw_sizes")
 recalculate_draw_sizes(draw_preset_selected);
-
+DLOG("Before bang_is_sended")
 //init du flash de bang en cours
 bang_is_sended[index_banger_selected]=1;
-
+DLOG("Before starting_wcat=1 / audio init")
 rest(100);
-
 starting_wcat=1;
 for(int i=0;i<4;i++)
 {
@@ -1068,7 +1083,8 @@ for(int i=0;i<4;i++)
  }
 rest(10);
 }
-
+DLOG("After audio init")
+DLOG("Before player position restore")
 
 if(index_loading_a_sound_file!=0)
 {
@@ -1100,14 +1116,28 @@ for(int i=0;i<4;i++)
 }
 
 
+DLOG("Before reset_temp_state")
 reset_temp_state_for_channel_macros_launch();//christoph 18/12/14 pour intialisation au démarrage de wcat des channels macros
 
 starting_wcat=0;
-
-
-
+SetUnhandledExceptionFilter(crash_handler);
+signal(SIGABRT, sigabrt_handler);
+{ FILE* _d=fopen(WC_LOG_FILE,"a"); if(_d){
+    fprintf(_d,"=== ADDR MAP ===\n");
+    fprintf(_d,"Memoires           : %p  end:%p\n", (void*)Memoires,           (void*)(Memoires+10000));
+    fprintf(_d,"MemoiresExistantes : %p  end:%p\n", (void*)MemoiresExistantes, (void*)(MemoiresExistantes+10000));
+    fprintf(_d,"Times_Memoires     : %p  end:%p\n", (void*)Times_Memoires,     (void*)(Times_Memoires+10000));
+    fprintf(_d,"SchwzMemoires      : %p  end:%p\n", (void*)SchwzMemoires,      (void*)(SchwzMemoires+121));
+    fprintf(_d,"grid_levels        : %p  end:%p\n", (void*)grid_levels,        (void*)(grid_levels+128));
+    fprintf(_d,"=== END MAP ===\n");
+    fclose(_d);
+}}
+DLOG("Entering main loop")
+static int first_frame = 1;
+try {
 while(index_quit!=1)
 {
+   if(first_frame) { DLOG("First frame start") first_frame=0; }
    MemoiresExistantes[0]=1;
    show_im_recording_a_time=0;// met à zéro l'affichage du stock visuel du time
 
@@ -1132,6 +1162,14 @@ while(index_quit!=1)
    {
       case 0:
          process_midi_input();
+         if(mouse_button==1 && mouse_released==0)
+         {
+            switch(im_moving_a_window)
+            {
+               case 0: check_graphics_mouse_handling(); break;
+               case 1: move_window(window_focus_id); break;
+            }
+         }
          main_actions_on_screen();
          rest(10);
          break;
@@ -1159,6 +1197,13 @@ while(index_quit!=1)
    if(index_do_a_plot_screen_capture==1 ){do_plot_screen_capture(plot_name_of_capture);index_do_a_plot_screen_capture=0;}
 
    rest(5); // limite le CPU - 5ms de pause par cycle
+}
+} catch(const std::exception& e) {
+    FILE* f=fopen(WC_LOG_FILE,"a");
+    if(f){fprintf(f,"*** C++ EXCEPTION: %s\n",e.what());fclose(f);}
+} catch(...) {
+    FILE* f=fopen(WC_LOG_FILE,"a");
+    if(f){fprintf(f,"*** UNKNOWN C++ EXCEPTION\n");fclose(f);}
 }
 
 entered_main=0;

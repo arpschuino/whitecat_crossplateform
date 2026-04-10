@@ -2,17 +2,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug WhiteCat",
-            "type": "cppdbg",
+            "name": "Run WhiteCat",
+            "type": "cppvsdbg",
             "request": "launch",
-            "program": "C:/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe",
+            "program": "${workspaceFolder}/whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "C:/whitecat_crossplateform/whitecatbuild/build/white_cat_for_mingw",
+            "cwd": "${workspaceFolder}/whitecatbuild/build/white_cat_for_mingw",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
+            "name": "Debug WhiteCat (GDB)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/whitecatbuild/build/white_cat_for_mingw",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
+            "miDebuggerPath": "${workspaceFolder}/tools/MinGW/bin/gdb32.exe",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing",

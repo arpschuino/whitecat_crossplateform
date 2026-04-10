@@ -45,6 +45,13 @@ WWWWWWWW           C  WWWWWWWW   | GNU General Public License for more details.
 #ifndef GRAPHICS_BACKEND_H
 #define GRAPHICS_BACKEND_H
 
+// Log dans le dossier TEMP (hors Nextcloud, pas de verrouillage de sync)
+// Initialisé dans main() via GetTempPathA (après inclusion de windows.h)
+static char wc_log_path[512] = "wc_debug.txt"; // fallback relatif
+#define WC_LOG_FILE wc_log_path
+#undef  DLOG
+#define DLOG(msg) { FILE* _d=fopen(WC_LOG_FILE,"a"); if(_d){fprintf(_d,msg "\n");fclose(_d);} }
+
 // ============================================================
 // Bloquer tous les includes Allegro 4 + OpenLayer
 // (les autres .cpp qui font #include <allegro.h> seront ignorés)
@@ -164,17 +171,31 @@ struct WC_TimerEntry {
 
 static std::vector<WC_TimerEntry> wc_timers;
 
+struct WC_TimerParam { wc_timer_func_t func; const char* name; };
+volatile static const char* wc_current_timer = "none";
 static Uint32 wc_sdl_timer_cb(Uint32 interval, void* param) {
-    ((wc_timer_func_t)param)();
+    WC_TimerParam* p = (WC_TimerParam*)param;
+    wc_current_timer = p->name;
+    try {
+        p->func();
+    } catch(const std::exception& e) {
+        FILE* f = fopen(WC_LOG_FILE,"a");
+        if(f){ fprintf(f,"*** EXCEPTION in timer %s: %s\n", p->name, e.what()); fclose(f); }
+    } catch(...) {
+        FILE* f = fopen(WC_LOG_FILE,"a");
+        if(f){ fprintf(f,"*** UNKNOWN EXCEPTION in timer %s\n", p->name); fclose(f); }
+    }
+    wc_current_timer = "done";
     return interval;
 }
 
 inline void install_timer() { /* SDL_INIT_TIMER already done in Setup::SetupProgram */ }
 
-inline void install_int_ex(wc_timer_func_t func, int allegro_ticks) {
+inline void install_int_ex(wc_timer_func_t func, int allegro_ticks, const char* name="?") {
     Uint32 ms = (Uint32)(allegro_ticks * 1000.0 / 1193181.0);
     if (ms < 1) ms = 1;
-    SDL_TimerID id = SDL_AddTimer(ms, wc_sdl_timer_cb, (void*)func);
+    WC_TimerParam* p = new WC_TimerParam{func, name};
+    SDL_TimerID id = SDL_AddTimer(ms, wc_sdl_timer_cb, (void*)p);
     wc_timers.push_back({id, func});
 }
 
@@ -1251,9 +1272,41 @@ public:
 
 // ----------------------------------------------------------------
 // TextRenderer (polices TTF → SDL2_ttf)
-// TextRenderer.Load("Fonts/doom.ttf", width, height, color)
-// TextRenderer.Print("text", x, y)
+// Cache : tableau fixe 512 slots, zéro-initialisé, pas d'allocation dynamique
+// Collision = éviction simple (overwrite)
 // ----------------------------------------------------------------
+#define WC_CACHE_SIZE 512
+struct WC_CacheSlot {
+    TTF_Font*    font;       // null = slot vide
+    Uint32       col;
+    char         text[128];
+    SDL_Texture* tex;
+    int          w, h, ascent;
+};
+static WC_CacheSlot* wc_cache = nullptr;  // heap via calloc au premier Print()
+static SDL_mutex*    wc_cache_mutex = nullptr;
+static int           wc_print_count = 0;
+
+static unsigned wc_cache_hash(TTF_Font* font, Uint32 col, const char* text) {
+    unsigned h = (unsigned)(uintptr_t)font * 2654435761u ^ col * 2246822519u;
+    for(int i=0; i<127 && text[i]; i++) h = h*31 + (unsigned char)text[i];
+    return h;
+}
+
+static void wc_purge_font(TTF_Font* f) {
+    if(!f || !wc_cache) return;
+    if(wc_cache_mutex) SDL_LockMutex(wc_cache_mutex);
+    for(int i=0; i<WC_CACHE_SIZE; i++) {
+        if(wc_cache[i].font == f) {
+            if(wc_cache[i].tex && SDL_WasInit(SDL_INIT_VIDEO))
+                SDL_DestroyTexture(wc_cache[i].tex);
+            wc_cache[i].font = nullptr;
+            wc_cache[i].tex  = nullptr;
+        }
+    }
+    if(wc_cache_mutex) SDL_UnlockMutex(wc_cache_mutex);
+}
+
 class TextRenderer {
     TTF_Font*  font;
     SDL_Color  col;
@@ -1262,13 +1315,11 @@ public:
     TextRenderer() : font(nullptr), ok(false) { col = {255,255,255,255}; }
 
     ~TextRenderer() {
-        if (font) TTF_CloseFont(font);
+        if (font) { wc_purge_font(font); TTF_CloseFont(font); }
     }
 
-    // OpenLayer signature : Load(filename, width, height, color)
-    // SDL2_ttf utilise la hauteur en points / SDL2_ttf uses height in points
     bool Load(const char* filename, int /*width*/, int height, const Rgba& color) {
-        if (font) { TTF_CloseFont(font); font = nullptr; }
+        if (font) { wc_purge_font(font); TTF_CloseFont(font); font = nullptr; }
         font = TTF_OpenFont(filename, height);
         ok   = (font != nullptr);
         col  = color.toSDL();
@@ -1277,20 +1328,33 @@ public:
 
     void Print(const char* text, int x, int y) const {
         if (!font || !text || text[0]=='\0' || !wc_sdl_renderer) return;
-        SDL_Surface* surf = TTF_RenderText_Blended(font, text, col);
-        if (!surf) return;
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(wc_sdl_renderer, surf);
-        SDL_FreeSurface(surf);
-        if (!tex) return;
-        int w, h;
-        SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
-        // OpenLayer/GlyphKeeper: y = BASELINE of text (characters render ABOVE y).
-        // SDL2_ttf: surface top is at y, baseline is at y + TTF_FontAscent.
-        // To match OpenLayer: surface top = y - TTF_FontAscent, so baseline stays at y.
-        int y_adj = y - TTF_FontAscent(font);
-        SDL_Rect dst = {x, y_adj, w, h};
-        SDL_RenderCopy(wc_sdl_renderer, tex, nullptr, &dst);
-        SDL_DestroyTexture(tex);
+        if (!wc_cache || !wc_cache_mutex) return;
+        char trunc[128];
+        strncpy(trunc, text, 127); trunc[127]='\0';
+        Uint32 key_col = (Uint32)col.r|((Uint32)col.g<<8)|((Uint32)col.b<<16)|((Uint32)col.a<<24);
+        unsigned idx = wc_cache_hash(font, key_col, trunc) % WC_CACHE_SIZE;
+
+        SDL_LockMutex(wc_cache_mutex);
+        WC_CacheSlot& slot = wc_cache[idx];
+        if(slot.font!=font || slot.col!=key_col || strncmp(slot.text,trunc,128)!=0 || !slot.tex) {
+            if(slot.tex) SDL_DestroyTexture(slot.tex);
+            slot.tex = nullptr; slot.font = nullptr;
+            SDL_Surface* surf = TTF_RenderText_Blended(font, trunc, col);
+            if(!surf) { SDL_UnlockMutex(wc_cache_mutex); return; }
+            SDL_Texture* tex = SDL_CreateTextureFromSurface(wc_sdl_renderer, surf);
+            SDL_FreeSurface(surf);
+            if(!tex) { SDL_UnlockMutex(wc_cache_mutex); return; }
+            slot.font = font; slot.col = key_col;
+            strncpy(slot.text, trunc, 128);
+            slot.tex = tex;
+            SDL_QueryTexture(tex, nullptr, nullptr, &slot.w, &slot.h);
+            slot.ascent = TTF_FontAscent(font);
+        }
+        SDL_Rect dst = {x, y - slot.ascent, slot.w, slot.h};
+        SDL_Texture* tex_to_render = slot.tex;
+        SDL_UnlockMutex(wc_cache_mutex);
+
+        SDL_RenderCopy(wc_sdl_renderer, tex_to_render, nullptr, &dst);
     }
 
     // Surcharges / Overloads
