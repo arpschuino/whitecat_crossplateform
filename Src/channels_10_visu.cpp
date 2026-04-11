@@ -163,7 +163,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                 if((ypos_l -ypos_ch)>-140 && ypos_l+ 40 -ypos_ch<hauteur_ecran)//condition d'affichage
                 {
 
-                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)),((ypos_l)+ 40 -ypos_ch)));
+                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)),((ypos_l)+ 30 -ypos_ch)));
 
                     unsigned char circuittoshow=bufferSequenciel[num_circ] ;
                     showisup=0;
