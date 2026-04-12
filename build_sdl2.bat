@@ -10,7 +10,7 @@ echo [BUILD SDL2 - WhiteCat]
 echo Compilation...
 
 "C:\Program Files (x86)\CodeBlocks\MinGW\bin\g++.exe" ^
- -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -std=c++11 ^
+ -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 ^
  -I%SDL2%\include ^
  -I%WC%\whitecatlib\lib\windows\odmxusb_terry ^
  -I%WC%\whitecatlib\lib\windows\dashard ^
