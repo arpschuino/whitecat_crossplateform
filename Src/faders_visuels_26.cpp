@@ -387,6 +387,7 @@ int lfo_fader_functions (int cmptfader, int x, int y, int espacement)
 
 int MoveFaderSpace(int ydelimitation)
 {
+    WC_FDEBUG("MFS-start");
     Line myLine( Vec2D( 0, ydelimitation ), Vec2D( largeur_ecran,ydelimitation));
     myLine.SetLineWidth(triple_epaisseur_ligne_fader);
     if(window_focus_id==906)
@@ -502,8 +503,7 @@ int MoveFaderSpace(int ydelimitation)
     petitchiffre.Print( "37-42" ,732,ydelimitation+15);
     petitchiffre.Print( "43-48" ,842,ydelimitation+15);
 
-
-
+    WC_FDEBUG("MFS-end");
 
 
     return(0);
@@ -614,6 +614,7 @@ int Commandes_faders_generales(int xf, int yf)
 
 int FaderSpace(int x, int y, int espacement,int nbr_fader)
 {
+    WC_FDEBUG("FaderSpace-start");
     Rect BackgroundFaderSpace(Vec2D(-20,y-80),Vec2D(LargeurEspaceFaderSize+20,hauteur_ecran));
 
     BackgroundFaderSpace.SetLineWidth(5.0);
@@ -633,8 +634,10 @@ int FaderSpace(int x, int y, int espacement,int nbr_fader)
 
     Canvas::SetClipping(0,y-80,LargeurEspaceFaderSize,hauteur_ecran);
 
+    WC_FDEBUG("FaderSpace-before-loop");
     for (int cmptfader=0; cmptfader<core_user_define_nb_faders; cmptfader++)
     {
+        SDL_PumpEvents(); // maintient la reactivite Windows pendant le rendu long
 //on affiche et actionne que si les données sont dans l espace de l ecran
         if(((x+(cmptfader*espacement)+espacement)>0)&& ((x+(cmptfader*espacement))<LargeurEspaceFaderSize))
         {
@@ -1148,12 +1151,16 @@ fader_damper_commands(x+(cmptfader*espacement)-10,y+440, cmptfader );
 //fin des 48
         }
     }
+    WC_FDEBUG("FaderSpace-after-loop");
 
 
 
 
+    WC_FDEBUG("FaderSpace-before-MFS");
     MoveFaderSpace(y-70);// fonction pour se deplacer sur les 48 masters
+    WC_FDEBUG("FaderSpace-after-MFS");
 
     Canvas::DisableClipping();
+    WC_FDEBUG("FaderSpace-end");
     return(0);
 }

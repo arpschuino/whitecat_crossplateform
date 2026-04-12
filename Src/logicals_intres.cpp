@@ -622,10 +622,6 @@ else if( index_do_affect_fgroup==1)
 sprintf(string_confirmation,"Affect to Fader %d Dock %d selected faders?",fader_selected_for_record+1,dock_selected_for_record+1);
 }
 
-else if( index_do_affect_mover==1)
-{
-sprintf(string_confirmation,"Affect Mover Output to Fader %d Dock %d ?",fader_selected_for_record+1,dock_selected_for_record+1);
-}
 
 else if(  index_ask_delete_symbols_on_calc==1)
 {
@@ -745,10 +741,6 @@ break;
 }
 }
 
-else if(index_ask_clear_a_move==1)
-{
-    sprintf(string_confirmation,"Clear Move %d? ",move_to_clear );
-}
 
 else if(index_ask_reinit_FS_client==1)
 {
@@ -1437,12 +1429,6 @@ affect_selected_faders_to_fgroup(fader_selected_for_record,dock_selected_for_rec
 }
 
 
-else if( index_do_affect_mover==1)
-{
-affect_mover_to_fader(fader_selected_for_record,dock_selected_for_record);
-index_affect_to_dock_mover=0;
-index_do_affect_mover=0;
-}
 
 else if (  index_ask_delete_symbols_on_calc==1)
 {
@@ -1564,10 +1550,6 @@ channel_view_mode_builder[channel_view_is]=0;
 }
 
 
-else if(index_ask_clear_a_move==1)
-{
-    Clear_the_Move(move_to_clear);
-}
 
 else if(index_ask_reinit_FS_client==1)
 {

@@ -26,7 +26,7 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - `Src/midi_backend.h` — MIDI abstraction layer (RtMidi)
 - `Src/midi_CORE.cpp` — MIDI init/quit using midi_backend.h
 - `Src/midi_13.cpp` — MIDI processing, now uses process_midi_input()
-- `Src/MAIN_janv_2014_opensource_kbd.cpp` — Main loop
+- `Src/MAIN.cpp` — Main loop
 ## Dependencies
 | Library | Version | Status |
 |---------|---------|--------|

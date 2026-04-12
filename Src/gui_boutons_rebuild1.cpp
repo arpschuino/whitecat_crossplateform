@@ -802,9 +802,7 @@ case 14://do excude channels from GM
  index_do_exclude=1;
  index_ask_confirm=1;
 break;
-case 15://MY_WINDOW
-if(index_my_window==0){add_a_window(W_MY_WINDOW);substract_a_window(W_MAINMENU);}
-else {substract_a_window(W_MY_WINDOW);}
+case 15://MY_WINDOW (supprimé)
 break;
 
 //3eme colonne
@@ -828,9 +826,7 @@ case 24://grider
  if(index_grider_window==0){add_a_window(W_GRID);substract_a_window(W_MAINMENU);}
  else {substract_a_window(W_GRID);}
 break;
-case 25:
-     if(index_bazoocat_menu_window==0){add_a_window(W_BAZOOKAT);substract_a_window(W_MAINMENU);}
- else {substract_a_window(W_BAZOOKAT);}
+case 25://BazooKAT (supprimé)
 break;
 
 
@@ -841,10 +837,6 @@ case 30://tracking
  else{ substract_a_window(W_TRACKINGVIDEO);}
 break;
 
-case 31://mover
- if(index_show_mover_window==0){add_a_window(W_MOVER);substract_a_window(W_MAINMENU);}
- else {substract_a_window(W_MOVER);}
-break;
 case 32://echo
  if(index_show_echo_window==0){add_a_window(W_ECHO);substract_a_window(W_MAINMENU);}
  else {substract_a_window(W_ECHO);}
@@ -918,9 +910,6 @@ if(index_show_grid_player[i]==1)
 gridplayer_to_affect_is=i; break;
 }
 }
-break;
-case W_MOVER:
-index_affect_to_dock_mover=index_do_dock;
 break;
 case W_DRAW:
 index_affect_draw_to_dock=index_do_dock;

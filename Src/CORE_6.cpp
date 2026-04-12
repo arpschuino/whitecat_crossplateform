@@ -1976,8 +1976,6 @@ int reset_window_positions()
     Ylistproj=200;
     Xchasers=100;
     Ychasers=200;
-    xmover_window=100;
-    ymover_window=200;
     X_gui_iCat= 300 ;
     Y_gui_iCat= 200 ;
     grider_window_x=200;
@@ -2844,7 +2842,6 @@ int snapshot_windows()
     recall_windows_onoff[15]=index_window_chasers;
     recall_windows_onoff[16]=index_plot_window;
     recall_windows_onoff[17]=index_show_main_menu;
-    recall_windows_onoff[18]=index_show_mover_window;
     recall_windows_onoff[19]=index_window_gui_iCat;
     recall_windows_onoff[20]=index_show_echo_window;
     recall_windows_onoff[21]=index_show_audio_window;
@@ -2878,13 +2875,11 @@ int close_all_windows()
     index_grider_window=0;
     index_plot_window=0;
     index_show_main_menu=0;
-    index_show_mover_window=0;
     index_show_echo_window=0;
     index_show_audio_window=0;
     index_show_config_window=0;
     index_show_wizard_window=0;
     index_window_gui_iCat=0;
-    index_my_window=0;//sample
     window_focus_id=0;
     return(0);
 }
@@ -2960,17 +2955,11 @@ int write_window_indexes_from_list_of_windows()
         case W_CHASERS:
             index_window_chasers=1;
             break;
-        case W_MOVER:
-            index_show_mover_window=1;
-            break;
         case W_iCAT:
             index_window_gui_iCat=1;
             break;
         case W_GRID:
             index_grider_window=1;
-            break;
-        case W_MY_WINDOW:
-            index_my_window=1;
             break;
         default:
             break;
@@ -3013,7 +3002,6 @@ int recall_windows()
     index_window_chasers=recall_windows_onoff[15];
     index_plot_window=recall_windows_onoff[16];
     index_show_main_menu=recall_windows_onoff[17];
-    index_show_mover_window=recall_windows_onoff[18];
     index_show_echo_window=recall_windows_onoff[20];
     index_show_audio_window=recall_windows_onoff[21];
     index_show_config_window=recall_windows_onoff[22];
@@ -5745,10 +5733,6 @@ int substract_a_window(int id)
         index_affect_chaser_to_dock=0;
         index_window_chasers=0;
         break;
-    case W_MOVER:
-        index_show_mover_window=0;
-        index_mouse_is_tracking=0;
-        break;
     case W_iCAT:
         index_window_gui_iCat=0;
         break;
@@ -5759,12 +5743,6 @@ int substract_a_window(int id)
         {
             grid_affect_to_dock[i]=0;
         }
-        break;
-    case W_BAZOOKAT:
-        index_bazoocat_menu_window=0;
-        break;
-    case W_MY_WINDOW:
-        index_my_window=0;
         break;
     default:
         break;
@@ -6265,8 +6243,7 @@ int GlobInit()
         index_window_chasers=0;
         config_page_is=0;
 
-        index_show_mover_window=0;
-        index_window_gui_iCat=0;
+            index_window_gui_iCat=0;
         window_focus_id=0;
         recall_windows_focus_id=0;
         config_page_is=0;

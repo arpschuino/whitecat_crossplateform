@@ -784,6 +784,17 @@ static inline int set_display_switch_mode(int) { return 0; }
 // ============================================================
 static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier
 
+// Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
+static volatile int wc_freeze_debug = 0;
+#define WC_FDEBUG(msg) do { \
+    static int _cnt=0; \
+    if(wc_freeze_debug && _cnt<3) { \
+        FILE*_f=fopen(WC_LOG_FILE,"a"); \
+        if(_f){fprintf(_f,"FDEBUG[%d]: " msg "\n",_cnt);fflush(_f);fclose(_f);} \
+        _cnt++; \
+    } \
+} while(0)
+
 static void wc_process_events() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -1105,20 +1116,24 @@ public:
         if (!wc_sdl_renderer) return;
         _setcolor(color);
         int cx = (int)center.x, cy = (int)center.y, r = (int)(radius + 0.5f);
+        // Batch tous les points en un seul appel SDL_RenderDrawPoints (x80 moins d'appels SDL)
+        SDL_Point pts[512];
+        int n = 0;
         int x = 0, y = r, d = 1 - r;
-        while (x <= y) {
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx+x, cy+y);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx-x, cy+y);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx+x, cy-y);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx-x, cy-y);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx+y, cy+x);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx-y, cy+x);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx+y, cy-x);
-            SDL_RenderDrawPoint(wc_sdl_renderer, cx-y, cy-x);
+        while (x <= y && n + 8 <= 512) {
+            pts[n++] = {cx+x, cy+y};
+            pts[n++] = {cx-x, cy+y};
+            pts[n++] = {cx+x, cy-y};
+            pts[n++] = {cx-x, cy-y};
+            pts[n++] = {cx+y, cy+x};
+            pts[n++] = {cx-y, cy+x};
+            pts[n++] = {cx+y, cy-x};
+            pts[n++] = {cx-y, cy-x};
             if (d < 0) { d += 2*x + 3; }
             else       { d += 2*(x-y) + 5; y--; }
             x++;
         }
+        if (n > 0) SDL_RenderDrawPoints(wc_sdl_renderer, pts, n);
     }
 };
 
@@ -1413,8 +1428,11 @@ namespace Canvas {
 
     inline void Refresh() {
         if (!wc_sdl_renderer) return;
+        WC_FDEBUG("Refresh-before-process_events");
         wc_process_events();       // Pomper les evenements SDL / Pump SDL events
+        WC_FDEBUG("Refresh-before-RenderPresent");
         SDL_RenderPresent(wc_sdl_renderer);
+        WC_FDEBUG("Refresh-after-RenderPresent");
         // Adaptive frame cap:
         //   active (input in last 500ms) → ~30fps (33ms)
         //   idle                         → ~5fps (200ms) — saves CPU when console untouched

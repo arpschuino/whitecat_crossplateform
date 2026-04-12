@@ -53,7 +53,7 @@ dock_selected_for_record=detect_dock_used(control) ;
  //maj au 17 juin 2012 Plot version en alpha -> harmonisation des F1 F2 F3 suite au rv beta testeur paris
  if(index_do_dock==1  && index_direct_chan==0   && index_affect_chaser_to_dock==0  && index_affect_time==0 && index_affect_color_to_dock==0 && index_do_affect_net_to_dock==0
  && index_affect_dmxin==0 && index_affect_video_tracking_to_dock==0 && index_affect_audio_to_dock==0 && gridplayer_to_affect_is==-1
- && index_do_fgroup==0 && index_affect_to_dock_mover==0 )
+ && index_do_fgroup==0 )
  {
  index_do_record_on_faders=1; index_ask_confirm=1;
  }
@@ -108,13 +108,8 @@ dock_selected_for_record=detect_dock_used(control) ;
  index_do_audio_to_dock=1; index_ask_confirm=1;
  }
  }
-  //Store Mover dans dock
- else if (  index_do_dock==1 && index_affect_to_dock_mover==1)
- {
- index_do_affect_mover=1; index_ask_confirm=1;
- }
 
-   //Store Draw dans dock
+  //Store Draw dans dock
  else if (  index_do_dock==1 && index_affect_draw_to_dock==1)
  {
  index_do_draw_affect_to_dock=1; index_ask_confirm=1;
@@ -1240,9 +1235,6 @@ if(index_show_grid_player[i]==1)
 gridplayer_to_affect_is=i; break;
 }
 }
-break;
-case W_MOVER:
-index_affect_to_dock_mover=index_do_dock;
 break;
 case W_DRAW:
 index_affect_draw_to_dock=index_do_dock;
@@ -2616,11 +2608,6 @@ case 1338: //numeric pad
   if(index_visual_pad==0){add_a_window(W_NUMPAD);}
  else {substract_a_window(W_NUMPAD);}
 break;
-case 1339: //Mover
-	//sab 02/03/2014 IMPACT if(index_show_mover_window=0){add_a_window(W_MOVER);}
- if(index_show_mover_window==0){add_a_window(W_MOVER);}
- else {substract_a_window(W_MOVER);}
-break;
 case 1340: //grider
  if(index_grider_window==0){add_a_window(W_GRID);}
  else {substract_a_window(W_GRID);}
@@ -3465,13 +3452,6 @@ if(control == 1828 )//at zero
 {
 simulate_keypress(KEY_O<<8);index_false_shift=0;index_false_control=0;
 sprintf(string_Last_Order,"Midi simulate FULL");
-}
-
-if(control == 1829 )//window BazooCAT
-{
-if(index_bazoocat_menu_window==0){add_a_window(W_BAZOOKAT);}
-else {substract_a_window(W_BAZOOKAT);}
-rest(midi_keyboard_wait);
 }
 
 if(control>=1830 && control<=1830+63)//arduino analogic on/off

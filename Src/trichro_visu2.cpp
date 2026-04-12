@@ -61,41 +61,158 @@ TrichroBackground.DrawOutline(CouleurLigne);
 
 
 ///////////////////////////////roue de couleur///////////////////////////////////////////
-/////////AFFICHEE EN OPENGL CAR PLUS RAPIDE QUE BLIT ECT////////////////////////////////
-for (hcl=0; hcl<360; hcl+=0.1)
+// Rendu pixel par pixel dans un buffer CPU → SDL_Texture streaming.
+// Pas de gaps, pas de render-to-texture, pas de problème de transparence D3D.
 {
-     xcl = cos(hcl*PI/180.0)*(rayon+16);
-	 ycl = sin(hcl*PI/180.0)*(rayon+16);
+    static SDL_Texture* wc_wheel_tex = nullptr;
+    static int wc_wheel_rayon = -1;
 
-	 hsv_to_rgb(hcl, 1.0, 1.0, &rcl, &gcl, &bcl);
-	 Line(Vec2D(xchroma,ychroma),Vec2D(xchroma+xcl,ychroma+ycl)).Draw(Rgba(rcl,gcl,bcl));
+    if (!wc_wheel_tex || wc_wheel_rayon != rayon) {
+        if (wc_wheel_tex) { SDL_DestroyTexture(wc_wheel_tex); wc_wheel_tex = nullptr; }
+        int sz = (rayon + 17) * 2;
+        if (wc_sdl_renderer) {
+            wc_wheel_tex = SDL_CreateTexture(wc_sdl_renderer,
+                SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, sz, sz);
+        }
+        if (wc_wheel_tex) {
+            SDL_SetTextureBlendMode(wc_wheel_tex, SDL_BLENDMODE_BLEND);
+            void* raw; int pitch;
+            if (SDL_LockTexture(wc_wheel_tex, nullptr, &raw, &pitch) == 0) {
+                float cx = sz * 0.5f, cy = sz * 0.5f;
+                float r_in  = (float)(rayon - 16);
+                float r_out = (float)(rayon + 16);
+                for (int py = 0; py < sz; py++) {
+                    Uint32* row = (Uint32*)((Uint8*)raw + py * pitch);
+                    float dy = py - cy;
+                    for (int px = 0; px < sz; px++) {
+                        float dx = px - cx;
+                        float r = sqrtf(dx*dx + dy*dy);
+                        if (r >= r_in && r <= r_out) {
+                            float hue = atan2f(dy, dx) * (180.0f / 3.14159265f);
+                            if (hue < 0.0f) hue += 360.0f;
+                            int rc2, gc2, bc2;
+                            hsv_to_rgb(hue, 1.0f, 1.0f, &rc2, &gc2, &bc2);
+                            row[px] = (0xFFu << 24) | ((Uint32)rc2 << 16) | ((Uint32)gc2 << 8) | bc2;
+                        } else {
+                            row[px] = 0; // transparent
+                        }
+                    }
+                }
+                SDL_UnlockTexture(wc_wheel_tex);
+            }
+            wc_wheel_rayon = rayon;
+        }
+    }
+
+    if (wc_wheel_tex) {
+        int sz = (rayon + 17) * 2;
+        SDL_Rect dst = {xchroma - sz/2, ychroma - sz/2, sz, sz};
+        SDL_RenderCopy(wc_sdl_renderer, wc_wheel_tex, nullptr, &dst);
+    } else {
+        // Fallback
+        for (hcl = 0; hcl < 360; hcl += 0.1f) {
+            xcl = cos(hcl*PI/180.0)*(rayon+16);
+            ycl = sin(hcl*PI/180.0)*(rayon+16);
+            hsv_to_rgb(hcl, 1.0f, 1.0f, &rcl, &gcl, &bcl);
+            Line(Vec2D(xchroma,ychroma),Vec2D(xchroma+xcl,ychroma+ycl)).Draw(Rgba(rcl,gcl,bcl));
+            if ((int)(hcl * 10) % 600 == 0) SDL_PumpEvents();
+        }
+    }
 }
 
 
 Circle MasqueNoir(Vec2D(xchroma,ychroma),rayon-16);
 MasqueNoir.Draw(CouleurFond);
 
-	V3D_f v1 =
-	{
-		xchroma+vxd, ychroma+vyd, 0,
-		0., 0.,
-		makecol(0, 0, 0) // black vertex
-	};
-	V3D_f v2 =
-	{
-		xchroma+vxw, ychroma+vyw, 0,
-		0., 0.,
-		makecol(255, 255, 255) // white vertex
-	};
-	V3D_f v3 =
-	{
-		xchroma+vxh, ychroma+vyh, 0,
-		0., 0.,
-		makecol(r_pick, v_pick, b_pick) // color vertex
-	};
+// Triangle HSV interne — Gouraud SDL2 (remplace triangle3d_f, qui était un stub no-op)
+// La couleur du sommet teinte est calculée depuis position_curseur_hue_x/y
+// (position sauvegardée dans le show → correcte dès l'ouverture, et mise à jour au clic).
+{
+    static SDL_Texture* wc_tri_tex = nullptr;
+    static int wc_tri_sz = 0;
+    static float wc_tri_cache_hx = -99999.f, wc_tri_cache_hy = -99999.f;
+    static float wc_tri_cache_vxd = -99999.f, wc_tri_cache_vyd = -99999.f;
+    static float wc_tri_cache_vxw = -99999.f, wc_tri_cache_vyw = -99999.f;
+    static float wc_tri_cache_vxh = -99999.f, wc_tri_cache_vyh = -99999.f;
 
+    int sz = (rayon + 5) * 2;
 
-	triangle3d_f(screen, POLYTYPE_GCOL, NULL, &v1, &v2, &v3);
+    // Teinte depuis la direction curseur → centre de la roue
+    float hue_dx = position_curseur_hue_x - (float)xchroma;
+    float hue_dy = position_curseur_hue_y - (float)ychroma;
+    float hue_deg = atan2f(hue_dy, hue_dx) * (180.0f / 3.14159265f);
+    if (hue_deg < 0.0f) hue_deg += 360.0f;
+    int hue_r, hue_g, hue_b;
+    hsv_to_rgb(hue_deg, 1.0f, 1.0f, &hue_r, &hue_g, &hue_b);
+
+    bool dirty = (!wc_tri_tex || wc_tri_sz != sz ||
+        wc_tri_cache_hx != position_curseur_hue_x ||
+        wc_tri_cache_hy != position_curseur_hue_y ||
+        wc_tri_cache_vxd != vxd || wc_tri_cache_vyd != vyd ||
+        wc_tri_cache_vxw != vxw || wc_tri_cache_vyw != vyw ||
+        wc_tri_cache_vxh != vxh || wc_tri_cache_vyh != vyh);
+
+    if (dirty && wc_sdl_renderer) {
+        if (wc_tri_tex && wc_tri_sz != sz) { SDL_DestroyTexture(wc_tri_tex); wc_tri_tex = nullptr; }
+        if (!wc_tri_tex) {
+            wc_tri_tex = SDL_CreateTexture(wc_sdl_renderer, SDL_PIXELFORMAT_ARGB8888,
+                                            SDL_TEXTUREACCESS_STREAMING, sz, sz);
+            if (wc_tri_tex) { SDL_SetTextureBlendMode(wc_tri_tex, SDL_BLENDMODE_BLEND); wc_tri_sz = sz; }
+        }
+        if (wc_tri_tex) {
+            void* raw; int pitch;
+            if (SDL_LockTexture(wc_tri_tex, nullptr, &raw, &pitch) == 0) {
+                // Effacement → transparent
+                for (int py = 0; py < sz; py++)
+                    memset((Uint8*)raw + py * pitch, 0, sz * 4);
+
+                // Vertices dans le repère texture (texture centrée sur xchroma,ychroma)
+                float half = sz * 0.5f;
+                float ax = half + vxd, ay = half + vyd; // sommet noir
+                float bx = half + vxw, by = half + vyw; // sommet blanc
+                float cx = half + vxh, cy = half + vyh; // sommet teinte
+
+                // Rastérisation barycentrique
+                float denom = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy);
+                if (fabsf(denom) > 0.5f) {
+                    float inv_d = 1.0f / denom;
+                    int ymin = (int)fminf(fminf(ay, by), cy);
+                    int ymax = (int)ceilf(fmaxf(fmaxf(ay, by), cy));
+                    int xmin = (int)fminf(fminf(ax, bx), cx);
+                    int xmax = (int)ceilf(fmaxf(fmaxf(ax, bx), cx));
+                    if (ymin < 0) ymin = 0; if (ymax >= sz) ymax = sz - 1;
+                    if (xmin < 0) xmin = 0; if (xmax >= sz) xmax = sz - 1;
+
+                    for (int py = ymin; py <= ymax; py++) {
+                        Uint32* row = (Uint32*)((Uint8*)raw + py * pitch);
+                        for (int px = xmin; px <= xmax; px++) {
+                            float wa = ((by - cy) * (px - cx) + (cx - bx) * (py - cy)) * inv_d;
+                            float wb = ((cy - ay) * (px - cx) + (ax - cx) * (py - cy)) * inv_d;
+                            float wc = 1.0f - wa - wb;
+                            if (wa >= -0.001f && wb >= -0.001f && wc >= -0.001f) {
+                                Uint8 rc = (Uint8)(wb * 255 + wc * hue_r + 0.5f);
+                                Uint8 gc = (Uint8)(wb * 255 + wc * hue_g + 0.5f);
+                                Uint8 bc = (Uint8)(wb * 255 + wc * hue_b + 0.5f);
+                                // ARGB8888 : A=255, R, G, B
+                                row[px] = (0xFFu << 24) | ((Uint32)rc << 16) | ((Uint32)gc << 8) | bc;
+                            }
+                        }
+                    }
+                }
+                SDL_UnlockTexture(wc_tri_tex);
+            }
+            wc_tri_cache_hx = position_curseur_hue_x;
+            wc_tri_cache_hy = position_curseur_hue_y;
+            wc_tri_cache_vxd = vxd; wc_tri_cache_vyd = vyd;
+            wc_tri_cache_vxw = vxw; wc_tri_cache_vyw = vyw;
+            wc_tri_cache_vxh = vxh; wc_tri_cache_vyh = vyh;
+        }
+    }
+    if (wc_tri_tex) {
+        SDL_Rect dst = {xchroma - sz/2, ychroma - sz/2, sz, sz};
+        SDL_RenderCopy(wc_sdl_renderer, wc_tri_tex, nullptr, &dst);
+    }
+}
 
 
 //

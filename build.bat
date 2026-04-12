@@ -50,7 +50,7 @@ echo [build] Compilation en cours...
  -I%WC%\lib\windows\compiledlibsforGCC4_8_1\include ^
  -I%SRC% ^
  -I%RTMIDI% ^
- %SRC%\MAIN_janv_2014_opensource_kbd.cpp ^
+ %SRC%\MAIN.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^

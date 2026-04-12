@@ -704,19 +704,6 @@ param2_is=bangers_params[banger_num][event_num][1];
       }
      break;
 
-     case 15://mover
-     if(param2_is==1)
-      {
-      add_a_window(W_MOVER);
-      sprintf(string_event,"BACK: Mover Window /ON");
-      }
-      else
-      {
-      substract_a_window(W_AUDIO);
-      sprintf(string_event,"BACK: AudioMover Window /OFF");
-      }
-     break;
-
      case 16://numpad
      if(param2_is==1)
       {
@@ -2460,19 +2447,6 @@ switch(bangers_action[banger_num][event_num])
       }
      break;
 
-
-     case 15://MOver
-     if(param2_is==0)
-      {
-      substract_a_window(W_MOVER);
-      sprintf(string_event,"Mover Window /OFF");
-     }
-     else
-     {
-      add_a_window(W_MOVER);
-      sprintf(string_event,"Mover Window /ON");
-      }
-     break;
 
 
      case 16://numpad

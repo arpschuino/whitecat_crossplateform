@@ -206,10 +206,6 @@ for (int f=63;f>=0;f--)
         Save_Menu(xsave_window,ysave_window);
         MoveCloseBox(xsave_window+20,ysave_window+25,W_SAVE);
         break;
-        case W_BAZOOKAT:
-        fenetre_bazookat_menus(position_x_bazoocat_menus,position_y_bazoocat_menus);
-        MoveCloseBox(position_x_bazoocat_menus+20,position_y_bazoocat_menus+25,W_BAZOOKAT);
-        break;
         case W_BANGER:
         fenetre_banger(X_banger,Y_banger);
         MoveCloseBox(X_banger+20,Y_banger+25,W_BANGER);
@@ -219,8 +215,8 @@ for (int f=63;f>=0;f--)
         MoveCloseBox(XAlarm+20,YAlarm+25, W_ALARM) ;
         break;
         case W_AUDIO:
-        //fenetre_audio(XAudio,YAudio);
-        //MoveCloseBox(XAudio+20,YAudio+25,W_AUDIO);
+        fenetre_audio(XAudio,YAudio);
+        MoveCloseBox(XAudio+20,YAudio+25,W_AUDIO);
         break;
         case W_CFGMENU:
         config_general_menu();
@@ -238,10 +234,6 @@ for (int f=63;f>=0;f--)
         chaser_window( Xchasers,Ychasers);
         MoveCloseBox(Xchasers+20,Ychasers+20,W_CHASERS);
         break;
-        case W_MOVER:
-        //mover_box(xmover_window, ymover_window);
-        //MoveCloseBox(xmover_window+20, ymover_window-20,W_MOVER);
-        break;
         case W_iCAT:
         //BoxGuiBuilder_iCat( X_gui_iCat, Y_gui_iCat);
         //MoveCloseBox( X_gui_iCat+20,Y_gui_iCat+20,W_iCAT);
@@ -249,10 +241,6 @@ for (int f=63;f>=0;f--)
         case W_GRID:
         Grider_Box(grider_window_x, grider_window_y);
         MoveCloseBox( grider_window_x+20,grider_window_y+20,W_GRID);
-        break;
-        case W_MY_WINDOW:
-        //my_window_Box(my_window_x, my_window_y);
-        //MoveCloseBox( my_window_x+20,my_window_y+20,W_MY_WINDOW);
         break;
         default:
         break;

@@ -118,7 +118,6 @@ if(index_midi_clock_on==1)
 }
 END_OF_FUNCTION(ticker_midi_clock);
 
-#include <my_window_file_sample.h>//ressources juste après whitecat.h
 #include <patch_splines_2.cpp>//spline pour curves
 
 
@@ -146,8 +145,6 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <chasers_core_5.cpp>
 
 
-#include "mover_spline6.cpp"
-#include "mover_2013.cpp"
 #include "plot_core9.cpp"
 #include "plot9.cpp"
 
@@ -198,15 +195,10 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <midi_launchpad.cpp>
 
 
-#include <bazooKAT.cpp>
-
 #include <grider8.cpp>
 #include <sequentiel_7_visu.cpp>
 #include <Draw3.cpp>
 #include <echo3.cpp>
-
-
-#include <my_window_file_sample.cpp>//creation de fenetres utilisateurs, doit être avant proc visuels
 
 
 #include <procs_visuels_rebuild1.cpp>
@@ -298,12 +290,6 @@ merge_draw_and_grid_player(pr);
 }
 
 
-//tracker
-Move_do_crossfade(dock_move_selected);
-ventilation_niveaux_mover();
-++ticks_move;
-actual_spline_tick+=spline_tick_fraction;
-move_current_time=ticks_move;
 
 
 //damper of faders
@@ -596,8 +582,7 @@ void ticker_full_loop()
          receiving_bytes=0;
       }
    }
-   commandes_clavier();
-   DoMouseLevel();
+   // commandes_clavier et DoMouseLevel déplacés dans le main loop (thread safety : wc_key_queue non protégée)
    }
 }
 END_OF_FUNCTION(ticker_full_loop);
@@ -761,8 +746,10 @@ void Load_Fonts()
 ////////////////////////////////////////////////////////////////////////////////
 int main_actions_on_screen()
 {
+      WC_FDEBUG("main_actions-start");
       Canvas::Fill(CouleurFond);
       if(index_writing_curve==0){Boxes();}
+      WC_FDEBUG("main_actions-after-Boxes");
       if(core_do_calculations[3]==1)
       {
       trichro_back_buffer(315/2,550/2,125,15);//calcul trichro ( triangle et saturation dans buffer separé)
@@ -991,8 +978,6 @@ save_load_print_to_screen("Init Arduino");
 arduino_init(0);
 }
 
-prepare_move_values(dock_move_selected);//prepa
-Prepare_Cross_Spline(dock_move_selected);
 save_load_print_to_screen("Init Backamnesia");
  if(set_display_switch_mode(SWITCH_BACKGROUND))
  {set_display_switch_mode(SWITCH_BACKAMNESIA);}
@@ -1116,6 +1101,8 @@ while(index_quit!=1)
    {
       case 0:
          process_midi_input();
+         commandes_clavier(); // ici : même thread que wc_key_queue.push() → thread-safe
+         DoMouseLevel();
          if(mouse_button==1 && mouse_released==0)
          {
             switch(im_moving_a_window)
@@ -1143,8 +1130,8 @@ while(index_quit!=1)
    }
 
 
+   WC_FDEBUG("main-before-Canvas-Refresh");
    Canvas::Refresh();
-   //19/12/14 bazookat ignition
 
 
    if(index_do_a_screen_capture==1){do_a_screen_capture();index_do_a_screen_capture=0;}

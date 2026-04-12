@@ -189,9 +189,6 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                     }
                 if(index_do_dock==0){gridplayer_to_affect_is=-1;}
                 break;
-                case W_MOVER:
-                    index_affect_to_dock_mover=index_do_dock;
-                    break;
                 case W_DRAW:
                     index_affect_draw_to_dock=index_do_dock;
                     break;
@@ -721,15 +718,6 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             {
                 if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1)
                 {
-                    //sab 02/04/2014IMPACT if(index_show_mover_window=0){add_a_window(W_MOVER);}
-                    if(index_show_mover_window==0)
-                    {
-                        add_a_window(W_MOVER);
-                    }
-                    else
-                    {
-                        substract_a_window(W_MOVER);
-                    }
                 }
             }
             else if(index_type==1)

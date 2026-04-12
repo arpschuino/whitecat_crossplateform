@@ -45,8 +45,8 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 
-char versionis[72]={"ALPHA 0.8.7 - 25 juin 2015"};
-char nickname_version[48]={"ARDUINO POWER"};
+char versionis[72]={"alpha 0.9.0 - 12 avril 2026"};
+char nickname_version[48]={"arpschuino reborn"};
 
 bool init_done=0;//démarrage pour éviter envoyer data pdt procedure d initialisation
 /////////////////////REPERTOIRE/////////////////////////////////////////////////
@@ -82,7 +82,6 @@ enum WINDOW
    W_PATCH=907,
    W_TIME=908,
    W_SEQUENCIEL=909,
-   W_BAZOOKAT=910,
    W_ASKCONFIRM=911,
    W_PLOT=912,
    W_ECHO=913,
@@ -96,12 +95,10 @@ enum WINDOW
    W_WIZARD=921,
    W_MINIFADERS=922,
    W_CHASERS=923,
-   W_MOVER=924,
    W_iCAT=925,
-   W_GRID=926,
-   W_MY_WINDOW=927
+   W_GRID=926
 };
-int max_window_identity_is=927;
+int max_window_identity_is=926;
 int index_to_navigate_between_window=0;
 
 int window_opened[72];//la liste des fenetres ouvertes modification en 0.4.1 d un size 64 en size 72,
@@ -1639,19 +1636,13 @@ int TrackHasMem[128][24];
 int over_track_show_channel[514];
 bool i_m_over_a_track=0;
 
-char string_param_mover_is[76];
 
 
 
 
-
-///////////MOVER//////////////////////////////////////////////////////////////
-bool index_show_mover_window=0;
-bool index_over_mover=0;
-bool index_click_move_mover=0;
 
 bool index_affect_to_dock_mover=0;
-bool  index_do_affect_mover=0;//pour confirm ask
+bool  index_do_affect_mover=0;
 
 volatile float actual_spline_tick=0.0;
 
@@ -1662,7 +1653,6 @@ volatile int ticks_move = 0;
 #define bytes_to_short(h,l) ( ((h << 8) & 0xff00) | (l & 0x00FF) );
 
 
-int xmover_window=100, ymover_window=100;
 
 
 char string_tracker_mode[8];
@@ -2559,20 +2549,6 @@ int fader_before_bounce[48];
 float snap_echo_to_recall[24][513];
 
 
-//BAZOOCAT video handler
-
-bool index_bazoocat_menu_window=1;
-
-
-
-
-int size_x_bazoocat_menus=800;
-int size_y_bazoocat_menus=600;
-int position_x_bazoocat_menus=100;
-int position_y_bazoocat_menus=100;
-
-
-bool index_click_move_bazoocat_window=0;
 
 
 

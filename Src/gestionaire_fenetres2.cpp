@@ -143,9 +143,13 @@ int add_a_window(int id)
  break;
  case W_FADERS:
       index_show_faders=1;
- break;
- case W_BAZOOKAT:
-     index_bazoocat_menu_window=1;
+      wc_freeze_debug = 1; // active le diagnostic freeze
+      {
+          SDL_RendererInfo ri;
+          const char* rname = (wc_sdl_renderer && SDL_GetRendererInfo(wc_sdl_renderer,&ri)==0) ? ri.name : "unknown";
+          FILE* _f=fopen(WC_LOG_FILE,"a");
+          if(_f){fprintf(_f,"FDEBUG: add_a_window(W_FADERS) renderer=%s\n",rname);fflush(_f);fclose(_f);}
+      }
  break;
  case W_PATCH:
       index_patch_window=1;index_enable_curve_editing=0;
@@ -234,9 +238,6 @@ int add_a_window(int id)
       index_affect_chaser_to_dock=0;
       index_window_chasers=1;
  break;
- case W_MOVER:
-    index_show_mover_window=1; index_mouse_is_tracking=0;
- break;
  case W_iCAT:
       index_window_gui_iCat=1;
  break;
@@ -244,9 +245,6 @@ int add_a_window(int id)
       index_grider_window=1;
       for(int i=0;i<4;i++)
       {grid_affect_to_dock[i]=0;}
- break;
- case W_MY_WINDOW:
-      index_my_window=1;
  break;
  default:
  break;

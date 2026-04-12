@@ -246,7 +246,7 @@ break;
 
 
 //2ème colonne Circuit relatif
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -285,13 +285,6 @@ strcpy(nom_commande,"Exclude");
 strcpy(raccourci_commande,"");
 stae=index_do_exclude;
 break;
-case 5://my window
-IDmidi=2047; // c est la derniere commande midi, a changer et  définir voir tableau affectations midi
-IDcommand=cl+10;
-strcpy(nom_commande,"MY WINDOW");
-strcpy(raccourci_commande,"");
-stae= index_my_window;
-break;
 default:
 break;
 }
@@ -300,7 +293,7 @@ command_button_logical(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_com
 
 
 //3ème colonne grands blocs
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -339,13 +332,6 @@ strcpy(nom_commande,"GridPl.");
 strcpy(raccourci_commande,"");
 stae=index_grider_window;
 break;
-case 5:
-IDmidi=1829;
-IDcommand=cl+20;
-strcpy(nom_commande,"BazooKAT");
-strcpy(raccourci_commande,"");
-stae=index_bazoocat_menu_window;
-break;
 default:
 break;
 }
@@ -355,7 +341,7 @@ command_button_logical(xmenu+150,ymenu+50+(cl*25),stae,nom_commande,raccourci_co
 
 
 //4ème colonne grands blocs
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -367,34 +353,27 @@ sprintf(raccourci_commande,"F8");
 stae=index_video_window;
 break;
 case 1:
-IDmidi=1339;
-IDcommand=cl+30;
-strcpy(nom_commande,"Mover");
-strcpy(raccourci_commande,"");
-stae=index_show_mover_window;
-break;
-case 2:
 IDmidi=1662;
 IDcommand=cl+30;
 strcpy(nom_commande,"ECHO");
 strcpy(raccourci_commande,"");
 stae=index_show_echo_window;
 break;
-case 3:
+case 2:
 IDmidi=756;
 IDcommand=cl+30;
 sprintf(nom_commande,"AudioPl.");
 sprintf(raccourci_commande,"Ctrl-A");
 stae=index_show_audio_window;
 break;
-case 4:
+case 3:
 IDmidi=747;
 IDcommand=cl+30;
 sprintf(nom_commande,"Name");
 sprintf(raccourci_commande,"F5");
 stae=index_type;
 break;
-case 5:
+case 4:
 IDmidi=1659;
 IDcommand=cl+30;
 strcpy(nom_commande,"Draw");
@@ -541,7 +520,7 @@ command_button_view(xmenu+10,ymenu+50+(cl*25),stae,nom_commande,raccourci_comman
 }
 
 //2ème colonne Circuit relatif
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -580,13 +559,6 @@ strcpy(nom_commande,"Exclude");
 strcpy(raccourci_commande,"");
 stae=index_do_exclude;
 break;
-case 5://my window
-IDmidi=2047; //a re définir voir tableau affectations midi
-//02/03/2014 unused var IDcommand=cl+10;
-strcpy(nom_commande,"MY WINDOW");
-strcpy(raccourci_commande,"");
-stae= index_my_window;
-break;
 default:
 break;
 }
@@ -595,7 +567,7 @@ command_button_view(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_comman
 
 
 //3ème colonne grands blocs
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -634,12 +606,6 @@ strcpy(nom_commande,"GRID PL.");
 strcpy(raccourci_commande,"");
 stae=index_grider_window;
 break;
-case 5:
-IDmidi=1829;
-strcpy(nom_commande,"BazooKAT");
-strcpy(raccourci_commande,"");
-stae=index_bazoocat_menu_window;
-break;
 default:
 break;
 }
@@ -648,7 +614,7 @@ command_button_view(xmenu+150,ymenu+50+(cl*25),stae,nom_commande,raccourci_comma
 
 
 //4ème colonne grands blocs
-for(int cl=0;cl<6;cl++)
+for(int cl=0;cl<5;cl++)
 {
 switch(cl)
 {
@@ -660,34 +626,27 @@ sprintf(raccourci_commande,"F8");
 stae=index_video_window;
 break;
 case 1:
-IDmidi=1339;
-//02/03/2014 unused var IDcommand=cl+30;
-strcpy(nom_commande,"Mover");
-strcpy(raccourci_commande,"");
-stae=index_show_mover_window;
-break;
-case 2:
 IDmidi=1662;
 //02/03/2014 unused var IDcommand=cl+30;
 strcpy(nom_commande,"ECHO");
 strcpy(raccourci_commande,"");
 stae=index_show_echo_window;
 break;
-case 3:
+case 2:
 IDmidi=756;
 //02/03/2014 unused var IDcommand=cl+30;
 sprintf(nom_commande,"AUDIO PL.");
 sprintf(raccourci_commande,"Ctrl-A");
 stae=index_show_audio_window;
 break;
-case 4:
+case 3:
 IDmidi=747;
 //02/03/2014 unused var IDcommand=cl+30;
 sprintf(nom_commande,"NAME");
 sprintf(raccourci_commande,"F5");
 stae=index_type;
 break;
-case 5:
+case 4:
 IDmidi=1659;
 //02/03/2014 unused var IDcommand=cl+30;
 strcpy(nom_commande,"DRAW");
