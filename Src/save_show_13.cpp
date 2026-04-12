@@ -1387,6 +1387,14 @@ index_report_customs[65]=index_config_core;
 index_report_customs[66]=show_gridplayer_in_seq;
 index_report_customs[67]=index_auto_mute_cuelist_speed;
 index_report_customs[68]=Midi_Force_Go;
+// Ports MIDI IN actifs encodés en bitmask (bit i = port i ouvert)
+{
+    int bitmask = 0;
+    for (int i = 0; i < RTMIDI_MAX_PORTS_IN; i++)
+        if (midi_backend_is_port_in_open(i)) bitmask |= (1 << i);
+    index_report_customs[69] = bitmask;
+}
+index_report_customs[70] = midi_backend_get_open_port_out();
 
 return(0);
 }
@@ -1462,7 +1470,19 @@ index_config_core=index_report_customs[65];
 show_gridplayer_in_seq=index_report_customs[66];
 index_auto_mute_cuelist_speed=index_report_customs[67];
 Midi_Force_Go=index_report_customs[68];
-
+// Restauration des ports MIDI IN (seulement si le backend est initialisé)
+if (midi_backend_initialized) {
+    int bitmask = index_report_customs[69];
+    for (int i = 0; i < RTMIDI_MAX_PORTS_IN; i++) {
+        bool was_open = (bitmask >> i) & 1;
+        bool is_open  = midi_backend_is_port_in_open(i);
+        if (was_open && !is_open)  midi_backend_open_device_in(i);
+        if (!was_open && is_open)  midi_backend_close_port_in(i);
+    }
+    int saved_out = index_report_customs[70];
+    if (saved_out >= 0 && saved_out != midi_backend_get_open_port_out())
+        midi_backend_open_device_out(saved_out);
+}
 
 //icat
  if(surface_type==0){L_tablier_iCat=240; H_tablier_iCat=160;}

@@ -1429,7 +1429,7 @@ return(0);
 int do_panel_config(int cfg_X,int cfg_Y)
 {
 
-Rect ConfigPanel(Vec2D(cfg_X,  cfg_Y), Vec2D( largeurCFGwindow,hauteurCFGwindow));
+Rect ConfigPanel(Vec2D(cfg_X+3,  cfg_Y), Vec2D( largeurCFGwindow-6,hauteurCFGwindow-3));
 ConfigPanel.SetRoundness(15);
 ConfigPanel.Draw(CouleurConfig);
 ConfigPanel.DrawOutline(CouleurLigne);
@@ -1527,7 +1527,7 @@ CadreGeneralConfig.SetRoundness(15);
 CadreGeneralConfig.SetLineWidth(triple_epaisseur_ligne_fader);
 CadreGeneralConfig.Draw(CouleurConfig);
 if(window_focus_id==920)
-{CadreGeneralConfig.DrawOutline(CouleurBlind);}
+{CadreGeneralConfig.DrawOutline(CouleurFader);}
 else{CadreGeneralConfig.DrawOutline(CouleurLigne);}
 int mysetupx=window_cfgX+100;
 for (int choix=0;choix<7;choix++)

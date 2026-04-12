@@ -1176,11 +1176,10 @@ save_load_print_to_screen("Closing midi");
  }
 
 
-QuitMidi() ;
 save_load_print_to_screen("Saving Show");
 if(index_please_do_not_save==0)//a garder sinon plante sur le please not save
 {
-Save_Show();
+Save_Show(); // avant QuitMidi() pour capturer l'état des ports MIDI IN
 save_load_print_to_screen("Saving Video Conf");
 Save_Video_Conf();
 save_load_print_to_screen("Saving Screen Conf");
@@ -1189,6 +1188,7 @@ save_load_print_to_screen("Saving Setup Conf");
 Save_setup_conf();
 
 }
+QuitMidi(); // après Save_Show() pour que les ports MIDI soient encore ouverts au moment de la sauvegarde
 destroy_bitmap(bmp_buffer_trichro);
 remove_int(ticker_full_loop);
 remove_int(ticker);

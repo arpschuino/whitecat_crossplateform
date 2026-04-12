@@ -3721,33 +3721,53 @@ int PrintSlotsInfosDevices(short driverRef)
 
     sprintf(string_nbre_de_devices,"In: %d Out: %d", count_in, count_out);
 
-    // Periph�riques IN
+    // Hotplug : si le nombre de périphériques IN augmente, rouvrir les ports voulus
+    static int last_count_in = 0;
+    if (count_in > last_count_in && last_count_in >= 0) {
+        for (int k = 0; k < RTMIDI_MAX_PORTS_IN; k++) {
+            if (midi_backend_is_port_in_open(k)) {
+                midi_backend_close_port_in(k);  // ferme le handle stale
+                midi_backend_open_device_in(k); // rouvre proprement
+            }
+        }
+    }
+    last_count_in = count_in;
+
+    // Périphériques IN
     for(int i=0; i<count_in && i<32; i++)
     {
         std::string name = midi_backend_get_device_name_in(i);
         strncpy(tableau_peripheriques_in[i+1], name.c_str(), 32);
         tableau_peripheriques_indexs_in[i+1]=1;
-        midi_in_is_connected[i+1]=1;
+        // Actif si ce port est ouvert
+        midi_in_is_connected[i+1] = midi_backend_is_port_in_open(i) ? 1 : 0;
         compt_midi_in++;
         if(do_connect_in[i+1]==1)
         {
-            midi_backend_open_device_in(i);
+            if(midi_backend_is_port_in_open(i))
+                midi_backend_close_port_in(i);  // déjà actif → toggle off
+            else
+                midi_backend_open_device_in(i); // ouvre ce port en plus
             do_connect_in[i+1]=0;
         }
     }
 
-    // P�riph�riques OUT
+    // Périphériques OUT
     for(int i=0; i<count_out && i<32; i++)
     {
         std::string name = midi_backend_get_device_name_out(i);
         strncpy(tableau_peripheriques_out[i+1], name.c_str(), 32);
         tableau_peripheriques_indexs_out[i+1]=1;
-        midi_out_is_connected[i+1]=1;
+        // Actif uniquement si ce port est le port ouvert
+        midi_out_is_connected[i+1] = (midi_backend_get_open_port_out() == i) ? 1 : 0;
         compt_midi_out++;
         if(compt_first_device_out==0) compt_first_device_out=i+1;
         if(do_connect_out[i+1]==1)
         {
-            midi_backend_open_device_out(i);
+            if(midi_backend_get_open_port_out() == i)
+                midi_backend_close_out();   // déjà actif → on ferme (toggle off)
+            else
+                midi_backend_open_device_out(i);
             do_connect_out[i+1]=0;
         }
     }
@@ -4630,12 +4650,12 @@ int midipage_devices(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteur
 
     midi_list_and_choose_devices();
 
-    Rect MidiInDev( Vec2D(cfg_midiX+15,cfg_midiY+40), Vec2D ( 400,240));
+    Rect MidiInDev( Vec2D(cfg_midiX+15,cfg_midiY+40), Vec2D ( 400,234));
     MidiInDev.SetRoundness(5);
     MidiInDev.Draw(CouleurFond);
 
 
-    Rect MidiOutDev( Vec2D(cfg_midiX+420,cfg_midiY+40), Vec2D ( 400,240));
+    Rect MidiOutDev( Vec2D(cfg_midiX+420,cfg_midiY+40), Vec2D ( 400,234));
     MidiOutDev.SetRoundness(5);
     MidiOutDev.Draw(CouleurFond);
 

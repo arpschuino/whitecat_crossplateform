@@ -57,7 +57,7 @@ WWWWWWWW           C  WWWWWWWW   | MERCHANTABILITY or FITNESS FOR A PARTICULAR P
 // Structure to store a received MIDI message
 // ============================================================
 struct MidiMessage {
-    int type;    // 0=NoteOn, 1=NoteOn vel0, 2=NoteOff, 3=CC, 4=PitchWheel
+    int type;    // indices MidiShare : 1=Key On, 2=Key Off, 4=Ctrl Change, 7=Pitch Wheel
     int channel;
     int pitch;
     int velocity;
@@ -67,11 +67,16 @@ struct MidiMessage {
 // Variables globales du backend
 // Global backend variables
 // ============================================================
-static RtMidiIn*  rtmidi_in  = NULL;
+static const int RTMIDI_MAX_PORTS_IN = 32;
+static RtMidiIn*  rtmidi_in_ports[RTMIDI_MAX_PORTS_IN]; // une instance par port IN ouvert
+static bool       rtmidi_port_in_open[RTMIDI_MAX_PORTS_IN]; // true si ce port est actif
+static bool       rtmidi_port_in_wanted[RTMIDI_MAX_PORTS_IN]; // true si l'utilisateur veut ce port (hotplug)
+static RtMidiIn*  rtmidi_query_in = NULL; // instance de requête seule (getPortCount/Name)
 static RtMidiOut* rtmidi_out = NULL;
 static std::queue<MidiMessage> midi_queue;
 static std::mutex midi_mutex;
 static bool midi_backend_initialized = false;
+static int rtmidi_open_port_out = -1; // port OUT actuellement ouvert (-1 = aucun)
 
 // ============================================================
 // Callback RtMidi - appele dans un thread dedie
@@ -93,19 +98,21 @@ static void rtmidi_callback(double deltatime,
     msg.pitch       = data1;
     msg.velocity    = data2;
 
-    // Conversion vers les types MidiShare
+    // Conversion vers les types MidiShare (indices de TblLibEv)
+    // 0=Note, 1=Key On, 2=Key Off, 3=Key Press, 4=Ctrl Change,
+    // 5=Prog Change, 6=Chan Press, 7=Pitch Wheel
     switch(raw_type) {
         case 0x9: // Note On
-            msg.type = (data2 == 0) ? 2 : 1; // vel 0 = Note Off
+            msg.type = (data2 == 0) ? 2 : 1; // vel 0 = Key Off
             break;
         case 0x8: // Note Off
             msg.type = 2;
             break;
         case 0xB: // Control Change
-            msg.type = 3;
+            msg.type = 4;
             break;
         case 0xE: // Pitch Wheel
-            msg.type = 4;
+            msg.type = 7;
             msg.velocity = data2;
             break;
         default:
@@ -115,6 +122,7 @@ static void rtmidi_callback(double deltatime,
     // Ajout thread-safe dans la file
     std::lock_guard<std::mutex> lock(midi_mutex);
     midi_queue.push(msg);
+    wc_notify_midi_activity(); // maintient le mode 60fps pendant l'activité MIDI
 }
 
 // ============================================================
@@ -123,21 +131,24 @@ static void rtmidi_callback(double deltatime,
 // ============================================================
 static int midi_backend_init()
 {
+    // Initialiser les tableaux
+    for (int i = 0; i < RTMIDI_MAX_PORTS_IN; i++) {
+        rtmidi_in_ports[i] = NULL;
+        rtmidi_port_in_open[i] = false;
+    }
     try {
-        rtmidi_in  = new RtMidiIn();
-        rtmidi_out = new RtMidiOut();
+        rtmidi_query_in = new RtMidiIn(); // instance de requête uniquement
+        rtmidi_out      = new RtMidiOut();
 
-        if (rtmidi_in->getPortCount() == 0) {
+        if (rtmidi_query_in->getPortCount() == 0) {
             return -1; // aucun peripherique MIDI
         }
 
-        // Ouvrir le premier port disponible
-        rtmidi_in->openPort(0);
-        rtmidi_in->setCallback(&rtmidi_callback);
-        rtmidi_in->ignoreTypes(false, false, false);
+        // Pas d'auto-ouverture : l'utilisateur sélectionne explicitement via l'UI
 
         if (rtmidi_out->getPortCount() > 0) {
             rtmidi_out->openPort(0);
+            rtmidi_open_port_out = 0;
         }
 
         midi_backend_initialized = true;
@@ -154,21 +165,66 @@ static int midi_backend_init()
 // ============================================================
 static int midi_backend_close()
 {
-    if (rtmidi_in) {
-        rtmidi_in->cancelCallback();
-        Sleep(100); // laisse le temps au thread de se terminer
-        rtmidi_in->closePort();
-        delete rtmidi_in;
-        rtmidi_in = NULL;
+    for (int i = 0; i < RTMIDI_MAX_PORTS_IN; i++) {
+        if (rtmidi_in_ports[i]) {
+            if (rtmidi_in_ports[i]->isPortOpen()) {
+                rtmidi_in_ports[i]->cancelCallback();
+                Sleep(100);
+                rtmidi_in_ports[i]->closePort();
+            }
+            delete rtmidi_in_ports[i];
+            rtmidi_in_ports[i] = NULL;
+            rtmidi_port_in_open[i] = false;
+        }
+    }
+    if (rtmidi_query_in) {
+        delete rtmidi_query_in;
+        rtmidi_query_in = NULL;
     }
     if (rtmidi_out) {
         rtmidi_out->closePort();
         delete rtmidi_out;
         rtmidi_out = NULL;
     }
+    rtmidi_open_port_out = -1;
     midi_backend_initialized = false;
     return 0;
 }
+
+// Ferme un port IN spécifique
+static int midi_backend_close_port_in(int index)
+{
+    if (index < 0 || index >= RTMIDI_MAX_PORTS_IN) return -1;
+    if (!rtmidi_in_ports[index]) return -1;
+    if (rtmidi_in_ports[index]->isPortOpen()) {
+        rtmidi_in_ports[index]->cancelCallback();
+        Sleep(100); // laisse le thread callback se terminer (Windows MM)
+        rtmidi_in_ports[index]->closePort();
+        Sleep(100); // laisse Windows MM libérer le device avant toute réouverture
+    }
+    delete rtmidi_in_ports[index];
+    rtmidi_in_ports[index] = NULL;
+    rtmidi_port_in_open[index] = false;
+    return 0;
+}
+
+// Ferme uniquement le port OUT
+static int midi_backend_close_out()
+{
+    if (!rtmidi_out) return -1;
+    rtmidi_out->closePort();
+    rtmidi_open_port_out = -1;
+    return 0;
+}
+
+// Retourne true si le port IN donné est ouvert
+static bool midi_backend_is_port_in_open(int index)
+{
+    if (index < 0 || index >= RTMIDI_MAX_PORTS_IN) return false;
+    return rtmidi_port_in_open[index];
+}
+
+static int midi_backend_get_open_port_out() { return rtmidi_open_port_out; }
 
 // ============================================================
 // Lecture de la file de messages MIDI
@@ -229,8 +285,8 @@ static int midi_backend_send(int type, int channel, int pitch, int velocity)
 // ============================================================
 static int midi_backend_get_device_count_in()
 {
-    if (!rtmidi_in) return 0;
-    return (int)rtmidi_in->getPortCount();
+    if (!rtmidi_query_in) return 0;
+    return (int)rtmidi_query_in->getPortCount();
 }
 
 static int midi_backend_get_device_count_out()
@@ -241,9 +297,9 @@ static int midi_backend_get_device_count_out()
 
 static std::string midi_backend_get_device_name_in(int index)
 {
-    if (!rtmidi_in) return "";
+    if (!rtmidi_query_in) return "";
     try {
-        return rtmidi_in->getPortName(index);
+        return rtmidi_query_in->getPortName(index);
     }
     catch (RtMidiError& error) {
         return "";
@@ -267,14 +323,22 @@ static std::string midi_backend_get_device_name_out(int index)
 // ============================================================
 static int midi_backend_open_device_in(int index)
 {
-    if (!rtmidi_in) return -1;
+    if (index < 0 || index >= RTMIDI_MAX_PORTS_IN) return -1;
+    if (rtmidi_port_in_open[index]) return 0; // déjà ouvert
     try {
-        if (rtmidi_in->isPortOpen()) rtmidi_in->closePort();
-        rtmidi_in->openPort(index);
-        rtmidi_in->setCallback(&rtmidi_callback);
+        rtmidi_in_ports[index] = new RtMidiIn();
+        rtmidi_in_ports[index]->openPort(index);
+        rtmidi_in_ports[index]->setCallback(&rtmidi_callback);
+        rtmidi_in_ports[index]->ignoreTypes(false, false, false);
+        rtmidi_port_in_open[index] = true;
         return 0;
     }
     catch (RtMidiError& error) {
+        if (rtmidi_in_ports[index]) {
+            delete rtmidi_in_ports[index];
+            rtmidi_in_ports[index] = NULL;
+        }
+        rtmidi_port_in_open[index] = false;
         return -1;
     }
 }
@@ -285,9 +349,11 @@ static int midi_backend_open_device_out(int index)
     try {
         if (rtmidi_out->isPortOpen()) rtmidi_out->closePort();
         rtmidi_out->openPort(index);
+        rtmidi_open_port_out = index;
         return 0;
     }
     catch (RtMidiError& error) {
+        rtmidi_open_port_out = -1;
         return -1;
     }
 }

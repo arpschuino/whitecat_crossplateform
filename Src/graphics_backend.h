@@ -782,7 +782,10 @@ static inline int set_display_switch_mode(int) { return 0; }
 // Traitement des evenements SDL (appele dans Canvas::Refresh)
 // SDL event processing (called inside Canvas::Refresh)
 // ============================================================
-static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier
+static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier/midi
+
+// Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI
+inline void wc_notify_midi_activity() { wc_last_input_ms = SDL_GetTicks(); }
 
 // Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
 static volatile int wc_freeze_debug = 0;
@@ -1434,12 +1437,12 @@ namespace Canvas {
         SDL_RenderPresent(wc_sdl_renderer);
         WC_FDEBUG("Refresh-after-RenderPresent");
         // Adaptive frame cap:
-        //   active (input in last 500ms) → ~30fps (33ms)
+        //   active (input in last 500ms) → ~60fps (16ms)
         //   idle                         → ~5fps (200ms) — saves CPU when console untouched
         static Uint32 last_frame = 0;
         Uint32 now = SDL_GetTicks();
         Uint32 elapsed = now - last_frame;
-        Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 33 : 200;
+        Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 16 : 200;
         if (elapsed < cap_ms) SDL_Delay(cap_ms - elapsed);
         last_frame = SDL_GetTicks();
     }
