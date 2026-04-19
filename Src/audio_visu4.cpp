@@ -70,7 +70,7 @@ return(0);
 
 int lecteur_audio( int xp, int yp, int numero)
 {
-Rect FramePlayer(Vec2D(xp-5,yp-5),Vec2D(340,135));
+Rect FramePlayer(Vec2D(xp-3,yp-5),Vec2D(340,135));
 FramePlayer.SetRoundness(5);
 FramePlayer.Draw(CouleurBleuProcedure.WithAlpha(0.7));
 Rect Player(Vec2D(xp,yp),Vec2D(200,20));

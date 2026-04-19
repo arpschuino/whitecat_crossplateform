@@ -244,6 +244,7 @@ for (int i=0;i<9;i++)
 {
 if(core_do_calculations[i]==1)
 {
+wc_request_refresh(); // une automation tourne → maintenir le rendu actif
 switch (i)
 {
        case 0:
@@ -286,6 +287,7 @@ switch (i)
 
 for(int pr=0;pr<6;pr++)
 {
+if(draw_point_is_traced[pr]==1) wc_request_refresh();
 merge_draw_and_grid_player(pr);
 }
 

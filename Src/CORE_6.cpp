@@ -132,6 +132,7 @@ return(0);
 //christoph 14/04/14 avoiding clippling on stop
 int player1_do_stop()//fade out to avoid clipping in sound when stopping
 {
+if (!player1) return 0;
 float value_lecteur=(((float)player_niveauson[0])/127);
 for(float i=value_lecteur*30; i>0.0;i--)
 {
@@ -149,6 +150,7 @@ return(0);
 
 int player2_do_stop()//fade out to avoid clipping in sound when stopping
 {
+if (!player2) return 0;
 float value_lecteur=(((float)player_niveauson[1])/127);
 for(float i=value_lecteur*30; i>0.0;i--)
 {
@@ -166,6 +168,7 @@ return(0);
 
 int player3_do_stop()//fade out to avoid clipping in sound when stopping
 {
+if (!player3) return 0;
 float value_lecteur=(((float)player_niveauson[2])/127);
 for(float i=value_lecteur*30; i>0.0;i--)
 {
@@ -182,6 +185,7 @@ return(0);
 }
 int player4_do_stop()//fade out to avoid clipping in sound when stopping
 {
+if (!player4) return 0;
 float value_lecteur=(((float)player_niveauson[3])/127);
 for(float i=value_lecteur*30; i>0.0;i--)
 {
@@ -5537,10 +5541,19 @@ int do_sprintf_job()//report du calcul des affichages de temps dans la boucle de
         sprintf(string_niveauson[numero],"%0.2f",show_player_niveauson[numero]);
         sprintf(string_pitch[numero],"Pitch %0.2f",show_pitch_value[numero]);
         sprintf(string_pan[numero],"Pan %0.2f",show_pan_value[numero]);
-        sprintf(time_is_for_fileCueIn[numero],"In: %.1f",(((float)player_seek_position[numero])/audio_rate[numero]));
-        sprintf(time_is_for_fileCueOut[numero],"Out: %.1f",(((float)player_loop_out_position[numero])/audio_rate[numero]));
-        sprintf(time_is_for_filePos[numero],"Pos: %.1f",(((float)position_of_file_in_player[numero])/audio_rate[numero]));
-        sprintf(time_is_for_fileTotal[numero],"Total: %.1f",(((float)length_of_file_in_player[numero])/audio_rate[numero]));
+        {
+        int _hz = (audio_rate[numero] > 0) ? audio_rate[numero] : 44100;
+        auto _fmt = [](char* buf, const char* lbl, int samples, int hz) {
+            int ts = samples / hz;
+            int h = ts/3600, m = (ts%3600)/60, s = ts%60;
+            if (h > 0) sprintf(buf, "%s %d:%02d:%02d", lbl, h, m, s);
+            else        sprintf(buf, "%s %d:%02d",      lbl, m, s);
+        };
+        _fmt(time_is_for_fileCueIn[numero],  "In:",    player_seek_position[numero],    _hz);
+        _fmt(time_is_for_fileCueOut[numero], "Out:",   player_loop_out_position[numero], _hz);
+        _fmt(time_is_for_filePos[numero],    "Pos:",   position_of_file_in_player[numero], _hz);
+        _fmt(time_is_for_fileTotal[numero],  "Total:", length_of_file_in_player[numero], _hz);
+        }
     }
 
     return(0);

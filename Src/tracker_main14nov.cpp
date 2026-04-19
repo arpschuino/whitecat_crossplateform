@@ -42,8 +42,6 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
-#include <allegro.h>
-#include <OpenLayer.hpp>
 #include "stdio.h"
 #include <loadpng.h>
 using namespace ol;

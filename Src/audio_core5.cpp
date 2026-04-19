@@ -104,9 +104,10 @@ switch(player)
 case 0:
 //christoph 14/04/14 avoiding clippling on stop
 if(player_is_playing[player]==1){player_ignited[player]=1;player1_do_stop();}
+player_ignited[player]=0; // clear BEFORE nulling pointer (thread safety vs sound_core_processing)
 player1=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player1=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds);
+player1=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 0);
 if (!player1)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -120,6 +121,7 @@ if(player_is_playing[player]==1)
 //christoph 14/04/14 avoiding clippling on stop
 // player1->stop();
 player1->setPosition(0);player1->play(); }
+audio_rate[player]=player1->getSampleRate();
 length_of_file_in_player[player]=(player1->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player1->setVolume(((float)player_niveauson[player])/127);
@@ -137,9 +139,10 @@ break;
 case 1:
 //christoph 14/04/14 avoiding clippling on stop
 if(player_is_playing[player]==1){player_ignited[player]=1;player2_do_stop();}
+player_ignited[player]=0;
 player2=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player2=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds);
+player2=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 1);
 if (!player2)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -154,6 +157,7 @@ if(player_is_playing[player]==1)
 //player2->stop();
 player2->setPosition(0);player2->play();
 }
+audio_rate[player]=player2->getSampleRate();
 length_of_file_in_player[player]=(player2->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player2->setVolume(((float)player_niveauson[player])/127);
@@ -171,9 +175,10 @@ break;
 case 2:
 //christoph 14/04/14 avoiding clippling on stop
 if(player_is_playing[player]==1){player_ignited[player]=1;player3_do_stop();}
+player_ignited[player]=0;
 player3=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player3=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds);
+player3=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 2);
 if (!player3)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -187,6 +192,7 @@ if(player_is_playing[player]==1)
 //   player3->stop();
 player3->setPosition(0);player3->play();
 }
+audio_rate[player]=player3->getSampleRate();
 length_of_file_in_player[player]=(player3->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player3->setVolume(((float)player_niveauson[player])/127);
@@ -204,9 +210,10 @@ break;
 case 3:
 //christoph 14/04/14 avoiding clippling on stop
 if(player_is_playing[player]==1){player_ignited[player]=1;player4_do_stop();}
+player_ignited[player]=0;
 player4=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player4=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds);
+player4=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 3);
 if (!player4)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -220,6 +227,7 @@ if(player_is_playing[player]==1)
 //player4->stop();
 player4->setPosition(0);player4->play();
 }
+audio_rate[player]=player4->getSampleRate();
 length_of_file_in_player[player]=(player4->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player4->setVolume(((float)player_niveauson[player])/127);
@@ -300,6 +308,9 @@ return(0);
 
 int sound_core_processing()
 {
+// Ce code tourne sur le thread SDL timer — protéger contre AffectSoundFile() (thread principal)
+// This runs on the SDL timer thread — guard against AffectSoundFile() (main thread)
+if(index_loading_a_sound_file==1) return 0;
 
 for(int lect=0;lect<4;lect++)
 {

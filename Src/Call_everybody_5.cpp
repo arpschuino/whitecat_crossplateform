@@ -347,37 +347,38 @@ switch(cl)
 {
 case 0:
 IDmidi=750;
-IDcommand=cl+30;
+IDcommand=30; // case 30: tracking
 sprintf(nom_commande,"Track.Vid.");
 sprintf(raccourci_commande,"F8");
 stae=index_video_window;
 break;
 case 1:
 IDmidi=1662;
-IDcommand=cl+30;
+IDcommand=32; // case 32: echo (case 31 supprimé)
 strcpy(nom_commande,"ECHO");
 strcpy(raccourci_commande,"");
 stae=index_show_echo_window;
 break;
 case 2:
 IDmidi=756;
-IDcommand=cl+30;
+IDcommand=33; // case 33: audioplayers
 sprintf(nom_commande,"AudioPl.");
 sprintf(raccourci_commande,"Ctrl-A");
 stae=index_show_audio_window;
 break;
 case 3:
 IDmidi=747;
-IDcommand=cl+30;
+IDcommand=34; // case 34: name
 sprintf(nom_commande,"Name");
 sprintf(raccourci_commande,"F5");
 stae=index_type;
 break;
 case 4:
 IDmidi=1659;
-IDcommand=cl+30;
+IDcommand=35; // case 35: draw
 strcpy(nom_commande,"Draw");
 strcpy(raccourci_commande,"");
+stae=index_draw_window;
 break;
 default:
 break;

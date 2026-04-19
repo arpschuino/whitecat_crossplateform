@@ -41,7 +41,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#include <allegro.h>
+int key_up();
+int key_down();
 #include <OpenLayer.hpp>
 
 int snap_channels_selection_array()//pour saisie continue des circuits, au click button
@@ -194,15 +195,19 @@ int Channel_at_level()
 
 int DoMouseLevel()
 {
- if (mouse_z>last_scroll_mouse_for_chan )
  {
-
- simulate_keypress(KEY_UP << 8); last_scroll_mouse_for_chan= mouse_z;
+ int _delta = mouse_z - last_scroll_mouse_for_chan;
+ if (_delta != 0) {
+     int _absd = _delta > 0 ? _delta : -_delta;
+     int _d    = _absd > 2 ? _absd - 2 : 0;
+     int _steps = _d > 0 ? _d * _d * 5 : 1;  // 1→1, 2→1, 3→5, 4→20, 5→45
+     if (_steps > 45) _steps = 45;            // plafond
+     for (int _i = 0; _i < _steps; _i++) {
+         if (_delta > 0) key_up();
+         else            key_down();
+     }
+     last_scroll_mouse_for_chan = mouse_z;
  }
- else if (mouse_z<last_scroll_mouse_for_chan )
- {
-
-  simulate_keypress(KEY_DOWN << 8);  last_scroll_mouse_for_chan= mouse_z;
  }
 
  if (window_focus_id==W_BANGER &&  mouse_x>=X_banger && mouse_x<=X_banger+480 && mouse_y>=Y_banger && mouse_y<=Y_banger+300  )//banger

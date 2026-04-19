@@ -42,7 +42,6 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#include <allegro.h>
 
 
 int recall_config_page()
