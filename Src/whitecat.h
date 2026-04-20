@@ -130,7 +130,7 @@ float demi_epaisseur_ligne_fader=1.0;
 float tiers_epaisseur_ligne_fader=2.0/3;
 float sizefader_epaisseur_ligne_fader=2.0*0.8;
 float double_epaisseur_ligne_fader=2.0*2;
-float triple_epaisseur_ligne_fader=2.0*3;
+float triple_epaisseur_ligne_fader=3.0;
 //Affichage
 bool index_specify_size=0;
 bool index_set_pos=0;

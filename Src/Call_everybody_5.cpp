@@ -444,7 +444,7 @@ int Menus( int xmenu, int ymenu)
 Rect MyMainMenu(Vec2D(xmenu,ymenu),Vec2D(size_x_mainmenu,size_y_mainmenu));
 MyMainMenu.SetRoundness(15);
 MyMainMenu.Draw(CouleurFond);
-MyMainMenu.SetLineWidth(5);
+MyMainMenu.SetLineWidth(triple_epaisseur_ligne_fader);
 if(window_focus_id==W_MAINMENU)
 {
 MyMainMenu.DrawOutline(CouleurFader);

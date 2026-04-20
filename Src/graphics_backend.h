@@ -1059,8 +1059,37 @@ public:
     void Draw(const Rgba& color) const {
         if (!wc_sdl_renderer) return;
         _setcolor(color);
-        SDL_Rect r = {(int)pos.x, (int)pos.y, (int)size.x, (int)size.y};
-        SDL_RenderFillRect(wc_sdl_renderer, &r);
+        int x0 = (int)pos.x, y0 = (int)pos.y;
+        int w  = (int)size.x, h  = (int)size.y;
+        int r  = (int)(roundness + 0.5f);
+        if (r <= 0) {
+            SDL_Rect rect = {x0, y0, w, h};
+            SDL_RenderFillRect(wc_sdl_renderer, &rect);
+            return;
+        }
+        r = std::min(r, std::min(w/2, h/2));
+        // Corps principal : 3 rects (haut, milieu, bas) sans les coins
+        SDL_Rect body[3] = {
+            {x0 + r, y0,         w - 2*r, r    },
+            {x0,     y0 + r,     w,       h - 2*r},
+            {x0 + r, y0 + h - r, w - 2*r, r    },
+        };
+        SDL_RenderFillRects(wc_sdl_renderer, body, 3);
+        // Coins arrondis : seulement r scanlines par coin, batchees en FillRects
+        SDL_Rect corners[256];
+        int nc = 0;
+        for (int i = 0; i < r && nc + 4 <= 256; i++) {
+            int dy = r - i;
+            int dx = (int)(sqrtf((float)(r*r - dy*dy)) + 0.5f);
+            if (dx <= 0) continue;
+            int rowT = y0 + i;
+            int rowB = y0 + h - 1 - i;
+            corners[nc++] = {x0 + r - dx, rowT, dx, 1};  // haut-gauche
+            corners[nc++] = {x0 + w - r,  rowT, dx, 1};  // haut-droit
+            corners[nc++] = {x0 + r - dx, rowB, dx, 1};  // bas-gauche
+            corners[nc++] = {x0 + w - r,  rowB, dx, 1};  // bas-droit
+        }
+        if (nc > 0) SDL_RenderFillRects(wc_sdl_renderer, corners, nc);
     }
 
     void Fill(const Rgba& color) const { Draw(color); }
@@ -1068,8 +1097,48 @@ public:
     void DrawOutline(const Rgba& color) const {
         if (!wc_sdl_renderer) return;
         _setcolor(color);
-        SDL_Rect r = {(int)pos.x, (int)pos.y, (int)size.x, (int)size.y};
-        SDL_RenderDrawRect(wc_sdl_renderer, &r);
+        int x0 = (int)pos.x, y0 = (int)pos.y;
+        int w  = (int)size.x, h  = (int)size.y;
+        if (w <= 0 || h <= 0) return;
+        int r  = (int)(roundness + 0.5f);
+        int lw = std::max(1, (int)(line_width + 0.5f));
+        r = std::min(r, std::min(w/2, h/2));
+        int ri = std::max(0, r - lw);  // rayon intérieur du coin arrondi
+
+        // Bordure = bande pleine entre arc extérieur (r) et intérieur (ri)
+        // Pas d'arcs concentriques : une seule passe, sans trous aux coins
+        SDL_Rect all[256];
+        int n = 0;
+
+        // Bandes droites (haut, bas, gauche, droite)
+        int lwh = std::min(lw, h), lww = std::min(lw, w);
+        if (w > 2*r) {
+            all[n++] = {x0 + r, y0,          w - 2*r, lwh};  // haut
+            all[n++] = {x0 + r, y0 + h - lwh, w - 2*r, lwh};  // bas
+        }
+        if (h > 2*r) {
+            all[n++] = {x0,          y0 + r, lww, h - 2*r};  // gauche
+            all[n++] = {x0 + w - lww, y0 + r, lww, h - 2*r};  // droite
+        }
+
+        // Bandes de coins : chaque ligne = bande entre arc extérieur et intérieur
+        for (int i = 1; i < r && n + 4 <= 256; i++) {
+            int dy  = r - i;
+            int odx = (int)(sqrtf((float)(r*r  - dy*dy)) + 0.5f);
+            int idx = (ri > 0 && dy <= ri) ? (int)(sqrtf((float)(ri*ri - dy*dy)) + 0.5f) : 0;
+            int bw  = odx - idx;
+            if (bw <= 0) continue;
+            int rowT = y0 + i;
+            int rowB = y0 + h - 1 - i;
+            all[n++] = {x0 + r - odx,     rowT, bw, 1};  // coin gauche haut
+            all[n++] = {x0 + w - r + idx, rowT, bw, 1};  // coin droit haut
+            if (rowB != rowT) {
+                all[n++] = {x0 + r - odx,     rowB, bw, 1};  // coin gauche bas
+                all[n++] = {x0 + w - r + idx, rowB, bw, 1};  // coin droit bas
+            }
+        }
+
+        if (n > 0) SDL_RenderFillRects(wc_sdl_renderer, all, n);
     }
 };
 

@@ -617,19 +617,14 @@ int FaderSpace(int x, int y, int espacement,int nbr_fader)
     WC_FDEBUG("FaderSpace-start");
     Rect BackgroundFaderSpace(Vec2D(-20,y-80),Vec2D(LargeurEspaceFaderSize+20,hauteur_ecran));
 
-    BackgroundFaderSpace.SetLineWidth(5.0);
     BackgroundFaderSpace.SetRoundness(15);
     BackgroundFaderSpace.Draw(CouleurFond);
     if(LargeurEspaceFaderSize!=largeur_ecran)
     {
-        if(window_focus_id==W_FADERS)
-        {
-            BackgroundFaderSpace.DrawOutline(CouleurFader);
-        }
-        else
-        {
-            BackgroundFaderSpace.DrawOutline(CouleurLigne);
-        }
+        Rgba coulBord = (window_focus_id==W_FADERS) ? CouleurFader : CouleurLigne;
+        Line bord(Vec2D(LargeurEspaceFaderSize, y-80+10), Vec2D(LargeurEspaceFaderSize, y-80+hauteur_ecran-15));
+        bord.SetLineWidth(triple_epaisseur_ligne_fader);
+        bord.Draw(coulBord);
     }
 
     Canvas::SetClipping(0,y-80,LargeurEspaceFaderSize,hauteur_ecran);
@@ -717,7 +712,7 @@ int FaderSpace(int x, int y, int espacement,int nbr_fader)
             FaderB.SetRoundness(15);
             FaderB.SetLineWidth(epaisseur_ligne_fader);
 
-            Rect FaderNiveau( Vec2D(  x+(cmptfader*espacement),(y+255) - niveau), Vec2D ( 40,niveau+2));//niveau fader
+            Rect FaderNiveau( Vec2D(  x+(cmptfader*espacement),(y+257) - niveau), Vec2D ( 40,niveau));//niveau fader
             FaderNiveau.SetRoundness(15);
 //separateur
             Line(Vec2D(x+(cmptfader*espacement)-20,y-50),Vec2D(x+(cmptfader*espacement)-20,y+400)).Draw(CouleurLigne);

@@ -329,6 +329,15 @@ Rect PatchSpacebandeau( Vec2D((XChan),(YChan)),Vec2D(320,55));
 PatchSpacebandeau.SetRoundness(15);
 PatchSpacebandeau.Draw(CouleurFond);
 
+// Redessiner le contour principal par-dessus le bandeau
+if(window_focus_id==W_PATCH)
+{
+PatchSpace.DrawOutline(CouleurFader);
+}
+else
+{
+PatchSpace.DrawOutline(CouleurLigne);
+}
 
 return(0);
 }

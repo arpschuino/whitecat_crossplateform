@@ -114,7 +114,7 @@ int grand_master(int GMX, int GMY)
 Rect Gma( Vec2D(GMX,GMY), Vec2D(40,255) );//box du fader
 Gma.SetRoundness(15);
 Gma.SetLineWidth(epaisseur_ligne_fader);
-Rect GmaNiv( Vec2D(GMX,((GMY+255)-niveauGMaster)), Vec2D (40,niveauGMaster+2));//niveau fader
+Rect GmaNiv( Vec2D(GMX,((GMY+255)-niveauGMaster)), Vec2D (40,niveauGMaster));//niveau fader
 GmaNiv.SetRoundness(15);
 switch(dmx_view)
 {
