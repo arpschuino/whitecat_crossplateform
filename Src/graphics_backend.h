@@ -783,12 +783,14 @@ static inline int set_display_switch_mode(int) { return 0; }
 // SDL event processing (called inside Canvas::Refresh)
 // ============================================================
 static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier/midi
+static bool wc_dirty = true;        // faut-il redessiner ce frame ?
+static bool wc_frame_was_updated = false; // un dessin a eu lieu ce cycle
 
 // Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI
-inline void wc_notify_midi_activity() { wc_last_input_ms = SDL_GetTicks(); }
+inline void wc_notify_midi_activity() { wc_last_input_ms = SDL_GetTicks(); wc_dirty = true; }
 
 // Appelé par les automations (LFO, crossfade, chasers...) pour maintenir le rendu actif
-inline void wc_request_refresh() { wc_last_input_ms = SDL_GetTicks(); }
+inline void wc_request_refresh() { wc_last_input_ms = SDL_GetTicks(); wc_dirty = true; }
 
 // Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
 static volatile int wc_freeze_debug = 0;
@@ -801,100 +803,103 @@ static volatile int wc_freeze_debug = 0;
     } \
 } while(0)
 
+static void wc_handle_event(const SDL_Event& e) {
+    switch (e.type) {
+
+    case SDL_QUIT:
+        index_quit = 1;
+        break;
+
+    case SDL_MOUSEMOTION: {
+        wc_last_input_ms = SDL_GetTicks(); wc_dirty = true;
+        int mx = e.motion.x;
+        int my = e.motion.y;
+        if (mx < wc_mouse_range_x1) mx = wc_mouse_range_x1;
+        if (mx > wc_mouse_range_x2) mx = wc_mouse_range_x2;
+        if (my < wc_mouse_range_y1) my = wc_mouse_range_y1;
+        if (my > wc_mouse_range_y2) my = wc_mouse_range_y2;
+        mouse_x = mx;
+        mouse_y = my;
+        if (mouse_callback) mouse_callback(MOUSE_FLAG_MOVE);
+        break;
+    }
+
+    case SDL_MOUSEBUTTONDOWN:
+        wc_last_input_ms = SDL_GetTicks(); wc_dirty = true;
+        mouse_x = e.button.x;
+        mouse_y = e.button.y;
+        if (e.button.button == SDL_BUTTON_LEFT)  mouse_b |= 1;
+        if (e.button.button == SDL_BUTTON_RIGHT) mouse_b |= 2;
+        if (e.button.button == SDL_BUTTON_MIDDLE) mouse_b |= 4;
+        if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
+            mouse_callback(MOUSE_FLAG_LEFT_DOWN);
+        if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
+            mouse_callback(MOUSE_FLAG_RIGHT_DOWN);
+        if (e.button.button == SDL_BUTTON_MIDDLE && mouse_callback)
+            mouse_callback(MOUSE_FLAG_MIDDLE_DOWN);
+        break;
+
+    case SDL_MOUSEBUTTONUP:
+        wc_dirty = true;
+        mouse_x = e.button.x;
+        mouse_y = e.button.y;
+        if (e.button.button == SDL_BUTTON_LEFT)  mouse_b &= ~1;
+        if (e.button.button == SDL_BUTTON_RIGHT) mouse_b &= ~2;
+        if (e.button.button == SDL_BUTTON_MIDDLE) mouse_b &= ~4;
+        if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
+            mouse_callback(MOUSE_FLAG_LEFT_UP);
+        if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
+            mouse_callback(MOUSE_FLAG_RIGHT_UP);
+        if (e.button.button == SDL_BUTTON_MIDDLE && mouse_callback)
+            mouse_callback(MOUSE_FLAG_MIDDLE_UP);
+        break;
+
+    case SDL_MOUSEWHEEL:
+        wc_last_input_ms = SDL_GetTicks(); wc_dirty = true;
+        mouse_z += e.wheel.y;
+        position_mouse_z += e.wheel.y;
+        break;
+
+    case SDL_KEYDOWN: {
+        wc_last_input_ms = SDL_GetTicks(); wc_dirty = true;
+        SDL_Keymod mod = SDL_GetModState();
+        key_shifts = 0;
+        if (mod & KMOD_SHIFT)   key_shifts |= KB_SHIFT_FLAG;
+        if (mod & KMOD_CTRL)    key_shifts |= KB_CTRL_FLAG;
+        if (mod & KMOD_ALT)     key_shifts |= KB_ALT_FLAG;
+        if (mod & KMOD_CAPS)    key_shifts |= KB_CAPSLOCK_FLAG;
+        if (mod & KMOD_NUM)     key_shifts |= KB_NUMLOCK_FLAG;
+        if (mod & KMOD_SCROLL)  key_shifts |= KB_SCRLOCK_FLAG;
+
+        int scancode = (int)e.key.keysym.scancode;
+        int ascii    = 0;
+        SDL_Keycode sym = e.key.keysym.sym;
+        if (sym >= 32 && sym < 127) ascii = (int)sym;
+        if ((mod & KMOD_CTRL) && sym >= SDLK_a && sym <= SDLK_z)
+            ascii = (int)(sym - SDLK_a + 1);
+
+        wc_key_queue.push((scancode << 8) | ascii);
+        break;
+    }
+
+    case SDL_WINDOWEVENT:
+        if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+            SCREEN_W = e.window.data1;
+            SCREEN_H = e.window.data2;
+        }
+        if (e.window.event == SDL_WINDOWEVENT_EXPOSED) {
+            wc_dirty = true;
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
 static void wc_process_events() {
     SDL_Event e;
-    while (SDL_PollEvent(&e)) {
-        switch (e.type) {
-
-        case SDL_QUIT:
-            index_quit = 1;
-            break;
-
-        case SDL_MOUSEMOTION: {
-            wc_last_input_ms = SDL_GetTicks();
-            int mx = e.motion.x;
-            int my = e.motion.y;
-            // Respect mouse range
-            if (mx < wc_mouse_range_x1) mx = wc_mouse_range_x1;
-            if (mx > wc_mouse_range_x2) mx = wc_mouse_range_x2;
-            if (my < wc_mouse_range_y1) my = wc_mouse_range_y1;
-            if (my > wc_mouse_range_y2) my = wc_mouse_range_y2;
-            mouse_x = mx;
-            mouse_y = my;
-            if (mouse_callback) mouse_callback(MOUSE_FLAG_MOVE);
-            break;
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-            wc_last_input_ms = SDL_GetTicks();
-            mouse_x = e.button.x;
-            mouse_y = e.button.y;
-            if (e.button.button == SDL_BUTTON_LEFT)  mouse_b |= 1;
-            if (e.button.button == SDL_BUTTON_RIGHT) mouse_b |= 2;
-            if (e.button.button == SDL_BUTTON_MIDDLE) mouse_b |= 4;
-            if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
-                mouse_callback(MOUSE_FLAG_LEFT_DOWN);
-            if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
-                mouse_callback(MOUSE_FLAG_RIGHT_DOWN);
-            if (e.button.button == SDL_BUTTON_MIDDLE && mouse_callback)
-                mouse_callback(MOUSE_FLAG_MIDDLE_DOWN);
-            break;
-
-        case SDL_MOUSEBUTTONUP:
-            mouse_x = e.button.x;
-            mouse_y = e.button.y;
-            if (e.button.button == SDL_BUTTON_LEFT)  mouse_b &= ~1;
-            if (e.button.button == SDL_BUTTON_RIGHT) mouse_b &= ~2;
-            if (e.button.button == SDL_BUTTON_MIDDLE) mouse_b &= ~4;
-            if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
-                mouse_callback(MOUSE_FLAG_LEFT_UP);
-            if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
-                mouse_callback(MOUSE_FLAG_RIGHT_UP);
-            if (e.button.button == SDL_BUTTON_MIDDLE && mouse_callback)
-                mouse_callback(MOUSE_FLAG_MIDDLE_UP);
-            break;
-
-        case SDL_MOUSEWHEEL:
-            wc_last_input_ms = SDL_GetTicks();
-            mouse_z += e.wheel.y;
-            position_mouse_z += e.wheel.y;
-            break;
-
-        case SDL_KEYDOWN: {
-            wc_last_input_ms = SDL_GetTicks();
-            SDL_Keymod mod = SDL_GetModState();
-            key_shifts = 0;
-            if (mod & KMOD_SHIFT)   key_shifts |= KB_SHIFT_FLAG;
-            if (mod & KMOD_CTRL)    key_shifts |= KB_CTRL_FLAG;
-            if (mod & KMOD_ALT)     key_shifts |= KB_ALT_FLAG;
-            if (mod & KMOD_CAPS)    key_shifts |= KB_CAPSLOCK_FLAG;
-            if (mod & KMOD_NUM)     key_shifts |= KB_NUMLOCK_FLAG;
-            if (mod & KMOD_SCROLL)  key_shifts |= KB_SCRLOCK_FLAG;
-
-            // Format Allegro : (scancode<<8) | ascii
-            int scancode = (int)e.key.keysym.scancode;
-            int ascii    = 0;
-            SDL_Keycode sym = e.key.keysym.sym;
-            if (sym >= 32 && sym < 127) ascii = (int)sym;
-            // Ctrl+lettre → ASCII 1-26
-            if ((mod & KMOD_CTRL) && sym >= SDLK_a && sym <= SDLK_z)
-                ascii = (int)(sym - SDLK_a + 1);
-
-            wc_key_queue.push((scancode << 8) | ascii);
-            break;
-        }
-
-        case SDL_WINDOWEVENT:
-            if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-                SCREEN_W = e.window.data1;
-                SCREEN_H = e.window.data2;
-            }
-            break;
-
-        default:
-            break;
-        }
-    }
+    while (SDL_PollEvent(&e)) wc_handle_event(e);
 }
 
 // ============================================================
@@ -1407,8 +1412,9 @@ class TextRenderer {
     TTF_Font*  font;
     SDL_Color  col;
     bool       ok;
+    int        font_ascent; // mis en cache au Load(), pas recalculé à chaque Print
 public:
-    TextRenderer() : font(nullptr), ok(false) { col = {255,255,255,255}; }
+    TextRenderer() : font(nullptr), ok(false), font_ascent(0) { col = {255,255,255,255}; }
 
     ~TextRenderer() {
         if (font) { wc_purge_font(font); TTF_CloseFont(font); }
@@ -1419,38 +1425,37 @@ public:
         font = TTF_OpenFont(filename, height);
         ok   = (font != nullptr);
         col  = color.toSDL();
+        font_ascent = font ? TTF_FontAscent(font) : 0;
         return ok;
     }
 
     void Print(const char* text, int x, int y) const {
         if (!font || !text || text[0]=='\0' || !wc_sdl_renderer) return;
-        if (!wc_cache || !wc_cache_mutex) return;
+        if (!wc_cache) return;
         char trunc[128];
         strncpy(trunc, text, 127); trunc[127]='\0';
         Uint32 key_col = (Uint32)col.r|((Uint32)col.g<<8)|((Uint32)col.b<<16)|((Uint32)col.a<<24);
         unsigned idx = wc_cache_hash(font, key_col, trunc) % WC_CACHE_SIZE;
 
-        SDL_LockMutex(wc_cache_mutex);
+        // Pas de mutex : Print() est appelé uniquement depuis le thread principal (SDL2
+        // interdit le rendu multi-thread). wc_purge_font() garde son mutex par sécurité.
         WC_CacheSlot& slot = wc_cache[idx];
         if(slot.font!=font || slot.col!=key_col || strncmp(slot.text,trunc,128)!=0 || !slot.tex) {
             if(slot.tex) SDL_DestroyTexture(slot.tex);
             slot.tex = nullptr; slot.font = nullptr;
             SDL_Surface* surf = TTF_RenderText_Blended(font, trunc, col);
-            if(!surf) { SDL_UnlockMutex(wc_cache_mutex); return; }
+            if(!surf) return;
             SDL_Texture* tex = SDL_CreateTextureFromSurface(wc_sdl_renderer, surf);
             SDL_FreeSurface(surf);
-            if(!tex) { SDL_UnlockMutex(wc_cache_mutex); return; }
+            if(!tex) return;
             slot.font = font; slot.col = key_col;
             strncpy(slot.text, trunc, 128);
             slot.tex = tex;
             SDL_QueryTexture(tex, nullptr, nullptr, &slot.w, &slot.h);
-            slot.ascent = TTF_FontAscent(font);
+            slot.ascent = font_ascent;
         }
         SDL_Rect dst = {x, y - slot.ascent, slot.w, slot.h};
-        SDL_Texture* tex_to_render = slot.tex;
-        SDL_UnlockMutex(wc_cache_mutex);
-
-        SDL_RenderCopy(wc_sdl_renderer, tex_to_render, nullptr, &dst);
+        SDL_RenderCopy(wc_sdl_renderer, slot.tex, nullptr, &dst);
     }
 
     // Surcharges / Overloads
@@ -1499,25 +1504,39 @@ namespace Canvas {
         if (!wc_sdl_renderer) return;
         wc_set_render_color(wc_sdl_renderer, color.r, color.g, color.b, color.a);
         SDL_RenderClear(wc_sdl_renderer);
+        wc_frame_was_updated = true;
     }
 
     inline void Refresh() {
         if (!wc_sdl_renderer) return;
-        WC_FDEBUG("Refresh-before-process_events");
-        wc_process_events();       // Pomper les evenements SDL / Pump SDL events
-        WC_FDEBUG("Refresh-before-RenderPresent");
-        SDL_RenderPresent(wc_sdl_renderer);
-        WC_FDEBUG("Refresh-after-RenderPresent");
-        // Adaptive frame cap:
-        //   active (input ou automation dans les 500ms) → 60fps (16ms)
-        //   idle (rien depuis 500ms)                    → 10fps (100ms)
-        // wc_request_refresh() est appelé par les LFO/crossfade/chasers pour rester en mode actif
-        static Uint32 last_frame = 0;
-        Uint32 now = SDL_GetTicks();
-        Uint32 elapsed = now - last_frame;
-        Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 16 : 100;
-        if (elapsed < cap_ms) SDL_Delay(cap_ms - elapsed);
-        last_frame = SDL_GetTicks();
+
+        // Présente au plus 3× après le dernier dessin pour remplir tous les back-buffers,
+        // puis arrête complètement — zéro travail GPU au repos.
+        static int presents_since_draw = 3;
+        if (wc_frame_was_updated) { presents_since_draw = 0; wc_frame_was_updated = false; }
+
+        if (presents_since_draw < 3) {
+            // Mode actif : pompe les événements sans bloquer, puis présente
+            WC_FDEBUG("Refresh-before-process_events");
+            wc_process_events();
+            WC_FDEBUG("Refresh-before-RenderPresent");
+            SDL_RenderPresent(wc_sdl_renderer);
+            WC_FDEBUG("Refresh-after-RenderPresent");
+            presents_since_draw++;
+
+            // Cap FPS : actif → 60fps, idle → 10fps
+            static Uint32 last_frame = 0;
+            Uint32 now = SDL_GetTicks();
+            Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 16 : 100;
+            Uint32 elapsed = now - last_frame;
+            if (elapsed < cap_ms) SDL_Delay(cap_ms - elapsed);
+            last_frame = SDL_GetTicks();
+        } else {
+            // Mode stable : pompe quand même les événements pour rester réactif,
+            // puis dort 100ms (idle cap).
+            wc_process_events();
+            SDL_Delay(100);
+        }
     }
 
     // Clipping region / Zone de clip
@@ -1594,6 +1613,8 @@ namespace Setup {
         SCREEN_W = w;
         SCREEN_H = h;
 
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // moins de travail DWM qu'avec D3D11
+
         Uint32 flags = SDL_WINDOW_SHOWN;
         if (mode == FULLSCREEN)
             flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
@@ -1630,7 +1651,6 @@ namespace Setup {
         }
 
         SDL_SetRenderDrawBlendMode(wc_sdl_renderer, SDL_BLENDMODE_BLEND);
-
 
         // Etendre la plage souris a la taille de la fenetre
         wc_mouse_range_x2 = w - 1;

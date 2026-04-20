@@ -1113,7 +1113,10 @@ while(index_quit!=1)
                case 1: move_window(window_focus_id); break;
             }
          }
-         main_actions_on_screen();
+         if (wc_dirty) {
+            main_actions_on_screen();
+            wc_dirty = false;
+         }
          rest(10);
          break;
       case 1:
@@ -1127,6 +1130,7 @@ while(index_quit!=1)
 
    if(there_is_change_on_show_save_state==1)
    {
+   wc_dirty = true;
    check_save_load_report_window();
    there_is_change_on_show_save_state=0;
    }
