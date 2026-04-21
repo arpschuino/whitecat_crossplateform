@@ -359,7 +359,7 @@ int fenetre_audio(int xb,int yb)
 Rect audio_backg(Vec2D(xb,yb), Vec2D( 600,150+(index_nbre_players_visibles*120)));
 audio_backg.SetRoundness(15);
 audio_backg.Draw(CouleurFond);
-audio_backg.SetLineWidth(triple_epaisseur_ligne_fader);
+audio_backg.SetLineWidth(epaisseur_bordure_fenetre);
 if(window_focus_id==919)
 {
 audio_backg.DrawOutline(CouleurFader);

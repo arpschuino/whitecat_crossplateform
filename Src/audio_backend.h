@@ -800,7 +800,7 @@ public:
         return true;
     }
 
-    const char* getName() const { return "SDL2_mixer + minimp3 streaming"; }
+    const char* getName() const { return "SDL2_mixer"; }
     bool        isOk()    const { return initialized; }
 
     WCAudioPlayer* getPlayer(int i) {

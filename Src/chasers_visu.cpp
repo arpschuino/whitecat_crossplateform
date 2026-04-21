@@ -438,7 +438,7 @@ int chaser_window(int xcha,int ycha)
 
 Rect ChaserPanel(Vec2D(xcha,  ycha), Vec2D( 620,(160+(nbre_track_visualisables*40))));
 ChaserPanel.SetRoundness(15);
-ChaserPanel.SetLineWidth(triple_epaisseur_ligne_fader);
+ChaserPanel.SetLineWidth(epaisseur_bordure_fenetre);
 ChaserPanel.Draw(CouleurFond);
 if(window_focus_id==W_CHASERS)
 {

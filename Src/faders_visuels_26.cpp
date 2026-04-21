@@ -389,7 +389,7 @@ int MoveFaderSpace(int ydelimitation)
 {
     WC_FDEBUG("MFS-start");
     Line myLine( Vec2D( 0, ydelimitation ), Vec2D( largeur_ecran,ydelimitation));
-    myLine.SetLineWidth(triple_epaisseur_ligne_fader);
+    myLine.SetLineWidth(epaisseur_bordure_fenetre);
     if(window_focus_id==906)
     {
         myLine.Draw( CouleurFader );
@@ -623,7 +623,7 @@ int FaderSpace(int x, int y, int espacement,int nbr_fader)
     {
         Rgba coulBord = (window_focus_id==W_FADERS) ? CouleurFader : CouleurLigne;
         Line bord(Vec2D(LargeurEspaceFaderSize, y-80+10), Vec2D(LargeurEspaceFaderSize, y-80+hauteur_ecran-15));
-        bord.SetLineWidth(triple_epaisseur_ligne_fader);
+        bord.SetLineWidth(epaisseur_bordure_fenetre);
         bord.Draw(coulBord);
     }
 

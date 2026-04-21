@@ -5186,7 +5186,7 @@ int Plot_window(int plotx, int ploty)
 
 Rect PlotPanel(Vec2D(plotx,  ploty), Vec2D( plot_window_x_size,plot_window_y_size));
 PlotPanel.SetRoundness(15);
-PlotPanel.SetLineWidth(triple_epaisseur_ligne_fader);
+PlotPanel.SetLineWidth(epaisseur_bordure_fenetre);
 PlotPanel.Draw(CouleurPlotFill);
 Rect PlotBehindMove(Vec2D(plotx+3,ploty+5),Vec2D(220,40));
 PlotBehindMove.SetRoundness(15);

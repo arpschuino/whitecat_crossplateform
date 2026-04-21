@@ -130,7 +130,7 @@ float demi_epaisseur_ligne_fader=1.0;
 float tiers_epaisseur_ligne_fader=2.0/3;
 float sizefader_epaisseur_ligne_fader=2.0*0.8;
 float double_epaisseur_ligne_fader=2.0*2;
-float triple_epaisseur_ligne_fader=3.0;
+float epaisseur_bordure_fenetre=3.0;
 //Affichage
 bool index_specify_size=0;
 bool index_set_pos=0;
@@ -438,7 +438,7 @@ int Survol_interface_numero=0;
 int window_cfgX=10;
 int window_cfgY=25;
 int largeurCFGwindow=830;
-int hauteurCFGwindow=290;
+int hauteurCFGwindow=299;
 //config pannel
 int select_artnet_to_listen=0;
 bool index_do_affect_net_to_dock=0;// affecter ou pas dans le dock le type de net
@@ -830,7 +830,8 @@ bool index_window_sequentiel=0;
 int xseq_window=50;
 int yseq_window=10;
 int nbre_memoires_visualisables_en_preset=8;
-int hauteur_globale_sequenciel=180+(35*(nbre_memoires_visualisables_en_preset+1))+35;
+inline int calc_hauteur_sequenciel(int n){ return 180 + 35*(n+1) + 40; }
+int hauteur_globale_sequenciel=calc_hauteur_sequenciel(nbre_memoires_visualisables_en_preset);
 bool MemoiresExistantes[10000];
 unsigned char Memoires[10000][514];
 int position_onstage=0;
@@ -1484,47 +1485,41 @@ int open_arduino_on_open=0;
 char string_Arduino_status[128];
 int arduino_max_devices=1;
 
-
 int nBytesReadArduino0=0;
 int nBytesSendtoArduino=0;
 
 int arduino_com0=4;
-int arduino_baud_rate0=9600;//9600 ok sur 6 ana 13 io //11400 ùega 54 IO
+int arduino_baud_rate0=9600;
 bool arduino_device_0_is_ignited=0;
-
 
 #define digital_limit 127
 #define analog_limit 63
 #define pwm_limit 35
 
+unsigned char input_str_arduino[digital_limit];
 
-unsigned char input_str_arduino[digital_limit];//chaine input data from arduino (analog and digital)
-
-
-
-int digital_data_from_arduino[digital_limit];//tableau des datas gardé tres large au cas ou grande extension
+int digital_data_from_arduino[digital_limit];
 int previous_digital_data_from_arduino[digital_limit];
 int arduino_max_digital=13;
-int analog_data_from_arduino[analog_limit];//tableau des datas gardé tres large au cas ou grande extension
+int analog_data_from_arduino[analog_limit];
 int previous_analog_data_from_arduino[analog_limit];
-bool ventilate_analog_data[analog_limit];//pour muter demuter les entrées arduino
+bool ventilate_analog_data[analog_limit];
 int arduino_max_analog=5;
-bool digital_data_is_switch[digital_limit];//pour comportements switch
+bool digital_data_is_switch[digital_limit];
 bool snap_dig_for_switch[digital_limit];
-
 
 int digital_data_to_arduino[digital_limit];
 int previous_digital_data_to_arduino[digital_limit];
 
-int arduino_digital_type[digital_limit];//0= desaffecté 1= input 2= output 3= PWM
-int arduino_digital_function_input[digital_limit][2];//Action // Val
-int arduino_analog_function_input[analog_limit];//0-rien 1-fader 2 Seq 3 trichro 4 video 5 master
-int arduino_analog_attribution_input[analog_limit];//Val 1-48 ou sequenciel 123
+int arduino_digital_type[digital_limit];
+int arduino_digital_function_input[digital_limit][2];
+int arduino_analog_function_input[analog_limit];
+int arduino_analog_attribution_input[analog_limit];
 int position_line_io=0;
 int position_line_ana=0;
-bool arduino_simulating_midi=0;//pour bypasser le EV pointeur de midishare
+bool arduino_simulating_midi=0;
 
-int arduino_digital_function_output[digital_limit][2];//Action // Val
+int arduino_digital_function_output[digital_limit][2];
 
 int pwm_data_to_arduino[pwm_limit];
 int previous_pwm_data_to_arduino[pwm_limit];
@@ -2139,7 +2134,7 @@ int plot_viewpoint_xy[2];//deplacement relatif de tout le plan
 
 
 Rgba CouleurPlotLine(0.0,0.0,0.0);
-Rgba CouleurPlotFill(0.6,0.6,0.6);
+Rgba CouleurPlotFill(1.0,1.0,1.0);
 
 int symbol_selected_type=0;
 int max_symbol_type=66;
@@ -2266,7 +2261,7 @@ int plot_grid_type=0;//0 petits ppoints, 1 ligne pleine)
 float alpha_grille=0.5;
 
 float Color_plotline=0.0;
-float Color_plotfill=0.5;
+float Color_plotfill=1.0;
 
 int nbre_shapes_on_plot=0;
 

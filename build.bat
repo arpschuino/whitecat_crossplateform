@@ -30,6 +30,12 @@ if not defined GCC where g++ >nul 2>&1 && set GCC=g++
 
 if not defined GCC goto :no_gcc
 echo [build] Compilateur : %GCC%
+
+:: windres est dans le même dossier que g++
+set WINDRES=%GCC:g++.exe=windres.exe%
+if not exist "%WINDRES%" set WINDRES=windres
+echo [build] windres : %WINDRES%
+
 goto :compile
 
 :no_gcc
@@ -39,6 +45,18 @@ exit /b 1
 
 :compile
 if not exist "%OUT%" mkdir "%OUT%"
+
+:: Compilation des ressources (icone)
+echo [build] Compilation des ressources...
+set RES_OBJ=
+"%WINDRES%" "%ROOT%\whitecat.rc" -O coff -o "%OUT%\whitecat_res.o"
+if errorlevel 1 (
+    echo [AVERTISSEMENT] windres a echoue, icone non integree
+) else (
+    set RES_OBJ="%OUT%\whitecat_res.o"
+    echo [build] Ressources OK
+)
+
 echo [build] Compilation en cours...
 
 "%GCC%" -w -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g ^
@@ -84,6 +102,7 @@ echo [build] Compilation en cours...
  %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_ts248.a ^
  %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_video248.dll.a ^
  %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_videostab248.dll.a ^
+ %RES_OBJ% ^
  -mwindows 2>&1
 
 if %ERRORLEVEL%==0 (

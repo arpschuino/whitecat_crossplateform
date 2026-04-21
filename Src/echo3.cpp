@@ -515,7 +515,7 @@ int echo_window(int xe, int ye)
 {
 Rect EchoBckgd(Vec2D(xe,  ye), Vec2D( echo_window_x_size,echo_window_y_size));
 EchoBckgd.SetRoundness(15);
-EchoBckgd.SetLineWidth(triple_epaisseur_ligne_fader);
+EchoBckgd.SetLineWidth(epaisseur_bordure_fenetre);
 EchoBckgd.Draw(CouleurFond);
 
 if(window_focus_id==W_ECHO)

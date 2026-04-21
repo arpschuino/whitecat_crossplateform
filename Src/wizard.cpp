@@ -186,13 +186,13 @@ int Box_mem_to_mem(int xb, int yb)
 
 Rect Allmem(Vec2D((xb+270),(yb+170)), Vec2D( 50,20));
 Allmem.SetRoundness(7.5);
-Allmem.SetLineWidth(triple_epaisseur_ligne_fader);
+Allmem.SetLineWidth(epaisseur_bordure_fenetre);
 Allmem.Draw(CouleurFond.WithAlpha(0.5));
 petitchiffre.Print("On ALL the memories",xb+325,yb+180);
 
 Rect Frommem(Vec2D((xb+270),(yb+205)), Vec2D( 50,20));
 Frommem.SetRoundness(7.5);
-Frommem.SetLineWidth(triple_epaisseur_ligne_fader);
+Frommem.SetLineWidth(epaisseur_bordure_fenetre);
 Frommem.Draw(CouleurFond.WithAlpha(0.5));
 petitchiffre.Print("From memory",xb+325,yb+220);
 petitchiffre.Print("To memory",xb+325,yb+255);
@@ -311,7 +311,7 @@ int fenetre_wizard(int xb,int yb)
 
 Rect wiz_backg(Vec2D(xb,yb), Vec2D( 480,420));
 wiz_backg.SetRoundness(15);
-wiz_backg.SetLineWidth(triple_epaisseur_ligne_fader);
+wiz_backg.SetLineWidth(epaisseur_bordure_fenetre);
 wiz_backg.Draw(CouleurBleuProcedure);
 if(window_focus_id==921)
 {

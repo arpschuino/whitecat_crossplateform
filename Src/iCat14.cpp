@@ -1724,7 +1724,7 @@ int BoxGuiBuilder_iCat ( int gx, int gy)
 
    Rect backFS(Vec2D(gx,gy),Vec2D(largeuriCat,hauteuriCat));
    backFS.SetRoundness(5);
-   backFS.SetLineWidth(triple_epaisseur_ligne_fader);
+   backFS.SetLineWidth(epaisseur_bordure_fenetre);
    backFS.Draw(CouleurConfig);
    if( window_focus_id==W_iCAT)
    {

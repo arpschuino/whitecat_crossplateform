@@ -87,7 +87,7 @@ int Time_Window(int xtime, int ytime, int timerayon)
 //background window
 Rect TimeWindow(Vec2D (xtime, ytime ), Vec2D ( 370,300));
 TimeWindow.SetRoundness(15);
-TimeWindow.SetLineWidth(triple_epaisseur_ligne_fader);
+TimeWindow.SetLineWidth(epaisseur_bordure_fenetre);
 TimeWindow.Draw(CouleurFond);
 if(window_focus_id==908)
 {

@@ -45,7 +45,7 @@ int menu_curve(int XCurv, int YCurv)
 {
 Rect CurveSpace( Vec2D((XCurv),(YCurv)),Vec2D(315,600));
 CurveSpace.SetRoundness(15);
-CurveSpace.SetLineWidth(triple_epaisseur_ligne_fader);
+CurveSpace.SetLineWidth(epaisseur_bordure_fenetre);
 CurveSpace.Draw(CouleurFond);
 if(window_focus_id==W_PATCH)
 {
@@ -189,7 +189,7 @@ int PatchBox(int XChan, int YChan, float scroll_chan)
 {
 Rect PatchSpace( Vec2D((XChan),(YChan)),Vec2D(450,600));
 PatchSpace.SetRoundness(15);
-PatchSpace.SetLineWidth(triple_epaisseur_ligne_fader);
+PatchSpace.SetLineWidth(epaisseur_bordure_fenetre);
 PatchSpace.Draw(CouleurFond);
 if(window_focus_id==W_PATCH)
 {

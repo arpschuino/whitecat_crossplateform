@@ -318,7 +318,7 @@ int Draw_Window(int xw,int yw)
 {
 Rect DrawBckgd(Vec2D(xw,  yw), Vec2D( draw_window_x_size,draw_window_y_size));
 DrawBckgd.SetRoundness(15);
-DrawBckgd.SetLineWidth(triple_epaisseur_ligne_fader);
+DrawBckgd.SetLineWidth(epaisseur_bordure_fenetre);
 DrawBckgd.Draw(CouleurFond);
 
 if(window_focus_id==W_DRAW)

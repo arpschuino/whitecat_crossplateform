@@ -490,16 +490,55 @@ struct V3D_f {
 // Forward declaration (definie plus bas / defined below)
 inline void triangle(SDL_Surface* bmp, int x1, int y1, int x2, int y2, int x3, int y3, int color);
 
-// triangle3d_f : stub — SDL_Surface n'a pas de rendu 3D
-// Dans trichro_core2.cpp, utilisé pour remplir un triangle de couleur
-// For trichro, we use our own triangle() function on SDL_Surface
-inline void triangle3d_f(SDL_Surface* bmp, int type, void* texture,
+// triangle3d_f : Gouraud-shaded triangle on SDL_Surface
+// Replaces Allegro POLYTYPE_GCOL — interpolates colors between 3 vertices
+// using barycentric coordinates (one scanline per row, linear interpolation).
+inline void triangle3d_f(SDL_Surface* bmp, int /*type*/, void* /*texture*/,
                           V3D_f* v1, V3D_f* v2, V3D_f* v3) {
     if (!bmp || !v1 || !v2 || !v3) return;
-    // Dessiner un triangle plat avec la couleur du premier sommet
-    int color = v1->c;
-    triangle(bmp, (int)v1->x, (int)v1->y, (int)v2->x, (int)v2->y,
-             (int)v3->x, (int)v3->y, color);
+
+    // Extract screen-space coords and packed colors
+    float ax = v1->x, ay = v1->y; Uint32 ca = (Uint32)v1->c;
+    float bx = v2->x, by = v2->y; Uint32 cb = (Uint32)v2->c;
+    float cx = v3->x, cy = v3->y; Uint32 cc = (Uint32)v3->c;
+
+    // Per-vertex color components (R<<16 G<<8 B in packed int)
+    float ra = (float)((ca >> 16) & 0xFF), ga = (float)((ca >> 8) & 0xFF), ba2 = (float)(ca & 0xFF);
+    float rb = (float)((cb >> 16) & 0xFF), gb = (float)((cb >> 8) & 0xFF), bb2 = (float)(cb & 0xFF);
+    float rc = (float)((cc >> 16) & 0xFF), gc = (float)((cc >> 8) & 0xFF), bc2 = (float)(cc & 0xFF);
+
+    // Bounding box clamped to surface
+    int minx = (int)fminf(fminf(ax,bx),cx);
+    int maxx = (int)fmaxf(fmaxf(ax,bx),cx);
+    int miny = (int)fminf(fminf(ay,by),cy);
+    int maxy = (int)fmaxf(fmaxf(ay,by),cy);
+    if (minx < 0) minx = 0;  if (maxx >= bmp->w) maxx = bmp->w-1;
+    if (miny < 0) miny = 0;  if (maxy >= bmp->h) maxy = bmp->h-1;
+
+    // Triangle area (cross product) for barycentric denominator
+    float denom = (by - cy)*(ax - cx) + (cx - bx)*(ay - cy);
+    if (fabsf(denom) < 0.5f) return; // degenerate
+
+    SDL_LockSurface(bmp);
+    Uint32* pixels = (Uint32*)bmp->pixels;
+    int pitch = bmp->pitch / 4;
+
+    for (int py = miny; py <= maxy; py++) {
+        for (int px = minx; px <= maxx; px++) {
+            // Barycentric coords
+            float w1 = ((by - cy)*(px - cx) + (cx - bx)*(py - cy)) / denom;
+            float w2 = ((cy - ay)*(px - cx) + (ax - cx)*(py - cy)) / denom;
+            float w3 = 1.0f - w1 - w2;
+            if (w1 < 0.0f || w2 < 0.0f || w3 < 0.0f) continue;
+            // Interpolate color
+            int r = (int)(w1*ra + w2*rb + w3*rc + 0.5f);
+            int g = (int)(w1*ga + w2*gb + w3*gc + 0.5f);
+            int b = (int)(w1*ba2 + w2*bb2 + w3*bc2 + 0.5f);
+            if (r > 255) r = 255;  if (g > 255) g = 255;  if (b > 255) b = 255;
+            pixels[py * pitch + px] = 0xFF000000u | ((Uint32)r << 16) | ((Uint32)g << 8) | (Uint32)b;
+        }
+    }
+    SDL_UnlockSurface(bmp);
 }
 
 // Mouse Z (molette) / Mouse wheel
@@ -785,6 +824,10 @@ static inline int set_display_switch_mode(int) { return 0; }
 static Uint32 wc_last_input_ms = 0; // timestamp du dernier evenement souris/clavier/midi
 static bool wc_dirty = true;        // faut-il redessiner ce frame ?
 static bool wc_frame_was_updated = false; // un dessin a eu lieu ce cycle
+// Posé sur chaque SDL_MOUSEBUTTONDOWN gauche, consommé par la boucle principale.
+// Garantit que check_graphics_mouse_handling() s'exécute même si DOWN+UP ont
+// été traités dans le même wc_process_events() (mouse_button retombe à 0 trop tôt).
+static bool wc_click_pending = false;
 
 // Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI
 inline void wc_notify_midi_activity() { wc_last_input_ms = SDL_GetTicks(); wc_dirty = true; }
@@ -831,6 +874,7 @@ static void wc_handle_event(const SDL_Event& e) {
         if (e.button.button == SDL_BUTTON_LEFT)  mouse_b |= 1;
         if (e.button.button == SDL_BUTTON_RIGHT) mouse_b |= 2;
         if (e.button.button == SDL_BUTTON_MIDDLE) mouse_b |= 4;
+        if (e.button.button == SDL_BUTTON_LEFT) wc_click_pending = true;
         if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
             mouse_callback(MOUSE_FLAG_LEFT_DOWN);
         if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
@@ -899,7 +943,14 @@ static void wc_handle_event(const SDL_Event& e) {
 
 static void wc_process_events() {
     SDL_Event e;
-    while (SDL_PollEvent(&e)) wc_handle_event(e);
+    while (SDL_PollEvent(&e)) {
+        wc_handle_event(e);
+        // S'arrêter après MOUSEBUTTONDOWN : la boucle principale doit voir
+        // mouse_button==1 AVANT que MOUSEBUTTONUP ne soit traité.
+        // Sans ça, DOWN+UP dans la même queue sont traités ensemble et
+        // mouse_button repasse à 0 avant le check if(mouse_button==1).
+        if (e.type == SDL_MOUSEBUTTONDOWN) break;
+    }
 }
 
 // ============================================================
@@ -1532,10 +1583,15 @@ namespace Canvas {
             if (elapsed < cap_ms) SDL_Delay(cap_ms - elapsed);
             last_frame = SDL_GetTicks();
         } else {
-            // Mode stable : pompe quand même les événements pour rester réactif,
-            // puis dort 100ms (idle cap).
-            wc_process_events();
-            SDL_Delay(100);
+            // Mode stable : attend un événement ou 100ms max.
+            // On traite UN SEUL événement ici : si c'est MOUSEBUTTONDOWN, la boucle
+            // principale verra mouse_button==1 avant que MOUSEBUTTONUP ne soit traité
+            // (sinon SDL_Delay bloquait, les deux events s'accumulaient, et mouse_button
+            // repassait à 0 avant que check_graphics_mouse_handling() soit appelé).
+            SDL_Event e;
+            if (SDL_WaitEventTimeout(&e, 100)) {
+                wc_handle_event(e);
+            }
         }
     }
 

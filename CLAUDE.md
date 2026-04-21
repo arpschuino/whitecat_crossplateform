@@ -43,15 +43,17 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - OpenCV 2.4.8 à mettre à jour (non bloquant)
 ## Known Issues
 - CPU usage à surveiller (vsync fallback + cap 60fps en place)
+- **Warnings cachés** : `-w` dans `build.bat` (ligne 44) supprime tous les warnings GCC — à retirer et trier quand le code sera plus propre
+- **Dette technique** : architecture single-file + indentation irrégulière + pas de séparation .h/.cpp — refonte long terme prévue
 ## Fonctionnalités provisoirement désactivées (SDL2 migration)
 Ces éléments sont commentés dans `Src/graphics_rebuild1.cpp` (switch window_opened) — à réactiver et tester un par un :
 - ❌ **W_TRACKINGVIDEO** — video tracking window (`Interface_video_window`)
-- ❌ **W_ECHO** — echo window (`echo_window`)
+- ✅ **W_ECHO** — echo window (`echo_window`) — réactivé
 - ❌ **W_DRAW** — draw window (`Draw_Window`)
 - ❌ **W_PLOT** — light plot window (`Plot_window`)
 - ❌ **W_AUDIO** — audio/wave window (`fenetre_audio`)
 - ❌ **W_MOVER** — mover window (`mover_box`)
-- ❌ **W_iCAT** — iCat GUI builder (`BoxGuiBuilder_iCat`)
+- ⚠️ **W_iCAT** — iCat GUI builder (`BoxGuiBuilder_iCat`) — bouton menu retiré ; code mort à supprimer (`iCat14.cpp`, `icat_core14.cpp`, références dans ~41 fichiers) + refonte structure (.h séparés, indentation)
 - ❌ **W_MY_WINDOW** — custom user window (`my_window_Box`)
 - ❌ **Restauration état fenêtres** — `window_opened[]` remis à 0 après Load_Show dans MAIN (ligne ~987). Les fenêtres W_FADERS, W_PATCH, W_SEQUENCIEL, W_CFGMENU crashaient au rendu après restauration depuis le fichier show.
 ## Important Files

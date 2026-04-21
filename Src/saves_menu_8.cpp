@@ -1346,7 +1346,7 @@ int Save_Menu(int xsave, int ysave)
 {
 Rect backSave(Vec2D(xsave,ysave),Vec2D(420,520));
 backSave.SetRoundness(15);
-backSave.SetLineWidth(triple_epaisseur_ligne_fader);
+backSave.SetLineWidth(epaisseur_bordure_fenetre);
 backSave.Draw(CouleurFond);
 backSave.DrawOutline(CouleurLigne);
 

@@ -207,7 +207,7 @@ else {frame_video_x=345; frame_video_y=240;}
 //background window
 Rect VideoBackground(Vec2D ( WindowVideoX, WindowVideoY ), Vec2D ( frame_video_x+35,frame_video_y+460));
 VideoBackground.SetRoundness(15);
-VideoBackground.SetLineWidth(triple_epaisseur_ligne_fader);
+VideoBackground.SetLineWidth(epaisseur_bordure_fenetre);
 VideoBackground.Draw(CouleurFond);
 if(window_focus_id==904)
 {

@@ -682,7 +682,7 @@ int Sequenciel_Window(int xseq, int yseq,int largeur_seq,int hauteur_seq)
 //background window
 Rect SeqWindow(Vec2D (xseq, yseq ), Vec2D ( largeur_seq,hauteur_seq));
 SeqWindow.SetRoundness(15);
-SeqWindow.SetLineWidth(triple_epaisseur_ligne_fader);
+SeqWindow.SetLineWidth(epaisseur_bordure_fenetre);
 SeqWindow.Draw(CouleurFond);
 if(window_focus_id==W_SEQUENCIEL )
 {

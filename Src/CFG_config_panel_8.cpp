@@ -633,7 +633,7 @@ case 5://nombre cues dans preset view
 nbre_memoires_visualisables_en_preset=atoi(numeric);
 if(nbre_memoires_visualisables_en_preset<5){nbre_memoires_visualisables_en_preset=5;}
 if(nbre_memoires_visualisables_en_preset>25){nbre_memoires_visualisables_en_preset=25;}
-hauteur_globale_sequenciel=180+(35*(nbre_memoires_visualisables_en_preset+1))+35;
+hauteur_globale_sequenciel=calc_hauteur_sequenciel(nbre_memoires_visualisables_en_preset);
 reset_numeric_entry();
 break;
 case 6: // on Go light Channel
@@ -744,7 +744,6 @@ sprintf(string_cfg_main,"/On");
 break;
 }
 petitchiffre.Print(string_cfg_main,cfgnetw_X+540,cfgnetw_Y+70);
-
 
 
 petitchiffre.Print("Open Arduino",cfgnetw_X+430,cfgnetw_Y+100);
@@ -1444,17 +1443,17 @@ else if(index_config_midi==1)
 do_midi_config(cfg_X,cfg_Y,largeurCFGwindow,hauteurCFGwindow);
 //pas de titre car onglets
 }
+else if(index_setup_gfx==1)
+{
+do_screen_config(cfg_X,cfg_Y,largeurCFGwindow,hauteurCFGwindow);
+sprintf(string_title_panel_config,"SCREEN CONFIGURATION");
+petitchiffre.Print( string_title_panel_config,cfg_X+20, cfg_Y+20);
+}
 else if(index_config_arduino==1)
 {
 //deviendra Arduino CFG
 do_arduino_config(cfg_X,cfg_Y);
 sprintf(string_title_panel_config,"ARDUINO CONFIGURATION");
-petitchiffre.Print( string_title_panel_config,cfg_X+20, cfg_Y+20);
-}
-else if(index_setup_gfx==1)
-{
-do_screen_config(cfg_X,cfg_Y,largeurCFGwindow,hauteurCFGwindow);
-sprintf(string_title_panel_config,"SCREEN CONFIGURATION");
 petitchiffre.Print( string_title_panel_config,cfg_X+20, cfg_Y+20);
 }
 else if(index_config_network==1)
@@ -1524,7 +1523,7 @@ int config_general_menu()
 {
 Rect CadreGeneralConfig(Vec2D(window_cfgX,window_cfgY),Vec2D(largeurCFGwindow,hauteurCFGwindow+40));
 CadreGeneralConfig.SetRoundness(15);
-CadreGeneralConfig.SetLineWidth(triple_epaisseur_ligne_fader);
+CadreGeneralConfig.SetLineWidth(epaisseur_bordure_fenetre);
 CadreGeneralConfig.Draw(CouleurConfig);
 if(window_focus_id==920)
 {CadreGeneralConfig.DrawOutline(CouleurFader);}

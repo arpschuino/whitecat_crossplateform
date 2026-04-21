@@ -45,7 +45,7 @@ int alarm_window()
 {
 Rect windowAlarm(Vec2D(XAlarm,YAlarm),Vec2D(300,110));
 windowAlarm.SetRoundness(15);
-windowAlarm.SetLineWidth(triple_epaisseur_ligne_fader);
+windowAlarm.SetLineWidth(epaisseur_bordure_fenetre);
 windowAlarm.Draw(CouleurFond);
 windowAlarm.Draw(CouleurBlind.WithAlpha(alpha_blinker));
 if(window_focus_id==918)
@@ -123,7 +123,7 @@ int fenetre_banger(int xb,int yb)
 
 Rect bang_backg(Vec2D(xb,yb), Vec2D(size_X_Banger,size_Y_Banger));
 bang_backg.SetRoundness(15);
-bang_backg.SetLineWidth(triple_epaisseur_ligne_fader);
+bang_backg.SetLineWidth(epaisseur_bordure_fenetre);
 bang_backg.Draw(CouleurFond);
 if(window_focus_id==917)
 {

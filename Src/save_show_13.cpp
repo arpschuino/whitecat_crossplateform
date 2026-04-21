@@ -1063,6 +1063,7 @@ return(0);
 }
 
 
+
 int Save_Arduino_Config()//pas en user mais dans un spectacle
 {
 FILE *fpp;
@@ -1076,8 +1077,6 @@ if( !fpp )
 	{
 	 sprintf(string_save_load_report[idf],"!arduino.txt");
    }
-
-
 return(0);
 }
 
@@ -1086,7 +1085,6 @@ int load_arduino_config()
 {
     FILE *cfg_file = NULL ;
     char read_buff_winfil[ 512 ] ;
-    //sab 02/03/2014 unused var int it=0;
 	cfg_file = fopen("arduino.txt", "rt" );
 	if( !cfg_file )
 	{
@@ -1094,12 +1092,10 @@ int load_arduino_config()
 	}
 	else
 	{
-    //premiere ligne les args
 	if( !fgets( read_buff_winfil , sizeof( read_buff_winfil ) ,cfg_file ) )
 	{
      sprintf(string_save_load_report[idf],"! arduino.txt");
 	}
-
 fscanf( cfg_file , "%d / %d / %d / %d / %d /\n" ,  &arduino_com0, &arduino_baud_rate0, &ARDUINO_RATE, &arduino_max_digital,  &arduino_max_analog );
 	fclose( cfg_file );
     }
@@ -1310,6 +1306,7 @@ if(plot_quadrillage_size<0){plot_quadrillage_size=0;}
 else if(plot_quadrillage_size>100){plot_quadrillage_size=100;}
 Rgba TmpPlotColor (Color_plotline,Color_plotline,Color_plotline);
 CouleurPlotLine=TmpPlotColor;
+if(Color_plotfill < 0.9f) Color_plotfill = 1.0f; // migration: ancien défaut gris → blanc
 Rgba TmpPlotColor2 (Color_plotfill,Color_plotfill,Color_plotfill);
 CouleurPlotFill=TmpPlotColor2;
 return(0);
@@ -1526,7 +1523,7 @@ break;
 
 //nbre memoires sequenciel
 if(nbre_memoires_visualisables_en_preset<5){nbre_memoires_visualisables_en_preset=5;}
-hauteur_globale_sequenciel=180+(35*(nbre_memoires_visualisables_en_preset+1))+35;
+hauteur_globale_sequenciel=calc_hauteur_sequenciel(nbre_memoires_visualisables_en_preset);
 
 //chaser midi refresh window
 set_refresh_mode_for_chaser(refresh_midi_chasers);
@@ -3248,7 +3245,6 @@ else sprintf(string_save_load_report[idf],"Saved file %s", file_arduino_dig_typ)
 fclose(fp);
 }
  idf++;
-
 if ((fp=fopen( file_arduino_dig_affect, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_dig_affect); b_report_error[idf]=1;}
 else
@@ -3260,8 +3256,6 @@ else sprintf(string_save_load_report[idf],"Saved file %s", file_arduino_dig_affe
 fclose(fp);
 }
  idf++;
-
-
 if ((fp=fopen( file_arduino_an_typ, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_an_typ); b_report_error[idf]=1;}
 else
@@ -3273,8 +3267,6 @@ else sprintf(string_save_load_report[idf],"Saved file %s",file_arduino_an_typ);
 fclose(fp);
 }
  idf++;
-
-
 if ((fp=fopen( file_arduino_an_aff, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_an_aff); b_report_error[idf]=1;}
 else
@@ -3286,7 +3278,6 @@ else sprintf(string_save_load_report[idf],"Saved file %s",file_arduino_an_aff);
 fclose(fp);
 }
  idf++;
-
 if ((fp=fopen( file_arduino_an_on, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_an_on); b_report_error[idf]=1;}
 else
@@ -3298,9 +3289,6 @@ else sprintf(string_save_load_report[idf],"Saved file %s",file_arduino_an_on);
 fclose(fp);
 }
  idf++;
-
-
-
 if ((fp=fopen( file_arduino_dig_out, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_dig_out); b_report_error[idf]=1;}
 else
@@ -6395,6 +6383,78 @@ refresh_ocv_settings();
 
 }
 
+if(specify_who_to_save_load[21]==1)///ARDUINO////////////////////////////////////
+{
+load_arduino_config();
+
+if ((fp=fopen(  file_arduino_dig_typ, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_dig_typ);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s",   file_arduino_dig_typ);
+if (fread(arduino_digital_type, sizeof(int), arduino_dig_typ_size, fp) !=arduino_dig_typ_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_typ);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_dig_typ);
+ fclose(fp);
+}
+idf++;
+if ((fp=fopen(  file_arduino_dig_affect, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_dig_affect);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s",  file_arduino_dig_affect);
+if (fread(arduino_digital_function_input, sizeof(int), arduino_dig_aff_size, fp) !=arduino_dig_aff_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_affect);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_dig_affect);
+ fclose(fp);
+}
+idf++;
+if ((fp=fopen(  file_arduino_an_typ, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_typ);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_typ);
+if (fread(arduino_analog_function_input, sizeof(int), arduino_an_typ_size, fp) !=arduino_an_typ_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_typ);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_typ);
+ fclose(fp);
+}
+idf++;
+if ((fp=fopen( file_arduino_an_aff, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_aff);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_aff);
+if (fread(arduino_analog_attribution_input, sizeof(int),arduino_an_aff_size, fp) !=arduino_an_aff_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_aff);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_aff);
+ fclose(fp);
+}
+idf++;
+if ((fp=fopen( file_arduino_an_on, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_on);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_on);
+if (fread(ventilate_analog_data, sizeof(bool),arduino_an_on_size, fp) !=arduino_an_on_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_on);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_on);
+ fclose(fp);
+}
+idf++;
+if ((fp=fopen(  file_arduino_dig_out, "rb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_dig_out);b_report_error[idf]=1;}
+else
+{
+sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_dig_out);
+if (fread( arduino_digital_function_output, sizeof(int),arduino_dig_out_size, fp) !=arduino_dig_out_size)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_out);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s", file_arduino_dig_out);
+ fclose(fp);
+}
+idf++;
+}
+
 ///////////////////TIME////////////////////////////////////////////////////////
 //pour pos curseur
 refresh_time_cursor();
@@ -6510,82 +6570,6 @@ idf++;
 
 }
 
-if(specify_who_to_save_load[21]==1)///ARDUINO////////////////////////////////////
-{
-load_arduino_config();
-
-if ((fp=fopen(  file_arduino_dig_typ, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_dig_typ);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s",   file_arduino_dig_typ);
-if (fread(arduino_digital_type, sizeof(int), arduino_dig_typ_size, fp) !=arduino_dig_typ_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_typ);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_dig_typ);
- fclose(fp);
-}
-idf++;
-
-if ((fp=fopen(  file_arduino_dig_affect, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_dig_affect);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s",  file_arduino_dig_affect);
-if (fread(arduino_digital_function_input, sizeof(int), arduino_dig_aff_size, fp) !=arduino_dig_aff_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_affect);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_dig_affect);
- fclose(fp);
-}
-idf++;
-
-if ((fp=fopen(  file_arduino_an_typ, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_typ);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_typ);
-if (fread(arduino_analog_function_input, sizeof(int), arduino_an_typ_size, fp) !=arduino_an_typ_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_typ);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_typ);
- fclose(fp);
-}
-idf++;
-
-if ((fp=fopen( file_arduino_an_aff, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_aff);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_aff);
-if (fread(arduino_analog_attribution_input, sizeof(int),arduino_an_aff_size, fp) !=arduino_an_aff_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_aff);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_aff);
- fclose(fp);
-}
-idf++;
-
-if ((fp=fopen( file_arduino_an_on, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_arduino_an_on);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_an_on);
-if (fread(ventilate_analog_data, sizeof(bool),arduino_an_on_size, fp) !=arduino_an_on_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_an_on);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_arduino_an_on);
- fclose(fp);
-}
-idf++;
-
-if ((fp=fopen(  file_arduino_dig_out, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_arduino_dig_out);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s", file_arduino_dig_out);
-if (fread( arduino_digital_function_output, sizeof(int),arduino_dig_out_size, fp) !=arduino_dig_out_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_arduino_dig_out);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_arduino_dig_out);
- fclose(fp);
-}
-idf++;
-}
 
 
 if(specify_who_to_save_load[25]==1)  ///USER COLOR PROFILE//////////////////////////////////////////////////

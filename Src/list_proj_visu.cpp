@@ -232,7 +232,7 @@ int liste_projecteurs(int xlist,int ylist)
 {
 Rect Box_list(Vec2D(xlist, ylist), Vec2D( 350,600));
 Box_list.SetRoundness(15);
-Box_list.SetLineWidth(triple_epaisseur_ligne_fader);
+Box_list.SetLineWidth(epaisseur_bordure_fenetre);
 Box_list.Draw(CouleurFond);
 if(window_focus_id==914)
 {

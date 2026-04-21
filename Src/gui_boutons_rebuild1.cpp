@@ -861,27 +861,21 @@ case 40://CFG MENU
 if(index_show_config_window==0){add_a_window(W_CFGMENU);substract_a_window(W_MAINMENU);}
 else {substract_a_window(W_CFGMENU);}
 break;
-case 41://iCat
-if(index_window_gui_iCat==0){add_a_window(W_iCAT);substract_a_window(W_MAINMENU);}
-else {substract_a_window(W_iCAT);}
-break;
-case 42: //npad
+case 41: //npad
   if(index_visual_pad==0){add_a_window(W_NUMPAD);substract_a_window(W_MAINMENU);}
  else {substract_a_window(W_NUMPAD);}
 break;
-case 43://help
+case 42://help
 index_call_help=toggle(index_call_help);
 if(index_call_help==1)
 {
-char txtsp[1024];
-//sprintf(txtsp,"start /max file://%sdoc/export/introduction.htm",mondirectory);
-//system("start /max file://C:/white_cat/doc/export/introduction.htm");};
-sprintf(txtsp,"iexplore www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php");
-system(txtsp);
-index_call_help=0;substract_a_window(W_MAINMENU);
+   char txtsp[1024];
+   sprintf(txtsp,"start file://%sdoc/introduction.html",mondirectory);
+   system(txtsp);
+   index_call_help=0;substract_a_window(W_MAINMENU);
 }
 break;
-case 44://quit
+case 43://quit
 index_ask_confirm=1;index_do_quit_with_save=1;
 break;
 /////////////////////////////////////////////////////////////////////////////////

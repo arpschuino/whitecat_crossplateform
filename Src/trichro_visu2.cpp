@@ -48,7 +48,7 @@ int Interface_Trichromie(int xchroma, int ychroma, int rayon, int largeurchroma)
 //background window
 Rect TrichroBackground(Vec2D (xchroma-158, ychroma-206 ), Vec2D ( 315+(show_gel_list*gel_size_window),550));
 TrichroBackground.SetRoundness(15);
-TrichroBackground.SetLineWidth(triple_epaisseur_ligne_fader);
+TrichroBackground.SetLineWidth(epaisseur_bordure_fenetre);
 TrichroBackground.Draw(CouleurFond);
 if(window_focus_id==902)
 {

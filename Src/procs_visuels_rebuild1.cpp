@@ -76,7 +76,7 @@ switch(window_opened[i])
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_NUMPAD:
-        if( mouse_x>= xnum_window && mouse_x<= xnum_window+480 && mouse_y>=ynum_window  && mouse_y<= ynum_window+300)
+        if( mouse_x>= xnum_window && mouse_x<= xnum_window+480 && mouse_y>=ynum_window  && mouse_y<= ynum_window+302)
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_TRACKINGVIDEO:

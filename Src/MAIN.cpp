@@ -207,7 +207,6 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <midi_13.cpp>
 #include <CFG_screen.cpp>
 
-
 #include <arduino_core_6_UNO.cpp>
 #include <arduino_6_UNO.cpp>
 
@@ -952,8 +951,6 @@ if(dbg){fprintf(dbg,"mondirectory=%s\n",mondirectory);fclose(dbg);}
  save_load_print_to_screen("Init Sound");
  InitSound();
  Load_Show();
- // Ferme toutes les fenetres au démarrage : évite crash dans rendu de fenetres mal initialisées
- memset(window_opened, 0, sizeof(window_opened));
  init_kbd_custom();
  save_load_print_to_screen("Init Keyboard");
  Show_report_save_load();
@@ -1086,17 +1083,11 @@ while(index_quit!=1)
    if(arduino_device_0_is_ignited==1 &&  ticks_arduino!= old_ticks_arduino
    && index_is_saving==0 && init_done==1 && index_writing_curve==0 &&  index_quit==0)
    {
-
-
       arduino_merge_and_do_data_out();
       arduino_read();//doit etre posé après data out
       serial0.Flush();
-
       old_ticks_arduino=ticks_arduino;
-
-
       arduino_do_digital_in_whitecat();arduino_do_analog_in_whitecat();
-
    }
 
    switch(index_art_polling)
@@ -1105,8 +1096,9 @@ while(index_quit!=1)
          process_midi_input();
          commandes_clavier(); // ici : même thread que wc_key_queue.push() → thread-safe
          DoMouseLevel();
-         if(mouse_button==1 && mouse_released==0)
+         if((mouse_button==1 && mouse_released==0) || wc_click_pending)
          {
+            wc_click_pending = false;
             switch(im_moving_a_window)
             {
                case 0: check_graphics_mouse_handling(); break;

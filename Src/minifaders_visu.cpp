@@ -195,7 +195,7 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
 {
     Rect FondMiniFaders(Vec2D(xmf-10,ymf-50),Vec2D(700,450));
     FondMiniFaders.SetRoundness(15);
-    FondMiniFaders.SetLineWidth(triple_epaisseur_ligne_fader);
+    FondMiniFaders.SetLineWidth(epaisseur_bordure_fenetre);
     FondMiniFaders.Draw(CouleurFond);
     if(window_focus_id==922)
     {

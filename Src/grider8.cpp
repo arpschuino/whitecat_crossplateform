@@ -789,7 +789,7 @@ int Grider_Box(int xb, int yb)
 {
 Rect GriderBack(Vec2D(xb,yb),Vec2D(largeurGrider,hauteurGrider));
 GriderBack.SetRoundness(15);
-GriderBack.SetLineWidth(triple_epaisseur_ligne_fader);
+GriderBack.SetLineWidth(epaisseur_bordure_fenetre);
 GriderBack.Draw(CouleurFond);
 if(window_focus_id==926)
 {

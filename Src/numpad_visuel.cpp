@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Fonction GUI pour la fenêtre du pad numérique dans whitecat
+*   Fonction GUI pour la fenï¿½tre du pad numï¿½rique dans whitecat
 *
 *   GUI fonction for the numerical pad window in whitecat
 *
@@ -108,9 +108,9 @@ int visual_numeric_pad (int x_num, int y_num)
 
 
 //background window
-Rect NumBackground(Vec2D (x_num, y_num ), Vec2D ( 480,300));
+Rect NumBackground(Vec2D (x_num, y_num ), Vec2D ( 480,302));
 NumBackground.SetRoundness(15);
-NumBackground.SetLineWidth(epaisseur_ligne_fader*3);
+NumBackground.SetLineWidth(epaisseur_bordure_fenetre);
 NumBackground.Draw(CouleurFond);
 if(window_focus_id==903)
 {
@@ -294,8 +294,8 @@ if( Midi_Faders_Affectation_Type!=0)//config midi
   }
 }
 
-petitchiffre.Print("CHECK -",x_num+332, y_num+25);
-petitchiffre.Print("CHECK +",x_num+332, y_num+55);
+petitchiffre.Print("CHECK -",x_num+334, y_num+29);
+petitchiffre.Print("CHECK +",x_num+334, y_num+59);
 
 doom.Print("1",x_num+30, y_num+55);
 doom.Print("2",x_num+100, y_num+55);
@@ -314,8 +314,8 @@ doom.Print("down",x_num+230, y_num+195);
 doom.Print("AT",x_num+245, y_num+265);
 doom.Print("+",x_num+350, y_num+125);
 doom.Print("-",x_num+350, y_num+195);
-petitchiffre.Print("AT FULL",x_num+333, y_num+245);
-petitchiffre.Print("AT ZERO",x_num+333, y_num+280);
+petitchiffre.Print("AT FULL",x_num+335, y_num+244);
+petitchiffre.Print("AT ZERO",x_num+335, y_num+279);
 
 return(0);
 }

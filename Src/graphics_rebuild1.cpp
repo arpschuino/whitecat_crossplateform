@@ -47,9 +47,13 @@ int RetourInfos(int x_info,int y_info)
     petitchiffre.Print(string_last_ch,x_info,y_info+30);
     petitchiffre.Print(string_last_copy_mem,x_info+170,y_info+30);
     Rect VisuHue(Vec2D(x_info+290,y_info+15),Vec2D(30,20));
-    Rgba CouleurPreviewHue(r_pick,v_pick,b_pick,255);
+    Rgba CouleurPreviewHue(r_pick/255.0f,v_pick/255.0f,b_pick/255.0f,1.0f);
     VisuHue.Draw(CouleurPreviewHue);
-    Rgba CouleurPreviewChroma(my_red,my_green,my_blue,255);
+    int pix_chroma = getpixel(bmp_buffer_trichro,(int)(315/2+picker_x),(int)(550/2+picker_y));
+    int cr = (pix_chroma != 0) ? getr(pix_chroma) : my_red;
+    int cg = (pix_chroma != 0) ? getg(pix_chroma) : my_green;
+    int cb = (pix_chroma != 0) ? getb(pix_chroma) : my_blue;
+    Rgba CouleurPreviewChroma(cr/255.0f,cg/255.0f,cb/255.0f,1.0f);
     Rect VisuChroma(Vec2D(x_info+325,y_info+15),Vec2D(30,20));
     VisuChroma.Draw(CouleurPreviewChroma);
     petitpetitchiffre.Print(string_dock_col_sel,x_info+293,y_info+30);
@@ -156,8 +160,8 @@ for (int f=63;f>=0;f--)
         MoveCloseBox(xnum_window+405,ynum_window+25,W_NUMPAD);
         break;
         case W_TRACKINGVIDEO:
-        //Interface_video_window(videoX,videoY);
-        //MoveCloseBox(videoX+20,videoY+25,W_TRACKINGVIDEO);
+        Interface_video_window(videoX,videoY);
+        MoveCloseBox(videoX+20,videoY+25,W_TRACKINGVIDEO);
         break;
         case W_ARTPOLLREPLY:
         show_artpoll_reply(artpoll_replyX,artpoll_replyY);
@@ -171,12 +175,12 @@ for (int f=63;f>=0;f--)
         MoveCloseBox(xpatch_window+20,ypatch_window+25, W_PATCH);
         break;
         case W_ECHO:
-        //echo_window(x_echo,y_echo);
-        //MoveCloseBox(x_echo+20,y_echo+25,W_ECHO);
+        echo_window(x_echo,y_echo);
+        MoveCloseBox(x_echo+20,y_echo+25,W_ECHO);
         break;
         case W_DRAW:
-        //Draw_Window(x_Wdraw,y_Wdraw);
-        //MoveCloseBox(x_Wdraw+20,y_Wdraw+25, W_DRAW);
+        Draw_Window(x_Wdraw,y_Wdraw);
+        MoveCloseBox(x_Wdraw+20,y_Wdraw+25, W_DRAW);
         break;
         case W_TIME:
         Time_Window(xtime_window, ytime_window,100);
@@ -195,8 +199,8 @@ for (int f=63;f>=0;f--)
         MoveCloseBox(XConfirm+20,YConfirm+25,W_ASKCONFIRM);
         break;
         case W_PLOT:
-        //Plot_window(x_plot,y_plot);
-        //MoveCloseBox(x_plot+20,y_plot+25,W_PLOT);
+        Plot_window(x_plot,y_plot);
+        MoveCloseBox(x_plot+20,y_plot+25,W_PLOT);
         break;
         case W_LIST:
         liste_projecteurs(Xlistproj ,Ylistproj);
@@ -253,7 +257,7 @@ if(numeric_postext>0 || index_type==1)
 {
 Rect nameAera( Vec2D( 670, 27), Vec2D ( 380,40));
 nameAera.SetRoundness(15);
-nameAera.SetLineWidth(triple_epaisseur_ligne_fader);
+nameAera.SetLineWidth(epaisseur_bordure_fenetre);
 nameAera.Draw(CouleurFader.WithAlpha(index_type));
 Rect UnderText(Vec2D(670,32),Vec2D((numeric_postext*14)+50,30));
 UnderText.SetRoundness(7.5);

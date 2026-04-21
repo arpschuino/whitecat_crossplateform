@@ -389,7 +389,7 @@ command_button_logical(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_co
 
 
 //5ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
+for(int cl=0;cl<4;cl++)
 {
 switch(cl)
 {
@@ -401,27 +401,20 @@ sprintf(raccourci_commande,"Shift-F11");
 stae=index_show_config_window;
 break;
 case 1:
-IDmidi=1341;
-IDcommand=cl+40;
-strcpy(nom_commande,"iCat Builder");
-strcpy(raccourci_commande,"");
-stae=index_window_gui_iCat;
-break;
-case 2:
 IDmidi=1338;
 IDcommand=cl+40;
 sprintf(nom_commande,"N-Pad");
 sprintf(raccourci_commande,"P");
 stae=index_visual_pad;
 break;
-case 3:
+case 2:
 IDmidi=1342;
 IDcommand=cl+40;
 strcpy(nom_commande,"Help");
 strcpy(raccourci_commande,"");
 stae=index_call_help;
 break;
-case 4:
+case 3:
 IDmidi=757;
 IDcommand=cl+40;
 sprintf(nom_commande,"QUIT");
@@ -444,7 +437,7 @@ int Menus( int xmenu, int ymenu)
 Rect MyMainMenu(Vec2D(xmenu,ymenu),Vec2D(size_x_mainmenu,size_y_mainmenu));
 MyMainMenu.SetRoundness(15);
 MyMainMenu.Draw(CouleurFond);
-MyMainMenu.SetLineWidth(triple_epaisseur_ligne_fader);
+MyMainMenu.SetLineWidth(epaisseur_bordure_fenetre);
 if(window_focus_id==W_MAINMENU)
 {
 MyMainMenu.DrawOutline(CouleurFader);
@@ -661,7 +654,7 @@ command_button_view(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_comma
 }
 
 //5ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
+for(int cl=0;cl<4;cl++)
 {
 switch(cl)
 {
@@ -672,29 +665,21 @@ sprintf(nom_commande,"CFG-Menu");
 sprintf(raccourci_commande,"Shift-F11");
 stae=index_show_config_window;
 break;
-
 case 1:
-IDmidi=1341;
-//02/03/2014 unused var IDcommand=cl+30;
-strcpy(nom_commande,"iCat Builder");
-strcpy(raccourci_commande,"");
-stae=index_window_gui_iCat;
-break;
-case 2:
 IDmidi=1338;
 //02/03/2014 unused var IDcommand=cl+30;
 sprintf(nom_commande,"N-Pad");
 sprintf(raccourci_commande,"P");
 stae=index_visual_pad;
 break;
-case 3:
+case 2:
 IDmidi=1342;
 //02/03/2014 unused var IDcommand=cl+40;
 strcpy(nom_commande,"Help");
 strcpy(raccourci_commande,"");
 stae=index_call_help;
 break;
-case 4:
+case 3:
 IDmidi=757;
 //02/03/2014 unused var IDcommand=cl+40;
 sprintf(nom_commande,"QUIT");

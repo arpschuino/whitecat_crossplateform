@@ -3,23 +3,22 @@
         {
             "name": "Win32",
             "includePath": [
-                "D:/nextCloud/ARPSCHUINO_PARTAGE/codes/whitecat_crossplateform/Src",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/compiledlibsforGCC4_8_1/include",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/audiere-1.9.4-win32/include",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/midishare/include",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/Cserial",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/dashard",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/enttec_pro",
-                "C:/whitecat_crossplateform/whitecatlib/lib/windows/odmxusb_terry",
-                "C:/MinGW/include",
-                "D:/nextCloud/ARPSCHUINO_PARTAGE/codes/whitecat_crossplateform/whitecatlib/lib/sources_of_libs/rtmidi"
+                "${workspaceFolder}/Src",
+                "${workspaceFolder}/whitecatlib/lib/windows/sdl2/include",
+                "${workspaceFolder}/whitecatlib/lib/windows/compiledlibsforGCC4_8_1/include",
+                "${workspaceFolder}/whitecatlib/lib/windows/Cserial",
+                "${workspaceFolder}/whitecatlib/lib/windows/dashard",
+                "${workspaceFolder}/whitecatlib/lib/windows/enttec_pro",
+                "${workspaceFolder}/whitecatlib/lib/windows/odmxusb_terry",
+                "${workspaceFolder}/whitecatlib/lib/sources_of_libs/rtmidi"
             ],
             "defines": [
                 "_GLIBCXX_USE_CXX11_ABI=0",
                 "_TIMESPEC_DEFINED",
-                "WIN32"
+                "WIN32",
+                "__WINDOWS_MM__"
             ],
-            "compilerPath": "C:/Program Files (x86)/CodeBlocks/MinGW/bin/g++.exe",
+            "compilerPath": "${workspaceFolder}/tools/MinGW/bin/g++.exe",
             "cStandard": "c11",
             "cppStandard": "c++11",
             "intelliSenseMode": "gcc-x86"
