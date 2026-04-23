@@ -1,66 +1,97 @@
-whitecat_crossplateform short Features description
-===================================================
-WhiteCat Lighting Board is a free lighting desk for windows developped by Christoph Guillermet.
+# WhiteCat — Lighting Console
 
-It can do a lot of stuff of course as lighting desk,artnet and dmx interfaces, cue, chanel macro, patch, xy mover and trichromie(not totally usefull actuely for motor lighting), etc...
+**WhiteCat** is a free, open-source stage lighting console for Windows, originally developed by [Christoph Guillermet](https://github.com/ChristophGuillermet) (2009–2016). The project has been taken over and modernized in 2026 by Jacques Bouault — [arpschuino.fr](http://arpschuino.fr).
 
-But he has a lot of strange or useful other fonctions who make it able to be used for something else than linghting.
+**WhiteCat** est une console d'éclairage scénique libre et open-source pour Windows, développée à l'origine par [Christoph Guillermet](https://github.com/ChristophGuillermet) (2009–2016). Le projet a été repris et modernisé en 2026 par Jacques Bouault — [arpschuino.fr](http://arpschuino.fr).
 
-It can play sound, controle Arduino and Arduino HF prototype for electronique developpement, has a little video tracking module, an echo (sort of gravity and physical fonction of control), a draw module (to draw directly the light), a plot module to draw your light plot directly in whitecat and in sync with the soft, and a remote for iphone and ipad thrue iFantastick soft.
- 
-To start using the cat
-====================
--At http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php you can find in the wiki a very completed doc on the wiki page, a more short doc in english doc is also available on this page
--on the wesite of whitecat, http://www.le-chat-noir-numerique.fr, the forum is very useful, and there is some vidéo tutorials
--can download the last beta release at http://www.le-chat-noir-numerique.fr/release or from the main page, just uncompress the zip at C:/ and enjoy.
+---
 
-Licence
-=======
-White Cat is free software developped originaly by Cristoph Guillermet: you can redistribute it and/or modify
+## Features / Fonctionnalités
 
-it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or(at your option) any later version.
+- DMX output: ArtNet, Enttec Open DMX, Enttec Pro, Sunlite (simultaneous / simultanées)
+- MIDI input/output: multi-port, hotplug (RtMidi)
+- Audio playback: WAV, MP3, OGG, FLAC (SDL2_mixer + minimp3)
+- Sequencer / cue list
+- Trichromie (RGB color mixing)
+- Echo (physics-based control)
+- Arduino & HF prototype control
+- Video tracking module
+- Light plot (draw module)
+- Patch, XY mover, channel macros, banger
 
-White Cat is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+---
 
-You should have received a copy of the GNU General Public License
-along with White Cat.  If not, see<http://www.gnu.org/licenses/>.
+## Version 0.9 — What's new / Nouveautés
 
-To start coding quickly:
-==============
-In windows :
--Follow the PREBUILD_INSTALL_WITH_CODEBLOCKS_AND_MINGW4.8.1.txt or the PREBUILD_INSTALL_With_DEV_C++_AND_MINGW4.8.1.txt
+- **Graphics**: full migration from Allegro 4 + OpenLayer to **SDL2**
+- **Audio**: full migration from Audiere to **SDL2_mixer + minimp3** (MP3, WAV, OGG, FLAC)
+- **MIDI**: migration from MidiShare (obsolete) to **RtMidi** — multi-port, hotplug
+- **DMX**: multiple interfaces active simultaneously; DMX King UltraDMX2 Pro fixed
+- **Build**: portable build system (`build.bat`), GCC 5.1.0 (MinGW in `tools/`)
+- **IDE**: VSCode integration (build `Ctrl+Shift+B`, debug `F5`)
+- Reduced CPU usage (adaptive idle mode, 30 fps cap)
+- Cleaned up obsolete source files and old libraries
 
-- if you want build yourself the libraries for an other plateform or compilator than MinGW4.8.1, you can get inspiration from the BUILD_LIBRARIES_INSTRUCTIONS_for_MinGW.txt
+---
 
-The API documentation
-=====================
-You can find a short doc genereted by doxygen in the API.
-If you code an contribute to the whitecat project, please continue to comment your code with the doxigen format, for the others. 
-If you are french a tutorial for doxygen and whitecat can be found at http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=documentation_doxygen
+## Build — Windows
 
-Content of the repository
-============
-Sources to to build whitecat as crossplateform with:
-For crossplateform:
-Allegro 4.4.2 modified, opencv 2.4.8, Openlayer 2.1 modified, Audiere1.9.4, MidiShare1.9.1, libharu2.0.8
+### Requirements / Prérequis
 
-For windows:
--CSerial (for the arduino communication)
--dashard (sunlight dmx interface)
--opendmx
--enttec usb pro
+- MinGW GCC 5.1.0 — included in `tools/MinGW/` (not tracked by git, download separately)
+- SDL2, SDL2_mixer, SDL2_ttf, SDL2_image — included in `whitecatlib/`
+- RtMidi — included in `whitecatlib/lib/sources_of_libs/rtmidi/`
 
-For OSX, Debian, unix and linux POSIX systeme (must be developed):
-- Audiere 1.9.5
-- libserial 0.5.2 (to replace Cserial in system non windows)
+### Build
 
-The libs sources can be cloned from the whitecatlib repository at https://github.com/ChristophGuillermet/whitecatlib
-The builds of whitecat from the whitecatbuild repository at https://github.com/ChristophGuillermet/whitecatbuild
+```bat
+build.bat
+```
 
-If you are french, for how to use git a tuto is at http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=recettes_pour_git
+Output: `whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe`
 
-This two folder must cloned or copy inside the whitecat_crossplateform folders but you may find some lighter Prebuilds for this two repository for your environement and DEVKIT at : http://www.le-chat-noir-numerique.fr/coding/
+### VSCode
 
+Open the project folder in VSCode:
+- **Build**: `Ctrl+Shift+B`
+- **Debug**: `F5`
+
+---
+
+## Dependencies / Dépendances
+
+| Library | Version | Role |
+|---------|---------|------|
+| SDL2 | 2.x | Graphics, input, window |
+| SDL2_mixer | 2.x | Audio playback |
+| SDL2_ttf | 2.x | Text rendering |
+| SDL2_image | 2.x | Image loading |
+| RtMidi | latest | MIDI I/O |
+| OpenCV | 2.4.8 | Video tracking |
+| libharu | 2.0.8 | PDF export |
+| zlib | 1.2.8 | Compression |
+
+---
+
+## Repository structure / Structure du dépôt
+
+```
+whitecat_crossplateform/
+├── Src/               — C++ source files
+├── whitecatlib/       — Libraries (SDL2, RtMidi, OpenCV…)
+├── whitecatbuild/     — Build output and runtime resources
+├── tools/             — Portable MinGW compiler (not in git)
+└── build.bat          — Build script
+```
+
+---
+
+## Licence
+
+White Cat is free software originally developed by Christoph Guillermet.  
+You can redistribute it and/or modify it under the terms of the **GNU General Public License v2** (or any later version).
+
+White Cat est un logiciel libre développé à l'origine par Christoph Guillermet.  
+Vous pouvez le redistribuer et/ou le modifier selon les termes de la **Licence Publique Générale GNU v2** (ou toute version ultérieure).
+
+See `COPYING` or <http://www.gnu.org/licenses/> for details.
