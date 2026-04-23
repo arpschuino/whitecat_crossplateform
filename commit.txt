@@ -1,4 +1,0 @@
--change condition ternaire en if pour la compatibilité crossplateform et gcc4.8.1(change ?> conditions in if() conditions)
--add accolade dans switch case  (add a bracket in a switch case)
-- includes opencv cv.hpp se change en opencv/cv.hpp etc...pour la compatibilité opencv2 (change include cv.hpp to opencv/cv.hpp etc... for the compatibility to opencv2)
-

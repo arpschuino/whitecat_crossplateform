@@ -1,1533 +1,0 @@
-mingw-developer-toolkit-bin:
-  Installed Version:  mingw-developer-toolkit-2013072300-msys-bin.meta
-  Repository Version: mingw-developer-toolkit-2013072300-msys-bin.meta
-mingw32-autoconf-bin:
-  Installed Version:  autoconf-10-1-mingw32-bin.tar.lzma
-  Repository Version: autoconf-10-1-mingw32-bin.tar.lzma
-mingw32-autoconf-lic:
-  Installed Version:  none
-  Repository Version: autoconf-10-1-mingw32-lic.tar.lzma
-mingw32-autoconf2.1-bin:
-  Installed Version:  autoconf2.1-2.13-4-mingw32-bin.tar.lzma
-  Repository Version: autoconf2.1-2.13-4-mingw32-bin.tar.lzma
-mingw32-autoconf2.1-doc:
-  Installed Version:  none
-  Repository Version: autoconf2.1-2.13-4-mingw32-doc.tar.lzma
-mingw32-autoconf2.1-lic:
-  Installed Version:  none
-  Repository Version: autoconf2.1-2.13-4-mingw32-lic.tar.lzma
-mingw32-autoconf2.5-bin:
-  Installed Version:  autoconf2.5-2.68-1-mingw32-bin.tar.lzma
-  Repository Version: autoconf2.5-2.68-1-mingw32-bin.tar.lzma
-mingw32-autoconf2.5-doc:
-  Installed Version:  none
-  Repository Version: autoconf2.5-2.68-1-mingw32-doc.tar.lzma
-mingw32-autoconf2.5-lic:
-  Installed Version:  none
-  Repository Version: autoconf2.5-2.68-1-mingw32-lic.tar.lzma
-mingw32-automake-bin:
-  Installed Version:  automake-4-1-mingw32-bin.tar.lzma
-  Repository Version: automake-4-1-mingw32-bin.tar.lzma
-mingw32-automake-lic:
-  Installed Version:  none
-  Repository Version: automake-4-1-mingw32-lic.tar.lzma
-mingw32-automake1.10-bin:
-  Installed Version:  automake1.10-1.10.2-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.10-1.10.2-1-mingw32-bin.tar.lzma
-mingw32-automake1.10-doc:
-  Installed Version:  none
-  Repository Version: automake1.10-1.10.2-1-mingw32-doc.tar.lzma
-mingw32-automake1.10-lic:
-  Installed Version:  none
-  Repository Version: automake1.10-1.10.2-1-mingw32-lic.tar.lzma
-mingw32-automake1.11-bin:
-  Installed Version:  automake1.11-1.11.1-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.11-1.11.1-1-mingw32-bin.tar.lzma
-mingw32-automake1.11-doc:
-  Installed Version:  none
-  Repository Version: automake1.11-1.11.1-1-mingw32-doc.tar.lzma
-mingw32-automake1.11-lic:
-  Installed Version:  none
-  Repository Version: automake1.11-1.11.1-1-mingw32-lic.tar.lzma
-mingw32-automake1.4-bin:
-  Installed Version:  automake1.4-1.4p6-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.4-1.4p6-1-mingw32-bin.tar.lzma
-mingw32-automake1.4-doc:
-  Installed Version:  none
-  Repository Version: automake1.4-1.4p6-1-mingw32-doc.tar.lzma
-mingw32-automake1.4-lic:
-  Installed Version:  none
-  Repository Version: automake1.4-1.4p6-1-mingw32-lic.tar.lzma
-mingw32-automake1.5-bin:
-  Installed Version:  automake1.5-1.5-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.5-1.5-1-mingw32-bin.tar.lzma
-mingw32-automake1.5-doc:
-  Installed Version:  none
-  Repository Version: automake1.5-1.5-1-mingw32-doc.tar.lzma
-mingw32-automake1.5-lic:
-  Installed Version:  none
-  Repository Version: automake1.5-1.5-1-mingw32-lic.tar.lzma
-mingw32-automake1.6-bin:
-  Installed Version:  automake1.6-1.6.3-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.6-1.6.3-1-mingw32-bin.tar.lzma
-mingw32-automake1.6-doc:
-  Installed Version:  none
-  Repository Version: automake1.6-1.6.3-1-mingw32-doc.tar.lzma
-mingw32-automake1.6-lic:
-  Installed Version:  none
-  Repository Version: automake1.6-1.6.3-1-mingw32-lic.tar.lzma
-mingw32-automake1.7-bin:
-  Installed Version:  automake1.7-1.7.9-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.7-1.7.9-1-mingw32-bin.tar.lzma
-mingw32-automake1.7-doc:
-  Installed Version:  none
-  Repository Version: automake1.7-1.7.9-1-mingw32-doc.tar.lzma
-mingw32-automake1.7-lic:
-  Installed Version:  none
-  Repository Version: automake1.7-1.7.9-1-mingw32-lic.tar.lzma
-mingw32-automake1.8-bin:
-  Installed Version:  automake1.8-1.8.5-1-mingw32-bin.tar.lzma
-  Repository Version: automake1.8-1.8.5-1-mingw32-bin.tar.lzma
-mingw32-automake1.8-doc:
-  Installed Version:  none
-  Repository Version: automake1.8-1.8.5-1-mingw32-doc.tar.lzma
-mingw32-automake1.8-lic:
-  Installed Version:  none
-  Repository Version: automake1.8-1.8.5-1-mingw32-lic.tar.lzma
-mingw32-automake1.9-bin:
-  Installed Version:  automake1.9-1.9.6-3-mingw32-bin.tar.lzma
-  Repository Version: automake1.9-1.9.6-3-mingw32-bin.tar.lzma
-mingw32-automake1.9-doc:
-  Installed Version:  none
-  Repository Version: automake1.9-1.9.6-3-mingw32-doc.tar.lzma
-mingw32-automake1.9-lic:
-  Installed Version:  none
-  Repository Version: automake1.9-1.9.6-3-mingw32-lic.tar.lzma
-mingw32-autotools-bin:
-  Installed Version:  mingw32-autotools-2010090601-mingw32-bin.meta
-  Repository Version: mingw32-autotools-2010090601-mingw32-bin.meta
-mingw32-base-bin:
-  Installed Version:  mingw32-base-2013072200-mingw32-bin.meta
-  Repository Version: mingw32-base-2013072200-mingw32-bin.meta
-mingw32-basic-bsdtar-bin:
-  Installed Version:  none
-  Repository Version: basic-bsdtar-2.8.3-1-mingw32-bin.tar.lzma
-mingw32-binutils-bin:
-  Installed Version:  binutils-2.23.2-1-mingw32-bin.tar.lzma
-  Repository Version: binutils-2.23.2-1-mingw32-bin.tar.lzma
-mingw32-binutils-dev:
-  Installed Version:  binutils-2.23.2-1-mingw32-dev.tar.lzma
-  Repository Version: binutils-2.23.2-1-mingw32-dev.tar.lzma
-mingw32-binutils-doc:
-  Installed Version:  none
-  Repository Version: binutils-2.23.2-1-mingw32-doc.tar.lzma
-mingw32-binutils-info:
-  Installed Version:  none
-  Repository Version: binutils-2.23.2-1-mingw32-info.tar.lzma
-mingw32-binutils-lang:
-  Installed Version:  none
-  Repository Version: binutils-2.23.2-1-mingw32-lang.tar.lzma
-mingw32-binutils-man:
-  Installed Version:  none
-  Repository Version: binutils-2.23.2-1-mingw32-man.tar.lzma
-mingw32-bsdcpio-bin:
-  Installed Version:  bsdcpio-2.8.3-1-mingw32-bin.tar.bz2
-  Repository Version: bsdcpio-2.8.3-1-mingw32-bin.tar.bz2
-mingw32-bsdtar-bin:
-  Installed Version:  bsdtar-2.8.3-1-mingw32-bin.tar.bz2
-  Repository Version: bsdtar-2.8.3-1-mingw32-bin.tar.bz2
-mingw32-bzip2-bin:
-  Installed Version:  bzip2-1.0.6-4-mingw32-bin.tar.lzma
-  Repository Version: bzip2-1.0.6-4-mingw32-bin.tar.lzma
-mingw32-bzip2-dev:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-4-mingw32-dev.tar.lzma
-mingw32-bzip2-doc:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-4-mingw32-doc.tar.lzma
-mingw32-bzip2-lic:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-4-mingw32-lic.tar.lzma
-mingw32-bzip2-man:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-4-mingw32-man.tar.lzma
-mingw32-dos2unix-bin:
-  Installed Version:  dos2unix-6.0.4-1-mingw32-bin.tar.lzma
-  Repository Version: dos2unix-6.0.4-1-mingw32-bin.tar.lzma
-mingw32-dos2unix-doc:
-  Installed Version:  none
-  Repository Version: dos2unix-6.0.4-1-mingw32-doc.tar.lzma
-mingw32-dos2unix-lic:
-  Installed Version:  none
-  Repository Version: dos2unix-6.0.4-1-mingw32-lic.tar.lzma
-mingw32-expat-bin:
-  Installed Version:  expat-2.1.0-1-mingw32-bin.tar.lzma
-  Repository Version: expat-2.1.0-1-mingw32-bin.tar.lzma
-mingw32-expat-doc:
-  Installed Version:  none
-  Repository Version: expat-2.1.0-1-mingw32-doc.tar.lzma
-mingw32-expat-lic:
-  Installed Version:  none
-  Repository Version: expat-2.1.0-1-mingw32-lic.tar.lzma
-mingw32-expat-man:
-  Installed Version:  none
-  Repository Version: expat-2.1.0-1-mingw32-man.tar.lzma
-mingw32-gcc-bin:
-  Installed Version:  gcc-core-4.8.1-4-mingw32-bin.tar.lzma
-  Repository Version: gcc-core-4.8.1-4-mingw32-bin.tar.lzma
-mingw32-gcc-dev:
-  Installed Version:  gcc-core-4.8.1-4-mingw32-dev.tar.lzma
-  Repository Version: gcc-core-4.8.1-4-mingw32-dev.tar.lzma
-mingw32-gcc-doc:
-  Installed Version:  none
-  Repository Version: gcc-core-4.8.1-4-mingw32-doc.tar.lzma
-mingw32-gcc-info:
-  Installed Version:  none
-  Repository Version: gcc-core-4.8.1-4-mingw32-info.tar.lzma
-mingw32-gcc-lang:
-  Installed Version:  none
-  Repository Version: gcc-4.8.1-4-mingw32-lang.tar.lzma
-mingw32-gcc-lic:
-  Installed Version:  gcc-core-4.8.1-4-mingw32-lic.tar.lzma
-  Repository Version: gcc-core-4.8.1-4-mingw32-lic.tar.lzma
-mingw32-gcc-man:
-  Installed Version:  none
-  Repository Version: gcc-core-4.8.1-4-mingw32-man.tar.lzma
-mingw32-gcc-ada-bin:
-  Installed Version:  gcc-ada-4.8.1-4-mingw32-bin.tar.lzma
-  Repository Version: gcc-ada-4.8.1-4-mingw32-bin.tar.lzma
-mingw32-gcc-ada-dev:
-  Installed Version:  gcc-ada-4.8.1-4-mingw32-dev.tar.lzma
-  Repository Version: gcc-ada-4.8.1-4-mingw32-dev.tar.lzma
-mingw32-gcc-ada-info:
-  Installed Version:  none
-  Repository Version: gcc-ada-4.8.1-4-mingw32-info.tar.lzma
-mingw32-gcc-fortran-bin:
-  Installed Version:  gcc-fortran-4.8.1-4-mingw32-bin.tar.lzma
-  Repository Version: gcc-fortran-4.8.1-4-mingw32-bin.tar.lzma
-mingw32-gcc-fortran-dev:
-  Installed Version:  gcc-fortran-4.8.1-4-mingw32-dev.tar.lzma
-  Repository Version: gcc-fortran-4.8.1-4-mingw32-dev.tar.lzma
-mingw32-gcc-fortran-doc:
-  Installed Version:  none
-  Repository Version: gcc-fortran-4.8.1-4-mingw32-doc.tar.lzma
-mingw32-gcc-fortran-info:
-  Installed Version:  none
-  Repository Version: gcc-fortran-4.8.1-4-mingw32-info.tar.lzma
-mingw32-gcc-fortran-man:
-  Installed Version:  none
-  Repository Version: gcc-fortran-4.8.1-4-mingw32-man.tar.lzma
-mingw32-gcc-g++-bin:
-  Installed Version:  gcc-c++-4.8.1-4-mingw32-bin.tar.lzma
-  Repository Version: gcc-c++-4.8.1-4-mingw32-bin.tar.lzma
-mingw32-gcc-g++-dev:
-  Installed Version:  gcc-c++-4.8.1-4-mingw32-dev.tar.lzma
-  Repository Version: gcc-c++-4.8.1-4-mingw32-dev.tar.lzma
-mingw32-gcc-g++-doc:
-  Installed Version:  none
-  Repository Version: gcc-c++-4.8.1-4-mingw32-doc.tar.lzma
-mingw32-gcc-g++-man:
-  Installed Version:  none
-  Repository Version: gcc-c++-4.8.1-4-mingw32-man.tar.lzma
-mingw32-gcc-objc-bin:
-  Installed Version:  gcc-objc-4.8.1-4-mingw32-bin.tar
-  Repository Version: gcc-objc-4.8.1-4-mingw32-bin.tar
-mingw32-gcc-objc-dev:
-  Installed Version:  gcc-objc-4.8.1-4-mingw32-dev.tar.lzma
-  Repository Version: gcc-objc-4.8.1-4-mingw32-dev.tar.lzma
-mingw32-gcc-tools-epoch2-autoconf-bin:
-  Installed Version:  gcc-tools-epoch2-autoconf-2.64-1-mingw32-bin.tar.lzma
-  Repository Version: gcc-tools-epoch2-autoconf-2.64-1-mingw32-bin.tar.lzma
-mingw32-gcc-tools-epoch2-autoconf-doc:
-  Installed Version:  none
-  Repository Version: gcc-tools-epoch2-autoconf-2.64-1-mingw32-doc.tar.lzma
-mingw32-gcc-tools-epoch2-autoconf-lic:
-  Installed Version:  none
-  Repository Version: gcc-tools-epoch2-autoconf-2.64-1-mingw32-lic.tar.lzma
-mingw32-gcc-tools-epoch2-automake-bin:
-  Installed Version:  gcc-tools-epoch2-automake-1.11.1-1-mingw32-bin.tar.lzma
-  Repository Version: gcc-tools-epoch2-automake-1.11.1-1-mingw32-bin.tar.lzma
-mingw32-gcc-tools-epoch2-automake-doc:
-  Installed Version:  none
-  Repository Version: gcc-tools-epoch2-automake-1.11.1-1-mingw32-doc.tar.lzma
-mingw32-gcc-tools-epoch2-automake-lic:
-  Installed Version:  none
-  Repository Version: gcc-tools-epoch2-automake-1.11.1-1-mingw32-lic.tar.lzma
-mingw32-gcc-v3-ada-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-ada-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gcc-v3-core-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-core-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gcc-v3-fortran-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-g77-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gcc-v3-g++-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-g++-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gcc-v3-java-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-java-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gcc-v3-objc-bin:
-  Installed Version:  none
-  Repository Version: gcc-v3-objc-3.4.5-20060117-3-mingw32-bin.tar.gz
-mingw32-gdb-bin:
-  Installed Version:  gdb-7.6.1-1-mingw32-bin.tar.lzma
-  Repository Version: gdb-7.6.1-1-mingw32-bin.tar.lzma
-mingw32-gdb-doc:
-  Installed Version:  none
-  Repository Version: gdb-7.6.1-1-mingw32-doc.tar.lzma
-mingw32-gdb-info:
-  Installed Version:  none
-  Repository Version: gdb-7.6.1-1-mingw32-info.tar.lzma
-mingw32-gdb-lang:
-  Installed Version:  none
-  Repository Version: gdb-7.6.1-1-mingw32-lang.tar.lzma
-mingw32-gdb-lic:
-  Installed Version:  none
-  Repository Version: gdb-7.6.1-1-mingw32-lic.tar.lzma
-mingw32-gdb-man:
-  Installed Version:  none
-  Repository Version: gdb-7.6.1-1-mingw32-man.tar.lzma
-mingw32-gdb-python-bin:
-  Installed Version:  gdb-python-7.5-1-mingw32-bin.tar.lzma
-  Repository Version: gdb-python-7.5-1-mingw32-bin.tar.lzma
-mingw32-gdb-python-doc:
-  Installed Version:  none
-  Repository Version: gdb-python-7.5-1-mingw32-doc.tar.lzma
-mingw32-gendef-bin:
-  Installed Version:  gendef-1.0.1346-1-mingw32-bin.tar.lzma
-  Repository Version: gendef-1.0.1346-1-mingw32-bin.tar.lzma
-mingw32-gendef-doc:
-  Installed Version:  none
-  Repository Version: gendef-1.0.1346-1-mingw32-doc.tar.lzma
-mingw32-gendef-lic:
-  Installed Version:  none
-  Repository Version: gendef-1.0.1346-1-mingw32-lic.tar.lzma
-mingw32-gettext-bin:
-  Installed Version:  gettext-0.18.3.1-1-mingw32-bin.tar.lzma
-  Repository Version: gettext-0.18.3.1-1-mingw32-bin.tar.lzma
-mingw32-gettext-dev:
-  Installed Version:  gettext-0.18.3.1-1-mingw32-dev.tar.lzma
-  Repository Version: gettext-0.18.3.1-1-mingw32-dev.tar.lzma
-mingw32-gettext-dll:
-  Installed Version:  gettext-0.18.3.1-1-mingw32-dll.tar.lzma
-  Repository Version: gettext-0.18.3.1-1-mingw32-dll.tar.lzma
-mingw32-gettext-doc:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-doc.tar.lzma
-mingw32-gettext-ext:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-ext.tar.lzma
-mingw32-gettext-html:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-html.tar.lzma
-mingw32-gettext-info:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-info.tar.lzma
-mingw32-gettext-lic:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-lic.tar.lzma
-mingw32-gettext-man:
-  Installed Version:  none
-  Repository Version: gettext-0.18.3.1-1-mingw32-man.tar.lzma
-mingw32-gmp-dev:
-  Installed Version:  none
-  Repository Version: gmp-5.1.2-1-mingw32-dev.tar.lzma
-mingw32-gmp-doc:
-  Installed Version:  none
-  Repository Version: gmp-5.1.2-1-mingw32-doc.tar.lzma
-mingw32-gmp-info:
-  Installed Version:  none
-  Repository Version: gmp-5.1.2-1-mingw32-info.tar.lzma
-mingw32-gmp-lic:
-  Installed Version:  none
-  Repository Version: gmp-5.1.2-1-mingw32-lic.tar.lzma
-mingw32-libarchive-dev:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-mingw32-dev.tar.bz2
-mingw32-libarchive-dll:
-  Installed Version:  libarchive-2.8.3-1-mingw32-dll-2.tar.bz2
-  Repository Version: libarchive-2.8.3-1-mingw32-dll-2.tar.bz2
-mingw32-libarchive-doc:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-mingw32-doc.tar.bz2
-mingw32-libarchive-lic:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-mingw32-lic.tar.bz2
-mingw32-libasprintf-dll:
-  Installed Version:  libasprintf-0.18.3.1-1-mingw32-dll-0.tar
-  Repository Version: libasprintf-0.18.3.1-1-mingw32-dll-0.tar
-mingw32-libbz2-dll:
-  Installed Version:  libbz2-1.0.6-4-mingw32-dll-2.tar.lzma
-  Repository Version: libbz2-1.0.6-4-mingw32-dll-2.tar.lzma
-mingw32-libcharset-dll:
-  Installed Version:  libcharset-1.14-3-mingw32-dll-1.tar
-  Repository Version: libcharset-1.14-3-mingw32-dll-1.tar
-mingw32-libexpat-dev:
-  Installed Version:  none
-  Repository Version: libexpat-2.1.0-1-mingw32-dev.tar
-mingw32-libexpat-dll:
-  Installed Version:  libexpat-2.1.0-1-mingw32-dll-1.tar
-  Repository Version: libexpat-2.1.0-1-mingw32-dll-1.tar
-mingw32-libgcc-dll:
-  Installed Version:  libgcc-4.8.1-4-mingw32-dll-1.tar
-  Repository Version: libgcc-4.8.1-4-mingw32-dll-1.tar
-mingw32-libgettextpo-dll:
-  Installed Version:  libgettextpo-0.18.3.1-1-mingw32-dll-0.tar
-  Repository Version: libgettextpo-0.18.3.1-1-mingw32-dll-0.tar
-mingw32-libgfortran-dll:
-  Installed Version:  libgfortran-4.8.1-4-mingw32-dll-3.tar
-  Repository Version: libgfortran-4.8.1-4-mingw32-dll-3.tar
-mingw32-libgmp-dll:
-  Installed Version:  libgmp-5.1.2-1-mingw32-dll-10.tar
-  Repository Version: libgmp-5.1.2-1-mingw32-dll-10.tar
-mingw32-libgmpxx-dll:
-  Installed Version:  libgmpxx-5.1.2-1-mingw32-dll-4.tar.lzma
-  Repository Version: libgmpxx-5.1.2-1-mingw32-dll-4.tar.lzma
-mingw32-libgnat-dll:
-  Installed Version:  libgnat-4.8.1-4-mingw32-dll-4_8.tar
-  Repository Version: libgnat-4.8.1-4-mingw32-dll-4_8.tar
-mingw32-libgomp-dll:
-  Installed Version:  libgomp-4.8.1-4-mingw32-dll-1.tar
-  Repository Version: libgomp-4.8.1-4-mingw32-dll-1.tar
-mingw32-libiconv-bin:
-  Installed Version:  libiconv-1.14-3-mingw32-bin.tar.lzma
-  Repository Version: libiconv-1.14-3-mingw32-bin.tar.lzma
-mingw32-libiconv-dev:
-  Installed Version:  libiconv-1.14-3-mingw32-dev.tar.lzma
-  Repository Version: libiconv-1.14-3-mingw32-dev.tar.lzma
-mingw32-libiconv-dll:
-  Installed Version:  libiconv-1.14-3-mingw32-dll-2.tar
-  Repository Version: libiconv-1.14-3-mingw32-dll-2.tar
-mingw32-libiconv-doc:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-3-mingw32-doc.tar.lzma
-mingw32-libiconv-html:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-3-mingw32-html.tar.lzma
-mingw32-libiconv-lang:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-3-mingw32-lang.tar.lzma
-mingw32-libiconv-lic:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-3-mingw32-lic.tar.lzma
-mingw32-libiconv-man:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-3-mingw32-man.tar.lzma
-mingw32-libintl-dll:
-  Installed Version:  libintl-0.18.3.1-1-mingw32-dll-8.tar
-  Repository Version: libintl-0.18.3.1-1-mingw32-dll-8.tar
-mingw32-libltdl-dev:
-  Installed Version:  libltdl-2.4-1-mingw32-dev.tar.lzma
-  Repository Version: libltdl-2.4-1-mingw32-dev.tar.lzma
-mingw32-libltdl-dll:
-  Installed Version:  libltdl-2.4-1-mingw32-dll-7.tar.lzma
-  Repository Version: libltdl-2.4-1-mingw32-dll-7.tar.lzma
-mingw32-liblzma-dev:
-  Installed Version:  none
-  Repository Version: liblzma-5.0.3-2-mingw32-dev.tar.lzma
-mingw32-liblzma-dll:
-  Installed Version:  liblzma-5.0.3-2-mingw32-dll-5.tar.lzma
-  Repository Version: liblzma-5.0.3-2-mingw32-dll-5.tar.lzma
-mingw32-libminizip-dev:
-  Installed Version:  libminizip-1.2.7-1-mingw32-dev.tar.lzma
-  Repository Version: libminizip-1.2.7-1-mingw32-dev.tar.lzma
-mingw32-libminizip-dll:
-  Installed Version:  libminizip-1.2.7-1-mingw32-dll-1.tar.lzma
-  Repository Version: libminizip-1.2.7-1-mingw32-dll-1.tar.lzma
-mingw32-libmpc-dll:
-  Installed Version:  libmpc-1.0.1-2-mingw32-dll-3.tar
-  Repository Version: libmpc-1.0.1-2-mingw32-dll-3.tar
-mingw32-libmpfr-dll:
-  Installed Version:  libmpfr-3.1.2-2-mingw32-dll-4.tar
-  Repository Version: libmpfr-3.1.2-2-mingw32-dll-4.tar
-mingw32-libobjc-dll:
-  Installed Version:  libobjc-4.8.1-4-mingw32-dll-4.tar
-  Repository Version: libobjc-4.8.1-4-mingw32-dll-4.tar
-mingw32-libpdcurses-dev:
-  Installed Version:  none
-  Repository Version: libpdcurses-3.4-1-mingw32-dev.tar.lzma
-mingw32-libpdcurses-dll:
-  Installed Version:  libpdcurses-3.4-1-mingw32-dll.tar.lzma
-  Repository Version: libpdcurses-3.4-1-mingw32-dll.tar.lzma
-mingw32-libpopt-dev:
-  Installed Version:  none
-  Repository Version: libpopt-1.15-1-mingw32-dev.tar.lzma
-mingw32-libpopt-dll:
-  Installed Version:  libpopt-1.15-1-mingw32-dll-0.tar.lzma
-  Repository Version: libpopt-1.15-1-mingw32-dll-0.tar.lzma
-mingw32-libpopt-lang:
-  Installed Version:  none
-  Repository Version: libpopt-1.15-1-mingw32-lang.tar.lzma
-mingw32-libpthread-old-dll:
-  Installed Version:  libpthread-2.9.1-1-mingw32-dll-2.tar
-  Repository Version: libpthread-2.8.0-3-mingw32-dll-2.tar.lzma
-mingw32-libpthreadgc-dll:
-  Installed Version:  libpthread-2.9.1-1-mingw32-dll-2.tar
-  Repository Version: libpthread-2.9.1-1-mingw32-dll-2.tar
-mingw32-libpthreadgce-dll:
-  Installed Version:  libpthreadgce-2.9.1-1-mingw32-dll-2.tar
-  Repository Version: libpthreadgce-2.9.1-1-mingw32-dll-2.tar
-mingw32-libquadmath-dll:
-  Installed Version:  libquadmath-4.8.1-4-mingw32-dll-0.tar
-  Repository Version: libquadmath-4.8.1-4-mingw32-dll-0.tar
-mingw32-libquserex-dll:
-  Installed Version:  libquserex-2.9.0-mingw32-pre-20110507-2-dll.tar.lzma
-  Repository Version: libquserex-2.9.0-mingw32-pre-20110507-2-dll.tar.lzma
-mingw32-libssp-dll:
-  Installed Version:  libssp-4.8.1-4-mingw32-dll-0.tar
-  Repository Version: libssp-4.8.1-4-mingw32-dll-0.tar
-mingw32-libstdc++-dll:
-  Installed Version:  libstdc++-4.8.1-4-mingw32-dll-6.tar
-  Repository Version: libstdc++-4.8.1-4-mingw32-dll-6.tar
-mingw32-libtool-bin:
-  Installed Version:  libtool-2.4-1-mingw32-bin.tar.lzma
-  Repository Version: libtool-2.4-1-mingw32-bin.tar.lzma
-mingw32-libtool-doc:
-  Installed Version:  none
-  Repository Version: libtool-2.4-1-mingw32-doc.tar.lzma
-mingw32-libtool-lic:
-  Installed Version:  none
-  Repository Version: libtool-2.4-1-mingw32-lic.tar.lzma
-mingw32-libunistring-dev:
-  Installed Version:  libunistring-0.9.3-1-mingw32-dev.tar.lzma
-  Repository Version: libunistring-0.9.3-1-mingw32-dev.tar.lzma
-mingw32-libunistring-dll:
-  Installed Version:  libunistring-0.9.3-1-mingw32-dll-0.tar.lzma
-  Repository Version: libunistring-0.9.3-1-mingw32-dll-0.tar.lzma
-mingw32-libunistring-doc:
-  Installed Version:  none
-  Repository Version: libunistring-0.9.3-1-mingw32-doc.tar.lzma
-mingw32-libunistring-lic:
-  Installed Version:  none
-  Repository Version: libunistring-0.9.3-1-mingw32-lic.tar.lzma
-mingw32-libz-dev:
-  Installed Version:  libz-1.2.8-1-mingw32-dev-1.tar
-  Repository Version: libz-1.2.8-1-mingw32-dev-1.tar
-mingw32-libz-dll:
-  Installed Version:  libz-1.2.8-1-mingw32-dll-1.tar
-  Repository Version: libz-1.2.8-1-mingw32-dll-1.tar
-mingw32-lua-bin:
-  Installed Version:  lua-5.2.0-1-mingw32-bin.tar.xz
-  Repository Version: lua-5.2.0-1-mingw32-bin.tar.xz
-mingw32-lua-dev:
-  Installed Version:  none
-  Repository Version: lua-5.2.0-1-mingw32-dev.tar.xz
-mingw32-lua-dll:
-  Installed Version:  lua-5.2.0-1-mingw32-dll-52.tar.xz
-  Repository Version: lua-5.2.0-1-mingw32-dll-52.tar.xz
-mingw32-lua-doc:
-  Installed Version:  none
-  Repository Version: lua-5.2.0-1-mingw32-doc.tar.xz
-mingw32-lua-lic:
-  Installed Version:  none
-  Repository Version: lua-5.2.0-1-mingw32-lic.tar.xz
-mingw32-lua-man:
-  Installed Version:  none
-  Repository Version: lua-5.2.0-1-mingw32-man.tar.xz
-mingw32-make-bin:
-  Installed Version:  make-3.82.90-2-mingw32-cvs-20120902-bin.tar.lzma
-  Repository Version: make-3.82.90-2-mingw32-cvs-20120902-bin.tar.lzma
-mingw32-make-doc:
-  Installed Version:  none
-  Repository Version: make-3.82.90-2-mingw32-cvs-20120902-doc.tar.lzma
-mingw32-make-lang:
-  Installed Version:  none
-  Repository Version: make-3.82.90-2-mingw32-cvs-20120902-lang.tar.lzma
-mingw32-make-lic:
-  Installed Version:  none
-  Repository Version: make-3.82.90-2-mingw32-cvs-20120902-lic.tar.lzma
-mingw32-mgwport-bin:
-  Installed Version:  mgwport-0.10.6-1-mingw32-bin.tar.lzma
-  Repository Version: mgwport-0.10.6-1-mingw32-bin.tar.lzma
-mingw32-mgwport-doc:
-  Installed Version:  none
-  Repository Version: mgwport-0.10.6-1-mingw32-doc.tar.lzma
-mingw32-mgwport-lic:
-  Installed Version:  none
-  Repository Version: mgwport-0.10.6-1-mingw32-lic.tar.lzma
-mingw32-mingw-get-bin:
-  Installed Version:  mingw-get-0.6.2-mingw32-beta-20131004-1-bin.tar.xz
-  Repository Version: mingw-get-0.6.2-mingw32-beta-20131004-1-bin.tar.xz
-mingw32-mingw-get-gui:
-  Installed Version:  mingw-get-0.6.2-mingw32-beta-20131004-1-gui.tar.xz
-  Repository Version: mingw-get-0.6.2-mingw32-beta-20131004-1-gui.tar.xz
-mingw32-mingw-get-lic:
-  Installed Version:  mingw-get-0.6.2-mingw32-beta-20131004-1-lic.tar.xz
-  Repository Version: mingw-get-0.6.2-mingw32-beta-20131004-1-lic.tar.xz
-mingw32-mingw-utils-bin:
-  Installed Version:  mingw-utils-0.4-1-mingw32-bin.tar.lzma
-  Repository Version: mingw-utils-0.4-1-mingw32-bin.tar.lzma
-mingw32-mingw-utils-doc:
-  Installed Version:  none
-  Repository Version: mingw-utils-0.4-1-mingw32-doc.tar.lzma
-mingw32-mingw-utils-lic:
-  Installed Version:  none
-  Repository Version: mingw-utils-0.4-1-mingw32-lic.tar.lzma
-mingw32-mingwrt-dev:
-  Installed Version:  mingwrt-4.0.3-1-mingw32-dev.tar.lzma
-  Repository Version: mingwrt-4.0.3-1-mingw32-dev.tar.lzma
-mingw32-mingwrt-dll:
-  Installed Version:  mingwrt-4.0.3-1-mingw32-dll.tar.lzma
-  Repository Version: mingwrt-4.0.3-1-mingw32-dll.tar.lzma
-mingw32-mingwrt-doc:
-  Installed Version:  none
-  Repository Version: mingwrt-4.0.3-1-mingw32-doc.tar.lzma
-mingw32-mingwrt-lic:
-  Installed Version:  none
-  Repository Version: mingwrt-4.0.3-1-mingw32-lic.tar.lzma
-mingw32-minizip-bin:
-  Installed Version:  minizip-1.2.7-1-mingw32-bin.tar.lzma
-  Repository Version: minizip-1.2.7-1-mingw32-bin.tar.lzma
-mingw32-mpc-dev:
-  Installed Version:  none
-  Repository Version: mpc-1.0.1-2-mingw32-dev.tar.lzma
-mingw32-mpc-doc:
-  Installed Version:  none
-  Repository Version: mpc-1.0.1-2-mingw32-doc.tar.lzma
-mingw32-mpc-lic:
-  Installed Version:  none
-  Repository Version: mpc-1.0.1-2-mingw32-lic.tar.lzma
-mingw32-mpfr-dev:
-  Installed Version:  none
-  Repository Version: mpfr-3.1.2-2-mingw32-dev.tar.lzma
-mingw32-mpfr-doc:
-  Installed Version:  none
-  Repository Version: mpfr-3.1.2-2-mingw32-doc.tar.lzma
-mingw32-mpfr-lic:
-  Installed Version:  none
-  Repository Version: mpfr-3.1.2-2-mingw32-lic.tar.lzma
-mingw32-pdcurses-bin:
-  Installed Version:  PDCurses-3.4-1-mingw32-bin.tar.lzma
-  Repository Version: PDCurses-3.4-1-mingw32-bin.tar.lzma
-mingw32-pdcurses-doc:
-  Installed Version:  none
-  Repository Version: PDCurses-3.4-1-mingw32-doc.tar.lzma
-mingw32-pdcurses-lic:
-  Installed Version:  none
-  Repository Version: PDCurses-3.4-1-mingw32-lic.tar.lzma
-mingw32-pexports-bin:
-  Installed Version:  pexports-0.46-mingw32-bin.tar.xz
-  Repository Version: pexports-0.46-mingw32-bin.tar.xz
-mingw32-pexports-doc:
-  Installed Version:  none
-  Repository Version: pexports-0.46-mingw32-doc.tar.xz
-mingw32-pexports-lic:
-  Installed Version:  none
-  Repository Version: pexports-0.46-mingw32-lic.tar.xz
-mingw32-pkginfo-bin:
-  Installed Version:  pkginfo-0.6.2-mingw32-beta-20131004-1-bin.tar.xz
-  Repository Version: pkginfo-0.6.2-mingw32-beta-20131004-1-bin.tar.xz
-mingw32-popt-doc:
-  Installed Version:  none
-  Repository Version: popt-1.15-1-mingw32-doc.tar.lzma
-mingw32-popt-lic:
-  Installed Version:  none
-  Repository Version: popt-1.15-1-mingw32-lic.tar.lzma
-mingw32-pthreads-w32-dev:
-  Installed Version:  pthreads-w32-2.9.1-1-mingw32-dev.tar.lzma
-  Repository Version: pthreads-w32-2.9.1-1-mingw32-dev.tar.lzma
-mingw32-pthreads-w32-doc:
-  Installed Version:  none
-  Repository Version: pthreads-w32-2.9.1-1-mingw32-doc.tar.lzma
-mingw32-pthreads-w32-lic:
-  Installed Version:  none
-  Repository Version: pthreads-w32-2.9.1-1-mingw32-lic.tar.lzma
-mingw32-tcl-bin:
-  Installed Version:  tcl-8.6.0-1-mingw32-bin.tar.lzma
-  Repository Version: tcl-8.6.0-1-mingw32-bin.tar.lzma
-mingw32-tcl-dev:
-  Installed Version:  tcl-8.6.0-1-mingw32-dev.tar.lzma
-  Repository Version: tcl-8.6.0-1-mingw32-dev.tar.lzma
-mingw32-tcl-dll:
-  Installed Version:  tcl-8.6.0-1-mingw32-dll.tar.lzma
-  Repository Version: tcl-8.6.0-1-mingw32-dll.tar.lzma
-mingw32-tcl-doc:
-  Installed Version:  none
-  Repository Version: tcl-8.6.0-1-mingw32-doc.tar.lzma
-mingw32-tcl-lic:
-  Installed Version:  none
-  Repository Version: tcl-8.6.0-1-mingw32-lic.tar.lzma
-mingw32-tcl-man:
-  Installed Version:  none
-  Repository Version: tcl-8.6.0-1-mingw32-man.tar.lzma
-mingw32-tk-bin:
-  Installed Version:  tk-8.6.0-1-mingw32-bin.tar.lzma
-  Repository Version: tk-8.6.0-1-mingw32-bin.tar.lzma
-mingw32-tk-dev:
-  Installed Version:  tk-8.6.0-1-mingw32-dev.tar.lzma
-  Repository Version: tk-8.6.0-1-mingw32-dev.tar.lzma
-mingw32-tk-dll:
-  Installed Version:  tk-8.6.0-1-mingw32-dll.tar.lzma
-  Repository Version: tk-8.6.0-1-mingw32-dll.tar.lzma
-mingw32-tk-doc:
-  Installed Version:  none
-  Repository Version: tk-8.6.0-1-mingw32-doc.tar.lzma
-mingw32-tk-lic:
-  Installed Version:  none
-  Repository Version: tk-8.6.0-1-mingw32-lic.tar.lzma
-mingw32-w32api-dev:
-  Installed Version:  w32api-4.0.3-1-mingw32-dev.tar.lzma
-  Repository Version: w32api-4.0.3-1-mingw32-dev.tar.lzma
-mingw32-w32api-doc:
-  Installed Version:  none
-  Repository Version: w32api-4.0.3-1-mingw32-doc.tar.lzma
-mingw32-w32api-lic:
-  Installed Version:  none
-  Repository Version: w32api-4.0.3-1-mingw32-lic.tar.lzma
-mingw32-wsl_rc-meta:
-  Installed Version:  none
-  Repository Version: wsl_rc-4.0-1-mingw32-rc-4-meta.tar.lzma
-mingw32-xerces-c-bin:
-  Installed Version:  xerces-c-3.1.1-2-mingw32-4.7.2-bin.tar.xz
-  Repository Version: xerces-c-3.1.1-2-mingw32-4.7.2-bin.tar.xz
-mingw32-xerces-c-dev:
-  Installed Version:  none
-  Repository Version: xerces-c-3.1.1-2-mingw32-4.7.2-dev.tar.xz
-mingw32-xerces-c-dll:
-  Installed Version:  xerces-c-3.1.1-2-mingw32-4.7.2-dll-3.tar.xz
-  Repository Version: xerces-c-3.1.1-2-mingw32-4.7.2-dll-3.tar.xz
-mingw32-xerces-c-lic:
-  Installed Version:  none
-  Repository Version: xerces-c-3.1.1-mingw32-lic.tar.xz
-mingw32-xz-bin:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-2-mingw32-bin.tar.lzma
-mingw32-xz-doc:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-2-mingw32-doc.tar.lzma
-mingw32-xz-lang:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-2-mingw32-lang.tar.lzma
-mingw32-xz-lic:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-2-mingw32-lic.tar.lzma
-mingw32-zlib-doc:
-  Installed Version:  none
-  Repository Version: zlib-1.2.8-1-mingw32-doc.tar.lzma
-mingw32-zlib-lic:
-  Installed Version:  none
-  Repository Version: zlib-1.2.8-1-mingw32-lic.tar.lzma
-mingw32-zlib-man:
-  Installed Version:  none
-  Repository Version: zlib-1.2.8-1-mingw32-man.tar.lzma
-msys-autoconf-bin:
-  Installed Version:  autoconf-2.68-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: autoconf-2.68-1-msys-1.0.17-bin.tar.lzma
-msys-autoconf-doc:
-  Installed Version:  none
-  Repository Version: autoconf-2.68-1-msys-1.0.17-doc.tar.lzma
-msys-autoconf-lic:
-  Installed Version:  none
-  Repository Version: autoconf-2.68-1-msys-1.0.17-lic.tar.lzma
-msys-autogen-bin:
-  Installed Version:  autogen-5.10.1-1-msys-1.0.15-bin.tar.lzma
-  Repository Version: autogen-5.10.1-1-msys-1.0.15-bin.tar.lzma
-msys-autogen-doc:
-  Installed Version:  none
-  Repository Version: autogen-5.10.1-1-msys-1.0.15-doc.tar.lzma
-msys-autogen-lic:
-  Installed Version:  none
-  Repository Version: autogen-5.10.1-1-msys-1.0.15-lic.tar.lzma
-msys-automake-bin:
-  Installed Version:  automake-1.11.1-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: automake-1.11.1-1-msys-1.0.13-bin.tar.lzma
-msys-automake-doc:
-  Installed Version:  none
-  Repository Version: automake-1.11.1-1-msys-1.0.13-doc.tar.lzma
-msys-automake-lic:
-  Installed Version:  none
-  Repository Version: automake-1.11.1-1-msys-1.0.13-lic.tar.lzma
-msys-base-bin:
-  Installed Version:  msys-base-2013072300-msys-bin.meta
-  Repository Version: msys-base-2013072300-msys-bin.meta
-msys-bash-bin:
-  Installed Version:  bash-3.1.17-4-msys-1.0.16-bin.tar.lzma
-  Repository Version: bash-3.1.17-4-msys-1.0.16-bin.tar.lzma
-msys-bash-doc:
-  Installed Version:  none
-  Repository Version: bash-3.1.17-4-msys-1.0.16-doc.tar.lzma
-msys-bash-lic:
-  Installed Version:  none
-  Repository Version: bash-3.1.17-4-msys-1.0.16-lic.tar.lzma
-msys-binutils-bin:
-  Installed Version:  none
-  Repository Version: binutils-2.19.51-3-msys-1.0.13-bin.tar.lzma
-msys-binutils-doc:
-  Installed Version:  none
-  Repository Version: binutils-2.19.51-3-msys-1.0.13-doc.tar.lzma
-msys-binutils-lic:
-  Installed Version:  none
-  Repository Version: binutils-2.19.51-3-msys-1.0.13-lic.tar.lzma
-msys-bison-bin:
-  Installed Version:  bison-2.4.2-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: bison-2.4.2-1-msys-1.0.13-bin.tar.lzma
-msys-bison-doc:
-  Installed Version:  none
-  Repository Version: bison-2.4.2-1-msys-1.0.13-doc.tar.lzma
-msys-bison-lang:
-  Installed Version:  none
-  Repository Version: bison-2.4.2-1-msys-1.0.13-lang.tar.lzma
-msys-bison-lic:
-  Installed Version:  none
-  Repository Version: bison-2.4.2-1-msys-1.0.13-lic.tar.lzma
-msys-bison-rtm:
-  Installed Version:  none
-  Repository Version: bison-2.4.2-1-msys-1.0.13-rtm.tar.lzma
-msys-bsdcpio-bin:
-  Installed Version:  bsdcpio-2.8.3-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: bsdcpio-2.8.3-1-msys-1.0.13-bin.tar.lzma
-msys-bsdtar-bin:
-  Installed Version:  bsdtar-2.8.3-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: bsdtar-2.8.3-1-msys-1.0.13-bin.tar.lzma
-msys-bzip2-bin:
-  Installed Version:  bzip2-1.0.6-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: bzip2-1.0.6-1-msys-1.0.17-bin.tar.lzma
-msys-bzip2-doc:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-1-msys-1.0.17-doc.tar.lzma
-msys-bzip2-lic:
-  Installed Version:  none
-  Repository Version: bzip2-1.0.6-1-msys-1.0.17-lic.tar.lzma
-msys-console-bin:
-  Installed Version:  none
-  Repository Version: console-2.00b147-1-msys-1.0.15-bin.tar.lzma
-msys-console-doc:
-  Installed Version:  none
-  Repository Version: console-2.00b147-1-msys-1.0.15-doc.tar.lzma
-msys-console-lic:
-  Installed Version:  none
-  Repository Version: console-2.00b147-1-msys-1.0.15-lic.tar.lzma
-msys-core-bin:
-  Installed Version:  msysCORE-1.0.18-1-msys-1.0.18-bin.tar.lzma
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-bin.tar.lzma
-msys-core-dbg:
-  Installed Version:  none
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-dbg.tar.lzma
-msys-core-dev:
-  Installed Version:  none
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-dev.tar.lzma
-msys-core-doc:
-  Installed Version:  msysCORE-1.0.18-1-msys-1.0.18-doc.tar.lzma
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-doc.tar.lzma
-msys-core-ext:
-  Installed Version:  msysCORE-1.0.18-1-msys-1.0.18-ext.tar.lzma
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-ext.tar.lzma
-msys-core-lic:
-  Installed Version:  msysCORE-1.0.18-1-msys-1.0.18-lic.tar.lzma
-  Repository Version: msysCORE-1.0.18-1-msys-1.0.18-lic.tar.lzma
-msys-coreutils-bin:
-  Installed Version:  coreutils-5.97-3-msys-1.0.13-bin.tar.lzma
-  Repository Version: coreutils-5.97-3-msys-1.0.13-bin.tar.lzma
-msys-coreutils-doc:
-  Installed Version:  none
-  Repository Version: coreutils-5.97-3-msys-1.0.13-doc.tar.lzma
-msys-coreutils-ext:
-  Installed Version:  coreutils-5.97-3-msys-1.0.13-ext.tar.lzma
-  Repository Version: coreutils-5.97-3-msys-1.0.13-ext.tar.lzma
-msys-coreutils-lang:
-  Installed Version:  none
-  Repository Version: coreutils-5.97-3-msys-1.0.13-lang.tar.lzma
-msys-coreutils-lic:
-  Installed Version:  none
-  Repository Version: coreutils-5.97-3-msys-1.0.13-lic.tar.lzma
-msys-crypt-bin:
-  Installed Version:  none
-  Repository Version: crypt-1.1_1-3-msys-1.0.13-bin.tar.lzma
-msys-crypt-doc:
-  Installed Version:  none
-  Repository Version: crypt-1.1_1-3-msys-1.0.13-doc.tar.lzma
-msys-crypt-lic:
-  Installed Version:  none
-  Repository Version: crypt-1.1_1-3-msys-1.0.13-lic.tar.lzma
-msys-cvs-bin:
-  Installed Version:  cvs-1.12.13-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: cvs-1.12.13-2-msys-1.0.13-bin.tar.lzma
-msys-cvs-doc:
-  Installed Version:  none
-  Repository Version: cvs-1.12.13-2-msys-1.0.13-doc.tar.lzma
-msys-cvs-lang:
-  Installed Version:  none
-  Repository Version: cvs-1.12.13-2-msys-1.0.13-lang.tar.lzma
-msys-cvs-lic:
-  Installed Version:  none
-  Repository Version: cvs-1.12.13-2-msys-1.0.13-lic.tar.lzma
-msys-cygutils-bin:
-  Installed Version:  none
-  Repository Version: cygutils-1.3.4-4-msys-1.0.13-bin.tar.lzma
-msys-cygutils-doc:
-  Installed Version:  none
-  Repository Version: cygutils-1.3.4-4-msys-1.0.13-doc.tar.lzma
-msys-cygutils-lic:
-  Installed Version:  none
-  Repository Version: cygutils-1.3.4-4-msys-1.0.13-lic.tar.lzma
-msys-dash-bin:
-  Installed Version:  none
-  Repository Version: dash-0.5.5.1_2-1-msys-1.0.13-bin.tar.lzma
-msys-dash-doc:
-  Installed Version:  none
-  Repository Version: dash-0.5.5.1_2-1-msys-1.0.13-doc.tar.lzma
-msys-dash-lic:
-  Installed Version:  none
-  Repository Version: dash-0.5.5.1_2-1-msys-1.0.13-lic.tar.lzma
-msys-diffstat-bin:
-  Installed Version:  diffstat-1.54-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: diffstat-1.54-1-msys-1.0.17-bin.tar.lzma
-msys-diffstat-doc:
-  Installed Version:  none
-  Repository Version: diffstat-1.54-1-msys-1.0.17-doc.tar.lzma
-msys-diffstat-lic:
-  Installed Version:  none
-  Repository Version: diffstat-1.54-1-msys-1.0.17-lic.tar.lzma
-msys-diffutils-bin:
-  Installed Version:  diffutils-2.8.7.20071206cvs-3-msys-1.0.13-bin.tar.lzma
-  Repository Version: diffutils-2.8.7.20071206cvs-3-msys-1.0.13-bin.tar.lzma
-msys-diffutils-doc:
-  Installed Version:  none
-  Repository Version: diffutils-2.8.7.20071206cvs-3-msys-1.0.13-doc.tar.lzma
-msys-diffutils-lang:
-  Installed Version:  none
-  Repository Version: diffutils-2.8.7.20071206cvs-3-msys-1.0.13-lang.tar.lzma
-msys-diffutils-lic:
-  Installed Version:  none
-  Repository Version: diffutils-2.8.7.20071206cvs-3-msys-1.0.13-lic.tar.lzma
-msys-dos2unix-bin:
-  Installed Version:  dos2unix-6.0.4-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: dos2unix-6.0.4-1-msys-1.0.17-bin.tar.lzma
-msys-dos2unix-doc:
-  Installed Version:  none
-  Repository Version: dos2unix-6.0.4-1-msys-1.0.17-doc.tar.lzma
-msys-dos2unix-lic:
-  Installed Version:  none
-  Repository Version: dos2unix-6.0.4-1-msys-1.0.17-lic.tar.lzma
-msys-expat-bin:
-  Installed Version:  none
-  Repository Version: expat-2.0.1-1-msys-1.0.13-bin.tar.lzma
-msys-expat-doc:
-  Installed Version:  none
-  Repository Version: expat-2.0.1-1-msys-1.0.13-doc.tar.lzma
-msys-expat-lic:
-  Installed Version:  none
-  Repository Version: expat-2.0.1-1-msys-1.0.13-lic.tar.lzma
-msys-file-bin:
-  Installed Version:  file-5.04-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: file-5.04-1-msys-1.0.13-bin.tar.lzma
-msys-file-doc:
-  Installed Version:  none
-  Repository Version: file-5.04-1-msys-1.0.13-doc.tar.lzma
-msys-file-lic:
-  Installed Version:  none
-  Repository Version: file-5.04-1-msys-1.0.13-lic.tar.lzma
-msys-findutils-bin:
-  Installed Version:  findutils-4.4.2-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: findutils-4.4.2-2-msys-1.0.13-bin.tar.lzma
-msys-findutils-doc:
-  Installed Version:  none
-  Repository Version: findutils-4.4.2-2-msys-1.0.13-doc.tar.lzma
-msys-findutils-lang:
-  Installed Version:  none
-  Repository Version: findutils-4.4.2-2-msys-1.0.13-lang.tar.lzma
-msys-findutils-lic:
-  Installed Version:  none
-  Repository Version: findutils-4.4.2-2-msys-1.0.13-lic.tar.lzma
-msys-flex-bin:
-  Installed Version:  flex-2.5.35-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: flex-2.5.35-2-msys-1.0.13-bin.tar.lzma
-msys-flex-doc:
-  Installed Version:  none
-  Repository Version: flex-2.5.35-2-msys-1.0.13-doc.tar.lzma
-msys-flex-lang:
-  Installed Version:  none
-  Repository Version: flex-2.5.35-2-msys-1.0.13-lang.tar.lzma
-msys-flex-lic:
-  Installed Version:  none
-  Repository Version: flex-2.5.35-2-msys-1.0.13-lic.tar.lzma
-msys-gawk-bin:
-  Installed Version:  gawk-3.1.7-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: gawk-3.1.7-2-msys-1.0.13-bin.tar.lzma
-msys-gawk-doc:
-  Installed Version:  none
-  Repository Version: gawk-3.1.7-2-msys-1.0.13-doc.tar.lzma
-msys-gawk-lang:
-  Installed Version:  none
-  Repository Version: gawk-3.1.7-2-msys-1.0.13-lang.tar.lzma
-msys-gawk-lic:
-  Installed Version:  none
-  Repository Version: gawk-3.1.7-2-msys-1.0.13-lic.tar.lzma
-msys-gcc-bin:
-  Installed Version:  none
-  Repository Version: gcc-3.4.4-3-msys-1.0.13-bin.tar.lzma
-msys-gcc-doc:
-  Installed Version:  none
-  Repository Version: gcc-3.4.4-3-msys-1.0.13-doc.tar.lzma
-msys-gcc-lic:
-  Installed Version:  none
-  Repository Version: gcc-3.4.4-3-msys-1.0.13-lic.tar.lzma
-msys-gdbm-bin:
-  Installed Version:  none
-  Repository Version: gdbm-1.8.3-3-msys-1.0.13-bin.tar.lzma
-msys-gdbm-doc:
-  Installed Version:  none
-  Repository Version: gdbm-1.8.3-3-msys-1.0.13-doc.tar.lzma
-msys-gdbm-lic:
-  Installed Version:  none
-  Repository Version: gdbm-1.8.3-3-msys-1.0.13-lic.tar.lzma
-msys-gettext-bin:
-  Installed Version:  none
-  Repository Version: gettext-0.18.1.1-1-msys-1.0.17-bin.tar.lzma
-msys-gettext-dev:
-  Installed Version:  none
-  Repository Version: gettext-0.18.1.1-1-msys-1.0.17-dev.tar.lzma
-msys-gettext-doc:
-  Installed Version:  none
-  Repository Version: gettext-0.18.1.1-1-msys-1.0.17-doc.tar.lzma
-msys-gettext-ext:
-  Installed Version:  none
-  Repository Version: gettext-0.18.1.1-1-msys-1.0.17-ext.tar.lzma
-msys-gettext-lic:
-  Installed Version:  none
-  Repository Version: gettext-0.18.1.1-1-msys-1.0.17-lic.tar.lzma
-msys-gmp-doc:
-  Installed Version:  none
-  Repository Version: gmp-5.0.1-1-msys-1.0.13-doc.tar.lzma
-msys-gmp-lic:
-  Installed Version:  none
-  Repository Version: gmp-5.0.1-1-msys-1.0.13-lic.tar.lzma
-msys-grep-bin:
-  Installed Version:  grep-2.5.4-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: grep-2.5.4-2-msys-1.0.13-bin.tar.lzma
-msys-grep-doc:
-  Installed Version:  none
-  Repository Version: grep-2.5.4-2-msys-1.0.13-doc.tar.lzma
-msys-grep-lang:
-  Installed Version:  none
-  Repository Version: grep-2.5.4-2-msys-1.0.13-lang.tar.lzma
-msys-grep-lic:
-  Installed Version:  none
-  Repository Version: grep-2.5.4-2-msys-1.0.13-lic.tar.lzma
-msys-groff-bin:
-  Installed Version:  none
-  Repository Version: groff-1.20.1-2-msys-1.0.13-bin.tar.lzma
-msys-groff-doc:
-  Installed Version:  none
-  Repository Version: groff-1.20.1-2-msys-1.0.13-doc.tar.lzma
-msys-groff-ext:
-  Installed Version:  none
-  Repository Version: groff-1.20.1-2-msys-1.0.13-ext.tar.lzma
-msys-groff-lic:
-  Installed Version:  none
-  Repository Version: groff-1.20.1-2-msys-1.0.13-lic.tar.lzma
-msys-groff-smp:
-  Installed Version:  none
-  Repository Version: groff-1.20.1-2-msys-1.0.13-smp.tar.lzma
-msys-guile-bin:
-  Installed Version:  guile-1.8.7-2-msys-1.0.15-bin.tar.lzma
-  Repository Version: guile-1.8.7-2-msys-1.0.15-bin.tar.lzma
-msys-guile-doc:
-  Installed Version:  none
-  Repository Version: guile-1.8.7-2-msys-1.0.15-doc.tar.lzma
-msys-guile-lic:
-  Installed Version:  none
-  Repository Version: guile-1.8.7-2-msys-1.0.15-lic.tar.lzma
-msys-gzip-bin:
-  Installed Version:  gzip-1.3.12-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: gzip-1.3.12-2-msys-1.0.13-bin.tar.lzma
-msys-gzip-doc:
-  Installed Version:  none
-  Repository Version: gzip-1.3.12-2-msys-1.0.13-doc.tar.lzma
-msys-gzip-lic:
-  Installed Version:  none
-  Repository Version: gzip-1.3.12-2-msys-1.0.13-lic.tar.lzma
-msys-help2man-bin:
-  Installed Version:  none
-  Repository Version: help2man-1.40.4-1-msys-1.0.17-bin.tar.lzma
-msys-help2man-doc:
-  Installed Version:  none
-  Repository Version: help2man-1.40.4-1-msys-1.0.17-doc.tar.lzma
-msys-help2man-lic:
-  Installed Version:  none
-  Repository Version: help2man-1.40.4-1-msys-1.0.17-lic.tar.lzma
-msys-inetutils-bin:
-  Installed Version:  inetutils-1.7-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: inetutils-1.7-1-msys-1.0.13-bin.tar.lzma
-msys-inetutils-dev:
-  Installed Version:  none
-  Repository Version: inetutils-1.7-1-msys-1.0.13-dev.tar.lzma
-msys-inetutils-doc:
-  Installed Version:  none
-  Repository Version: inetutils-1.7-1-msys-1.0.13-doc.tar.lzma
-msys-inetutils-lic:
-  Installed Version:  none
-  Repository Version: inetutils-1.7-1-msys-1.0.13-lic.tar.lzma
-msys-less-bin:
-  Installed Version:  less-436-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: less-436-2-msys-1.0.13-bin.tar.lzma
-msys-less-doc:
-  Installed Version:  none
-  Repository Version: less-436-2-msys-1.0.13-doc.tar.lzma
-msys-less-lic:
-  Installed Version:  none
-  Repository Version: less-436-2-msys-1.0.13-lic.tar.lzma
-msys-libarchive-dev:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-msys-1.0.13-dev.tar.lzma
-msys-libarchive-dll:
-  Installed Version:  libarchive-2.8.3-1-msys-1.0.13-dll-2.tar.lzma
-  Repository Version: libarchive-2.8.3-1-msys-1.0.13-dll-2.tar.lzma
-msys-libarchive-doc:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-msys-1.0.13-doc.tar.lzma
-msys-libarchive-lic:
-  Installed Version:  none
-  Repository Version: libarchive-2.8.3-1-msys-1.0.13-lic.tar.lzma
-msys-libasprintf-dll:
-  Installed Version:  none
-  Repository Version: libasprintf-0.18.1.1-1-msys-1.0.17-dll-0.tar.lzma
-msys-libbz2-dev:
-  Installed Version:  none
-  Repository Version: libbz2-1.0.6-1-msys-1.0.17-dev.tar.lzma
-msys-libbz2-dll:
-  Installed Version:  libbz2-1.0.6-1-msys-1.0.17-dll-1.tar.lzma
-  Repository Version: libbz2-1.0.6-1-msys-1.0.17-dll-1.tar.lzma
-msys-libcharset-dll:
-  Installed Version:  none
-  Repository Version: libcharset-1.14-1-msys-1.0.17-dll-1.tar.lzma
-msys-libcrypt-dev:
-  Installed Version:  none
-  Repository Version: libcrypt-1.1_1-3-msys-1.0.13-dev.tar.lzma
-msys-libcrypt-dll:
-  Installed Version:  libcrypt-1.1_1-3-msys-1.0.13-dll-0.tar.lzma
-  Repository Version: libcrypt-1.1_1-3-msys-1.0.13-dll-0.tar.lzma
-msys-libexpat-dev:
-  Installed Version:  none
-  Repository Version: libexpat-2.0.1-1-msys-1.0.13-dev.tar.lzma
-msys-libexpat-dll:
-  Installed Version:  libexpat-2.0.1-1-msys-1.0.13-dll-1.tar.lzma
-  Repository Version: libexpat-2.0.1-1-msys-1.0.13-dll-1.tar.lzma
-msys-libgdbm-dev:
-  Installed Version:  none
-  Repository Version: libgdbm-1.8.3-3-msys-1.0.13-dev.tar.lzma
-msys-libgdbm-dll:
-  Installed Version:  libgdbm-1.8.3-3-msys-1.0.13-dll-3.tar.lzma
-  Repository Version: libgdbm-1.8.3-3-msys-1.0.13-dll-3.tar.lzma
-msys-libgettextpo-dll:
-  Installed Version:  none
-  Repository Version: libgettextpo-0.18.1.1-1-msys-1.0.17-dll-0.tar.lzma
-msys-libgmp-dev:
-  Installed Version:  none
-  Repository Version: libgmp-5.0.1-1-msys-1.0.13-dev.tar.lzma
-msys-libgmp-dll:
-  Installed Version:  libgmp-5.0.1-1-msys-1.0.13-dll-10.tar.lzma
-  Repository Version: libgmp-5.0.1-1-msys-1.0.13-dll-10.tar.lzma
-msys-libguile-dev:
-  Installed Version:  none
-  Repository Version: libguile-1.8.7-2-msys-1.0.15-dev.tar.lzma
-msys-libguile-dll:
-  Installed Version:  libguile-1.8.7-2-msys-1.0.15-dll-17.tar.lzma
-  Repository Version: libguile-1.8.7-2-msys-1.0.15-dll-17.tar.lzma
-msys-libguile-rtm:
-  Installed Version:  libguile-1.8.7-2-msys-1.0.15-rtm.tar.lzma
-  Repository Version: libguile-1.8.7-2-msys-1.0.15-rtm.tar.lzma
-msys-libiconv-bin:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-1-msys-1.0.17-bin.tar.lzma
-msys-libiconv-dev:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-1-msys-1.0.17-dev.tar.lzma
-msys-libiconv-dll:
-  Installed Version:  libiconv-1.14-1-msys-1.0.17-dll-2.tar.lzma
-  Repository Version: libiconv-1.14-1-msys-1.0.17-dll-2.tar.lzma
-msys-libiconv-doc:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-1-msys-1.0.17-doc.tar.lzma
-msys-libiconv-lic:
-  Installed Version:  none
-  Repository Version: libiconv-1.14-1-msys-1.0.17-lic.tar.lzma
-msys-libintl-dll:
-  Installed Version:  libintl-0.18.1.1-1-msys-1.0.17-dll-8.tar.lzma
-  Repository Version: libintl-0.18.1.1-1-msys-1.0.17-dll-8.tar.lzma
-msys-libltdl-dev:
-  Installed Version:  none
-  Repository Version: libltdl-2.4-1-msys-1.0.15-dev.tar.lzma
-msys-libltdl-dll:
-  Installed Version:  libltdl-2.4-1-msys-1.0.15-dll-7.tar.lzma
-  Repository Version: libltdl-2.4-1-msys-1.0.15-dll-7.tar.lzma
-msys-liblzma-dev:
-  Installed Version:  none
-  Repository Version: liblzma-5.0.3-1-msys-1.0.17-dev.tar.lzma
-msys-liblzma-dll:
-  Installed Version:  liblzma-5.0.3-1-msys-1.0.17-dll-5.tar.lzma
-  Repository Version: liblzma-5.0.3-1-msys-1.0.17-dll-5.tar.lzma
-msys-libmagic-dev:
-  Installed Version:  none
-  Repository Version: libmagic-5.04-1-msys-1.0.13-dev.tar.lzma
-msys-libmagic-dll:
-  Installed Version:  libmagic-5.04-1-msys-1.0.13-dll-1.tar.lzma
-  Repository Version: libmagic-5.04-1-msys-1.0.13-dll-1.tar.lzma
-msys-libminires-dev:
-  Installed Version:  none
-  Repository Version: libminires-1.02_1-2-msys-1.0.13-dev.tar.lzma
-msys-libminires-dll:
-  Installed Version:  libminires-1.02_1-2-msys-1.0.13-dll.tar.lzma
-  Repository Version: libminires-1.02_1-2-msys-1.0.13-dll.tar.lzma
-msys-libminizip-dev:
-  Installed Version:  none
-  Repository Version: libminizip-1.2.7-1-msys-1.0.17-dev.tar.lzma
-msys-libminizip-dll:
-  Installed Version:  none
-  Repository Version: libminizip-1.2.7-1-msys-1.0.17-dll-1.tar.lzma
-msys-libopenssl-dev:
-  Installed Version:  none
-  Repository Version: libopenssl-1.0.0-1-msys-1.0.13-dev.tar.lzma
-msys-libopenssl-dll:
-  Installed Version:  libopenssl-1.0.0-1-msys-1.0.13-dll-100.tar.lzma
-  Repository Version: libopenssl-1.0.0-1-msys-1.0.13-dll-100.tar.lzma
-msys-libopts-dev:
-  Installed Version:  none
-  Repository Version: libopts-5.10.1-1-msys-1.0.15-dev.tar.lzma
-msys-libopts-dll:
-  Installed Version:  libopts-5.10.1-1-msys-1.0.15-dll-25.tar.lzma
-  Repository Version: libopts-5.10.1-1-msys-1.0.15-dll-25.tar.lzma
-msys-libpopt-dev:
-  Installed Version:  none
-  Repository Version: libpopt-1.15-2-msys-1.0.13-dev.tar.lzma
-msys-libpopt-dll:
-  Installed Version:  libpopt-1.15-2-msys-1.0.13-dll-0.tar.lzma
-  Repository Version: libpopt-1.15-2-msys-1.0.13-dll-0.tar.lzma
-msys-libpopt-lang:
-  Installed Version:  none
-  Repository Version: libpopt-1.15-2-msys-1.0.13-lang.tar.lzma
-msys-libregex-dev:
-  Installed Version:  none
-  Repository Version: libregex-1.20090805-2-msys-1.0.13-dev.tar.lzma
-msys-libregex-dll:
-  Installed Version:  libregex-1.20090805-2-msys-1.0.13-dll-1.tar.lzma
-  Repository Version: libregex-1.20090805-2-msys-1.0.13-dll-1.tar.lzma
-msys-libtermcap-dev:
-  Installed Version:  none
-  Repository Version: libtermcap-0.20050421_1-2-msys-1.0.13-dev.tar.lzma
-msys-libtermcap-dll:
-  Installed Version:  libtermcap-0.20050421_1-2-msys-1.0.13-dll-0.tar.lzma
-  Repository Version: libtermcap-0.20050421_1-2-msys-1.0.13-dll-0.tar.lzma
-msys-libtool-bin:
-  Installed Version:  libtool-2.4-1-msys-1.0.15-bin.tar.lzma
-  Repository Version: libtool-2.4-1-msys-1.0.15-bin.tar.lzma
-msys-libtool-doc:
-  Installed Version:  none
-  Repository Version: libtool-2.4-1-msys-1.0.15-doc.tar.lzma
-msys-libtool-lic:
-  Installed Version:  none
-  Repository Version: libtool-2.4-1-msys-1.0.15-lic.tar.lzma
-msys-libxml2-bin:
-  Installed Version:  none
-  Repository Version: libxml2-2.7.6-1-msys-1.0.13-bin.tar.lzma
-msys-libxml2-dev:
-  Installed Version:  none
-  Repository Version: libxml2-2.7.6-1-msys-1.0.13-dev.tar.lzma
-msys-libxml2-dll:
-  Installed Version:  libxml2-2.7.6-1-msys-1.0.13-dll-2.tar.lzma
-  Repository Version: libxml2-2.7.6-1-msys-1.0.13-dll-2.tar.lzma
-msys-libxml2-doc:
-  Installed Version:  none
-  Repository Version: libxml2-2.7.6-1-msys-1.0.13-doc.tar.lzma
-msys-libxml2-lic:
-  Installed Version:  none
-  Repository Version: libxml2-2.7.6-1-msys-1.0.13-lic.tar.lzma
-msys-lndir-bin:
-  Installed Version:  lndir-1.0.1-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: lndir-1.0.1-2-msys-1.0.13-bin.tar.lzma
-msys-lndir-doc:
-  Installed Version:  none
-  Repository Version: lndir-1.0.1-2-msys-1.0.13-doc.tar.lzma
-msys-lndir-lic:
-  Installed Version:  none
-  Repository Version: lndir-1.0.1-2-msys-1.0.13-lic.tar.lzma
-msys-locate-bin:
-  Installed Version:  none
-  Repository Version: locate-4.4.2-2-msys-1.0.13-bin.tar.lzma
-msys-lpr-enhanced-bin:
-  Installed Version:  none
-  Repository Version: lpr-enhanced-1.0.2-1-msys-1.0.11-bin.tar.lzma
-msys-lpr-enhanced-doc:
-  Installed Version:  none
-  Repository Version: lpr-enhanced-1.0.2-1-msys-1.0.11-doc.tar.lzma
-msys-lpr-enhanced-lic:
-  Installed Version:  none
-  Repository Version: lpr-enhanced-1.0.2-1-msys-1.0.11-lic.tar.lzma
-msys-m4-bin:
-  Installed Version:  m4-1.4.16-2-msys-1.0.17-bin.tar.lzma
-  Repository Version: m4-1.4.16-2-msys-1.0.17-bin.tar.lzma
-msys-m4-doc:
-  Installed Version:  none
-  Repository Version: m4-1.4.16-2-msys-1.0.17-doc.tar.lzma
-msys-m4-lic:
-  Installed Version:  none
-  Repository Version: m4-1.4.16-2-msys-1.0.17-lic.tar.lzma
-msys-make-bin:
-  Installed Version:  make-3.81-3-msys-1.0.13-bin.tar.lzma
-  Repository Version: make-3.81-3-msys-1.0.13-bin.tar.lzma
-msys-make-doc:
-  Installed Version:  none
-  Repository Version: make-3.81-3-msys-1.0.13-doc.tar.lzma
-msys-make-lang:
-  Installed Version:  none
-  Repository Version: make-3.81-3-msys-1.0.13-lang.tar.lzma
-msys-make-lic:
-  Installed Version:  none
-  Repository Version: make-3.81-3-msys-1.0.13-lic.tar.lzma
-msys-man-bin:
-  Installed Version:  none
-  Repository Version: man-1.6f-2-msys-1.0.13-bin.tar.lzma
-msys-man-doc:
-  Installed Version:  none
-  Repository Version: man-1.6f-2-msys-1.0.13-doc.tar.lzma
-msys-man-lang:
-  Installed Version:  none
-  Repository Version: man-1.6f-2-msys-1.0.13-lang.tar.lzma
-msys-man-lic:
-  Installed Version:  none
-  Repository Version: man-1.6f-2-msys-1.0.13-lic.tar.lzma
-msys-minires-bin:
-  Installed Version:  none
-  Repository Version: minires-1.02_1-2-msys-1.0.13-bin.tar.lzma
-msys-minires-doc:
-  Installed Version:  none
-  Repository Version: minires-1.02_1-2-msys-1.0.13-doc.tar.lzma
-msys-minires-lic:
-  Installed Version:  none
-  Repository Version: minires-1.02_1-2-msys-1.0.13-lic.tar.lzma
-msys-minizip-bin:
-  Installed Version:  none
-  Repository Version: minizip-1.2.7-1-msys-1.0.17-bin.tar.lzma
-msys-mintty-bin:
-  Installed Version:  none
-  Repository Version: mintty-1.0.3-1-msys-1.0.17-bin.tar.lzma
-msys-mintty-doc:
-  Installed Version:  none
-  Repository Version: mintty-1.0.3-1-msys-1.0.17-doc.tar.lzma
-msys-mksh-bin:
-  Installed Version:  none
-  Repository Version: mksh-40.0.0c-1-msys-1.0.17-bin.tar.lzma
-msys-mksh-doc:
-  Installed Version:  none
-  Repository Version: mksh-40.0.0c-1-msys-1.0.17-doc.tar.lzma
-msys-mksh-lic:
-  Installed Version:  none
-  Repository Version: mksh-40.0.0c-1-msys-1.0.17-lic.tar.lzma
-msys-mktemp-bin:
-  Installed Version:  mktemp-1.6-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: mktemp-1.6-2-msys-1.0.13-bin.tar.lzma
-msys-mktemp-doc:
-  Installed Version:  none
-  Repository Version: mktemp-1.6-2-msys-1.0.13-doc.tar.lzma
-msys-mktemp-lic:
-  Installed Version:  none
-  Repository Version: mktemp-1.6-2-msys-1.0.13-lic.tar.lzma
-msys-openssh-bin:
-  Installed Version:  openssh-5.4p1-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: openssh-5.4p1-1-msys-1.0.13-bin.tar.lzma
-msys-openssh-doc:
-  Installed Version:  none
-  Repository Version: openssh-5.4p1-1-msys-1.0.13-doc.tar.lzma
-msys-openssh-lic:
-  Installed Version:  none
-  Repository Version: openssh-5.4p1-1-msys-1.0.13-lic.tar.lzma
-msys-openssl-bin:
-  Installed Version:  openssl-1.0.0-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: openssl-1.0.0-1-msys-1.0.13-bin.tar.lzma
-msys-openssl-doc:
-  Installed Version:  none
-  Repository Version: openssl-1.0.0-1-msys-1.0.13-doc.tar.lzma
-msys-openssl-lic:
-  Installed Version:  none
-  Repository Version: openssl-1.0.0-1-msys-1.0.13-lic.tar.lzma
-msys-patch-bin:
-  Installed Version:  patch-2.6.1-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: patch-2.6.1-1-msys-1.0.13-bin.tar.lzma
-msys-patch-doc:
-  Installed Version:  none
-  Repository Version: patch-2.6.1-1-msys-1.0.13-doc.tar.lzma
-msys-patch-lic:
-  Installed Version:  none
-  Repository Version: patch-2.6.1-1-msys-1.0.13-lic.tar.lzma
-msys-perl-bin:
-  Installed Version:  perl-5.8.8-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: perl-5.8.8-1-msys-1.0.17-bin.tar.lzma
-msys-perl-doc:
-  Installed Version:  none
-  Repository Version: perl-5.8.8-1-msys-1.0.17-doc.tar.lzma
-msys-perl-html:
-  Installed Version:  none
-  Repository Version: perl-5.8.8-1-msys-1.0.17-html.tar.lzma
-msys-perl-lic:
-  Installed Version:  none
-  Repository Version: perl-5.8.8-1-msys-1.0.17-lic.tar.lzma
-msys-perl-man:
-  Installed Version:  none
-  Repository Version: perl-5.8.8-1-msys-1.0.17-man.tar.lzma
-msys-popt-doc:
-  Installed Version:  none
-  Repository Version: popt-1.15-2-msys-1.0.13-doc.tar.lzma
-msys-popt-lic:
-  Installed Version:  none
-  Repository Version: popt-1.15-2-msys-1.0.13-lic.tar.lzma
-msys-rebase-bin:
-  Installed Version:  none
-  Repository Version: rebase-4.0.1_1-1-msys-1.0.17-bin.tar.lzma
-msys-rebase-dev:
-  Installed Version:  none
-  Repository Version: rebase-4.0.1_1-1-msys-1.0.17-dev.tar.lzma
-msys-rebase-doc:
-  Installed Version:  none
-  Repository Version: rebase-4.0.1_1-1-msys-1.0.17-doc.tar.lzma
-msys-rebase-lic:
-  Installed Version:  none
-  Repository Version: rebase-4.0.1_1-1-msys-1.0.17-lic.tar.lzma
-msys-regex-doc:
-  Installed Version:  none
-  Repository Version: regex-1.20090805-2-msys-1.0.13-doc.tar.lzma
-msys-regex-lic:
-  Installed Version:  none
-  Repository Version: regex-1.20090805-2-msys-1.0.13-lic.tar.lzma
-msys-rsync-bin:
-  Installed Version:  rsync-3.0.8-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: rsync-3.0.8-1-msys-1.0.17-bin.tar.lzma
-msys-rsync-doc:
-  Installed Version:  none
-  Repository Version: rsync-3.0.8-1-msys-1.0.17-doc.tar.lzma
-msys-rsync-lic:
-  Installed Version:  none
-  Repository Version: rsync-3.0.8-1-msys-1.0.17-lic.tar.lzma
-msys-rxvt-bin:
-  Installed Version:  none
-  Repository Version: rxvt-2.7.2-3-msys-1.0.14-bin.tar.lzma
-msys-rxvt-doc:
-  Installed Version:  none
-  Repository Version: rxvt-2.7.2-3-msys-1.0.14-doc.tar.lzma
-msys-rxvt-lic:
-  Installed Version:  none
-  Repository Version: rxvt-2.7.2-3-msys-1.0.14-lic.tar.lzma
-msys-sed-bin:
-  Installed Version:  sed-4.2.1-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: sed-4.2.1-2-msys-1.0.13-bin.tar.lzma
-msys-sed-doc:
-  Installed Version:  none
-  Repository Version: sed-4.2.1-2-msys-1.0.13-doc.tar.lzma
-msys-sed-lang:
-  Installed Version:  none
-  Repository Version: sed-4.2.1-2-msys-1.0.13-lang.tar.lzma
-msys-sed-lic:
-  Installed Version:  none
-  Repository Version: sed-4.2.1-2-msys-1.0.13-lic.tar.lzma
-msys-system-builder-bin:
-  Installed Version:  none
-  Repository Version: msys-system-builder-2010090600-msys-bin.meta
-msys-tar-bin:
-  Installed Version:  tar-1.23-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: tar-1.23-1-msys-1.0.13-bin.tar.lzma
-msys-tar-doc:
-  Installed Version:  none
-  Repository Version: tar-1.23-1-msys-1.0.13-doc.tar.lzma
-msys-tar-ext:
-  Installed Version:  none
-  Repository Version: tar-1.23-1-msys-1.0.13-ext.tar.lzma
-msys-tar-lang:
-  Installed Version:  none
-  Repository Version: tar-1.23-1-msys-1.0.13-lang.tar.lzma
-msys-tar-lic:
-  Installed Version:  none
-  Repository Version: tar-1.23-1-msys-1.0.13-lic.tar.lzma
-msys-termcap-bin:
-  Installed Version:  termcap-0.20050421_1-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: termcap-0.20050421_1-2-msys-1.0.13-bin.tar.lzma
-msys-termcap-doc:
-  Installed Version:  none
-  Repository Version: termcap-0.20050421_1-2-msys-1.0.13-doc.tar.lzma
-msys-termcap-lic:
-  Installed Version:  none
-  Repository Version: termcap-0.20050421_1-2-msys-1.0.13-lic.tar.lzma
-msys-texinfo-bin:
-  Installed Version:  texinfo-4.13a-2-msys-1.0.13-bin.tar.lzma
-  Repository Version: texinfo-4.13a-2-msys-1.0.13-bin.tar.lzma
-msys-texinfo-doc:
-  Installed Version:  none
-  Repository Version: texinfo-4.13a-2-msys-1.0.13-doc.tar.lzma
-msys-texinfo-lang:
-  Installed Version:  none
-  Repository Version: texinfo-4.13a-2-msys-1.0.13-lang.tar.lzma
-msys-texinfo-lic:
-  Installed Version:  none
-  Repository Version: texinfo-4.13a-2-msys-1.0.13-lic.tar.lzma
-msys-tiny-bin:
-  Installed Version:  none
-  Repository Version: msys-tiny-2013072300-msys-bin.meta
-msys-unzip-bin:
-  Installed Version:  unzip-6.0-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: unzip-6.0-1-msys-1.0.13-bin.tar.lzma
-msys-unzip-doc:
-  Installed Version:  none
-  Repository Version: unzip-6.0-1-msys-1.0.13-doc.tar.lzma
-msys-unzip-lic:
-  Installed Version:  none
-  Repository Version: unzip-6.0-1-msys-1.0.13-lic.tar.lzma
-msys-vim-bin:
-  Installed Version:  vim-7.3-2-msys-1.0.16-bin.tar.lzma
-  Repository Version: vim-7.3-2-msys-1.0.16-bin.tar.lzma
-msys-vim-doc:
-  Installed Version:  none
-  Repository Version: vim-7.3-2-msys-1.0.16-doc.tar.lzma
-msys-vim-lang:
-  Installed Version:  none
-  Repository Version: vim-7.3-2-msys-1.0.16-lang.tar.lzma
-msys-vim-lic:
-  Installed Version:  none
-  Repository Version: vim-7.3-2-msys-1.0.16-lic.tar.lzma
-msys-w32api-dev:
-  Installed Version:  none
-  Repository Version: w32api-3.14-3-msys-1.0.12-dev.tar.lzma
-msys-wget-bin:
-  Installed Version:  wget-1.12-1-msys-1.0.13-bin.tar.lzma
-  Repository Version: wget-1.12-1-msys-1.0.13-bin.tar.lzma
-msys-wget-doc:
-  Installed Version:  none
-  Repository Version: wget-1.12-1-msys-1.0.13-doc.tar.lzma
-msys-wget-lang:
-  Installed Version:  none
-  Repository Version: wget-1.12-1-msys-1.0.13-lang.tar.lzma
-msys-wget-lic:
-  Installed Version:  none
-  Repository Version: wget-1.12-1-msys-1.0.13-lic.tar.lzma
-msys-xz-bin:
-  Installed Version:  xz-5.0.3-1-msys-1.0.17-bin.tar.lzma
-  Repository Version: xz-5.0.3-1-msys-1.0.17-bin.tar.lzma
-msys-xz-doc:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-1-msys-1.0.17-doc.tar.lzma
-msys-xz-lang:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-1-msys-1.0.17-lang.tar.lzma
-msys-xz-lic:
-  Installed Version:  none
-  Repository Version: xz-5.0.3-1-msys-1.0.17-lic.tar.lzma
-msys-zip-bin:
-  Installed Version:  none
-  Repository Version: zip-3.0-1-msys-1.0.14-bin.tar.lzma
-msys-zip-doc:
-  Installed Version:  none
-  Repository Version: zip-3.0-1-msys-1.0.14-doc.tar.lzma
-msys-zip-lic:
-  Installed Version:  none
-  Repository Version: zip-3.0-1-msys-1.0.14-lic.tar.lzma
-msys-zlib-dev:
-  Installed Version:  none
-  Repository Version: zlib-1.2.7-1-msys-1.0.17-dev.tar.lzma
-msys-zlib-dll:
-  Installed Version:  none
-  Repository Version: zlib-1.2.7-1-msys-1.0.17-dll.tar.lzma
-msys-zlib-doc:
-  Installed Version:  none
-  Repository Version: zlib-1.2.7-1-msys-1.0.17-doc.tar.lzma
-msys-zlib-lic:
-  Installed Version:  none
-  Repository Version: zlib-1.2.7-1-msys-1.0.17-lic.tar.lzma
