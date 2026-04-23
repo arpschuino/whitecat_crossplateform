@@ -116,6 +116,14 @@ int Boxes() {
     RetourInfos(680, 40);
     grand_master(1050, 55);         // x y largeur
     show_windows_list_id(1100, 50); // debug windows
+    petitchiffre.Print(versionis, 680, 195);
+    petitchiffre.Print(nickname_version, 680, 205);
+    Rect RetourConduite(Vec2D(680, 240), Vec2D(270, 40));
+    RetourConduite.SetRoundness(5);
+    RetourConduite.Draw(CouleurBlind.WithAlpha(0.5));
+    RetourConduite.DrawOutline(CouleurLigne);
+    petitchiffre.Print("Last_save / SAVE:", 685, 255);
+    petitchiffre.Print(my_show_is_coming_from, 685, 270);
 
     // visualisation retour faux shift faux ctrl de banger ou de iCat
     Rect False(Vec2D(970, 240), Vec2D(55, 15));
