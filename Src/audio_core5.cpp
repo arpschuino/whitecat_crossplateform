@@ -41,6 +41,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+int Save_Audio_Conf();
+
 int Load_audiofiles_cues()
 {
     FILE *cfg_file = NULL ;
@@ -48,7 +50,7 @@ int Load_audiofiles_cues()
     //sab 02/03/2014 unused int it=0;
     char tmp_audio_f[512];
     sprintf(tmp_audio_f,"audio\\%s\\audio_cues_in_out.txt",audio_folder);
-	cfg_file = fopen(tmp_audio_f, "rt" );
+	cfg_file = fopen(tmp_audio_f, "rt");
 
 	if( !cfg_file )
 	{	 sprintf(string_save_load_report[idf],"Error on opening %s",tmp_audio_f); b_report_error[idf]=1;	}
@@ -95,6 +97,7 @@ return(0);
 
 int AffectSoundFile(int player)
 {
+char path_utf8[512];
 index_loading_a_sound_file=1;
 sprintf(sound_files[player],audiofile_name);
 player_has_file_coming_from_pos[player]=audiofile_selected;
@@ -107,7 +110,8 @@ if(player_is_playing[player]==1){player_ignited[player]=1;player1_do_stop();}
 player_ignited[player]=0; // clear BEFORE nulling pointer (thread safety vs sound_core_processing)
 player1=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player1=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 0);
+wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
+player1=OpenSound(device,path_utf8, index_preloaded_sounds, 0);
 if (!player1)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -142,7 +146,8 @@ if(player_is_playing[player]==1){player_ignited[player]=1;player2_do_stop();}
 player_ignited[player]=0;
 player2=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player2=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 1);
+wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
+player2=OpenSound(device,path_utf8, index_preloaded_sounds, 1);
 if (!player2)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -178,7 +183,8 @@ if(player_is_playing[player]==1){player_ignited[player]=1;player3_do_stop();}
 player_ignited[player]=0;
 player3=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player3=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 2);
+wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
+player3=OpenSound(device,path_utf8, index_preloaded_sounds, 2);
 if (!player3)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -213,7 +219,8 @@ if(player_is_playing[player]==1){player_ignited[player]=1;player4_do_stop();}
 player_ignited[player]=0;
 player4=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
-player4=OpenSound(device,soundfile_temp_loader, index_preloaded_sounds, 3);
+wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
+player4=OpenSound(device,path_utf8, index_preloaded_sounds, 3);
 if (!player4)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -374,20 +381,20 @@ if( player_is_onloop[lect]==1 && player_is_playing[lect]==1 )
  }
  }
  else if( player_is_onloopCue[lect]==1 && position_of_file_in_player[lect]>=player_loop_out_position[lect])
- {//loop out point to inpoint
+ {//loop out point to inpoint — crossfade via loopBackTo (fade-out puis seek+fade-in dans le thread audio)
  switch(lect)
  {
  case 0:
- player1->setPosition(player_seek_position[lect]);
+ player1->loopBackTo(player_seek_position[lect]);
  break;
  case 1:
- player2->setPosition(player_seek_position[lect]);
+ player2->loopBackTo(player_seek_position[lect]);
  break;
  case 2:
- player3->setPosition(player_seek_position[lect]);
+ player3->loopBackTo(player_seek_position[lect]);
  break;
  case 3:
- player4->setPosition(player_seek_position[lect]);
+ player4->loopBackTo(player_seek_position[lect]);
  break;
  default:
  break;
@@ -750,6 +757,25 @@ if(mouse_x>xp && mouse_x<xp+200 && mouse_y>yp && mouse_y<yp+20)
 {
 AffectSoundFile(numero);
 mouse_released=1;
+}
+
+// SEEKBAR — clic ou drag pour se positionner dans le fichier
+if((mouse_x>xp && mouse_x<xp+200 && mouse_y>yp+21 && mouse_y<yp+30) || audio_seekbar_dragging[numero])
+{
+    if(length_of_file_in_player[numero] > 0) {
+        audio_seekbar_dragging[numero] = 1;
+        float ratio = (float)(mouse_x - xp) / 200.0f;
+        if (ratio < 0.0f) ratio = 0.0f;
+        if (ratio > 1.0f) ratio = 1.0f;
+        float seek_pos = ratio * length_of_file_in_player[numero];
+        switch(numero) {
+            case 0: if(player1) player1->setPosition(seek_pos); break;
+            case 1: if(player2) player2->setPosition(seek_pos); break;
+            case 2: if(player3) player3->setPosition(seek_pos); break;
+            case 3: if(player4) player4->setPosition(seek_pos); break;
+        }
+    }
+    // pas de mouse_released pour permettre le drag
 }
 
 //PLAY / Pause
@@ -1471,7 +1497,7 @@ break;
 
 //Pitch
 
-if(mouse_x>xp+120+player_pitch[numero] && mouse_x<xp+150+player_pitch[numero] && mouse_y>yp+110 && mouse_y<yp+110+10)
+if((mouse_x>xp+120+player_pitch[numero] && mouse_x<xp+150+player_pitch[numero] && mouse_y>yp+110 && mouse_y<yp+110+10) || audio_pitch_dragging[numero])
 {
 
 //midi report
@@ -1485,8 +1511,19 @@ if( Midi_Faders_Affectation_Type!=0)
 attribute_midi_solo_affectation(624+numero,Midi_Faders_Affectation_Mode);
 mouse_released=1;
 }
+else if(mouse_double_click) {
+player_pitch[numero] = 64;
+switch(numero) {
+case 0: player1->setPitchShift(1.0f); break;
+case 1: player2->setPitchShift(1.0f); break;
+case 2: player3->setPitchShift(1.0f); break;
+case 3: player4->setPitchShift(1.0f); break;
+}
+mouse_released=1;
+}
 else {
 
+audio_pitch_dragging[numero] = 1;
 if(player_ignited[numero]==1)
 {
 switch(numero)
@@ -1526,7 +1563,7 @@ raccrochage_midi_logical_horizontal_audio (xp+130, yp+100, 620+numero, 127,10);
 
 //Pan
 
-if(mouse_x>xp+120+player_pan[numero] && mouse_x<xp+150+player_pan[numero] && mouse_y>yp+85 && mouse_y<yp+85+10)
+if((mouse_x>xp+120+player_pan[numero] && mouse_x<xp+150+player_pan[numero] && mouse_y>yp+85 && mouse_y<yp+85+10) || audio_pan_dragging[numero])
 {
 
 //midi report
@@ -1540,8 +1577,18 @@ if(Midi_Faders_Affectation_Type!=0)
 attribute_midi_solo_affectation(620+numero,Midi_Faders_Affectation_Mode);
 mouse_released=1;
 }
-
+else if(mouse_double_click) {
+player_pan[numero] = 64;
+switch(numero) {
+case 0: player1->setPan(0.0f); break;
+case 1: player2->setPan(0.0f); break;
+case 2: player3->setPan(0.0f); break;
+case 3: player4->setPan(0.0f); break;
+}
+mouse_released=1;
+}
 else {
+audio_pan_dragging[numero] = 1;
 if(player_ignited[numero]==1)
 {
 switch(numero)
@@ -1588,18 +1635,105 @@ return(0);
 int do_logical_fenetre_audio(int xb,int yb)
 {
 
-if(mouse_x>xb+350 && mouse_x<xb+590 && mouse_y>yb+10 && mouse_y<yb+40)
+// chevron : ouvre/ferme le dropdown des dossiers audio
+if(mouse_x>xb+570 && mouse_x<xb+590 && mouse_y>yb+10 && mouse_y<yb+40)
 {
-if(index_type==1 )
-{
-index_ask_confirm=1;
-index_do_ask_call_audio_folder=1;
-mouse_released=1;
+    if (index_show_audio_folder_list) {
+        index_show_audio_folder_list = 0;
+    } else {
+        scan_audio_root_folders();
+        index_show_audio_folder_list = 1;
+    }
+    mouse_released=1;
 }
+// zone texte : saisie clavier (comportement inchangé)
+else if(mouse_x>xb+350 && mouse_x<xb+570 && mouse_y>yb+10 && mouse_y<yb+40)
+{
+    index_show_audio_folder_list = 0;
+    if(index_type==1)
+    {
+        index_ask_confirm=1;
+        index_do_ask_call_audio_folder=1;
+        mouse_released=1;
+    }
+}
+
+// clic sur un dossier ou la scrollbar dans le dropdown
+if (index_show_audio_folder_list && nbre_audio_folders > 0) {
+    const int row_h = 20;
+    const int max_vis = 8;
+    const int bar_w = 14;
+    bool has_scroll = (nbre_audio_folders > max_vis);
+    int vis = (nbre_audio_folders < max_vis) ? nbre_audio_folders : max_vis;
+    int list_w = has_scroll ? 240 - bar_w - 2 : 236;
+    int max_scroll = nbre_audio_folders - max_vis;
+
+    // flèches et drag scrollbar
+    if (has_scroll) {
+        int bx = xb+350+240-bar_w-1;
+        int by = yb+42;
+        int bar_h = vis*row_h;
+        int track_h = bar_h - 2*bar_w;
+        int thumb_h = std::max(10, track_h * vis / nbre_audio_folders);
+
+        // drag du thumb en cours
+        if (audio_folder_scroll_dragging) {
+            int delta = mouse_y - audio_folder_scroll_drag_start_y;
+            int travel = track_h - thumb_h;
+            if (travel > 0) {
+                int new_scroll = audio_folder_scroll_drag_start_scroll + delta * max_scroll / travel;
+                if (new_scroll < 0) new_scroll = 0;
+                if (new_scroll > max_scroll) new_scroll = max_scroll;
+                audio_folder_list_scroll = new_scroll;
+            }
+            // pas de mouse_released : on laisse le drag continuer
+        } else {
+            // calcul position thumb pour détecter clic dessus
+            int thumb_y = by + bar_w + (max_scroll>0 ? audio_folder_list_scroll * (track_h - thumb_h) / max_scroll : 0);
+            if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+            if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+
+            // flèche haut
+            if (mouse_x>bx+1 && mouse_x<bx+bar_w-1 && mouse_y>by && mouse_y<by+bar_w) {
+                if (audio_folder_list_scroll > 0) audio_folder_list_scroll--;
+                mouse_released=1;
+            }
+            // flèche bas
+            else if (mouse_x>bx+1 && mouse_x<bx+bar_w-1 && mouse_y>by+bar_h-bar_w && mouse_y<by+bar_h) {
+                if (audio_folder_list_scroll < max_scroll) audio_folder_list_scroll++;
+                mouse_released=1;
+            }
+            // début drag thumb
+            else if (mouse_x>bx+2 && mouse_x<bx+bar_w-2 && mouse_y>thumb_y && mouse_y<thumb_y+thumb_h) {
+                audio_folder_scroll_dragging = 1;
+                audio_folder_scroll_drag_start_y = mouse_y;
+                audio_folder_scroll_drag_start_scroll = audio_folder_list_scroll;
+            }
+        }
+    }
+
+    // clic sur un dossier
+    for (int vi = 0; vi < vis; vi++) {
+        int fi = vi + audio_folder_list_scroll;
+        if (fi >= nbre_audio_folders) break;
+        if (mouse_x>xb+352 && mouse_x<xb+352+list_w
+            && mouse_y>yb+42+vi*row_h && mouse_y<yb+42+(vi+1)*row_h) {
+            strncpy(audio_folder, list_audio_folders[fi], 63);
+            audio_folder[63] = '\0';
+            index_show_audio_folder_list = 0;
+            audio_folder_list_scroll = 0;
+            sprintf(rep,"%s\\",mondirectory);
+            chdir(rep);
+            scan_audiofolder();
+            Save_Audio_Conf();
+            mouse_released=1;
+        }
+    }
 }
 
 //////////////////////LISTE sons///////////////////////////////////////
 
+if (!index_show_audio_folder_list) {
 for (int y=1;y<(index_nbre_players_visibles*6* 24);y++)
 {
 
@@ -1608,6 +1742,7 @@ if(mouse_x>xb+355 && mouse_x<xb+355+150 && mouse_y>(yb+45+(y*20)-12) && mouse_y<
 audiofile_selected=(y+line_audio);
 sprintf(audiofile_name,list_audio_files[audiofile_selected]);
 mouse_released=1;
+}
 }
 }
 

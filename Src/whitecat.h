@@ -1319,7 +1319,21 @@ int line_audio = 0;
 int audiofile_selected = 0; // pour affectation a un lecteur
 char audiofile_name[72];
 char rep_audio[256];
-char audio_folder[25] = {"demo"};
+char audio_folder[64] = {"demo"};
+char list_audio_folders[64][64]; // sous-dossiers de audio/
+int nbre_audio_folders = 0;
+int audio_folder_list_scroll = 0;
+bool audio_folder_scroll_dragging = 0;
+int audio_folder_scroll_drag_start_y = 0;
+int audio_folder_scroll_drag_start_scroll = 0;
+bool audio_filelist_scroll_dragging = 0;
+int audio_filelist_scroll_drag_start_y = 0;
+int audio_filelist_scroll_drag_start_scroll = 0;
+bool audio_seekbar_dragging[4] = {0, 0, 0, 0};
+volatile int mouse_double_click = 0;
+bool audio_pan_dragging[4] = {0, 0, 0, 0};
+bool audio_pitch_dragging[4] = {0, 0, 0, 0};
+bool index_show_audio_folder_list = 0;
 char temp_audio_folder[25];
 char sound_files[4][72];
 char soundfile_temp_loader[256 + 72];

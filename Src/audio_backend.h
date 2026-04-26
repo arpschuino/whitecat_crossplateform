@@ -54,6 +54,19 @@ WWWWWWWWW           C  WWWWWWWW  | GNU General Public License for more details.
 #define MINIMP3_IMPLEMENTATION
 #include "minimp3.h"
 
+// stb_vorbis — décodeur OGG Vorbis (Sean Barrett, public domain)
+// Utilisé pour bypasser Mix_LoadWAV qui tient SDL_LockAudio pendant SDL_ConvertAudio
+#define STB_VORBIS_NO_PUSHDATA_API
+#include "stb_vorbis.c"
+#undef L
+#undef C
+#undef R
+
+// dr_flac — décodeur FLAC (David Reid, public domain / MIT-0)
+#define DR_FLAC_IMPLEMENTATION
+#define DR_FLAC_NO_STDIO   // on lit le fichier via SDL_RWFromFile (UTF-8 safe)
+#include "dr_flac.h"
+
 // ============================================================
 // Format de sortie — doit correspondre aux paramètres de Mix_OpenAudio()
 // ============================================================
@@ -68,7 +81,7 @@ WWWWWWWWW           C  WWWWWWWW  | GNU General Public License for more details.
 namespace audiere {
 
 // ============================================================
-// Utilitaire : détection MP3 par extension
+// Utilitaires : détection par extension
 // ============================================================
 static bool wc_is_mp3_file(const char* fn) {
     const char* dot = strrchr(fn, '.');
@@ -76,6 +89,20 @@ static bool wc_is_mp3_file(const char* fn) {
     const char* e = dot + 1;
     return (e[0]=='m'||e[0]=='M') && (e[1]=='p'||e[1]=='P') &&
            (e[2]=='3') && e[3]=='\0';
+}
+static bool wc_is_ogg_file(const char* fn) {
+    const char* dot = strrchr(fn, '.');
+    if (!dot) return false;
+    const char* e = dot + 1;
+    return (e[0]=='o'||e[0]=='O') && (e[1]=='g'||e[1]=='G') &&
+           (e[2]=='g'||e[2]=='G') && e[3]=='\0';
+}
+static bool wc_is_flac_file(const char* fn) {
+    const char* dot = strrchr(fn, '.');
+    if (!dot) return false;
+    const char* e = dot + 1;
+    return (e[0]=='f'||e[0]=='F') && (e[1]=='l'||e[1]=='L') &&
+           (e[2]=='a'||e[2]=='A') && (e[3]=='c'||e[3]=='C') && e[4]=='\0';
 }
 
 // ============================================================
@@ -163,6 +190,11 @@ struct WCStreamState {
     Sint64        data_start, data_size, cur_byte;
     SDL_AudioSpec src_spec;
 
+    // ---- Mode WAV en RAM (pré-chargé — élimine les I/O dans le callback) ----
+    Uint8*        wav_ram;       // données PCM brut chargées en mémoire
+    Uint32        wav_ram_size;  // octets valides
+    Uint32        wav_ram_pos;   // position de lecture courante
+
     // ---- Mode MP3 streaming (minimp3) ----
     SDL_RWops*    mp3_rw;
     mp3dec_t      mp3dec;
@@ -172,7 +204,17 @@ struct WCStreamState {
     Sint64        mp3_file_size;
     int           mp3_channels, mp3_hz;
 
-    // ---- Mode Chunk (OGG/FLAC décodé en RAM par SDL_mixer) ----
+    // ---- Mode OGG streaming (stb_vorbis depuis RAM) ----
+    stb_vorbis*   ogg;
+    Uint8*        ogg_buf;       // fichier entier en RAM (requis par stb_vorbis)
+    int           ogg_channels, ogg_hz;
+
+    // ---- Mode FLAC streaming (dr_flac depuis RAM) ----
+    drflac*       flac_dec;
+    Uint8*        flac_buf;      // fichier entier en RAM (requis par dr_flac)
+    int           flac_channels, flac_hz;
+
+    // ---- Mode Chunk (formats rares décodés via Mix_LoadWAV) ----
     Mix_Chunk*    chunk;
     Uint32        chunk_pos;
 
@@ -181,22 +223,62 @@ struct WCStreamState {
 
     // ---- État de lecture ----
     bool    playing, looping;
-    float   vol, pan;
+    float   vol, pan, pitch;
     Uint32  length_ms;
     Uint32  start_tick;
+    Uint32  paused_position_ms; // position dans le fichier en ms (vitesse naturelle)
     int     sample_hz;  // sample rate du fichier chargé (pour conversion ms↔samples)
+    int     fade_in_frames;    // fondu d'entrée anti-clic (décompte en frames output)
+    int     fade_out_frames;   // fondu de sortie avant seek différé (0 = aucun)
+    float   pending_seek_ms;   // cible du seek différé après fade-out (-1 = aucun)
 
-    WCStreamState() { SDL_zero(*this); }
+    WCStreamState() { SDL_zero(*this); pitch = 1.0f; pending_seek_ms = -1.0f; }
 
+    // Appelé dans le lock (destructeur) : libère tout immédiatement
     void cleanup_locked() {
-        if (conv)   { SDL_FreeAudioStream(conv); conv   = nullptr; }
-        if (rw)     { SDL_RWclose(rw);           rw     = nullptr; }
-        if (mp3_rw) { SDL_RWclose(mp3_rw);       mp3_rw = nullptr; }
-        if (chunk)  { Mix_FreeChunk(chunk);       chunk  = nullptr; }
+        if (conv)     { SDL_FreeAudioStream(conv);  conv     = nullptr; }
+        if (rw)       { SDL_RWclose(rw);            rw       = nullptr; }
+        if (mp3_rw)   { SDL_RWclose(mp3_rw);        mp3_rw   = nullptr; }
+        if (chunk)    { Mix_FreeChunk(chunk);        chunk    = nullptr; }
+        if (wav_ram)  { SDL_free(wav_ram);           wav_ram  = nullptr; wav_ram_size = 0; wav_ram_pos = 0; }
+        if (ogg)      { stb_vorbis_close(ogg);       ogg      = nullptr; }
+        if (ogg_buf)  { SDL_free(ogg_buf);           ogg_buf  = nullptr; }
+        if (flac_dec) { drflac_close(flac_dec);      flac_dec = nullptr; }
+        if (flac_buf) { SDL_free(flac_buf);          flac_buf = nullptr; }
         playing = false;
-        cur_byte = 0; chunk_pos = 0;
+        cur_byte = 0; chunk_pos = 0; data_start = 0; data_size = 0;
         mp3_buf_fill = 0; mp3_eof = false;
     }
+    // Appelé dans le lock (chargement) : vole les vieux handles sans les libérer
+    // → libération hors lock pour ne pas bloquer le callback audio.
+    // Exception : ogg/flac fermés directement (rapide, sans I/O).
+    void steal_locked(SDL_RWops*& o_rw, SDL_RWops*& o_mp3_rw,
+                      SDL_AudioStream*& o_conv, Mix_Chunk*& o_chunk,
+                      Uint8*& o_wav_ram) {
+        o_rw     = rw;      rw      = nullptr;
+        o_mp3_rw = mp3_rw;  mp3_rw  = nullptr;
+        o_conv   = conv;    conv    = nullptr;
+        o_chunk  = chunk;   chunk   = nullptr;
+        o_wav_ram= wav_ram; wav_ram = nullptr; wav_ram_size = 0; wav_ram_pos = 0;
+        if (ogg)      { stb_vorbis_close(ogg);  ogg      = nullptr; }
+        if (ogg_buf)  { SDL_free(ogg_buf);       ogg_buf  = nullptr; }
+        if (flac_dec) { drflac_close(flac_dec);  flac_dec = nullptr; }
+        if (flac_buf) { SDL_free(flac_buf);      flac_buf = nullptr; }
+        playing = false;
+        cur_byte = 0; chunk_pos = 0; data_start = 0; data_size = 0;
+        mp3_buf_fill = 0; mp3_eof = false;
+        paused_position_ms = 0;
+    }
+};
+
+static void wc_free_old_handles(SDL_RWops* o_rw, SDL_RWops* o_mp3_rw,
+                                 SDL_AudioStream* o_conv, Mix_Chunk* o_chunk,
+                                 Uint8* o_wav_ram) {
+    if (o_conv)    SDL_FreeAudioStream(o_conv);
+    if (o_rw)      SDL_RWclose(o_rw);
+    if (o_mp3_rw)  SDL_RWclose(o_mp3_rw);
+    if (o_chunk)   Mix_FreeChunk(o_chunk);
+    if (o_wav_ram) SDL_free(o_wav_ram);
 };
 
 static WCStreamState wc_streams[WC_PLAYER_CHANNELS];
@@ -210,23 +292,37 @@ static inline Sint16 wc_clamp16(Sint32 v) {
     return (v < -32768) ? (Sint16)-32768 : (v > 32767) ? (Sint16)32767 : (Sint16)v;
 }
 
-// Remplit le convertisseur 'conv' depuis le fichier WAV streamé
+// Remplit le convertisseur 'conv' depuis le WAV (RAM ou disque)
 static void wc_fill_wav(WCStreamState& s, int need) {
     static Uint8 buf[8192];
     while (SDL_AudioStreamAvailable(s.conv) < need) {
-        Sint64 rem = s.data_size - s.cur_byte;
-        if (rem <= 0) {
-            if (s.looping) {
-                SDL_RWseek(s.rw, s.data_start, RW_SEEK_SET);
-                s.cur_byte = 0; rem = s.data_size;
-                SDL_AudioStreamClear(s.conv);
-            } else { s.playing = false; break; }
+        if (s.wav_ram) {
+            // Chemin RAM — aucune I/O disque dans le callback
+            Sint64 rem = (Sint64)s.wav_ram_size - s.wav_ram_pos;
+            if (rem <= 0) {
+                if (s.looping) { s.wav_ram_pos = 0; SDL_AudioStreamClear(s.conv); break; }
+                else           { s.playing = false; break; }
+            }
+            int to_put = (int)(rem < 8192 ? rem : 8192);
+            SDL_AudioStreamPut(s.conv, s.wav_ram + s.wav_ram_pos, to_put);
+            s.wav_ram_pos += to_put;
+        } else {
+            // Chemin disque (fallback : fichier trop grand ou malloc échoué)
+            Sint64 rem = s.data_size - s.cur_byte;
+            if (rem <= 0) {
+                if (s.looping) {
+                    SDL_RWseek(s.rw, s.data_start, RW_SEEK_SET);
+                    s.cur_byte = 0;
+                    SDL_AudioStreamClear(s.conv);
+                    break;
+                } else { s.playing = false; break; }
+            }
+            int to_read = (int)(rem < 8192 ? rem : 8192);
+            int got = (int)SDL_RWread(s.rw, buf, 1, to_read);
+            if (got <= 0) { s.playing = false; break; }
+            s.cur_byte += got;
+            SDL_AudioStreamPut(s.conv, buf, got);
         }
-        int to_read = (int)(rem < 8192 ? rem : 8192);
-        int got = (int)SDL_RWread(s.rw, buf, 1, to_read);
-        if (got <= 0) { s.playing = false; break; }
-        s.cur_byte += got;
-        SDL_AudioStreamPut(s.conv, buf, got);
     }
 }
 
@@ -379,14 +475,128 @@ static void wc_fill_chunk(WCStreamState& s, int need) {
         Sint64 rem = (Sint64)s.chunk->alen - s.chunk_pos;
         if (rem <= 0) {
             if (s.looping) {
-                s.chunk_pos = 0; rem = s.chunk->alen;
+                s.chunk_pos = 0;
                 SDL_AudioStreamClear(s.conv);
+                break; // ne pas remplir depuis pos 0 dans ce callback
             } else { s.playing = false; break; }
         }
         int to_read = (int)(rem < 8192 ? rem : 8192);
         SDL_memcpy(buf, s.chunk->abuf + s.chunk_pos, to_read);
         s.chunk_pos += to_read;
         SDL_AudioStreamPut(s.conv, buf, to_read);
+    }
+}
+
+// Convertit du PCM S16 interleaved (ch canaux, sample_rate Hz) vers WC_AUDIO_FORMAT
+// et encapsule dans un Mix_Chunk (allocated=1). Retourne nullptr si échec.
+// Permet de bypasser Mix_LoadWAV et son SDL_LockAudio interne pour OGG/FLAC.
+// Le PCM source (pcm) est géré par l'appelant ; le Mix_Chunk retourné est libéré par Mix_FreeChunk.
+static Mix_Chunk* wc_s16_to_chunk(const short* pcm, int frames, int channels, int sample_rate) {
+    if (!pcm || frames <= 0 || channels <= 0 || sample_rate <= 0) return nullptr;
+    SDL_AudioStream* conv = SDL_NewAudioStream(AUDIO_S16LSB, (Uint8)channels, sample_rate,
+                                               WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+    if (!conv) return nullptr;
+    SDL_AudioStreamPut(conv, pcm, frames * channels * (int)sizeof(short));
+    SDL_AudioStreamFlush(conv);
+    int avail = SDL_AudioStreamAvailable(conv);
+    if (avail <= 0) { SDL_FreeAudioStream(conv); return nullptr; }
+    Uint8* buf = (Uint8*)SDL_malloc((size_t)avail);
+    if (!buf) { SDL_FreeAudioStream(conv); return nullptr; }
+    int got = SDL_AudioStreamGet(conv, buf, avail);
+    SDL_FreeAudioStream(conv);
+    if (got <= 0) { SDL_free(buf); return nullptr; }
+    Mix_Chunk* chunk = (Mix_Chunk*)SDL_malloc(sizeof(Mix_Chunk));
+    if (!chunk) { SDL_free(buf); return nullptr; }
+    chunk->allocated = 1;
+    chunk->abuf      = buf;
+    chunk->alen      = (Uint32)got;
+    chunk->volume    = MIX_MAX_VOLUME;
+    return chunk;
+}
+
+// Seek depuis le thread audio (appelé dans le callback — pas de lock requis)
+static void wc_do_seek(WCStreamState& s, float target_ms) {
+    if (s.chunk) {
+        Uint32 bp = (target_ms <= 0.0f) ? 0u :
+            (Uint32)((double)target_ms / 1000.0 * WC_AUDIO_FREQUENCY * WC_BYTES_PER_FRAME);
+        bp = (bp / WC_BYTES_PER_FRAME) * WC_BYTES_PER_FRAME;
+        if (bp >= s.chunk->alen) bp = 0;
+        s.chunk_pos = bp;
+        if (s.conv) SDL_AudioStreamClear(s.conv);
+    } else if (s.wav_ram && s.src_spec.freq && s.src_spec.channels) {
+        int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
+        if (bpf > 0) {
+            Sint64 bp = (target_ms <= 0.0f) ? 0 :
+                (Sint64)((double)target_ms / 1000.0 * s.src_spec.freq * bpf);
+            bp = (bp / bpf) * bpf;
+            if (bp < 0) bp = 0;
+            if (bp >= (Sint64)s.wav_ram_size) bp = 0;
+            s.wav_ram_pos = (Uint32)bp;
+            if (s.conv) SDL_AudioStreamClear(s.conv);
+        }
+    } else if (s.rw && s.src_spec.freq && s.src_spec.channels) {
+        int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
+        if (bpf > 0) {
+            Sint64 bp = (target_ms <= 0.0f) ? 0 :
+                (Sint64)((double)target_ms / 1000.0 * s.src_spec.freq * bpf);
+            bp = (bp / bpf) * bpf;
+            if (bp < 0) bp = 0;
+            if (bp >= s.data_size) bp = 0;
+            SDL_RWseek(s.rw, s.data_start + bp, RW_SEEK_SET);
+            s.cur_byte = bp;
+            if (s.conv) SDL_AudioStreamClear(s.conv);
+        }
+    } else if (s.mp3_rw && s.length_ms > 0 && s.mp3_file_size > 0) {
+        Sint64 bp = (target_ms <= 0.0f) ? 0 :
+            (Sint64)((double)target_ms / s.length_ms * s.mp3_file_size);
+        if (bp < 0) bp = 0;
+        if (bp >= s.mp3_file_size) bp = 0;
+        SDL_RWseek(s.mp3_rw, bp, RW_SEEK_SET);
+        s.mp3_buf_fill = 0; s.mp3_eof = false;
+        mp3dec_init(&s.mp3dec);
+        if (s.conv) SDL_AudioStreamClear(s.conv);
+    } else if (s.ogg && s.ogg_hz > 0) {
+        unsigned int samp = (target_ms <= 0.0f) ? 0 :
+            (unsigned int)((double)target_ms / 1000.0 * s.ogg_hz);
+        stb_vorbis_seek(s.ogg, samp);
+        if (s.conv) SDL_AudioStreamClear(s.conv);
+    } else if (s.flac_dec && s.flac_hz > 0) {
+        drflac_uint64 fr = (target_ms <= 0.0f) ? 0 :
+            (drflac_uint64)((double)target_ms / 1000.0 * s.flac_hz);
+        drflac_seek_to_pcm_frame(s.flac_dec, fr);
+        if (s.conv) SDL_AudioStreamClear(s.conv);
+    }
+    float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+    float ms = (target_ms > 0.0f) ? target_ms : 0.0f;
+    s.start_tick = SDL_GetTicks() - (Uint32)(ms / p);
+    s.paused_position_ms = (Uint32)ms;
+}
+
+// Remplit le convertisseur depuis un stream OGG (stb_vorbis, fichier en RAM)
+static void wc_fill_ogg(WCStreamState& s, int need) {
+    static short pcm_buf[4096]; // 4096 samples interleaved (2048 frames stéréo)
+    while (SDL_AudioStreamAvailable(s.conv) < need) {
+        int n = stb_vorbis_get_samples_short_interleaved(
+            s.ogg, s.ogg_channels, pcm_buf, 4096);
+        if (n <= 0) {
+            if (s.looping) { stb_vorbis_seek_start(s.ogg); SDL_AudioStreamClear(s.conv); break; }
+            else           { s.playing = false; break; }
+        }
+        SDL_AudioStreamPut(s.conv, pcm_buf, n * s.ogg_channels * (int)sizeof(short));
+    }
+}
+
+// Remplit le convertisseur depuis un stream FLAC (dr_flac, fichier en RAM)
+static void wc_fill_flac(WCStreamState& s, int need) {
+    static short pcm_buf[4096]; // 4096 samples interleaved
+    while (SDL_AudioStreamAvailable(s.conv) < need) {
+        int frames_req = 4096 / (s.flac_channels > 0 ? s.flac_channels : 1);
+        drflac_uint64 n = drflac_read_pcm_frames_s16(s.flac_dec, (drflac_uint64)frames_req, pcm_buf);
+        if (n <= 0) {
+            if (s.looping) { drflac_seek_to_pcm_frame(s.flac_dec, 0); SDL_AudioStreamClear(s.conv); break; }
+            else           { s.playing = false; break; }
+        }
+        SDL_AudioStreamPut(s.conv, pcm_buf, (int)n * s.flac_channels * (int)sizeof(short));
     }
 }
 
@@ -405,9 +615,11 @@ static void wc_hook_music(void* /*udata*/, Uint8* stream, int len) {
         if (!s.playing || !s.conv) continue;
 
         // Remplit le convertisseur depuis la source
-        if      (s.rw)     wc_fill_wav  (s, len);
-        else if (s.mp3_rw) wc_fill_mp3  (s, len);
-        else if (s.chunk)  wc_fill_chunk(s, len);
+        if      (s.rw || s.wav_ram) wc_fill_wav  (s, len);
+        else if (s.mp3_rw)          wc_fill_mp3  (s, len);
+        else if (s.chunk)           wc_fill_chunk(s, len);
+        else if (s.ogg)             wc_fill_ogg  (s, len);
+        else if (s.flac_dec)        wc_fill_flac (s, len);
 
         if (!s.playing) continue;
 
@@ -432,8 +644,25 @@ static void wc_hook_music(void* /*udata*/, Uint8* stream, int len) {
         if (frames > max_f) frames = max_f;
 
         for (int f = 0; f < frames; f++) {
-            dst[f*2]   = wc_clamp16(dst[f*2]   + (Sint32)(src[f*2]   * vL));
-            dst[f*2+1] = wc_clamp16(dst[f*2+1] + (Sint32)(src[f*2+1] * vR));
+            // Seek différé : dès que le fade-out atteint zéro, seek + break immédiat
+            // (évite de mélanger les frames post-fade depuis l'ancienne position)
+            if (s.fade_out_frames == 0 && s.pending_seek_ms >= 0.0f) {
+                wc_do_seek(s, s.pending_seek_ms);
+                s.pending_seek_ms = -1.0f;
+                s.fade_in_frames  = 88;
+                break;
+            }
+            float fade = 1.0f;
+            if (s.fade_in_frames > 0) {
+                fade = 1.0f - (float)s.fade_in_frames / 88.0f;
+                s.fade_in_frames--;
+            }
+            if (s.fade_out_frames > 0) {
+                fade *= (float)s.fade_out_frames / 88.0f;
+                s.fade_out_frames--;
+            }
+            dst[f*2]   = wc_clamp16(dst[f*2]   + (Sint32)(src[f*2]   * vL * fade));
+            dst[f*2+1] = wc_clamp16(dst[f*2+1] + (Sint32)(src[f*2+1] * vR * fade));
         }
     }
 }
@@ -500,7 +729,9 @@ public:
         float sv; float sp; bool sl;
         save_prefs(sv, sp, sl);
 
-        // ---- 1. Essai WAV streaming (PCM brut) ----
+        // ---- 1. WAV : pré-chargement en RAM (élimine les I/O dans le callback) ----
+        // Fallback disque si le fichier dépasse 200 MB ou si malloc échoue.
+        static const Sint64 WC_WAV_RAM_MAX = 200LL * 1024 * 1024;
         SDL_RWops* rw = SDL_RWFromFile(filename, "rb");
         if (rw) {
             WCWavInfo info;
@@ -508,23 +739,53 @@ public:
                 SDL_AudioStream* conv = make_conv(info.spec.format,
                                                   info.spec.channels, info.spec.freq);
                 if (conv) {
+                    // Tente la lecture en RAM avant d'acquérir le lock
+                    Uint8* wav_ram = nullptr;
+                    Uint32 wav_ram_size = 0;
+                    if (info.data_size > 0 && info.data_size <= WC_WAV_RAM_MAX) {
+                        wav_ram = (Uint8*)SDL_malloc((size_t)info.data_size);
+                        if (wav_ram) {
+                            SDL_RWseek(rw, info.data_offset, RW_SEEK_SET);
+                            int got = (int)SDL_RWread(rw, wav_ram, 1, (size_t)info.data_size);
+                            if (got > 0) {
+                                wav_ram_size = (Uint32)got;
+                                SDL_RWclose(rw); rw = nullptr; // handle fermé, plus besoin
+                            } else {
+                                SDL_free(wav_ram); wav_ram = nullptr;
+                            }
+                        }
+                    }
+                    // Installe le nouveau state sous lock (pointeur-swap minimal)
+                    SDL_RWops* o_rw; SDL_RWops* o_mp3_rw; SDL_AudioStream* o_conv;
+                    Mix_Chunk* o_chunk; Uint8* o_wav_ram;
                     SDL_LockAudio();
-                    S().cleanup_locked();
-                    S().rw         = rw;
-                    S().data_start = info.data_offset;
-                    S().data_size  = info.data_size;
-                    S().cur_byte   = 0;
+                    S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                    S().data_size  = info.data_size; // pour length_from_wav_stream()
                     S().src_spec   = info.spec;
                     S().conv       = conv;
+                    if (wav_ram) {
+                        S().wav_ram      = wav_ram;
+                        S().wav_ram_size = wav_ram_size;
+                        S().wav_ram_pos  = 0;
+                        // S().rw reste nullptr (handle fermé avant le lock)
+                    } else {
+                        // Fallback disque (fichier > 200 MB ou malloc échoué)
+                        S().rw         = rw;
+                        S().data_start = info.data_offset;
+                        S().cur_byte   = 0;
+                        rw = nullptr; // ownership transféré à S()
+                    }
                     S().length_ms  = length_from_wav_stream();
                     S().sample_hz  = info.spec.freq;
                     restore_prefs(sv, sp, sl);
                     SDL_UnlockAudio();
+                    wc_free_old_handles(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                    if (rw) SDL_RWclose(rw); // sécurité (ne devrait pas arriver)
                     return true;
                 }
                 SDL_FreeAudioStream(conv);
             }
-            SDL_RWclose(rw);
+            if (rw) SDL_RWclose(rw);
         }
 
         // ---- 2. Essai MP3 streaming (minimp3) ----
@@ -607,8 +868,10 @@ public:
 
                         SDL_RWseek(mp3_rw, 0, RW_SEEK_SET); // retour au début
 
+                        SDL_RWops* o_rw; SDL_RWops* o_mp3_rw; SDL_AudioStream* o_conv;
+                        Mix_Chunk* o_chunk; Uint8* o_wav_ram;
                         SDL_LockAudio();
-                        S().cleanup_locked();
+                        S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
                         S().mp3_rw       = mp3_rw;
                         mp3dec_init(&S().mp3dec);
                         S().mp3_buf_fill = 0;
@@ -621,6 +884,7 @@ public:
                         S().sample_hz    = hz;
                         restore_prefs(sv, sp, sl);
                         SDL_UnlockAudio();
+                        wc_free_old_handles(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
                         return true;
                     }
                     SDL_FreeAudioStream(conv);
@@ -629,24 +893,116 @@ public:
             }
         }
 
-        // ---- 3. Fallback : Mix_LoadWAV pour OGG/FLAC/autres ----
+        // Helper : installe un Mix_Chunk sous lock et retourne true.
+        auto install_chunk = [&](Mix_Chunk* chunk) -> bool {
+            SDL_AudioStream* conv = make_conv(WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+            if (!conv) { Mix_FreeChunk(chunk); return false; }
+            SDL_RWops* o_rw; SDL_RWops* o_mp3_rw; SDL_AudioStream* o_conv;
+            Mix_Chunk* o_chunk; Uint8* o_wav_ram;
+            SDL_LockAudio();
+            S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+            S().chunk = chunk; S().chunk_pos = 0;
+            S().conv      = conv;
+            S().length_ms = length_from_chunk();
+            S().sample_hz = WC_AUDIO_FREQUENCY;
+            restore_prefs(sv, sp, sl);
+            SDL_UnlockAudio();
+            wc_free_old_handles(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+            return true;
+        };
+
+        // ---- 3. OGG (stb_vorbis streaming depuis RAM) ----
+        // Lecture fichier en RAM (~10 ms), ouverture handle (parsing headers seulement,
+        // instantané), installation immédiate. Décodage PCM frame par frame dans wc_fill_ogg.
+        // Limite 200 MB : au-delà on laisse tomber vers le fallback Mix_LoadWAV.
+        static const Sint64 WC_OGG_FLAC_RAM_MAX = 300LL * 1024 * 1024;
+        if (wc_is_ogg_file(filename)) {
+            SDL_RWops* rw = SDL_RWFromFile(filename, "rb");
+            if (rw) {
+                Sint64 sz = SDL_RWsize(rw);
+                Uint8* fbuf = (sz > 0 && sz <= WC_OGG_FLAC_RAM_MAX)
+                              ? (Uint8*)SDL_malloc((size_t)sz) : nullptr;
+                int nread = fbuf ? (int)SDL_RWread(rw, fbuf, 1, (size_t)sz) : 0;
+                SDL_RWclose(rw);
+                if (nread > 0) {
+                    int ogg_err = 0;
+                    stb_vorbis* vorbis = stb_vorbis_open_memory(fbuf, nread, &ogg_err, nullptr);
+                    if (vorbis) {
+                        stb_vorbis_info info = stb_vorbis_get_info(vorbis);
+                        SDL_AudioStream* conv = make_conv(AUDIO_S16LSB, info.channels, info.sample_rate);
+                        if (conv) {
+                            unsigned int total_samp = stb_vorbis_stream_length_in_samples(vorbis);
+                            Uint32 len_ms = (info.sample_rate > 0) ?
+                                (Uint32)((Uint64)total_samp * 1000ULL / info.sample_rate) : 0;
+                            SDL_RWops* o_rw; SDL_RWops* o_mp3_rw; SDL_AudioStream* o_conv;
+                            Mix_Chunk* o_chunk; Uint8* o_wav_ram;
+                            SDL_LockAudio();
+                            S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                            S().ogg          = vorbis;
+                            S().ogg_buf      = fbuf;
+                            S().ogg_channels = info.channels;
+                            S().ogg_hz       = info.sample_rate;
+                            S().conv         = conv;
+                            S().length_ms    = len_ms;
+                            S().sample_hz    = info.sample_rate;
+                            restore_prefs(sv, sp, sl);
+                            SDL_UnlockAudio();
+                            wc_free_old_handles(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                            return true;
+                        }
+                        stb_vorbis_close(vorbis);
+                    }
+                }
+                SDL_free(fbuf);
+            }
+        }
+
+        // ---- 4. FLAC (dr_flac streaming depuis RAM) ----
+        if (wc_is_flac_file(filename)) {
+            SDL_RWops* rw = SDL_RWFromFile(filename, "rb");
+            if (rw) {
+                Sint64 sz = SDL_RWsize(rw);
+                Uint8* fbuf = (sz > 0 && sz <= WC_OGG_FLAC_RAM_MAX)
+                              ? (Uint8*)SDL_malloc((size_t)sz) : nullptr;
+                int nread = fbuf ? (int)SDL_RWread(rw, fbuf, 1, (size_t)sz) : 0;
+                SDL_RWclose(rw);
+                if (nread > 0) {
+                    drflac* flac = drflac_open_memory(fbuf, (size_t)nread, nullptr);
+                    if (flac) {
+                        SDL_AudioStream* conv = make_conv(AUDIO_S16LSB,
+                            (int)flac->channels, (int)flac->sampleRate);
+                        if (conv) {
+                            Uint32 len_ms = (flac->sampleRate > 0) ?
+                                (Uint32)((Uint64)flac->totalPCMFrameCount * 1000ULL / flac->sampleRate) : 0;
+                            SDL_RWops* o_rw; SDL_RWops* o_mp3_rw; SDL_AudioStream* o_conv;
+                            Mix_Chunk* o_chunk; Uint8* o_wav_ram;
+                            SDL_LockAudio();
+                            S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                            S().flac_dec      = flac;
+                            S().flac_buf      = fbuf;
+                            S().flac_channels = (int)flac->channels;
+                            S().flac_hz       = (int)flac->sampleRate;
+                            S().conv          = conv;
+                            S().length_ms     = len_ms;
+                            S().sample_hz     = (int)flac->sampleRate;
+                            restore_prefs(sv, sp, sl);
+                            SDL_UnlockAudio();
+                            wc_free_old_handles(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
+                            return true;
+                        }
+                        drflac_close(flac);
+                    }
+                }
+                SDL_free(fbuf);
+            }
+        }
+
+        // ---- 5. Fallback : Mix_LoadWAV (formats rares ou inconnus) ----
+        // Note : Mix_LoadWAV tient SDL_LockAudio pendant SDL_ConvertAudio.
+        // Acceptable ici car OGG/FLAC sont gérés avant.
         Mix_Chunk* chunk = Mix_LoadWAV(filename);
         if (!chunk) return false;
-
-        // Mix_LoadWAV décode vers le format du mixer (WC_AUDIO_FORMAT, stéréo, 44100)
-        SDL_AudioStream* conv = make_conv(WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
-        if (!conv) { Mix_FreeChunk(chunk); return false; }
-
-        SDL_LockAudio();
-        S().cleanup_locked();
-        S().chunk     = chunk;
-        S().chunk_pos = 0;
-        S().conv      = conv;
-        S().length_ms = length_from_chunk();
-        S().sample_hz = WC_AUDIO_FREQUENCY;
-        restore_prefs(sv, sp, sl);
-        SDL_UnlockAudio();
-        return true;
+        return install_chunk(chunk);
     }
 
     // ---- API Audiere ----
@@ -654,11 +1010,44 @@ public:
     void play() {
         SDL_LockAudio();
         WCStreamState& s = S();
-        if (s.rw) {
-            SDL_RWseek(s.rw, s.data_start, RW_SEEK_SET);
-            s.cur_byte = 0;
+        Uint32 target_ms = s.paused_position_ms;
+        if (s.wav_ram) {
+            if (target_ms > 0 && s.src_spec.freq && s.src_spec.channels) {
+                int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
+                if (bpf > 0) {
+                    Sint64 bp = (Sint64)((double)target_ms / 1000.0 * s.src_spec.freq * bpf);
+                    bp = (bp / bpf) * bpf;
+                    if (bp < 0) bp = 0;
+                    if (bp >= (Sint64)s.wav_ram_size) bp = 0;
+                    s.wav_ram_pos = (Uint32)bp;
+                }
+            } else {
+                s.wav_ram_pos = 0;
+            }
+        } else if (s.rw) {
+            if (target_ms > 0 && s.src_spec.freq && s.src_spec.channels) {
+                int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
+                if (bpf > 0) {
+                    Sint64 bp = (Sint64)((double)target_ms / 1000.0 * s.src_spec.freq * bpf);
+                    bp = (bp / bpf) * bpf; // alignement sur frame
+                    if (bp < 0) bp = 0;
+                    if (bp >= s.data_size) bp = 0;
+                    SDL_RWseek(s.rw, s.data_start + bp, RW_SEEK_SET);
+                    s.cur_byte = bp;
+                }
+            } else {
+                SDL_RWseek(s.rw, s.data_start, RW_SEEK_SET);
+                s.cur_byte = 0;
+            }
         } else if (s.mp3_rw) {
-            SDL_RWseek(s.mp3_rw, 0, RW_SEEK_SET);
+            if (target_ms > 0 && s.length_ms > 0 && s.mp3_file_size > 0) {
+                Sint64 bp = (Sint64)((double)target_ms / s.length_ms * s.mp3_file_size);
+                if (bp < 0) bp = 0;
+                if (bp >= s.mp3_file_size) bp = 0;
+                SDL_RWseek(s.mp3_rw, bp, RW_SEEK_SET);
+            } else {
+                SDL_RWseek(s.mp3_rw, 0, RW_SEEK_SET);
+            }
             s.mp3_buf_fill = 0;
             s.mp3_eof      = false;
             mp3dec_init(&s.mp3dec);
@@ -668,17 +1057,37 @@ public:
             if (got > 0) s.mp3_buf_fill = got;
             else         s.mp3_eof = true;
         } else if (s.chunk) {
-            s.chunk_pos = 0;
+            if (target_ms > 0) {
+                Uint32 bp = (Uint32)((double)target_ms / 1000.0 * WC_AUDIO_FREQUENCY * WC_BYTES_PER_FRAME);
+                bp = (bp / WC_BYTES_PER_FRAME) * WC_BYTES_PER_FRAME;
+                if (bp >= s.chunk->alen) bp = 0;
+                s.chunk_pos = bp;
+            } else {
+                s.chunk_pos = 0;
+            }
+        } else if (s.ogg && s.ogg_hz > 0) {
+            unsigned int samp = (target_ms > 0) ?
+                (unsigned int)((double)target_ms / 1000.0 * s.ogg_hz) : 0;
+            stb_vorbis_seek(s.ogg, samp);
+        } else if (s.flac_dec && s.flac_hz > 0) {
+            drflac_uint64 fr = (target_ms > 0) ?
+                (drflac_uint64)((double)target_ms / 1000.0 * s.flac_hz) : 0;
+            drflac_seek_to_pcm_frame(s.flac_dec, fr);
         }
         if (s.conv) SDL_AudioStreamClear(s.conv);
-        s.start_tick = SDL_GetTicks();
-        s.playing    = true;
+        float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+        s.start_tick     = SDL_GetTicks() - (Uint32)(target_ms / p);
+        s.fade_in_frames = 88; // 2ms à 44100 Hz
+        s.playing        = true;
         SDL_UnlockAudio();
     }
 
     void stop() {
         SDL_LockAudio();
-        S().playing = false;
+        WCStreamState& s = S();
+        if (s.playing)
+            s.paused_position_ms = (Uint32)((double)(SDL_GetTicks() - s.start_tick) * s.pitch);
+        s.playing = false;
         SDL_UnlockAudio();
     }
 
@@ -709,7 +1118,9 @@ public:
         float pos_ms = pos_samples * 1000.0f / hz;
         if (pos_ms <= 0.0f) {
             // Rembobinage
-            if (s.rw) {
+            if (s.wav_ram) {
+                s.wav_ram_pos = 0;
+            } else if (s.rw) {
                 SDL_RWseek(s.rw, s.data_start, RW_SEEK_SET);
                 s.cur_byte = 0;
             } else if (s.mp3_rw) {
@@ -718,20 +1129,43 @@ public:
                 mp3dec_init(&s.mp3dec);
             } else if (s.chunk) {
                 s.chunk_pos = 0;
+            } else if (s.ogg) {
+                stb_vorbis_seek_start(s.ogg);
+            } else if (s.flac_dec) {
+                drflac_seek_to_pcm_frame(s.flac_dec, 0);
             }
             if (s.conv) SDL_AudioStreamClear(s.conv);
             s.start_tick = SDL_GetTicks();
-        } else if (s.rw && s.src_spec.freq && s.src_spec.channels) {
-            // Seek précis dans WAV
+            s.paused_position_ms = 0;
+        } else if (s.wav_ram && s.src_spec.freq && s.src_spec.channels) {
+            // Seek précis dans WAV RAM
             int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
             if (bpf > 0) {
                 Sint64 bp = (Sint64)((double)pos_ms / 1000.0 * s.src_spec.freq * bpf);
+                bp = (bp / bpf) * bpf;
+                if (bp < 0) bp = 0;
+                if (bp >= (Sint64)s.wav_ram_size) bp = 0;
+                s.wav_ram_pos = (Uint32)bp;
+                if (s.conv) SDL_AudioStreamClear(s.conv);
+            }
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
+        } else if (s.rw && s.src_spec.freq && s.src_spec.channels) {
+            // Seek précis dans WAV disque
+            int bpf = (SDL_AUDIO_BITSIZE(s.src_spec.format) / 8) * s.src_spec.channels;
+            if (bpf > 0) {
+                Sint64 bp = (Sint64)((double)pos_ms / 1000.0 * s.src_spec.freq * bpf);
+                bp = (bp / bpf) * bpf; // alignement sur frame
                 if (bp < 0) bp = 0;
                 if (bp >= s.data_size) bp = 0;
                 SDL_RWseek(s.rw, s.data_start + bp, RW_SEEK_SET);
                 s.cur_byte = bp;
                 if (s.conv) SDL_AudioStreamClear(s.conv);
             }
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
         } else if (s.mp3_rw && s.length_ms > 0 && s.mp3_file_size > 0) {
             // Seek approximatif dans MP3 (CBR uniquement)
             Sint64 bp = (Sint64)((double)pos_ms / s.length_ms * s.mp3_file_size);
@@ -741,15 +1175,57 @@ public:
             s.mp3_buf_fill = 0; s.mp3_eof = false;
             mp3dec_init(&s.mp3dec); // reset décodeur (perd sync, rattrapé rapidement)
             if (s.conv) SDL_AudioStreamClear(s.conv);
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
+        } else if (s.chunk) {
+            Uint32 bp = (Uint32)((double)pos_ms / 1000.0 * WC_AUDIO_FREQUENCY * WC_BYTES_PER_FRAME);
+            bp = (bp / WC_BYTES_PER_FRAME) * WC_BYTES_PER_FRAME;
+            if (bp >= s.chunk->alen) bp = 0;
+            s.chunk_pos = bp;
+            if (s.conv) SDL_AudioStreamClear(s.conv);
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
+        } else if (s.ogg && s.ogg_hz > 0) {
+            unsigned int samp = (unsigned int)((double)pos_ms / 1000.0 * s.ogg_hz);
+            stb_vorbis_seek(s.ogg, samp);
+            if (s.conv) SDL_AudioStreamClear(s.conv);
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
+        } else if (s.flac_dec && s.flac_hz > 0) {
+            drflac_uint64 fr = (drflac_uint64)((double)pos_ms / 1000.0 * s.flac_hz);
+            drflac_seek_to_pcm_frame(s.flac_dec, fr);
+            if (s.conv) SDL_AudioStreamClear(s.conv);
+            float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+            s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
+            s.paused_position_ms = (Uint32)pos_ms;
         }
+        if (s.playing) s.fade_in_frames = 88;
         SDL_UnlockAudio();
     }
 
+    // Seek différé avec crossfade pour les transitions de boucle
+    void loopBackTo(float pos_samples) {
+        SDL_LockAudio();
+        WCStreamState& s = S();
+        if (s.playing && s.pending_seek_ms < 0.0f) {
+            float hz = (float)(s.sample_hz > 0 ? s.sample_hz : 44100);
+            s.pending_seek_ms = pos_samples * 1000.0f / hz;
+            s.fade_out_frames = 88;
+        }
+        SDL_UnlockAudio();
+    }
+    bool isPendingSeek() const { return S().pending_seek_ms >= 0.0f; }
+
     float getPosition() const {
         const WCStreamState& s = S();
-        if (!s.playing) return 0.0f;
         int hz = s.sample_hz > 0 ? s.sample_hz : 44100;
-        return (float)((double)(SDL_GetTicks() - s.start_tick) * hz / 1000.0);
+        float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
+        if (!s.playing)
+            return (float)((double)s.paused_position_ms * hz / 1000.0);
+        return (float)((double)(SDL_GetTicks() - s.start_tick) * p * hz / 1000.0);
     }
 
     float getLength() const {
@@ -763,8 +1239,43 @@ public:
         return hz > 0 ? hz : 44100;
     }
 
-    float getPitchShift() const { return 1.0f; }
-    void  setPitchShift(float)  {}
+    float getPitchShift() const { return S().pitch; }
+
+    void setPitchShift(float ratio) {
+        if (ratio < 0.05f) ratio = 0.05f;
+        if (ratio > 4.0f)  ratio = 4.0f;
+        SDL_LockAudio();
+        WCStreamState& s = S();
+        float old_pitch = s.pitch;
+        if (old_pitch == ratio) { SDL_UnlockAudio(); return; }
+        // Recalcule start_tick pour conserver la position fichier
+        if (s.playing && old_pitch > 0.0f) {
+            Uint32 wall_ms = SDL_GetTicks() - s.start_tick;
+            float  file_ms = wall_ms * old_pitch;
+            s.start_tick   = SDL_GetTicks() - (Uint32)(file_ms / ratio);
+        }
+        s.pitch = ratio;
+        // Recrée le conv avec la nouvelle fréquence source (effet bande magnétique)
+        SDL_AudioStream* new_conv = nullptr;
+        if (s.wav_ram || s.rw) {
+            new_conv = SDL_NewAudioStream(s.src_spec.format, s.src_spec.channels,
+                                         (int)(s.src_spec.freq * ratio),
+                                         WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+        } else if (s.mp3_rw) {
+            new_conv = SDL_NewAudioStream(AUDIO_S16LSB, (Uint8)s.mp3_channels,
+                                         (int)(s.mp3_hz * ratio),
+                                         WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+        } else if (s.chunk) {
+            new_conv = SDL_NewAudioStream(WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS,
+                                         (int)(WC_AUDIO_FREQUENCY * ratio),
+                                         WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+        }
+        if (new_conv) {
+            if (s.conv) SDL_FreeAudioStream(s.conv);
+            s.conv = new_conv;
+        }
+        SDL_UnlockAudio();
+    }
 };
 
 // ============================================================

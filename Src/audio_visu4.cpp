@@ -84,34 +84,64 @@ petitchiffre.Print(sound_files[numero],xp+20,yp+12);
 Canvas::DisableClipping();
 
 
+// SEEKBAR
+{
+    int seekbar_w = 200;
+    int seekbar_h = 8;
+    Rect SeekBg(Vec2D(xp, yp+23), Vec2D(seekbar_w, seekbar_h));
+    SeekBg.SetRoundness(2);
+    SeekBg.Draw(CouleurFond.WithAlpha(0.7));
+    SeekBg.DrawOutline(CouleurLigne.WithAlpha(0.5));
+    if (length_of_file_in_player[numero] > 0) {
+        float ratio = audio_seekbar_dragging[numero]
+            ? (float)(mouse_x - xp) / (float)seekbar_w
+            : (float)position_of_file_in_player[numero] / (float)length_of_file_in_player[numero];
+        if (ratio < 0.0f) ratio = 0.0f;
+        if (ratio > 1.0f) ratio = 1.0f;
+        int fill_w = (int)(ratio * seekbar_w);
+        if (fill_w > 0) {
+            Rect SeekFill(Vec2D(xp, yp+23), Vec2D(fill_w, seekbar_h));
+            SeekFill.SetRoundness(2);
+            SeekFill.Draw(CouleurBlind.WithAlpha(0.8));
+        }
+    }
+    // cue in / out markers
+    if (length_of_file_in_player[numero] > 0 && player_is_onloopCue[numero]) {
+        int in_x  = xp + (int)((float)audiofile_cue_in_out_pos[player_has_file_coming_from_pos[numero]][0] / length_of_file_in_player[numero] * seekbar_w);
+        int out_x = xp + (int)((float)player_loop_out_position[numero] / length_of_file_in_player[numero] * seekbar_w);
+        Line(Vec2D(in_x,  yp+22), Vec2D(in_x,  yp+32)).Draw(CouleurLigne);
+        Line(Vec2D(out_x, yp+22), Vec2D(out_x, yp+32)).Draw(CouleurLigne);
+    }
+}
+
 //PLAY / Pause
-Rect Play(Vec2D(xp,yp+30),Vec2D(20,20));
+Rect Play(Vec2D(xp,yp+35),Vec2D(20,20));
 Play.SetRoundness(4);
 Play.Draw(CouleurBlind.WithAlpha( player_is_playing[numero]));
 Play.Draw(CouleurFond.WithAlpha(0.5));
 Play.DrawOutline(CouleurLigne);
-Line(Vec2D(xp+6,yp+34),Vec2D(xp+6,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+6,yp+34),Vec2D(xp+16,yp+40)).Draw(CouleurLigne);
-Line(Vec2D(xp+6,yp+46),Vec2D(xp+16,yp+40)).Draw(CouleurLigne);
+Line(Vec2D(xp+6,yp+39),Vec2D(xp+6,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+6,yp+39),Vec2D(xp+16,yp+45)).Draw(CouleurLigne);
+Line(Vec2D(xp+6,yp+51),Vec2D(xp+16,yp+45)).Draw(CouleurLigne);
 
 
 
 
 
-petitpetitchiffre.Print(time_is_for_filePos[numero],xp+120,yp+40);
+petitpetitchiffre.Print(time_is_for_filePos[numero],xp+120,yp+45);
 
-petitpetitchiffre.Print(time_is_for_fileTotal[numero],xp+120,yp+50);
+petitpetitchiffre.Print(time_is_for_fileTotal[numero],xp+120,yp+55);
 
 
 
 //SEEK TO 0
-Rect SeekToZero(Vec2D(xp+25,yp+30),Vec2D(20,20));
+Rect SeekToZero(Vec2D(xp+25,yp+35),Vec2D(20,20));
 SeekToZero.SetRoundness(4);
 SeekToZero.Draw(CouleurFond.WithAlpha(0.5));
-Line(Vec2D(xp+41,yp+34),Vec2D(xp+41,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+41,yp+34),Vec2D(xp+31,yp+40)).Draw(CouleurLigne);
-Line(Vec2D(xp+31,yp+40),Vec2D(xp+41,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+29,yp+34),Vec2D(xp+29,yp+46)).Draw(CouleurLigne);
+Line(Vec2D(xp+41,yp+39),Vec2D(xp+41,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+41,yp+39),Vec2D(xp+31,yp+45)).Draw(CouleurLigne);
+Line(Vec2D(xp+31,yp+45),Vec2D(xp+41,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+29,yp+39),Vec2D(xp+29,yp+51)).Draw(CouleurLigne);
 
 SeekToZero.DrawOutline(CouleurLigne);
 
@@ -122,31 +152,31 @@ if(midi_show_flash_seektouch[numero]==1){SeekToZero.Draw(CouleurFader);midi_show
 
 
 //GENERAL LOOP
-Rect GeneralLoop(Vec2D(xp+50,yp+30),Vec2D(20,20));
+Rect GeneralLoop(Vec2D(xp+50,yp+35),Vec2D(20,20));
 GeneralLoop.SetRoundness(4);
 GeneralLoop.Draw(CouleurFond.WithAlpha(0.5));
 GeneralLoop.DrawOutline(CouleurLigne.WithAlpha(0.5));
-Circle(Vec2D(xp+60,yp+40),5).Draw(CouleurFader.WithAlpha(player_is_onloop[numero]));
-Circle(Vec2D(xp+60,yp+40),5).DrawOutline(CouleurLigne);
+Circle(Vec2D(xp+60,yp+45),5).Draw(CouleurFader.WithAlpha(player_is_onloop[numero]));
+Circle(Vec2D(xp+60,yp+45),5).DrawOutline(CouleurLigne);
 
 
 
 
 //SEEK TO End
-Rect SeekToEnd(Vec2D(xp+75,yp+30),Vec2D(20,20));
+Rect SeekToEnd(Vec2D(xp+75,yp+35),Vec2D(20,20));
 SeekToEnd.SetRoundness(4);
 SeekToEnd.Draw(CouleurFond.WithAlpha(0.5));
-Line(Vec2D(xp+79,yp+34),Vec2D(xp+79,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+79,yp+34),Vec2D(xp+89,yp+40)).Draw(CouleurLigne);
-Line(Vec2D(xp+89,yp+40),Vec2D(xp+79,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+91,yp+34),Vec2D(xp+91,yp+46)).Draw(CouleurLigne);
+Line(Vec2D(xp+79,yp+39),Vec2D(xp+79,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+79,yp+39),Vec2D(xp+89,yp+45)).Draw(CouleurLigne);
+Line(Vec2D(xp+89,yp+45),Vec2D(xp+79,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+91,yp+39),Vec2D(xp+91,yp+51)).Draw(CouleurLigne);
 SeekToEnd.DrawOutline(CouleurLigne);
 
 
 
 
 //Backward position
-Rect Backward(Vec2D(xp,yp+60),Vec2D(28,16));
+Rect Backward(Vec2D(xp,yp+63),Vec2D(28,16));
 Backward.SetRoundness(0.5);
 Backward.Draw(CouleurFond.WithAlpha(0.5));
 Backward.DrawOutline(CouleurLigne.WithAlpha(0.5));
@@ -154,62 +184,62 @@ Backward.DrawOutline(CouleurLigne.WithAlpha(0.5));
 if(midi_show_flash_backwardtouch[numero]==1){Backward.Draw(CouleurBlind);midi_show_flash_backwardtouch[numero]=0;}
 
 
-Line(Vec2D(xp+16,yp+62),Vec2D(xp+16,yp+74)).Draw(CouleurLigne);
-Line(Vec2D(xp+16,yp+62),Vec2D(xp+6,yp+68)).Draw(CouleurLigne);
-Line(Vec2D(xp+16,yp+74),Vec2D(xp+6,yp+68)).Draw(CouleurLigne);
+Line(Vec2D(xp+16,yp+65),Vec2D(xp+16,yp+77)).Draw(CouleurLigne);
+Line(Vec2D(xp+16,yp+65),Vec2D(xp+6,yp+71)).Draw(CouleurLigne);
+Line(Vec2D(xp+16,yp+77),Vec2D(xp+6,yp+71)).Draw(CouleurLigne);
 
-Line(Vec2D(xp+26,yp+62),Vec2D(xp+26,yp+74)).Draw(CouleurLigne);
-Line(Vec2D(xp+26,yp+62),Vec2D(xp+16,yp+68)).Draw(CouleurLigne);
-Line(Vec2D(xp+26,yp+74),Vec2D(xp+16,yp+68)).Draw(CouleurLigne);
+Line(Vec2D(xp+26,yp+65),Vec2D(xp+26,yp+77)).Draw(CouleurLigne);
+Line(Vec2D(xp+26,yp+65),Vec2D(xp+16,yp+71)).Draw(CouleurLigne);
+Line(Vec2D(xp+26,yp+77),Vec2D(xp+16,yp+71)).Draw(CouleurLigne);
 
 //Forward position
-Rect Forward(Vec2D(xp+35,yp+60),Vec2D(28,16));
+Rect Forward(Vec2D(xp+35,yp+63),Vec2D(28,16));
 Forward.SetRoundness(0.5);
 Forward.Draw(CouleurFond.WithAlpha(0.5));
 Forward.DrawOutline(CouleurLigne.WithAlpha(0.5));
 if(midi_show_flash_forwardtouch[numero]==1){Forward.Draw(CouleurBlind);midi_show_flash_forwardtouch[numero]=0;}
 
 
-Line(Vec2D(xp+36,yp+62),Vec2D(xp+36,yp+74)).Draw(CouleurLigne);
-Line(Vec2D(xp+36,yp+62),Vec2D(xp+46,yp+68)).Draw(CouleurLigne);
-Line(Vec2D(xp+36,yp+74),Vec2D(xp+46,yp+68)).Draw(CouleurLigne);
+Line(Vec2D(xp+36,yp+65),Vec2D(xp+36,yp+77)).Draw(CouleurLigne);
+Line(Vec2D(xp+36,yp+65),Vec2D(xp+46,yp+71)).Draw(CouleurLigne);
+Line(Vec2D(xp+36,yp+77),Vec2D(xp+46,yp+71)).Draw(CouleurLigne);
 
-Line(Vec2D(xp+46,yp+62),Vec2D(xp+46,yp+74)).Draw(CouleurLigne);
-Line(Vec2D(xp+46,yp+62),Vec2D(xp+56,yp+68)).Draw(CouleurLigne);
-Line(Vec2D(xp+46,yp+74),Vec2D(xp+56,yp+68)).Draw(CouleurLigne);
+Line(Vec2D(xp+46,yp+65),Vec2D(xp+46,yp+77)).Draw(CouleurLigne);
+Line(Vec2D(xp+46,yp+65),Vec2D(xp+56,yp+71)).Draw(CouleurLigne);
+Line(Vec2D(xp+46,yp+77),Vec2D(xp+56,yp+71)).Draw(CouleurLigne);
 
 
 
 //previous position
-Rect Previous(Vec2D(xp,yp+85),Vec2D(45,16));
+Rect Previous(Vec2D(xp,yp+88),Vec2D(45,16));
 Previous.SetRoundness(0.5);
 Previous.Draw(CouleurFond.WithAlpha(0.5));
 Previous.DrawOutline(CouleurLigne.WithAlpha(0.5));
-petitchiffre.Print("PREV",xp+6,yp+96);
+petitchiffre.Print("PREV",xp+6,yp+99);
 
 
 
 
 
 //nEXT TRACK position
-Rect Next(Vec2D(xp+50,yp+85),Vec2D(45,16));
+Rect Next(Vec2D(xp+50,yp+88),Vec2D(45,16));
 Next.SetRoundness(0.5);
 Next.Draw(CouleurFond.WithAlpha(0.5));
 Next.DrawOutline(CouleurLigne.WithAlpha(0.5));
-petitchiffre.Print("NEXT",xp+56,yp+96);
+petitchiffre.Print("NEXT",xp+56,yp+99);
 
 
 //NUM FICHIER
-Rect NumFichier(Vec2D(xp+70,yp+55),Vec2D(40,25));
+Rect NumFichier(Vec2D(xp+70,yp+60),Vec2D(40,19));
 NumFichier.SetRoundness(3);
 NumFichier.Draw(CouleurFond.WithAlpha(0.5));
-neuromoyen.Print(ol::ToString(player_has_file_coming_from_pos[numero]),xp+80,yp+71);
+neuromoyen.Print(ol::ToString(player_has_file_coming_from_pos[numero]),xp+80,yp+76);
 NumFichier.DrawOutline(CouleurLigne.WithAlpha(0.5));
 
 
 
 
-if(window_focus_id==919 && mouse_x>xp+70 && mouse_x<xp+110 && mouse_y>yp+55 && mouse_y<yp+80)
+if(window_focus_id==919 && mouse_x>xp+70 && mouse_x<xp+110 && mouse_y>yp+60 && mouse_y<yp+79)
 {
 NumFichier.DrawOutline(CouleurLigne.WithAlpha(0.5));
 }
@@ -245,8 +275,8 @@ SetLoopIN.SetRoundness(4);
 if(midi_show_flash_cueIntouch[numero]==1){SetLoopIN.Draw(CouleurBlind);midi_show_flash_cueIntouch[numero]=0;}
 
 SetLoopIN.DrawOutline(CouleurLigne);
-Line(Vec2D(xp+210,yp),Vec2D(xp+220,yp+10)).Draw(CouleurLigne);
-Line(Vec2D(xp+230,yp),Vec2D(xp+220,yp+10)).Draw(CouleurLigne);
+Line(Vec2D(xp+213,yp),Vec2D(xp+220,yp+9)).Draw(CouleurLigne);
+Line(Vec2D(xp+227,yp),Vec2D(xp+220,yp+9)).Draw(CouleurLigne);
 petitpetitchiffre.Print("in",xp+215,yp+17);
 
 
@@ -259,8 +289,8 @@ SetLoopOut.SetRoundness(4);
 if(midi_show_flash_cueOuttouch[numero]==1){SetLoopOut.Draw(CouleurBlind);midi_show_flash_cueOuttouch[numero]=0;}
 SetLoopOut.DrawOutline(CouleurLigne);
 
-Line(Vec2D(xp+235,yp),Vec2D(xp+245,yp+10)).Draw(CouleurLigne);
-Line(Vec2D(xp+255,yp),Vec2D(xp+245,yp+10)).Draw(CouleurLigne);
+Line(Vec2D(xp+238,yp),Vec2D(xp+245,yp+9)).Draw(CouleurLigne);
+Line(Vec2D(xp+252,yp),Vec2D(xp+245,yp+9)).Draw(CouleurLigne);
 petitpetitchiffre.Print("out",xp+235,yp+17);
 
 
@@ -276,15 +306,15 @@ petitpetitchiffre.Print(time_is_for_fileCueIn[numero],xp+234,yp+40);
 petitpetitchiffre.Print(time_is_for_fileCueOut[numero],xp+234,yp+50);
 
 //Seek cue
-Rect SeekCue(Vec2D(xp+210,yp+30),Vec2D(20,20));
+Rect SeekCue(Vec2D(xp+210,yp+35),Vec2D(20,20));
 SeekCue.SetRoundness(4);
 SeekCue.DrawOutline(CouleurLigne);
 if(midi_show_flash_cueSeektouch[numero]==1){SeekCue.Draw(CouleurBlind);midi_show_flash_cueSeektouch[numero]=0;}
 
-Line(Vec2D(xp+226,yp+34),Vec2D(xp+226,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+226,yp+34),Vec2D(xp+216,yp+40)).Draw(CouleurLigne);
-Line(Vec2D(xp+216,yp+40),Vec2D(xp+226,yp+46)).Draw(CouleurLigne);
-Line(Vec2D(xp+214,yp+34),Vec2D(xp+214,yp+46)).Draw(CouleurLigne);
+Line(Vec2D(xp+226,yp+39),Vec2D(xp+226,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+226,yp+39),Vec2D(xp+216,yp+45)).Draw(CouleurLigne);
+Line(Vec2D(xp+216,yp+45),Vec2D(xp+226,yp+51)).Draw(CouleurLigne);
+Line(Vec2D(xp+214,yp+39),Vec2D(xp+214,yp+51)).Draw(CouleurLigne);
 
 
 
@@ -328,21 +358,21 @@ fader_niveau_son(xp+290,yp,numero);
 
 if(window_focus_id==919 && Midi_Faders_Affectation_Type!=0 )
 {
-if( mouse_x>xp && mouse_x<xp+20 && mouse_y>yp+30 && mouse_y<yp+50){Play.DrawOutline(CouleurBlind);}
-else if(mouse_x>xp+25 && mouse_x<xp+45 && mouse_y>yp+30 && mouse_y<yp+50){SeekToZero.DrawOutline(CouleurBlind);}
-else if( mouse_x>xp+50 && mouse_x<xp+70 && mouse_y>yp+30 && mouse_y<yp+50){GeneralLoop.DrawOutline(CouleurBlind);}
-else if( mouse_x>xp+75 && mouse_x<xp+95 && mouse_y>yp+30 && mouse_y<yp+50){SeekToEnd.DrawOutline(CouleurBlind);}
-else if( mouse_x>xp && mouse_x<xp+28 && mouse_y>yp+60 && mouse_y<yp+76){Backward.DrawOutline(CouleurBlind);}
-else if ( mouse_x>xp+35 && mouse_x<xp+63 && mouse_y>yp+60 && mouse_y<yp+76){Forward.DrawOutline(CouleurBlind);}
-else  if( mouse_x>xp && mouse_x<xp+45 && mouse_y>yp+85 && mouse_y<yp+101){Previous.DrawOutline(CouleurBlind);}
-else if ( mouse_x>xp+50 && mouse_x<xp+95 && mouse_y>yp+85 && mouse_y<yp+101){Next.DrawOutline(CouleurBlind);}
-else if ( mouse_x>xp+70 && mouse_x<xp+110 && mouse_y>yp+55 && mouse_y<yp+80) {NumFichier.DrawOutline(CouleurBlind);}
+if( mouse_x>xp && mouse_x<xp+20 && mouse_y>yp+35 && mouse_y<yp+55){Play.DrawOutline(CouleurBlind);}
+else if(mouse_x>xp+25 && mouse_x<xp+45 && mouse_y>yp+35 && mouse_y<yp+55){SeekToZero.DrawOutline(CouleurBlind);}
+else if( mouse_x>xp+50 && mouse_x<xp+70 && mouse_y>yp+35 && mouse_y<yp+55){GeneralLoop.DrawOutline(CouleurBlind);}
+else if( mouse_x>xp+75 && mouse_x<xp+95 && mouse_y>yp+35 && mouse_y<yp+55){SeekToEnd.DrawOutline(CouleurBlind);}
+else if( mouse_x>xp && mouse_x<xp+28 && mouse_y>yp+63 && mouse_y<yp+79){Backward.DrawOutline(CouleurBlind);}
+else if ( mouse_x>xp+35 && mouse_x<xp+63 && mouse_y>yp+63 && mouse_y<yp+79){Forward.DrawOutline(CouleurBlind);}
+else  if( mouse_x>xp && mouse_x<xp+45 && mouse_y>yp+88 && mouse_y<yp+104){Previous.DrawOutline(CouleurBlind);}
+else if ( mouse_x>xp+50 && mouse_x<xp+95 && mouse_y>yp+88 && mouse_y<yp+104){Next.DrawOutline(CouleurBlind);}
+else if ( mouse_x>xp+70 && mouse_x<xp+110 && mouse_y>yp+60 && mouse_y<yp+79) {NumFichier.DrawOutline(CouleurBlind);}
 else if (  mouse_x>xp && mouse_x<xp+28 && mouse_y>yp+110 && mouse_y<yp+126){Autoload.DrawOutline(CouleurBlind);}
 else if (  mouse_x>xp+35 && mouse_x<xp+75 && mouse_y>yp+110 && mouse_y<yp+126){Autostop.DrawOutline(CouleurBlind);}
 else if ( mouse_x>xp+210 && mouse_x<xp+240 && mouse_y>yp && mouse_y<yp+20) {SetLoopIN.DrawOutline(CouleurBlind);}
 else if( mouse_x>xp+235 && mouse_x<xp+255 && mouse_y>yp && mouse_y<yp+20) {SetLoopOut.DrawOutline(CouleurBlind);}
 else if( mouse_x>xp+260 && mouse_x<xp+280 && mouse_y>yp && mouse_y<yp+20){CueOn.DrawOutline(CouleurBlind);}
-else if(  mouse_x>xp+210 && mouse_x<xp+230 && mouse_y>yp+30 && mouse_y<yp+50){SeekCue.DrawOutline(CouleurBlind);}
+else if(  mouse_x>xp+210 && mouse_x<xp+230 && mouse_y>yp+35 && mouse_y<yp+55){SeekCue.DrawOutline(CouleurBlind);}
 else if (  mouse_x>xp+120+player_pitch[numero] && mouse_x<xp+150+player_pitch[numero] && mouse_y>yp+110 && mouse_y<yp+120)
 {PitchMidi.DrawOutline(CouleurBlind);}
 else if (mouse_x>xp+120+player_pan[numero] && mouse_x<xp+150+player_pan[numero] && mouse_y>yp+85 && mouse_y<yp+95)
@@ -375,7 +405,10 @@ neuro.Print( "AudioPlayers",(xb+80), (yb+30));
 Rect AudioFolderis(Vec2D(xb+350,yb+10),Vec2D(240,30));
 AudioFolderis.SetRoundness(7.5);
 AudioFolderis.Draw(CouleurSurvol);
+Canvas::SetClipping(xb+352, yb+10, 210, 30);
 neuromoyen.Print(audio_folder,xb+365,yb+25);
+Canvas::DisableClipping();
+neuromoyen.Print("v",xb+575,yb+25);
 
 
 //////////////////////LISTE sons///////////////////////////////////////
@@ -490,5 +523,76 @@ LineDown.Draw(CouleurSurvol);
 
 
 petitpetitchiffre.Print("rescan!",xb+235,yb+23);
+
+// dropdown dossiers audio — dessiné en dernier pour être par-dessus la liste
+if (index_show_audio_folder_list) {
+    const int row_h = 20;
+    const int max_vis = 8;
+    const int bar_w = 14;
+    int vis = (nbre_audio_folders < max_vis) ? nbre_audio_folders : max_vis;
+    int nb = (vis > 0) ? vis : 1;
+    bool has_scroll = (nbre_audio_folders > max_vis);
+    int drop_w = has_scroll ? 240 : 240;
+    int list_w = has_scroll ? drop_w - bar_w - 2 : drop_w - 4;
+
+    Rect FolderDrop(Vec2D(xb+350, yb+40), Vec2D(drop_w, nb*row_h+6));
+    FolderDrop.SetRoundness(5);
+    FolderDrop.Draw(CouleurFond);
+    FolderDrop.DrawOutline(CouleurFader);
+
+    if (nbre_audio_folders == 0) {
+        petitpetitchiffre.Print("(aucun dossier)", xb+360, yb+52);
+    } else {
+        for (int vi = 0; vi < vis; vi++) {
+            int fi = vi + audio_folder_list_scroll;
+            if (fi >= nbre_audio_folders) break;
+            Rect FolderRow(Vec2D(xb+352, yb+42+vi*row_h), Vec2D(list_w, row_h));
+            FolderRow.SetRoundness(3);
+            bool hovered = (window_focus_id==919 && mouse_x>xb+352 && mouse_x<xb+352+list_w
+                            && mouse_y>yb+42+vi*row_h && mouse_y<yb+42+(vi+1)*row_h);
+            if (strcmp(list_audio_folders[fi], audio_folder)==0)
+                FolderRow.Draw(CouleurBlind.WithAlpha(0.7));
+            else if (hovered)
+                FolderRow.Draw(CouleurSurvol);
+            Canvas::SetClipping(xb+354, yb+42+vi*row_h, list_w-4, row_h);
+            petitpetitchiffre.Print(list_audio_folders[fi], xb+358, yb+53+vi*row_h);
+            Canvas::DisableClipping();
+        }
+        // scrollbar
+        if (has_scroll) {
+            int bx = xb+350+drop_w-bar_w-1;
+            int by = yb+42;
+            int bar_h = nb*row_h;
+            // fond scrollbar
+            Rect ScrollBar(Vec2D(bx, by), Vec2D(bar_w, bar_h));
+            ScrollBar.SetRoundness(3);
+            ScrollBar.Draw(CouleurConfig);
+            // flèche haut
+            Rect ArrowUp(Vec2D(bx+1, by), Vec2D(bar_w-2, bar_w));
+            ArrowUp.SetRoundness(2);
+            ArrowUp.Draw(audio_folder_list_scroll>0 ? CouleurSurvol : CouleurFond);
+            ArrowUp.DrawOutline(CouleurLigne);
+            petitpetitchiffre.Print("^", bx+4, by+10);
+            // flèche bas
+            Rect ArrowDown(Vec2D(bx+1, by+bar_h-bar_w), Vec2D(bar_w-2, bar_w));
+            ArrowDown.SetRoundness(2);
+            ArrowDown.Draw(audio_folder_list_scroll<nbre_audio_folders-max_vis ? CouleurSurvol : CouleurFond);
+            ArrowDown.DrawOutline(CouleurLigne);
+            petitpetitchiffre.Print("v", bx+4, by+bar_h-bar_w+10);
+            // thumb — position clampée dans la piste
+            int track_h = bar_h - 2*bar_w;
+            int thumb_h = std::max(10, track_h * vis / nbre_audio_folders);
+            int max_scroll = nbre_audio_folders - max_vis;
+            int thumb_y = by + bar_w + (max_scroll>0 ? audio_folder_list_scroll * (track_h - thumb_h) / max_scroll : 0);
+            if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+            if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+            Rect Thumb(Vec2D(bx+2, thumb_y), Vec2D(bar_w-4, thumb_h));
+            Thumb.SetRoundness(3);
+            Thumb.Draw(audio_folder_scroll_dragging ? CouleurFader : CouleurFader.WithAlpha(0.6));
+            if (audio_folder_scroll_dragging) Thumb.DrawOutline(CouleurLigne);
+        }
+    }
+}
+
 return(0);
 }

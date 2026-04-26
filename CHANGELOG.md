@@ -4,6 +4,18 @@
 
 ### Audio
 
+- **Chargement OGG/FLAC sans glitch** : charger un fichier OGG ou FLAC dans un player ne coupe plus brièvement le son des autres players en cours de lecture. La cause était un verrouillage interne SDL (`SDL_LockAudio`) pendant le décodage, bloquant le callback audio. Les fichiers sont maintenant lus en RAM puis décodés de façon incrémentale dans le callback (stb_vorbis pour OGG, dr_flac pour FLAC), sans jamais acquérir le lock depuis le thread principal.
+
+  **Limite : 300 MB** (taille du fichier compressé). Au-delà, l'ancien comportement s'applique (glitch possible). En pratique :
+
+  | Format | Durée max sans glitch |
+  |---|---|
+  | OGG 128 kbps stéréo | ~5 h |
+  | OGG 256 kbps stéréo | ~2 h 45 |
+  | FLAC 44100 Hz / 16 bits stéréo | ~52 min |
+  | FLAC 44100 Hz / 24 bits stéréo | ~35 min |
+  | FLAC 96000 Hz / 24 bits stéréo | ~16 min |
+
 - **Lecture MP3** : les fichiers MP3 de toute taille sont désormais lus correctement via minimp3 (streaming frame-by-frame). Auparavant, la lecture s'arrêtait après une fraction de seconde.
 - **Durée des fichiers audio** : la durée totale affichée est maintenant correcte pour tous les formats (MP3 CBR/VBR, WAV, OGG…).
 - **Affichage des temps en h:mm:ss** : la position, la durée totale, les points In/Out s'affichent maintenant au format heures:minutes:secondes au lieu d'un nombre décimal de secondes.

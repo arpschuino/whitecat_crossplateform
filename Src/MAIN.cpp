@@ -342,7 +342,12 @@ int do_mouse_right_click_menu() {
 
 void my_callback(int flags) {
 
+    if (flags & MOUSE_FLAG_LEFT_DBLCLICK) {
+        mouse_double_click = 1;
+    }
+
     if (flags & MOUSE_FLAG_LEFT_DOWN) {
+        mouse_double_click = 0;
         mouse_button = 1;
         original_posx = mouse_x;
         original_posy = mouse_y;
@@ -367,6 +372,11 @@ void my_callback(int flags) {
         index_click_move_faderspace = 0;
         im_moving_a_window = 0;
         index_mouse_is_tracking = 0;
+        audio_folder_scroll_dragging = 0;
+        audio_filelist_scroll_dragging = 0;
+        for (int i = 0; i < 4; i++) audio_seekbar_dragging[i] = 0;
+        for (int i = 0; i < 4; i++) audio_pan_dragging[i] = 0;
+        for (int i = 0; i < 4; i++) audio_pitch_dragging[i] = 0;
         index_moving_fader_space = 0;
         index_moving_x_slide = 0;
         index_moving_y_slide = 0;
@@ -992,6 +1002,8 @@ int main(int /*argc*/, char ** /*argv*/) {
 
     scan_importfolder("");
     scan_savesfolder();
+    Load_Audio_Conf();
+    scan_audiofolder();
 
     if (open_arduino_on_open == 1) {
         save_load_print_to_screen("Init Arduino");
@@ -1009,6 +1021,7 @@ int main(int /*argc*/, char ** /*argv*/) {
     }
 
     mouse_released = 0;
+    mouse_double_click = 0;
     entered_main = 1;
     // launchpad séparé
     if (enable_launchpad == 1) {

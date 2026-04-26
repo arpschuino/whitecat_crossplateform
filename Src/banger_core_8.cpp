@@ -2923,19 +2923,19 @@ if(param1_is>=0 && param1_is<5)
      switch(param1_is)
      {
        case 0://PLAYER 1
-       player1->setPosition(player_seek_position[param1_is]);
+       player1->loopBackTo(player_seek_position[param1_is]);
        sprintf(string_event,"Player 1 SeekToCueIn");
        break;
        case 1://PLAYER 2
-       player2->setPosition(player_seek_position[param1_is]);
+       player2->loopBackTo(player_seek_position[param1_is]);
        sprintf(string_event,"Player 2 SeekToCueIn");
        break;
        case 2://PLAYER 3
-       player3->setPosition(player_seek_position[param1_is]);
+       player3->loopBackTo(player_seek_position[param1_is]);
        sprintf(string_event,"Player 3 SeekToCueIn");
        break;
        case 3://PLAYER 4
-       player4->setPosition(player_seek_position[param1_is]);
+       player4->loopBackTo(player_seek_position[param1_is]);
        sprintf(string_event,"Player 4 SeekToCueIn");
        break;
        }

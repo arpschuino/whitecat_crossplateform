@@ -2766,6 +2766,55 @@ int reset_save_load_report_string()
 }
 
 
+// Ouvre un fichier depuis un chemin UTF-8 (gère accents et espaces sur Windows)
+// Conversion UTF-8 → wide → ACP pour fopen (CP-1252 couvre tous les accents fr/eu)
+FILE* wc_fopen_utf8(const char* utf8path, const char* mode) {
+    wchar_t wpath[512];
+    char acp_path[512];
+    MultiByteToWideChar(CP_UTF8, 0, utf8path, -1, wpath, 512);
+    WideCharToMultiByte(CP_ACP, 0, wpath, -1, acp_path, 512, NULL, NULL);
+    return fopen(acp_path, mode);
+}
+
+// Convertit un chemin ACP (CP-1252) en UTF-8 pour SDL2 (SDL_RWFromFile attend UTF-8)
+static void wc_acp_to_utf8(const char* acp, char* utf8, int maxlen) {
+    wchar_t wpath[512];
+    MultiByteToWideChar(CP_ACP, 0, acp, -1, wpath, 512);
+    WideCharToMultiByte(CP_UTF8, 0, wpath, -1, utf8, maxlen, NULL, NULL);
+}
+
+int scan_audio_root_folders()
+{
+    nbre_audio_folders = 0;
+    for (int i = 0; i < 64; i++)
+        strcpy(list_audio_folders[i], "");
+
+    // Chemin de recherche en wide (mondirectory est ANSI/ACP)
+    wchar_t wmondo[512], wsearch[512];
+    MultiByteToWideChar(CP_ACP, 0, mondirectory, -1, wmondo, 512);
+    _snwprintf(wsearch, 512, L"%ls\\audio\\*", wmondo);
+
+    WIN32_FIND_DATAW fw;
+    HANDLE h = FindFirstFileW(wsearch, &fw);
+    if (h == INVALID_HANDLE_VALUE)
+        return 0;
+    do {
+        if (!(fw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+            continue;
+        if (wcscmp(fw.cFileName, L".") == 0 || wcscmp(fw.cFileName, L"..") == 0)
+            continue;
+        if (nbre_audio_folders >= 64)
+            break;
+        // Stockage en ACP (CP-1252) — encodage natif Windows, compatible affichage police
+        WideCharToMultiByte(CP_ACP, 0, fw.cFileName, -1,
+                            list_audio_folders[nbre_audio_folders], 63, NULL, NULL);
+        list_audio_folders[nbre_audio_folders][63] = '\0';
+        nbre_audio_folders++;
+    } while (FindNextFileW(h, &fw));
+    FindClose(h);
+    return nbre_audio_folders;
+}
+
 int scan_audiofolder()
 {
 
@@ -2775,29 +2824,38 @@ int scan_audiofolder()
 //sab 02/03/2014     sprintf(list_audio_files[o],"");
         strcpy(list_audio_files[o],"");
     }
-    //detection
-WIN32_FIND_DATA f;
+    //detection — Unicode pour supporter accents et espaces dans les noms de fichiers
+WIN32_FIND_DATAW fw;
 HANDLE hFind;
 bool isSomeone=0;
 int nrbe_de_fichiers=0;
-char search_audio[512];
-sprintf(search_audio,"%s\\audio\\%s\\*.*",mondirectory,audio_folder);
-hFind = FindFirstFile(search_audio, &f);
+wchar_t wsearch_audio[512], wmondo2[512], wfolder[128];
+MultiByteToWideChar(CP_ACP,  0, mondirectory, -1, wmondo2,  512);
+MultiByteToWideChar(CP_ACP, 0, audio_folder, -1, wfolder, 128);
+_snwprintf(wsearch_audio, 512, L"%ls\\audio\\%ls\\*.*", wmondo2, wfolder);
+hFind = FindFirstFileW(wsearch_audio, &fw);
 if(hFind != INVALID_HANDLE_VALUE)
 {
     do
     {
-        int f_name_len = strlen(f.cFileName);
+        // Convertit le nom Unicode en ACP (CP-1252) — compatible affichage et fopen natif
+        char acpname[72];
+        WideCharToMultiByte(CP_ACP, 0, fw.cFileName, -1, acpname, 72, NULL, NULL);
+        acpname[71] = '\0';
+        int f_name_len = strlen(acpname);
 
-            for(unsigned int a=0; a< f_name_len; a++)
+            for(unsigned int a=0; a< (unsigned int)f_name_len; a++)
             {
-                //19/12/14 correction christoph ruiserge
-                if(f.cFileName[a]=='.' && a<=f_name_len-3)
+                if(acpname[a]=='.' && a<=(unsigned int)(f_name_len-3))
                 {
-                    if((f.cFileName[a+1]=='W' &&  f.cFileName[a+2]=='A' &&  f.cFileName[a+3]=='V')
-                            ||(f.cFileName[a+1]=='w' &&  f.cFileName[a+2]=='a' &&  f.cFileName[a+3]=='v')
-                            ||(f.cFileName[a+1]=='M' &&  f.cFileName[a+2]=='P' &&  f.cFileName[a+3]=='3')
-                            ||(f.cFileName[a+1]=='m' &&  f.cFileName[a+2]=='p' &&  f.cFileName[a+3]=='3')
+                    if((acpname[a+1]=='W' &&  acpname[a+2]=='A' &&  acpname[a+3]=='V')
+                            ||(acpname[a+1]=='w' &&  acpname[a+2]=='a' &&  acpname[a+3]=='v')
+                            ||(acpname[a+1]=='M' &&  acpname[a+2]=='P' &&  acpname[a+3]=='3')
+                            ||(acpname[a+1]=='m' &&  acpname[a+2]=='p' &&  acpname[a+3]=='3')
+                            ||(acpname[a+1]=='O' &&  acpname[a+2]=='G' &&  acpname[a+3]=='G')
+                            ||(acpname[a+1]=='o' &&  acpname[a+2]=='g' &&  acpname[a+3]=='g')
+                            ||(acpname[a+1]=='F' &&  acpname[a+2]=='L' &&  acpname[a+3]=='A' && a<=(unsigned int)(f_name_len-4) && acpname[a+4]=='C')
+                            ||(acpname[a+1]=='f' &&  acpname[a+2]=='l' &&  acpname[a+3]=='a' && a<=(unsigned int)(f_name_len-4) && acpname[a+4]=='c')
                       )
                     {
                         isSomeone=true;
@@ -2809,14 +2867,14 @@ if(hFind != INVALID_HANDLE_VALUE)
                     }
                 }
             }
-            // we've found a directory!
             if(isSomeone && nrbe_de_fichiers<128)
             {
-                sprintf(list_audio_files[nrbe_de_fichiers+1],f.cFileName);
+                strncpy(list_audio_files[nrbe_de_fichiers+1], acpname, 71);
+                list_audio_files[nrbe_de_fichiers+1][71] = '\0';
                 nrbe_de_fichiers++;
             }
     }
-    while(FindNextFile(hFind, &f));
+    while(FindNextFileW(hFind, &fw));
     FindClose(hFind);
 }
     audio_number_total_in_folder=nrbe_de_fichiers;

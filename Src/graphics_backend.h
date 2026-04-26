@@ -247,6 +247,7 @@ inline void remove_timer() {
 #define MOUSE_FLAG_RIGHT_UP 0x010
 #define MOUSE_FLAG_MIDDLE_DOWN 0x020
 #define MOUSE_FLAG_MIDDLE_UP 0x040
+#define MOUSE_FLAG_LEFT_DBLCLICK 0x080
 
 // Modificateurs clavier / Keyboard modifiers
 #define KB_SHIFT_FLAG 0x0001
@@ -1066,8 +1067,11 @@ static void wc_handle_event(const SDL_Event &e) {
             mouse_b |= 4;
         if (e.button.button == SDL_BUTTON_LEFT)
             wc_click_pending = true;
-        if (e.button.button == SDL_BUTTON_LEFT && mouse_callback)
+        if (e.button.button == SDL_BUTTON_LEFT && mouse_callback) {
             mouse_callback(MOUSE_FLAG_LEFT_DOWN);
+            if (e.button.clicks == 2)
+                mouse_callback(MOUSE_FLAG_LEFT_DBLCLICK);
+        }
         if (e.button.button == SDL_BUTTON_RIGHT && mouse_callback)
             mouse_callback(MOUSE_FLAG_RIGHT_DOWN);
         if (e.button.button == SDL_BUTTON_MIDDLE && mouse_callback)

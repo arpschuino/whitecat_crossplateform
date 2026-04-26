@@ -1699,8 +1699,9 @@ int Load_Audio_Conf()
 {
     FILE *cfg_file = NULL ;
     char read_buff_winfil[ 512 ] ;
-    //sab 02/03/2014 unused var int it=0;
-	cfg_file = fopen("audio_conf.txt", "rt" );
+    char audio_conf_path[512];
+    sprintf(audio_conf_path, "%s\\audio_conf.txt", mondirectory);
+	cfg_file = fopen(audio_conf_path, "rt" );
 	if( !cfg_file )
 	{	 sprintf(string_save_load_report[idf],"Error on opening Sequenciel.txt"); b_report_error[idf]=1;	}
 	else {
@@ -1721,7 +1722,9 @@ return(0);
 int Save_Audio_Conf()
 {
 FILE *fpo;
-if((fpo=fopen("audio_conf.txt","w")))
+char audio_conf_path[512];
+sprintf(audio_conf_path, "%s\\audio_conf.txt", mondirectory);
+if((fpo=fopen(audio_conf_path,"w")))
 {
 fprintf(fpo,"#arguments: audiofolder\n");
 fprintf(fpo,"%s\n",audio_folder);
