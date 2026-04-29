@@ -1338,6 +1338,7 @@ char temp_audio_folder[25];
 char sound_files[4][72];
 char soundfile_temp_loader[256 + 72];
 int index_preloaded_sounds = 1; // pas chargés
+int audio_ram_limit_mb = 300;  // limite RAM OGG/FLAC (50-2048 MB)
 int length_of_file_in_player[4];
 int position_of_file_in_player[4];
 int player_loop_out_position[4];

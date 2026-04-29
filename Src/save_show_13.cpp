@@ -864,6 +864,13 @@ int load_core_config()
 	{
     fscanf( cfg_file , "%d / %d /\n",&BPS_RATE,&dmxINrate);
     }
+    //quatrieme ligne les args
+	if( fgets( read_buff_winfil , sizeof( read_buff_winfil ) ,cfg_file ) )
+	{
+    int tmp_ram = 0;
+    if( fscanf( cfg_file , "%d /\n", &tmp_ram ) == 1 && tmp_ram >= 50 && tmp_ram <= 2048 )
+        audio_ram_limit_mb = tmp_ram;
+    }
 
 	fclose( cfg_file );
     }
@@ -884,6 +891,8 @@ fprintf(fpp, "%d / %d / %d / %d / %d / %d / %d / %d / %d /\n" ,core_do_calculati
     core_do_calculations[3],core_do_calculations[4],core_do_calculations[5],core_do_calculations[6],core_do_calculations[7], core_do_calculations[8]  );
 fprintf(fpp,"#arguments: BPS RATE (25-200, should be 50) / DMX IN RATE (25-50) / \n");
 fprintf(fpp, "%d / %d /\n",BPS_RATE,dmxINrate);
+fprintf(fpp,"#arguments: audio RAM limit OGG/FLAC in MB (50-2048) / \n");
+fprintf(fpp, "%d /\n", audio_ram_limit_mb);
 fclose(fpp);  sprintf(string_save_load_report[idf],"Saved config_core.txt");
 
 }

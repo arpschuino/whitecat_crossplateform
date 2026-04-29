@@ -323,6 +323,32 @@ int do_core_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteur_c
         }
     }
 
+    // ---- Colonne 4 : Audio ----
+    petitchiffre.Print("Audio:", x_cfg_sc + 539, y_cfg_sc + 40);
+    Line(Vec2D(x_cfg_sc + 539, y_cfg_sc + 50), Vec2D(x_cfg_sc + 654, y_cfg_sc + 50)).Draw(CouleurLigne);
+    {
+        Rect RamBox(Vec2D(x_cfg_sc + 648, y_cfg_sc + 60), Vec2D(55, 25));
+        RamBox.SetRoundness(7.5);
+        RamBox.Draw(CouleurFond.WithAlpha(0.5));
+        char ram_str[16];
+        sprintf(ram_str, "%d MB", audio_ram_limit_mb);
+        petitchiffre.Print("RAM OGG/FLAC", x_cfg_sc + 539, y_cfg_sc + 75);
+        petitchiffre.Print(ram_str, x_cfg_sc + 653, y_cfg_sc + 75);
+        petitchiffre.Print("(50-2048 MB)", x_cfg_sc + 539, y_cfg_sc + 90);
+        if (window_focus_id == 920 && mouse_x > x_cfg_sc + 648 && mouse_x < x_cfg_sc + 703 &&
+            mouse_y > y_cfg_sc + 60 && mouse_y < y_cfg_sc + 85) {
+            RamBox.DrawOutline(CouleurLevel);
+            if (mouse_b & 1 && mouse_released == 0 && numeric_postext > 0) {
+                def_param = atoi(numeric);
+                if (def_param >= 50 && def_param <= 2048) {
+                    audio_ram_limit_mb = def_param;
+                    reset_numeric_entry();
+                    mouse_released = 1;
+                }
+            }
+        }
+    }
+
     return (0);
 }
 
@@ -486,11 +512,6 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     UnderParam.SetLineWidth(epaisseur_ligne_fader);
     UnderParam.Draw(CouleurFond.WithAlpha(0.5));
 
-    Rect UnderParam2(Vec2D(cfgnetw_X + 155, cfgnetw_Y + 265), Vec2D(50, 20));
-    UnderParam2.SetRoundness(7.5);
-    UnderParam2.SetLineWidth(epaisseur_ligne_fader);
-    UnderParam2.Draw(CouleurFond.WithAlpha(0.5));
-
     if (window_focus_id == W_CFGMENU && mouse_x > cfgnetw_X + 155 && mouse_x < cfgnetw_X + 155 + 50) {
         if (mouse_y > cfgnetw_Y + 235 && mouse_y < cfgnetw_Y + 235 + 25) // nbre de channels audio
         {
@@ -509,16 +530,6 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
                 mouse_released = 1;
             }
         }
-        if (window_focus_id == W_CFGMENU && mouse_y > cfgnetw_Y + 265 &&
-            mouse_y < cfgnetw_Y + 265 + 20) // nbre de channels audio
-        {
-            UnderParam2.DrawOutline(CouleurLevel);
-            if (mouse_button == 1 && mouse_released == 0) {
-                index_preloaded_sounds = toggle(index_preloaded_sounds);
-                UnderParam2.Draw(CouleurBlind);
-                mouse_released = 1;
-            }
-        }
     }
 
     petitchiffre.Print("Audio: ", (cfgnetw_X + 10), (cfgnetw_Y + 220));
@@ -527,16 +538,6 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     petitchiffre.Print("Number of Players:", (cfgnetw_X + 20), (cfgnetw_Y + 250));
     sprintf(string_cfg_main, "%d", index_nbre_players_visibles);
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 250));
-    petitchiffre.Print("Preload on read:", (cfgnetw_X + 20), (cfgnetw_Y + 280));
-    switch (index_preloaded_sounds) {
-    case 0:
-        sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
-        sprintf(string_cfg_main, "/On");
-        break;
-    }
-    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 280));
 
     ///////////////////DEUXIEME COLONNE
 
