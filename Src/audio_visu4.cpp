@@ -46,8 +46,12 @@ int fader_niveau_son(int xp, int yp, int numero)
 {
 Rect FaderSon(Vec2D(xp,yp),Vec2D(20,127));
 FaderSon.SetRoundness(5);
+FaderSon.Draw(CouleurNoir);
 Rect FaderSonNiveau(Vec2D(xp,yp+(127-player_niveauson[numero])),Vec2D(20,player_niveauson[numero]));
-FaderSonNiveau.Draw(CouleurFader);
+FaderSonNiveau.SetRoundness(5);
+Canvas::SetClipping(xp, yp, 20, 127);
+FaderSonNiveau.Draw(CouleurNiveau);
+Canvas::DisableClipping();
 FaderSon.DrawOutline(CouleurLigne.WithAlpha(0.5));
 
 petitpetitchiffre.Print(string_niveauson[numero],xp+22,yp+10);
@@ -326,7 +330,7 @@ Line(Vec2D(xp+194,yp+105),Vec2D(xp+194,yp+125)).Draw(CouleurLigne);//barre 64
 Line(Vec2D(xp+257,yp+110),Vec2D(xp+257,yp+115)).Draw(CouleurLigne);//barre 127
 Rect PitchPos(Vec2D(xp+120+player_pitch[numero],yp+110),Vec2D(20,10));
 PitchPos.SetRoundness(4);
-PitchPos.Draw(CouleurBlind);
+PitchPos.Draw(CouleurGrisMoyen);
 PitchPos.DrawOutline(CouleurLigne);
 Rect PitchMidi(Vec2D(xp+130,yp+110),Vec2D(127,10));
 petitpetitchiffre.Print(string_pitch[numero],(xp+130),(yp+107));
@@ -342,7 +346,7 @@ Line(Vec2D(xp+194,yp+80),Vec2D(xp+194,yp+100)).Draw(CouleurLigne);//barre 64
 Line(Vec2D(xp+257,yp+85),Vec2D(xp+257,yp+90)).Draw(CouleurLigne);//barre 127
 Rect PanPos(Vec2D(xp+120+player_pan[numero],yp+85),Vec2D(20,10));
 PanPos.SetRoundness(4);
-PanPos.Draw(CouleurBlind);
+PanPos.Draw(CouleurGrisMoyen);
 PanPos.DrawOutline(CouleurLigne);
 Rect PanMidi(Vec2D(xp+130,yp+85),Vec2D(127,10));
 
@@ -404,7 +408,7 @@ neuro.Print( "AudioPlayers",(xb+80), (yb+30));
 //FOLDER
 Rect AudioFolderis(Vec2D(xb+350,yb+10),Vec2D(240,30));
 AudioFolderis.SetRoundness(7.5);
-AudioFolderis.Draw(CouleurSurvol);
+AudioFolderis.Draw(Rgba(0.05, 0.12, 0.40));
 Canvas::SetClipping(xb+352, yb+10, 210, 30);
 neuromoyen.Print(audio_folder,xb+365,yb+25);
 Canvas::DisableClipping();
@@ -470,7 +474,7 @@ LineDown.DrawOutline(CouleurLigne);
 //////LES LECTEURS//////////////////////////////////////////////////////////////
 for(int lop=0;lop<index_nbre_players_visibles;lop++)
 {
-lecteur_audio(xb+5,yb+70+(lop*140),lop);
+lecteur_audio(xb+7,yb+70+(lop*140),lop);
 }
 
 //////L AFFECTATION AUX FADERS//////////////////////////////////////////////////
@@ -500,11 +504,7 @@ for (int co=0;co<3;co++)
 
 if(window_focus_id==919  )
 {
-if(mouse_x>xb+350 && mouse_x<xb+590 && mouse_y>yb+10 && mouse_y<yb+40)
-{
-AudioFolderis.DrawOutline(CouleurLigne);
-}
-else if( mouse_x>xb+230 && mouse_x<xb+280 && mouse_y>yb+10 && mouse_y<yb+30 )
+if( mouse_x>xb+230 && mouse_x<xb+280 && mouse_y>yb+10 && mouse_y<yb+30 )
     {
     AudioRescanDriver.Draw(CouleurSurvol);
     }
@@ -538,7 +538,7 @@ if (index_show_audio_folder_list) {
     Rect FolderDrop(Vec2D(xb+350, yb+40), Vec2D(drop_w, nb*row_h+6));
     FolderDrop.SetRoundness(5);
     FolderDrop.Draw(CouleurFond);
-    FolderDrop.DrawOutline(CouleurFader);
+    FolderDrop.DrawOutline(CouleurBlanc);
 
     if (nbre_audio_folders == 0) {
         petitpetitchiffre.Print("(aucun dossier)", xb+360, yb+52);
@@ -551,9 +551,9 @@ if (index_show_audio_folder_list) {
             bool hovered = (window_focus_id==919 && mouse_x>xb+352 && mouse_x<xb+352+list_w
                             && mouse_y>yb+42+vi*row_h && mouse_y<yb+42+(vi+1)*row_h);
             if (strcmp(list_audio_folders[fi], audio_folder)==0)
-                FolderRow.Draw(CouleurBlind.WithAlpha(0.7));
+                FolderRow.Draw(Rgba(0.05, 0.12, 0.40));
             else if (hovered)
-                FolderRow.Draw(CouleurSurvol);
+                FolderRow.Draw(Rgba(0.05, 0.12, 0.40, 0.5));
             Canvas::SetClipping(xb+354, yb+42+vi*row_h, list_w-4, row_h);
             petitpetitchiffre.Print(list_audio_folders[fi], xb+358, yb+53+vi*row_h);
             Canvas::DisableClipping();
@@ -566,18 +566,16 @@ if (index_show_audio_folder_list) {
             // fond scrollbar
             Rect ScrollBar(Vec2D(bx, by), Vec2D(bar_w, bar_h));
             ScrollBar.SetRoundness(3);
-            ScrollBar.Draw(CouleurConfig);
+            ScrollBar.Draw(Rgba(0, 0, 0));
             // flèche haut
             Rect ArrowUp(Vec2D(bx+1, by), Vec2D(bar_w-2, bar_w));
             ArrowUp.SetRoundness(2);
-            ArrowUp.Draw(audio_folder_list_scroll>0 ? CouleurSurvol : CouleurFond);
-            ArrowUp.DrawOutline(CouleurLigne);
+            ArrowUp.Draw(audio_folder_list_scroll>0 ? CouleurGrisAnthracite : CouleurFond);
             petitpetitchiffre.Print("^", bx+4, by+10);
             // flèche bas
             Rect ArrowDown(Vec2D(bx+1, by+bar_h-bar_w), Vec2D(bar_w-2, bar_w));
             ArrowDown.SetRoundness(2);
-            ArrowDown.Draw(audio_folder_list_scroll<nbre_audio_folders-max_vis ? CouleurSurvol : CouleurFond);
-            ArrowDown.DrawOutline(CouleurLigne);
+            ArrowDown.Draw(audio_folder_list_scroll<nbre_audio_folders-max_vis ? CouleurGrisAnthracite : CouleurFond);
             petitpetitchiffre.Print("v", bx+4, by+bar_h-bar_w+10);
             // thumb — position clampée dans la piste
             int track_h = bar_h - 2*bar_w;
@@ -588,8 +586,7 @@ if (index_show_audio_folder_list) {
             if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
             Rect Thumb(Vec2D(bx+2, thumb_y), Vec2D(bar_w-4, thumb_h));
             Thumb.SetRoundness(3);
-            Thumb.Draw(audio_folder_scroll_dragging ? CouleurFader : CouleurFader.WithAlpha(0.6));
-            if (audio_folder_scroll_dragging) Thumb.DrawOutline(CouleurLigne);
+            Thumb.Draw(audio_folder_scroll_dragging ? CouleurGrisAnthracite : CouleurGrisAnthracite.WithAlpha(0.7));
         }
     }
 }

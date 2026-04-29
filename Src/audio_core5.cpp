@@ -111,7 +111,7 @@ player_ignited[player]=0; // clear BEFORE nulling pointer (thread safety vs soun
 player1=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
 wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
-player1=OpenSound(device,path_utf8, index_preloaded_sounds, 0);
+player1=OpenSound(device,path_utf8, 0);
 if (!player1)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -129,6 +129,8 @@ audio_rate[player]=player1->getSampleRate();
 length_of_file_in_player[player]=(player1->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player1->setVolume(((float)player_niveauson[player])/127);
+player1->setPan(((float)(player_pan[player]-64))/63);
+player1->setPitchShift(((float)player_pitch[player])/64);
 switch(player_is_onloop[player])
  {
  case 0:
@@ -147,7 +149,7 @@ player_ignited[player]=0;
 player2=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
 wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
-player2=OpenSound(device,path_utf8, index_preloaded_sounds, 1);
+player2=OpenSound(device,path_utf8, 1);
 if (!player2)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -166,6 +168,8 @@ audio_rate[player]=player2->getSampleRate();
 length_of_file_in_player[player]=(player2->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player2->setVolume(((float)player_niveauson[player])/127);
+player2->setPan(((float)(player_pan[player]-64))/63);
+player2->setPitchShift(((float)player_pitch[player])/64);
 switch(player_is_onloop[player])
  {
  case 0:
@@ -184,7 +188,7 @@ player_ignited[player]=0;
 player3=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
 wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
-player3=OpenSound(device,path_utf8, index_preloaded_sounds, 2);
+player3=OpenSound(device,path_utf8, 2);
 if (!player3)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -202,6 +206,8 @@ audio_rate[player]=player3->getSampleRate();
 length_of_file_in_player[player]=(player3->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player3->setVolume(((float)player_niveauson[player])/127);
+player3->setPan(((float)(player_pan[player]-64))/63);
+player3->setPitchShift(((float)player_pitch[player])/64);
 switch(player_is_onloop[player])
  {
  case 0:
@@ -220,7 +226,7 @@ player_ignited[player]=0;
 player4=0;
 sprintf(soundfile_temp_loader,"audio\\%s\\%s",audio_folder,sound_files[player]);
 wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
-player4=OpenSound(device,path_utf8, index_preloaded_sounds, 3);
+player4=OpenSound(device,path_utf8, 3);
 if (!player4)
 {
 sprintf (string_Last_Order,"Can't load Sound %s  !",sound_files[player]);
@@ -238,6 +244,8 @@ audio_rate[player]=player4->getSampleRate();
 length_of_file_in_player[player]=(player4->getLength());
 player_loop_out_position[player]=length_of_file_in_player[player];
 player4->setVolume(((float)player_niveauson[player])/127);
+player4->setPan(((float)(player_pan[player]-64))/63);
+player4->setPitchShift(((float)player_pitch[player])/64);
 switch(player_is_onloop[player])
  {
  case 0:
@@ -405,7 +413,75 @@ if( player_is_onloop[lect]==1 && player_is_playing[lect]==1 )
 //PAS DE LOOP
 if( player_is_onloop[lect]==0)
 {
-if(position_of_file_in_player[lect]>=length_of_file_in_player[lect])
+// Arrêt au cue out en lecture normale
+if(player_is_onloopCue[lect]==1 && player_is_playing[lect]==1
+   && player_loop_out_position[lect]<length_of_file_in_player[lect]
+   && position_of_file_in_player[lect]>=player_loop_out_position[lect])
+{
+ if(audio_autoload[lect]==1)
+ {
+  switch(lect)
+  {
+  case 0: player1_do_stop(); break;
+  case 1: player2_do_stop(); break;
+  case 2: player3_do_stop(); break;
+  case 3: player4_do_stop(); break;
+  default: break;
+  }
+  audiofile_selected=player_has_file_coming_from_pos[lect]+1;
+  if(audiofile_selected>=127){audiofile_selected=126;}
+  sprintf(audiofile_name,list_audio_files[audiofile_selected]);
+  if(strcmp(audiofile_name,"")!=0)
+  {
+   AffectSoundFile(lect);
+   if(audio_autopause[lect]==0)
+   {
+    switch(lect)
+    {
+    case 0: player1->setPosition(player_seek_position[lect]); player1->play(); break;
+    case 1: player2->setPosition(player_seek_position[lect]); player2->play(); break;
+    case 2: player3->setPosition(player_seek_position[lect]); player3->play(); break;
+    case 3: player4->setPosition(player_seek_position[lect]); player4->play(); break;
+    default: break;
+    }
+   }
+   else
+   {
+    switch(lect)
+    {
+    case 0: player1_do_stop(); player1->setPosition(player_seek_position[lect]); break;
+    case 1: player2_do_stop(); player2->setPosition(player_seek_position[lect]); break;
+    case 2: player3_do_stop(); player3->setPosition(player_seek_position[lect]); break;
+    case 3: player4_do_stop(); player4->setPosition(player_seek_position[lect]); break;
+    default: break;
+    }
+   }
+  }
+  else
+  {
+   switch(lect)
+   {
+   case 0: player1->setPosition(player_seek_position[lect]); break;
+   case 1: player2->setPosition(player_seek_position[lect]); break;
+   case 2: player3->setPosition(player_seek_position[lect]); break;
+   case 3: player4->setPosition(player_seek_position[lect]); break;
+   default: break;
+   }
+  }
+ }
+ else
+ {
+  switch(lect)
+  {
+  case 0: player1_do_stop(); player1->setPosition(player_seek_position[lect]); break;
+  case 1: player2_do_stop(); player2->setPosition(player_seek_position[lect]); break;
+  case 2: player3_do_stop(); player3->setPosition(player_seek_position[lect]); break;
+  case 3: player4_do_stop(); player4->setPosition(player_seek_position[lect]); break;
+  default: break;
+  }
+ }
+}
+else if(position_of_file_in_player[lect]>=length_of_file_in_player[lect])
 {
 if(audio_autoload[lect]==0 && audio_autopause[lect]==0)//comportement normal
 {
@@ -426,47 +502,14 @@ if(audio_autoload[lect]==0 && audio_autopause[lect]==0)//comportement normal
  default:
  break;
  }
- if(player_is_onloopCue[lect]==0 )
- {//loop  GENERAL
-                 switch(lect)
-                  {
-                  case 0:
-                  player1->setPosition(0);
-                  break;
-                  case 1:
-                  player2->setPosition(0);
-                  break;
-                  case 2:
-                  player3->setPosition(0);
-                  break;
-                  case 3:
-                  player4->setPosition(0);
-                  break;
-                  default:
-                  break;
-                  }
-                }
-                else if( player_is_onloopCue[lect]==1 )
-                {
-                //loop out point to inpoint
-                switch(lect)
-                {
-                case 0:
-                player1->setPosition(player_seek_position[lect]);
-                break;
-                case 1:
-                player2->setPosition(player_seek_position[lect]);
-                break;
-                case 2:
-                player3->setPosition(player_seek_position[lect]);
-                break;
-                case 3:
-                player4->setPosition(player_seek_position[lect]);
-                break;
-                default:
-                break;
-                }
-                }
+ switch(lect)
+ {
+ case 0: player1->setPosition(0); break;
+ case 1: player2->setPosition(0); break;
+ case 2: player3->setPosition(0); break;
+ case 3: player4->setPosition(0); break;
+ default: break;
+ }
 }
 else if(audio_autopause[lect]==1)//autostop
 {
@@ -519,16 +562,16 @@ if(audio_autopause[lect]==0)//autostop
  switch(lect)
  {
  case 0:
- player1->play();
+ player1->setPosition(player_seek_position[lect]); player1->play();
  break;
  case 1:
- player2->play();
+ player2->setPosition(player_seek_position[lect]); player2->play();
  break;
  case 2:
- player3->play();
+ player3->setPosition(player_seek_position[lect]); player3->play();
  break;
  case 3:
- player4->play();
+ player4->setPosition(player_seek_position[lect]); player4->play();
  break;
  default:
  break;
@@ -539,25 +582,32 @@ else//autostop
  switch(lect)
  {
  case 0:
- //player1->stop();
- player1_do_stop();
+ player1_do_stop(); player1->setPosition(player_seek_position[lect]);
  break;
  case 1:
- //player2->stop();
- player2_do_stop();
+ player2_do_stop(); player2->setPosition(player_seek_position[lect]);
  break;
  case 2:
- //player3->stop();
- player3_do_stop();
+ player3_do_stop(); player3->setPosition(player_seek_position[lect]);
  break;
  case 3:
- //player4->stop();
- player4_do_stop();
+ player4_do_stop(); player4->setPosition(player_seek_position[lect]);
  break;
  default:
  break;
  }
 }
+}
+else// dernier morceau : retour au début
+{
+ switch(lect)
+ {
+ case 0: player1->setPosition(0); break;
+ case 1: player2->setPosition(0); break;
+ case 2: player3->setPosition(0); break;
+ case 3: player4->setPosition(0); break;
+ default: break;
+ }
 }
 
 }
@@ -697,7 +747,7 @@ else
 int do_logical_fader_niveau_son(int xp, int yp, int numero)
 {
 
-if(mouse_x>xp && mouse_x<xp+20 && mouse_y>=yp && mouse_y<=yp+127)
+if(original_posx>xp && original_posx<xp+20 && original_posy>=yp && original_posy<=yp+127)
 {
 //midi report
   if (miditable[0][616+numero]==0){sprintf(thetypinfo,"Note");}
@@ -712,6 +762,8 @@ attribute_midi_solo_affectation(616+numero,Midi_Faders_Affectation_Mode);
 else
 {
 player_niveauson[numero]=(YAudio+70+(numero*140)+127)-mouse_y;
+if(player_niveauson[numero]<0) player_niveauson[numero]=0;
+if(player_niveauson[numero]>127) player_niveauson[numero]=127;
 if(player_ignited[numero]==1)
 {
 switch(numero)
@@ -1391,61 +1443,7 @@ mouse_released=1;
 else {
 if(player_ignited[numero]==1)
 {
-switch(numero)
-{
-case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
- player1->setRepeat(true);
- player_is_onloopCue[numero]=1;
- break;
- case 1:
- player1->setRepeat(false);
- player_is_onloopCue[numero]=0;
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
- player2->setRepeat(true);
- player_is_onloopCue[numero]=1;
- break;
- case 1:
- player2->setRepeat(false);
- player_is_onloopCue[numero]=0;
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
- player3->setRepeat(true);
- player_is_onloopCue[numero]=1;
- break;
- case 1:
- player3->setRepeat(false);
- player_is_onloopCue[numero]=0;
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
- player4->setRepeat(true);
- player_is_onloopCue[numero]=1;
- break;
- case 1:
- player4->setRepeat(false);
- player_is_onloopCue[numero]=0;
- break;
- }
-break;
-}
+player_is_onloopCue[numero] = !player_is_onloopCue[numero];
 }
  mouse_released=1;
 }
@@ -1513,45 +1511,30 @@ mouse_released=1;
 }
 else if(mouse_double_click) {
 player_pitch[numero] = 64;
+if(player_ignited[numero] == 1) {
 switch(numero) {
 case 0: player1->setPitchShift(1.0f); break;
 case 1: player2->setPitchShift(1.0f); break;
 case 2: player3->setPitchShift(1.0f); break;
 case 3: player4->setPitchShift(1.0f); break;
 }
+}
 mouse_released=1;
 }
 else {
 
 audio_pitch_dragging[numero] = 1;
-if(player_ignited[numero]==1)
+player_pitch[numero] = (mouse_x - (XAudio+7+120)) - 10;
+if(player_pitch[numero] < 1)        player_pitch[numero] = 1;
+else if(player_pitch[numero] > 127) player_pitch[numero] = 127;
+if(player_ignited[numero] == 1)
 {
 switch(numero)
 {
-case 0://PLAYER 1
- player_pitch[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pitch[numero]<1){player_pitch[numero]=1;}
- else if(player_pitch[numero]>127){player_pitch[numero]=127;}
- player1->setPitchShift((((float)player_pitch[numero])/64));
-break;
-case 1://PLAYER 2
-  player_pitch[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pitch[numero]<1){player_pitch[numero]=1;}
- else if(player_pitch[numero]>127){player_pitch[numero]=127;}
- player2->setPitchShift((((float)player_pitch[numero])/64));
-break;
-case 2://PLAYER 3
-  player_pitch[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pitch[numero]<1){player_pitch[numero]=1;}
- else if(player_pitch[numero]>127){player_pitch[numero]=127;}
- player3->setPitchShift((((float)player_pitch[numero])/64));
-break;
-case 3://PLAYER 4
-  player_pitch[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pitch[numero]<1){player_pitch[numero]=1;}
- else if(player_pitch[numero]>127){player_pitch[numero]=127;}
- player4->setPitchShift((((float)player_pitch[numero])/64));
-break;
+case 0: player1->setPitchShift(((float)player_pitch[numero])/64); break;
+case 1: player2->setPitchShift(((float)player_pitch[numero])/64); break;
+case 2: player3->setPitchShift(((float)player_pitch[numero])/64); break;
+case 3: player4->setPitchShift(((float)player_pitch[numero])/64); break;
 }
 }
 }
@@ -1579,44 +1562,29 @@ mouse_released=1;
 }
 else if(mouse_double_click) {
 player_pan[numero] = 64;
+if(player_ignited[numero] == 1) {
 switch(numero) {
 case 0: player1->setPan(0.0f); break;
 case 1: player2->setPan(0.0f); break;
 case 2: player3->setPan(0.0f); break;
 case 3: player4->setPan(0.0f); break;
 }
+}
 mouse_released=1;
 }
 else {
 audio_pan_dragging[numero] = 1;
-if(player_ignited[numero]==1)
+player_pan[numero] = (mouse_x - (XAudio+7+120)) - 10;
+if(player_pan[numero] < 1)        player_pan[numero] = 1;
+else if(player_pan[numero] > 127) player_pan[numero] = 127;
+if(player_ignited[numero] == 1)
 {
 switch(numero)
 {
-case 0://PLAYER 1
- player_pan[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pan[numero]<1){player_pan[numero]=1;}
- else if(player_pan[numero]>127){player_pan[numero]=127;}
- player1->setPan(((float)(player_pan[numero]-64))/63); // -64 /63 OK POUR AVOIR -1.00 +1.00 GAUCHE DROITE
-break;
-case 1://PLAYER 2
- player_pan[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pan[numero]<1){player_pan[numero]=1;}
- else if(player_pan[numero]>127){player_pan[numero]=127;}
- player2->setPan(((float)(player_pan[numero]-64))/63);
-break;
-case 2://PLAYER 3
- player_pan[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pan[numero]<1){player_pan[numero]=1;}
- else if(player_pan[numero]>127){player_pan[numero]=127;}
- player3->setPan(((float)(player_pan[numero]-64))/63);
-break;
-case 3://PLAYER 4
- player_pan[numero]=(mouse_x- (XAudio+5+120))-10 ;
- if(player_pan[numero]<1){player_pan[numero]=1;}
- else if(player_pan[numero]>127){player_pan[numero]=127;}
- player4->setPan(((float)(player_pan[numero]-64))/63);
-break;
+case 0: player1->setPan(((float)(player_pan[numero]-64))/63); break;
+case 1: player2->setPan(((float)(player_pan[numero]-64))/63); break;
+case 2: player3->setPan(((float)(player_pan[numero]-64))/63); break;
+case 3: player4->setPan(((float)(player_pan[numero]-64))/63); break;
 }
 }
 }
@@ -1635,8 +1603,10 @@ return(0);
 int do_logical_fenetre_audio(int xb,int yb)
 {
 
+bool dropdown_was_open = (bool)index_show_audio_folder_list;
+
 // chevron : ouvre/ferme le dropdown des dossiers audio
-if(mouse_x>xb+570 && mouse_x<xb+590 && mouse_y>yb+10 && mouse_y<yb+40)
+if(original_posx>xb+570 && original_posx<xb+590 && original_posy>yb+10 && original_posy<yb+40)
 {
     if (index_show_audio_folder_list) {
         index_show_audio_folder_list = 0;
@@ -1647,7 +1617,7 @@ if(mouse_x>xb+570 && mouse_x<xb+590 && mouse_y>yb+10 && mouse_y<yb+40)
     mouse_released=1;
 }
 // zone texte : saisie clavier (comportement inchangé)
-else if(mouse_x>xb+350 && mouse_x<xb+570 && mouse_y>yb+10 && mouse_y<yb+40)
+else if(original_posx>xb+350 && original_posx<xb+570 && original_posy>yb+10 && original_posy<yb+40)
 {
     index_show_audio_folder_list = 0;
     if(index_type==1)
@@ -1716,8 +1686,8 @@ if (index_show_audio_folder_list && nbre_audio_folders > 0) {
     for (int vi = 0; vi < vis; vi++) {
         int fi = vi + audio_folder_list_scroll;
         if (fi >= nbre_audio_folders) break;
-        if (mouse_x>xb+352 && mouse_x<xb+352+list_w
-            && mouse_y>yb+42+vi*row_h && mouse_y<yb+42+(vi+1)*row_h) {
+        if (original_posx>xb+352 && original_posx<xb+352+list_w
+            && original_posy>yb+42+vi*row_h && original_posy<yb+42+(vi+1)*row_h) {
             strncpy(audio_folder, list_audio_folders[fi], 63);
             audio_folder[63] = '\0';
             index_show_audio_folder_list = 0;
@@ -1733,7 +1703,7 @@ if (index_show_audio_folder_list && nbre_audio_folders > 0) {
 
 //////////////////////LISTE sons///////////////////////////////////////
 
-if (!index_show_audio_folder_list) {
+if (!index_show_audio_folder_list && !dropdown_was_open) {
 for (int y=1;y<(index_nbre_players_visibles*6* 24);y++)
 {
 
@@ -1784,7 +1754,7 @@ if(line_audio+24<128){line_audio++;mouse_released=1;}
 //////LES LECTEURS//////////////////////////////////////////////////////////////
 for(int lop=0;lop<index_nbre_players_visibles;lop++)
 {
-do_logical_lecteur_audio(xb+5,yb+70+(lop*140),lop);
+do_logical_lecteur_audio(xb+7,yb+70+(lop*140),lop);
 }
 
 //////L AFFECTATION AUX FADERS//////////////////////////////////////////////////
@@ -1821,7 +1791,6 @@ for (int co=0;co<3;co++)
  }
 }
 }
-
 
 return(0);
 }

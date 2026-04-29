@@ -78,6 +78,8 @@ WWWWWWWWW           C  WWWWWWWW  | GNU General Public License for more details.
 #define WC_PLAYER_CHANNELS   4
 #define WC_BYTES_PER_FRAME   4  // sizeof(Sint16) * 2 canaux
 
+extern int audio_ram_limit_mb;  // défini dans whitecat.h, configurable via CFG > core cfg
+
 namespace audiere {
 
 // ============================================================
@@ -301,7 +303,7 @@ static void wc_fill_wav(WCStreamState& s, int need) {
             Sint64 rem = (Sint64)s.wav_ram_size - s.wav_ram_pos;
             if (rem <= 0) {
                 if (s.looping) { s.wav_ram_pos = 0; SDL_AudioStreamClear(s.conv); break; }
-                else           { s.playing = false; break; }
+                else           { s.paused_position_ms = s.length_ms; s.playing = false; break; }
             }
             int to_put = (int)(rem < 8192 ? rem : 8192);
             SDL_AudioStreamPut(s.conv, s.wav_ram + s.wav_ram_pos, to_put);
@@ -315,11 +317,11 @@ static void wc_fill_wav(WCStreamState& s, int need) {
                     s.cur_byte = 0;
                     SDL_AudioStreamClear(s.conv);
                     break;
-                } else { s.playing = false; break; }
+                } else { s.paused_position_ms = s.length_ms; s.playing = false; break; }
             }
             int to_read = (int)(rem < 8192 ? rem : 8192);
             int got = (int)SDL_RWread(s.rw, buf, 1, to_read);
-            if (got <= 0) { s.playing = false; break; }
+            if (got <= 0) { s.paused_position_ms = s.length_ms; s.playing = false; break; }
             s.cur_byte += got;
             SDL_AudioStreamPut(s.conv, buf, got);
         }
@@ -387,6 +389,7 @@ static void wc_fill_mp3(WCStreamState& s, int need) {
                     int got = (int)SDL_RWread(s.mp3_rw, s.mp3_buf, 1, WC_MP3_BUF_SIZE);
                     if (got > 0) s.mp3_buf_fill = got;
                     } else {
+                    s.paused_position_ms = s.length_ms;
                     s.playing = false;
                     wc_audio_log("[fill_mp3] EOF buf=0 eof=1\n");
                     break;
@@ -425,6 +428,7 @@ static void wc_fill_mp3(WCStreamState& s, int need) {
         } else {
             // frame_bytes == 0 : aucune frame trouvée
             if (s.mp3_eof) {
+                s.paused_position_ms = s.length_ms;
                 s.playing = false;
                 wc_audio_log("[fill_mp3] Stop eof+frame=0\n");
                 break;
@@ -478,7 +482,7 @@ static void wc_fill_chunk(WCStreamState& s, int need) {
                 s.chunk_pos = 0;
                 SDL_AudioStreamClear(s.conv);
                 break; // ne pas remplir depuis pos 0 dans ce callback
-            } else { s.playing = false; break; }
+            } else { s.paused_position_ms = s.length_ms; s.playing = false; break; }
         }
         int to_read = (int)(rem < 8192 ? rem : 8192);
         SDL_memcpy(buf, s.chunk->abuf + s.chunk_pos, to_read);
@@ -580,7 +584,7 @@ static void wc_fill_ogg(WCStreamState& s, int need) {
             s.ogg, s.ogg_channels, pcm_buf, 4096);
         if (n <= 0) {
             if (s.looping) { stb_vorbis_seek_start(s.ogg); SDL_AudioStreamClear(s.conv); break; }
-            else           { s.playing = false; break; }
+            else           { s.paused_position_ms = s.length_ms; s.playing = false; break; }
         }
         SDL_AudioStreamPut(s.conv, pcm_buf, n * s.ogg_channels * (int)sizeof(short));
     }
@@ -594,7 +598,7 @@ static void wc_fill_flac(WCStreamState& s, int need) {
         drflac_uint64 n = drflac_read_pcm_frames_s16(s.flac_dec, (drflac_uint64)frames_req, pcm_buf);
         if (n <= 0) {
             if (s.looping) { drflac_seek_to_pcm_frame(s.flac_dec, 0); SDL_AudioStreamClear(s.conv); break; }
-            else           { s.playing = false; break; }
+            else           { s.paused_position_ms = s.length_ms; s.playing = false; break; }
         }
         SDL_AudioStreamPut(s.conv, pcm_buf, (int)n * s.flac_channels * (int)sizeof(short));
     }
@@ -914,8 +918,8 @@ public:
         // ---- 3. OGG (stb_vorbis streaming depuis RAM) ----
         // Lecture fichier en RAM (~10 ms), ouverture handle (parsing headers seulement,
         // instantané), installation immédiate. Décodage PCM frame par frame dans wc_fill_ogg.
-        // Limite 200 MB : au-delà on laisse tomber vers le fallback Mix_LoadWAV.
-        static const Sint64 WC_OGG_FLAC_RAM_MAX = 300LL * 1024 * 1024;
+        // Limite configurable (audio_ram_limit_mb, défaut 300 MB) : au-delà fallback Mix_LoadWAV.
+        Sint64 WC_OGG_FLAC_RAM_MAX = (Sint64)audio_ram_limit_mb * 1024 * 1024;
         if (wc_is_ogg_file(filename)) {
             SDL_RWops* rw = SDL_RWFromFile(filename, "rb");
             if (rw) {
@@ -1342,7 +1346,7 @@ static int wc_next_player_channel = 0;
 // ch_hint >= 0 : canal imposé (reload sur le bon player)
 // ch_hint <  0 : compteur global (premier chargement)
 inline OutputStreamPtr OpenSound(AudioDevicePtr device, const char* filename,
-                                  bool /*preloaded*/ = false, int ch_hint = -1) {
+                                  int ch_hint = -1) {
     if (!device || !filename) return nullptr;
     int ch;
     if (ch_hint >= 0 && ch_hint < WC_PLAYER_CHANNELS) {
