@@ -2602,8 +2602,8 @@ if(param1_is>=0 && param1_is<5)
      //
      AffectSoundFile(param1_is);
 
-     player_seek_position[param1_is]=audiofile_cue_in_out_pos[param2_is][0];
-     player_loop_out_position[param1_is]=audiofile_cue_in_out_pos[param2_is][1];
+     player_seek_position[param1_is]=audiofile_cue_in_out_pos[param2_is][param1_is][0];
+     player_loop_out_position[param1_is]=audiofile_cue_in_out_pos[param2_is][param1_is][1];
      sprintf(string_event,"Affected Audio %d to Player %d",param2_is,param1_is);
      break;
 
@@ -2667,8 +2667,8 @@ if(param1_is>=0 && param1_is<5)
      audiofile_selected=param2_is;
      //
      AffectSoundFile(param1_is);
-     player_seek_position[param1_is]=audiofile_cue_in_out_pos[param2_is][0];
-     player_loop_out_position[param1_is]=audiofile_cue_in_out_pos[param2_is][1];
+     player_seek_position[param1_is]=audiofile_cue_in_out_pos[param2_is][param1_is][0];
+     player_loop_out_position[param1_is]=audiofile_cue_in_out_pos[param2_is][param1_is][1];
      sprintf(string_event,"Affected Audio %d to Player %d",param2_is,param1_is);
 
      switch(param1_is)//lecteur

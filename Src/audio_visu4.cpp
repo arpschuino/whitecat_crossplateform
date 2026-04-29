@@ -111,7 +111,7 @@ Canvas::DisableClipping();
     }
     // cue in / out markers
     if (length_of_file_in_player[numero] > 0 && player_is_onloopCue[numero]) {
-        int in_x  = xp + (int)((float)audiofile_cue_in_out_pos[player_has_file_coming_from_pos[numero]][0] / length_of_file_in_player[numero] * seekbar_w);
+        int in_x  = xp + (int)((float)audiofile_cue_in_out_pos[player_has_file_coming_from_pos[numero]][numero][0] / length_of_file_in_player[numero] * seekbar_w);
         int out_x = xp + (int)((float)player_loop_out_position[numero] / length_of_file_in_player[numero] * seekbar_w);
         Line(Vec2D(in_x,  yp+22), Vec2D(in_x,  yp+32)).Draw(CouleurLigne);
         Line(Vec2D(out_x, yp+22), Vec2D(out_x, yp+32)).Draw(CouleurLigne);
@@ -416,6 +416,13 @@ neuromoyen.Print("v",xb+575,yb+25);
 
 
 //////////////////////LISTE sons///////////////////////////////////////
+// clamp line_audio pour éviter les items inaccessibles après changement de mode
+{
+    int vis_count = index_nbre_players_visibles*6 - 1;
+    int max_la = audio_number_total_in_folder > vis_count ? audio_number_total_in_folder - vis_count : 0;
+    if(line_audio > max_la) line_audio = max_la;
+    if(line_audio < 0) line_audio = 0;
+}
 
 Rect BackDeroule(Vec2D(xb+350,yb+45),Vec2D(240,(index_nbre_players_visibles*120)));
 BackDeroule.SetRoundness(15);
@@ -445,17 +452,41 @@ petitpetitchiffre.Print(list_audio_files[line_audio+y],xb+375,yb+45+(y*20));
 Canvas::DisableClipping();
 }
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
-Circle LineUp(Vec2D(xb+570,yb+65),12);
-LineUp.Draw(CouleurFond);
-Circle LineDown(Vec2D(xb+570,yb+(index_nbre_players_visibles*120)),12);
-LineDown.Draw(CouleurFond);
-
-
-petitchiffre.Print("-",xb+566,yb+70);
-petitchiffre.Print("+",xb+566,yb+(index_nbre_players_visibles*120)+5);
-LineUp.DrawOutline(CouleurLigne);
-LineDown.DrawOutline(CouleurLigne);
+//////////////////SCROLLBAR LISTE MORCEAUX/////////////////////
+bool need_audio_scroll = (audio_number_total_in_folder > index_nbre_players_visibles*6 - 1);
+if(need_audio_scroll)
+{
+    const int bar_w = 14;
+    int bx = xb+350+240-bar_w-1;
+    int by = yb+45;
+    int bar_h = index_nbre_players_visibles*120;
+    int vis_count = index_nbre_players_visibles*6 - 1;
+    int total = audio_number_total_in_folder;
+    int max_scroll = total - vis_count;
+    // fond
+    Rect AudioScrollBar(Vec2D(bx, by), Vec2D(bar_w, bar_h));
+    AudioScrollBar.SetRoundness(3);
+    AudioScrollBar.Draw(Rgba(0, 0, 0));
+    // flèche haut
+    Rect AudioArrowUp(Vec2D(bx+1, by), Vec2D(bar_w-2, bar_w));
+    AudioArrowUp.SetRoundness(2);
+    AudioArrowUp.Draw(line_audio>0 ? CouleurGrisAnthracite : CouleurFond);
+    petitpetitchiffre.Print("^", bx+4, by+10);
+    // flèche bas
+    Rect AudioArrowDown(Vec2D(bx+1, by+bar_h-bar_w), Vec2D(bar_w-2, bar_w));
+    AudioArrowDown.SetRoundness(2);
+    AudioArrowDown.Draw(line_audio<max_scroll ? CouleurGrisAnthracite : CouleurFond);
+    petitpetitchiffre.Print("v", bx+4, by+bar_h-bar_w+10);
+    // thumb
+    int track_h = bar_h - 2*bar_w;
+    int thumb_h = std::max(10, track_h * vis_count / total);
+    int thumb_y = by + bar_w + (max_scroll>0 ? line_audio * (track_h - thumb_h) / max_scroll : 0);
+    if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+    if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+    Rect AudioThumb(Vec2D(bx+2, thumb_y), Vec2D(bar_w-4, thumb_h));
+    AudioThumb.SetRoundness(3);
+    AudioThumb.Draw(audio_filelist_scroll_dragging ? CouleurGrisAnthracite : CouleurGrisAnthracite.WithAlpha(0.7));
+}
 
 //RESCAN FOLDER
     Rect AudioRescanDriver( Vec2D(xb+230,yb+10), Vec2D ( 50,20));
@@ -508,17 +539,6 @@ if( mouse_x>xb+230 && mouse_x<xb+280 && mouse_y>yb+10 && mouse_y<yb+30 )
     {
     AudioRescanDriver.Draw(CouleurSurvol);
     }
-else if( mouse_x>xb+558 && mouse_x<xb+582  )
-{
-if(mouse_y>yb+53 && mouse_y<yb+72)
-{
-LineUp.Draw(CouleurSurvol);
-}
-if(mouse_y>yb+(index_nbre_players_visibles*120)-7 && mouse_y<yb+(index_nbre_players_visibles*120)+5)
-{
-LineDown.Draw(CouleurSurvol);
-}
-}
 }
 
 

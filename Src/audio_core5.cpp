@@ -65,22 +65,31 @@ int Load_audiofiles_cues()
         else {
 
              //sab 02/03/2014 unused char *tremp;
-             int temp_ain[128];
-             int temp_aout[128];
+             int temp_ain[128][4];
+             int temp_aout[128][4];
              int index_af=0;
              bool index_stop=0;
              for(int u=0;u<127;u++)
              {
 	         fgets( read_buff_winfil , sizeof( read_buff_winfil ) ,cfg_file );
              char tmp_name_f[72];
-             sscanf(read_buff_winfil , "%s / %d / %d\n" ,  tmp_name_f,&temp_ain[index_af],&temp_aout[index_af] );
+             int r=sscanf(read_buff_winfil , "%s / %d / %d / %d / %d / %d / %d / %d / %d\n" ,
+                 tmp_name_f,
+                 &temp_ain[index_af][0],&temp_aout[index_af][0],
+                 &temp_ain[index_af][1],&temp_aout[index_af][1],
+                 &temp_ain[index_af][2],&temp_aout[index_af][2],
+                 &temp_ain[index_af][3],&temp_aout[index_af][3]);
+             // compatibilité ancien format (2 valeurs) : appliquer à tous les players
+             if(r<9){ for(int p=1;p<4;p++){temp_ain[index_af][p]=temp_ain[index_af][0];temp_aout[index_af][p]=temp_aout[index_af][0];} }
 
              for(int po=0;po<127;po++)
              {
              if(strcmp(list_audio_files[po],tmp_name_f)==0 && index_stop==0)
              {
-             audiofile_cue_in_out_pos[po][0]=temp_ain[index_af];
-             audiofile_cue_in_out_pos[po][1]=temp_aout[index_af];
+             for(int p=0;p<4;p++){
+             audiofile_cue_in_out_pos[po][p][0]=temp_ain[index_af][p];
+             audiofile_cue_in_out_pos[po][p][1]=temp_aout[index_af][p];
+             }
              index_stop=1;index_af++;
              }
              }
@@ -263,12 +272,12 @@ break;
 if(player_ignited[player]==1)
 {
 //init cue in out
-if(audiofile_cue_in_out_pos[audiofile_selected][0]<length_of_file_in_player[player])
+if(audiofile_cue_in_out_pos[audiofile_selected][player][0]<length_of_file_in_player[player])
 {
-player_seek_position[player]=audiofile_cue_in_out_pos[audiofile_selected][0];
- if(audiofile_cue_in_out_pos[audiofile_selected][1]>audiofile_cue_in_out_pos[audiofile_selected][0])
+player_seek_position[player]=audiofile_cue_in_out_pos[audiofile_selected][player][0];
+ if(audiofile_cue_in_out_pos[audiofile_selected][player][1]>audiofile_cue_in_out_pos[audiofile_selected][player][0])
  {
- player_loop_out_position[player]=audiofile_cue_in_out_pos[audiofile_selected][1];
+ player_loop_out_position[player]=audiofile_cue_in_out_pos[audiofile_selected][player][1];
         if(player_loop_out_position[player]>length_of_file_in_player[player])
         {
         player_loop_out_position[player]=length_of_file_in_player[player];
@@ -429,8 +438,15 @@ if(player_is_onloopCue[lect]==1 && player_is_playing[lect]==1
   default: break;
   }
   audiofile_selected=player_has_file_coming_from_pos[lect]+1;
-  if(audiofile_selected>=127){audiofile_selected=126;}
+  if(audiofile_selected>audio_number_total_in_folder){audiofile_selected=audio_number_total_in_folder;}
   sprintf(audiofile_name,list_audio_files[audiofile_selected]);
+  { // auto-scroll : seulement si la liste ne tient pas entière
+   int vc=index_nbre_players_visibles*6-1;
+   if(audio_number_total_in_folder>vc){
+    line_audio=audiofile_selected-2;
+    if(line_audio<0) line_audio=0;
+   }
+  }
   if(strcmp(audiofile_name,"")!=0)
   {
    AffectSoundFile(lect);
@@ -552,8 +568,15 @@ if(audio_autoload[lect]==1)//chargement auto
  break;
  }
 audiofile_selected=player_has_file_coming_from_pos[lect]+1;
-if(audiofile_selected>=127){audiofile_selected=126;}
+if(audiofile_selected>audio_number_total_in_folder){audiofile_selected=audio_number_total_in_folder;}
 sprintf(audiofile_name,list_audio_files[audiofile_selected]);
+{ // auto-scroll : seulement si la liste ne tient pas entière
+ int vc=index_nbre_players_visibles*6-1;
+ if(audio_number_total_in_folder>vc){
+  line_audio=audiofile_selected-2;
+  if(line_audio<0) line_audio=0;
+ }
+}
 if(strcmp (audiofile_name,"")!=0)
 {
 AffectSoundFile(lect);
@@ -1353,7 +1376,7 @@ if(player_loop_out_position[numero]<=player_seek_position[numero]){player_loop_o
 else  if(player_loop_out_position[numero]!=player_seek_position[numero]) {player_seek_position[numero]=0;index_main_clear=0;}
 break;
 }
-audiofile_cue_in_out_pos[(player_has_file_coming_from_pos[numero])][0]=player_seek_position[numero];
+audiofile_cue_in_out_pos[(player_has_file_coming_from_pos[numero])][numero][0]=player_seek_position[numero];
 }
  mouse_released=1;
 }
@@ -1417,7 +1440,7 @@ if(player_loop_out_position[numero]<=player_seek_position[numero]){player_loop_o
 else  if(player_loop_out_position[numero]!=player_seek_position[numero]) {player_loop_out_position[numero]=(player4->getLength());}
 break;
 }
-audiofile_cue_in_out_pos[(player_has_file_coming_from_pos[numero])][1]=player_loop_out_position[numero];
+audiofile_cue_in_out_pos[(player_has_file_coming_from_pos[numero])][numero][1]=player_loop_out_position[numero];
 }
 mouse_released=1;
 }
@@ -1716,18 +1739,51 @@ mouse_released=1;
 }
 }
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
+//////////////////SCROLLBAR LISTE MORCEAUX/////////////////////
+{
+    int vis_count = index_nbre_players_visibles*6 - 1;
+    int total = audio_number_total_in_folder;
+    bool has_scroll = (total > vis_count);
+    if (has_scroll) {
+        const int bar_w = 14;
+        int bx = xb+350+240-bar_w-1;
+        int by = yb+45;
+        int bar_h = index_nbre_players_visibles*120;
+        int max_scroll = total - vis_count;
+        int track_h = bar_h - 2*bar_w;
+        int thumb_h = std::max(10, track_h * vis_count / total);
 
-if(mouse_x>xb+570-12 && mouse_x<xb+570+12)
-{
-if(mouse_y>yb+65-12 && mouse_y<yb+65+12)
-{
-if(line_audio>0){line_audio--;mouse_released=1;}
-}
-if(mouse_y>yb+(index_nbre_players_visibles*6* 20)-7 && mouse_y<yb+(index_nbre_players_visibles*6* 20)+5)
-{
-if(line_audio+24<128){line_audio++;mouse_released=1;}
-}
+        if (audio_filelist_scroll_dragging) {
+            int delta = mouse_y - audio_filelist_scroll_drag_start_y;
+            int travel = track_h - thumb_h;
+            if (travel > 0) {
+                int new_scroll = audio_filelist_scroll_drag_start_scroll + delta * max_scroll / travel;
+                if (new_scroll < 0) new_scroll = 0;
+                if (new_scroll > max_scroll) new_scroll = max_scroll;
+                line_audio = new_scroll;
+            }
+        } else {
+            int thumb_y = by + bar_w + (max_scroll>0 ? line_audio * (track_h - thumb_h) / max_scroll : 0);
+            if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+            if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+            // flèche haut
+            if (mouse_x>bx+1 && mouse_x<bx+bar_w-1 && mouse_y>by && mouse_y<by+bar_w) {
+                if (line_audio > 0) line_audio--;
+                mouse_released=1;
+            }
+            // flèche bas
+            else if (mouse_x>bx+1 && mouse_x<bx+bar_w-1 && mouse_y>by+bar_h-bar_w && mouse_y<by+bar_h) {
+                if (line_audio < max_scroll) line_audio++;
+                mouse_released=1;
+            }
+            // début drag thumb
+            else if (mouse_x>bx+2 && mouse_x<bx+bar_w-2 && mouse_y>thumb_y && mouse_y<thumb_y+thumb_h) {
+                audio_filelist_scroll_dragging = 1;
+                audio_filelist_scroll_drag_start_y = mouse_y;
+                audio_filelist_scroll_drag_start_scroll = line_audio;
+            }
+        }
+    }
 }
 
 //RESCAN FOLDER

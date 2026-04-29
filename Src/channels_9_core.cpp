@@ -210,6 +210,31 @@ int DoMouseLevel()
  }
  }
 
+ // molette sur la fenêtre audio
+ if(window_focus_id == W_AUDIO && mouse_x > XAudio+350 && mouse_x < XAudio+590)
+ {
+  int delta = mouse_z - last_scroll_mouse_for_audio;
+  if(delta != 0)
+  {
+   if(index_show_audio_folder_list && mouse_y > YAudio+40 && nbre_audio_folders > 8)
+   {
+    int max_s = nbre_audio_folders - 8;
+    audio_folder_list_scroll -= delta;
+    if(audio_folder_list_scroll < 0) audio_folder_list_scroll = 0;
+    if(audio_folder_list_scroll > max_s) audio_folder_list_scroll = max_s;
+   }
+   else if(mouse_y > YAudio+45 && mouse_y < YAudio+45+index_nbre_players_visibles*120)
+   {
+    int vc = index_nbre_players_visibles*6 - 1;
+    int max_s = audio_number_total_in_folder > vc ? audio_number_total_in_folder - vc : 0;
+    line_audio -= delta;
+    if(line_audio < 0) line_audio = 0;
+    if(line_audio > max_s) line_audio = max_s;
+   }
+   last_scroll_mouse_for_audio = mouse_z;
+  }
+ }
+
  if (window_focus_id==W_BANGER &&  mouse_x>=X_banger && mouse_x<=X_banger+480 && mouse_y>=Y_banger && mouse_y<=Y_banger+300  )//banger
  {
  switch(over_family)

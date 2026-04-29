@@ -340,7 +340,7 @@ unsigned int kbd_ascii_map_size=128;//int mapping_temporaire[128];//la table de 
 
 ///audio
 const char file_audio_autoloadpause[24]={"audio_autoloadpause.whc"};//
-unsigned int audio_autoloadpause_size=2*4;// bool audio_autoload[4]; bool audio_autopause[4];//
+unsigned int audio_autoloadpause_size=4*4;// bool audio_autoload[4]; bool audio_autopause[4]; bool player_is_onloop[4]; bool player_is_onloopCue[4];//
 const char file_audio_filenumber[24]={"audio_filenumber.whc"};//
 unsigned int audio_filenumber_size=4;//int player_has_file_coming_from_pos[4];//position 1 à 127
 const char file_audio_playerposition[24]={"audio_plposition.whc"};//
@@ -1685,12 +1685,16 @@ char tmp_audio_f[512];
 sprintf(tmp_audio_f,"audio\\%s\\audio_cues_in_out.txt",audio_folder);
 if((fpo=fopen(tmp_audio_f,"w")))
 {
-fprintf(fpo,"#arguments: audiofilename / cuein / cueout\n");
+fprintf(fpo,"#arguments: audiofilename / cuein_p0 / cueout_p0 / cuein_p1 / cueout_p1 / cuein_p2 / cueout_p2 / cuein_p3 / cueout_p3\n");
 for(int i=1;i<127;i++)
 {
 if(strcmp(list_audio_files[i],"")!=0)//si aps iren en nom de fichier
 {
-fprintf(fpo,"%s / %d / %d\n",list_audio_files[i],audiofile_cue_in_out_pos[i][0],audiofile_cue_in_out_pos[i][1]);
+fprintf(fpo,"%s / %d / %d / %d / %d / %d / %d / %d / %d\n",list_audio_files[i],
+    audiofile_cue_in_out_pos[i][0][0],audiofile_cue_in_out_pos[i][0][1],
+    audiofile_cue_in_out_pos[i][1][0],audiofile_cue_in_out_pos[i][1][1],
+    audiofile_cue_in_out_pos[i][2][0],audiofile_cue_in_out_pos[i][2][1],
+    audiofile_cue_in_out_pos[i][3][0],audiofile_cue_in_out_pos[i][3][1]);
 }
 }
 sprintf(string_save_load_report[idf],"Saved %s",tmp_audio_f);
@@ -3318,12 +3322,14 @@ Save_Arduino_Config();
 
 if(specify_who_to_save_load[22]==1)  ////////////AUDIO CONF/////////////////////////////////////////////////
 {
-//autoload autopause
-bool temp_audio_array[8];
+//autoload autopause loop cue
+bool temp_audio_array[16];
 for(int i=0;i<4;i++)
 {
 temp_audio_array[i]=audio_autoload[i];
 temp_audio_array[i+4]=audio_autopause[i];
+temp_audio_array[i+8]=player_is_onloop[i];
+temp_audio_array[i+12]=player_is_onloopCue[i];
 }
 if ((fp=fopen( file_audio_autoloadpause, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_audio_autoloadpause); b_report_error[idf]=1;}
@@ -6529,15 +6535,17 @@ if(specify_who_to_save_load[22]==1)//AUDIO CONF/////////////////////////////////
 Load_Audio_Conf();
 idf++;
 
-//audio autoload autopause
+//audio autoload autopause loop cue
 
-bool temp_audio_array[8];
+bool temp_audio_array[16];
+memset(temp_audio_array, 0, sizeof(temp_audio_array));
 if ((fp=fopen(  file_audio_autoloadpause, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_audio_autoloadpause);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",  file_audio_autoloadpause);
-if (fread( temp_audio_array, sizeof(bool), audio_autoloadpause_size, fp) !=audio_autoloadpause_size)
+unsigned int n=fread( temp_audio_array, sizeof(bool), audio_autoloadpause_size, fp);
+if (n==0)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_audio_autoloadpause);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_audio_autoloadpause);
  fclose(fp);
@@ -6547,6 +6555,8 @@ for(int i=0;i<4;i++)
 {
  audio_autoload[i]=temp_audio_array[i];
  audio_autopause[i]=temp_audio_array[i+4];
+ player_is_onloop[i]=temp_audio_array[i+8];
+ player_is_onloopCue[i]=temp_audio_array[i+12];
 }
 idf++;
 

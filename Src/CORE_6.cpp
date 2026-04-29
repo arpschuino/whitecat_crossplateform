@@ -2867,7 +2867,7 @@ if(hFind != INVALID_HANDLE_VALUE)
                     }
                 }
             }
-            if(isSomeone && nrbe_de_fichiers<128)
+            if(isSomeone && nrbe_de_fichiers<126)
             {
                 strncpy(list_audio_files[nrbe_de_fichiers+1], acpname, 71);
                 list_audio_files[nrbe_de_fichiers+1][71] = '\0';
@@ -2877,7 +2877,8 @@ if(hFind != INVALID_HANDLE_VALUE)
     while(FindNextFileW(hFind, &fw));
     FindClose(hFind);
 }
-    audio_number_total_in_folder=nrbe_de_fichiers;
+    // +1 : slot vide en fin de liste (list_audio_files[nrbe_de_fichiers+1]="") pour vider un player
+    audio_number_total_in_folder=nrbe_de_fichiers+1;
 //REROLL
     sprintf(rep,"%s\\",mondirectory);
     chdir (rep);

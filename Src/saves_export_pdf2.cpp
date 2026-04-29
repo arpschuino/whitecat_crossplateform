@@ -3872,10 +3872,12 @@ if(strcmp(list_audio_files[u],"")!=0)
  sprintf(header_export,"-%d : %s",u,list_audio_files[u]);
 
 
- if(audiofile_cue_in_out_pos[u][0]!=0 || audiofile_cue_in_out_pos[u][1]!=0)
+ for(int p=0;p<4;p++){
+ if(audiofile_cue_in_out_pos[u][p][0]!=0 || audiofile_cue_in_out_pos[u][p][1]!=0)
  {
- sprintf(little_header,"  |  CueIn: %.1f CueOut: %.1f",(((float)audiofile_cue_in_out_pos[u][0])/44100),(((float)audiofile_cue_in_out_pos[u][1])/44100));
+ sprintf(little_header,"  |  P%d CueIn: %.1f CueOut: %.1f",p,(((float)audiofile_cue_in_out_pos[u][p][0])/44100),(((float)audiofile_cue_in_out_pos[u][p][1])/44100));
  strcat(header_export,little_header);
+ }
  }
  draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
  cmptline_pdf++;

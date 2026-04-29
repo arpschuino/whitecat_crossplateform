@@ -1329,6 +1329,7 @@ int audio_folder_scroll_drag_start_scroll = 0;
 bool audio_filelist_scroll_dragging = 0;
 int audio_filelist_scroll_drag_start_y = 0;
 int audio_filelist_scroll_drag_start_scroll = 0;
+int last_scroll_mouse_for_audio = 0;
 bool audio_seekbar_dragging[4] = {0, 0, 0, 0};
 volatile int mouse_double_click = 0;
 bool audio_pan_dragging[4] = {0, 0, 0, 0};
@@ -1348,7 +1349,7 @@ int player_seek_position[4];
 bool audio_do_load_midi_prev_file[4];
 bool audio_do_load_midi_next_file[4];
 
-int audiofile_cue_in_out_pos[128][2]; // les 128 files du repertoire
+int audiofile_cue_in_out_pos[128][4][2]; // les 128 files du repertoire, 4 players, [cue_in, cue_out]
 
 int audio_number_total_in_folder = 0; // nbre de fichiers audios
 
