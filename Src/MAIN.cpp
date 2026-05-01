@@ -811,6 +811,18 @@ int main(int /*argc*/, char ** /*argv*/) {
     } // log dans %TEMP%
     load_screen_config();
 
+    if (dpi_native_rendering)
+        SDL_SetHint(SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitorv2");
+
+    {
+        int logical_w = GetSystemMetrics(SM_CXSCREEN);
+        DEVMODE dm;
+        memset(&dm, 0, sizeof(dm));
+        dm.dmSize = sizeof(dm);
+        if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) && dm.dmPelsWidth > 0 && logical_w > 0)
+            wc_dpi_scale = (float)dm.dmPelsWidth / (float)logical_w;
+    }
+
     Settings::SetWindowBorder(false); // plus de momde border window, car inutilisable avec les menus
 
     Setup::SetupProgram(KEYBOARD | MOUSE);

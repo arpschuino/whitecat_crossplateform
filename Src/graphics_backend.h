@@ -143,6 +143,7 @@ static SDL_Renderer *wc_sdl_renderer = nullptr;
 int SCREEN_W = 1280;
 int SCREEN_H = 800;
 
+
 // ============================================================
 // Macros Allegro no-op (interruptions, verrouillage memoire)
 // Allegro no-op macros (interrupts, memory locking)
@@ -2067,9 +2068,6 @@ inline void SetupProgram(int /*flags*/) {
 }
 
 inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
-    SCREEN_W = w;
-    SCREEN_H = h;
-
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // moins de travail DWM qu'avec D3D11
 
     Uint32 flags = SDL_WINDOW_SHOWN;
@@ -2081,6 +2079,9 @@ inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "WhiteCat", SDL_GetError(), nullptr);
         exit(-1);
     }
+
+    SCREEN_W = w;
+    SCREEN_H = h;
 
     // Try hardware + vsync first
     wc_sdl_renderer = SDL_CreateRenderer(wc_sdl_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -2099,7 +2100,6 @@ inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
 
     SDL_SetRenderDrawBlendMode(wc_sdl_renderer, SDL_BLENDMODE_BLEND);
 
-    // Etendre la plage souris a la taille de la fenetre
     wc_mouse_range_x2 = w - 1;
     wc_mouse_range_y2 = h - 1;
 }

@@ -235,9 +235,50 @@ mouse_released=1;
 }
 }
 petitchiffre.Print("Width: " ,(x_cfg_sc+40), y_cfg_sc+150);
-petitchiffre.Print(ol::ToString(largeur_ecran) ,(x_cfg_sc+120), y_cfg_sc+150);
+petitchiffre.Print(ol::ToString(dpi_native_rendering ? largeur_ecran : (int)(largeur_ecran * wc_dpi_scale + 0.5f)) ,(x_cfg_sc+120), y_cfg_sc+150);
 petitchiffre.Print("Height: " ,(x_cfg_sc+40), y_cfg_sc+185);
-petitchiffre.Print(ol::ToString(hauteur_ecran) ,(x_cfg_sc+120), y_cfg_sc+185);
+petitchiffre.Print(ol::ToString(dpi_native_rendering ? hauteur_ecran : (int)(hauteur_ecran * wc_dpi_scale + 0.5f)) ,(x_cfg_sc+120), y_cfg_sc+185);
+
+// DPI natif
+Rect dpi_mode(Vec2D(x_cfg_sc+20, y_cfg_sc+210), Vec2D(55, 15));
+dpi_mode.SetRoundness(5);
+dpi_mode.Draw(CouleurFond.WithAlpha(0.5));
+if(mouse_x>x_cfg_sc+20 && mouse_x<x_cfg_sc+75 && mouse_y>y_cfg_sc+210 && mouse_y<y_cfg_sc+225 && window_focus_id==920)
+{
+dpi_mode.Draw(CouleurSurvol);
+if(mouse_button==1 && mouse_released==0)
+{
+dpi_native_rendering = toggle(dpi_native_rendering);
+// Ajuster la taille stockée pour que la taille visuelle reste identique
+if(wc_dpi_scale > 1.001f)
+{
+if(dpi_native_rendering == 0) // passage natif -> non-natif : diviser
+{
+largeur_ecran = (int)(largeur_ecran / wc_dpi_scale + 0.5f);
+hauteur_ecran = (int)(hauteur_ecran / wc_dpi_scale + 0.5f);
+}
+else // passage non-natif -> natif : multiplier
+{
+largeur_ecran = (int)(largeur_ecran * wc_dpi_scale + 0.5f);
+hauteur_ecran = (int)(hauteur_ecran * wc_dpi_scale + 0.5f);
+}
+}
+Save_Screen_Config();
+mouse_released=1;
+}
+}
+if(dpi_native_rendering==1) {dpi_mode.Draw(CouleurFader);}
+petitchiffre.Print(dpi_native_rendering ? "Native DPI on" : "Native DPI off" ,(x_cfg_sc+85), y_cfg_sc+220);
+if(dpi_native_rendering==0)
+{
+char scaled_str[32];
+if(wc_dpi_scale > 1.001f)
+    sprintf(scaled_str, "Scaled x%.3g", wc_dpi_scale);
+else
+    sprintf(scaled_str, "no effect");
+petitchiffre.Print(scaled_str ,(x_cfg_sc+85), y_cfg_sc+235);
+}
+
 EncadreScreen.DrawOutline(CouleurLigne);
 
 /////////////////////WINDOW POS///////////////////////////////////////////////////

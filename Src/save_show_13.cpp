@@ -814,7 +814,7 @@ int load_screen_config()
      sprintf(string_save_load_report[idf],"! config_screens.txt");
 	}
 
-	fscanf( cfg_file , "%d / %d %d / %d %d /\n" ,  &index_fullscreen, &largeur_ecran, &hauteur_ecran, &posX_mainwindow, &posY_mainwindow);
+	fscanf( cfg_file , "%d / %d %d / %d %d / %d /\n" ,  &index_fullscreen, &largeur_ecran, &hauteur_ecran, &posX_mainwindow, &posY_mainwindow, &dpi_native_rendering);
 
 	fclose( cfg_file );
     }
@@ -933,8 +933,8 @@ int Save_Screen_Config()
 FILE *fpp;
 if((fpp=fopen("user/config_screens.txt","w")))//etait wb
 {
-fprintf(fpp,"#arguments: fullscreen / largeur_ecran / hauteur_ecran / pos_x / pos_y\n");
-fprintf(fpp, "%d / %d %d / %d %d /\n" , index_fullscreen, largeur_ecran, hauteur_ecran, posX_mainwindow, posY_mainwindow);
+fprintf(fpp,"#arguments: fullscreen / largeur_ecran / hauteur_ecran / pos_x / pos_y / dpi_native\n");
+fprintf(fpp, "%d / %d %d / %d %d / %d /\n" , index_fullscreen, largeur_ecran, hauteur_ecran, posX_mainwindow, posY_mainwindow, dpi_native_rendering);
 fclose(fpp);  sprintf(string_save_load_report[idf],"Saved config_screen.txt");
 }
 
