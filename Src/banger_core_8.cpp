@@ -730,19 +730,6 @@ param2_is=bangers_params[banger_num][event_num][1];
       }
      break;
 
-     case 18://icat
-     if(param2_is==1)
-      {
-      add_a_window(W_iCAT);
-      sprintf(string_event,"BACK: iCAT Window /ON");
-      }
-      else
-      {
-      substract_a_window(W_iCAT);
-      sprintf(string_event,"BACK: iCAT Window /OFF");
-      }
-     break;
-
      default:
      break;
      }
@@ -2477,20 +2464,6 @@ switch(bangers_action[banger_num][event_num])
      break;
 
 
-     case 18://icat
-     if(param2_is==0)
-      {
-      substract_a_window(W_iCAT);
-      sprintf(string_event,"iCAT Window /OFF");
-     }
-     else
-     {
-      add_a_window(W_iCAT);
-      sprintf(string_event,"iCAT Window /ON");
-      }
-     break;
-
-
      default:
      break;
      }
@@ -3472,67 +3445,6 @@ switch(bangers_action[banger_num][event_num])
       break;
 }
 }
-break;
-case 9://icat
-the_icatpage_is=bangers_params[banger_num][event_num][0]-1;
-     switch(bangers_action[banger_num][event_num])
-     {
-      case 0://"Select Page Num");
-      if(the_icatpage_is>=0 && the_icatpage_is<=7)
-      {
-      iCatPageis=the_icatpage_is;
-      if (enable_iCat==1 && iCat_serveur_is_initialized==1)
-      {
-      load_iCat_page(iCatPageis);
-      do_send_icat_init_page=1;
-      }
-      sprintf(string_event,"Called iCat page %d",  iCatPageis+1);
-      }
-      break;
-      case 1://"Select Page -");
-      iCatPageis--;
-         if(iCatPageis<0){iCatPageis=7;}
-         if (enable_iCat==1 && iCat_serveur_is_initialized==1)
-         {
-         load_iCat_page(iCatPageis);
-         do_send_icat_init_page=1;
-         }
-          sprintf(string_event,"Called iCat Page -");
-      break;
-      case 2://"Select Page +");
-      iCatPageis++;
-      if (enable_iCat==1 && iCat_serveur_is_initialized==1)
-      {
-      if(iCatPageis>7){iCatPageis=0;}
-      load_iCat_page(iCatPageis);
-      do_send_icat_init_page=1;
-      }
-       sprintf(string_event,"Called iCat Page +");
-      break;
-      case 3://"Refresh Page");
-      if (enable_iCat==1 && iCat_serveur_is_initialized==1)
-      {
-       do_refresh_iCat(iCatPageis);
-       }
-        sprintf(string_event,"Refreshed iCat Page");
-      break;
-      case 4://"Toggle Orientation");
-      iCat_preset_orientation[iCatPageis]++;
-      if(iCat_preset_orientation[iCatPageis]>2){iCat_preset_orientation[iCatPageis]=0;}
-      if(iCat_preset_orientation[iCatPageis]==0)
-      {
-      L_tablier_iCat=160;H_tablier_iCat=240;
-      }
-      else {L_tablier_iCat=240;H_tablier_iCat=160;}
-      if (enable_iCat==1 && iCat_serveur_is_initialized==1)
-      {
-      do_refresh_iCat(iCatPageis);
-      }
-       sprintf(string_event,"Toggled orientation iCat Page");
-      break;
-      default:
-      break;
-      }
 break;
 case 10: //chrono
      switch(bangers_action[banger_num][event_num])

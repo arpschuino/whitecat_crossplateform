@@ -85,8 +85,6 @@ yMinifaders=windows_position[15][1];
 
 Xchasers=windows_position[16][0];
 Ychasers=windows_position[16][1];
-X_gui_iCat= windows_position[18][0];
-Y_gui_iCat= windows_position[18][1];
 
 return(0);
 }
@@ -129,8 +127,6 @@ windows_position[15][0]=xMinifaders;
 windows_position[15][1]=yMinifaders;
 windows_position[16][0]=Xchasers;
 windows_position[16][1]=Ychasers;
-windows_position[18][0]=X_gui_iCat;
-windows_position[18][1]=Y_gui_iCat;
 return(0);
 }
 

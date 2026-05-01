@@ -399,7 +399,6 @@ int do_network_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteu
     do_artnet_affect_config(x_cfg_sc + 20, y_cfg_sc + 250);
 
     Box_artnet_udpport(x_cfg_sc + 240, y_cfg_sc + 40);
-    BoxiCat(x_cfg_sc + 240, y_cfg_sc + 150);
 
     Canvas::DisableClipping();
     return (0);
@@ -731,31 +730,6 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
         break;
     }
     petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 100);
-
-    // iCat enable_iCat
-    petitchiffre.Print("Open iCat", cfgnetw_X + 430, cfgnetw_Y + 130);
-    Rect iCatOn(Vec2D(cfgnetw_X + 525, cfgnetw_Y + 115), Vec2D(50, 20));
-    iCatOn.SetRoundness(7.5);
-    iCatOn.SetLineWidth(epaisseur_ligne_fader);
-    iCatOn.Draw(CouleurFond.WithAlpha(0.5));
-
-    if (window_focus_id == W_CFGMENU && mouse_x > cfgnetw_X + 525 && mouse_x < cfgnetw_X + 525 + 50 &&
-        mouse_y > cfgnetw_Y + 115 && mouse_y < cfgnetw_Y + 115 + 20) {
-        iCatOn.DrawOutline(CouleurLevel);
-        if (mouse_button == 1 && mouse_released == 0) {
-            enable_iCat = toggle(enable_iCat);
-            mouse_released = 1;
-        }
-    }
-    switch (enable_iCat) {
-    case 0:
-        sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
-        sprintf(string_cfg_main, "/On");
-        break;
-    }
-    petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 130);
 
     // PROCESS ACCESS>>multicore
 
@@ -1223,8 +1197,6 @@ int save_network_settings() {
         fprintf(fp, "%s\n", IP_fantastick);
         fprintf(fp, "#arguments: Fantastick-iCat  SEND TO adress ( iPhone/iPad) \n");
         fprintf(fp, "%s\n", specified_fs_ip);
-        fprintf(fp, "Fantastick-iCat UDP PORT IN from FS / iCat UDP PORT OUT TO FS / Iterations /\n");
-        fprintf(fp, "%d / %d / %d /\n", serveurport_iCat, clientport_iCat, nbre_d_envois_de_l_info);
     }
     fclose(fp);
     sprintf(string_Last_Order, ">>Saved Network configuration");
@@ -1269,10 +1241,6 @@ int load_network_conf() {
 
     // sab 02/03/2014 fscanf( cfg_file , "%s\n" ,  &specified_fs_ip );
     fscanf(cfg_file, "%s\n", specified_fs_ip);
-
-    fgets(read_buff, sizeof(read_buff), cfg_file);
-
-    fscanf(cfg_file, "%d / %d / %d /\n", &serveurport_iCat, &clientport_iCat, &nbre_d_envois_de_l_info);
 
     fclose(cfg_file);
 

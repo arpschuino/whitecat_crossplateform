@@ -152,7 +152,6 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <faders_core_24.cpp>
 
 #include <audio_visu4.cpp>
-#include <icat_core14.cpp>
 
 #include <arduino_device_core.cpp>
 #include <banger_core_8.cpp>
@@ -180,7 +179,6 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <list_proj_visu.cpp> //liste projecteurs
 
 #include <sequentiel_6_core.cpp>
-#include <iCat14.cpp> //iCat remote
 #include <network_MAC_adress_3.cpp>
 #include <midi_launchpad.cpp>
 
@@ -305,12 +303,6 @@ void ticker() {
             launchpad_refresh_buffer_led();
         }
 
-        if (index_re_init_clientserveur_icat == 1) {
-            if (iCat_serveur_is_initialized == 1) {
-                fermeture_clientserveur_iCat();
-            }
-            initialisation_clientserveur_iCat();
-        }
         do_autolaunch(); // attention contient rafraichissement Faders
     }
 }
@@ -511,19 +503,6 @@ void dixiemes_de_secondes() {
     }
     previous_index_ask_confirm = index_ask_confirm;
 
-    if (enable_iCat == 1 && iCat_serveur_is_initialized == 1 && index_quit == 0 && index_is_saving == 0) {
-        if (do_send_icat_init_page == 1 && finished_to_send_orders_to_iCat == 1) {
-            do_send_icat_init_page = 0;
-            do_refresh_iCat(iCatPageis);
-            index_refresh_valeurs_continous = 1;
-            refresh_check_buttons();
-        } else {
-            refresh_continuously_iCat_sliders();
-            refresh_continuously_iCat_buttons();
-            refresh_continuously_iCat_trackerzones();
-        }
-    }
-
     if (expert_mode == 1) {
         index_edit_listproj = 1;
         index_enable_edit_banger = 1;
@@ -558,25 +537,6 @@ void ticker_full_loop() {
 
     // check_graphics_mouse_handling/move_window déplacés dans le main loop (thread safety)
     if (index_quit == 0 && index_is_saving == 0) {
-
-        if (enable_iCat == 1 && iCat_serveur_is_initialized == 1 && do_send_icat_init_page == 0) {
-            bytesreceivediCat = recvfrom(sockRiCat, fantastick_message, sizeof(fantastick_message), 0,
-                                         (SOCKADDR *)&sinServiCat, &sinsizeServiCat);
-            if (bytesreceivediCat > 0 &&
-                (fantastick_message[0] != 'I' && fantastick_message[1] != 'P')) // caractere d arret
-            {
-                fantastick_message[bytesreceivediCat] = '\0';
-            }
-            ReceiveFantastick();
-            DoJobFantastickTouch();
-            Fantastick_check_string();
-
-            if (refresh_icatpage_please == 1) {
-                load_iCat_page(iCatPageis);
-                do_send_icat_init_page = 1;
-                refresh_icatpage_please = 0;
-            }
-        }
 
         if (allow_artnet_in == 1 && artnet_serveur_is_initialized == 1) {
             if ((bytesreceived = recvfrom(sock, artnet_message, sizeof(artnet_message), 0, (SOCKADDR *)&sinServ,
@@ -1045,17 +1005,6 @@ int main(int /*argc*/, char ** /*argv*/) {
     if (allow_artnet_in == 1 && artnet_serveur_is_initialized == 0) {
         initialisation_serveur_artnet();
     }
-    init_iphone_fonts();
-    if (enable_iCat == 1) {
-        initialisation_clientserveur_iCat();
-
-        nbrbytessendediCat = sendto(sockiCat, "opengl 1", sizeof("opengl 1"), 0, (SOCKADDR *)&siniCat, sinsizeiCat);
-        init_iCat_data();                 // varibales de stockage
-        someone_changed_in_sequences = 1; // icat
-        do_send_icat_init_page = 1;
-        do_refresh_iCat(iCatPageis);
-    }
-
     bmp_buffer_trichro = create_bitmap(315, 550);
     clear_bitmap(bmp_buffer_trichro);
     rafraichissement_padwheel();
@@ -1217,11 +1166,6 @@ int main(int /*argc*/, char ** /*argv*/) {
     save_load_print_to_screen("Closing video");
     CloseVideo();
     save_load_print_to_screen("Closing midi");
-
-    if (enable_iCat == 1 && iCat_serveur_is_initialized == 1) {
-        fermeture_clientserveur_iCat();
-        // if(client_icat_is_closed==1)  fermeture_client_iCat();
-    }
 
     save_load_print_to_screen("Saving Show");
     if (index_please_do_not_save == 0) // a garder sinon plante sur le please not save

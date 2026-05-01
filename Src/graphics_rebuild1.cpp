@@ -234,10 +234,6 @@ int Boxes() {
             chaser_window(Xchasers, Ychasers);
             MoveCloseBox(Xchasers + 20, Ychasers + 20, W_CHASERS);
             break;
-        case W_iCAT:
-            // BoxGuiBuilder_iCat( X_gui_iCat, Y_gui_iCat);
-            // MoveCloseBox( X_gui_iCat+20,Y_gui_iCat+20,W_iCAT);
-            break;
         case W_GRID:
             Grider_Box(grider_window_x, grider_window_y);
             MoveCloseBox(grider_window_x + 20, grider_window_y + 20, W_GRID);

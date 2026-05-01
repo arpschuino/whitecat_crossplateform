@@ -528,44 +528,6 @@ else if(index_record_minifader_lockpreset==1)
 sprintf(string_confirmation,"Record in MiniFaders LockPreset %d ?",minifader_lockpreset_is+1 );
 }
 
-else if(index_ask_clear_iCatpage==1)
-{
-sprintf(string_confirmation,"Clear completely iCat Page %d ?",iCatPageis+1 );
-}
-
-else if(index_ask_icat_copyPage==1)
-{
-sprintf(string_confirmation,"Copy iCatPage %d in Page %d?",iCatPageis+1,iCatPageToCopyIn+1 );
-
-}
-
-else if( index_ask_clear_img_icat==1)
-{
-sprintf(string_confirmation,"Reset iCat images ? You need access to internet !" );
-}
-
-else if (index_ask_iCat_selectiv_clear==1)
-{
-switch(editing_GUI_type_iCat)
-{
-case 0:
-sprintf(string_confirmation,"Clear selectively: FAMILY NO EDITABLE !!!" );
-break;
-case 1://sliders
-sprintf(string_confirmation,"Clear selectively Sliders in iCatPage %d?",iCatPageis+1 );
-break;
-case 2://buttons
-sprintf(string_confirmation,"Clear selectively Buttons in iCatPage %d?",iCatPageis+1 );
-break;
-case 3://strings
-sprintf(string_confirmation,"Clear selectively Strings in iCatPage %d?",iCatPageis+1 );
-break;
-default:
-sprintf(string_confirmation,"Wrong case");
-break;
-}
-}//fin icat selectiv
-
 //GRID
 else if(index_clear_a_grid_step==1)
 {
@@ -741,11 +703,6 @@ break;
 }
 }
 
-
-else if(index_ask_reinit_FS_client==1)
-{
-     sprintf(string_confirmation,"Re-init FS-iCat connexion ? " );
-}
 
 else if (ask_clear_draw_preset==1)
 {
@@ -1336,39 +1293,6 @@ else if(index_record_minifader_lockpreset==1)
 minifader_lockselection_record(minifader_lockpreset_is);
 }
 
-else if(index_ask_clear_iCatpage==1)
-{
-clear_iCat_page(iCatPageis);
-}
-
-else if(index_ask_icat_copyPage==1)
-{
-copy_iCatPage(iCatPageis,iCatPageToCopyIn);
-}
-
-else if(index_ask_clear_img_icat==1)
-{
-reset_and_recall_iCat_images();
-}
-
-else if(index_ask_iCat_selectiv_clear==1)
-{
-switch (editing_GUI_type_iCat)
-{
-case 1:
-clear_iCat_sliders(iCatPageis);
-break;
-case 2:
-clear_iCat_buttons(iCatPageis);
-break;
-case 3:
-clear_iCat_strings(iCatPageis);
-break;
-default:
-break;
-}
-}//fin selectiv clean
-
 //GRIDER
 else if(index_clear_a_grid_step==1)
 {
@@ -1550,12 +1474,6 @@ channel_view_type_of_behaviour[channel_view_is]=0;
 channel_view_mode_builder[channel_view_is]=0;
 }
 
-
-
-else if(index_ask_reinit_FS_client==1)
-{
-   index_re_init_clientserveur_icat=1;
-}
 
 
 else if (ask_clear_draw_preset==1)

@@ -94,7 +94,6 @@ enum WINDOW {
     W_WIZARD = 921,
     W_MINIFADERS = 922,
     W_CHASERS = 923,
-    W_iCAT = 925,
     W_GRID = 926
 };
 int max_window_identity_is = 926;
@@ -256,10 +255,8 @@ bool index_moving_y_slide = 0;
 
 int dock_used_by_fader_is[48];
 int previous_dock_used[48]; // pour autolaunch sur banger, dock + - et animations
-// RETOUR ARRIERE : plante chargement contenu dépasse max attendu  :-( - fichier icat  à creuser  surement dans la
-// lecture //sab 02/03/2014 ATTENTION IMPACT - COMMENT CONTROLER FONCTION ? unsigned char --> unsigned int
 unsigned char Fader[48];
-unsigned char Fader_before[48];   // pour icat
+unsigned char Fader_before[48];
 unsigned char Fader_previous[48]; // pour chasers autolaunch. très certainement à re organiser les backups d 'états de
                                   // manière plus générale
 
@@ -367,7 +364,7 @@ bool minifaders_preset_selection[8][48];
 int mf_preset_selected_is = 0;     // match selection et oresets
 bool minifader_preset_is_empty[8]; // check
 
-int before_dock_used_by_fader_is[48]; // pour raffraichir icat
+int before_dock_used_by_fader_is[48];
 bool do_light_minifaders_commands[24];
 bool index_record_minifader_preset = 0;
 bool index_clear_minifader_preset = 0;
@@ -607,8 +604,8 @@ float position_curseur_pad_x;
 float position_curseur_pad_y;
 int wheellevel_absolutemode = 0;
 int previous_level_wheel = 1;
-int absolute_level_wheel = 0;          // icat
-int previous_absolute_level_wheel = 0; // icat
+int absolute_level_wheel = 0;
+int previous_absolute_level_wheel = 0;
 
 ////////////////////////TIME CHRONO///////////////////////////////////////////
 
@@ -1055,9 +1052,6 @@ int network_OUT_is_selected = 0; // amene a disparaitre
 bool index_re_init_client_artnet = 0;
 bool index_re_init_serveur_artnet = 0;
 
-bool index_re_init_clientserveur_icat = 0;
-
-bool index_ask_reinit_FS_client = 0;
 ///////////////////////COULEURS ET POLICES//////////////////////////////////////
 Rgba CouleurFond;
 Rgba CouleurLigne;
@@ -1756,169 +1750,97 @@ int before_mover_params[48][2];
 
 bool tracker_16b_edit = 0; // pour souris sur tracker aera= Fine et iris etc...
 
-////////// ICAT //////////
-int enable_iCat = 0;
-bool receiving_bytes_iCat = 0; // pour visu data in
-bool index_window_gui_iCat = 0;
-char iphone_fonts[12][25]; // 12 fonts possibles
-
-// sur meme adresse IP que sélectionnée
-char fantastick_message[64];
-
-char FS_BUFFER[64];
-char FS_IP[64]; // received
-char specified_fs_ip[17] = {"192.168.1.13"};
-int FS_touch_point_begin[2][12];       // 0=x 1=y 12 points
-int FS_touch_point_move[2][12];        // 0=x 1=y 12 points
-int FS_touch_point_stationnary[2][12]; // 0=x 1=y 12 points
-int FS_touch_point_end[2][12];         // 0=x 1=y 12 points
-int fs_max_points = 5;                 // max 12 dans la structure
-float fs_accelerometer[3];
-
-/*
-int FS_sensibilite_touche[12];//nombre de doigts
-int valeur_sensibilite=200;
-*/
-int nbre_icat_points_detectes = 0; // detectes par ipod
-int before_nbre_icat_points_detectes = 0;
-
-int nbre_d_envois_de_l_info = 1; // iterations udp
-
-char StrOrderToiCat[96];
-
-bool refresh_icatpage_please = 0; // index en cas de besoin de rafraichir toute la page
-
-// client
-SOCKET sockiCat;
-SOCKADDR_IN siniCat;
-int sinsizeiCat;
-bool client_icat_is_closed = 1;
-// serveur
-SOCKET sockRiCat;
-SOCKADDR_IN sinServiCat;
-int sinsizeServiCat;
-bool iCat_serveur_is_initialized = 0;
-/////////////////////////
-int nbrbytessendediCat = 0;
-int bytesreceivediCat = 0;
-int serveurport_iCat = 6661;
-int clientport_iCat = 6662;
-
-int X_gui_iCat = 20;
-int Y_gui_iCat = 20;
-
-bool index_re_init_FS_client = 0; // rajouté pour nouvelle mouture reseaux
-
-bool index_click_move_iCat = 0;
-
-int surface_type = 0; // 0 = i pod 240*160 1=ipad resolution de drawing dans la gui
-
-// résolution ipod touch 3-4: 380*240
-// resolution ipod touch 4: 960*480
-// res Ipad 1 et 2: 1024 * 768
-// on divise par 2 pour la GUI
-
+int surface_type = 0; // 0 = iPhone 240*160 1=iPad
 int L_tablier_iCat = 240;
 int H_tablier_iCat = 160;
-
-int largeuriCat = 540;
-int hauteuriCat = 540;
-
-bool index_icat_copyPage = 0; // pour copier une page sur l'autre
-int iCatPageToCopyIn = 0;
-int index_ask_icat_copyPage = 0;
-
-bool index_ask_iCat_selectiv_clear = 0;
-
-int l_sl = 0;
-int h_sl = 0; // pour largeur hauteur iCat sliders
 int grid_icat_modulo = 10;
-int iCatPageis = 0;              // page preset iCat
-int oldiCatPageis = -1;          // pour infos affichage num de page icat
-int editing_GUI_type_iCat = 0;   // 0= pas d'edit d objet 1=slider 2=bouton 3=strings
-bool do_send_icat_init_page = 0; // envoi des messages
+int iCatPageis = 0;
 
-bool index_ask_clear_iCatpage = 0;
-
-// tableau créé en 24 mais on utilise 8
-int max_sliders_icat = 47; // voir avec les tableaux, mais pas au dessus de 23
-int iCat_preset_orientation[8];
-
+int max_sliders_icat = 47;
+int max_buttons_icat = 47;
+int max_string_icat = 23;
 int iCat_select_editing_slider = 0;
-int iCat_nbre_de_sliders[8];                 // max 8 par 8 preset
-int iCat_pos_slider[8][48][2];               // x y
-bool iCat_orientation_slider[8][48];         // 0 vertical 1 horizontal
-int iCat_affectation_slider_type_is[8][48];  // type 1 faders, 2 fader speed, 3 sequenciel   /  4 grand master
-int iCat_affectation_slider_value_is[8][48]; // valeur de la famille 1/48 / speed fader/ stage/preset/accel
-int ratio_iCat_slider[8][48];                // multiplicateur des proportions de sliders. 1 / 2 / 3
-bool slider_is_touched[8][48];
-bool before_slider_is_touched[8][48];
-int slider_is_controlled_by_point[8][48];
-int level_from_touch[8][48];
-
-int iCatSlidersizeX = 16;                                      // 16
-int iCatSlidersizeY = 128;                                     // 128
-float col_fader_r = 0.0, col_fader_g = 0.5, col_fader_b = 0.6; // couelur affichages faders icat
-int before_niveauX1 = 0, before_niveauX2 = 0, before_crossfade_speed = 0;
-
-bool before_is_dock_for_lfo_selected[48];
-
-bool check_button_state[48]; // test des états des boutons de la page
-bool before_check_button_state[48];
-
-int largueur_bouton = 32;
-int max_buttons_icat = 47; // max 48 par preset/ pas au dessus de 47
 int iCat_select_editing_button = 0;
-int iCat_nbre_de_boutons[8];                  // max 48 par preset
-int iCat_pos_bouton[8][48][2];                // x y
-int ratio_iCat_button[8][48];                 // multiplicateur des proportions du bouton. 1 / 2 / 3
-int iCat_affectation_bouton_type_is[8][48];   // type faders, sequentiel, audio family
-int iCat_affectation_bouton_action_is[8][48]; // action par type: UP DOWN GO GO BACK etc
-int iCat_affectation_bouton_value_is[8][48];  // valeur de la famille 1/48 stage/preset/accel etc
-bool button_is_touched[8][48];
-bool previous_button_is_touched[8][48];
-int button_is_controlled_by_point[8][48];
-
-bool index_refresh_valeurs_continous = 0;     // pour changement de preset
-bool finished_to_send_orders_to_iCat = 0;     // permet d eviter le telescopage des ordres et la disparition de paquets
-bool index_refresh_valeursTRCK_continous = 0; // pour rafraichissementt
-
-bool index_false_shift = 0;
-bool index_false_control = 0;
-
+int iCat_select_editing_string = 0;
 int iCat_select_tracking_zone = 0;
-int iCat_nbre_de_tracking_zone[8]; // max 8 par page
+bool index_icat_copyPage = 0;
+bool do_send_icat_init_page = 0;
+bool index_ask_clear_iCatpage = 0;
+bool index_ask_icat_copyPage = 0;
+bool index_ask_clear_img_icat = 0;
+bool index_ask_iCat_selectiv_clear = 0;
+int iCatPageToCopyIn = 0;
+int editing_GUI_type_iCat = 0;
+
+int iCat_preset_orientation[8];
+int iCat_nbre_de_sliders[8];
+int iCat_pos_slider[8][48][2];
+bool iCat_orientation_slider[8][48];
+int iCat_affectation_slider_type_is[8][48];
+int iCat_affectation_slider_value_is[8][48];
+int ratio_iCat_slider[8][48];
+int h_sl = 0;
+int l_sl = 0;
+int iCatSlidersizeX = 16;
+int iCatSlidersizeY = 128;
+
+int iCat_nbre_de_boutons[8];
+int iCat_pos_bouton[8][48][2];
+int ratio_iCat_button[8][48];
+int iCat_affectation_bouton_type_is[8][48];
+int iCat_affectation_bouton_action_is[8][48];
+int iCat_affectation_bouton_value_is[8][48];
+int largueur_bouton = 32;
+int largeur_string = 176;
+int hauteur_string = 24;
+int iCat_nbre_de_strings[8];
+int iCat_pos_string[8][24][2];
+int ratio_iCat_string[8][24];
+int iCat_affectation_string_type_is[8][24];
+int iCat_affectation_string_action_is[8][24];
+int iCat_affectation_string_value_is[8][24];
+
+int iCat_nbre_de_tracking_zone[8];
 const int max_zones_icat = 7;
-int iCat_pos_trackzone[8][8][2];  // x y
-int ratio_iCat_trackzone[8][8];   // multiplicateur des proportions du bouton. 1 / 2 / 3
-int iCat_trackzone_type_is[8][8]; // MOVER number
+int iCat_pos_trackzone[8][8][2];
+int ratio_iCat_trackzone[8][8];
+int iCat_trackzone_type_is[8][8];
 int iCat_trackzone_affectation_is[8][8];
 int pos_iCat_tracker[8][8][2];
 int previous_pos_iCat_tracker[8][8][2];
-
 bool zone_is_touched[8][8];
 bool previous_zone_is_touched[8][8];
 int zone_is_controlled_by_point[8][8];
 int largeur_trackzone = 128;
 
-int largeur_string = 176;
-int hauteur_string = 24;
-int max_string_icat = 23;    // max 24 pas au dessus de 23
-int iCat_nbre_de_strings[8]; // max 24
-int iCat_select_editing_string = 0;
-int iCat_pos_string[8][24][2];                // x y
-int ratio_iCat_string[8][24];                 // multiplicateur des proportions du bouton. 1 / 2 / 3
-int iCat_affectation_string_type_is[8][24];   // type string: feedback / sequenciel mems
-int iCat_affectation_string_action_is[8][24]; //
-int iCat_affectation_string_value_is[8][24];  // affectations valeurs sequeciels strings
+char specified_fs_ip[17] = {"192.168.1.13"};
+int nbre_d_envois_de_l_info = 1;
+bool index_ask_reinit_FS_client = 0;
 
-int previous_numeric_postext = 0; // pour rafraichissement string icat
+int previous_numeric_postext = 0;
 int previous_last_ch_selected = 0;
 int previous_last_dim_selected = 0;
 char previous_string_Last_Order[256];
 char previous_string_confirmation[128];
 
-bool index_ask_clear_img_icat = 0; // reset des images et rechargement global
+bool index_false_shift = 0;
+bool index_false_control = 0;
+
+int before_niveauX1 = 0, before_niveauX2 = 0, before_crossfade_speed = 0;
+bool before_is_dock_for_lfo_selected[48];
+bool check_button_state[48];
+bool before_check_button_state[48];
+bool slider_is_touched[8][48];
+bool before_slider_is_touched[8][48];
+int slider_is_controlled_by_point[8][48];
+int level_from_touch[8][48];
+bool button_is_touched[8][48];
+bool previous_button_is_touched[8][48];
+int button_is_controlled_by_point[8][48];
+
+bool index_refresh_valeurs_continous = 0;
+bool index_refresh_valeursTRCK_continous = 0;
+float col_fader_r = 0.0, col_fader_g = 0.5, col_fader_b = 0.6;
 
 int previous_mem_before_one = 0;
 int mem_after_one = 0;

@@ -238,9 +238,6 @@ int add_a_window(int id)
       index_affect_chaser_to_dock=0;
       index_window_chasers=1;
  break;
- case W_iCAT:
-      index_window_gui_iCat=1;
- break;
  case W_GRID:
       index_grider_window=1;
       for(int i=0;i<4;i++)

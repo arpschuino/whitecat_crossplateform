@@ -2424,51 +2424,6 @@ break;
 
 }
 
-//iCat pages
-/*1265 1266 iCatPage - +
-1267 ->1274 iCatpage Num
-1275 icat Oreintation
-1276 icat refresh page construction*/
-if(control>=1265 && control<=1276 && enable_iCat==1 && iCat_serveur_is_initialized==1)
-{
-if(control==1265 &&  midi_levels[control]>0 )
-{
-         iCatPageis--;
-         if(iCatPageis<0){iCatPageis=7;}
-         load_iCat_page(iCatPageis);
-         do_send_icat_init_page=1;
-}
-if(control==1266 &&  midi_levels[control]>0 )
-{
-    iCatPageis++;
-    if(iCatPageis>7){iCatPageis=0;}
-    load_iCat_page(iCatPageis);
-    do_send_icat_init_page=1;
-}
-if(control>=1267 && control<=1274 &&  midi_levels[control]>0 )    //page num
-{
-iCatPageis=control-1267;
-load_iCat_page(iCatPageis);
-do_send_icat_init_page=1;
-}
-if(control==1275 &&  midi_levels[control]>0 )
-{
-   iCat_preset_orientation[iCatPageis]++;
-   if(iCat_preset_orientation[iCatPageis]>2){iCat_preset_orientation[iCatPageis]=0;}
-   if(iCat_preset_orientation[iCatPageis]==0)
-   {
-    L_tablier_iCat=160;H_tablier_iCat=240;
-   }
-   else {L_tablier_iCat=240;H_tablier_iCat=160;}
-   do_refresh_iCat(iCatPageis);
-}
-if(control==1276 &&  midi_levels[control]>0)
-{
- do_refresh_iCat(iCatPageis);
-}
-}
-//fin bloc icat
-
 //midi Mute
 if(control==1277  )
 {
@@ -2611,10 +2566,6 @@ break;
 case 1340: //grider
  if(index_grider_window==0){add_a_window(W_GRID);}
  else {substract_a_window(W_GRID);}
-break;
-case 1341: //iCat builder view
-if(index_window_gui_iCat==0){add_a_window(W_iCAT);}
-else {substract_a_window(W_iCAT);}
 break;
 case 1342: //help
 index_call_help=toggle(index_call_help);

@@ -160,10 +160,6 @@ switch(window_opened[i])
         if( mouse_x>=Xchasers && mouse_x<=Xchasers+620 && mouse_y>=Ychasers && mouse_y<=Ychasers+160+(nbre_track_visualisables*40))
         {window_is=window_opened[i];stop_detect=1;}
         break;
-        case W_iCAT:
-        if(mouse_x>=X_gui_iCat && mouse_x<=X_gui_iCat+largeuriCat && mouse_y>=Y_gui_iCat && mouse_y<=Y_gui_iCat+hauteuriCat)
-        {window_is=window_opened[i];stop_detect=1;}
-        break;
         case W_GRID:
         if( mouse_x>=grider_window_x && mouse_x<=grider_window_x+largeurGrider && mouse_y>=grider_window_y && mouse_y<=grider_window_y+hauteurGrider)
         {window_is=window_opened[i];stop_detect=1;}
@@ -327,11 +323,6 @@ if(mouse_button==1 && window_focus_id==idwindowis && mouse_y>hauteur_ChannelMenu
  case W_CHASERS://chasers
  Xchasers=mouse_x-(40+15);
  Ychasers=mouse_y-20;
- im_moving_a_window=1;
- break;
- case W_iCAT://iCatbuilder
- X_gui_iCat=mouse_x-(40+15);
- Y_gui_iCat=mouse_y-25;
  im_moving_a_window=1;
  break;
  case W_GRID://grid
@@ -556,9 +547,6 @@ break;
 case W_CHASERS:
      do_logical_fenetre_chasers( Xchasers,Ychasers);
      do_logical_MoveCloseBox(Xchasers+20,Ychasers+20,W_CHASERS);
-break;
-case W_iCAT:
-     do_logical_MoveCloseBox( X_gui_iCat+20,Y_gui_iCat+20,W_iCAT);
 break;
 case W_GRID:
      do_logical_Grider_Box(grider_window_x, grider_window_y);

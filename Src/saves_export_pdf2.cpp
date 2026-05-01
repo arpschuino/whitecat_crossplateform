@@ -5148,13 +5148,7 @@ verification_fin_de_page();
 sprintf(header_export,"iCAT-Fantastick parameters:");
 draw_title(page, 50, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
 
-sprintf(header_export,"WhiteCat use adapter: %s", IP_fantastick);
-draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
-cmptline_pdf++;
 sprintf(header_export,"iOS device network adress is: %s", specified_fs_ip);
-draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
-cmptline_pdf++;
-sprintf(header_export,"UDP PORTS: Server (IN) : %d Client (OUT): %d",  serveurport_iCat, clientport_iCat);
 draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
 cmptline_pdf++;
 sprintf(header_export,"Data sending iteration: %d",  nbre_d_envois_de_l_info);

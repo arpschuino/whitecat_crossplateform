@@ -789,7 +789,7 @@ int load_onstart_config()
      sprintf(string_save_load_report[idf],"! config_onstart.txt");
 	}
 
-	fscanf( cfg_file , "%d / %d / %d / %d /\n" ,  &camera_on_open, &open_arduino_on_open , &enable_iCat, &expert_mode);
+	fscanf( cfg_file , "%d / %d / %d /\n" ,  &camera_on_open, &open_arduino_on_open , &expert_mode);
 
 	fclose( cfg_file );
     }
@@ -914,8 +914,8 @@ int Save_onstart_Config()
 FILE *fpp;
 if((fpp=fopen("user/config_onstart.txt","w")))//etait wb
 {
-fprintf(fpp,"#arguments:values 0-1: open camera / open arduino / open iCat server / expert_mode /\n");
-fprintf(fpp, "%d / %d / %d / %d /\n" ,  camera_on_open, open_arduino_on_open , enable_iCat, expert_mode);
+fprintf(fpp,"#arguments:values 0-1: open camera / open arduino / expert_mode /\n");
+fprintf(fpp, "%d / %d / %d /\n" ,  camera_on_open, open_arduino_on_open , expert_mode);
 fclose(fpp);  sprintf(string_save_load_report[idf],"Saved config_onstart.txt");
 }
 
@@ -1162,7 +1162,8 @@ else
 	{
      sprintf(string_save_load_report[idf],"Error reading config_windows.txt");
 	}
-    fscanf( cfg_file ,"%d %d / %d %d / %d %d / %d %d / %d %d / %d %d /\n",&X_gui_iCat,&Y_gui_iCat,&grider_window_x,&grider_window_y, &x_plot, &y_plot, &x_mainmenu, &y_mainmenu , &x_Wdraw, &y_Wdraw, &x_echo, &y_echo);
+    { int _dummy1=0, _dummy2=0;
+    fscanf( cfg_file ,"%d %d / %d %d / %d %d / %d %d / %d %d / %d %d /\n",&_dummy1,&_dummy2,&grider_window_x,&grider_window_y, &x_plot, &y_plot, &x_mainmenu, &y_mainmenu , &x_Wdraw, &y_Wdraw, &x_echo, &y_echo); }
 
 
 	fclose( cfg_file );
@@ -1383,7 +1384,7 @@ index_report_customs[55]=line_list_is;
 //index_report_customs[56]=name_will_be_for_annotation;
 //index_report_customs[57]=index_show_mover_window;
 //index_report_customs[58]=index_window_gui_iCat;
-index_report_customs[59]=iCatPageis;
+//index_report_customs[59]=iCatPageis; // iCat removed
 index_report_customs[60]=surface_type;
 index_report_customs[61]=grid_icat_modulo;
 index_report_customs[62]=index_midi_auto_demute;
@@ -1466,7 +1467,7 @@ line_list_is=index_report_customs[55];
 //name_will_be_for_annotation=index_report_customs[56];
 //index_show_mover_window=index_report_customs[57];
 //index_window_gui_iCat=index_report_customs[58];
-iCatPageis=index_report_customs[59];
+//iCatPageis=index_report_customs[59]; // iCat removed
 surface_type=index_report_customs[60];
 grid_icat_modulo=index_report_customs[61];
 index_midi_auto_demute=index_report_customs[62];
@@ -1586,8 +1587,8 @@ fprintf(fpi,"#arguments: X Y position of windows: Help Window / Alarm window / C
 fprintf(fpi,"%d %d / %d %d / %d %d / %d %d /\n",XAlarm,YAlarm,XAudio,YAudio, window_cfgX, window_cfgY, X_banger,Y_banger);
 fprintf(fpi,"#arguments: X Y position of windows: Wizard window/ Minifaders / List / Chasers\n");
 fprintf(fpi,"%d %d / %d  %d / %d %d / %d %d / %d %d /\n",Xwizard,Ywizard,xMinifaders, yMinifaders, Xlistproj, Ylistproj, Xchasers, Ychasers, 0, 0);
-fprintf(fpi,"#arguments: X Y position of windows: iCatBuilder / Grider / Plot / Main Menu / Draw / Echo /\n");
-fprintf(fpi,"%d %d / %d %d / %d %d / %d %d / %d %d / %d %d /\n",X_gui_iCat,Y_gui_iCat,grider_window_x,grider_window_y, x_plot, y_plot, x_mainmenu, y_mainmenu, x_Wdraw,y_Wdraw,x_echo,y_echo);
+fprintf(fpi,"#arguments: X Y position of windows: (reserved) / Grider / Plot / Main Menu / Draw / Echo /\n");
+fprintf(fpi,"%d %d / %d %d / %d %d / %d %d / %d %d / %d %d /\n",0,0,grider_window_x,grider_window_y, x_plot, y_plot, x_mainmenu, y_mainmenu, x_Wdraw,y_Wdraw,x_echo,y_echo);
 
 fclose(fpi);
 }
@@ -6713,12 +6714,6 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_icat_orientpage)
  fclose(fp);
 }
 idf++;
-
-if(iCat_preset_orientation[iCatPageis]==0)
-   {
-    L_tablier_iCat=160;H_tablier_iCat=240;
-   }
-   else {L_tablier_iCat=240;H_tablier_iCat=160;}
 
 //buttons
 

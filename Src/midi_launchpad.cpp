@@ -377,13 +377,6 @@ midi_launchpad_state[998+yo]=track_is_on[chaser_selected][yo];    //on off des t
 
 }
 
-//iCat preset
-for(int yo=0;yo<8;yo++)
-{
-if(yo==iCatPageis){midi_launchpad_state[1267+yo]=1;} //on iCat preset
-else {midi_launchpad_state[1267+yo]=0;}
-}
-
 midi_launchpad_state[1277]=index_midi_mute;    //midi mute general
 
 //grandes commandes rajouts
@@ -400,7 +393,6 @@ midi_launchpad_state[1337]=index_window_chasers ;
 midi_launchpad_state[1338]=index_visual_pad ;
 midi_launchpad_state[1339]=0; // mover removed
 midi_launchpad_state[1340]=index_grider_window ;
-midi_launchpad_state[1341]=index_window_gui_iCat;
 //midi_launchpad_state[1342]=index_help_window;
 
 
