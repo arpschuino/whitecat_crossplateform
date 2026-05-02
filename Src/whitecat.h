@@ -181,23 +181,8 @@ bool index_click_move_savereportwindow = 0; // report
 bool index_click_move_banger_window = 0;
 bool index_click_move_cfg_window = 0;
 
-volatile bool index_snap_color_wheel_levels = 0;
-int previous_trichro_wheel = 0;
-// GEL LIST in TRICHROMY
-// GUI
-int gel_size_window = 400;
-bool show_gel_list = 1;
-int gel_position[4];
-int call_ref_number = 0; // appel clavier
-// gel list trichro 0 Lee 1 Rosco 2 Gamcolor 3 Apollo
-int index_gel_type_selected = 0;
-int refs_of_gels[4][10000];      // numerical reference
-char name_of_gels[4][10000][96]; // nom des gels
-int rvb_of_gels[4][10000][3];    // rvb of gels
-float gel_transimission[4][10000];
-int gel_position_selected[4];
-bool show_designer_list = 0;
-bool index_use_transmission = 0;
+// gel list + trichro -> trichro.h
+#include "trichro.h"
 
 ////////////////////RETOUR INFOS////////////////////////////////////////////////
 char string_debug[120];
@@ -253,12 +238,7 @@ char string_secondary_feeback[64];
 bool index_ch_thruth = 0;
 int default_step_level = 1;
 bool index_level_attribue = 0; // pour deselection lors d une resaisie nouvelle
-///////////////////TRICHRO//////////////////////////////////////////////////////
-
-bool index_affect_color_to_dock = 0;
-int dock_color_selected = 0;
-SDL_Surface *bmp_buffer_trichro;
-char string_dock_col_sel[36];
+// trichro dock vars -> trichro.h
 //////////////////////MEMOIRES//////////////////////////////////////////////////
 int mem_to_resurrect = 0;
 int CTRLC_mem_to_copy = 0;  // pour CTRL C CTRL V avec numeros
@@ -427,41 +407,7 @@ int nbr_steps_tempo = 1; // doit etre 1 et pas 0 pour pas provoquer de NIL
 int max_temp_tempo = 12;
 int ticks_tap_tempo[16];
 int tempo_interm = 0; // pur addition des ticks
-////////////////////////THRICHRO////////////////////////////////////////////////
-
-#define ACCURACY_DOUBLE 1.e-06
-int xtrichro_window = 1128, ytrichro_window = 350;
-int default_xtrichro_window = 1128, default_ytrichro_window = 350; // xy de la window par defaut
-// les 8 colors docks et leurs données
-bool dock_color_type[8];                   // 0 trichro 1 mode quadri
-int x_y_picker_par_colordock[8][2];        // stockage des coordonnes du picker par coordonnées
-float angle_hue_par_colordock[8];          // picker par coordonnées angles
-int picker_trichro[8][4];                  // stockage des niveaux RVB YELLOW
-unsigned char dock_color_buffer_C[8][514]; // resultat dans buffers separés
-bool index_quadri = 0;                     // 0 mode trichro 1 mode quadri jaune
-bool dock_color_channels[8][4][514];       // trichro sur curcuits
-float position_curseur_hue_x;              //=1242,
-float position_curseur_hue_y;              //=228;//pour intialisation au demarage de l api
-float angle;
-float angle_snap;
-float vx, vy;
-float vxh = 0;   // cos(angle* PI/180)*(rayon-15); //hue triangle position
-float vyh = 100; // sin(angle* PI/180)*(rayon-15);
-float vxd = -90; // cos((angle+120)* PI/180)*(rayon-15);//Dark position
-float vyd = -50; // sin((angle+120)* PI/180)*(rayon-15);
-float vxw = 90;  // cos((angle+240)* PI/180)*(rayon-15);//white position
-float vyw = -50; // sin((angle+240)* PI/180)*(rayon-15);
-// le hue general
-int cref = 0;
-int r_pick = 255, b_pick = 0, v_pick = 0;
-// le choix dans le triangle
-float picker_x, picker_y, last_picker_x, last_picker_y;
-int my_red, my_blue, my_green, my_yellow; // valeurs servant à l asservissement des circuits
-int colorpicker;                          // cref du triangle
-// Variables roue de  maison
-double xcl, ycl;
-int rcl, gcl, bcl;
-float hcl, ccl;
+// trichro window vars -> trichro.h
 
 /////////////////////functions call//////////////////////////////////////////
 char string_name_button[15];
@@ -568,34 +514,8 @@ bool index_do_banger_memother = 0; // les 8 autres memoires
 
 // couleurs et polices -> theme.h
 #include "theme.h"
-// IMPORT SCHWZ////////////////////////////////////////////////////////////////////////
-char f_cues[25] = {"cues.dat"};
-char f_boolcues[25] = {"bool_cues.dat"};
-char f_autogo[25] = {"autogo.dat"};
-char f_times[25] = {"times.dat"};
-char f_patch[25] = {"patch.dat"};
-char f_descriptif[25] = {"descriptif.dat"};
-char f_shadow_sub[30] = {"shadows_subs.dat"};
-int SchwzMemoires[121][5011];
-bool Schwzautogo[5011];
-float SchwzMemTime[5011][4];
-bool SchwzMemoiresExistantes[5011];
-char Schwzdescriptif_mem[5011][13];
-int SchwzPatch[513];
-int Schwzshadow_sub[8][5][121];
-
-// sab 02/03/2014 unsigned
-unsigned int SchwzMemoires_size = 121 * 5011;
-unsigned int SchwzMemTime_size = 5011 * 4;
-unsigned int SchwzPatch_size = 513 * 1;
-unsigned int SchwzMemoiresExistantes_size = 5011 * 1;
-unsigned int Schwzautogo_size = 5011 * 1;
-unsigned int Schwzdescriptif_size = 5011 * 13;
-unsigned int Schwzsize_of_shadow_sub = 40 * 121;
-
-bool isSchwz = 0, isASCII = 0, isPdf = 0, isAlq = 0;
-
-bool specify_who_to_save_PDF[36];
+// import SCHWZ -> schwz.h
+#include "schwz.h"
 
 // Freeze -> dmx.h
 // fader snapshots -> faders.h
