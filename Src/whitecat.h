@@ -46,6 +46,10 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "Crossplateform.h"
 #include "patch.h"
 #include "audio.h"
+#include "dmx.h"
+#include "midi.h"
+#include "network.h"
+#include "chasers.h"
 
 char versionis[72] = {"alpha 0.9.0 - 23 avril 2026"};
 char nickname_version[48] = {"arpschuino reborn"};
@@ -222,15 +226,7 @@ bool index_over_channelspace = 0;
 bool index_over_function_call =
     0; // pour eviter de clicker dans les faders quand on est en zone functions ( boutons du menu gauche)
 
-////////////////////DMX/////////////////////////////////////////////////////////
-unsigned char DmxBlock[514];
-unsigned char DmxBlockPatch[514];
-unsigned char artnet_backup[514];
-bool do_send_on_change = 0;
-
-bool client_artnet_is_closed = 0;
-int myDMXinterfaceis = 0;   // 0=no device 1=Artnet 2=Enttec Open 3=Enttec PRO 4= Sunlite
-bool index_init_dmx_ok = 0; // pour lancer le data ou pas au lancement
+// DMX core -> dmx.h
 
 ////////////////////FADERS//////////////////////////////////////////////////////
 int max_faders = 48;
@@ -533,15 +529,7 @@ int last_scroll_mouse_for_chan = 0;
 bool index_moving_channel_scroller = 0;
 char string_last_ch[36];
 
-///////////////DMX ENTTEC PRO//////////////////////////////////////////////////
-
-int enttecpro_detectX = 485, enttecpro_detectY = 110;
-bool index_list_pro_devices = 0;
-char DevFoundedEnttecPro[64];
-int number_of_enttec_pro_devices = 0;
-bool index_init_EnttecPROIN_ok = 0;
-int istheresomeone_in_enttecpro = 0; // VCOM OUT
-int vcom_inposition_is = 0;          // VCOM IN
+// Enttec Pro -> dmx.h
 
 ///////////////////////NUMERIC PAD//////////////////////////////////////////////
 int xnum_window = 900, ynum_window = 60;
@@ -654,106 +642,7 @@ int line_save = 0;
 int savefile_selected = 0; // num de ligne selectionné
 char savefile_name[72];
 
-//////////////////////MIDI/:////////////////////////////////////////////////////
-bool index_midi_mute = 0;
-bool index_auto_mute_cuelist_speed = 0;
-int index_midi_auto_desaffect = 0;
-short myRefNum; // application reference number
-// MidiFilterPtr	myFilter; // events filter
-// MidiName AppliName = "white cat";
-bool index_midi_clock_on = 0;
-
-char TblLibEv[256][20];
-char my_midi_string[64];
-char midi_historic[256][64];    // affichage
-int midi_historic_data[256][4]; // stockage
-int position_midi_historic = 0;
-
-char my_midi_original_string[64];
-char my_midi_out_string[128];
-char tableau_peripheriques_in[32][64]; // ordonnees nom
-bool tableau_peripheriques_indexs_in[16];
-char tableau_peripheriques_out[32][64]; // ordonnees nom
-bool tableau_peripheriques_indexs_out[16];
-char string_nbre_de_devices[32];
-int compt_midi_in = 0;
-int compt_midi_out = 0;
-int compt_first_device_out = 0;
-int compt_first_device_inout = 0;
-int nbre_devices_in = 0;
-int nbre_devices_out = 0;
-int do_connect_out[32];
-bool midi_out_is_connected[32];
-int do_connect_in[16];
-bool midi_in_is_connected[32];
-bool index_midi_global_thruth = 0;
-char typ[50];
-int midi_keyboard_wait = 100;
-int midi_wait = 150;
-int duree_note = 10;
-char string_last_midi_id[128];
-char string_shortview_midi[24]; // affichage over souris
-// char string_fader_contains_midi[128];
-// char string_dock_contains_midi[128];
-int isport = 0;
-int ischan = 0;
-int ispitch = 0;
-int isvel = 0;
-int istyp = 0;
-byte isrefnum = 0;
-int miditable[3][3072];
-int over_fader = 0, over_dock = 0; // survol d un fader ou d un dock pour visualisation des circuits et de leur niveau
-//[3] : 0 typ 1 Chan 2 Pitch
-//[512]: 0-48: faders / 49-96: Dock - 97-145: Dock + / 146- 194
-int midi_levels[3072];
-bool midi_send_out[3072];       // atribué ou pas
-bool index_send_midi_out[3072]; // index booleen pour lancer l ordre depuis la boucle
-bool index_global_midi_send_on_faders =
-    0; // enclenche l envoi global ou pas des midi out sur tous les faders donnee non sauvegardée, car c est un impulse
-bool do_light_midi_send_on_faders = 0;
-int midi_page = 0;
-// bool do_affectation_on_midi_affect_itself=0;
-int Midi_Faders_Affectation_Type = 0;
-// 0 ne rien faire
-// 1 faders 1 à 1
-// 2 faders serie 8x
-int Midi_Faders_Affectation_Mode = 0;
-// 0=affectation normale
-// 1=reset
-// 2=utiliser entree clavier ou souris (pas de detection)
-bool toggle_numerical_midi_way = 0;
-// 0 numerique sur pitch
-// 1 numerique sur midi ch ( 0->8)
-int fakemidichan = 0; // les entrees d affectations en manuel
-int fakemidipitch = 1;
-int fakemiditype = 4;
-
-bool index_midi_affectation_autoclose = 1; // when at 1, midi affectation once done is disable, to avoid errors
-/////////////////
-char thetypinfo[12];         // affciahge dans midi conf du type en lettres
-int type_of_midi_button = 0; // 0=fader 1 = dock button   2= lock button 3= midi out on off button  4=speed lfo function
-// 5= boutton normal
-bool cheat_key_off = 0; // key on vel 0 = key off
-bool cheat_key_off_to_key_on =
-    1; // key off vel 127 ou autre= key on vel 0, filtre general 12/05/15 christoph mf twister sequencer
-
-int bpm_personnal[16];
-int relativ_encoder_midi_clock_value = 10; // for cc increment in live of BPM
-bool clocklevel_absolutemode = 0;
-int clock_level_is = 0;
-float clock_vx;
-float clock_vy;
-float angle_snap_clock;
-float position_curseur_clock_x;
-float position_curseur_clock_y;
-/////////////////////////////////////////////////////////////////////////////////
-bool is_raccrochage_midi_remote[3072];
-int val_raccrochage_midi[3072]; // valeur recue
-
-bool refresh_midi_chasers = 0;
-
-bool index_midi_auto_demute = 0; // index demute quand curseur arrivé
-bool index_midi_mute_on_lfo = 0; // au déclenchement d'un LFO, mute solo l'entrée en question
+// MIDI variables -> midi.h
 ////////////////////////TIME////////////////////////////////////////////////////
 bool index_time = 0; // affichage fenetre time
 int xtime_window = 100;
@@ -911,90 +800,7 @@ bool index_do_banger_memonpreset = 0;
 bool index_do_banger_membeforeone = 0;
 bool index_do_banger_memother = 0; // les 8 autres memoires
 // liste projos -> patch.h
-/////////////////ARTNET///////////////////////////////////////////////////////
-const short MaxNumPorts = 1; // 4
-const short MaxExNumPorts = 32;
-const short ShortNameLength = 18;
-const short LongNameLength = 64;
-const short NodeReportLength = 64;
-const short PortNameLength = 32;
-const short MaxDataLength = 512 - 1; // 0..511
-
-char ArtPollBuffer[14];
-char ArtPollReplyBuffer[240]; // ok pour la largeur
-char ReceivedArtPollBuffer[14];
-char ReceivedArtPollReplyBuffer[240];
-char ArtShortName[ShortNameLength] = {"white_cat"};
-char ArtLongName[LongNameLength] = {"a PC Lighting Application "};
-char ArtNodeReport[NodeReportLength] = {"Is everything ok ?"};
-int index_broadcast = 0;
-
-int count_artopoll_received = 0;
-/// RECEPTION ART-NET
-bool receiving_bytes = 0; // pour savoir si je recois du monde sur le socket
-bool ArtDetected = 0;
-// analyse artnet indexs
-bool is_artnet = 0;
-bool is_opcode_is_dmx = 0;
-bool is_opcode_is_polling = 0;
-int is_artnet_version_i1, is_artnet_version_i2;
-int seq_artnet = 0;
-int artnet_physical = 0;
-int incoming_universe; // recuperer num de universe
-char artnet_message[530];
-char artpollreply_message[250];
-unsigned char ArtNet_16xUniverse_Receiving[514][17];
-bool index_serveur_artnet_on = 0;
-bool index_listen_for_artnet = 1;
-// bool index_allow_to_write_universe[17];
-bool index_show_artpoll_reply_content = 0;
-int artpoll_replyX = 485, artpoll_replyY = 110;
-char PollReplyIs[16][100]; // affichage
-char nodefirmware_versinfo[12];
-char shortname_device[18];
-char subnetis[6];
-char paste_reply[16][100];
-char ip_artnet[17];
-char string_ip[30];
-char my_ip_is[4]; // report pour artnet poll reply
-
-// client
-SOCKET sockartnet;
-SOCKADDR_IN sinS;
-int sinsize;
-// serveur
-SOCKET sock;
-SOCKADDR_IN sinServ;
-int sinsizeServ;
-/////////////////////////
-struct hostent *phe;
-char FAR hostnamebuffer[64];
-char broadcast = '1';
-int nbrbytessended = 0;
-int bytesreceived = 0;
-// int defaultport_artnet=0x1936;
-int serveurport_artnet = 6454;
-int clientport_artnet = 6454;
-
-char tmp_udp_chain[600];
-short HeaderLength = 17;
-short DataLength = 512;
-int Dim(HeaderLength + DataLength); // largeur de l envoi
-int Univers = 0;
-bool index_do_light_diode_artnet = 0;
-int dmx_interface_active[5] = {0, 0, 0, 0, 0}; // indices 1-4: ArtNet, EnttecOpen, EnttecPro, Sunlite
-bool artnet_serveur_is_initialized = 0;
-//////////////////RESEAUX DETECTION////////////////////////////////////////////
-char IP_detected_dmxOUT[8][24];
-
-char IP_artnet_IN[24];
-char IP_artnet_OUT[24];
-char IP_fantastick[24];
-
-int network_OUT_is_selected = 0; // amene a disparaitre
-
-bool index_re_init_client_artnet = 0;
-bool index_re_init_serveur_artnet = 0;
+// ArtNet + network -> network.h
 
 ///////////////////////COULEURS ET POLICES//////////////////////////////////////
 Rgba CouleurFond;
@@ -1137,9 +943,7 @@ bool isSchwz = 0, isASCII = 0, isPdf = 0, isAlq = 0;
 
 bool specify_who_to_save_PDF[36];
 
-///////////////////FREEZE//////////////////////////////////////////////////////////
-bool freeze_array[514];
-unsigned char freeze_state[514];
+// Freeze -> dmx.h
 ///////////////////////////FADERS SNAPSHOTS GENERAL//////////////////////////////////
 unsigned char SnapFader[49];
 bool SnapFaderLocked[49];
@@ -1216,23 +1020,7 @@ bool index_copy_banger = 0;
 int index_banger_to_copy_in = -999;
 
 bool index_ask_clear_banger = 0;
-///////////GRAND MASTER////////////////////////////////////////////////////////
-int niveauGMaster = 255;
-int previous_niveauGMaster = 0;
-char string_niveauGMaster[4];
-bool index_allow_grand_master = 1;
-// DMX///////////////////////////////////////////////////////////////////////
-
-bool index_allow_sunlite_dmxIN = 0; // pour réception ou pas de IN
-bool index_is_siudi_8C = 0;         // pour envoi on change ou pas
-char string_sunlite_is[32];
-bool do_send_dmx_on_change = 0;       // pour envoi data sur nterfaces dmx si changement de data
-bool do_send_dmx_on_change_siudi = 0; // pour 5 et 6c
-
-bool index_patch_overide = 0;
-bool patch_overide[513]; // check gradas
-bool allow_artnet_in = 0;
-//////////////////////////////////////////////////////////////////////////////////
+// Grand Master + DMX extra -> dmx.h
 
 // audio variables -> audio.h
 bool starting_wcat = 0; // démarrage
@@ -1301,14 +1089,7 @@ char list_keyname[128][16]; // nom des fonction
 char string_key_id[16];
 int mapping_temporaire[128]; // la table de reroutage
 int nbre_key_persos = 5;
-////////////MIDI CHANGE SIGNAL////////////////////////////////////////////////
-int line_midi_changesignal = 0;
-char string_midichan[16];
-int change_vel_midichan_selected = 0;
-int midi_change_vel_type[16][128]; // type de transformation de signal:0=nothing
-// 1=inverse // 2=Toggle
-int tempvel = 0;                     // val de stockage de isvel
-bool midi_recognize_on_off[16][128]; // CH PITCH VAL
+// MIDI change signal -> midi.h
 ////////////sauvegardes automatiques//////////////////////////////////////////
 int automatic_time_for_save = 10;
 int do_save_at_time = 10000;
@@ -1362,113 +1143,9 @@ int arduino_digital_function_output[digital_limit][2];
 int pwm_data_to_arduino[pwm_limit];
 int previous_pwm_data_to_arduino[pwm_limit];
 
-/////////////////////MIDI LAUNCHPAD RETOUR VISUEL D INFOS///////////////////////
-bool enable_launchpad = 0;
-int midi_duree_launchpad = 10;
-int temp_launchpad = 0; // pour envoyer niveau dans tooutes les instructions en level sans se rajouter bp de code
-bool midi_launchpad_state[3072];
-bool midi_launchpad_state_before[3072];
-bool launchpad_impulse_type_is[3072];
-int launchpad_color_defined[3072];
-int launchpad_color[16]; // 16 couleurs customisables
-int lch_orange = 63;
-int lch_green = 60;
-int lch_yellow = 62;
-int lch_red = 15;
-int lch_ambre = 31;
-int lch_orange_fonce = 30;
-int facteur_cycling = 0; //-1 à +1
-bool entered_main = 0;
-bool launchpad_is_a_cycling_effect[3072]; // faire fader les leds
-bool midi_needs_no_key_on_key_off[3072];
-bool launchpad_buffer = 0;
-////////////////////////////////////////////////////////////////////////////////
-char list_midi_affect[3072][36];
+// MIDI launchpad + affect list -> midi.h
 
-//////////////////////////CHASERS//////////////////////////////////////////////
-bool index_window_chasers = 0;
-int index_affichage_digit_time_unit = 0; // digit du nombre de chiffres après virgule
-
-int Xchasers = 100;
-int Ychasers = 300;
-bool index_over_chasers = 0;
-bool index_click_move_chasers = 0;
-int chaser_selected = 0; // dans la fenetre  chaser
-bool index_enable_edit_chaser = 0;
-bool index_affect_chaser_to_dock = 0;
-bool index_do_affect_fx = 0; // pour logical intres
-int nbre_track_visualisables = 4;
-int nbre_de_cases_par_track = 36;
-int nbre_tracks_par_chaser =
-    24; // a garder pour les initiaisation en glob init, ne sert plus c ets core_user_define_nb_tracks_per_chasers
-int chaser_operator_is = 0;
-
-char chaser_name[128][25];
-char chaser_track_name[128][24][25];
-float time_unit[128];
-
-int chaser_step_operation[128][24][36]; // 0= rien 1= up 2= stay 3=down
-bool chaser_is_playing[128];
-bool chaser_is_in_loop[128];
-bool chaser_way[128]; // 0= left to right 1= right to left
-bool chaser_aller_retour[128];
-bool track_is_on[128][24];
-int track_level[128][24];
-int position_affichage_track_num[128];
-int TrackTypeIs[128][24];          // 0 circuits normaux 1//memoire
-int TrackContains[128][24][514];   // contenu
-int TracksBuffer[128][24][514];    // le report des calculs
-int MergerBufferChasers[128][514]; // le merge des chasers
-
-float index_progression_chaser_step[128];          // pour crossfade et affichage
-float previous_index_progression_chaser_step[128]; // pour Back banger
-int chaser_begin_step_is[128];                     // debut boucle
-int chaser_end_step_is[128];                       // fin boucle
-bool chaser_time_mode[128];                        // le type de calcul du temps pour le chaser: cases jointes ou pas
-
-int chaser_time_position[128]; // position du curseur sur le déroulé du chaser: TImeline
-int chaser_start_time[128];    // ticks actual time of chaser
-float chaser_start_of_step[128];
-float chaser_end_of_step[128];
-int chaser_step_is[128];          // position du step pour l affichage visuel
-int previous_chaser_step_is[128]; // pour banger back
-
-int count_steps_for_fades[128][24]; // compteur des cases équivalentes pour calcul des fades IN OUT sur plusieurs cases
-int joint_begin_step[128]
-                    [24]; // report du nombre de step egaux lorsque le chaser tourne ( permet la fraction en Joint mode)
-int joint_end_step[128][24]; // report du nombre de step egaux lorsque le chaser tourne ( permet la fractioon
-int joint_nbr_step[128][24]; // report du nbre de step du time joint
-
-int chaser_selected_for_record = 0;        // pour confirmations
-int track_selected_for_record = 0;         // pour confirmations
-int chaser_preset_selected_for_record = 0; // pour confirmations
-
-bool index_do_dock_track = 0;
-bool index_do_clear_track = 0;
-bool index_do_report_track = 0;
-bool index_do_modify_track = 0;
-bool index_do_clear_chaser = 0;
-bool index_do_store_chaser_preset = 0;
-bool index_do_clear_chaser_preset = 0;
-
-int view_chaser_affected_to_fader[128][2];     // enregistrement de la derniere affectation du chaser
-bool index_slave_chaser_to_accelerometre[128]; // asservissement à l accélérometre du dernier fader affecté
-
-float chaser_slaviness[128];
-float previous_chaser_slaviness[128];
-bool chaser_preset[128][4][24];
-
-bool launchpad_chaser_mode = 0;
-int chaser_midi_rows = 4; // nbre de lignes utilisées pour le lauchpad en attaque midi des tracks
-int previous_color_on_chaser[8][8];
-int chaser_step_launchpad[128]; // position de la grille de 8 par chaser en X
-
-int mem_to_load_in_chaser = 0;
-bool index_do_store_mem_in_chaser = 0;
-int TrackHasMem[128][24];
-// visualisation en mode view
-int over_track_show_channel[514];
-bool i_m_over_a_track = 0;
+// Chasers variables -> chasers.h
 
 bool index_affect_to_dock_mover = 0;
 bool index_do_affect_mover = 0;
@@ -2153,7 +1830,7 @@ bool index_show_first_dim = 0;
 int show_first_dim_array[514][4]; // pour affichage du premier grada patché au circuit
 bool show_more_than_one_dim[514];
 
-char descriptif_network_adapter[8][256];
+// descriptif_network_adapter -> network.h
 
 /////////////DRAW///////////////////////////////////////////////////////////////
 
