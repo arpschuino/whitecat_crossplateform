@@ -44,6 +44,8 @@ WWWWWWWW           C  WWWWWWWW   |
 */
 
 #include "Crossplateform.h"
+#include "patch.h"
+#include "audio.h"
 
 char versionis[72] = {"alpha 0.9.0 - 23 avril 2026"};
 char nickname_version[48] = {"arpschuino reborn"};
@@ -452,58 +454,7 @@ bool index_config_arduino = 0;
 bool index_setup_gfx = 0;
 bool index_config_network = 0;
 bool index_config_general = 0; // main general du setup // 1 car ouverture à l allumage
-//////////////////PATCH//////////////////////////////////////////////////////////
-int xpatch_window = 200;
-int ypatch_window = 100;
-int scroller_patch = 1;
-float Patch_Scroll_Factor = 25.0;
-int iddim = 0;
-bool index_affect_patch = 0;
-bool index_menu_curve = 0;
-bool index_reset_curve = 0;
-bool index_square_curve = 0;
-bool index_fluo_curve = 0;
-bool index_preheat_curve = 0;
-bool Dimmers_selected[514];
-int Patch[514];
-bool dimmer_type[514]; // 0=HTP= 1 LTP
-unsigned char MergerArray[514];
-char string_monitor_patch[1024];
-bool index_patch_affect_is_done = 0;
-int last_dim_selected = 0;
-int dimmer_check_level = 192;
-// Curves splines
-bool index_writing_curve = 0;
-float curve_spline_level = 0.0; // report en float
-int curve_selected = 0;
-int the_curve_spline_level[16];
-int curve_report[16][256];
-int index_curve_spline_level = 0; // pixels de l editeur
-bool index_enable_curve_editing = 0;
-int curves[514];             // bug ?514 était en 513
-int curve_ctrl_pt[16][8][2]; // 5 pts de controls (  pour caller 1er et dernier dummy)
-int diam_curve_node = 10;    // diametre de la poignee pour saisie du curve_node
-typedef struct curve_node {
-    int x, y;
-    fixed tangent;
-} curve_node;
-#define MAX_curve_nodeS 8
-curve_node curve_nodes[MAX_curve_nodeS];
-int curve_node_count = 0;
-fixed curve_curviness;
-typedef struct NODE {
-    int x, y;
-    fixed tangent;
-} NODE;
-
-#define MAX_NODES 49
-NODE nodes[MAX_NODES];
-int node_count;
-fixed curviness;
-bool show_control_points = 0;
-int actual_step_node = 0;
-int next_step_node = 0;
-int numero_de_dock_goto_spline = 1;
+// patch variables -> patch.h
 
 ////////////////////////VIDEO //////////////////////////////////////////////////
 double image_recording_size;
@@ -959,14 +910,7 @@ bool index_do_banger_memonstage = 0;
 bool index_do_banger_memonpreset = 0;
 bool index_do_banger_membeforeone = 0;
 bool index_do_banger_memother = 0; // les 8 autres memoires
-/////////////////////////////////FENTRE LISTE PROJOS//////////////////////////
-bool index_list_projecteurs = 1;
-bool index_edit_listproj = 0;
-char descriptif_projecteurs[514][25];
-int Xlistproj = 300;
-int Ylistproj = 100;
-int line_list_is = 0;
-char listnum[12];
+// liste projos -> patch.h
 /////////////////ARTNET///////////////////////////////////////////////////////
 const short MaxNumPorts = 1; // 4
 const short MaxExNumPorts = 32;
@@ -1290,124 +1234,10 @@ bool patch_overide[513]; // check gradas
 bool allow_artnet_in = 0;
 //////////////////////////////////////////////////////////////////////////////////
 
-////SOUND AUDIERE//////////////////////////////////////////////////////////////////
-AudioDevicePtr device;
-
-OutputStreamPtr player1;
-OutputStreamPtr player2;
-OutputStreamPtr player3;
-OutputStreamPtr player4;
-
+// audio variables -> audio.h
 bool starting_wcat = 0; // démarrage
-
-char audio_device_name[256];
-char list_audio_device[16][256];
-bool index_show_audio_window = 0;
-int index_nbre_players_visibles = 2;
-bool index_over_audio = 0;
-bool index_click_move_audio_window = 0;
-int XAudio = 20;
-int YAudio = 20;
-char list_audio_files[128][72]; // 128 audio files possibles
-int line_audio = 0;
-int audiofile_selected = 0; // pour affectation a un lecteur
-char audiofile_name[72];
-char rep_audio[256];
-char audio_folder[64] = {"demo"};
-char list_audio_folders[64][64]; // sous-dossiers de audio/
-int nbre_audio_folders = 0;
-int audio_folder_list_scroll = 0;
-bool audio_folder_scroll_dragging = 0;
-int audio_folder_scroll_drag_start_y = 0;
-int audio_folder_scroll_drag_start_scroll = 0;
-bool audio_filelist_scroll_dragging = 0;
-int audio_filelist_scroll_drag_start_y = 0;
-int audio_filelist_scroll_drag_start_scroll = 0;
-int last_scroll_mouse_for_audio = 0;
-bool audio_seekbar_dragging[4] = {0, 0, 0, 0};
-volatile int mouse_double_click = 0;
-bool audio_pan_dragging[4] = {0, 0, 0, 0};
-bool audio_pitch_dragging[4] = {0, 0, 0, 0};
-bool index_show_audio_folder_list = 0;
-char temp_audio_folder[25];
-char sound_files[4][72];
-char soundfile_temp_loader[256 + 72];
-int index_preloaded_sounds = 1; // pas chargés
-int audio_ram_limit_mb = 300;  // limite RAM OGG/FLAC (50-2048 MB)
 int dpi_native_rendering = 1;  // 1 = DPI natif (net, taille réduite) — lu avant SDL_Init
 float wc_dpi_scale = 1.0f;    // facteur DPI systeme (ex. 1.25 a 125%) — calcule dans main()
-int length_of_file_in_player[4];
-int position_of_file_in_player[4];
-int player_loop_out_position[4];
-int player_seek_position[4];
-
-// christoph 22/04/14 debugging midi next prev function by outputting it inside the 1/10th second loop
-bool audio_do_load_midi_prev_file[4];
-bool audio_do_load_midi_next_file[4];
-
-int audiofile_cue_in_out_pos[128][4][2]; // les 128 files du repertoire, 4 players, [cue_in, cue_out]
-
-int audio_number_total_in_folder = 0; // nbre de fichiers audios
-
-bool player_ignited[4];
-bool player_is_playing[4];
-bool player_is_onloopCue[4]; // cue
-bool player_is_onloop[4];    // 0 à Length du media
-
-int player_pitch[4]; // position de 0 à 12
-float show_pitch_value[4];
-int player_pan[4];
-float show_pan_value[4];
-
-int player_niveauson[4];
-float show_player_niveauson[4];
-
-int sample_rate[4];
-int sample_nbr_ch[4];
-bool index_edit_audio = 0;
-// int hauteur_lecteur=140; enlevé mis en direct dans le code
-int audio_rate[4];                   // frame rate une fois eu le getformat
-bool index_loading_a_sound_file = 0; // pour boucle rafraichissement 1/10eme des infos
-// envoi affichage si commande midi
-bool midi_show_flash_seektouch[4];
-bool midi_show_flash_backwardtouch[4];
-bool midi_show_flash_forwardtouch[4];
-bool midi_show_flash_cueIntouch[4];
-bool midi_show_flash_cueOuttouch[4];
-bool midi_show_flash_cueSeektouch[4];
-// procedure back pour banger avec audio
-char audiofile_name_was[4][72];
-int audio_position_was[4];
-int audio_volume_was[4];
-int audio_pan_was[4];
-int audio_pitch_was[4];
-int audio_cue_in_was[4];
-int audio_cue_out_was[4];
-bool player_was_playing[4];
-bool player_was_onloopCue[4]; // cue
-bool player_was_onloop[4];
-
-bool index_affect_audio_to_dock = 0; // on off du mode
-int player_to_affect_to_dock = 999;
-int audio_type_for_dock_affectation_is = 999; // 0 volume 1 pan 2 pitch
-bool index_do_audio_to_dock = 0;
-int DockHasAudioVolume[48][6];
-int DockHasAudioPan[48][6];
-int DockHasAudioPitch[48][6];
-int Player_is_piloted_by_fader[4][4]; // pour aller retour entre faders et fader audio
-
-char time_is_for_fileCueIn[4][64];
-char time_is_for_fileCueOut[4][64];
-char time_is_for_filePos[4][64];
-char time_is_for_fileTotal[4][64];
-char string_niveauson[4][16];
-char string_pitch[4][12]; // affichage boucle lecteurs
-char string_pan[4][12];   // affichage boucle lecteurs
-char string_fader_stop_pos[48][4];
-bool audio_autoload[4];                 // faire une liste défilant
-bool audio_autopause[4];                //
-int player_has_file_coming_from_pos[4]; // position 1 à 127
-int player_position_on_save[4];         // pour stockae de position_of_file_in_player[i]=player_position_on_save[i];
 ////////////////CONFIG////////////////////////////////////////
 bool index_show_config_window = 0;
 int config_page_is = 0;
