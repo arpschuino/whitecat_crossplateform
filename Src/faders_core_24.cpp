@@ -1130,7 +1130,7 @@ if(mouse_x>=(x+(cmptfader*espacement)+(largeur+30)) && mouse_x<=(x+(cmptfader*es
  //store normal
  else if(index_do_dock==1 && index_direct_chan==0   && index_affect_chaser_to_dock==0  && index_affect_time==0 && index_affect_color_to_dock==0 && index_do_affect_net_to_dock==0
  && index_affect_dmxin==0 && index_affect_video_tracking_to_dock==0 && index_affect_audio_to_dock==0 && gridplayer_to_affect_is==-1
- && index_do_fgroup==0 && index_affect_to_dock_mover==0 && index_affect_draw_to_dock==0 &&  index_affect_echo_to_dock==0)
+ && index_do_fgroup==0 && index_affect_draw_to_dock==0 &&  index_affect_echo_to_dock==0)
  {
  fader_selected_for_record=cmptfader;
  dock_selected_for_record=dd;
@@ -1215,14 +1215,6 @@ if(mouse_x>=(x+(cmptfader*espacement)+(largeur+30)) && mouse_x<=(x+(cmptfader*es
  index_ask_confirm=1;
  }
  mouse_released=1;
- }
-  //Store Mover dans dock
- else if (  index_do_dock==1 && index_affect_to_dock_mover==1)
- {
- fader_selected_for_record=cmptfader;
- dock_selected_for_record=dd;
- index_do_affect_mover=1;
- index_ask_confirm=1;
  }
  //dmx to dock
  else if( index_do_dock==1 && index_affect_dmxin==1)

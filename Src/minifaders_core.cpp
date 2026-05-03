@@ -542,7 +542,7 @@ if(index_do_dock==0 && index_do_modify==0  && index_type==0    && index_main_cle
  //store normal
  if(index_do_dock==1 && index_direct_chan==0   && index_affect_chaser_to_dock==0  && index_affect_time==0 && index_affect_color_to_dock==0 && index_do_affect_net_to_dock==0
  && index_affect_dmxin==0 && index_affect_video_tracking_to_dock==0 && index_affect_audio_to_dock==0 && gridplayer_to_affect_is==-1
- && index_do_fgroup==0 && index_affect_to_dock_mover==0 && index_affect_draw_to_dock==0 &&  index_affect_echo_to_dock==0)
+ && index_do_fgroup==0 && index_affect_draw_to_dock==0 &&  index_affect_echo_to_dock==0)
  {
  fader_selected_for_record=position_minifader_selected;
  dock_selected_for_record=dock_selected_is;
@@ -646,14 +646,6 @@ if(index_do_dock==0 && index_do_modify==0  && index_type==0    && index_main_cle
  }
 
 
-  //Store Mover dans dock
- else if (  index_do_dock==1 && index_affect_to_dock_mover==1)
- {
- fader_selected_for_record=position_minifader_selected;
- dock_selected_for_record=dock_selected_is;
- index_do_affect_mover=1;
- index_ask_confirm=1;
- }
 
 
  //draw

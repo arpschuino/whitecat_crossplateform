@@ -110,17 +110,13 @@ return(0);
 
 int fader_set_level(int cmptfader, int val)
 {
-switch(fader_damper_is_on[cmptfader])
-{
-case 0:
+if (!fader_damper_is_on[cmptfader]) {
 Fader[cmptfader]=val;
 midi_levels[cmptfader]=(Fader[cmptfader]/2);
 Fader_dampered[cmptfader].fix_all_damper_state_value(val);
 Fader_dampered[cmptfader].set_target_val(val);
-break;
-case 1:
+} else {
 Fader_dampered[cmptfader].set_target_val(val);
-break;
 }
 
 index_fader_is_manipulated[cmptfader]=1;midi_levels[cmptfader]=(Fader[cmptfader]/2);
@@ -640,7 +636,6 @@ int reset_index_actions()
     index_affect_audio_to_dock=0;
 
     index_do_fgroup=0;
-    index_affect_to_dock_mover=0;
     index_direct_chan=0;
     multiple_direct_chan=0;
     index_affect_draw_to_dock=0;
@@ -755,14 +750,6 @@ int reset_indexs_confirmation()
     index_do_store_chaser_preset=0;
     index_do_clear_chaser_preset=0;
 
-    //icat
-    index_ask_clear_iCatpage=0;
-    index_ask_icat_copyPage=0;
-    index_ask_clear_img_icat=0;
-    index_ask_iCat_selectiv_clear=0;
-    index_false_shift=0;
-    index_false_control=0;
-
     //grider
     index_clear_a_grid_step=0;
     index_clear_a_grid=0;
@@ -873,15 +860,11 @@ int generate_channel_preview_patch_list()//affichage du premier grada
                 {
                     tem=1;
                 }
-                switch(tem)
-                {
-                case 0:
+                if (!tem) {
                     show_first_dim_array[ch][index]=d;
                     index++;
-                    break;
-                case 1:
+                } else {
                     show_more_than_one_dim[ch]=1;
-                    break;
                 }
             }
 
@@ -988,17 +971,10 @@ int detect_last_activ_channel_in_activ_view(int v)
 
 int toggle (int index_to_toggle)
 {
-    switch(index_to_toggle)
-    {
-    case 0:
+    if (!index_to_toggle) {
         index_to_toggle=1;
-        break;
-    case 1:
+    } else {
         index_to_toggle=0;
-        break;
-    default:
-        index_to_toggle=0;
-        break;
     }
     return(index_to_toggle);
 }
@@ -1408,12 +1384,6 @@ int clear_plot_legend()
 }
 
 
-int affect_mover_to_fader(int thefader, int thedock)
-{
-    DockTypeIs[thefader][thedock]=14;
-    return(0);
-}
-
 int reset_error_on_save_load()
 {
     for (int f=0; f<256; f++)
@@ -1762,12 +1732,6 @@ int constrain_banger_param(int lp)
             bangers_action[index_banger_selected][lp]=0;
         }
         break;
-    case 9://icat
-        if(bangers_action[index_banger_selected][lp]>4)
-        {
-            bangers_action[index_banger_selected][lp]=0;
-        }
-        break;
     case 10://chrono
         if(bangers_action[index_banger_selected][lp]>2)
         {
@@ -1926,14 +1890,10 @@ int refresh_hauteur_fenetre_grider()
             index_nbre_griderplayers_visibles++;
         }
     }
-    switch(show_global_view_grider)
-    {
-    case 0:
+    if (!show_global_view_grider) {
         hauteurGlobalGridviewer=0;
-        break;
-    case 1:
+    } else {
         hauteurGlobalGridviewer=100+(grider_nb_row*size_preview_case);
-        break;
     }
     if(grider_nb_row>=10)
     {
@@ -1998,14 +1958,10 @@ int Get_channels_from_memory(int the_mem)
     {
         if (Selected_Channel[p]==1)
         {
-            switch(index_blind)
-            {
-            case 0:
+            if (!index_blind) {
                 bufferSaisie[p]=Memoires[the_mem][p];
-                break;
-            case 1:
+            } else {
                 bufferBlind[p]=Memoires[the_mem][p];
-                break;
             }
         }
     }
@@ -2036,9 +1992,7 @@ int search_and_desaffect_previous_midi_signal(int typaction)
 // 8 en ordre numérique
     else if(typaction==2 )
     {
-        switch(toggle_numerical_midi_way)
-        {
-        case 0:
+        if (!toggle_numerical_midi_way) {
             for(int h=0; h<8; h++)
             {
                 for (int i=0; i<3072; i++)
@@ -2052,9 +2006,8 @@ int search_and_desaffect_previous_midi_signal(int typaction)
                     }
                 }
             }
-            break;
+        } else {
 // 8 en ordre channel
-        case 1:
             for(int h=0; h<8; h++)
             {
                 for (int i=0; i<3072; i++)
@@ -2069,7 +2022,6 @@ int search_and_desaffect_previous_midi_signal(int typaction)
                     }
                 }
             }
-            break;
         }
     }
 
@@ -2154,24 +2106,20 @@ int attribute_midi_to_control(int faderis, int typaction, int modeaction)
     {
         if(ischan<16 && ispitch<128)
         {
-            switch(toggle_numerical_midi_way)//numeric pitch
-            {
-            case 0:
+            if (!toggle_numerical_midi_way) {//numeric pitch
                 for(int h=0; h<8; h++)
                 {
                     miditable[0][faderis+h]=istyp;
                     miditable[1][faderis+h]=ischan;
                     miditable[2][faderis+h]=ispitch+h;
                 }
-                break;
-            case 1: //numeric channel
+            } else { //numeric channel
                 for(int h=0; h<8; h++)
                 {
                     miditable[0][faderis+h]=istyp;
                     miditable[1][faderis+h]=ischan+h;
                     miditable[2][faderis+h]=ispitch;
                 }
-                break;
             }
         }
     }
@@ -2240,164 +2188,6 @@ int process_assign_to_core(int coreis)
     sprintf(tmp_order_call,"%s\\utils\\Process.exe %s -a %d", mondirectory, nom_exe, coreis);
     system(tmp_order_call);//lancement system
     sprintf(string_Last_Order,">>Assigned %s to Core %d", nom_exe, coreis);
-    return(0);
-}
-
-
-
-int reset_and_recall_iCat_images()
-{
-    return(0);
-}
-
-
-int copy_iCatPage(int pagesource, int pagedest)
-{
-    iCat_preset_orientation[pagedest]=iCat_preset_orientation[pagesource];
-
-//sliders
-    iCat_nbre_de_sliders[pagedest]=iCat_nbre_de_sliders[pagesource];
-    for(int i=0; i<24; i++)
-    {
-        iCat_pos_slider[pagedest][i][0]=iCat_pos_slider[pagesource][i][0];
-        iCat_pos_slider[pagedest][i][1]=iCat_pos_slider[pagesource][i][1];
-        iCat_orientation_slider[pagedest][i]=iCat_orientation_slider[pagesource][i];
-        iCat_affectation_slider_type_is[pagedest][i]=iCat_affectation_slider_type_is[pagesource][i];
-        iCat_affectation_slider_value_is[pagedest][i]=iCat_affectation_slider_value_is[pagesource][i];
-        ratio_iCat_slider[pagedest][i]=ratio_iCat_slider[pagesource][i];
-    }
-
-    iCat_nbre_de_boutons[pagedest]=iCat_nbre_de_boutons[pagesource];
-    for(int nbl=0; nbl<48; nbl++)
-    {
-        iCat_pos_bouton[pagedest][nbl][0]=iCat_pos_bouton[pagesource][nbl][0];
-        iCat_pos_bouton[pagedest][nbl][1]=iCat_pos_bouton[pagesource][nbl][1];
-        iCat_affectation_bouton_type_is[pagedest][nbl]=iCat_affectation_bouton_type_is[pagesource][nbl];
-        iCat_affectation_bouton_action_is[pagedest][nbl]=iCat_affectation_bouton_action_is[pagesource][nbl];
-        iCat_affectation_bouton_value_is[pagedest][nbl]=iCat_affectation_bouton_value_is[pagesource][nbl];
-        ratio_iCat_button[pagedest][nbl]=ratio_iCat_button[pagesource][nbl];//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-
-
-    iCat_nbre_de_strings[pagedest]=iCat_nbre_de_strings[pagesource];
-    for(int nbl=0; nbl<24; nbl++)
-    {
-        iCat_pos_string[pagedest][nbl][0]=iCat_pos_string[pagesource][nbl][0];
-        iCat_pos_string[pagedest][nbl][1]=iCat_pos_string[pagesource][nbl][1];
-        iCat_affectation_string_type_is[pagedest][nbl]=iCat_affectation_string_type_is[pagesource][nbl];
-        iCat_affectation_string_action_is[pagedest][nbl]=iCat_affectation_string_action_is[pagesource][nbl];
-        ratio_iCat_string[pagedest][nbl]=ratio_iCat_string[pagesource][nbl];//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-
-    iCat_nbre_de_tracking_zone[pagedest]=iCat_nbre_de_tracking_zone[pagesource];
-    for(int nbl=0; nbl<4; nbl++)
-    {
-        iCat_pos_trackzone[pagedest][nbl][0]=iCat_pos_trackzone[pagesource][nbl][0];
-        iCat_pos_trackzone[pagedest][nbl][1]=iCat_pos_trackzone[pagesource][nbl][1];
-        iCat_trackzone_type_is[pagedest][nbl]=iCat_trackzone_type_is[pagesource][nbl];
-        iCat_trackzone_type_is[pagedest][nbl]=iCat_trackzone_type_is[pagesource][nbl];
-        iCat_trackzone_affectation_is[pagedest][nbl]=iCat_trackzone_affectation_is[pagesource][nbl];
-        iCat_trackzone_affectation_is[pagedest][nbl]=iCat_trackzone_affectation_is[pagesource][nbl];
-        iCat_affectation_string_action_is[pagedest][nbl]=iCat_affectation_string_action_is[pagesource][nbl];
-        ratio_iCat_trackzone[pagedest][nbl]=ratio_iCat_trackzone[pagesource][nbl];//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-
-
-
-    iCat_select_editing_button=0;
-    iCat_select_editing_slider=0;
-    iCat_select_editing_string=0;
-    iCat_select_tracking_zone=0;
-
-    sprintf(string_Last_Order,"Copied iCat page %d in page %d",pagesource+1, pagedest+1);
-    index_icat_copyPage=0;
-
-    return(0);
-}
-
-int clear_iCat_sliders( int preset_page_iCat)
-{
-//sliders
-    iCat_nbre_de_sliders[preset_page_iCat]=0;
-    for(int i=0; i<max_sliders_icat; i++)
-    {
-        iCat_pos_slider[preset_page_iCat][i][0]=0;
-        iCat_pos_slider[preset_page_iCat][i][1]=0;
-        iCat_orientation_slider[preset_page_iCat][i]=0;
-        iCat_affectation_slider_type_is[preset_page_iCat][i]=0;
-        iCat_affectation_slider_value_is[preset_page_iCat][i]=0;
-        ratio_iCat_slider[preset_page_iCat][i]=2;
-        slider_is_touched[preset_page_iCat][i]=0;
-        before_slider_is_touched[preset_page_iCat][i]=0;
-        slider_is_controlled_by_point[preset_page_iCat][i]=0;
-        level_from_touch[preset_page_iCat][i]=0;
-    }
-    iCat_select_editing_slider=0;
-    return(0);
-}
-
-int clear_iCat_buttons( int preset_page_iCat)
-{
-
-    iCat_nbre_de_boutons[preset_page_iCat]=0;
-    for(int nbl=0; nbl<max_buttons_icat; nbl++)
-    {
-        iCat_pos_bouton[preset_page_iCat][nbl][0]=0;
-        iCat_pos_bouton[preset_page_iCat][nbl][1]=0;
-        iCat_affectation_bouton_type_is[preset_page_iCat][nbl]=0;//type 1 faders, 2 sequentiel, 3 audio family
-        iCat_affectation_bouton_action_is[preset_page_iCat][nbl]=0;//sous famille, les actions
-        iCat_affectation_bouton_value_is[preset_page_iCat][nbl]=0;//valeur de la famille 1/48 stage/preset/accel
-        ratio_iCat_button[preset_page_iCat][nbl]=2;//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-    iCat_select_editing_button=0;
-    return(0);
-}
-
-int clear_iCat_strings( int preset_page_iCat)
-{
-    iCat_nbre_de_strings[preset_page_iCat]=0;
-    for(int nbl=0; nbl<max_string_icat; nbl++)
-    {
-        iCat_pos_string[preset_page_iCat][nbl][0]=0;
-        iCat_pos_string[preset_page_iCat][nbl][1]=0;
-        iCat_affectation_string_type_is[preset_page_iCat][nbl]=0;//type 1 faders, 2 sequentiel, 3 audio family
-        iCat_affectation_string_action_is[preset_page_iCat][nbl]=0;//sous famille, les actions
-        ratio_iCat_string[preset_page_iCat][nbl]=2;//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-    iCat_select_editing_string=0;
-    return(0);
-}
-
-
-int clear_iCat_trackingzone(int preset_page_iCat)
-{
-    iCat_nbre_de_tracking_zone[preset_page_iCat]=0;
-    for(int nbl=0; nbl<max_zones_icat; nbl++)
-    {
-        iCat_pos_trackzone[preset_page_iCat][nbl][0]=0;
-        iCat_pos_trackzone[preset_page_iCat][nbl][1]=0;
-        iCat_trackzone_type_is[preset_page_iCat][nbl]=0;
-        iCat_trackzone_affectation_is[preset_page_iCat][nbl]=0;
-        iCat_affectation_string_action_is[preset_page_iCat][nbl]=0;
-        ratio_iCat_trackzone[preset_page_iCat][nbl]=0;//multiplicateur des proportions de s boutons. 1 / 2 / 3
-    }
-
-    iCat_select_tracking_zone=0;
-
-    return(0);
-}
-
-int clear_iCat_page ( int preset_page_iCat)
-{
-    clear_iCat_sliders( preset_page_iCat);
-    clear_iCat_buttons( preset_page_iCat);
-    clear_iCat_strings( preset_page_iCat);
-    clear_iCat_trackingzone( preset_page_iCat);
-
-
-
-    sprintf(string_Last_Order,"Cleared iCat page %d",preset_page_iCat+1);
-    do_send_icat_init_page=1;
     return(0);
 }
 
@@ -4562,14 +4352,10 @@ int refresh_minifader_state_view_core(int cmptfader)
     if(StopPosOn[cmptfader]==1)
     {
         int niv=0;
-        switch(dmx_view)
-        {
-        case 0:
+        if (!dmx_view) {
             niv= (int) (((float)LevelStopPos[cmptfader])/2.55);
-            break;
-        case 1:
+        } else {
             niv=LevelStopPos[cmptfader];
-            break;
         }
         sprintf(string_fader_stop_pos[cmptfader],"%d",niv);
         sprintf(str_minifader_feedback[9],"Stop Pos ON: %d",niv);
@@ -4601,9 +4387,7 @@ int do_action_on_selected_minifaders(int action)
 //mis a part a cause gestion souris
                 break;
             case 1://lock
-                switch(FaderLocked[cmptfader])
-                {
-                case 0:
+                if (!FaderLocked[cmptfader]) {
                     FaderLocked[cmptfader]=1;
                     StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
                     if(StateOfFaderBeforeLock[cmptfader]==255)
@@ -4620,14 +4404,12 @@ int do_action_on_selected_minifaders(int action)
                         lfo_mode_is[cmptfader]=0;
                         lfo_cycle_is_on[cmptfader]=0;
                     }
-                    break;
-                case 1:
+                } else {
                     FaderLocked[cmptfader]=0;
                     //remise à plat du niveau
                     Fader[cmptfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[cmptfader]))/255)*locklevel);
                     midi_levels[cmptfader]=(int)(((float)Fader[cmptfader])/2);
                     sprintf(string_Last_Order,">> UNLOCKED Fader %d",cmptfader+1);
-                    break;
                 }
                 break;
             case 2://loop on off
@@ -4716,15 +4498,12 @@ int do_action_on_selected_minifaders(int action)
                         break;
                     }
                 }
-                switch(index_choose_mode_dkloop)
-                {
-                case 0:
+                if (!index_choose_mode_dkloop) {
                     for(int op=0; op<core_user_define_nb_docks; op++)
                     {
                         is_dock_for_lfo_selected[cmptfader][op]=toggle(is_dock_for_lfo_selected[cmptfader][op]);
                     }
-                    break;
-                case 1:
+                } else {
 //tout le monde prend la valeur du dock selectionné
                     for(int j=0; j<core_user_define_nb_docks; j++)
                     {
@@ -4738,8 +4517,6 @@ int do_action_on_selected_minifaders(int action)
                             break;
                         }
                     }
-                    break;
-
                 }
                 break;
             case 7://all at zero
@@ -4776,14 +4553,10 @@ int do_action_on_selected_minifaders(int action)
                     if(numeric_postext>0 )//affectation stop pos par chaine de carcatere
                     {
                         int lStopPos=999;
-                        switch(dmx_view)
-                        {
-                        case 0:
+                        if (!dmx_view) {
                             lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
-                            break;
-                        case 1:
+                        } else {
                             lStopPos=atol(numeric);
-                            break;
                         }
                         reset_numeric_entry();
                         if (lStopPos>=0 && lStopPos<=255)
@@ -4894,62 +4667,42 @@ int do_action_on_selected_minifaders(int action)
                             switch(the_audio_player)
                             {
                             case 0://PLAYER 1
-                                switch(player1->isPlaying())
-                                {
-                                case 0:
+                                if (!player1->isPlaying()) {
                                     player1->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player1->stop();
                                     player1_do_stop();
-                                    break;
                                 }
                                 break;
                             case 1://PLAYER 2
-                                switch(player2->isPlaying())
-                                {
-                                case 0:
+                                if (!player2->isPlaying()) {
                                     player2->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player2->stop();
                                     player2_do_stop();
-                                    break;
                                 }
                                 break;
                             case 2://PLAYER 3
-                                switch(player3->isPlaying())
-                                {
-                                case 0:
+                                if (!player3->isPlaying()) {
                                     player3->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player3->stop();
                                     player3_do_stop();
-                                    break;
                                 }
                                 break;
                             case 3://PLAYER 4
-                                switch(player4->isPlaying())
-                                {
-                                case 0:
+                                if (!player4->isPlaying()) {
                                     player4->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player4->stop();
                                     player4_do_stop();
-                                    break;
                                 }
                                 break;
                             }
-                            switch(player_is_playing[the_audio_player])//inversed by action
-                            {
-                            case 0:
+                            if (!player_is_playing[the_audio_player]) {//inversed by action
                                 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
-                            case 1:
+                            } else {
                                 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
                             }
                         }
                         break;
@@ -4959,62 +4712,42 @@ int do_action_on_selected_minifaders(int action)
                             switch(the_audio_player)
                             {
                             case 0://PLAYER 1
-                                switch(player1->isPlaying())
-                                {
-                                case 0:
+                                if (!player1->isPlaying()) {
                                     player1->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player1->stop();
                                     player1_do_stop();
-                                    break;
                                 }
                                 break;
                             case 1://PLAYER 2
-                                switch(player2->isPlaying())
-                                {
-                                case 0:
+                                if (!player2->isPlaying()) {
                                     player2->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player2->stop();
                                     player2_do_stop();
-                                    break;
                                 }
                                 break;
                             case 2://PLAYER 3
-                                switch(player3->isPlaying())
-                                {
-                                case 0:
+                                if (!player3->isPlaying()) {
                                     player3->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player3->stop();
                                     player3_do_stop();
-                                    break;
                                 }
                                 break;
                             case 3://PLAYER 4
-                                switch(player4->isPlaying())
-                                {
-                                case 0:
+                                if (!player4->isPlaying()) {
                                     player4->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player4->stop();
                                     player4_do_stop();
-                                    break;
                                 }
                                 break;
                             }
-                            switch(player_is_playing[the_audio_player])//inversed by action
-                            {
-                            case 0:
+                            if (!player_is_playing[the_audio_player]) {//inversed by action
                                 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
-                            case 1:
+                            } else {
                                 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
                             }
                         }
                         break;
@@ -5024,62 +4757,42 @@ int do_action_on_selected_minifaders(int action)
                             switch(the_audio_player)
                             {
                             case 0://PLAYER 1
-                                switch(player1->isPlaying())
-                                {
-                                case 0:
+                                if (!player1->isPlaying()) {
                                     player1->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player1->stop();
                                     player1_do_stop();
-                                    break;
                                 }
                                 break;
                             case 1://PLAYER 2
-                                switch(player2->isPlaying())
-                                {
-                                case 0:
+                                if (!player2->isPlaying()) {
                                     player2->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player2->stop();
                                     player2_do_stop();
-                                    break;
                                 }
                                 break;
                             case 2://PLAYER 3
-                                switch(player3->isPlaying())
-                                {
-                                case 0:
+                                if (!player3->isPlaying()) {
                                     player3->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player3->stop();
                                     player3_do_stop();
-                                    break;
                                 }
                                 break;
                             case 3://PLAYER 4
-                                switch(player4->isPlaying())
-                                {
-                                case 0:
+                                if (!player4->isPlaying()) {
                                     player4->play();
-                                    break;
-                                case 1:
+                                } else {
                                     //player4->stop();
                                     player4_do_stop();
-                                    break;
                                 }
                                 break;
                             }
-                            switch(player_is_playing[the_audio_player])//inversed by action
-                            {
-                            case 0:
+                            if (!player_is_playing[the_audio_player]) {//inversed by action
                                 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
-                            case 1:
+                            } else {
                                 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-                                break;
                             }
                         }
                         break;
@@ -5098,14 +4811,10 @@ int do_action_on_selected_minifaders(int action)
                                 chaser_step_is[chaser_selected]=35;
                             }
                         }
-                        switch(chaser_is_playing[the_chaser])
-                        {
-                        case 0:
+                        if (!chaser_is_playing[the_chaser]) {
                             sprintf(string_Last_Order,">> PLAY OFF from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
-                            break;
-                        case 1:
+                        } else {
                             sprintf(string_Last_Order,">> PLAY ON from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
-                            break;
                         }
                         break;
                     case 12://grid
@@ -5114,14 +4823,10 @@ int do_action_on_selected_minifaders(int action)
                         {
                             grid_crossfade_start_time[the_grid_player]=actual_time;
                         }
-                        switch(player_is_playing[the_grid_player])
-                        {
-                        case 0:
+                        if (!player_is_playing[the_grid_player]) {
                             sprintf(string_Last_Order,">> PLAY OFF from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
-                            break;
-                        case 1:
+                        } else {
                             sprintf(string_Last_Order,">> PLAY ON from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
-                            break;
                         }
                         break;
                     default:
@@ -5192,7 +4897,7 @@ int affect_time_entry_to_mem(int index_t,int mem_set_to_time)
         Times_Memoires[mem_set_to_time][index_t]=(time_minutes*60)+time_secondes+(0.01*time_centiemes);
     }
 
-    someone_changed_in_sequences=1;//icat
+    someone_changed_in_sequences=1;
     return(0);
 }
 
@@ -6147,14 +5852,6 @@ int GlobInit()
         }
     }
 
-    if(specify_who_to_save_load[23]==1)//iCat////////////////////////////////////////
-    {
-        for(int nbp=0; nbp<8; nbp++)
-        {
-            clear_iCat_page(nbp);
-        }
-    }
-
     if(specify_who_to_save_load[24]==1)//windows////////////////////////////////////
     {
         index_trichro_window=0;
@@ -6235,10 +5932,6 @@ int GlobInit()
         index_enable_edit_chaser=0;
         chaser_midi_rows=8;
         line_list_is=0;
-        surface_type=0;//icat
-        L_tablier_iCat=240;
-        H_tablier_iCat=160;
-        grid_icat_modulo=5;
     }
 
 

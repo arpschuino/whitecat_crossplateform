@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Fonction pour scanner et afficher les adresse Mac des différentes cartes réseaux de l'ordinateur
+*   Fonction pour scanner et afficher les adresse Mac des diffï¿½rentes cartes rï¿½seaux de l'ordinateur
 *
 *   fonctions to scan and show the different mac adress on the computer
 *
@@ -79,11 +79,8 @@ int Box_IP_routing ( int macx, int macy)
     petitchiffre.Print("in",macx+100,macy-15);
     petitchiffre.Print("out",macx+125,macy-15);
 
-    petitchiffre.Print("iCat",macx+155,macy-25);
-
    Rect ArtnetBIn(Vec2D(macx+200,macy-25),Vec2D(10,10));
    Rect ArtnetBOut(Vec2D(macx+200,macy-25),Vec2D(10,10));
-   Rect FS(Vec2D(macx+200,macy-25),Vec2D(10,10));
 
     for (int u=0;u<8;u++)
     {
@@ -97,9 +94,6 @@ int Box_IP_routing ( int macx, int macy)
     ArtnetBOut.MoveTo(Vec2D(macx+130,macy+(u*20)-10));
     ArtnetBOut.DrawOutline(CouleurLigne.WithAlpha(0.3));
 
-    FS.MoveTo(Vec2D(macx+165,macy+(u*20)-10));
-    FS.DrawOutline(CouleurLigne.WithAlpha(0.3));
-
      if(strcmp(IP_artnet_IN,IP_detected_dmxOUT[u])==0)
     {
      ArtnetBIn.Draw(CouleurFader);
@@ -110,10 +104,6 @@ int Box_IP_routing ( int macx, int macy)
      ArtnetBOut.Draw(CouleurGreen);
     }
 
-    if(strcmp(IP_fantastick,IP_detected_dmxOUT[u])==0)
-    {
-     FS.Draw(CouleurBlind);
-    }
     if(mouse_y>  macy-10+(u*20)&& mouse_y<macy+(u*20)  && window_focus_id==W_CFGMENU)
     {
 
@@ -134,17 +124,6 @@ int Box_IP_routing ( int macx, int macy)
     {
     sprintf(IP_artnet_OUT,IP_detected_dmxOUT[u]);
     index_re_init_client_artnet=1;
-    index_ask_confirm=1;
-    mouse_released=1;
-    }
-    }
-
-    else if(mouse_x>macx+165 && mouse_x<macx+175 )
-    {
-    if(mouse_button==1 && mouse_released==0 && strcmp(IP_detected_dmxOUT[u],"-")==1)
-    {
-    sprintf(IP_fantastick,IP_detected_dmxOUT[u]);
-    index_ask_reinit_FS_client=1;
     index_ask_confirm=1;
     mouse_released=1;
     }
@@ -175,15 +154,14 @@ Rect AllowIn(Vec2D((cfgnetw_X+140), cfgnetw_Y-13),Vec2D(50,20));
 AllowIn.SetRoundness(7.5);
 AllowIn.Draw(CouleurFond.WithAlpha(0.5));
 
-switch(allow_artnet_in)
+if (!allow_artnet_in)
 {
-case 0:
 petitchiffre.Print("/Off",(cfgnetw_X+150), (cfgnetw_Y));
-break;
-case 1:
+}
+else
+{
 AllowIn.Draw(CouleurFader);
 petitchiffre.Print("/On",(cfgnetw_X+155), (cfgnetw_Y));
-break;
 }
 
 if(mouse_x>cfgnetw_X+140 && mouse_x<cfgnetw_X+190 && mouse_y> cfgnetw_Y-13 && mouse_y< cfgnetw_Y+7  && window_focus_id==W_CFGMENU )
@@ -192,14 +170,13 @@ AllowIn.DrawOutline(CouleurNiveau);
 if(mouse_button==1 && mouse_released==0)
 {
 allow_artnet_in=toggle(allow_artnet_in);
-switch(allow_artnet_in)
+if (!allow_artnet_in)
 {
-case 0:
      fermeture_serveur_artnet();
-break;
-case 1:
+}
+else
+{
      initialisation_serveur_artnet();
-break;
 }
 mouse_released=1;
 }

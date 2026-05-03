@@ -229,14 +229,14 @@ int do_core_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteur_c
         Rect BParam(Vec2D(x_cfg_sc + 300, y_cfg_sc + 60 + (l * 25)), Vec2D(50, 20));
         BParam.SetRoundness(7.5);
         BParam.Draw(CouleurFond.WithAlpha(0.5));
-        switch (core_do_calculations[l]) {
-        case 0:
+        if (!core_do_calculations[l])
+        {
             sprintf(tmp_state_core, "/Off");
-            break;
-        case 1:
+        }
+        else
+        {
             BParam.Draw(CouleurFader);
             sprintf(tmp_state_core, "/On");
-            break;
         }
         switch (l) {
         case 0:
@@ -300,23 +300,23 @@ int do_core_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteur_c
             BCParam.DrawOutline(CouleurLevel);
             if (mouse_b & 1 && mouse_released == 0 && numeric_postext > 0) {
                 def_param = atoi(numeric);
-                switch (l) {
-                case 0: // BPS RATE
+                if (!l)
+                {
                     if (def_param >= 10 && def_param <= 250) {
                         BPS_RATE = def_param;
                         ticker_rate = BPS_TO_TIMER(BPS_RATE);
                         install_int_ex(ticker, ticker_rate);
                         reset_numeric_entry();
                     }
-                    break;
-                case 1: // DMX IN RATE
+                }
+                else
+                {
                     if (def_param >= 10 && def_param <= 50) {
                         dmxINrate = def_param;
                         ticker_dmxIn_rate = BPS_TO_TIMER(dmxINrate);
                         install_int_ex(ticker_dmxIn, ticker_dmxIn_rate);
                         reset_numeric_entry();
                     }
-                    break;
                 }
                 mouse_released = 1;
             }
@@ -416,19 +416,19 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
             UnderParam.DrawOutline(CouleurLevel);
             if (mouse_button == 1 && mouse_released == 0) {
                 int param_data_in = 0;
-                switch (dmx_view) {
-                case 0:
+                if (!dmx_view)
+                {
                     if (oi != 1) {
                         param_data_in = (int)(atoi(numeric) * 2.55) + 1;
                     } else {
                         param_data_in = atoi(numeric);
                     }
                     reset_numeric_entry();
-                    break;
-                case 1:
+                }
+                else
+                {
                     param_data_in = atoi(numeric);
                     reset_numeric_entry();
-                    break;
                 }
                 switch (oi) {
                 case 0:
@@ -456,13 +456,13 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     petitchiffre.Print("Channels: ", (cfgnetw_X + 10), (cfgnetw_Y + 40));
     Line(Vec2D(cfgnetw_X + 10, cfgnetw_Y + 45), Vec2D(cfgnetw_X + 100, cfgnetw_Y + 45)).Draw(CouleurLigne);
     petitchiffre.Print("Display mode:", (cfgnetw_X + 20), (cfgnetw_Y + 70));
-    switch (dmx_view) {
-    case 0:
+    if (!dmx_view)
+    {
         sprintf(string_cfg_main, "/100");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/255");
-        break;
     }
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 70));
 
@@ -471,35 +471,35 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     petitchiffre.Print("Default step level:", (cfgnetw_X + 20), (cfgnetw_Y + 100));
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 100));
 
-    switch (dmx_view) {
-    case 0:
+    if (!dmx_view)
+    {
         sprintf(string_cfg_main, "%d", (int)(((float)check_channel_level) / 2.55));
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "%d", check_channel_level);
-        break;
     }
     petitchiffre.Print("Check channels level:", (cfgnetw_X + 20), (cfgnetw_Y + 130));
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 130));
 
-    switch (dmx_view) {
-    case 0:
+    if (!dmx_view)
+    {
         sprintf(string_cfg_main, "%d", (int)(((float)dimmer_check_level) / 2.55));
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "%d", dimmer_check_level);
-        break;
     }
     petitchiffre.Print("Check dimmers level:", (cfgnetw_X + 20), (cfgnetw_Y + 160));
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 160));
 
-    switch (index_blink_change_memories) {
-    case 0:
+    if (!index_blink_change_memories)
+    {
         sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/On");
-        break;
     }
     petitchiffre.Print("Show Change/Mem:", (cfgnetw_X + 20), (cfgnetw_Y + 190));
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 190));
@@ -642,13 +642,13 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
             break;
         case 4:
             petitchiffre.Print("GO Midi ForceMode:", cfgnetw_X + 235, cfgnetw_Y + 70 + (oi * 30));
-            switch (Midi_Force_Go) {
-            case 0:
+            if (!Midi_Force_Go)
+            {
                 petitchiffre.Print("/Off", cfgnetw_X + 380, cfgnetw_Y + 70 + (oi * 30));
-                break;
-            case 1:
+            }
+            else
+            {
                 petitchiffre.Print("/On", cfgnetw_X + 380, cfgnetw_Y + 70 + (oi * 30));
-                break;
             }
             break;
         case 5:
@@ -686,23 +686,23 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
             camera_on_open = toggle(camera_on_open);
             CamOn.Draw(CouleurBlind);
             mouse_released = 1;
-            switch (camera_on_open) {
-            case 0:
+            if (!camera_on_open)
+            {
                 CloseVideo();
-                break;
-            case 1:
+            }
+            else
+            {
                 InitVideo();
-                break;
             }
         }
     }
-    switch (camera_on_open) {
-    case 0:
+    if (!camera_on_open)
+    {
         sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/On");
-        break;
     }
     petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 70);
 
@@ -721,13 +721,13 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
             mouse_released = 1;
         }
     }
-    switch (open_arduino_on_open) {
-    case 0:
+    if (!open_arduino_on_open)
+    {
         sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/On");
-        break;
     }
     petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 100);
 
@@ -771,13 +771,13 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     }
     petitchiffre.Print("Multicore: ", (cfgnetw_X + 430), (cfgnetw_Y + 203));
     Line(Vec2D(cfgnetw_X + 430, cfgnetw_Y + 210), Vec2D(cfgnetw_X + 500, cfgnetw_Y + 210)).Draw(CouleurLigne);
-    switch (index_allow_multicore) {
-    case 0:
+    if (!index_allow_multicore)
+    {
         sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/On");
-        break;
     }
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 540), (cfgnetw_Y + 203));
     petitchiffre.Print("Affect to Core:", cfgnetw_X + 430, cfgnetw_Y + 228);
@@ -834,13 +834,13 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     }
 
     petitchiffre.Print("EXPERT MODE: ", (cfgnetw_X + 620), (cfgnetw_Y + 240));
-    switch (expert_mode) {
-    case 0:
+    if (!expert_mode)
+    {
         sprintf(string_cfg_main, "/Off");
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_cfg_main, "/On");
-        break;
     }
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 750), (cfgnetw_Y + 240));
 
@@ -1132,14 +1132,14 @@ int do_dmx_config(int cfgdmx_X, int cfgdmx_Y, int largeurCFGdmxwindow, int haute
 
     /////////////////////////////////////////////
 
-    switch (index_allow_sunlite_dmxIN) {
-    case 0:
+    if (!index_allow_sunlite_dmxIN)
+    {
         petitchiffre.Print("DMX-IN OFF", cfgdmx_X + 250, cfgdmx_Y + 190);
-        break;
-    case 1:
+    }
+    else
+    {
         SunliteAllowsIN.Draw(CouleurSurvol);
         petitchiffre.Print("DMX-IN ON", cfgdmx_X + 250, cfgdmx_Y + 190);
-        break;
     }
 
     // affichage
@@ -1193,10 +1193,6 @@ int save_network_settings() {
         fprintf(fp, "%s\n", IP_artnet_OUT);
         fprintf(fp, "#arguments: Art-net UDP PORT IN / UDP PORT OUT \n");
         fprintf(fp, "%d / %d /\n", serveurport_artnet, clientport_artnet);
-        fprintf(fp, "#arguments: Fantastick-iCat Socket /\n");
-        fprintf(fp, "%s\n", IP_fantastick);
-        fprintf(fp, "#arguments: Fantastick-iCat  SEND TO adress ( iPhone/iPad) \n");
-        fprintf(fp, "%s\n", specified_fs_ip);
     }
     fclose(fp);
     sprintf(string_Last_Order, ">>Saved Network configuration");
@@ -1231,16 +1227,6 @@ int load_network_conf() {
     fgets(read_buff, sizeof(read_buff), cfg_file);
 
     fscanf(cfg_file, "%d / %d /\n", &serveurport_artnet, &clientport_artnet);
-
-    fgets(read_buff, sizeof(read_buff), cfg_file);
-
-    // sab 02/03/2014 fscanf( cfg_file , "%s\n" ,  &IP_fantastick );
-    fscanf(cfg_file, "%s\n", IP_fantastick);
-
-    fgets(read_buff, sizeof(read_buff), cfg_file);
-
-    // sab 02/03/2014 fscanf( cfg_file , "%s\n" ,  &specified_fs_ip );
-    fscanf(cfg_file, "%s\n", specified_fs_ip);
 
     fclose(cfg_file);
 

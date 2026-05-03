@@ -73,7 +73,6 @@ bool artnet_serveur_is_initialized = 0;
 char IP_detected_dmxOUT[8][24];
 char IP_artnet_IN[24];
 char IP_artnet_OUT[24];
-char IP_fantastick[24];
 int network_OUT_is_selected = 0;
 bool index_re_init_client_artnet = 0;
 bool index_re_init_serveur_artnet = 0;
