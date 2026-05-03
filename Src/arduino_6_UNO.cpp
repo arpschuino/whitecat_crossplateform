@@ -182,16 +182,15 @@ Rect OpenB(Vec2D(cfg_X+120,cfg_Y+180),Vec2D(50,25));
 OpenB.SetRoundness(7.5);
 OpenB.SetLineWidth(epaisseur_ligne_fader);
 OpenB.Draw(CouleurFond.WithAlpha(0.5));
-switch (arduino_device_0_is_ignited)
+if (!arduino_device_0_is_ignited)
 {
-case 0:
 petitchiffre.Print("is OFF",cfg_X+130,cfg_Y+195);
-break;
-case 1:
+}
+else
+{
 petitchiffre.Print("is ON",cfg_X+130,cfg_Y+195);
 
 
-break;
 }
 if(window_focus_id==W_CFGMENU && mouse_x>cfg_X+120 && mouse_x<cfg_X+170 && mouse_y>cfg_Y+180 && mouse_y<cfg_Y+205)
 {
@@ -200,15 +199,14 @@ if(mouse_button==1 && mouse_released==0)
 {
 ticks_arduino=0;
 OpenB.Draw(CouleurBlind);
-switch (arduino_device_0_is_ignited)
+if (!arduino_device_0_is_ignited)
 {
-case 0:
    arduino_init(0);
-break;
-case 1:
+}
+else
+{
    arduino_close(0);
    arduino_device_0_is_ignited=0;
-break;
 }
 mouse_released=1;
 }

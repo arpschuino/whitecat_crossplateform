@@ -140,14 +140,10 @@ player_loop_out_position[player]=length_of_file_in_player[player];
 player1->setVolume(((float)player_niveauson[player])/127);
 player1->setPan(((float)(player_pan[player]-64))/63);
 player1->setPitchShift(((float)player_pitch[player])/64);
-switch(player_is_onloop[player])
- {
- case 0:
+if (!player_is_onloop[player]) {
  player1->setRepeat(false);
- break;
- case 1:
+ } else {
  player1->setRepeat(true);
- break;
  }
 }
 break;
@@ -179,14 +175,10 @@ player_loop_out_position[player]=length_of_file_in_player[player];
 player2->setVolume(((float)player_niveauson[player])/127);
 player2->setPan(((float)(player_pan[player]-64))/63);
 player2->setPitchShift(((float)player_pitch[player])/64);
-switch(player_is_onloop[player])
- {
- case 0:
+if (!player_is_onloop[player]) {
  player2->setRepeat(false);
- break;
- case 1:
+ } else {
  player2->setRepeat(true);
- break;
  }
 }
 break;
@@ -217,14 +209,10 @@ player_loop_out_position[player]=length_of_file_in_player[player];
 player3->setVolume(((float)player_niveauson[player])/127);
 player3->setPan(((float)(player_pan[player]-64))/63);
 player3->setPitchShift(((float)player_pitch[player])/64);
-switch(player_is_onloop[player])
- {
- case 0:
+if (!player_is_onloop[player]) {
  player3->setRepeat(false);
- break;
- case 1:
+ } else {
  player3->setRepeat(true);
- break;
  }
 }
 break;
@@ -255,14 +243,10 @@ player_loop_out_position[player]=length_of_file_in_player[player];
 player4->setVolume(((float)player_niveauson[player])/127);
 player4->setPan(((float)(player_pan[player]-64))/63);
 player4->setPitchShift(((float)player_pitch[player])/64);
-switch(player_is_onloop[player])
- {
- case 0:
+if (!player_is_onloop[player]) {
  player4->setRepeat(false);
- break;
- case 1:
+ } else {
  player4->setRepeat(true);
- break;
  }
 }
 break;
@@ -877,51 +861,35 @@ if(player_ignited[numero]==1)
 switch(numero)
 {
 case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
+ if (!player1->isPlaying()) {
  player1->play();
- break;
- case 1:
+ } else {
  //player1->stop();
  player1_do_stop();
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
+ if (!player2->isPlaying()) {
  player2->play();
- break;
- case 1:
+ } else {
  //player2->stop();
  player2_do_stop();
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
+ if (!player3->isPlaying()) {
  player3->play();
- break;
- case 1:
+ } else {
  //player3->stop();
  player3_do_stop();
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
+ if (!player4->isPlaying()) {
  player4->play();
- break;
- case 1:
+ } else {
  //player4->stop();
  player4_do_stop();
- break;
  }
 break;
 }
@@ -998,55 +966,39 @@ if(player_ignited[numero]==1)
 switch(numero)
 {
 case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1->getRepeat()) {
  player1->setRepeat(true);
  player_is_onloop[numero]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloop[numero]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2->getRepeat()) {
  player2->setRepeat(true);
  player_is_onloop[numero]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloop[numero]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3->getRepeat()) {
  player3->setRepeat(true);
  player_is_onloop[numero]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloop[numero]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4->getRepeat()) {
  player4->setRepeat(true);
  player_is_onloop[numero]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloop[numero]=0;
- break;
  }
 break;
 }

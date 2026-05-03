@@ -59,7 +59,7 @@ if errorlevel 1 (
 
 echo [build] Compilation en cours...
 
-"%GCC%" -w -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g ^
+"%GCC%" -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g ^
  -I%SDL2%\include ^
  -I%WC%\lib\windows\Cserial ^
  -I%WC%\lib\windows\dashard ^

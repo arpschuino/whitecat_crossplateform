@@ -556,16 +556,15 @@ attribute_midi_solo_affectation(969+ct,1);
 }
 else
 {
-switch (tracker_clearmode)
+if (!tracker_clearmode)
 {
-case 0:
 tracking_dock_selected=ct;
-break;
-case 1:
+}
+else
+{
 tracking_dock_to_clean=ct;
 index_do_clear_my_video_preset=1;
 index_ask_confirm=1;
-break;
 }
 mouse_released=1;
 }
@@ -582,14 +581,13 @@ if(mouse_y>WindowVideoY+frame_video_y+300 && mouse_y<WindowVideoY+frame_video_y+
 //edit
 if(mouse_x>WindowVideoX+30 && mouse_x<WindowVideoX+90)
 {
-switch(edit_tracker)
+if (!edit_tracker)
 {
-case 0:
 move_tracker=0;edit_tracker=1;tracker_clearmode=0;
-break;
-case 1:
+}
+else
+{
 edit_tracker=0;
-break;
 }
 mouse_released=1;
 }
@@ -597,14 +595,13 @@ mouse_released=1;
 //move
 if(mouse_x>WindowVideoX+110 && mouse_x<WindowVideoX+170)
 {
-switch(move_tracker)
+if (!move_tracker)
 {
-case 0:
 edit_tracker=0;move_tracker=1;tracker_clearmode=0;
-break;
-case 1:
+}
+else
+{
 move_tracker=0;
-break;
 }
 mouse_released=1;
 }

@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Gère les fonction GUI de la fenêtre des chenillards
+*   Gï¿½re les fonction GUI de la fenï¿½tre des chenillards
 *
 *   GUI fonctions for the chasers
 *
@@ -735,19 +735,18 @@ TimelineChaser.DrawOutline(CouleurBlind);
 
 
 int id_way=0;
-switch(chaser_way[chaser_selected])
+if (!chaser_way[chaser_selected])
 {
-case 0://FORWARD
 id_way=1;
 Line(Vec2D(xcha+175+(chaser_step_is[chaser_selected]*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+115),Vec2D(xcha+175+(chaser_step_is[chaser_selected]*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+145+(nbre_track_visualisables*40))).Draw(CouleurFader);
 Line(Vec2D(xcha+176+(chaser_step_is[chaser_selected]*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+115),Vec2D(xcha+176+(chaser_step_is[chaser_selected]*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+145+(nbre_track_visualisables*40))).Draw(CouleurFader);
 
-break;
-case 1://BACKWARD
+}
+else
+{
 id_way=-1;
 Line(Vec2D(xcha+175+((chaser_step_is[chaser_selected]+1)*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+115),Vec2D(xcha+175+((chaser_step_is[chaser_selected]+1)*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+145+(nbre_track_visualisables*40))).Draw(CouleurFader);
 Line(Vec2D(xcha+176+((chaser_step_is[chaser_selected]+1)*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+115),Vec2D(xcha+176+((chaser_step_is[chaser_selected]+1)*12)+(index_progression_chaser_step[chaser_selected]*12*id_way),ycha+145+(nbre_track_visualisables*40))).Draw(CouleurFader);
-break;
 }
 
 

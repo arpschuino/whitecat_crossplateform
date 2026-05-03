@@ -198,14 +198,13 @@ petitchiffre.Print("From memory",xb+325,yb+220);
 petitchiffre.Print("To memory",xb+325,yb+255);
 
 
-switch(wizard_amplitude_is_global)
+if (!wizard_amplitude_is_global)
 {
-case 0:
 Frommem.Draw(CouleurFader);
-break;
-case 1:
+}
+else
+{
 Allmem.Draw(CouleurFader);
-break;
 }
 
 if(window_focus_id==W_WIZARD && mouse_x>xb+270 && mouse_x<xb+320 )
@@ -702,16 +701,15 @@ if(mouse_button==1 && mouse_released==0)
 wizard_level_is=atoi(numeric);
 mouse_released=1;
 reset_numeric_entry();
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0:
 if(wizard_level_is>100){wizard_level_is=100;}
 else if (wizard_level_is<0){wizard_level_is=0;}
-break;
-case 1:
+}
+else
+{
 if(wizard_level_is>255){wizard_level_is=255;}
 else if (wizard_level_is<0){wizard_level_is=0;}
-break;
 }
 }
 }
@@ -771,14 +769,13 @@ doit.Draw(CouleurFond.WithAlpha(0.5));
 if(mouse_button==1 && mouse_released==0)
 {
 reset_indexs_confirmation();
-switch(index_wizard_ch_mode)
+if (!index_wizard_ch_mode)
 {
-case 0:
 index_do_wizard_mem=1;
-break;
-case 1:
+}
+else
+{
 index_do_wizard_ch=1;
-break;
 }
 index_ask_confirm=1;
 

@@ -1096,16 +1096,15 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+170 && mouse_x<xrep+240 && mouse_y>yr
 {
 SwitchGlobal.Draw(CouleurSurvol);
 }
-switch (index_save_global_is)
+if (!index_save_global_is)
 {
-case 0:
 SwitchGlobal.Draw(CouleurBlind.WithAlpha(alpha_blinker));
 petitchiffre.Print("CHOICE",xrep+180,yrep-20);
-break;
-case 1:
+}
+else
+{
 SwitchGlobal.Draw(CouleurFader);
 petitchiffre.Print("GLOBAL",xrep+180,yrep-20);
-break;
 }
 SwitchGlobal.DrawOutline(CouleurLigne);
 
@@ -1361,21 +1360,20 @@ TogBSav.SetLineWidth(epaisseur_ligne_fader);
 
 
 
-switch(index_save_mode_export_or_binary)
+if (!index_save_mode_export_or_binary)
 {
-case 0:
 petitchiffre.Print("  BINARY",xsave+325,ysave+30);
 selecteur_binary_save_solo_global(xsave+30, ysave+50);
 deroule_repertoire_classical_save(xsave+20, ysave+85, "saves");
 choose_personnal_preset_binary_save_load(xsave+300, ysave+270);
-break;
-case 1:
+}
+else
+{
 TogBSav.Draw(CouleurSurvol);
 petitchiffre.Print("IMP-EXPORT",xsave+325,ysave+30);
 if(isPdf==1) {selecteur_PDF_save_solo_global(xsave+30, ysave+50);   }
 deroule_repertoire_export_import(xsave+20, ysave+85, "import_export");
 
-break;
 }
 TogBSav.DrawOutline(CouleurLigne);
 
@@ -1405,18 +1403,17 @@ mouse_released=1;
 
 
 
-switch(index_save_mode_export_or_binary)
+if (!index_save_mode_export_or_binary)
 {
-case 0:
 do_logical_selecteur_binary_save_solo_global(xsave+30, ysave+50);
 do_logical_deroule_repertoire_classical_save(xsave+20, ysave+85, "saves");
 do_logical_choose_personnal_preset_binary_save_load(xsave+300, ysave+270);
-break;
-case 1:
+}
+else
+{
 if(isPdf==1) {do_logical_selecteur_PDF_save_solo_global(xsave+30, ysave+50);   }
 do_logical_deroule_repertoire_export_import(xsave+20, ysave+85, "import_export");
 
-break;
 }
 if(window_focus_id==W_SAVE && mouse_x>xsave+300 && mouse_x<xsave+370 && mouse_y>ysave+430 && mouse_y<ysave+455)
 {

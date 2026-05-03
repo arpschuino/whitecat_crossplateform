@@ -240,18 +240,17 @@ midi_launchpad_state[i+1213]=chaser_is_in_loop[ChaserAffectedToDck[i][dock_used_
 /////////SEQUENCIEL//////////////////////////////
 if(index_go==1)
 {
-switch(index_pause)
+if (!index_pause)
 {
-case 0:
 midi_launchpad_state[495]=1;
 launchpad_is_a_cycling_effect[495]=0;
 launchpad_color_defined[495]=lch_red;
-break;
-case 1:
+}
+else
+{
 midi_launchpad_state[495]=1;
 launchpad_is_a_cycling_effect[495]=1;
 launchpad_color_defined[495]=lch_red;
-break;
 }
 }
 else if(index_go==0)
@@ -334,14 +333,13 @@ else{midi_launchpad_state[794+op]=0;}
 ////CHASER SELECTED
 midi_launchpad_state[978]=chaser_is_playing[chaser_selected];
 midi_launchpad_state[980]=chaser_is_in_loop[chaser_selected];
-switch (chaser_way[chaser_selected])
+if (!chaser_way[chaser_selected])
 {
-case 0:
 midi_launchpad_state[981]=1; midi_launchpad_state[982]=0;
-break;
-case 1:
+}
+else
+{
 midi_launchpad_state[981]=0; midi_launchpad_state[982]=1;
-break;
 }
 midi_launchpad_state[983]=chaser_aller_retour[chaser_selected];
 midi_launchpad_state[994]=chaser_time_mode[chaser_selected];
@@ -420,14 +418,13 @@ for(int l=0;l<3072;l++)
 {
 if(midi_launchpad_state[l]!=midi_launchpad_state_before[l])
 {
-switch(midi_launchpad_state[l])
+if (!midi_launchpad_state[l])
 {
-case 0:
 temp_launchpad=8;
-break;
-case 1:
+}
+else
+{
 temp_launchpad= launchpad_color_defined[l];
-break;
 }
 if(miditable[0][l]<5 && miditable[1][l]<128 && miditable[2][l]<128)
 {//mode led fixe

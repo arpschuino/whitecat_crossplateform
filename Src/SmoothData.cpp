@@ -93,16 +93,15 @@ float tmp=_data_val;
 _damper_target_val=((float)(_data_val))/255;
 
 
-switch(_damper_blocking_mode)
-    {
-    case 0:
+if (!_damper_blocking_mode)
+{
     _damper_do_calculation=1;
-    break;
-    case 1://no change of data = no calculation
+}
+else
+{
     _damper_do_calculation=0;
     if(tmp!=_damper_previous_target) {_damper_do_calculation=1;}
-    break;
-    }
+}
 
 if(_damper_do_calculation==1)
 {

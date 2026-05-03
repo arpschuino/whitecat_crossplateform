@@ -859,22 +859,21 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
 
                 petitdoomInspekt.Print(ol::ToString(cmptfader+1 +(lfad*24)),xmf+(cmptfader*larg), ymf+10+(lfad*hmfd));
 
-                switch(dmx_view)
+                if (!dmx_view)
                 {
-                case 0:
                     if(FaderLocked[cmptfader+(lfad*24)]==1)
                     {
                         petitpetitchiffrerouge.Print(ol::ToString((int)((float)(StateOfFaderBeforeLock[cmptfader +(lfad*24)])/2.55)),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));
                     }
                     sprintf(string_niveau, "%d",(int)(((float)niveau)/2.55));
-                    break;
-                case 1:
+                }
+                else
+                {
                     sprintf(string_niveau,"%d", niveau);
                     if(FaderLocked[cmptfader+(lfad*24)]==1)
                     {
                         petitpetitchiffrerouge.Print(ol::ToString((int)StateOfFaderBeforeLock[cmptfader +(lfad*24)]),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));
                     }
-                    break;
                 }
                 if(Fader[cmptfader +(lfad*24)]>0)
                 {
@@ -886,28 +885,26 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
                 {
                     /*sab 02/03/2014 unused var
                     int nivstopos=0;
-                    switch(dmx_view)
+                    if (!dmx_view)
                     {
-                    case 0:
                     nivstopos= (int) (((float)LevelStopPos[cmptfader+(lfad*24)])/2.55);
-                    break;
-                    case 1:
+                    }
+                    else
+                    {
                     nivstopos=LevelStopPos[cmptfader+(lfad*24)];
-                    break;
                     }
                     */
 
 //ON OFF
-                    switch(ActionnateStopOn[cmptfader+(lfad*24)])
+                    if (!ActionnateStopOn[cmptfader+(lfad*24)])
                     {
-                    case 0:
                         Line(Vec2D(xmf+(cmptfader*larg),(ymf+20+127+(lfad*hmfd) - (LevelStopPos[cmptfader+(lfad*24)]/2))),Vec2D(xmf+(cmptfader*larg)+larg-5,(ymf+20+127+(lfad*hmfd) - (LevelStopPos[cmptfader+(lfad*24)]/2)))).Draw(CouleurLigne);
                         petitpetitchiffre.Print(string_fader_stop_pos[cmptfader],xmf+(cmptfader*larg)+2,(ymf+127+20 - (LevelStopPos[cmptfader+(lfad*24)]/2)));
-                        break;
-                    case 1:
+                    }
+                    else
+                    {
                         Line(Vec2D(xmf+(cmptfader*larg),(ymf+20+127 - (LevelStopPos[cmptfader+(lfad*24)]/2))),Vec2D(xmf+(cmptfader*larg)+larg-5,(ymf+127+20 - (LevelStopPos[cmptfader+(lfad*24)]/2)))).Draw(CouleurBlind);
                         petitpetitchiffrerouge.Print(string_fader_stop_pos[cmptfader],xmf+(cmptfader*larg)+2,(ymf+127+20 - (LevelStopPos[cmptfader+(lfad*24)]/2)));
-                        break;
                     }
                 }
 ///////////SELECTION SOURIS SUR FADERS NUMEROS/////////////////////////////////////////////////////////

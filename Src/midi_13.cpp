@@ -367,18 +367,14 @@ rest(midi_keyboard_wait);
 
 if(control==495)
 {
-switch (Midi_Force_Go)
-{
-case 0:
+if (!Midi_Force_Go) {
 do_go_function();
-break;
-case 1:
+} else {
 if(index_go==1){
 do_double_go_function();
 }
 else {do_go_function(); }
 index_pause=0;
-break;
 }
 if(index_go==1 && index_pause==0)
 {
@@ -722,47 +718,31 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
+ if (!player1->isPlaying()) {
  player1->play(); player_is_playing[bum]=1;
- break;
- case 1:
+ } else {
  player1_do_stop();player_is_playing[bum]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
+ if (!player2->isPlaying()) {
  player2->play();    player_is_playing[bum]=1;
- break;
- case 1:
+ } else {
  player2_do_stop();player_is_playing[bum]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
+ if (!player3->isPlaying()) {
  player3->play();    player_is_playing[bum]=1;
- break;
- case 1:
+ } else {
  player3_do_stop();player_is_playing[bum]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
+ if (!player4->isPlaying()) {
  player4->play();     player_is_playing[bum]=1;
- break;
- case 1:
+ } else {
  player4_do_stop();  player_is_playing[bum]=0;
- break;
  }
 break;
 }
@@ -801,55 +781,39 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1-> getRepeat()) {
  player1->setRepeat(true);
  player_is_onloop[bum]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloop[bum]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2-> getRepeat()) {
  player2->setRepeat(true);
  player_is_onloop[bum]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloop[bum]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3-> getRepeat()) {
  player3->setRepeat(true);
  player_is_onloop[bum]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloop[bum]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4-> getRepeat()) {
  player4->setRepeat(true);
  player_is_onloop[bum]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloop[bum]=0;
- break;
  }
 break;
 }
@@ -1000,55 +964,39 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
  case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1-> getRepeat()) {
  player1->setRepeat(true);
  player_is_onloopCue[bum]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloopCue[bum]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2-> getRepeat()) {
  player2->setRepeat(true);
  player_is_onloopCue[bum]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloopCue[bum]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3-> getRepeat()) {
  player3->setRepeat(true);
  player_is_onloopCue[bum]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloopCue[bum]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4-> getRepeat()) {
  player4->setRepeat(true);
  player_is_onloopCue[bum]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloopCue[bum]=0;
- break;
  }
 break;
 }
@@ -1212,14 +1160,10 @@ index_do_report=0;
 index_main_clear=0;
 index_do_dock=toggle(index_do_dock);
 
-switch(index_do_dock)
-{
-case 0:
+if (!index_do_dock) {
  sprintf(string_Last_Order,">> Record ready");
-break;
-case 1:
+} else {
  sprintf(string_Last_Order,">> No Record");
-break;
 }
 
 switch (window_focus_id)
@@ -1569,15 +1513,12 @@ for (int ck=0;ck<core_user_define_nb_docks-1;ck++)
 if(is_dock_for_lfo_selected[control-851][ck]!=is_dock_for_lfo_selected[control-851][ck+1])
 {index_choose_mode_dkloop=1;break;}
 }
-switch(index_choose_mode_dkloop)
-{
-case 0:
+if (!index_choose_mode_dkloop) {
 for(int op=0;op<core_user_define_nb_docks;op++)
 {
  is_dock_for_lfo_selected[control-851][op]=toggle(is_dock_for_lfo_selected[control-851][op]);
 }
-break;
-case 1:
+} else {
 //tout le monde prend la valeur du dock selectionn�
 for(int j=0;j<core_user_define_nb_docks;j++)
 {
@@ -1591,7 +1532,6 @@ is_dock_for_lfo_selected[control-851][k]=toggle(tempval_dockloop);
 break;
 }
 }
-break;
 }
 }
 
@@ -1676,14 +1616,10 @@ chaser_seek_at_beg(chaser_selected);
 if(control==980 && midi_levels[control]>0)
 {
 chaser_is_in_loop[chaser_selected]=toggle(chaser_is_in_loop[chaser_selected]);
-switch(chaser_is_in_loop[chaser_selected])
-{
-case 0:
+if (!chaser_is_in_loop[chaser_selected]) {
 sprintf(string_Last_Order,">> LOOP OFF Chaser %d",chaser_selected+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON Chaser %d",chaser_selected+1);
-break;
 }
 }
 /*
@@ -1852,58 +1788,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
+ if (!player1->isPlaying()) {
  player1->play();
- break;
- case 1:
+ } else {
  player1_do_stop();
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
+ if (!player2->isPlaying()) {
  player2->play();
- break;
- case 1:
+ } else {
  player2_do_stop();
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
+ if (!player3->isPlaying()) {
  player3->play();
- break;
- case 1:
+ } else {
  player3_do_stop();
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
+ if (!player4->isPlaying()) {
  player4->play();
- break;
- case 1:
+ } else {
  player4_do_stop();
- break;
  }
 break;
 }
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_playing[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
 }
 }
 break;
@@ -1913,58 +1829,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
+ if (!player1->isPlaying()) {
  player1->play();
- break;
- case 1:
+ } else {
  player1_do_stop();
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
+ if (!player2->isPlaying()) {
  player2->play();
- break;
- case 1:
+ } else {
  player2_do_stop();
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
+ if (!player3->isPlaying()) {
  player3->play();
- break;
- case 1:
+ } else {
  player3_do_stop();
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
+ if (!player4->isPlaying()) {
  player4->play();
- break;
- case 1:
+ } else {
  player4_do_stop();
- break;
  }
 break;
 }
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_playing[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
 }
 }
 break;
@@ -1974,58 +1870,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
+ if (!player1->isPlaying()) {
  player1->play();
- break;
- case 1:
+ } else {
  player1_do_stop();
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
+ if (!player2->isPlaying()) {
  player2->play();
- break;
- case 1:
+ } else {
  player2_do_stop();
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
+ if (!player3->isPlaying()) {
  player3->play();
- break;
- case 1:
+ } else {
  player3_do_stop();
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
+ if (!player4->isPlaying()) {
  player4->play();
- break;
- case 1:
+ } else {
  player4_do_stop();
- break;
  }
 break;
 }
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_playing[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",control-1115+1,the_audio_player+1);
-break;
 }
 }
 break;
@@ -2038,27 +1914,19 @@ chaser_start_time[the_chaser]=actual_time;
 if(chaser_step_is[chaser_selected]<0){chaser_step_is[chaser_selected]=0;}
 else if(chaser_step_is[chaser_selected]>35){chaser_step_is[chaser_selected]=35;}
 }
-switch(chaser_is_playing[the_chaser])
-{
-case 0:
+if (!chaser_is_playing[the_chaser]) {
 sprintf(string_Last_Order,">> PLAY OFF from Fader %d Chaser %d",control-1115+1,the_chaser+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> PLAY ON from Fader %d Chaser %d",control-1115+1,the_chaser+1);
-break;
 }
 break;
 case 12://grid
 grider_is_playing[the_grid_player]=toggle(grider_is_playing[the_grid_player]);
 if(grider_is_playing[the_grid_player]==1){grid_crossfade_start_time[the_grid_player]=actual_time;}
-switch(player_is_playing[the_grid_player])
-{
-case 0:
+if (!player_is_playing[the_grid_player]) {
 sprintf(string_Last_Order,">> PLAY OFF from Fader %d GridPl %d",control-1115+1,the_grid_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> PLAY ON from Fader %d GridPl %d",control-1115+1,the_grid_player+1);
-break;
 }
 break;
 default:
@@ -2187,67 +2055,47 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1-> getRepeat()) {
  player1->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2-> getRepeat()) {
  player2->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3-> getRepeat()) {
  player3->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4-> getRepeat()) {
  player4->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 }
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_onloop[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
 }
 
 }
@@ -2258,67 +2106,47 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1-> getRepeat()) {
  player1->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2-> getRepeat()) {
  player2->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3-> getRepeat()) {
  player3->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4-> getRepeat()) {
  player4->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 }
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_onloop[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
 }
 
 }
@@ -2329,93 +2157,65 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
+ if (!player1-> getRepeat()) {
  player1->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player1->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
+ if (!player2-> getRepeat()) {
  player2->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player2->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
+ if (!player3-> getRepeat()) {
  player3->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player3->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
+ if (!player4-> getRepeat()) {
  player4->setRepeat(true);
  player_is_onloop[the_audio_player]=1;
- break;
- case 1:
+ } else {
  player4->setRepeat(false);
  player_is_onloop[the_audio_player]=0;
- break;
  }
 break;
 }
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
+if (!player_is_onloop[the_audio_player]) {//inversed by action
 sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",control-1213+1,the_audio_player+1);
-break;
 }
 
 }
 break;
 case 11: //chaser
 chaser_is_in_loop[the_chaser]=toggle(chaser_is_in_loop[the_chaser]);
-switch(chaser_is_in_loop[the_chaser])
-{
-case 0:
+if (!chaser_is_in_loop[the_chaser]) {
 sprintf(string_Last_Order,">> LOOP OFF from Fader %d Chaser %d",control-1213+1, the_chaser+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON from Fader %d Chaser %d",control-1213+1, the_chaser+1);
-break;
 }
 break;
 case 12: //grid
 grider_autostopmode[the_grid_player]=toggle(grider_autostopmode[the_grid_player]);
-switch(grider_autostopmode[the_grid_player])
-{
-case 0:
+if (!grider_autostopmode[the_grid_player]) {
 sprintf(string_Last_Order,">> AutoStop OFF from Fader %d Gpl %d",control-1213+1, the_grid_player+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> AutoStop ON from Fader %d Gpl %d",control-1213+1, the_grid_player+1);
-break;
 }
 break;
 default:
@@ -2429,36 +2229,28 @@ if(control==1277  )
 {
  index_midi_mute=toggle(index_midi_mute);
 
-  switch(index_midi_mute)
-  {
-  case 0:
+  if (!index_midi_mute) {
     for(int y=0;y<3072;y++)
     {
     is_raccrochage_midi_remote[y]=0;
     sprintf(string_Last_Order,">>Midi IN un-muted");
     }
-  break;
-  case 1:
+  } else {
     for(int y=0;y<3072;y++)
     {
     is_raccrochage_midi_remote[y]=1;
     sprintf(string_Last_Order,">>Midi IN muted");
     }
-  break;
   }
 }
 
 if(control>=1278 && control<=1325)
 {
 autolaunch[control-1278]=toggle( autolaunch[control-1278] );
-switch (autolaunch[control-1278])
-{
-case 0:
+if (!autolaunch[control-1278]) {
 sprintf(string_Last_Order,">>Autolaunch OFF Fader %d", control-1278);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">>Autolaunch ON Fader %d", control-1278);
-break;
 }
 }
 
@@ -2582,39 +2374,40 @@ break;
 //les 127 bangers en manuel
 if(control>=1343 && control<=1470)
 {
-bang_is_sended[control-1343]=toggle(bang_is_sended[control-1343]);
-switch (bang_is_sended[control-1343])
-{
-case 0://reset des send events et on demarre � la souris le banger
-  for (int y=0;y<6;y++){event_sended[control-1343][y]=0;}
-  start_time_for_banger[control-1343]=actual_time;
+  bang_is_sended[control-1343]=toggle(bang_is_sended[control-1343]);
 
-//calcul bang time de fin
-for (int y=0;y<6;y++)
-{
-if(bangers_delay[control-1343][y]> end_time_for_banger[control-1343])
-{
-end_time_for_banger[control-1343]= bangers_delay[control-1343][y];
-}
-}
-if(end_time_for_banger[control-1343]<default_time_of_the_bang)
-{end_time_for_banger[control-1343]=default_time_of_the_bang;}
-///////////////////////
-last_banger_sended_manually=control-1343;
-//bang_is_sended[control-1343]=0;//pierre group laps
-break;
-case 1://go back sur le banger
-for (int y=0;y<6;y++)
-{
-if(bangers_type[control-1343][y]!=0 )
-{
-    Bang_event_back(control-1343, y);
-    event_sended[control-1343][y]=1;
-}
-}
-bang_is_sended[control-1343]=1;//bloquage de l envoi des autres �v�nements
-break;
-}
+  if (bang_is_sended[control-1343]==0)
+  {
+    //reset des send events et on demarre � la souris le banger
+    for (int y=0;y<6;y++){event_sended[control-1343][y]=0;}
+    start_time_for_banger[control-1343]=actual_time;
+
+    //calcul bang time de fin
+    for (int y=0;y<6;y++)
+    {
+      if(bangers_delay[control-1343][y]> end_time_for_banger[control-1343])
+      {
+        end_time_for_banger[control-1343]= bangers_delay[control-1343][y];
+      }
+    }
+    if(end_time_for_banger[control-1343]<default_time_of_the_bang){
+      end_time_for_banger[control-1343]=default_time_of_the_bang;
+    }
+    ///////////////////////
+    last_banger_sended_manually=control-1343;
+    //bang_is_sended[control-1343]=0;//pierre group laps
+  }
+  else{
+    for (int y=0;y<6;y++)
+    {
+      if(bangers_type[control-1343][y]!=0 )
+      {
+          Bang_event_back(control-1343, y);
+          event_sended[control-1343][y]=1;
+      }
+    }
+    bang_is_sended[control-1343]=1;//bloquage de l envoi des autres �v�nements
+  }
 }
 
 //GRID AFFICHAGE PLAYERS
@@ -2800,26 +2593,23 @@ if(control>=1594 && control<=1622)
 {
 if(control==1594)
 {
-index_plot_window=toggle(index_plot_window);
-switch( index_plot_window)
-{
-case 0:
-substract_a_window(W_PLOT);
-break;
-case 1:
-add_a_window(W_PLOT);
-break;
-}
+  index_plot_window=toggle(index_plot_window);
+  if( index_plot_window==0){
+    substract_a_window(W_PLOT);
+  }
+  else{
+    add_a_window(W_PLOT);
+  }
 }
 
 else if(control==1595)
 {
-plot_index_show_levels=toggle(plot_index_show_levels);
+  plot_index_show_levels=toggle(plot_index_show_levels);
 }
 
 else if(control==1596)
 {
-plot_index_show_levels_from_faders=toggle(plot_index_show_levels_from_faders);
+  plot_index_show_levels_from_faders=toggle(plot_index_show_levels_from_faders);
 }
 
 //selecteur symbols
@@ -2967,61 +2757,58 @@ break;
 //les layers
 else if(control>=1605 && control<=1608)
 {
-int calc=control-1605;
-if(index_main_clear==0 && index_plot_send_to_mode==0)
-{
-switch(plot_layer_mode)
-{
-case 0:
-show_calc_number[calc]=toggle(show_calc_number[calc]);
-break;
-case 1:
-for(int j=0;j<4;j++)
-{
-show_calc_number[j]=0;
-}
-show_calc_number[calc]=1;
-view_plot_calc_number_is=calc;
-mouse_released=1;
-break;
-}
-plot_generate_appareils_list();
-}
-else if(index_main_clear==1 && index_plot_send_to_mode==0)
-{
-plot_layer_selected=calc;
-index_ask_delete_symbols_on_calc=1;
-index_ask_confirm=1;
-}
-else if(index_main_clear==0 && index_plot_send_to_mode==1)
-{
-plot_layer_selected=calc;
-send_symbols_from_calc_to_calc(view_plot_calc_number_is,plot_layer_selected)     ;
-index_plot_send_to_mode=0;
-plot_layer_selected=0;
-plot_generate_appareils_list();
-}
+  int calc=control-1605;
+  if(index_main_clear==0 && index_plot_send_to_mode==0)
+  {
+  if(plot_layer_mode==0){
+    show_calc_number[calc]=toggle(show_calc_number[calc]);
+  }
+  else{
+    for(int j=0;j<4;j++)
+    {
+    show_calc_number[j]=0;
+    }
+    show_calc_number[calc]=1;
+    view_plot_calc_number_is=calc;
+    mouse_released=1;
+  }
+  plot_generate_appareils_list();
+  }
+  else if(index_main_clear==1 && index_plot_send_to_mode==0)
+  {
+  plot_layer_selected=calc;
+  index_ask_delete_symbols_on_calc=1;
+  index_ask_confirm=1;
+  }
+  else if(index_main_clear==0 && index_plot_send_to_mode==1)
+  {
+  plot_layer_selected=calc;
+  send_symbols_from_calc_to_calc(view_plot_calc_number_is,plot_layer_selected)     ;
+  index_plot_send_to_mode=0;
+  plot_layer_selected=0;
+  plot_generate_appareils_list();
+  }
 }
 
 else if(control==1609)//toggle Layer mode
 {
-plot_layer_mode=toggle(plot_layer_mode);
+  plot_layer_mode=toggle(plot_layer_mode);
 }
 
 else if(control>=1610 && control<=1614)//les relatifs en �dition
 {
-int rx=control-1610;
-switch(mode_relatif_xy_solo)
-{
-case 0:
-adjust_xy_type[rx]=toggle(adjust_xy_type[rx]);
-break;
-case 1:
-for(int j=0;j<5;j++)
-{adjust_xy_type[j]=0;}
-adjust_xy_type[rx]=1;
-break;
-}
+  int rx=control-1610;
+  switch(mode_relatif_xy_solo)
+  {
+    case 0:
+    adjust_xy_type[rx]=toggle(adjust_xy_type[rx]);
+    break;
+    case 1:
+    for(int j=0;j<5;j++)
+    {adjust_xy_type[j]=0;}
+    adjust_xy_type[rx]=1;
+    break;
+  }
 }
 
 if(control>=1615 && control<=1622)//preset reatifs xy
@@ -3256,27 +3043,24 @@ echo_grid_channel_position[echo_selected]++;
 //les 3 sliders de param�tre de Echo: Gravity Mass et Energy
 if(control>=1693 && control<= 1695)
 {
- echo_global_params[echo_selected][control-1693]= (float)(midi_levels[control])/127;
+  echo_global_params[echo_selected][control-1693]= (float)(midi_levels[control])/127;
 }
 
-if(control==1696)//mode level ou ground pour l �dition de channel
+if(control==1696)//mode level ou ground pour l édition de channel
 {
 if(index_main_clear==1 && index_enable_edit_echo==1)
 {
-switch(echo_channel_manipulate_mode[echo_selected])
-{
- case 0://levels
- clear_echo_levels(echo_selected);
- break;
- case 1:
- clear_ground_levels(echo_selected);
- break;
-}
-index_main_clear=0;
+  if(echo_channel_manipulate_mode[echo_selected]==0){
+    clear_echo_levels(echo_selected);
+  }
+  else{
+    clear_ground_levels(echo_selected);
+  }
+  index_main_clear=0;
 }
 else
 {
-echo_channel_manipulate_mode[echo_selected]=toggle(echo_channel_manipulate_mode[echo_selected]);
+  echo_channel_manipulate_mode[echo_selected]=toggle(echo_channel_manipulate_mode[echo_selected]);
 }
 }
 
@@ -4281,16 +4065,13 @@ if( Midi_Faders_Affectation_Type!=0)//config midi
 Rect WheelMode(Vec2D(xw+rayon_k+10,yw-rayon_k),Vec2D(15,15));
 WheelMode.SetRoundness(3);
 
-switch(clocklevel_absolutemode)
-{
-case 0:
-WheelMode.Draw(CouleurLock);
-petitchiffre.Print("R",xw+rayon_k+13,yw-rayon_k+12);
-break;
-case 1:
-WheelMode.Draw(CouleurSurvol);
-petitchiffre.Print("A",xw+rayon_k+13,yw-rayon_k+12);
-break;
+if(clocklevel_absolutemode==0){
+  WheelMode.Draw(CouleurLock);
+  petitchiffre.Print("R",xw+rayon_k+13,yw-rayon_k+12);
+}
+else{
+  WheelMode.Draw(CouleurSurvol);
+  petitchiffre.Print("A",xw+rayon_k+13,yw-rayon_k+12);
 }
 WheelMode.DrawOutline(CouleurLigne);
 
@@ -4368,20 +4149,17 @@ int midi_clock_part(int _x,int _y)
 {
   //midiclock view
 
- petitchiffre.Print("MIDI CLOCK SIGNAL:", _x,_y);
- Rect Button(Vec2D(_x,_y+15),Vec2D(50,20));
- Button.SetRoundness(4.5);
- Button.DrawOutline(CouleurBlanc);
- petitchiffre.Print("MIDI CLOCK", _x+70,_y+28);
- switch(index_midi_clock_on)
- {
-    case 0:
+  petitchiffre.Print("MIDI CLOCK SIGNAL:", _x,_y);
+  Rect Button(Vec2D(_x,_y+15),Vec2D(50,20));
+  Button.SetRoundness(4.5);
+  Button.DrawOutline(CouleurBlanc);
+  petitchiffre.Print("MIDI CLOCK", _x+70,_y+28);
+  if(index_midi_clock_on==0){
      petitchiffre.Print("/Off", _x+5,_y+28);
-    break;
-    case 1:
+  }
+  else{
      petitchiffre.Print("/ON", _x+5,_y+28);
-    break;
- }
+  }
 
  Rect BPm_(Vec2D(_x,_y+45),Vec2D(60,20));
  BPm_.SetRoundness(4.5);

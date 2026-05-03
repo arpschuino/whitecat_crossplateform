@@ -1373,6 +1373,6 @@ inline void GetSupportedAudioDevices(std::vector<AudioDeviceDesc>& devices) {
     }
 }
 
-} // namespace audiere
+} 
 
 #endif // AUDIO_BACKEND_H

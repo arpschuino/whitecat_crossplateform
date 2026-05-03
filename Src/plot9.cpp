@@ -48,14 +48,13 @@ int draw_channel_of_symbol( int calc, int symb, int plotx, int ploty)
 
 
  Circle ChannelProp(Vec2D(plotx,ploty),12);
- switch( symbol_is_selected[calc][symb])
+ if (!symbol_is_selected[calc][symb])
  {
- case 0:
  ChannelProp.Draw(CouleurPlotFill);
- break;
- case 1:
+ }
+ else
+ {
  ChannelProp.Draw(CouleurFader);
- break;
  }
  ChannelProp.DrawOutline(CouleurPlotLine.WithAlpha(0.5));
  if(symbol_channel_is[calc][symb]<10)
@@ -2627,14 +2626,13 @@ PlotSymbList.DrawOutline(CouleurPlotLine.WithAlpha(0.4));
 
 Rect UnderName(Vec2D(plotx+10,ploty+5),Vec2D(185,20));
 UnderName.SetRoundness(5);
-switch(index_edit_symbol_plot)
+if (!index_edit_symbol_plot)
 {
-case 0:
 UnderName.Draw(CouleurPlotLine.WithAlpha(0.4));
-break;
-case 1:
+}
+else
+{
 UnderName.Draw(CouleurSurvol);
-break;
 }
 UnderName.DrawOutline(CouleurPlotLine.WithAlpha(0.4));
 petitchiffrenoir.Print(symbol_nickname[symbol_selected_type],plotx+12,ploty+18);
@@ -2685,14 +2683,13 @@ petitchiffrenoir.Print("Global size",plotx+45,ploty+37);
 petitchiffrenoir.Print(ol::ToString(global_symbol_size),plotx+108,ploty+48);
 Rect global_sizer_frame(Vec2D(plotx+50,ploty+40),Vec2D(50,10));
 Rect global_sizer_level(Vec2D(plotx+50,ploty+40),Vec2D(25.0*global_symbol_size,10));
-switch(index_edit_symbol_plot)
+if (!index_edit_symbol_plot)
 {
-case 0:
 global_sizer_level.Draw(CouleurPlotLine.WithAlpha(0.4));
-break;
-case 1:
+}
+else
+{
 global_sizer_level.Draw(CouleurBlind);
-break;
 }
 global_sizer_frame.DrawOutline(CouleurPlotLine);
 
@@ -2702,14 +2699,13 @@ petitchiffrenoir.Print("Symbol size",plotx+45,ploty+62);
 petitchiffrenoir.Print(ol::ToString(size_symbol[symbol_selected_type]),plotx+108,ploty+73);
 Rect symbol_sizer_frame(Vec2D(plotx+50,ploty+65),Vec2D(50,10));
 Rect symbol_sizer_level(Vec2D(plotx+50,ploty+65),Vec2D(50.0*size_symbol[symbol_selected_type],10));
-switch(index_edit_symbol_plot)
+if (!index_edit_symbol_plot)
 {
-case 0:
 symbol_sizer_level.Draw(CouleurPlotLine.WithAlpha(0.4));
-break;
-case 1:
+}
+else
+{
 symbol_sizer_level.Draw(CouleurFader);
-break;
 }
 symbol_sizer_frame.DrawOutline(CouleurPlotLine);
 
@@ -2762,9 +2758,8 @@ int plot_draw_shape_line(int plotx1, int ploty1, int plotx2, int ploty2, float s
 {
 Rgba TmpColor;
 
-switch(isselected)
+if (!isselected)
 {
-case 0:
 switch(colorpattern)
 {
 case 1://jaune
@@ -2785,11 +2780,10 @@ break;
 }
 
 Line(Vec2D(plotx1,ploty1),Vec2D(plotx2,ploty2),sizeshape).Draw(TmpColor.WithAlpha(alphashape));
-
-break;
-case 1:
+}
+else
+{
 Line(Vec2D(plotx1,ploty1),Vec2D(plotx2,ploty2),sizeshape).Draw(CouleurFader);
-break;
 }
 if(index_edit_light_plot==1 && index_menus_lighting_plot==1)//visualition du centre projo
 {
@@ -2835,9 +2829,8 @@ default:
 break;
 }
 
-switch(isselected)
+if (!isselected)
 {
-case 0:
 switch(colorpattern)
 {
 case 1://jaune
@@ -2856,10 +2849,10 @@ default:
 glColor4f(Color_plotline,Color_plotline,Color_plotline,alphag);
 break;
 }
-break;
-case 1:
+}
+else
+{
 glColor4f(1.0,0.4,0.0,1.0);
-break;
 }
 
 glEnable (GL_LINE_STIPPLE);
@@ -2944,9 +2937,8 @@ ourlet.MoveTo(Vec2D(plotx1+cos(angle_ligne)*sizeshape+(correctionx*i),ploty1+sin
 ourlet.RotateBy(angle_ligne + PI*inversion);
 Rgba TmpColor;
 
-switch(isselected)
+if (!isselected)
 {
-case 0:
 switch(colorpattern)
 {
 case 1://jaune
@@ -2966,10 +2958,10 @@ TmpColor=CouleurPlotLine;
 break;
 }
 ourlet.DrawSlice(TmpColor.WithAlpha(general_alpha_for_shape),0, PI);
-break;
-case 1:
+}
+else
+{
 ourlet.DrawSlice(CouleurFader,0, PI);
-break;
 }
 }
 if( index_edit_light_plot==1 && index_menus_lighting_plot==1)//visualition du centre projo
@@ -3220,14 +3212,13 @@ PlotSymbList.DrawOutline(CouleurPlotLine.WithAlpha(0.4));
 
 Rect UnderName(Vec2D(plotx+10,ploty+5),Vec2D(185,20));
 UnderName.SetRoundness(5);
-switch(index_edit_symbol_plot)
+if (!index_edit_symbol_plot)
 {
-case 0:
 UnderName.Draw(CouleurPlotLine.WithAlpha(0.4));
-break;
-case 1:
+}
+else
+{
 UnderName.Draw(CouleurSurvol);
-break;
 }
 UnderName.DrawOutline(CouleurPlotLine.WithAlpha(0.4));
 petitchiffrenoir.Print(shape_nickname[shape_selected_type],plotx+12,ploty+18);
@@ -3493,14 +3484,13 @@ Rect OpeningFrame(Vec2D(plotx+10,ploty+240),Vec2D(180,10));
 Rect OpeningLevel(Vec2D(plotx+10,ploty+240),Vec2D(( opening_angle_selected*180),10));
 
 
-switch(index_edit_symbol_plot)
+if (!index_edit_symbol_plot)
 {
-case 0:
 symbol_sizer_level.Draw(CouleurPlotLine.WithAlpha(0.4));
-break;
-case 1:
+}
+else
+{
 symbol_sizer_level.Draw(CouleurFader);
-break;
 }
 symbol_sizer_frame.DrawOutline(CouleurPlotLine);
 
@@ -4442,14 +4432,13 @@ petitchiffrenoir.Print(ol::ToString(plot_quadrillage_size),plotx+50,ploty+210);
 
 GridBGSelector.MoveTo(Vec2D(plotx+100,ploty+195));
 GridBGSelector.Draw(CouleurPlotLine.WithAlpha(0.3));
-switch(plot_grid_type)
+if (!plot_grid_type)
 {
-case 0:
 petitchiffrenoir.Print("Dots",plotx+105,ploty+210);
-break;
-case 1:
+}
+else
+{
 petitchiffrenoir.Print("Line",plotx+105,ploty+210);
-break;
 }
 
 petitchiffrenoir.Print("Alpha Grid",plotx+145,ploty+195);
@@ -4525,25 +4514,24 @@ float reliquatx=(viewpx-plotx)%plot_quadrillage_size;
 float reliquaty=(viewpy-ploty)%plot_quadrillage_size;
 for(int i=0;i<=plot_nbre_col;i++)
 {
-switch(plot_grid_type)
+if (!plot_grid_type)
 {
-case 0:
 plot_draw_shape_stripline(plotx+(i*plot_quadrillage_size)+reliquatx,ploty,plotx+(i*plot_quadrillage_size)+reliquatx,ploty+(plot_window_y_size-position_plan_y), 1.0, alpha_grille,0,0, 0, 0);
-break;
-case 1:
+}
+else
+{
 Line
 (Vec2D(plotx+(i*plot_quadrillage_size)+reliquatx,ploty),Vec2D(plotx+(i*plot_quadrillage_size)+reliquatx,ploty+(plot_window_y_size-position_plan_y))).Draw(CouleurPlotLine.WithAlpha(alpha_grille));
-break;
 }
 }
 for(int i=0;i<=plot_nbre_lin;i++)
 {
-switch(plot_grid_type)
+if (!plot_grid_type)
 {
-case 0:
 plot_draw_shape_stripline(plotx,ploty+(i*plot_quadrillage_size)+reliquaty,plotx+(plot_window_x_size-position_plan_x),ploty+(i*plot_quadrillage_size)+reliquaty, 1.0,  alpha_grille,0, 0,0, 0);
-break;
-case 1:
+}
+else
+{
 Line
 (Vec2D(plotx,ploty+(i*plot_quadrillage_size)+reliquaty),Vec2D(plotx+(plot_window_x_size-position_plan_x),ploty+(i*plot_quadrillage_size)+reliquaty)).Draw(CouleurPlotLine.WithAlpha(alpha_grille));
 }
@@ -4854,20 +4842,19 @@ petitchiffrenoir.Print(temp_txt_grp,plotx+pos_symbol[plot_calc_number_is][i][0],
 }//show ID
 if( plot_show_options[7]==1)
 {
-switch(plot_name_text_size)
+if (!plot_name_text_size)
 {
-case 0:
 for(int n=0;n<4;n++)
 {
 petitchiffrenoir.Print(symbol_note[plot_calc_number_is][i][n], plotx+pos_symbol[plot_calc_number_is][i][0]+relatif_plot_xy[plot_calc_number_is][i][4][0],ploty+pos_symbol[plot_calc_number_is][i][1]+relatif_plot_xy[plot_calc_number_is][i][4][1]+(n*10));
 }
-break;
-case 1:
+}
+else
+{
 for(int n=0;n<4;n++)
 {
 minichiffre.Print(symbol_note[plot_calc_number_is][i][n], plotx+pos_symbol[plot_calc_number_is][i][0]+relatif_plot_xy[plot_calc_number_is][i][4][0],ploty+pos_symbol[plot_calc_number_is][i][1]+relatif_plot_xy[plot_calc_number_is][i][4][1]+(n*10));
 }
-break;
 }
 }
 }
@@ -4911,16 +4898,15 @@ ploty+pos_symbol[plot_calc_number_is][dest_s][1]+relatif_plot_xy[plot_calc_numbe
 }
 
 if(plot_show_options[1]==1 )
-switch( plot_name_text_size)
+if (!plot_name_text_size)
 {
-case 0:
 petitchiffrenoir.Print(descriptif_projecteurs[(symbol_channel_is[plot_calc_number_is][i])],
 plotx+pos_symbol[plot_calc_number_is][i][0]-50+relatif_plot_xy[plot_calc_number_is][i][1][0],(ploty+50+pos_symbol[plot_calc_number_is][i][1]+relatif_plot_xy[plot_calc_number_is][i][1][1]));
-break;
-case 1:
+}
+else
+{
 minichiffre.Print(descriptif_projecteurs[(symbol_channel_is[plot_calc_number_is][i])],
 plotx+pos_symbol[plot_calc_number_is][i][0]-50+relatif_plot_xy[plot_calc_number_is][i][1][0],(ploty+50+pos_symbol[plot_calc_number_is][i][1]+relatif_plot_xy[plot_calc_number_is][i][1][1]));
-break;
 }
 }
 
@@ -4952,19 +4938,17 @@ if(plot_index_show_levels==1 && symbol_channel_is[plot_calc_number_is][i]!=0 && 
 char lev[8];
 Rect etiquette(Vec2D(plotx+pos_symbol[plot_calc_number_is][i][0]-15,ploty+pos_symbol[plot_calc_number_is][i][1]-35),Vec2D(30,20));
 etiquette.SetRoundness(5);
-switch(index_blind)
+if (!index_blind)
 {
-case 0:
 if(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]>0)
 {
-switch(dmx_view)
-{
-case 0://stage et faders
+if (!dmx_view)
+{//stage et faders
 sprintf(lev,"%d",(int) ((float)(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
-break;
-case 1:
+}
+else
+{
 sprintf(lev,"%d",bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]);
-break;
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
 etiquette.Draw(CouleurBleuProcedure.WithAlpha(((float)(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])])/255)));
@@ -4973,38 +4957,36 @@ petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_
 if( plot_index_show_levels_from_faders==1 && bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]>0)
 {
 etiquette.MoveTo(Vec2D(plotx+pos_symbol[plot_calc_number_is][i][0]-15,ploty+pos_symbol[plot_calc_number_is][i][1]-55));
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0:
 sprintf(lev,"%d",(int) ((float)(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
-break;
-case 1:
+}
+else
+{
 sprintf(lev,"%d",bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]);
-break;
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
 etiquette.Draw(CouleurFader.WithAlpha(((float)(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])])/255)));
 etiquette.DrawOutline(CouleurPlotLine.WithAlpha(0.8));
 petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_symbol[plot_calc_number_is][i][1]-40);
 }
-break;
-case 1://blind
+}
+else
+{
 if(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]>0)
 {
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0:
 sprintf(lev,"%d",(int) ((float)(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
-break;
-case 1:
+}
+else
+{
 sprintf(lev,"%d",bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]);
-break;
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
 etiquette.Draw(CouleurBlind.WithAlpha(((float)(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])])/255)));
 petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_symbol[plot_calc_number_is][i][1]-20);
 }
-break;
 }
 }
 
@@ -5040,9 +5022,8 @@ int typap=0;
 
 
 
-switch(legend_view)
+if (!legend_view)
 {
-case 0://liste simple
 nbre_cl=nbre_symbols_differents_sur_plot/16;
 for(int cl=0;cl<nbre_cl+1;cl++)
 {
@@ -5059,8 +5040,9 @@ petitchiffrenoir.Print(symbol_nickname[typap],xplot+30+(200*cl),yplot+40+(i*15))
 }
 }
 }
-break;
-case 1://legende projos
+}
+else
+{
 nbre_cl=nbre_symbols_differents_sur_plot/8;
 for(int cl=0;cl<nbre_cl+1;cl++)
 {
@@ -5081,7 +5063,6 @@ petitchiffrenoir.Print(symbol_nickname[typap],thx+60,thy);
 }
 }
 }
-break;
 }
 
 if(thx==0){thx=200;}
@@ -5156,16 +5137,15 @@ Rect Mode(Vec2D(xplot+10,yplot+580),Vec2D(95,20));
 Mode.SetRoundness(5);
 
 
-switch(legend_view)
+if (!legend_view)
 {
-case 0://liste
 Mode.Draw(CouleurPlotLine.WithAlpha(0.3));
 petitchiffrenoir.Print(" LIST MODE",xplot+15,yplot+592);
-break;
-case 1://appareils
+}
+else
+{
 Mode.Draw(CouleurFader);
 petitchiffrenoir.Print("LEGEND MODE",xplot+15,yplot+592);
-break;
 }
 
 if(window_focus_id==W_PLOT && mouse_x>xplot+10 && mouse_x<xplot+105 && mouse_y>yplot+580 && mouse_y<yplot+600)

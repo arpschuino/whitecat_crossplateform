@@ -189,11 +189,11 @@ void draw_info  (HPDF_Page    page,
 void draw_section (HPDF_Page    page,
              float       x,
              float       y,
-             const char  *label, float R, float G, float B)
+             const char  *label, float col_r, float col_g, float col_b)
 {
 
 HPDF_Page_SetLineWidth (page, 30);//epaisseur
-HPDF_Page_SetRGBStroke (page, R, G, B);//couleur ligne
+HPDF_Page_SetRGBStroke (page, col_r, col_g, col_b);//couleur ligne
 HPDF_Page_SetLineCap (page, HPDF_ROUND_END);
 HPDF_Page_SetFontAndSize (page, def_font, 25);
 

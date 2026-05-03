@@ -335,23 +335,19 @@ for(int i=1;i<=nbre_shapes_on_plot;i++)
 if(shape_selected[i]==1){if(shape_groups[i]!=0) index_there_is_a_group=1;break;}
 }
 
-switch(index_there_is_a_group)
-{
-case 0://creation group
+if(!index_there_is_a_group) {//creation group
 number_of_shapes_groups++;
 for(int i=1;i<=nbre_shapes_on_plot;i++)
 {
 if(shape_selected[i]==1){shape_groups[i]=number_of_shapes_groups;}
 }
-break;
-case 1://deselection group
+} else {//deselection group
 for(int i=1;i<=nbre_shapes_on_plot;i++)
 {
 if(shape_selected[i]==1){shape_groups[i]=0;}
 }
 number_of_shapes_groups--;
 if(number_of_shapes_groups<0){number_of_shapes_groups=0;}
-break;
 }
 return(0);
 }
@@ -3000,12 +2996,9 @@ else
 {
 if(index_main_clear==0 && index_plot_send_to_mode==0)
 {
-switch(plot_layer_mode)
-{
-case 0:
+if(!plot_layer_mode) {
 show_calc_number[i]=toggle(show_calc_number[i]);mouse_released=1;
-break;
-case 1:
+} else {
 for(int j=0;j<4;j++)
 {
 show_calc_number[j]=0;
@@ -3013,7 +3006,6 @@ show_calc_number[j]=0;
 show_calc_number[i]=1;
 view_plot_calc_number_is=i;
 mouse_released=1;
-break;
 }
 plot_generate_appareils_list();
 }
@@ -3038,12 +3030,9 @@ plot_generate_appareils_list();
 else if(mouse_y>ploty+10 && mouse_y<ploty+20)
 {
 reset_symbols_selected(view_plot_calc_number_is);index_click_inside_plot=0;
-switch(plot_layer_mode)
-{
-case 0:
+if(!plot_layer_mode) {
 view_plot_calc_number_is=i;show_calc_number[i]=1;
-break;
-case 1:
+} else {
 for(int j=0;j<4;j++)
 {
 show_calc_number[j]=0;
@@ -3051,7 +3040,6 @@ show_calc_number[j]=0;
 show_calc_number[i]=1;
 view_plot_calc_number_is=i;
 mouse_released=1;
-break;
 }
 plot_generate_appareils_list();
 }

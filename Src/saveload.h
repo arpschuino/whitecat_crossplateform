@@ -26,90 +26,40 @@ WWWWWWWW           C  WWWWWWWW   |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
 
-/**
+#pragma once
 
-* \file whitecat.h
-* \brief {header file for all the global variable in whitecat}
-* \author Christoph Guillermet
-* \modified Jacques Bouault - arpschuino.fr - 2026
-* \version {0.8.7.0}
-* \date {15/05/2015}
-
- White Cat {- categorie} {- sous categorie {- sous categorie}}
-
-*   Header qui contient toutes les variables globales déclarées dans whitecat
-*
-*   Header for all the global variables used in whitecat
-*
-*/
-
-#include "Crossplateform.h"
-#include "patch.h"
-#include "audio.h"
-#include "dmx.h"
-#include "midi.h"
-#include "network.h"
-#include "chasers.h"
-
-#include "globals.h"
-
-#include "display.h"
-
-// gel list + trichro -> trichro.h
-#include "trichro.h"
-
-#include "ui_indexes.h"
-
-// faders -> faders.h
-#include "faders.h"
-#include "channels.h"
-
-
-#include "video.h"
-
-
-
-
-#include "saveload.h"
-
-// sequenciel, time, memoires -> sequenciel.h
-#include "sequenciel.h" 
-
-// couleurs et polices -> theme.h
-#include "theme.h"
-// import SCHWZ -> schwz.h
-#include "schwz.h"
-
-// Freeze -> dmx.h
-// fader snapshots -> faders.h
-
-// banger -> banger.h
-#include "banger.h"
-// Grand Master + DMX extra -> dmx.h
-
-
-
-// wizard -> wizard.h
-#include "wizard.h"
-
-
-
-// arduino -> arduino.h
-#include "arduino.h"
-
-
-
-// grider -> grider.h
-#include "grider.h" 
-
-// light plot -> plot.h
-#include "plot.h"
-
-
-// descriptif_network_adapter -> network.h
-
-// draw -> draw.h
-#include "draw.h"
-
-// echo -> echo.h
-#include "echo.h"
+//////////////////////SAVE LOAD/////////////////////////////////////////////////
+bool index_save_mode_export_or_binary = 0; // met la fenetre save en mode export=1 ou binary classic=0
+int idf = 0;                               // curseur position retour info save load
+bool specify_who_to_save_load[80];         // 72 d utiliser max
+bool preset_specify_who_to_save_load[80][4];
+bool index_save_global_is = 1; // 1 global 0 detailled
+// coordonnees fenetre save load
+int report_SL_X = 30;
+int report_SL_Y = 40;
+int default_report_SL_X = 30;
+int default_report_SL_Y = 30;
+bool there_is_an_error_on_save_load = 0;
+bool index_show_save_load_report = 0;
+bool b_report_error[256];
+char string_save_load_report[256][64]; // 256 slot de report de 64 char
+int position_view_line = 0;            // pour defilement affichage
+char string_typeexport_view[24];
+bool index_is_saving = 0; // pour eviter de planter les pointeurs en faisant deux saves simulatnnés
+int timer_save_tmp = 0;
+int temps_sauvegarde_tmp = 15 * 60; // secondes
+bool index_please_do_not_save = 0;
+/////////////SAVE MENU//////////////////////
+// EXPORTS IMPORTS
+int index_export_choice = 0;
+char list_import_files[128][72];
+int line_import = 0;
+int importfile_selected = 0; // num de ligne selectionné
+char importfile_name[72];
+bool enable_export = 0; // pour les choix schwz / pdf / txt / ascii
+bool enable_import = 0;
+////BINARIES
+char list_save_files[128][72];
+int line_save = 0;
+int savefile_selected = 0; // num de ligne selectionné
+char savefile_name[72];

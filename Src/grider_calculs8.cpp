@@ -242,9 +242,8 @@ int gridder_prepare_cross(int grid_pl, int gr_actual_grid, int gr_actual_step)
 {
 
 //prepa qui est le step d après
-switch(grider_goto_mode[grid_pl])
+if (!grider_goto_mode[grid_pl])
 {
-case 0:
 //asservissement au sequenciel
 if(show_gridplayer_in_seq==1 && set_from_seq_gridplayer1_next_step[position_preset]!=-1 && grid_pl==0)
 {
@@ -256,8 +255,9 @@ else
 grid_in_preset[grid_pl][0]=gr_actual_grid ;
 grid_in_preset[grid_pl][1]=gr_actual_step+1;
 }
-break;
-case 1:
+}
+else
+{
 if(grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][0]>=0
 && grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][1]>=0)//0 = step 1. désafecté val=-1
 {
@@ -291,7 +291,6 @@ grid_in_preset[grid_pl][1]=gr_actual_step+1 ;
 if(grid_in_preset[grid_pl][1]>1023){grid_in_preset[grid_pl][1]=1023;}
 }
 }
-break;
 }
 
 float in_speed,out_speed, in_speed_preset, out_speed_preset;
@@ -461,12 +460,12 @@ buffer_gridder[grid_pl][cg]=grid_levels[gr_grille_pr][gr_step_pr][cg];
 
 
 
-switch(grider_is_playing[grid_pl])
+if (!grider_is_playing[grid_pl])
 {
-case 0:
 gridder_prepare_cross(grid_pl,gr_grille,gr_step);
-break;
-case 1:
+}
+else
+{
 if(actual_time>(grid_crossfade_start_time[grid_pl]+grid_delay_out[grid_pl]))
 {
 grid_floatX1[grid_pl]-=grid_fraction_X1_out[grid_pl];
@@ -519,7 +518,6 @@ grid_counted_times[index_grider_selected[grid_pl]][index_grider_step_is[grid_pl]
 }
 
 }
-break;
 }
 }
 

@@ -776,33 +776,34 @@ int Merger_Faders() {
         for (int cif = 0; cif < core_user_define_nb_faders; cif++) {
             switch (fader_mode_with_buffers[cif]) {
             case 0: // HTP normal
-                switch (fader_fx_route[cif]) {
-                case 0:
+                if (!fader_fx_route[cif])
+                {
                     bufferFaders[h] = Tmax(bufferFaders[h], FaderDoDmx[cif][h]);
-                    break;
-                case 1:
+                }
+                else
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         bufferSequenciel[h] = Tmax(bufferSequenciel[h], FaderDoDmx[cif][h]);
                         channel_is_touched_by_fader_fx[h] = 1;
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
                 }
                 break;
             case 1: // Exclude rendering
                 // rien ne se passe, ne sont pas reportés dans le buffer fader
                 break;
             case 2: // substract
-                switch (fader_fx_route[cif]) {
-                case 0:
+                if (!fader_fx_route[cif])
+                {
                     tmp_val = bufferFaders[h] - FaderDoDmx[cif][h];
                     if (tmp_val < 0) {
                         tmp_val = 0;
                     }
                     bufferFaders[h] = tmp_val;
-                    break;
-                case 1:
+                }
+                else
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         tmp_val = bufferSequenciel[h] - FaderDoDmx[cif][h];
                         if (tmp_val < 0) {
@@ -813,12 +814,11 @@ int Merger_Faders() {
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
                 }
                 break;
             case 3: // add
-                switch (fader_fx_route[cif]) {
-                case 0:
+                if (!fader_fx_route[cif])
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         tmp_val = bufferFaders[h] + FaderDoDmx[cif][h];
                         if (tmp_val > 255) {
@@ -829,8 +829,9 @@ int Merger_Faders() {
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
-                case 1:
+                }
+                else
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         tmp_val = bufferSequenciel[h] + FaderDoDmx[cif][h];
                         if (tmp_val > 255) {
@@ -841,12 +842,11 @@ int Merger_Faders() {
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
                 }
                 break;
             case 4: // screen
-                switch (fader_fx_route[cif]) {
-                case 0:
+                if (!fader_fx_route[cif])
+                {
                     tmp_val = (int)((FaderDoDmx[cif][h] + bufferFaders[h]) / 2);
                     if (tmp_val > 255) {
                         tmp_val = 255;
@@ -859,8 +859,9 @@ int Merger_Faders() {
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
-                case 1:
+                }
+                else
+                {
                     tmp_val = (int)((FaderDoDmx[cif][h] + bufferSequenciel[h]) / 2);
                     if (tmp_val > 255) {
                         tmp_val = 255;
@@ -873,12 +874,11 @@ int Merger_Faders() {
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                     }
-                    break;
                 }
                 break;
             case 5: // exclusion
-                switch (fader_fx_route[cif]) {
-                case 0:
+                if (!fader_fx_route[cif])
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         if (FaderDoDmx[cif][h] < bufferFaders[h]) {
                             tmp_val = bufferFaders[h] - FaderDoDmx[cif][h];
@@ -900,8 +900,9 @@ int Merger_Faders() {
                             channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                         }
                     }
-                    break;
-                case 1:
+                }
+                else
+                {
                     if (FaderDoDmx[cif][h] > 0) {
                         if (FaderDoDmx[cif][h] < bufferSequenciel[h]) {
                             tmp_val = bufferSequenciel[h] - FaderDoDmx[cif][h];
@@ -923,7 +924,6 @@ int Merger_Faders() {
                             channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                         }
                     }
-                    break;
                 }
                 break;
             default:
@@ -1000,8 +1000,8 @@ int calculs_etats_faders_et_contenus() {
                     break;
 
                 case 10: // direct channeling remoting
-                    switch (index_fader_is_manipulated[f]) {
-                    case 0:
+                    if (!index_fader_is_manipulated[f])
+                    {
                         beforeloop_for_directch[f] = Fader[f];
                         Fader[f] = bufferSequenciel[(FaderDirectChan[f][d])];
                         if (Fader[f] == 255) {
@@ -1012,12 +1012,12 @@ int calculs_etats_faders_et_contenus() {
                         if (beforeloop_for_directch[f] != Fader[f]) {
                             index_send_midi_out[f] = 1;
                         }
-                        break;
-                    case 1:
+                    }
+                    else
+                    {
                         bufferSaisie[(FaderDirectChan[f][d])] =
                             (255 - curve_report[(FaderCurves[f])][(Fader[f])]); // pour etre actif: buffer saisi
                         index_fader_is_manipulated[f] = 0;
-                        break;
                     }
                     break;
 
@@ -1141,18 +1141,18 @@ int Merger() {
 
     int circrootpatch = 0;
     for (int i = 1; i < 514; i++) {
-        switch (freeze_array[i]) {
-        case 0:
+        if (!freeze_array[i])
+        {
             // MergerArray[i]=bufferSequenciel[i]>?bufferFaders[i];
             MergerArray[i] = Tmax(bufferSequenciel[i], bufferFaders[i]);
             // MASTER
             if (Channels_excluded_from_grand_master[i] == 0) {
                 MergerArray[i] = (int)(((float)(MergerArray[i]) / 255) * niveauGMaster);
             }
-            break;
-        case 1:
+        }
+        else
+        {
             MergerArray[i] = freeze_state[i];
-            break;
         }
 
         // go et pause channel

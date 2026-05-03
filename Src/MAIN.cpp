@@ -479,14 +479,14 @@ void dixiemes_de_secondes() {
 
     sprintf(string_last_ch, "Last Ch. selected: %d", last_ch_selected);
     sprintf(string_last_copy_mem, "Mem to copy: %d.%d", CTRLC_mem_to_copy / 10, CTRLC_mem_to_copy % 10);
-    switch (index_patch_window) {
-    case 0:
+    if (!index_patch_window)
+    {
         sprintf(string_secondary_feeback,
                 string_last_over_dock); // last over dock: permet de savoir quelle selection orange est allumée
-        break;
-    case 1:
+    }
+    else
+    {
         sprintf(string_secondary_feeback, string_monitor_patch);
-        break;
     }
     sprintf(string_mem_onstage, "%d.%d", position_onstage / 10, position_onstage % 10);
     sprintf(string_mem_preset, "%d.%d", position_preset / 10, position_preset % 10);
@@ -1083,20 +1083,20 @@ int main(int /*argc*/, char ** /*argv*/) {
                 arduino_do_analog_in_whitecat();
             }
 
-            switch (index_art_polling) {
-            case 0:
+            if (!index_art_polling)
+            {
                 process_midi_input();
                 commandes_clavier(); // ici : même thread que wc_key_queue.push() → thread-safe
                 DoMouseLevel();
                 if ((mouse_button == 1 && mouse_released == 0) || wc_click_pending) {
                     wc_click_pending = false;
-                    switch (im_moving_a_window) {
-                    case 0:
+                    if (!im_moving_a_window)
+                    {
                         check_graphics_mouse_handling();
-                        break;
-                    case 1:
+                    }
+                    else
+                    {
                         move_window(window_focus_id);
-                        break;
                     }
                 }
                 if (wc_dirty) {
@@ -1104,14 +1104,14 @@ int main(int /*argc*/, char ** /*argv*/) {
                     wc_dirty = false;
                 }
                 rest(10);
-                break;
-            case 1:
+            }
+            else
+            {
                 if ((bytesreceived = recvfrom(sock, artpollreply_message, sizeof(artpollreply_message), 0,
                                               (SOCKADDR *)&sinS, &sinsize) != 0)) {
                     AnalyseArtPollReply();
                 }
                 Procedure("Art-Net Polling", "Please wait 3 seconds, polling network ...");
-                break;
             }
             if (there_is_change_on_show_save_state == 1) {
                 wc_dirty = true;

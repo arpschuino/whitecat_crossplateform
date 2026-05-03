@@ -141,29 +141,27 @@ if( mouse_released==0)
  int ofset=grider_begin_channel_is-1;
  if(index_affect_time==0)
  {
- switch(index_blind)
+ if (!index_blind)
  {
- case 0:
   for(int i=ofset;i<513;i++)//OK FEVRIER 2015
  {
   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferSaisie[i];
   bufferSaisie[i]=0;
  }
- break;
-  case 1:
+ }
+ else
+ {
   for(int i=1;i<513;i++)
  {
   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferBlind[i];
   bufferBlind[i]=0;
  }
- break;
  }
  }
   else if(index_affect_time==1 )
  {
- switch(to_step_editing_mode[num_grid_player])
+ if (!to_step_editing_mode[num_grid_player])
  {
- case 0:
                       for(int ty=0;ty<4;ty++)
                       {
                       if(index_type_of_time_to_affect[ty]==1)
@@ -173,8 +171,9 @@ if( mouse_released==0)
                       }
                       }
                       gridder_prepare_cross(num_grid_player, index_grider_selected[num_grid_player], index_grider_step_is[num_grid_player]);
- break;
- case 1://step to step mode
+ }
+ else
+ {
  if(index_grider_step_is[index_grider_selected[num_grid_player]]<index_StepTo[num_grid_player])
  {
  for(int st=index_grider_step_is[num_grid_player];st<=index_StepTo[num_grid_player];st++)
@@ -189,7 +188,6 @@ if( mouse_released==0)
                       }
  }
  }
- break;
  }
  index_affect_time=0;
  }
@@ -198,9 +196,8 @@ if( mouse_released==0)
  }
  else if(index_do_modify==1 && index_enable_edit_Grider==1)
  {
- switch(index_blind)
+ if (!index_blind)
  {
- case 0:
   for(int i=1;i<513;i++)
  {
   if(Selected_Channel[i]==1)
@@ -209,8 +206,9 @@ if( mouse_released==0)
   bufferSaisie[i]=0;
  }
  }
- break;
-  case 1:
+ }
+ else
+ {
   for(int i=1;i<513;i++)
  {
  if(Selected_Channel[i]==1)
@@ -219,7 +217,6 @@ if( mouse_released==0)
   bufferBlind[i]=0;
  }
  }
- break;
  }
  index_do_modify=0;
  }
@@ -248,20 +245,19 @@ grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_gri
  {
  grid_to_clear=index_grider_selected[num_grid_player];
 
-  switch(to_step_editing_mode[num_grid_player])
- {
- case 0:
+  if (!to_step_editing_mode[num_grid_player])
+  {
  step_grid_to_clear=index_grider_step_is[num_grid_player];
  index_ask_confirm=1;
  index_clear_a_grid_step=1;
- break;
- case 1:
+  }
+  else
+  {
  index_ask_confirm=1;
  step_grid_to_clear=index_grider_step_is[num_grid_player];
  index_clear_a_grid_serie_step=1;
  index_for_grid_stepto=index_StepTo[num_grid_player];
- break;
- }
+  }
  }
  }
  mouse_released=1;
@@ -453,22 +449,21 @@ else if(numeric_postext>0)
 {
 int lev_to_attr_to_grid=0;
 lev_to_attr_to_grid=atoi(numeric);
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0://pourcent
 if(lev_to_attr_to_grid>0)
 {
 grid_levels[grid_selected][gr_st_selected][position_grid_editing]=
 (int)(((float)(lev_to_attr_to_grid) *2.55) +1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
 }
 else {grid_levels[grid_selected][gr_st_selected][position_grid_editing]=0;}
-break;
-case 1://dmx
+}
+else
+{
 if(lev_to_attr_to_grid>=0 && lev_to_attr_to_grid<=255)
 {
 grid_levels[grid_selected][gr_st_selected][position_grid_editing]=lev_to_attr_to_grid;
 }
-break;
 }
 
 }
@@ -962,15 +957,14 @@ mouse_released=1;
 //Global grid viewer
 
 ////Affichage viewer
-switch(show_global_view_grider)
+if (!show_global_view_grider)
 {
-case 0:
 hauteurGlobalGridviewer=0;
-break;
-case 1:
+}
+else
+{
 hauteurGlobalGridviewer=100+(grider_nb_row*size_preview_case);
 do_logical_GlobalGridViewer(xb,yb+40,size_preview_case);  //x y taille de previsu de la grille
-break;
 }
 
 if(mouse_x>xb+495 && mouse_x<xb+495+40 && mouse_y>yb+20 && mouse_y<yb+20+10)

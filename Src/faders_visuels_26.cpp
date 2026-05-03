@@ -597,33 +597,33 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
             ((x + (cmptfader * espacement)) < LargeurEspaceFaderSize)) {
             int niveau = (int)Fader[cmptfader];
             myalpha = ((float)niveau / 255);
-            switch (dmx_view) {
-            case 0:
+            if (!dmx_view)
+            {
                 if (FaderLocked[cmptfader] == 1) {
                     petitchiffrerouge.Print(ol::ToString((int)((float)(StateOfFaderBeforeLock[cmptfader]) / 2.55)),
                                             x + (cmptfader * espacement) + 12, y + 273);
                 }
                 sprintf(string_niveau, "%d", (int)(((float)niveau) / 2.55));
-                break;
-            case 1:
+            }
+            else
+            {
                 sprintf(string_niveau, "%d", niveau);
                 if (FaderLocked[cmptfader] == 1) {
                     petitchiffrerouge.Print(ol::ToString((int)StateOfFaderBeforeLock[cmptfader]),
                                             x + (cmptfader * espacement) + 12, y + 273);
                 }
-                break;
             }
             sprintf(string_channel, "%d", cmptfader + 1);
 
             /////FX
             Rect RouteMdeFx(Vec2D(x + (cmptfader * espacement) + 60, y - 30), Vec2D(10, 10));
-            switch (fader_fx_route[cmptfader]) {
-            case 0: // espace faders
+            if (!fader_fx_route[cmptfader])
+            {
                 RouteMdeFx.Draw(CouleurFader);
-                break;
-            case 1: // espace séquenciel
+            }
+            else
+            {
                 RouteMdeFx.Draw(CouleurNiveau.WithAlpha(0.5));
-                break;
             }
             RouteMdeFx.DrawOutline(CouleurLigne.WithAlpha(0.5));
 
@@ -757,13 +757,13 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                                DockTypeIs[cmptfader][dd] == 8) {
                         Dock.Draw(CouleurNiveau);
                         FaderNiveau.Draw(CouleurNiveau);
-                        switch (FaderLocked[cmptfader]) {
-                        case 0:
+                        if (!FaderLocked[cmptfader])
+                        {
                             FaderB.DrawOutline(CouleurLigne);
-                            break;
-                        case 1:
+                        }
+                        else
+                        {
                             FaderB.DrawOutline(CouleurLock);
-                            break;
                         }
                     } else if (DockTypeIs[cmptfader][dd] == 11) // chaser
                     {
@@ -883,30 +883,30 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
             ///////////////////////affichage stop pos POS ET BARRE /////////////////////////////
             if (StopPosOn[cmptfader] == 1) {
                 int niv = 0;
-                switch (dmx_view) {
-                case 0:
+                if (!dmx_view)
+                {
                     niv = (int)(((float)LevelStopPos[cmptfader]) / 2.55);
-                    break;
-                case 1:
+                }
+                else
+                {
                     niv = LevelStopPos[cmptfader];
-                    break;
                 }
                 // ON OFF
-                switch (ActionnateStopOn[cmptfader]) {
-                case 0:
+                if (!ActionnateStopOn[cmptfader])
+                {
                     Line(Vec2D(x + (cmptfader * espacement), (y + 255) - LevelStopPos[cmptfader]),
                          Vec2D(x + (cmptfader * espacement) + 40, (y + 255) - LevelStopPos[cmptfader]))
                         .Draw(CouleurLigne);
                     petitpetitchiffre.Print(ol::ToString(niv), x + (cmptfader * espacement) + 20,
                                             (y + 255) - LevelStopPos[cmptfader]);
-                    break;
-                case 1:
+                }
+                else
+                {
                     Line(Vec2D(x + (cmptfader * espacement), (y + 255) - LevelStopPos[cmptfader]),
                          Vec2D(x + (cmptfader * espacement) + 40, (y + 255) - LevelStopPos[cmptfader]))
                         .Draw(CouleurBlind);
                     petitpetitchiffrerouge.Print(ol::ToString(niv), x + (cmptfader * espacement) + 20,
                                                  (y + 255) - LevelStopPos[cmptfader]);
-                    break;
                 }
             }
             // lettrages du chiffre de fader

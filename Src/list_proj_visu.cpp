@@ -99,19 +99,18 @@ Rect lev_B(Vec2D(xlist+90, ylist+25+(25*i)),Vec2D(40,20));
 lev_B.SetRoundness(4);
 lev_B.Draw(CouleurBleuProcedure.WithAlpha(0.5));
 
-switch (dmx_view)
+if (!dmx_view)
 {
-case 0:
 if(channel_macro_reaction[last_ch_selected][i]<7)
 {sprintf(titlemacro,"%d", (int) (((float)(channel_macro_val[last_ch_selected][i][0]) /2.55)));}
 else
 {
 sprintf(titlemacro,"%d",channel_macro_val[last_ch_selected][i][0]);
 }
-break;
-case 1:
+}
+else
+{
 sprintf(titlemacro,"%d",channel_macro_val[last_ch_selected][i][0]);
-break;
 }
 petitchiffre.Print(titlemacro,xlist+95, ylist+38+(25*i));
 if(mouse_x>xlist+90 && mouse_x<xlist+130 && mouse_y>ylist+25+(25*i) && mouse_y<ylist+45+(25*i) && window_focus_id==914)
@@ -205,15 +204,14 @@ Rect onoff_B(Vec2D(xlist+280, ylist+25+(25*i)),Vec2D(35,20));
 onoff_B.SetRoundness(4);
 onoff_B.Draw(CouleurBleuProcedure.WithAlpha(0.5));
 
-switch( macro_channel_on[last_ch_selected][i])
+if (!macro_channel_on[last_ch_selected][i])
 {
-case 0:
 sprintf(titlemacro,"/Off");
-break;
-case 1:
+}
+else
+{
 onoff_B.Draw(CouleurBlind);
 sprintf(titlemacro,"/On");
-break;
 }
 petitchiffre.Print(titlemacro,xlist+285, ylist+38+(25*i));
 if(mouse_x>xlist+280 && mouse_x<xlist+315 && mouse_y>ylist+25+(25*i) && mouse_y<ylist+45+(25*i) && window_focus_id==914)

@@ -146,18 +146,17 @@ else if(dock_color_type[dock_color_selected]==1)//quadri, desaturation par le ja
 int report_gels_to_rvb_trichro(int manufacturer, int gel_position)
 {
 
-switch(index_use_transmission)
+if (!index_use_transmission)
 {
-case 0:
     my_red=rvb_of_gels[manufacturer][gel_position][0];
     my_green=rvb_of_gels[manufacturer][gel_position][1];
     my_blue=rvb_of_gels[manufacturer][gel_position][2];
-break;
-case 1://use transmission data
+}
+else
+{
     my_red=(int)((((float)rvb_of_gels[manufacturer][gel_position][0])/100)*gel_transimission[manufacturer][gel_position]);
     my_green=(int)((((float)rvb_of_gels[manufacturer][gel_position][1])/100)*gel_transimission[manufacturer][gel_position]);
     my_blue=(int)((((float)rvb_of_gels[manufacturer][gel_position][2])/100)*gel_transimission[manufacturer][gel_position]);
-break;
 }
 do_colors();
 sprintf(string_Last_Order,">>Gel list Called Position %d / ref %d",gel_position,refs_of_gels[manufacturer][gel_position]);
@@ -391,9 +390,8 @@ if (index_inspekt==1){show_who_is_in_dock_color(dock_color_selected,0);}
 couleur_to_affect=0;
 bool there_is_asel_chan=0;
 
-switch(index_paste_on_the_fly)
+if (!index_paste_on_the_fly)
 {
-case 0:
 for(int p=1;p<513;p++)
 {
 if(Selected_Channel[p]==1)
@@ -404,8 +402,9 @@ if(there_is_asel_chan==1 && (index_do_dock==1|| index_do_modify==1 || index_do_r
 {index_do_affect_color_trichro=1;index_ask_confirm=1;}
 
 else {index_do_affect_color_trichro=0;index_ask_confirm=0;sprintf(string_Last_Order,"No channel selected to store as color");}
-break;
-case 1:
+}
+else
+{
 if(index_blind==0)
 {
 for(int p=1;p<513;p++)
@@ -421,7 +420,6 @@ if(Selected_Channel[p]==1){bufferBlind[p]=my_red;}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly RED result");
-break;
 }
 mouse_released=1;
 }
@@ -431,16 +429,16 @@ else if (mouse_x> xchroma-65 && mouse_x< xchroma-15 )//GREEN
 if (index_inspekt==1){show_who_is_in_dock_color(dock_color_selected,1);}
 couleur_to_affect=1;
 bool there_is_asel_chan=0;
-switch(index_paste_on_the_fly)
+if (!index_paste_on_the_fly)
 {
-case 0:
 for(int p=1;p<513;p++)
 {if(Selected_Channel[p]==1){there_is_asel_chan=1;break;}}
 if(there_is_asel_chan==1 && (index_do_dock==1|| index_do_modify==1 || index_do_report==1))
 {index_do_affect_color_trichro=1;index_ask_confirm=1;}
 else {sprintf(string_Last_Order,"No channel selected to store as color");}
-break;
-case 1:
+}
+else
+{
 if(index_blind==0)
 {
 for(int p=1;p<513;p++)
@@ -456,7 +454,6 @@ if(Selected_Channel[p]==1){bufferBlind[p]=my_green;}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly GREEN result");
-break;
 }
 mouse_released=1;
 }
@@ -467,15 +464,15 @@ if (index_inspekt==1){show_who_is_in_dock_color(dock_color_selected,2);}
 
 couleur_to_affect=2;
 bool there_is_asel_chan=0;
-switch(index_paste_on_the_fly)
+if (!index_paste_on_the_fly)
 {
-case 0:
 for(int p=1;p<513;p++)
 {if(Selected_Channel[p]==1){there_is_asel_chan=1;break;}}
 if(there_is_asel_chan==1 && (index_do_dock==1|| index_do_modify==1 || index_do_report==1)){index_do_affect_color_trichro=1;index_ask_confirm=1;}
 else {sprintf(string_Last_Order,"No channel selected to store as color");}
-break;
-case 1:
+}
+else
+{
 if(index_blind==0)
 {
 for(int p=1;p<513;p++)
@@ -491,7 +488,6 @@ if(Selected_Channel[p]==1){bufferBlind[p]=my_blue;}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly BLUE result");
-break;
 }
 mouse_released=1;
 }
@@ -501,15 +497,15 @@ else if (mouse_x> xchroma+65 && mouse_x< xchroma+115 )//YELLOW
 if (index_inspekt==1){show_who_is_in_dock_color(dock_color_selected,3);}
 couleur_to_affect=3;
 bool there_is_asel_chan=0;
-switch(index_paste_on_the_fly)
+if (!index_paste_on_the_fly)
 {
-case 0:
 for(int p=1;p<513;p++)
 {if(Selected_Channel[p]==1){there_is_asel_chan=1;break;}}
 if(there_is_asel_chan==1&& (index_do_dock==1|| index_do_modify==1 || index_do_report==1)){index_do_affect_color_trichro=1;index_ask_confirm=1;}
 else {sprintf(string_Last_Order,"No channel selected to store as color");}
-break;
-case 1:
+}
+else
+{
 if(index_blind==0)
 {
 for(int p=1;p<513;p++)
@@ -525,7 +521,6 @@ if(Selected_Channel[p]==1){bufferBlind[p]=my_yellow;}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly YELLOW result");
-break;
 }
 mouse_released=1;
 }
@@ -611,12 +606,11 @@ mouse_released=1;
 if(mouse_x>xchroma+260 && mouse_x<xchroma+330 && mouse_y>ychroma-185 && mouse_y<ychroma-165)
 {
 show_designer_list=toggle(show_designer_list);
-switch(show_designer_list)
+if (!show_designer_list)
 {
-case 0://numerical order
-break;
-case 1://designer order
-break;
+}
+else
+{
 }
 mouse_released=1;
 }

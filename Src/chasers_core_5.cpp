@@ -116,14 +116,10 @@ break;
 }
 //correcteur curseur
 int correcteur=0;
-switch(chaser_way[chaser_selected])
-{
-case 0:
+if(!chaser_way[chaser_selected]) {
 correcteur=+1;
-break;
-case 1:
+} else {
 correcteur=-1;
-break;
 }
 
 //position curseur
@@ -148,9 +144,8 @@ int chaser_calcul_time_joint(int numchaser)
 if(chaser_time_mode[numchaser]==1)
 {
 
-switch(chaser_way[numchaser])
-{
-case 0://Avant
+if(!chaser_way[numchaser])
+{//Avant
 for(int trk=0;trk< core_user_define_nb_tracks_per_chasers;trk++)
 {
 count_steps_for_fades[numchaser][trk]=1;//reset
@@ -180,8 +175,7 @@ count_steps_for_fades[numchaser][trk]++;
 else{break;}
 }
 }
-break;
-case 1: // arrière
+} else { // arrière
 for(int trk=0;trk< core_user_define_nb_tracks_per_chasers;trk++)
 {
 count_steps_for_fades[numchaser][trk]=1;//reset
@@ -211,7 +205,6 @@ count_steps_for_fades[numchaser][trk]++;
 else{break;}
 }
 }
-break;
 }
 }
 return(0);
@@ -251,9 +244,8 @@ MergerBufferChasers[nch][io]=0;
 if(chaser_is_playing[nch]==1)
 {
 //calcul de la position///////////////////////////////////////////////////////////
-switch(chaser_way[nch])
-{
-case 0://avant
+if(!chaser_way[nch])
+{//avant
 chaser_time_position[nch]++;
 
 if(chaser_time_position[nch]>=chaser_end_of_step[nch])
@@ -262,30 +254,21 @@ chaser_calcul_step(nch,0.0);
 chaser_step_is[nch]++;
 if(chaser_step_is[nch]>chaser_end_step_is[nch] )
 {
-switch(chaser_is_in_loop[nch])
-{
-case 0:
+if(!chaser_is_in_loop[nch]) {
 chaser_is_playing[nch]=0;
-break;
-case 1:
-switch( chaser_aller_retour[nch])
-{
-case 0:
+} else {
+if(!chaser_aller_retour[nch]) {
 chaser_step_is[nch]=chaser_begin_step_is[nch];
-break;
-case 1:
+} else {
 chaser_step_is[nch]--;
 chaser_way[nch]=toggle(chaser_way[nch]);
-break;
 }
-break;
 }
 }
 chaser_calcul_time_joint(nch);
 }
 index_progression_chaser_step[nch]=((chaser_time_position[nch]-chaser_start_of_step[nch])/((chaser_end_of_step[nch]-chaser_start_of_step[nch])/chaser_slaviness[nch]));
-break;
-case 1://arrière
+} else {//arrière
 chaser_time_position[nch]++;
 if(chaser_time_position[nch]>=chaser_end_of_step[nch])
 {
@@ -293,30 +276,21 @@ chaser_calcul_step(nch,0.0);
 chaser_step_is[nch]--;
 if(chaser_step_is[nch]<chaser_begin_step_is[nch])
 {
-switch(chaser_is_in_loop[nch])
-{
-case 0:
+if(!chaser_is_in_loop[nch]) {
 chaser_is_playing[nch]=0;
-break;
-case 1:
-switch( chaser_aller_retour[nch])
-{
-case 0:
+} else {
+if(!chaser_aller_retour[nch]) {
 chaser_step_is[nch]=chaser_end_step_is[nch];
-break;
-case 1:
+} else {
 chaser_step_is[nch]++;
 chaser_way[nch]=toggle(chaser_way[nch]);
-break;
 }
-break;
 }
 }
 
 chaser_calcul_time_joint(nch);
 }
 index_progression_chaser_step[nch]=((chaser_time_position[nch]-chaser_start_of_step[nch])/((chaser_end_of_step[nch]-chaser_start_of_step[nch])/chaser_slaviness[nch]));
-break;
 }
 }//fin if track is on
 //contenu relié à une mémoire
@@ -350,15 +324,15 @@ TracksBuffer[nch][trkis][io]=0;
 }
 break;
 case 1://up
-switch(chaser_time_mode[nch])
+if (!chaser_time_mode[nch])
 {
-case 0://mode solo
 for(int io=1;io<513;io++)
 {
 TracksBuffer[nch][trkis][io]=(int)((((float) TrackContains[nch][trkis][io])/127*track_level[nch][trkis])*index_progression_chaser_step[nch]);
 }
-break;
-case 1://mode joint
+}
+else
+{
 for(int io=1;io<513;io++)
 {
 TracksBuffer[nch][trkis][io]=(int)(((((float) TrackContains[nch][trkis][io])/127*track_level[nch][trkis])
@@ -366,7 +340,6 @@ TracksBuffer[nch][trkis][io]=(int)(((((float) TrackContains[nch][trkis][io])/127
 +(int)(((((float) TrackContains[nch][trkis][io])/127*track_level[nch][trkis])/joint_nbr_step[nch][trkis])*index_progression_chaser_step[nch]);
 ;
 }
-break;
 }
 break;
 case 2://stay
@@ -376,15 +349,15 @@ TracksBuffer[nch][trkis][io]= (int)((((float)TrackContains[nch][trkis][io])/127)
 }
 break;
 case 3://down
-switch(chaser_time_mode[nch])
+if (!chaser_time_mode[nch])
 {
-case 0://mode solo
 for(int io=1;io<513;io++)
 {
 TracksBuffer[nch][trkis][io]=(int)((((float) TrackContains[nch][trkis][io])/127)*track_level[nch][trkis]*(1-index_progression_chaser_step[nch]));
 }
-break;
-case 1://mode joint
+}
+else
+{
 for(int io=1;io<513;io++)
 {
 TracksBuffer[nch][trkis][io]=(int)(((((float) TrackContains[nch][trkis][io])/127*track_level[nch][trkis])
@@ -392,7 +365,6 @@ TracksBuffer[nch][trkis][io]=(int)(((((float) TrackContains[nch][trkis][io])/127
 -(int)(((((float) TrackContains[nch][trkis][io])/127*track_level[nch][trkis])/joint_nbr_step[nch][trkis])*index_progression_chaser_step[nch])));
 ;
 }
-break;
 }
 break;
 }
@@ -610,14 +582,10 @@ int DoReportChaserTrack(int numchaser, int numtrack)
 
 int chaser_seek_at_beg(int numchase)
 {
-switch(chaser_way[numchase])
-{
-case 0:
+if(!chaser_way[numchase]) {
 chaser_step_is[numchase]=chaser_begin_step_is[numchase];
-break;
-case 1:
+} else {
 chaser_step_is[numchase]=chaser_end_step_is[numchase];
-break;
 }
 index_progression_chaser_step[numchase]=0.0;
 chaser_calcul_step(numchase,0.0);
@@ -863,9 +831,7 @@ for(int chcase=0;chcase<nbre_de_cases_par_track;chcase++)
 {
 if(mouse_x>xp+170+(chcase*12) && mouse_x<xp+170+(chcase*12)+12 && mouse_y>yp && mouse_y<yp+12)
 {
-switch(chaser_way[chaser_selected])
-{
-case 0:
+if(!chaser_way[chaser_selected]) {
 if( chcase>=chaser_step_is[chaser_selected] && chcase<chaser_step_is[chaser_selected]+8 )
 {
 sprintf(tmp_str_stp,"Step %d Chaser Row %d" ,chcase-chaser_step_is[chaser_selected]+1,num_track-position_affichage_track_num[chaser_selected]+1 );
@@ -875,8 +841,7 @@ if(Midi_Faders_Affectation_Type!=0 )//config midi
 attribute_midi_to_control(1048+(chcase-chaser_step_is[chaser_selected])+((num_track-position_affichage_track_num[chaser_selected])*8), Midi_Faders_Affectation_Type,  Midi_Faders_Affectation_Mode);
 }
 }
-break;
-case 1:
+} else {
 if( chcase>chaser_step_is[chaser_selected]-8 && chcase<=chaser_step_is[chaser_selected] )
 {
 sprintf(tmp_str_stp,"Step %d Chaser Row %d" ,(chcase-(chaser_step_is[chaser_selected]-8)),num_track-position_affichage_track_num[chaser_selected]+1 );
@@ -886,7 +851,6 @@ if(Midi_Faders_Affectation_Type!=0 )//config midi
 attribute_midi_to_control(1048+((chcase-(chaser_step_is[chaser_selected]-8))-1)+((num_track-position_affichage_track_num[chaser_selected])*8), Midi_Faders_Affectation_Type,  Midi_Faders_Affectation_Mode);
 }
 }
-break;
 }
 }
 }
@@ -1003,14 +967,10 @@ attribute_midi_solo_affectation(980,Midi_Faders_Affectation_Mode);
 else
 {
 chaser_is_in_loop[chaser_selected]=toggle(chaser_is_in_loop[chaser_selected]);
-switch(chaser_is_in_loop[chaser_selected])
-{
-case 0:
+if(!chaser_is_in_loop[chaser_selected]) {
 sprintf(string_Last_Order,">> LOOP OFF Chaser %d",chaser_selected+1);
-break;
-case 1:
+} else {
 sprintf(string_Last_Order,">> LOOP ON Chaser %d",chaser_selected+1);
-break;
 }
 }
 mouse_released=1;

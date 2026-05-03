@@ -388,9 +388,8 @@ case 7://Fader: LOCK
 if(digital_data_from_arduino[p]==1) //si appuyé
 {
 vfader=(arduino_digital_function_input[p][1]-1);
- switch(FaderLocked[vfader])
-  {
-   case 0:
+ if (!FaderLocked[vfader])
+ {
    FaderLocked[vfader]=1;
    StateOfFaderBeforeLock[vfader]=Fader[vfader];
    if(StateOfFaderBeforeLock[vfader]==255){LockFader_is_FullLevel[vfader]=1;}
@@ -401,15 +400,15 @@ vfader=(arduino_digital_function_input[p][1]-1);
    lfo_mode_is[vfader]=0;
    lfo_cycle_is_on[vfader]=0;
    }
-   break;
-   case 1:
+ }
+ else
+ {
    FaderLocked[vfader]=0;
    //remise à plat du niveau
    Fader[vfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[vfader]))/255)*locklevel);
    midi_levels[vfader]=(int)(((float)Fader[vfader])/2);
    sprintf(string_Last_Order,">> UNLOCKED Fader %d",vfader+1);
-   break;
-   }
+ }
    previous_digital_data_from_arduino[p]=toggle(previous_digital_data_from_arduino[p]);//pour ne pas faire un flicker sur le  go/pause/go
 }
 break;
@@ -743,10 +742,11 @@ temp_send_arduino[0]='D';temp_send_arduino[1]='O';temp_send_arduino[2]='/';
 
 //on off threshold def
 int value_dm=0;
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0: value_dm=(int)(10*2.55); break;
-case 1: value_dm=10; break;
+}
+else
+{
 }
 
 
@@ -885,14 +885,13 @@ int arduino_do_digital_out_whitecat()
 index_send_digital_data=0;
 char temp_send[(3+arduino_max_digital+3+1)];    //header/tableau/headerfin/return
 int value_dm=0;
-switch(dmx_view)
+if (!dmx_view)
 {
-case 0:
      value_dm=(int)(10*2.55);
-break;
-case 1:
+}
+else
+{
      value_dm=10;
-break;
 }
 
 for(int p=0;p<=arduino_max_digital;p++)
@@ -939,13 +938,12 @@ temp_send[0]='D';temp_send[1]='O';temp_send[2]='/';
 
 for(int k=0;k<=arduino_max_digital;k++)
 {
-switch(digital_data_to_arduino[k])
+if (!digital_data_to_arduino[k])
 {
-case 0:
 temp_send[3+k]=32;
-break;
-
-case 1:
+}
+else
+{
 temp_send[3+k]=127;
 break ;
 }

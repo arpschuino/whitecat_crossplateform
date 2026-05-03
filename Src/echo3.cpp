@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Fonctions pour controller le module echo qui permet de controller la lumière à partir de loi physique de gravité ou autre
+*   Fonctions pour controller le module echo qui permet de controller la lumiï¿½re ï¿½ partir de loi physique de gravitï¿½ ou autre
 *
 *   Fonctions for controlling the echo module who make the hability to control the light from physical law as gravity or other
 *
@@ -77,9 +77,8 @@ do_bounce[ech]=1;
 for(int b=0; b<512; b++)
 {
 
-switch(echo_way[ech][b])
+if (!echo_way[ech][b])
 {
-case 0: //falling
 echo_levels[ech][0][b]-=gravity*delta + 0.5*acceleration*(delta*delta)+tmp_echo[ech][b];
 tmp_echo[ech][b]+=0.001*gravity;
 if(echo_levels[ech][0][b]<=echo_levels[ech][1][b])//ground
@@ -91,8 +90,9 @@ echo_way[ech][b]=1;
 tmp_echo[ech][b]=0.001*gravity;
 }
 
-break;
-case 1://boucing
+}
+else
+{
 echo_levels[ech][0][b]+=gravity*delta + 0.5*acceleration*(delta*delta)+tmp_echo[ech][b];
 
 if(echo_levels[ech][0][b]>tmp_falling_from_level[ech][b])//ground
@@ -101,7 +101,6 @@ echo_levels[ech][0][b]=tmp_falling_from_level[ech][b];
 echo_way[ech][b]=0;
 tmp_echo[ech][b]=0.001*gravity;
 }
-break;
 }
 
 //ground
@@ -354,14 +353,13 @@ else
 {
 if(index_main_clear==1 && index_enable_edit_echo==1)
 {
-switch(echo_channel_manipulate_mode[echo_selected])
+if (!echo_channel_manipulate_mode[echo_selected])
 {
- case 0://levels
  clear_echo_levels(echo_selected);
- break;
- case 1:
+}
+else
+{
  clear_ground_levels(echo_selected);
- break;
 }
 index_main_clear=0;
 }
@@ -458,7 +456,7 @@ echochanis=echo_grid_channel_position[echo_selected]+sh;
 Rect MassE(Vec2D(xe+25+(sh*30),ye+(127*(1.0-echo_levels[echo_selected][1][echochanis]))),Vec2D(30,echo_levels[echo_selected][1][echochanis]*127));
 MassE.Draw(Discrete2);
 
-//enregistrement level de départ
+//enregistrement level de dï¿½part
 ChanEcho.MoveTo(Vec2D(xe+25+(sh*30),ye+127-(snap_echo_to_recall[echo_selected][echochanis]*127)));
 ChanEcho.Draw(CouleurFond.WithAlpha(0.3));
 
@@ -540,25 +538,23 @@ neuro.Print(ol::ToString(echo_over_channel+1),xe+625 ,ye+55);
 
 char tcmp[24];
 
-switch(dmx_view)
+if (!dmx_view)
 {
-case 1:
-sprintf(tcmp,"Level %.2f - %d",echo_levels[echo_selected][0][echo_over_channel],(int)( echo_levels[echo_selected][0][echo_over_channel]*255));
-break;
-case 0:
 sprintf(tcmp,"Level %.2f - %d",echo_levels[echo_selected][0][echo_over_channel],(int)( echo_levels[echo_selected][0][echo_over_channel]*100));
-break;
+}
+else
+{
+sprintf(tcmp,"Level %.2f - %d",echo_levels[echo_selected][0][echo_over_channel],(int)( echo_levels[echo_selected][0][echo_over_channel]*255));
 }
 petitchiffre.Print(tcmp,xe+500 ,ye+45);
 
-switch(dmx_view)
+if (!dmx_view)
 {
-case 1:
-sprintf(tcmp,"Ground %.2f - %d",echo_levels[echo_selected][1][echo_over_channel],(int)( echo_levels[echo_selected][1][echo_over_channel]*255));
-break;
-case 0:
 sprintf(tcmp,"Ground %.2f - %d",echo_levels[echo_selected][1][echo_over_channel],(int)( echo_levels[echo_selected][1][echo_over_channel]*100));
-break;
+}
+else
+{
+sprintf(tcmp,"Ground %.2f - %d",echo_levels[echo_selected][1][echo_over_channel],(int)( echo_levels[echo_selected][1][echo_over_channel]*255));
 }
 petitchiffre.Print(tcmp,xe+500 ,ye+70);
 
@@ -690,18 +686,17 @@ Rect ActionTyp(Vec2D(xe+500,ye+10),Vec2D(70,20));
 ActionTyp.SetRoundness(4);
 
 
-switch(echo_channel_manipulate_mode[echo_selected])
+if (!echo_channel_manipulate_mode[echo_selected])
 {
-case 0:
      ActionTyp.Draw(Discrete8);
      petitchiffre.Print("CH.LEVEL",xe+507,ye+22);
      sprintf(tcmp,"CH.LEVEL");
-break;
-case 1:
+}
+else
+{
      ActionTyp.Draw(Discrete2);
      petitchiffre.Print("CH.GRND",xe+507,ye+22);
      sprintf(tcmp,"CH.GROUND");
-break;
 }
 
 ActionTyp.DrawOutline(CouleurLigne.WithAlpha(0.5));

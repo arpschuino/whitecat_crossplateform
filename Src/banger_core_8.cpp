@@ -132,21 +132,28 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      {
      case 0://lock
      FaderLocked[the_fader_is]=remember_state_of_banged_fader[the_fader_is][0];//lock state is
-     switch(FaderLocked[the_fader_is])
-     {
-     case 0:
-     FaderLocked[the_fader_is]=0;
-     //remise à plat du niveau
-     Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
-     midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
-     break;
-     case 1:
-     FaderLocked[the_fader_is]=1;
-     StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
-     if(StateOfFaderBeforeLock[the_fader_is]==255){LockFader_is_FullLevel[the_fader_is]=1;}
-     else if(StateOfFaderBeforeLock[the_fader_is]<255){LockFader_is_FullLevel[the_fader_is]=0;}
-     break;
-     }
+
+
+
+      if(FaderLocked[the_fader_is]==0){
+            FaderLocked[the_fader_is]=0;
+            //remise à plat du niveau
+            Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
+            midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
+      }
+      else{
+            FaderLocked[the_fader_is]=1;
+            StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
+            if(StateOfFaderBeforeLock[the_fader_is]==255){
+                  LockFader_is_FullLevel[the_fader_is]=1;
+            }
+            else if(StateOfFaderBeforeLock[the_fader_is]<255){
+                  LockFader_is_FullLevel[the_fader_is]=0;
+            }
+      }
+
+
+
      sprintf(string_event,"BACK:Lock Fader %d",the_fader_is+1);
      break;
      case 1://up devient down
@@ -455,38 +462,35 @@ param2_is=bangers_params[banger_num][event_num][1];
 if((param1_is>=0 && param1_is<=15 ) && (param2_is>=0 && param2_is<=127))
 {
 //send_my_midi_note( int letype,  int lechannel, int lanote, int lavelocite, int laduree)
-    switch(bangers_action[banger_num][event_num])
-     {
-     case 0://key on 127
-     switch (cheat_key_off)
-     {
-     case 0:
-     send_my_midi_note( 2,  param1_is, param2_is, 127, 10);//velocite / duree
-     break;
-     case 1:
-     send_my_midi_note( 1,  param1_is, param2_is, 0, 10);//velocite / duree
-     break;
-     }
-      sprintf(string_event,"BACK:key-on Ch:%d P:%d V:127",param1_is,param2_is);
-     break;
-     case 1://key on 0
-     send_my_midi_note( 1,  param1_is, param2_is, 127, 10);//velocite / duree
-     printf(string_event,"BACK:key-on Ch:%d P:%d V:0",param1_is,param2_is);
-     break;
-     case 2://key off
-     send_my_midi_note( 1,  param1_is, param2_is, 127, 10);//velocite / duree
-     sprintf(string_event,"BACK:key-on Ch:%d P:%d V:127",param1_is,param2_is);
-     break;
-     case 3://Ctrl-Change 127
-     send_my_midi_note( 4,  param1_is, param2_is, 0, 10);//velocite / duree
-     sprintf(string_event,"BACK:ctrl-change Ch:%d P:%d V:0",param1_is,param2_is);
-     break;
-     case 4://Ctrl-Change 0
-     send_my_midi_note( 4,  param1_is, param2_is, 127, 10);//velocite / duree
-     sprintf(string_event,"BACK:ctrl-change Ch:%d P:%d V:127",param1_is,param2_is);
-     break;
-     default:
-         break;
+      switch(bangers_action[banger_num][event_num])
+      {
+      case 0://key on 127
+            if (cheat_key_off==0){
+                  send_my_midi_note( 2,  param1_is, param2_is, 127, 10);//velocite / duree
+            }
+            else{
+                  send_my_midi_note( 1,  param1_is, param2_is, 0, 10);//velocite / duree
+            }
+            sprintf(string_event,"BACK:key-on Ch:%d P:%d V:127",param1_is,param2_is);
+            break;
+      case 1://key on 0
+            send_my_midi_note( 1,  param1_is, param2_is, 127, 10);//velocite / duree
+            printf(string_event,"BACK:key-on Ch:%d P:%d V:0",param1_is,param2_is);
+            break;
+      case 2://key off
+            send_my_midi_note( 1,  param1_is, param2_is, 127, 10);//velocite / duree
+            sprintf(string_event,"BACK:key-on Ch:%d P:%d V:127",param1_is,param2_is);
+            break;
+      case 3://Ctrl-Change 127
+            send_my_midi_note( 4,  param1_is, param2_is, 0, 10);//velocite / duree
+            sprintf(string_event,"BACK:ctrl-change Ch:%d P:%d V:0",param1_is,param2_is);
+            break;
+      case 4://Ctrl-Change 0
+            send_my_midi_note( 4,  param1_is, param2_is, 127, 10);//velocite / duree
+            sprintf(string_event,"BACK:ctrl-change Ch:%d P:%d V:127",param1_is,param2_is);
+            break;
+      default:
+            break;
      }
 }
 break;
@@ -1400,15 +1404,13 @@ if(param1_is>=0 && param1_is<5)
      midi_send_out[616+param1_is]=toggle(param2_is);
      midi_send_out[620+param1_is]=toggle(param2_is);
      midi_send_out[624+param1_is]=toggle(param2_is);
-     switch(midi_send_out[616+param1_is])
-     {
-     case 0:
-     sprintf(string_event,"BACK: Player %d SetMidiOut OFF",param1_is);
-     break;
-     case 1:
-     sprintf(string_event,"BACK: Player %d SetMidiOut ON",param1_is);
-     break;
-     }
+      if(midi_send_out[616+param1_is]==0)
+      {
+            sprintf(string_event,"BACK: Player %d SetMidiOut OFF",param1_is);
+      }
+      else{
+            sprintf(string_event,"BACK: Player %d SetMidiOut ON",param1_is);
+      }
      break;
      }
 }
@@ -1489,24 +1491,21 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      case 0://lock
      FaderLocked[the_fader_is]=bangers_params[banger_num][event_num][1];
      do_stock_fadersstate(0,0,1,0,0);
-     switch(FaderLocked[the_fader_is])
-     {
-     case 0:
-     FaderLocked[the_fader_is]=0;
-     //remise à plat du niveau
-     Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
-     midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
-     sprintf(string_event,"UNLOCKED Fader %d",the_fader_is+1);
-     break;
-     case 1:
-     FaderLocked[the_fader_is]=1;
-     StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
-     if(StateOfFaderBeforeLock[the_fader_is]==255){LockFader_is_FullLevel[the_fader_is]=1;}
-     else if(StateOfFaderBeforeLock[the_fader_is]<255){LockFader_is_FullLevel[the_fader_is]=0;}
-     lfo_cycle_is_on[the_fader_is]=0;//rajout 0.7.6
-     lfo_mode_is[the_fader_is]=0;
-     sprintf(string_event,"LOCKED Fader %d",the_fader_is+1);
-     break;
+     if(FaderLocked[the_fader_is]==0){
+            FaderLocked[the_fader_is]=0;
+            //remise à plat du niveau
+            Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
+            midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
+            sprintf(string_event,"UNLOCKED Fader %d",the_fader_is+1);
+      }
+     else{
+            FaderLocked[the_fader_is]=1;
+            StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
+            if(StateOfFaderBeforeLock[the_fader_is]==255){LockFader_is_FullLevel[the_fader_is]=1;}
+            else if(StateOfFaderBeforeLock[the_fader_is]<255){LockFader_is_FullLevel[the_fader_is]=0;}
+            lfo_cycle_is_on[the_fader_is]=0;//rajout 0.7.6
+            lfo_mode_is[the_fader_is]=0;
+            sprintf(string_event,"LOCKED Fader %d",the_fader_is+1);
      }
      break;
      case 1://up
@@ -3128,18 +3127,15 @@ switch(bangers_action[banger_num][event_num])
       sprintf(string_event,"Preset reloaded ");
      break;
      case 7:// Go
-     switch (Midi_Force_Go)
-     {
-     case 0:
-     do_go_function();
-     break;
-     case 1:
-     if(index_go==1){
-     do_double_go_function();
-     }
-     else {do_go_function(); }
-     index_pause=0;
-     break;
+      if (Midi_Force_Go==0){
+            do_go_function();
+      }
+     else{
+            if(index_go==1){
+            do_double_go_function();
+            }
+            else {do_go_function(); }
+            index_pause=0;
      }
      if(index_go==1 && index_pause==0)
      {
@@ -3292,20 +3288,18 @@ switch(bangers_action[banger_num][event_num])
       }
       break;
       case 11://toogle a track
-      if(param1_is>0 && param1_is<core_user_define_nb_chasers && param2_is>0 && param2_is<25)
-      {
-      track_is_on[param1_is-1][param2_is-1]=toggle(track_is_on[param1_is-1][param2_is-1]);
-      switch(track_is_on[param1_is-1][param2_is-1])
-      {
-      case 0:
-      sprintf(string_event,"Chaser %d Track %d OFF",param1_is,param2_is);
-      break;
-      case 1:
-      sprintf(string_event,"Chaser %d Track %d ON ",param1_is,param2_is);
-      break;
-      }
-      }
-      break;
+            if(param1_is>0 && param1_is<core_user_define_nb_chasers && param2_is>0 && param2_is<25)
+            {
+            track_is_on[param1_is-1][param2_is-1]=toggle(track_is_on[param1_is-1][param2_is-1]);
+            if(track_is_on[param1_is-1][param2_is-1]==0){
+                  sprintf(string_event,"Chaser %d Track %d OFF",param1_is,param2_is);
+            }
+            else{
+                  sprintf(string_event,"Chaser %d Track %d ON ",param1_is,param2_is);
+                  break;
+            }
+            }
+            break;
       case 12://ALL ON OFF
       if(param1_is>0 && param1_is<core_user_define_nb_chasers)
       {
@@ -3484,196 +3478,188 @@ if(bang_the_chan_is>0 && bang_the_chan_is<513)
      switch(bangers_action[banger_num][event_num])
      {
       case 0://"/100 Set At");
-      switch(index_blind)
-      {
-       case 0:
-       bufferSaisie[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       if(bufferSaisie[bang_the_chan_is]>=255){bufferSaisie[bang_the_chan_is]=255;}
-       break;
-       case 1:
-       bufferBlind[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       if(bufferBlind[bang_the_chan_is]>=255){bufferBlind[bang_the_chan_is]=255;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d at %d/100",bang_the_chan_is,bang_val_the_chan_is);
-      break;
+            if(index_blind==0){
+                  bufferSaisie[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferSaisie[bang_the_chan_is]>=255){bufferSaisie[bang_the_chan_is]=255;}
+            }
+            else{
+                  bufferBlind[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferBlind[bang_the_chan_is]>=255){bufferBlind[bang_the_chan_is]=255;}
+            }
+            sprintf(string_event,"SetChan %d at %d/100",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 1://"/100 Set +");
-      switch(index_blind)
-      {
-       case 0:
-       if(bufferSaisie[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255)
-       {
-       bufferSaisie[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else
-       {bufferSaisie[bang_the_chan_is]=255;}
-       break;
-       case 1:
-       if(bufferBlind[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255)
-       {
-       bufferBlind[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);
-       }
-       else {bufferBlind[bang_the_chan_is]=255;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d + %d/100",bang_the_chan_is,bang_val_the_chan_is);
-      break;
+            if(index_blind==0){
+                  if(bufferSaisie[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
+                        bufferSaisie[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else{
+                        bufferSaisie[bang_the_chan_is]=255;
+                  }
+            }
+            else{
+                  if(bufferBlind[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
+                        bufferBlind[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);
+                  }
+                  else {
+                        bufferBlind[bang_the_chan_is]=255;
+                  }
+            }
+            sprintf(string_event,"SetChan %d + %d/100",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 2://"/100 Set -");
-      switch(index_blind)
-      {
-       case 0:
-       if( bufferSaisie[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0)
-       {
-       bufferSaisie[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else {bufferSaisie[bang_the_chan_is]=0;}
-       break;
-       case 1:
-       if(bufferBlind[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0)
-       {
-       bufferBlind[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else
-      {bufferBlind[bang_the_chan_is]=0;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d - %d/100",bang_the_chan_is,bang_val_the_chan_is);
-
-      break;
+            if(index_blind==0){
+                  if( bufferSaisie[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0)
+                  {
+                  bufferSaisie[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else {bufferSaisie[bang_the_chan_is]=0;}
+            }
+            else{
+                  if(bufferBlind[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0){
+                        bufferBlind[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else{
+                        bufferBlind[bang_the_chan_is]=0;
+                  }
+            }
+            sprintf(string_event,"SetChan %d - %d/100",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 3://"/255 Set At");
-      switch(index_blind)
-      {
-       case 0:
-       bufferSaisie[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       if(bufferSaisie[bang_the_chan_is]>=255){bufferSaisie[bang_the_chan_is]=255;}
-       break;
-       case 1:
-       bufferBlind[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       if(bufferBlind[bang_the_chan_is]>=255){bufferBlind[bang_the_chan_is]=255;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d at %d/255",bang_the_chan_is,bang_val_the_chan_is);
-      break;
+            if(index_blind==0)
+            {
+                  bufferSaisie[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferSaisie[bang_the_chan_is]>=255){
+                        bufferSaisie[bang_the_chan_is]=255;
+                  }
+            }
+            else{
+                  bufferBlind[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferBlind[bang_the_chan_is]>=255){
+                        bufferBlind[bang_the_chan_is]=255;
+                  }
+            }
+            sprintf(string_event,"SetChan %d at %d/255",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 4://"/255 Set +")
-      switch(index_blind)
-      {
-       case 0:
-       if( bufferSaisie[bang_the_chan_is]+bang_val_the_chan_is<255)
-       {
-       bufferSaisie[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else {bufferSaisie[bang_the_chan_is]=255;}
-       break;
-       case 1:
-       if( bufferBlind[bang_the_chan_is]+bang_val_the_chan_is<255)
-       {
-       bufferBlind[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else {bufferBlind[bang_the_chan_is]=255;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d + %d/255",bang_the_chan_is,bang_val_the_chan_is);
-      break;
+            if(index_blind==0)
+            {
+                  if( bufferSaisie[bang_the_chan_is]+bang_val_the_chan_is<255){
+                        bufferSaisie[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else {
+                        bufferSaisie[bang_the_chan_is]=255;
+                  }
+            }
+            else{
+                  if( bufferBlind[bang_the_chan_is]+bang_val_the_chan_is<255){
+                        bufferBlind[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else {
+                        bufferBlind[bang_the_chan_is]=255;
+                  }
+            }
+            sprintf(string_event,"SetChan %d + %d/255",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 5://"/255 Set -");
-      switch(index_blind)
-      {
-       case 0:
-       if(bufferSaisie[bang_the_chan_is]-bang_val_the_chan_is>0)
-       {
-       bufferSaisie[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else {bufferSaisie[bang_the_chan_is]=0;}
-       break;
-       case 1:
-       if(bufferBlind[bang_the_chan_is]-bang_val_the_chan_is>0)
-       {
-       bufferBlind[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-       }
-       else {bufferBlind[bang_the_chan_is]=0;}
-       break;
-      }
-      sprintf(string_event,"SetChan %d - %d/255",bang_the_chan_is,bang_val_the_chan_is);
-      break;
+            if(index_blind==0){
+                  if(bufferSaisie[bang_the_chan_is]-bang_val_the_chan_is>0){
+                        bufferSaisie[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else {
+                        bufferSaisie[bang_the_chan_is]=0;
+                  }
+            }
+            else{
+                  if(bufferBlind[bang_the_chan_is]-bang_val_the_chan_is>0){
+                        bufferBlind[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  }
+                  else {
+                        bufferBlind[bang_the_chan_is]=0;
+                  }
+            }
+            sprintf(string_event,"SetChan %d - %d/255",bang_the_chan_is,bang_val_the_chan_is);
+            break;
       case 6://"Macro ON"
-      if(bang_val_the_chan_is>0 && bang_val_the_chan_is<5)
-      {
-      macro_channel_on[bang_the_chan_is][bang_val_the_chan_is-1]=1;
-      sprintf(string_event,"SetChan %d - Macro %d ON",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_val_the_chan_is>0 && bang_val_the_chan_is<5)
+            {
+            macro_channel_on[bang_the_chan_is][bang_val_the_chan_is-1]=1;
+            sprintf(string_event,"SetChan %d - Macro %d ON",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 7://"Macro OFF"
-      if(bang_val_the_chan_is>0 && bang_val_the_chan_is<5)
-      {
-      macro_channel_on[bang_the_chan_is][bang_val_the_chan_is-1]=0;
-      sprintf(string_event,"SetChan %d - Macro %d OFF",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_val_the_chan_is>0 && bang_val_the_chan_is<5)
+            {
+            macro_channel_on[bang_the_chan_is][bang_val_the_chan_is-1]=0;
+            sprintf(string_event,"SetChan %d - Macro %d OFF",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 8://"Macro1 from to ON"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][0]=1;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro1 ON",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][0]=1;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro1 ON",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 9://"Macro2 from to ON"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][1]=1;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro2 ON",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][1]=1;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro2 ON",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 10://"Macro3 from to ON"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][2]=1;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro3 ON",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][2]=1;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro3 ON",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 11://"Macro4 from to ON"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][3]=1;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro4 ON",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][3]=1;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro4 ON",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 12://"Macro1 from to Off"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][0]=0;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro1 OFF",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][0]=0;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro1 OFF",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 13://"Macro2 from to Off"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i< bang_val_the_chan_is; i++)
-      macro_channel_on[i][1]=0;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro2 OFF",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i< bang_val_the_chan_is; i++)
+            macro_channel_on[i][1]=0;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro2 OFF",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 14://"Macro3 from to Off"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][2]=0;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro3 OFF",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][2]=0;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro3 OFF",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       case 15://"Macro4 from to Off"
-      if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
-      {
-      for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
-      macro_channel_on[i][3]=0;
-      sprintf(string_event,"SetFrom %d To %d Chan - Macro4 OFF",bang_the_chan_is,bang_val_the_chan_is);
-      }
-      break;
+            if(bang_the_chan_is>0 && bang_the_chan_is<=512 && bang_val_the_chan_is>0 && bang_val_the_chan_is<=512)
+            {
+            for (int i=bang_the_chan_is; i<= bang_val_the_chan_is; i++)
+            macro_channel_on[i][3]=0;
+            sprintf(string_event,"SetFrom %d To %d Chan - Macro4 OFF",bang_the_chan_is,bang_val_the_chan_is);
+            }
+            break;
       default:
-      break;
+            break;
       }
 }
 break;
@@ -4775,38 +4761,49 @@ mouse_released=1;
 else
 {
 bang_is_sended[banger_overoll]=toggle(bang_is_sended[banger_overoll]);
-switch (bang_is_sended[banger_overoll])
-{
-case 0://reset des send events et on demarre à la souris le banger
-  for (int y=0;y<6;y++){event_sended[banger_overoll][y]=0;}
-  start_time_for_banger[banger_overoll]=actual_time;
 
-//calcul bang time de fin
-for (int y=0;y<6;y++)
-{
-if(bangers_delay[banger_overoll][y]> end_time_for_banger[banger_overoll])
-{
-end_time_for_banger[banger_overoll]= bangers_delay[banger_overoll][y];
-}
-}
-if(end_time_for_banger[banger_overoll]<default_time_of_the_bang)
-{end_time_for_banger[banger_overoll]=default_time_of_the_bang;}
-///////////////////////
 
-last_banger_sended_manually=banger_overoll;
-break;
-case 1://go back sur le banger
-for (int y=0;y<6;y++)
+if (bang_is_sended[banger_overoll]==0)
 {
-if(bangers_type[banger_overoll][y]!=0 )
-{
-    Bang_event_back(banger_overoll, y);
-    event_sended[banger_overoll][y]=1;
+      //reset des send events et on demarre à la souris le banger
+      for (int y=0;y<6;y++){
+            event_sended[banger_overoll][y]=0;
+      }
+      start_time_for_banger[banger_overoll]=actual_time;
+
+      //calcul bang time de fin
+      for (int y=0;y<6;y++)
+      {
+            if(bangers_delay[banger_overoll][y]> end_time_for_banger[banger_overoll])
+            {
+                  end_time_for_banger[banger_overoll]= bangers_delay[banger_overoll][y];
+            }
+      }
+      if(end_time_for_banger[banger_overoll]<default_time_of_the_bang){
+            end_time_for_banger[banger_overoll]=default_time_of_the_bang;
+      }
+      ///////////////////////
+      last_banger_sended_manually=banger_overoll;
 }
+else{//go back sur le banger
+      for (int y=0;y<6;y++)
+      {
+            if(bangers_type[banger_overoll][y]!=0 )
+            {
+            Bang_event_back(banger_overoll, y);
+            event_sended[banger_overoll][y]=1;
+            }
+      }
+      bang_is_sended[banger_overoll]=1;//bloquage de l envoi des autres évènements
 }
-bang_is_sended[banger_overoll]=1;//bloquage de l envoi des autres évènements
-break;
-}
+
+
+
+
+
+
+
+
 }
 }
 mouse_released=1;
