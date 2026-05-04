@@ -60,6 +60,7 @@ using namespace audiere;
 #include "patch.h"
 #include "plot.h"
 #include "audio.h"
+#include "audio_core.h"
 
 // Forward declarations — defined in CORE_6.cpp
 int player1_do_stop();

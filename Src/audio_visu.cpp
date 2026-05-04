@@ -52,6 +52,7 @@ using namespace audiere;
 #include "display.h"
 #include "ui_indexes.h"
 #include "midi.h"
+#include "audio_visu.h"
 
 // Forward declarations — defined in CORE_6.cpp
 int toggle(int index_to_toggle);
