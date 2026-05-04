@@ -52,8 +52,7 @@ extern bool index_show_faders;
 extern bool index_over_A_window;
 extern bool index_over_faderspace;
 extern bool index_over_channelspace;
-bool index_over_function_call =
-    0; // pour eviter de clicker dans les faders quand on est en zone functions ( boutons du menu gauche)
+extern bool index_over_function_call; // pour eviter de clicker dans les faders quand on est en zone functions
 
 // DMX core -> dmx.h
 

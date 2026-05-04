@@ -1,4 +1,6 @@
+#include "graphics_backend.h"
 #include "audio_backend.h"
+using namespace audiere;
 #include "audio.h"
 
 ////SOUND/////////////////////////////////////////////////////////////////////

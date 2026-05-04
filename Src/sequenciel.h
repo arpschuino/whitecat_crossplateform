@@ -25,7 +25,7 @@ extern int xseq_window;
 extern int yseq_window;
 extern int nbre_memoires_visualisables_en_preset;
 inline int calc_hauteur_sequenciel(int n) {
-extern return 180 + 35 * (n + 1) + 40;
+    return 180 + 35 * (n + 1) + 40;
 }
 extern int hauteur_globale_sequenciel;
 extern bool MemoiresExistantes[10000];

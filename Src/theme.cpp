@@ -1,4 +1,5 @@
 #include "graphics_backend.h"
+using namespace ol;
 #include "theme.h"
 
 ///////////////////////COULEURS ET POLICES//////////////////////////////////////

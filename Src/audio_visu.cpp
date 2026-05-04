@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
-       WWWWWWWWWWWWWWW           |
+       WWWWWWWWWWWWWWW           |               2026       Jacques Bouault - arpschuino.fr
      WWWWWWWWWWWWWWWWWWW         | This file is part of White Cat.
     WWWWWWWWWWWWWWWWWCWWWW       |
    WWWWWWWWWWWWWWWWW tWWWWW      | White Cat is free software: you can redistribute it and/or modify

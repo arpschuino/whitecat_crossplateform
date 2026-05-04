@@ -1,14 +1,9 @@
+#include "graphics_backend.h"
+#include <winsock2.h>
 #include "Crossplateform.h"
 #include "network.h"
 
 /////////////////ARTNET//////////////////////////////////////////////////////////
-const short MaxNumPorts = 1;
-const short MaxExNumPorts = 32;
-const short ShortNameLength = 18;
-const short LongNameLength = 64;
-const short NodeReportLength = 64;
-const short PortNameLength = 32;
-const short MaxDataLength = 512 - 1;
 char ArtPollBuffer[14];
 char ArtPollReplyBuffer[240];
 char ReceivedArtPollBuffer[14];

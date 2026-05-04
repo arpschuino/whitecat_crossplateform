@@ -43,52 +43,52 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int indicate_wich_fader_is_the_highest()
 {
-for(int ig=1;ig<514;ig++)
-{
-int temp_highest=0;
-for (int fd=0;fd<core_user_define_nb_faders;fd++)
-{
-if (FaderDoDmx[fd][ig]>temp_highest)
-{
-temp_highest=FaderDoDmx[fd][ig];
-highest_level_comes_from_fader[ig]= fd+1;
-}
-}
-}
-return(0);
+  for(int ig=1;ig<514;ig++)
+  {
+    int temp_highest=0;
+    for (int fd=0;fd<core_user_define_nb_faders;fd++)
+    {
+      if (FaderDoDmx[fd][ig]>temp_highest)
+      {
+        temp_highest=FaderDoDmx[fd][ig];
+        highest_level_comes_from_fader[ig]= fd+1;
+      }
+    }
+  }
+  return(0);
 }
 
 
 int asservissement_gridplayer(int cmptfader, int dk)
 {
-int the_gr= faders_dock_grid_affectation[cmptfader][dk];
-if(grid_player_slave[the_gr]==1)
-{
-grid_crossfade_speed[the_gr]=lfo_speed[cmptfader];
-gridder_prepare_cross(the_gr, index_grider_selected[the_gr], index_grider_step_is[the_gr]);
-}
-return(0);
+  int the_gr= faders_dock_grid_affectation[cmptfader][dk];
+  if(grid_player_slave[the_gr]==1)
+  {
+    grid_crossfade_speed[the_gr]=lfo_speed[cmptfader];
+    gridder_prepare_cross(the_gr, index_grider_selected[the_gr], index_grider_step_is[the_gr]);
+  }
+  return(0);
 }
 
 
 int DoLock(int masterfader, int locklevel)
 {
- for ( int fi=0;fi<core_user_define_nb_faders;fi++)
- {
- OldFaderLockProc[fi]=Fader[fi];
- if(FaderLocked[fi]==1 && fi!=masterfader)
- {
- Fader[fi]=(unsigned char)((((float)(StateOfFaderBeforeLock[fi]))/255)*locklevel);
- midi_levels[fi]=(int)(((float)Fader[fi])/2);
- if( OldFaderLockProc[fi]!=Fader[fi])
- {
- index_send_midi_out[fi]=1;
- }
- //direct ch
- if(DockTypeIs[fi][dock_used_by_fader_is[fi]]==10){index_fader_is_manipulated[fi]=1;}
- }
- }
- return(0);
+  for ( int fi=0;fi<core_user_define_nb_faders;fi++)
+  {
+    OldFaderLockProc[fi]=Fader[fi];
+    if(FaderLocked[fi]==1 && fi!=masterfader)
+    {
+      Fader[fi]=(unsigned char)((((float)(StateOfFaderBeforeLock[fi]))/255)*locklevel);
+      midi_levels[fi]=(int)(((float)Fader[fi])/2);
+      if( OldFaderLockProc[fi]!=Fader[fi])
+      {
+        index_send_midi_out[fi]=1;
+      }
+      //direct ch
+      if(DockTypeIs[fi][dock_used_by_fader_is[fi]]==10){index_fader_is_manipulated[fi]=1;}
+    }
+  }
+  return(0);
 }
 
 
@@ -96,276 +96,261 @@ int DoLock(int masterfader, int locklevel)
 int do_logical_fader_damper_commands(int _x,int _y, int fd)
 {
 
-if(window_focus_id==W_FADERS)
-{
-//ON OFF DAMPER
-if( mouse_x>_x && mouse_x<_x+20 && mouse_y>_y+20 && mouse_y<_y+40)
-{
-if(mouse_button==1 && mouse_released==0)
-{
-if( Midi_Faders_Affectation_Type!=0 )
-{
-attribute_midi_to_control((1912+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-}
-else
-{
-    if(fader_damper_is_on[fd]==0)
+  if(window_focus_id==W_FADERS)
+  {
+  //ON OFF DAMPER
+  if( mouse_x>_x && mouse_x<_x+20 && mouse_y>_y+20 && mouse_y<_y+40)
+  {
+    if(mouse_button==1 && mouse_released==0)
     {
-        Fader_dampered[fd].fix_all_damper_state_value(Fader[fd]);
-        Fader_dampered[fd].set_target_val(Fader[fd]);
+      if( Midi_Faders_Affectation_Type!=0 )
+      {
+        attribute_midi_to_control((1912+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+      }
+      else
+      {
+        if(fader_damper_is_on[fd]==0)
+        {
+            Fader_dampered[fd].fix_all_damper_state_value(Fader[fd]);
+            Fader_dampered[fd].set_target_val(Fader[fd]);
+        }
+        fader_damper_is_on[fd]=toggle(fader_damper_is_on[fd]);
+      }
+      mouse_released=1;
     }
-    fader_damper_is_on[fd]=toggle(fader_damper_is_on[fd]);
-}
-mouse_released=1;
-}
-if( Midi_Faders_Affectation_Type!=0)
-{
-//midi report
- switch(miditable[0][1912+fd])
- {
-  case 0:
-  sprintf(thetypinfo,"Note");
-  break;
-  case 1:
-  sprintf(thetypinfo,"Key On");
-  break;
-  case 2:
-  sprintf(thetypinfo,"Key Off");
-  break;
-  case 4:
-  sprintf(thetypinfo,"Ctrl Change");
-  break;
-}
-  sprintf(string_last_midi_id,"Damper ON/OFF is Ch: %d Pitch: %d Type: %s", miditable[1][1912+fd],miditable[2][1912+fd],thetypinfo);
-}
-}
+    if( Midi_Faders_Affectation_Type!=0)
+    {
+      //midi report
+      switch(miditable[0][1912+fd])
+      {
+        case 0:
+        sprintf(thetypinfo,"Note");
+        break;
+        case 1:
+        sprintf(thetypinfo,"Key On");
+        break;
+        case 2:
+        sprintf(thetypinfo,"Key Off");
+        break;
+        case 4:
+        sprintf(thetypinfo,"Ctrl Change");
+        break;
+      }
+      sprintf(string_last_midi_id,"Damper ON/OFF is Ch: %d Pitch: %d Type: %s", miditable[1][1912+fd],miditable[2][1912+fd],thetypinfo);
+    }
+  }
 
-//DECAY CONSTANT OF DAMPER
-if( mouse_x>_x+30 && mouse_x<=_x+157 && mouse_y>_y+15 && mouse_y<_y+27)
-{
+  //DECAY CONSTANT OF DAMPER
+  if( mouse_x>_x+30 && mouse_x<=_x+157 && mouse_y>_y+15 && mouse_y<_y+27)
+  {
 
-if( mouse_button==1 )
-{
-if( Midi_Faders_Affectation_Type!=0 && mouse_released==0)
-{
-attribute_midi_to_control((1960+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-else
-{
-    set_mouse_range(_x+30, _y+15, _x+157, _y+27);
-    Fader_dampered[fd].set_damper_decay(1.0-(((float)(_x+157-mouse_x))/127));
-    midi_levels[1960+fd]=127-(_x+157-mouse_x);
-    index_send_midi_out[1960+fd]=1;
-}
-}
-if( Midi_Faders_Affectation_Type!=0)
-{
-//midi report
- switch(miditable[0][1960+fd])
- {
-  case 0:
-  sprintf(thetypinfo,"Note");
-  break;
-  case 1:
-  sprintf(thetypinfo,"Key On");
-  break;
-  case 2:
-  sprintf(thetypinfo,"Key Off");
-  break;
-  case 4:
-  sprintf(thetypinfo,"Ctrl Change");
-  break;
-}
-  sprintf(string_last_midi_id,"Damper Decay is Ch: %d Pitch: %d Type: %s", miditable[1][1960+fd],miditable[2][1960+fd],thetypinfo);
-}
+  if( mouse_button==1 )
+  {
+    if( Midi_Faders_Affectation_Type!=0 && mouse_released==0)
+    {
+      attribute_midi_to_control((1960+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+      mouse_released=1;
+    }
+    else
+    {
+      set_mouse_range(_x+30, _y+15, _x+157, _y+27);
+      Fader_dampered[fd].set_damper_decay(1.0-(((float)(_x+157-mouse_x))/127));
+      midi_levels[1960+fd]=127-(_x+157-mouse_x);
+      index_send_midi_out[1960+fd]=1;
+    }
+  }
+  if( Midi_Faders_Affectation_Type!=0)
+  {
+    //midi report
+    switch(miditable[0][1960+fd])
+    {
+      case 0:
+      sprintf(thetypinfo,"Note");
+      break;
+      case 1:
+      sprintf(thetypinfo,"Key On");
+      break;
+      case 2:
+      sprintf(thetypinfo,"Key Off");
+      break;
+      case 4:
+      sprintf(thetypinfo,"Ctrl Change");
+      break;
+    }
+    sprintf(string_last_midi_id,"Damper Decay is Ch: %d Pitch: %d Type: %s", miditable[1][1960+fd],miditable[2][1960+fd],thetypinfo);
+  }
 
-}
+  }
 
-//DT CONSTANT OF DAMPER
-if( mouse_x>_x+30 && mouse_x<=_x+157 && mouse_y>_y+35 && mouse_y<_y+47)
-{
+  //DT CONSTANT OF DAMPER
+  if( mouse_x>_x+30 && mouse_x<=_x+157 && mouse_y>_y+35 && mouse_y<_y+47)
+  {
 
-if( mouse_button==1 )
-{
-if( Midi_Faders_Affectation_Type!=0 && mouse_released==0)
-{
-attribute_midi_to_control((2056+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-else
-{
-    set_mouse_range(_x+30, _y+35, _x+157, _y+47);
-    Fader_dampered[fd].set_damper_dt((1.0-(((float)(_x+157-mouse_x))/127))/10);
-    midi_levels[2056+fd]=127-(_x+157-mouse_x);
-    index_send_midi_out[2056+fd]=1;
-}
-}
-if( Midi_Faders_Affectation_Type!=0)
-{
-//midi report
- switch(miditable[0][2056+fd])
- {
-  case 0:
-  sprintf(thetypinfo,"Note");
-  break;
-  case 1:
-  sprintf(thetypinfo,"Key On");
-  break;
-  case 2:
-  sprintf(thetypinfo,"Key Off");
-  break;
-  case 4:
-  sprintf(thetypinfo,"Ctrl Change");
-  break;
-}
-  sprintf(string_last_midi_id,"Damper DT is Ch: %d Pitch: %d Type: %s", miditable[1][2056+fd],miditable[2][2056+fd],thetypinfo);
-}
-
-}
-
-
-//Damper mode
-if( mouse_x>_x+137 && mouse_x<_x+157 && mouse_y>_y && mouse_y<_y+10)
-{
-if(mouse_button==1 && mouse_released==0)
-{
-if( Midi_Faders_Affectation_Type!=0 )
-{
-attribute_midi_to_control((2008+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-}
-else
-{
-    Fader_dampered[fd].set_damper_mode((Fader_dampered[fd].getdampermode()+1));
+    if( mouse_button==1 )
+    {
+    if( Midi_Faders_Affectation_Type!=0 && mouse_released==0)
+    {
+    attribute_midi_to_control((2056+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
     mouse_released=1;
-}
-}
-if( Midi_Faders_Affectation_Type!=0)
-{
-//midi report
- switch(miditable[0][2008+fd])
- {
-  case 0:
-  sprintf(thetypinfo,"Note");
-  break;
-  case 1:
-  sprintf(thetypinfo,"Key On");
-  break;
-  case 2:
-  sprintf(thetypinfo,"Key Off");
-  break;
-  case 4:
-  sprintf(thetypinfo,"Ctrl Change");
-  break;
-}
-  sprintf(string_last_midi_id,"Damper Mode is Ch: %d Pitch: %d Type: %s", miditable[1][2008+fd],miditable[2][2008+fd],thetypinfo);
-}
-}
+    }
+    else
+    {
+        set_mouse_range(_x+30, _y+35, _x+157, _y+47);
+        Fader_dampered[fd].set_damper_dt((1.0-(((float)(_x+157-mouse_x))/127))/10);
+        midi_levels[2056+fd]=127-(_x+157-mouse_x);
+        index_send_midi_out[2056+fd]=1;
+    }
+    }
+    if( Midi_Faders_Affectation_Type!=0)
+    {
+      //midi report
+      switch(miditable[0][2056+fd])
+      {
+        case 0:
+        sprintf(thetypinfo,"Note");
+        break;
+        case 1:
+        sprintf(thetypinfo,"Key On");
+        break;
+        case 2:
+        sprintf(thetypinfo,"Key Off");
+        break;
+        case 4:
+        sprintf(thetypinfo,"Ctrl Change");
+        break;
+      }
+      sprintf(string_last_midi_id,"Damper DT is Ch: %d Pitch: %d Type: %s", miditable[1][2056+fd],miditable[2][2056+fd],thetypinfo);
+    }
+  }
 
-//midi out
-button_midi_out_core(_x+130,_y+65,(fd+1960));//DECAY
-button_midi_out_core(_x+150,_y+65,(fd+2056));//DT
 
-}
+  //Damper mode
+  if( mouse_x>_x+137 && mouse_x<_x+157 && mouse_y>_y && mouse_y<_y+10)
+  {
+    if(mouse_button==1 && mouse_released==0)
+    {
+      if( Midi_Faders_Affectation_Type!=0 )
+      {
+        attribute_midi_to_control((2008+fd), Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+      }
+      else
+      {
+        Fader_dampered[fd].set_damper_mode((Fader_dampered[fd].getdampermode()+1));
+        mouse_released=1;
+      }
+    }
+    if( Midi_Faders_Affectation_Type!=0)
+    {
+      //midi report
+      switch(miditable[0][2008+fd])
+      {
+        case 0:
+        sprintf(thetypinfo,"Note");
+        break;
+        case 1:
+        sprintf(thetypinfo,"Key On");
+        break;
+        case 2:
+        sprintf(thetypinfo,"Key Off");
+        break;
+        case 4:
+        sprintf(thetypinfo,"Ctrl Change");
+        break;
+      }
+      sprintf(string_last_midi_id,"Damper Mode is Ch: %d Pitch: %d Type: %s", miditable[1][2008+fd],miditable[2][2008+fd],thetypinfo);
+    }
+  }
 
-/*
-if( mouse_x>_x+147 && mouse_x<_x+160 && mouse_y>_y+55 && mouse_y<_y+65 && mouse_button==1 && mouse_released==0)
-{
-midi_send_out[fd+1960]=toggle(midi_send_out[fd+1960]);
-mouse_released=1;
-}*/
-return(0);
+  //midi out
+  button_midi_out_core(_x+130,_y+65,(fd+1960));//DECAY
+  button_midi_out_core(_x+150,_y+65,(fd+2056));//DT
+
+  }
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////
 int do_logical_Lock_Preset_Call(int xf,int yf)
 {
-int calcul_lock=0;
+  int calcul_lock=0;
 
-for (int cm=0;cm<2;cm++)
-{
- for (int ll=0;ll<4;ll++)
- {
+  for (int cm=0;cm<2;cm++)
+  {
+    for (int ll=0;ll<4;ll++)
+    {
+      calcul_lock=cm+(2*ll);
 
- calcul_lock=cm+(2*ll);
+      if(mouse_x>xf+(cm*55)-5 && mouse_x<xf+(cm*55)+40 && mouse_y>yf+(ll*55) && mouse_y<yf+(ll*55)+45)
+      {
+        //midi report
+        switch(miditable[0][605+calcul_lock])
+        {
+          case 0:
+            sprintf(thetypinfo,"Note");
+            break;
+          case 1:
+            sprintf(thetypinfo,"Key On");
+            break;
+          case 2:
+            sprintf(thetypinfo,"Key Off");
+            break;
+          case 4:
+            sprintf(thetypinfo,"Ctrl Change");
+            break;
+        }
+        sprintf(string_last_midi_id,"Lock Preset %d is Ch: %d Pitch: %d Type: %s",calcul_lock+1, miditable[1][605+calcul_lock],miditable[2][605+calcul_lock],thetypinfo);
 
- if(mouse_x>xf+(cm*55)-5 && mouse_x<xf+(cm*55)+40 && mouse_y>yf+(ll*55) && mouse_y<yf+(ll*55)+45)
- {
+        //config midi
+        if( Midi_Faders_Affectation_Type!=0)
+        {
+          attribute_midi_to_control(605+calcul_lock,Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+        else
+        {
+          if(index_do_dock==1)
+          {
+            for(int f=0;f<core_user_define_nb_faders;f++)
+            {
+              FaderLocked_Preset[calcul_lock][f]=0;        //reset des états avant stockage
+              StateOfFaderBeforeLock_Preset[calcul_lock][f]=0;
+              LockFader_is_FullLevel_Preset[calcul_lock][f]=0;
+              if ( FaderLocked[f]==1)
+              {
+                FaderLocked_Preset[calcul_lock][f]=FaderLocked[f];
+                StateOfFaderBeforeLock_Preset[calcul_lock][f]=StateOfFaderBeforeLock[f];
+                LockFader_is_FullLevel_Preset[calcul_lock][f]=LockFader_is_FullLevel[f];
+              }
+            }
+            //extinction des autres
+            for (int ipo=0;ipo<8;ipo++)
+            {
+              lock_preset[ipo]=0;
+            }
+            lock_preset[calcul_lock]=1;
 
-
- //midi report
- switch(miditable[0][605+calcul_lock])
- {
-  case 0:
-  sprintf(thetypinfo,"Note");
-  break;
-  case 1:
-  sprintf(thetypinfo,"Key On");
-  break;
-  case 2:
-  sprintf(thetypinfo,"Key Off");
-  break;
-  case 4:
-  sprintf(thetypinfo,"Ctrl Change");
-  break;
- }
-  sprintf(string_last_midi_id,"Lock Preset %d is Ch: %d Pitch: %d Type: %s",calcul_lock+1, miditable[1][605+calcul_lock],miditable[2][605+calcul_lock],thetypinfo);
-
- //config midi
-  if( Midi_Faders_Affectation_Type!=0)
- {
- attribute_midi_to_control(605+calcul_lock,Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
- mouse_released=1;
-
- }
- else
- {
-
- if(index_do_dock==1)
- {
- for(int f=0;f<core_user_define_nb_faders;f++)
- {
- FaderLocked_Preset[calcul_lock][f]=0;        //reset des états avant stockage
- StateOfFaderBeforeLock_Preset[calcul_lock][f]=0;
- LockFader_is_FullLevel_Preset[calcul_lock][f]=0;
- if ( FaderLocked[f]==1)
- {
- FaderLocked_Preset[calcul_lock][f]=FaderLocked[f];
- StateOfFaderBeforeLock_Preset[calcul_lock][f]=StateOfFaderBeforeLock[f];
- LockFader_is_FullLevel_Preset[calcul_lock][f]=LockFader_is_FullLevel[f];
- }
- }
- //extinction des autres
- for (int ipo=0;ipo<8;ipo++)
- {lock_preset[ipo]=0;}
- lock_preset[calcul_lock]=1;
-
- index_do_dock=0;
- sprintf(string_Last_Order,">> Lock State %d recorded",calcul_lock+1);
- }
- else  if(index_main_clear==1)
- {
-
- reset_indexs_confirmation();
- lock_preset_selected_for_record=calcul_lock;
- index_do_clear_lock_preset=1;
- index_ask_confirm=1;
- sprintf(string_Last_Order,">> Lock State %d cleared",calcul_lock+1);
- }
- else
- {
- do_lock_preset(calcul_lock);
- sprintf(string_Last_Order,">> Lock State %d called ",calcul_lock+1);
- }
- mouse_released=1;
- }
- }
-
-
-}
-}
-
-return(0);
+            index_do_dock=0;
+            sprintf(string_Last_Order,">> Lock State %d recorded",calcul_lock+1);
+          }
+          else  if(index_main_clear==1)
+          {
+            reset_indexs_confirmation();
+            lock_preset_selected_for_record=calcul_lock;
+            index_do_clear_lock_preset=1;
+            index_ask_confirm=1;
+            sprintf(string_Last_Order,">> Lock State %d cleared",calcul_lock+1);
+          }
+          else
+          {
+            do_lock_preset(calcul_lock);
+            sprintf(string_Last_Order,">> Lock State %d called ",calcul_lock+1);
+          }
+          mouse_released=1;
+        }
+      }
+    }
+  }
+  return(0);
 }
 
 
@@ -373,536 +358,549 @@ return(0);
 int do_logical_lfo_fader_functions (int cmptfader, int x, int y,int largeur, int espacement)
 {
 
-//is dock for lfo selected ( do cycle )
-for (int dd=0;dd<core_user_define_nb_docks;dd++)
-{
+  //is dock for lfo selected ( do cycle )
+  for (int dd=0;dd<core_user_define_nb_docks;dd++)
+  {
 
-if(mouse_x>x+(cmptfader*espacement)+(largeur*size_faders)+100+10-6 && mouse_x<x+(cmptfader*espacement)+(largeur*size_faders)+100+10+6
-&& mouse_y>y+10-6+(dd*40) && mouse_y<y+10+6+(dd*40))
-{
-
-if(is_dock_for_lfo_selected[cmptfader][dd]==0)
-{is_dock_for_lfo_selected[cmptfader][dd]=1; }
-else if (is_dock_for_lfo_selected[cmptfader][dd]==1)
-{is_dock_for_lfo_selected[cmptfader][dd]=0;}
-mouse_released=1;
-
-}
-
-//Cadre bouton speed
-
-if(mouse_x>x+(cmptfader*espacement)-5 && mouse_x<x+(cmptfader*espacement)+127+5
-&& mouse_y>y+375 && mouse_y<y+375+ (largeur/2))
-{
-//midi report
-switch (miditable[0][196+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-sprintf(string_last_midi_id,"LFO SPEED is Ch: %d Pitch: %d Typ: %s" , miditable[1][196+cmptfader],miditable[2][196+cmptfader],thetypinfo);
-
-if( Midi_Faders_Affectation_Type!=0)
-
-{
-attribute_midi_to_control(196+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-else {
-set_mouse_range(x+(cmptfader*espacement), y+375, x+(cmptfader*espacement)+127+5, y+375+ (largeur/2));//pour pas deborder
-lfo_speed[cmptfader]=mouse_x-(x+(cmptfader*espacement));
-if(lfo_speed[cmptfader]<0){lfo_speed[cmptfader]=0;}
-if(lfo_speed[cmptfader]>127){lfo_speed[cmptfader]=127;}
-
-
-
-if(DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]]==12)//enchassement Grid si slave
-{
-asservissement_gridplayer(cmptfader,dock_used_by_fader_is[cmptfader]);
-}
-midi_levels[196+cmptfader]=lfo_speed[cmptfader];
-index_send_midi_out[196+cmptfader]=1;
-}
-}
-
-
-raccrochage_midi_logical_horizontal ( x+(cmptfader*espacement), y+375, 196+cmptfader,127,largeur/2);
-
-if(mouse_x> (x+(cmptfader*espacement)+140 )&& (mouse_x<x+(cmptfader*espacement)+160) && mouse_y>(y+397-10) && mouse_y< (y+397+10))
-{
-if(mouse_button==1 && mouse_released==0)
-{
-midi_send_out[cmptfader+196]=toggle(midi_send_out[cmptfader+196]);
-mouse_released=1;
-}
-}
-//LFOS BUTTONS
-//SET STOP POSITION
-if(mouse_x> (x+(cmptfader*espacement)-6) && mouse_x<(x+(cmptfader*espacement)-6 + (largeur/2)) && mouse_y>(y+320) && mouse_y<(y+320 + (largeur/2))
-&& mouse_released==0)
-{
-//midi report
-switch (miditable[0][685+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-sprintf(string_last_midi_id,"StopPos is Ch: %d Pitch: %d Typ: %s" , miditable[1][685+cmptfader],miditable[2][685+cmptfader],thetypinfo);
-
-
-if(Midi_Faders_Affectation_Type!=0)
-{
-attribute_midi_to_control(685+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-else
-{
-if(index_do_dock==0 && index_main_clear==0)
-{
-ActionnateStopOn[cmptfader]=toggle(ActionnateStopOn[cmptfader]);mouse_released=1;
-}
-
-else if(index_do_dock==1 && index_main_clear==0 )
-{
-if(numeric_postext>0 )//affectation stop pos par chaine de carcatere
-{
-int lStopPos=999;
-    switch(dmx_view)
+    if(mouse_x>x+(cmptfader*espacement)+(largeur*size_faders)+100+10-6 && mouse_x<x+(cmptfader*espacement)+(largeur*size_faders)+100+10+6
+    && mouse_y>y+10-6+(dd*40) && mouse_y<y+10+6+(dd*40))
     {
-    case 0:
-    lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
-    break;
-    case 1:
-    lStopPos=atol(numeric);
-    break;
+      if(is_dock_for_lfo_selected[cmptfader][dd]==0)
+      {
+        is_dock_for_lfo_selected[cmptfader][dd]=1; 
+      }
+      else if (is_dock_for_lfo_selected[cmptfader][dd]==1)
+      {
+        is_dock_for_lfo_selected[cmptfader][dd]=0;
+      }
+      mouse_released=1;
     }
-reset_numeric_entry();
-if (lStopPos>=0 && lStopPos<=255)
-   {
-   StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=lStopPos;
-   index_do_dock=0;
-   do_light_setpos[cmptfader]=1;
-   }
-}
-else if (numeric_postext==0) //affectation stop pos depuis le cursuer fader
-{
-StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=Fader[cmptfader];
-index_do_dock=0;
-do_light_setpos[cmptfader]=1;
-}
-}
 
-else if(index_main_clear==1 && index_do_dock==0)//clear
-{
-StopPosOn[cmptfader]=0;
-LevelStopPos[cmptfader]=999;
-index_main_clear=0;
-do_light_setpos[cmptfader]=1;
-}
-}
-mouse_released=1;
-}
+    //Cadre bouton speed
 
-//UP
-if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
-&& mouse_y> y+240 && mouse_y< y+240+(largeur/2) )
-{
-//midi report
-switch (miditable[0][245+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO UP is Ch: %d Pitch: %d Typ: %s" , miditable[1][245+cmptfader],miditable[2][245+cmptfader],thetypinfo);
+    if(mouse_x>x+(cmptfader*espacement)-5 && mouse_x<x+(cmptfader*espacement)+127+5
+    && mouse_y>y+375 && mouse_y<y+375+ (largeur/2))
+    {
+      //midi report
+      switch (miditable[0][196+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO SPEED is Ch: %d Pitch: %d Typ: %s" , miditable[1][196+cmptfader],miditable[2][196+cmptfader],thetypinfo);
 
-if( Midi_Faders_Affectation_Type!=0)
-{
-attribute_midi_to_control(245+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-else{
-if(mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
-{
-//for delays
-start_time_for_delays[cmptfader]=actual_time;
-//
-if(lfo_mode_is[cmptfader]!=1)//up
-{
-lfo_mode_is[cmptfader]=1;
-faders_in_float[cmptfader]=Fader[cmptfader];
-if(index_midi_mute_on_lfo==1){is_raccrochage_midi_remote[cmptfader]=1;}
-}
-else {lfo_mode_is[cmptfader]=0;}
-lfo_cycle_is_on[cmptfader]=0;
-}
-mouse_released=1;
-}
-}
-//DOWN
-if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
-&& mouse_y> y+280 && mouse_y< y+280+(largeur/2))
-{
-//midi report
-switch (miditable[0][294+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO DOWN is Ch: %d Pitch: %d Typ: %s" , miditable[1][294+cmptfader],miditable[2][294+cmptfader],thetypinfo);
-if( Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(294+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else{
-if( mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
-{
-//for delays
-start_time_for_delays[cmptfader]=actual_time;
-//
-if(lfo_mode_is[cmptfader]!=2)//down
-{
-lfo_mode_is[cmptfader]=2;
-faders_in_float[cmptfader]=Fader[cmptfader];
-if(index_midi_mute_on_lfo==1){is_raccrochage_midi_remote[cmptfader]=1;}
-}
-else {lfo_mode_is[cmptfader]=0;}
-lfo_cycle_is_on[cmptfader]=0;
-mouse_released=1;
-}
-}
-}
-//saw ON
-if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
-&& mouse_y> y+320 && mouse_y< y+320+(largeur/2)&& window_focus_id==906)
-{
-//midi report
-switch (miditable[0][343+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO SAW is Ch: %d Pitch: %d Typ: %s" , miditable[1][343+cmptfader],miditable[2][343+cmptfader],thetypinfo);
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        attribute_midi_to_control(196+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+        mouse_released=1;
+      }
+      else {
+        set_mouse_range(x+(cmptfader*espacement), y+375, x+(cmptfader*espacement)+127+5, y+375+ (largeur/2));//pour pas deborder
+        lfo_speed[cmptfader]=mouse_x-(x+(cmptfader*espacement));
+        if(lfo_speed[cmptfader]<0){
+          lfo_speed[cmptfader]=0;
+        }
+        if(lfo_speed[cmptfader]>127){
+          lfo_speed[cmptfader]=127;
+        }
+        if(DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]]==12)//enchassement Grid si slave
+        {
+          asservissement_gridplayer(cmptfader,dock_used_by_fader_is[cmptfader]);
+        }
+        midi_levels[196+cmptfader]=lfo_speed[cmptfader];
+        index_send_midi_out[196+cmptfader]=1;
+      }
+    }
 
-if(Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(343+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else{
-if(mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
-{
-//for delays
-start_time_for_delays[cmptfader]=actual_time;
-//
-faders_in_float[cmptfader]=Fader[cmptfader];
-if(lfo_cycle_is_on[cmptfader]==0)//
-{
-lfo_cycle_is_on[cmptfader]=1;
-lfo_mode_is[cmptfader]=0;
-lfo_running_is_upward[cmptfader]=1;
-if(index_midi_mute_on_lfo==1){is_raccrochage_midi_remote[cmptfader]=1;}
-}
-else if(lfo_cycle_is_on[cmptfader]==1)
-{
-lfo_cycle_is_on[cmptfader]=0;
-}
-mouse_released=1;
-}
-}
-}
-//STEPS
-//backward
-if(mouse_x>x+(cmptfader*espacement)+70 && mouse_x<x+(cmptfader*espacement)+70+(largeur/2) &&
-mouse_y>y+280 && mouse_y<y+280+(largeur/2))
-{
-//midi report
- switch (miditable[0][392+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO DOCK MINUS is Ch: %d Pitch: %d Typ: %s" , miditable[1][392+cmptfader],miditable[2][392+cmptfader],thetypinfo);
+    raccrochage_midi_logical_horizontal ( x+(cmptfader*espacement), y+375, 196+cmptfader,127,largeur/2);
 
-if(Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(392+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else{
-if(mouse_released==0 )
-{
-if (lfo_do_next_step[cmptfader][0]==0) {lfo_do_next_step[cmptfader][0]=1;lfo_do_next_step[cmptfader][1]=0;}
-else if (lfo_do_next_step[cmptfader][0]==1) {lfo_do_next_step[cmptfader][0]=0; }
-mouse_released=1;
-}
-}
-}
-
-//forward
-
-if(mouse_x>x+(cmptfader*espacement)+70 && mouse_x<x+(cmptfader*espacement)+70+(largeur/2) &&
-mouse_y>y+320 && mouse_y<y+320+(largeur/2))
-{
-switch (miditable[0][441+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO DOCK PLUS is Ch: %d Pitch: %d Typ: %s" , miditable[1][441+cmptfader],miditable[2][441+cmptfader],thetypinfo);
-
-if( Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-
-attribute_midi_to_control(441+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else{
-if(mouse_released==0 )
-{
-if (lfo_do_next_step[cmptfader][1]==0) {lfo_do_next_step[cmptfader][1]=1;lfo_do_next_step[cmptfader][0]=0; ;}
-else if (lfo_do_next_step[cmptfader][1]==1) {lfo_do_next_step[cmptfader][1]=0; }
-mouse_released=1;
-}
-}
-}
-//LOOP UP DOWN
+    if(mouse_x> (x+(cmptfader*espacement)+140 )&& (mouse_x<x+(cmptfader*espacement)+160) && mouse_y>(y+397-10) && mouse_y< (y+397+10))
+    {
+      if(mouse_button==1 && mouse_released==0)
+      {
+        midi_send_out[cmptfader+196]=toggle(midi_send_out[cmptfader+196]);
+        mouse_released=1;
+      }
+    }
+    //LFOS BUTTONS
+    //SET STOP POSITION
+    if(mouse_x> (x+(cmptfader*espacement)-6) && mouse_x<(x+(cmptfader*espacement)-6 + (largeur/2)) && mouse_y>(y+320) && mouse_y<(y+320 + (largeur/2))
+    && mouse_released==0)
+    {
+      //midi report
+      switch (miditable[0][685+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"StopPos is Ch: %d Pitch: %d Typ: %s" , miditable[1][685+cmptfader],miditable[2][685+cmptfader],thetypinfo);
 
 
-if(mouse_x>x+(cmptfader*espacement)+35 && mouse_x<x+(cmptfader*espacement)+35+(largeur/2) && mouse_y>y+320 && mouse_y<y+320+(largeur/2))
-{
-//midi report
-switch (miditable[0][499+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-  sprintf(string_last_midi_id,"LFO LOOP STEPS is Ch: %d Pitch: %d Typ: %s" , miditable[1][499+cmptfader],miditable[2][499+cmptfader],thetypinfo);
+      if(Midi_Faders_Affectation_Type!=0)
+      {
+        attribute_midi_to_control(685+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+        mouse_released=1;
+      }
+      else
+      {
+        if(index_do_dock==0 && index_main_clear==0)
+        {
+          ActionnateStopOn[cmptfader]=toggle(ActionnateStopOn[cmptfader]);mouse_released=1;
+        }
 
-if( Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(499+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else{
-if(mouse_released==0)
-{
-lfo_cycle_steps[cmptfader]= toggle(lfo_cycle_steps[cmptfader]);
-mouse_released=1;
-}
-}
-}
+        else if(index_do_dock==1 && index_main_clear==0 )
+        {
+        if(numeric_postext>0 )//affectation stop pos par chaine de carcatere
+        {
+        int lStopPos=999;
+            switch(dmx_view)
+            {
+            case 0:
+            lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
+            break;
+            case 1:
+            lStopPos=atol(numeric);
+            break;
+            }
+        reset_numeric_entry();
+        if (lStopPos>=0 && lStopPos<=255)
+          {
+          StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=lStopPos;
+          index_do_dock=0;
+          do_light_setpos[cmptfader]=1;
+          }
+        }
+        else if (numeric_postext==0) //affectation stop pos depuis le cursuer fader
+        {
+        StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=Fader[cmptfader];
+        index_do_dock=0;
+        do_light_setpos[cmptfader]=1;
+        }
+        }
 
-//Loop
-if(mouse_x>x+(cmptfader*espacement)+138 && mouse_x<x+(cmptfader*espacement)+138+(largeur/2) && mouse_y> y+240 && mouse_y< y+240+(largeur/2))
-{
-//midi report
-switch (miditable[0][802+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-sprintf(string_last_midi_id,"LFO LOOP ONE is Ch: %d Pitch: %d Typ: %s" , miditable[1][802+cmptfader],miditable[2][802+cmptfader],thetypinfo);
+        else if(index_main_clear==1 && index_do_dock==0)//clear
+        {
+        StopPosOn[cmptfader]=0;
+        LevelStopPos[cmptfader]=999;
+        index_main_clear=0;
+        do_light_setpos[cmptfader]=1;
+        }
+      }
+      mouse_released=1;
+    }
 
-if( Midi_Faders_Affectation_Type!=0 )
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(802+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else
-{
-if(mouse_released==0 )
-{
-int docktotouch=(dock_used_by_fader_is[cmptfader]);
-is_dock_for_lfo_selected[cmptfader][docktotouch]=toggle(is_dock_for_lfo_selected[cmptfader][docktotouch]);
-mouse_released=1;
-}
-}
-}
-//Loop All
-if(mouse_x>x+(cmptfader*espacement)+138 && mouse_x<x+(cmptfader*espacement)+138+(largeur/2)&& mouse_y> y+280 && mouse_y< y+280+(largeur/2))
-{
-//midi report
-switch (miditable[0][851+cmptfader])
-{
-case 0:
-sprintf(thetypinfo,"Note");
-break;
-case 1:
-sprintf(thetypinfo,"Key On");
-break;
-case 2:
-sprintf(thetypinfo,"Key Off");
-break;
-case 4:
-sprintf(thetypinfo,"Ctrl Change");
-break;
-}
-sprintf(string_last_midi_id,"LFO LOOP ALL is Ch: %d Pitch: %d Typ: %s" , miditable[1][851+cmptfader],miditable[2][851+cmptfader],thetypinfo);
+    //UP
+    if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
+    && mouse_y> y+240 && mouse_y< y+240+(largeur/2) )
+    {
+      //midi report
+      switch (miditable[0][245+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO UP is Ch: %d Pitch: %d Typ: %s" , miditable[1][245+cmptfader],miditable[2][245+cmptfader],thetypinfo);
 
-if( Midi_Faders_Affectation_Type!=0)
-{
-if(mouse_released==0 )
-{
-attribute_midi_to_control(851+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
-mouse_released=1;
-}
-}
-else
-{
-if(mouse_released==0)
-{
-bool index_choose_mode_dkloop=0;//0 toggle tt le monde / 1 copie l etat du dck selctionné dans tt le monde
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        attribute_midi_to_control(245+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+        mouse_released=1;
+      }
+      else{
+        if(mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
+        {
+          //for delays
+          start_time_for_delays[cmptfader]=actual_time;
+          //
+          if(lfo_mode_is[cmptfader]!=1)//up
+          {
+            lfo_mode_is[cmptfader]=1;
+            faders_in_float[cmptfader]=Fader[cmptfader];
+            if(index_midi_mute_on_lfo==1){is_raccrochage_midi_remote[cmptfader]=1;}
+          }
+          else {
+            lfo_mode_is[cmptfader]=0;
+          }
+          lfo_cycle_is_on[cmptfader]=0;
+        }
+        mouse_released=1;
+      }
+    }
+    //DOWN
+    if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
+    && mouse_y> y+280 && mouse_y< y+280+(largeur/2))
+      {
+      //midi report
+      switch (miditable[0][294+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO DOWN is Ch: %d Pitch: %d Typ: %s" , miditable[1][294+cmptfader],miditable[2][294+cmptfader],thetypinfo);
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(294+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else{
+        if( mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
+        {
+          //for delays
+          start_time_for_delays[cmptfader]=actual_time;
+          //
+          if(lfo_mode_is[cmptfader]!=2)//down
+          {
+            lfo_mode_is[cmptfader]=2;
+            faders_in_float[cmptfader]=Fader[cmptfader];
+            if(index_midi_mute_on_lfo==1){
+              is_raccrochage_midi_remote[cmptfader]=1;
+            }
+          }
+          else {
+            lfo_mode_is[cmptfader]=0;
+          }
+          lfo_cycle_is_on[cmptfader]=0;
+          mouse_released=1;
+        }
+      }
+    }
+    //saw ON
+    if(mouse_x>x+(cmptfader*espacement)+105 && mouse_x<x+(cmptfader*espacement)+105+(largeur/2)
+    && mouse_y> y+320 && mouse_y< y+320+(largeur/2)&& window_focus_id==906)
+      {
+      //midi report
+      switch (miditable[0][343+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO SAW is Ch: %d Pitch: %d Typ: %s" , miditable[1][343+cmptfader],miditable[2][343+cmptfader],thetypinfo);
 
-for (int ck=0;ck<core_user_define_nb_docks-1;ck++)
-{
-if(is_dock_for_lfo_selected[cmptfader][ck]!=is_dock_for_lfo_selected[cmptfader][ck+1])
-{index_choose_mode_dkloop=1;break;}
-}
-switch(index_choose_mode_dkloop)
-{
-case 0:
-for(int op=0;op<core_user_define_nb_docks;op++)
-{
- is_dock_for_lfo_selected[cmptfader][op]=toggle(is_dock_for_lfo_selected[cmptfader][op]);
-}
-break;
-case 1:
-//tout le monde prend la valeur du dock selectionné
-for(int j=0;j<core_user_define_nb_docks;j++)
-{
-if(DockIsSelected[cmptfader][j]==1)
-{
-int tempval_dockloop=toggle(is_dock_for_lfo_selected[cmptfader][j]);
-for(int k=0;k<core_user_define_nb_docks;k++)
-{
-is_dock_for_lfo_selected[cmptfader][k]=toggle(tempval_dockloop);
-}
-break;
-}
-}
-break;
+      if(Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(343+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+        else{
+        if(mouse_released==0 && (FaderLocked[cmptfader]==0 || LockFader_is_FullLevel[cmptfader]==1))//rajout lock 0.7.6
+        {
+          //for delays
+          start_time_for_delays[cmptfader]=actual_time;
+          //
+          faders_in_float[cmptfader]=Fader[cmptfader];
+          if(lfo_cycle_is_on[cmptfader]==0)//
+          {
+            lfo_cycle_is_on[cmptfader]=1;
+            lfo_mode_is[cmptfader]=0;
+            lfo_running_is_upward[cmptfader]=1;
+            if(index_midi_mute_on_lfo==1){
+              is_raccrochage_midi_remote[cmptfader]=1;
+            }
+          }
+          else if(lfo_cycle_is_on[cmptfader]==1)
+          {
+            lfo_cycle_is_on[cmptfader]=0;
+          }
+          mouse_released=1;
+        }
+      }
+    }
+    //STEPS
+    //backward
+    if(mouse_x>x+(cmptfader*espacement)+70 && mouse_x<x+(cmptfader*espacement)+70+(largeur/2) &&
+    mouse_y>y+280 && mouse_y<y+280+(largeur/2))
+      {
+      //midi report
+      switch (miditable[0][392+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+        sprintf(string_last_midi_id,"LFO DOCK MINUS is Ch: %d Pitch: %d Typ: %s" , miditable[1][392+cmptfader],miditable[2][392+cmptfader],thetypinfo);
 
-}
-mouse_released=1;
-}
-}
-}
-//le Flash est mis dans le troncon principal car souci avec mouse_released
+      if(Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(392+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else{
+        if(mouse_released==0 )
+        {
+          if (lfo_do_next_step[cmptfader][0]==0) {
+            lfo_do_next_step[cmptfader][0]=1;lfo_do_next_step[cmptfader][1]=0;
+          }
+          else if (lfo_do_next_step[cmptfader][0]==1) {
+            lfo_do_next_step[cmptfader][0]=0; 
+          }
+          mouse_released=1;
+        }
+      }
+    }
+
+    //forward
+
+    if(mouse_x>x+(cmptfader*espacement)+70 && mouse_x<x+(cmptfader*espacement)+70+(largeur/2) &&
+    mouse_y>y+320 && mouse_y<y+320+(largeur/2))
+      {
+      switch (miditable[0][441+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO DOCK PLUS is Ch: %d Pitch: %d Typ: %s" , miditable[1][441+cmptfader],miditable[2][441+cmptfader],thetypinfo);
+
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(441+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else{
+        if(mouse_released==0 )
+        {
+          if (lfo_do_next_step[cmptfader][1]==0) {
+            lfo_do_next_step[cmptfader][1]=1;lfo_do_next_step[cmptfader][0]=0; ;
+          }
+          else if (lfo_do_next_step[cmptfader][1]==1) {
+            lfo_do_next_step[cmptfader][1]=0; 
+          }
+          mouse_released=1;
+        }
+      }
+    }
+    //LOOP UP DOWN
 
 
+    if(mouse_x>x+(cmptfader*espacement)+35 && mouse_x<x+(cmptfader*espacement)+35+(largeur/2) && mouse_y>y+320 && mouse_y<y+320+(largeur/2))
+      {
+      //midi report
+      switch (miditable[0][499+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO LOOP STEPS is Ch: %d Pitch: %d Typ: %s" , miditable[1][499+cmptfader],miditable[2][499+cmptfader],thetypinfo);
 
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(499+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else{
+        if(mouse_released==0)
+        {
+          lfo_cycle_steps[cmptfader]= toggle(lfo_cycle_steps[cmptfader]);
+          mouse_released=1;
+        }
+      }
+    }
 
-}
-return(0);
+    //Loop
+    if(mouse_x>x+(cmptfader*espacement)+138 && mouse_x<x+(cmptfader*espacement)+138+(largeur/2) && mouse_y> y+240 && mouse_y< y+240+(largeur/2))
+      {
+      //midi report
+      switch (miditable[0][802+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO LOOP ONE is Ch: %d Pitch: %d Typ: %s" , miditable[1][802+cmptfader],miditable[2][802+cmptfader],thetypinfo);
+
+      if( Midi_Faders_Affectation_Type!=0 )
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(802+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else
+      {
+        if(mouse_released==0 )
+        {
+          int docktotouch=(dock_used_by_fader_is[cmptfader]);
+          is_dock_for_lfo_selected[cmptfader][docktotouch]=toggle(is_dock_for_lfo_selected[cmptfader][docktotouch]);
+          mouse_released=1;
+        }
+      }
+    }
+    //Loop All
+    if(mouse_x>x+(cmptfader*espacement)+138 && mouse_x<x+(cmptfader*espacement)+138+(largeur/2)&& mouse_y> y+280 && mouse_y< y+280+(largeur/2))
+      {
+      //midi report
+      switch (miditable[0][851+cmptfader])
+      {
+        case 0:
+          sprintf(thetypinfo,"Note");
+          break;
+        case 1:
+          sprintf(thetypinfo,"Key On");
+          break;
+        case 2:
+          sprintf(thetypinfo,"Key Off");
+          break;
+        case 4:
+          sprintf(thetypinfo,"Ctrl Change");
+          break;
+      }
+      sprintf(string_last_midi_id,"LFO LOOP ALL is Ch: %d Pitch: %d Typ: %s" , miditable[1][851+cmptfader],miditable[2][851+cmptfader],thetypinfo);
+
+      if( Midi_Faders_Affectation_Type!=0)
+      {
+        if(mouse_released==0 )
+        {
+          attribute_midi_to_control(851+cmptfader, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+          mouse_released=1;
+        }
+      }
+      else
+      {
+      if(mouse_released==0)
+        {
+        bool index_choose_mode_dkloop=0;//0 toggle tt le monde / 1 copie l etat du dck selctionné dans tt le monde
+
+        for (int ck=0;ck<core_user_define_nb_docks-1;ck++)
+        {
+          if(is_dock_for_lfo_selected[cmptfader][ck]!=is_dock_for_lfo_selected[cmptfader][ck+1]){
+            index_choose_mode_dkloop=1;break;
+          }
+        }
+        switch(index_choose_mode_dkloop)
+        {
+        case 0:
+        for(int op=0;op<core_user_define_nb_docks;op++)
+        {
+        is_dock_for_lfo_selected[cmptfader][op]=toggle(is_dock_for_lfo_selected[cmptfader][op]);
+        }
+        break;
+        case 1:
+        //tout le monde prend la valeur du dock selectionné
+        for(int j=0;j<core_user_define_nb_docks;j++)
+        {
+        if(DockIsSelected[cmptfader][j]==1)
+        {
+        int tempval_dockloop=toggle(is_dock_for_lfo_selected[cmptfader][j]);
+        for(int k=0;k<core_user_define_nb_docks;k++)
+        {
+        is_dock_for_lfo_selected[cmptfader][k]=toggle(tempval_dockloop);
+        }
+        break;
+        }
+        }
+        break;
+
+        }
+        mouse_released=1;
+      }
+      }
+    }
+    //le Flash est mis dans le troncon principal car souci avec mouse_released
+  }
+  return(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -1334,35 +1332,33 @@ if(mouse_y>(y+280) && mouse_y<(y+280+(largeur/2)+7) && mouse_x>x+(cmptfader*espa
 
 if(Midi_Faders_Affectation_Type!=0)
 {
- attribute_midi_to_control(cmptfader+146, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
- mouse_released=1;
- }
+  attribute_midi_to_control(cmptfader+146, Midi_Faders_Affectation_Type,Midi_Faders_Affectation_Mode);
+  mouse_released=1;
+}
   //action lock on/off
   else
   {
-  switch(FaderLocked[cmptfader])
-  {
-   case 0:
-   FaderLocked[cmptfader]=1;
-   StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
-   if(StateOfFaderBeforeLock[cmptfader]==255){LockFader_is_FullLevel[cmptfader]=1;}
-   else if(StateOfFaderBeforeLock[cmptfader]<255){LockFader_is_FullLevel[cmptfader]=0;}
-   sprintf(string_Last_Order,">> LOCKED Fader %d",cmptfader+1);
-   if(LockFader_is_FullLevel[cmptfader]==0)//quand mis en lock et pas full level rajout 0.7.6
-   {
-   lfo_mode_is[cmptfader]=0;
-   lfo_cycle_is_on[cmptfader]=0;
-   }
-   break;
-   case 1:
-   FaderLocked[cmptfader]=0;
-   //remise à plat du niveau
-   Fader[cmptfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[cmptfader]))/255)*locklevel);
-   midi_levels[cmptfader]=(int)(((float)Fader[cmptfader])/2);
-   sprintf(string_Last_Order,">> UNLOCKED Fader %d",cmptfader+1);
-   break;
-   }
-   mouse_released=1;
+    if(FaderLocked[cmptfader])
+    {
+      FaderLocked[cmptfader]=1;
+      StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
+      if(StateOfFaderBeforeLock[cmptfader]==255){LockFader_is_FullLevel[cmptfader]=1;}
+      else if(StateOfFaderBeforeLock[cmptfader]<255){LockFader_is_FullLevel[cmptfader]=0;}
+      sprintf(string_Last_Order,">> LOCKED Fader %d",cmptfader+1);
+      if(LockFader_is_FullLevel[cmptfader]==0)//quand mis en lock et pas full level rajout 0.7.6
+      {
+        lfo_mode_is[cmptfader]=0;
+        lfo_cycle_is_on[cmptfader]=0;
+      }
+    }
+    else{
+      FaderLocked[cmptfader]=0;
+      //remise à plat du niveau
+      Fader[cmptfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[cmptfader]))/255)*locklevel);
+      midi_levels[cmptfader]=(int)(((float)Fader[cmptfader])/2);
+      sprintf(string_Last_Order,">> UNLOCKED Fader %d",cmptfader+1);
+    }
+    mouse_released=1;
   }
 
 }
@@ -1416,226 +1412,181 @@ attribute_midi_solo_affectation(1115+cmptfader,Midi_Faders_Affectation_Mode);
 }
 else
 {
-switch(DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]])
-{
-case 6://vol
-if(player_ignited[the_audio_player]==1)
-{
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
- player1->play();
- break;
- case 1:
- player1->stop();
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
- player2->play();
- break;
- case 1:
- player2->stop();
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
- player3->play();
- break;
- case 1:
- player3->stop();
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
- player4->play();
- break;
- case 1:
- player4->stop();
- break;
- }
-break;
-}
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
-}
-break;
-case 7://pan
-if(player_ignited[the_audio_player]==1)
-{
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
- player1->play();
- break;
- case 1:
- player1->stop();
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
- player2->play();
- break;
- case 1:
- player2->stop();
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
- player3->play();
- break;
- case 1:
- player3->stop();
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
- player4->play();
- break;
- case 1:
- player4->stop();
- break;
- }
-break;
-}
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
-}
-break;
-case 8://pitch
-if(player_ignited[the_audio_player]==1)
-{
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1->isPlaying())
- {
- case 0:
- player1->play();
- break;
- case 1:
- player1->stop();
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2->isPlaying())
- {
- case 0:
- player2->play();
- break;
- case 1:
- player2->stop();
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3->isPlaying())
- {
- case 0:
- player3->play();
- break;
- case 1:
- player3->stop();
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4->isPlaying())
- {
- case 0:
- player4->play();
- break;
- case 1:
- player4->stop();
- break;
- }
-break;
-}
-switch(player_is_playing[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
-}
-break;
-case 11://chaser
-chaser_is_playing[the_chaser]=toggle(chaser_is_playing[the_chaser]);
-if(chaser_is_playing[the_chaser]==1)//snap du temps at beg
-{
-chaser_start_time[the_chaser]=actual_time;
-//bug olivier marche arriere arrière ligne
-if(chaser_step_is[chaser_selected]<0){chaser_step_is[chaser_selected]=0;}
-else if(chaser_step_is[chaser_selected]>35){chaser_step_is[chaser_selected]=35;}
-}
-switch(chaser_is_playing[the_chaser])
-{
-case 0:
-sprintf(string_Last_Order,">> PLAY OFF from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> PLAY ON from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
-break;
-}
-break;
-case 12://grid
-grider_is_playing[the_grid_player]=toggle(grider_is_playing[the_grid_player]);
-if(grider_is_playing[the_grid_player]==1){grid_crossfade_start_time[the_grid_player]=actual_time;}
-switch(player_is_playing[the_grid_player])
-{
-case 0:
-sprintf(string_Last_Order,">> PLAY OFF from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> PLAY ON from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
-break;
-}
-break;
-default:
-break;
-}
+  switch(DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]])
+  {
+    case 6://vol
+      if(player_ignited[the_audio_player]==1)
+      {
+        switch(the_audio_player)
+        {
+        case 0://PLAYER 1
+          if(player1->isPlaying()){
+            player1->stop();
+          }
+          else{
+            player1->play();
+          }
+          break;
+        case 1://PLAYER 2
+          if(player2->isPlaying()){
+            player2->stop();
+          }
+          else{
+            player2->play();
+          }
+          break;
+        case 2://PLAYER 3
+          if(player3->isPlaying()){
+            player3->stop();
+          }
+          else{
+            player3->play();
+          }
+          break;
+        case 3://PLAYER 4
+          if(player4->isPlaying()){
+            player4->stop();
+          }
+          else{
+            player4->play();
+          }
+          break;
+        }
+        if(player_is_playing[the_audio_player]){//inversed by action
+          sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+        }
+        else{
+          sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+        }
+      }
+      break;
+    case 7://pan
+      if(player_ignited[the_audio_player]==1)
+      {
+          switch(the_audio_player)
+          {
+          case 0://PLAYER 1
+            if(player1->isPlaying()){
+              player1->stop();
+            }
+            else{
+              player1->play();
+            }
+            break;
+          case 1://PLAYER 2
+            if(player2->isPlaying()){
+              player2->stop();
+            }
+            else{
+              player2->play();
+            }
+            break;
+          case 2://PLAYER 3
+            if(player3->isPlaying()){
+              player3->stop();
+            }
+            else{
+              player3->play();
+            }
+            break;
+          case 3://PLAYER 4
+            if(player4->isPlaying()){
+              player4->stop();
+            }
+            else{
+              player4->play();
+            }
+            break;
+          }
+          if(player_is_playing[the_audio_player]){//inversed by action
+            sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+          }
+          else{
+            sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+          }
+      }
+      break;
+    case 8://pitch
+      if(player_ignited[the_audio_player]==1)
+      {
+          switch(the_audio_player)
+          {
+          case 0://PLAYER 1
+            if(player1->isPlaying()){
+              player1->stop();
+            }
+            else{
+              player1->play();
+            }
+            break;
+          case 1://PLAYER 2
+            if(player2->isPlaying()){
+              player2->stop();
+            }
+            else{
+              player2->play();
+            }
+            break;
+          case 2://PLAYER 3
+            if(player3->isPlaying()){
+              player3->stop();
+            }
+            else{
+              player3->play();
+            }
+            break;
+          case 3://PLAYER 4
+            if(player4->isPlaying()){
+              player4->stop();
+            }
+            else{
+              player4->play();
+            }
+            break;
+          }
+          if(player_is_playing[the_audio_player]){//inversed by action
+            sprintf(string_Last_Order,">> PLAY OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+          }
+          else{
+            sprintf(string_Last_Order,">> PLAY ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+          }
+    }
+    break;
+    case 11://chaser
+      chaser_is_playing[the_chaser]=toggle(chaser_is_playing[the_chaser]);
+      if(chaser_is_playing[the_chaser]==1)//snap du temps at beg
+      {
+        chaser_start_time[the_chaser]=actual_time;
+        //bug olivier marche arriere arrière ligne
+        if(chaser_step_is[chaser_selected]<0){
+          chaser_step_is[chaser_selected]=0;
+        }
+        else if(chaser_step_is[chaser_selected]>35){
+          chaser_step_is[chaser_selected]=35;
+        }
+      }
+      if(chaser_is_playing[the_chaser]){
+        sprintf(string_Last_Order,">> PLAY ON from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
+      }
+      else{
+        sprintf(string_Last_Order,">> PLAY OFF from Fader %d Chaser %d",cmptfader+1,the_chaser+1);
+      }
+      break;
+    case 12://grid
+      grider_is_playing[the_grid_player]=toggle(grider_is_playing[the_grid_player]);
+      if(grider_is_playing[the_grid_player]==1){
+        grid_crossfade_start_time[the_grid_player]=actual_time;
+      }
+      if(player_is_playing[the_grid_player]){
+        sprintf(string_Last_Order,">> PLAY ON from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
+      }
+      else{
+        sprintf(string_Last_Order,">> PLAY OFF from Fader %d GridPl %d",cmptfader+1,the_grid_player+1);
+      }
+      break;
+    default:
+      break;
+  }
 
 }
 mouse_released=1;

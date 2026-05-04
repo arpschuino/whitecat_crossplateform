@@ -1,3 +1,5 @@
+#include "graphics_backend.h"
+using namespace ol;
 #include "display.h"
 #include "faders.h"
 
@@ -13,7 +15,6 @@ float scroll_damp_constant = 0.1;
 float scroll_spring_constant = 1;
 float scroll_val = 0;     // value
 float scroll_val_vel = 0; // velocity
-const float scroll_dt = 0.1;
 bool index_stop_move = 0;
 float light_midi_do_order[48];
 int XFader = 200;
