@@ -26,18 +26,12 @@ WWWWWWWW           C  WWWWWWWW   |
 ---------------------------------------------------------------------------------------------------------------*/
 
 /**
-
-* \file audio_visu4.cpp
-* \brief {Audio GUI fonctions}
+* \file audio_visu.cpp
+* \brief Audio display functions (faders, player UI, folder browser)
 * \author Christoph Guillermet
-* \version {0.8.6.3}
-* \date {12/02/2015}
-
- White Cat {- categorie} {- sous categorie {- sous categorie}}
-
-*   Gestion des fonctions de la fenetre Audio
-*
-*   Audio GUI fonctions
+* \modified Jacques Bouault - arpschuino.fr - 2026
+* \version 0.9.1
+* \date 2026
 *
  **/
 

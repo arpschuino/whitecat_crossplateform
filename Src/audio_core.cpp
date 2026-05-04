@@ -26,18 +26,12 @@ WWWWWWWW           C  WWWWWWWW   |
 ---------------------------------------------------------------------------------------------------------------*/
 
 /**
-
-* \file audio_core5.cpp
-* \brief {Audio fonctions}
+* \file audio_core.cpp
+* \brief Audio core functions (load, play, stop, MIDI control, scan)
 * \author Christoph Guillermet
-* \version {0.8.6.3}
-* \date {12/02/2015}
-
- White Cat {- categorie} {- sous categorie {- sous categorie}}
-
-*   Gestion des fonctions Audio
-*
-*   Audio core fonctions
+* \modified Jacques Bouault - arpschuino.fr - 2026
+* \version 0.9.1
+* \date 2026
 *
  **/
 
