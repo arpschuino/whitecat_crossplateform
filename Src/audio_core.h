@@ -26,13 +26,13 @@ WWWWWWWW           C  WWWWWWWW   |
 ---------------------------------------------------------------------------------------------------------------*/
 
 /**
-* \file audio_core.h
-* \brief Public interface — audio core functions
-* \author Christoph Guillermet
-* \modified Jacques Bouault - arpschuino.fr - 2026
-* \version 0.9.1
-* \date 2026
-**/
+ * \file audio_core.h
+ * \brief Public interface — audio core functions
+ * \author Christoph Guillermet
+ * \modified Jacques Bouault - arpschuino.fr - 2026
+ * \version 0.9.1
+ * \date 2026
+ **/
 
 #pragma once
 
