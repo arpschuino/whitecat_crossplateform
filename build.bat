@@ -69,6 +69,29 @@ echo [build] Compilation en cours...
  -I%SRC% ^
  -I%RTMIDI% ^
  %SRC%\MAIN.cpp ^
+ %SRC%\saveload.cpp ^
+ %SRC%\globals.cpp ^
+ %SRC%\display.cpp ^
+ %SRC%\channels.cpp ^
+ %SRC%\video.cpp ^
+ %SRC%\ui_indexes.cpp ^
+ %SRC%\patch.cpp ^
+ %SRC%\audio.cpp ^
+ %SRC%\dmx.cpp ^
+ %SRC%\midi.cpp ^
+ %SRC%\network.cpp ^
+ %SRC%\chasers.cpp ^
+ %SRC%\faders.cpp ^
+ %SRC%\sequenciel.cpp ^
+ %SRC%\theme.cpp ^
+ %SRC%\banger.cpp ^
+ %SRC%\arduino.cpp ^
+ %SRC%\grider.cpp ^
+ %SRC%\plot.cpp ^
+ %SRC%\draw.cpp ^
+ %SRC%\echo.cpp ^
+ %SRC%\trichro.cpp ^
+ %SRC%\schwz.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^

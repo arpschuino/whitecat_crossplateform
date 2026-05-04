@@ -29,300 +29,300 @@ WWWWWWWW           C  WWWWWWWW   |
 #pragma once
 
 ////////////////////RETOUR INFOS////////////////////////////////////////////////
-char string_debug[120];
-int scroll_y_info = 0;
+extern char string_debug[120];
+extern int scroll_y_info;
 
 ////////////////////APPELS/ MENUS////////////////////////////////////////////
-bool index_quit = 0;
-bool index_main_function = 1;
+extern bool index_quit;
+extern bool index_main_function;
 
-bool index_do_dock = 0;   // do dock
-bool index_do_report = 0; // report de tout sur scène dans un master a full
-bool index_do_modify = 0; // des circuits selectionnés only. ne detruit pas le reste
-bool index_main_clear = 0;
-bool index_type = 0;
-bool index_inspekt = 0;        // voir les etiquettes et qui controle qui
-bool index_trichro_window = 0; // indicateur affichage menu trichro
-bool index_visual_pad = 0;
-bool index_video_window = 0;
-bool index_patch_window = 0;
-bool index_do_quick_save = 0;
-bool index_show_faders = 0;
+extern bool index_do_dock;
+extern bool index_do_report;
+extern bool index_do_modify;
+extern bool index_main_clear;
+extern bool index_type;
+extern bool index_inspekt;
+extern bool index_trichro_window;
+extern bool index_visual_pad;
+extern bool index_video_window;
+extern bool index_patch_window;
+extern bool index_do_quick_save;
+extern bool index_show_faders;
 //////////////////////OVER WINDOW////////////////////////////////////////////////
-bool index_over_A_window = 0;
-bool index_over_faderspace = 0;
-bool index_over_channelspace = 0;
+extern bool index_over_A_window;
+extern bool index_over_faderspace;
+extern bool index_over_channelspace;
 bool index_over_function_call =
     0; // pour eviter de clicker dans les faders quand on est en zone functions ( boutons du menu gauche)
 
 // DMX core -> dmx.h
 
 //////////////////////MEMOIRES//////////////////////////////////////////////////
-int mem_to_resurrect = 0;
-int CTRLC_mem_to_copy = 0;  // pour CTRL C CTRL V avec numeros
-bool index_copy_mem_in = 0; // ask confirm
+extern int mem_to_resurrect;
+extern int CTRLC_mem_to_copy;
+extern bool index_copy_mem_in;
 
 //////////////////////TEXT ENTRY////////////////////////////////////////////////
-char string_numeric_entry[36];
+extern char string_numeric_entry[36];
 
-int numeric_postext = 0;
-float numeric_entry = 0.0;
-char numeric[25];
-int maxchar_numeric = 24;
-int idchannel;
+extern int numeric_postext;
+extern float numeric_entry;
+extern char numeric[25];
+extern int maxchar_numeric;
+extern int idchannel;
 
 //////////////////////UTILITIES///////////////////////////////////////
-int xBoxutilities = 580;
-int yBoxutilities = 290;
+extern int xBoxutilities;
+extern int yBoxutilities;
 
 /////////////////CONFIG//////////////////////////////////////////////////
-char string_config[15];
-char string_title_panel_config[36];
-bool index_save_config = 0;
+extern char string_config[15];
+extern char string_title_panel_config[36];
+extern bool index_save_config;
 // artnet
-bool index_artnet_receiver = 0;
+extern bool index_artnet_receiver;
 
-bool index_art_polling = 0;
-char tmp_ip_artnet[17];
+extern bool index_art_polling;
+extern char tmp_ip_artnet[17];
 
 // dmx
-int Survol_interface_numero = 0;
-int window_cfgX = 10;
-int window_cfgY = 25;
-int largeurCFGwindow = 830;
-int hauteurCFGwindow = 299;
+extern int Survol_interface_numero;
+extern int window_cfgX;
+extern int window_cfgY;
+extern int largeurCFGwindow;
+extern int hauteurCFGwindow;
 // config pannel
-int select_artnet_to_listen = 0;
-bool index_do_affect_net_to_dock = 0; // affecter ou pas dans le dock le type de net
+extern int select_artnet_to_listen;
+extern bool index_do_affect_net_to_dock;
 // POLL
-volatile int ticks_poll = 0;
-int window_proc_x = 300, window_proc_y = 150;
+extern volatile int ticks_poll;
+extern int window_proc_x, window_proc_y;
 // globales
-bool index_affect_dmxin = 0;
-bool index_affect_video_tracking_to_dock = 0;
-bool index_snap_background = 0;
+extern bool index_affect_dmxin;
+extern bool index_affect_video_tracking_to_dock;
+extern bool index_snap_background;
 // CONFIGS
-bool index_config_dmx = 0;
-bool index_config_midi = 0;
-bool index_config_arduino = 0;
-bool index_setup_gfx = 0;
-bool index_config_network = 0;
-bool index_config_general = 0; // main general du setup // 1 car ouverture à l allumage
+extern bool index_config_dmx;
+extern bool index_config_midi;
+extern bool index_config_arduino;
+extern bool index_setup_gfx;
+extern bool index_config_network;
+extern bool index_config_general;
 // patch variables -> patch.h
 
 ///////////////////////NUMERIC PAD//////////////////////////////////////////////
-int xnum_window = 900, ynum_window = 60;
-int default_xnum_window = 900, default_ynum_window = 60; // xy de la window par defaut
-int rayon_wheel_level = 20;
-float angle_correction_wheel = 1.0; // faire un quart de toour vers la droite
-float pad_vx;
-float pad_vy;
-float angle_snap_pad;
-float position_curseur_pad_x;
-float position_curseur_pad_y;
-int wheellevel_absolutemode = 0;
-int previous_level_wheel = 1;
-int absolute_level_wheel = 0;
-int previous_absolute_level_wheel = 0;
+extern int xnum_window, ynum_window;
+extern int default_xnum_window, default_ynum_window;
+extern int rayon_wheel_level;
+extern float angle_correction_wheel;
+extern float pad_vx;
+extern float pad_vy;
+extern float angle_snap_pad;
+extern float position_curseur_pad_x;
+extern float position_curseur_pad_y;
+extern int wheellevel_absolutemode;
+extern int previous_level_wheel;
+extern int absolute_level_wheel;
+extern int previous_absolute_level_wheel;
 
 ////////////////////////TIME CHRONO///////////////////////////////////////////
 
-float position_curseur_time_x; //=1242,
-float position_curseur_time_y; //=228;//pour intialisation au demarage de l api
-float time_angle;
-float angle_timesnap;
-float vtimex, vtimey;
-int actual_tickers_chrono = 0;
-char visu_chrono_str[64];
+extern float position_curseur_time_x;
+extern float position_curseur_time_y;
+extern float time_angle;
+extern float angle_timesnap;
+extern float vtimex, vtimey;
+extern int actual_tickers_chrono;
+extern char visu_chrono_str[64];
 
-char string_tap_tempo_average[36];
-char string_actual_tap_tempo[36];
-bool index_recording_tap_tempo = 0;
-bool do_light_tap_tempo = 0; // index affcihage frappe tempo
-bool do_light_send_tap = 0;
-int start_tempo_ticks = 0;
-float tap_tempo_average = 0.0;
-int nbr_steps_tempo = 1; // doit etre 1 et pas 0 pour pas provoquer de NIL
-int max_temp_tempo = 12;
-int ticks_tap_tempo[16];
-int tempo_interm = 0; // pur addition des ticks
+extern char string_tap_tempo_average[36];
+extern char string_actual_tap_tempo[36];
+extern bool index_recording_tap_tempo;
+extern bool do_light_tap_tempo;
+extern bool do_light_send_tap;
+extern int start_tempo_ticks;
+extern float tap_tempo_average;
+extern int nbr_steps_tempo;
+extern int max_temp_tempo;
+extern int ticks_tap_tempo[16];
+extern int tempo_interm;
 // trichro window vars -> trichro.h
 
 /////////////////////functions call//////////////////////////////////////////
-char string_name_button[15];
-char string_raccourci[5];
+extern char string_name_button[15];
+extern char string_raccourci[5];
 
 ////////////////////////////////////////////////////////////////////////////////
 // MENU SAVE
-bool index_menu_save = 0;
-int xsave_window = 200;
-int ysave_window = 200;
+extern bool index_menu_save;
+extern int xsave_window;
+extern int ysave_window;
 ///////////////////Confirm box//////////////////////////////////////////////////
-int XConfirm = 100;
-int YConfirm = 100;
-bool index_ask_confirm = 0;
-bool previous_index_ask_confirm = 0;
-char string_confirmation[128];
+extern int XConfirm;
+extern int YConfirm;
+extern bool index_ask_confirm;
+extern bool previous_index_ask_confirm;
+extern char string_confirmation[128];
 
-bool index_do_delete_mem = 0;
-bool index_do_create_mem = 0;
-bool index_do_create_mem_plus_faders = 0;    // shift f3
-bool index_do_overecord_mem_plus_faders = 0; // ctrl f3
-bool index_do_link_memonstage = 0;
-bool index_do_link_memonpreset = 0;
-bool index_do_link_membefore = 0;
-bool index_do_link_memother = 0;
-bool index_do_record_on_faders = 0;
-bool index_do_modify_on_faders = 0;
-bool index_do_report_on_faders = 0;
-bool index_do_affect_color_on_faders = 0;
-bool index_do_dmx_to_dock = 0;
-bool index_do_artnet_to_dock = 0;
-bool index_do_video_to_dock = 0;
-int fader_selected_for_record = 0;
-int dock_selected_for_record = 0;
-bool index_do_affect_color_trichro = 0;
-int couleur_to_affect = 0;
-bool index_do_affect_roi = 0;
-bool index_do_clear_my_roi = 0;
-bool index_do_clear_my_video_preset = 0;
-int dock_roi_selected = 0;
-int tracking_dock_to_clean = 0;
-bool index_do_overrecord_mem = 0;
-bool index_do_clear_dock = 0;
-bool index_do_clear_on_faders = 0;
-bool index_do_reload_mem = 0;
-bool index_do_resurrect_mem = 0;
-bool index_do_jump_while_cross = 0;
-bool index_do_export = 0;
-bool index_do_import = 0;
-bool index_do_saveshow = 0;
-bool index_do_loadshow = 0;
-bool index_do_resetshow = 0;
-bool index_do_freeze = 0;
+extern bool index_do_delete_mem;
+extern bool index_do_create_mem;
+extern bool index_do_create_mem_plus_faders;
+extern bool index_do_overecord_mem_plus_faders;
+extern bool index_do_link_memonstage;
+extern bool index_do_link_memonpreset;
+extern bool index_do_link_membefore;
+extern bool index_do_link_memother;
+extern bool index_do_record_on_faders;
+extern bool index_do_modify_on_faders;
+extern bool index_do_report_on_faders;
+extern bool index_do_affect_color_on_faders;
+extern bool index_do_dmx_to_dock;
+extern bool index_do_artnet_to_dock;
+extern bool index_do_video_to_dock;
+extern int fader_selected_for_record;
+extern int dock_selected_for_record;
+extern bool index_do_affect_color_trichro;
+extern int couleur_to_affect;
+extern bool index_do_affect_roi;
+extern bool index_do_clear_my_roi;
+extern bool index_do_clear_my_video_preset;
+extern int dock_roi_selected;
+extern int tracking_dock_to_clean;
+extern bool index_do_overrecord_mem;
+extern bool index_do_clear_dock;
+extern bool index_do_clear_on_faders;
+extern bool index_do_reload_mem;
+extern bool index_do_resurrect_mem;
+extern bool index_do_jump_while_cross;
+extern bool index_do_export;
+extern bool index_do_import;
+extern bool index_do_saveshow;
+extern bool index_do_loadshow;
+extern bool index_do_resetshow;
+extern bool index_do_freeze;
 
-bool index_do_clear_patch = 0;
-bool index_do_default_patch = 0;
-bool index_do_quit_with_save = 0;
-bool index_do_quit_without_save = 0;
-bool index_do_ask_call_audio_folder = 0;
-bool index_do_clear_lock_preset = 0;
-bool index_do_banger_memonstage = 0;
-bool index_do_banger_memonpreset = 0;
-bool index_do_banger_membeforeone = 0;
-bool index_do_banger_memother = 0; // les 8 autres memoires
+extern bool index_do_clear_patch;
+extern bool index_do_default_patch;
+extern bool index_do_quit_with_save;
+extern bool index_do_quit_without_save;
+extern bool index_do_ask_call_audio_folder;
+extern bool index_do_clear_lock_preset;
+extern bool index_do_banger_memonstage;
+extern bool index_do_banger_memonpreset;
+extern bool index_do_banger_membeforeone;
+extern bool index_do_banger_memother;
 // liste projos -> patch.h
 // ArtNet + network -> network.h
 
 // audio variables -> audio.h
-bool starting_wcat = 0; // démarrage
-int dpi_native_rendering = 1;  // 1 = DPI natif (net, taille réduite) — lu avant SDL_Init
-float wc_dpi_scale = 1.0f;    // facteur DPI systeme (ex. 1.25 a 125%) — calcule dans main()
+extern bool starting_wcat;
+extern int dpi_native_rendering;
+extern float wc_dpi_scale;
 ////////////////CONFIG////////////////////////////////////////
-bool index_show_config_window = 0;
-int config_page_is = 0;
+extern bool index_show_config_window;
+extern int config_page_is;
 /////////////FOCUS WINDOW////////////////////////////////////
-int window_focus_id = 0;          // 900+id fenetre
-int previous_window_focus_id = 0; // pour le confirm
+extern int window_focus_id;
+extern int previous_window_focus_id;
 
-int pos_focus_window = 0;
+extern int pos_focus_window;
 
-bool im_moving_a_window = 0; // index poru lros de déplacement
-int last_window_founded = 0;
+extern bool im_moving_a_window;
+extern int last_window_founded;
 
 /////////////keyboard affectation//////////////////////////////////////////////
-int scan_ascii_is = 0;
-int scan_allegro_key_is = 0;
-char string_clavier_is[72];
-char list_keyname[128][16]; // nom des fonction
-char string_key_id[16];
-int mapping_temporaire[128]; // la table de reroutage
-int nbre_key_persos = 5;
+extern int scan_ascii_is;
+extern int scan_allegro_key_is;
+extern char string_clavier_is[72];
+extern char list_keyname[128][16];
+extern char string_key_id[16];
+extern int mapping_temporaire[128];
+extern int nbre_key_persos;
 // MIDI change signal -> midi.h
 ////////////sauvegardes automatiques//////////////////////////////////////////
-int automatic_time_for_save = 10;
-int do_save_at_time = 10000;
-int last_time_for_save_was = 0;
+extern int automatic_time_for_save;
+extern int do_save_at_time;
+extern int last_time_for_save_was;
 
 /////////////MULTI CORE PROCESS/////////////////
-bool index_allow_multicore = 0;
-int core_to_assign = 0;
+extern bool index_allow_multicore;
+extern int core_to_assign;
 
-bool index_false_shift = 0;
-bool index_false_control = 0;
-bool index_mouse_is_tracking = 0;
-bool index_ask_clear_a_move = 0;
-unsigned char buffer_moving_head[512];
+extern bool index_false_shift;
+extern bool index_false_control;
+extern bool index_mouse_is_tracking;
+extern bool index_ask_clear_a_move;
+extern unsigned char buffer_moving_head[512];
 
-int previous_mem_before_one = 0;
-int mem_after_one = 0;
-bool someone_changed_in_sequences = 0;
-bool someone_changed_in_time_sequences = 0; // specifique affichage du temps de crossfade
+extern int previous_mem_before_one;
+extern int mem_after_one;
+extern bool someone_changed_in_sequences;
+extern bool someone_changed_in_time_sequences;
 
-int go_channel_is = 0;
-int pause_channel_is = 0; // pause channel blink on pause in cuelist
+extern int go_channel_is;
+extern int pause_channel_is;
 
-bool index_monitor_key_esc = 0;
+extern bool index_monitor_key_esc;
 
 //////////////////
 
-bool index_show_shortcuts = 1;
-bool index_call_help = 0;
+extern bool index_show_shortcuts;
+extern bool index_call_help;
 
 ///////////// CORE PROCESSS ///////////////
-bool index_config_core = 0;
-int core_user_define_nb_faders = 48;
-int core_user_define_nb_docks = 6;
-int core_user_define_nb_chasers = 128;
-int core_user_define_nb_tracks_per_chasers = 24;
-int core_user_define_nb_gridplayers = 4;
-int core_user_define_nb_bangers = 128;
-int core_do_calculations[24];
+extern bool index_config_core;
+extern int core_user_define_nb_faders;
+extern int core_user_define_nb_docks;
+extern int core_user_define_nb_chasers;
+extern int core_user_define_nb_tracks_per_chasers;
+extern int core_user_define_nb_gridplayers;
+extern int core_user_define_nb_bangers;
+extern int core_do_calculations[24];
 
 //////////////////////////////////////
-int mouse_level_for_banger = 0;
-int mouse_level_for_event = 0;
+extern int mouse_level_for_banger;
+extern int mouse_level_for_event;
 /////////windows list//////////////////
-int window_order[60];
-int prev_window_focus_id = 0;
+extern int window_order[60];
+extern int prev_window_focus_id;
 
 // exclusion de circuits
-bool Channels_excluded_from_grand_master[514];
-bool index_do_exclude = 0;
+extern bool Channels_excluded_from_grand_master[514];
+extern bool index_do_exclude;
 
-bool Midi_Force_Go = 0;
+extern bool Midi_Force_Go;
 
 // trichro
-bool index_paste_on_the_fly = 0;
+extern bool index_paste_on_the_fly;
 
 // highpass / prio
-bool index_do_hipass = 0;
-int FaderManipulating = 0;
+extern bool index_do_hipass;
+extern int FaderManipulating;
 
 // nouvelle structure de groupe de faders
-int fader_mode_with_buffers[48]; // 0 NORMAL / 1 OFF RENDERING / 2 SUBSTRACT / 3 ADDITIF / 4 SCREEN / EXCLUSION
-bool fader_fx_route[48];         /// 1 Buffer séquenciel / 0 Buffer faders
-bool channel_is_touched_by_fader_fx[513];
-int channel_is_touched_by_fader_number[513];
-int channel_is_touched_by_fader_type_fx[513];
+extern int fader_mode_with_buffers[48];
+extern bool fader_fx_route[48];
+extern bool channel_is_touched_by_fader_fx[513];
+extern int channel_is_touched_by_fader_number[513];
+extern int channel_is_touched_by_fader_type_fx[513];
 
-int channel_level_mofification_while_crossfade[513]; // correcteur en crossfade
+extern int channel_level_mofification_while_crossfade[513];
 
-int over_banger_event = 0;
-int over_banger_action = 0;
-bool over_family = 0; // 0 event 1 action
+extern int over_banger_event;
+extern int over_banger_action;
+extern bool over_family;
 
-bool index_do_fgroup = 0; // assignation de groups de faders record dock typ 13
-bool index_do_affect_fgroup = 0;
-bool fgroup[48][6][48]; // fader dock isingroupaffected=1
+extern bool index_do_fgroup;
+extern bool index_do_affect_fgroup;
+extern bool fgroup[48][6][48];
 
-int List_view_nbre_channels = 17;
-int nbre_macros_per_channel = 4;
-bool macro_channel_on[514][4];
-int channel_macro_reaction[514][4];
-int channel_macro_action[514][4];
-int channel_macro_val[514][4][2];
-int max_channel_macro_reaction = 8;
-int max_channel_macro_action = 17;
-unsigned char previous_state_of_outputted_channels[514];
-int chan_to_manipulate = 0;
+extern int List_view_nbre_channels;
+extern int nbre_macros_per_channel;
+extern bool macro_channel_on[514][4];
+extern int channel_macro_reaction[514][4];
+extern int channel_macro_action[514][4];
+extern int channel_macro_val[514][4][2];
+extern int max_channel_macro_reaction;
+extern int max_channel_macro_action;
+extern unsigned char previous_state_of_outputted_channels[514];
+extern int chan_to_manipulate;

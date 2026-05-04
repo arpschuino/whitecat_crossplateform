@@ -26,40 +26,40 @@ WWWWWWWW           C  WWWWWWWW   |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
 
-#pragma once
+#include "saveload.h"
 
 //////////////////////SAVE LOAD/////////////////////////////////////////////////
-extern bool index_save_mode_export_or_binary; // met la fenetre save en mode export=1 ou binary classic=0
-extern int idf;                               // curseur position retour info save load
-extern bool specify_who_to_save_load[80];         // 72 d utiliser max
-extern bool preset_specify_who_to_save_load[80][4];
-extern bool index_save_global_is; // 1 global 0 detailled
+bool index_save_mode_export_or_binary = 0; // met la fenetre save en mode export=1 ou binary classic=0
+int idf = 0;                               // curseur position retour info save load
+bool specify_who_to_save_load[80];         // 72 d utiliser max
+bool preset_specify_who_to_save_load[80][4];
+bool index_save_global_is = 1; // 1 global 0 detailled
 // coordonnees fenetre save load
-extern int report_SL_X;
-extern int report_SL_Y;
-extern int default_report_SL_X;
-extern int default_report_SL_Y;
-extern bool there_is_an_error_on_save_load;
-extern bool index_show_save_load_report;
-extern bool b_report_error[256];
-extern char string_save_load_report[256][64]; // 256 slot de report de 64 char
-extern int position_view_line;            // pour defilement affichage
-extern char string_typeexport_view[24];
-extern bool index_is_saving; // pour eviter de planter les pointeurs en faisant deux saves simulatnnés
-extern int timer_save_tmp;
-extern int temps_sauvegarde_tmp; // secondes
-extern bool index_please_do_not_save;
+int report_SL_X = 30;
+int report_SL_Y = 40;
+int default_report_SL_X = 30;
+int default_report_SL_Y = 30;
+bool there_is_an_error_on_save_load = 0;
+bool index_show_save_load_report = 0;
+bool b_report_error[256];
+char string_save_load_report[256][64]; // 256 slot de report de 64 char
+int position_view_line = 0;            // pour defilement affichage
+char string_typeexport_view[24];
+bool index_is_saving = 0; // pour eviter de planter les pointeurs en faisant deux saves simulatnnés
+int timer_save_tmp = 0;
+int temps_sauvegarde_tmp = 15 * 60; // secondes
+bool index_please_do_not_save = 0;
 /////////////SAVE MENU//////////////////////
 // EXPORTS IMPORTS
-extern int index_export_choice;
-extern char list_import_files[128][72];
-extern int line_import;
-extern int importfile_selected; // num de ligne selectionné
-extern char importfile_name[72];
-extern bool enable_export; // pour les choix schwz / pdf / txt / ascii
-extern bool enable_import;
+int index_export_choice = 0;
+char list_import_files[128][72];
+int line_import = 0;
+int importfile_selected = 0; // num de ligne selectionné
+char importfile_name[72];
+bool enable_export = 0; // pour les choix schwz / pdf / txt / ascii
+bool enable_import = 0;
 ////BINARIES
-extern char list_save_files[128][72];
-extern int line_save;
-extern int savefile_selected; // num de ligne selectionné
-extern char savefile_name[72];
+char list_save_files[128][72];
+int line_save = 0;
+int savefile_selected = 0; // num de ligne selectionné
+char savefile_name[72];

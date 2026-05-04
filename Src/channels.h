@@ -29,79 +29,79 @@ WWWWWWWW           C  WWWWWWWW   |
 #pragma once
 
 /////////////////////////////CHANNELS///////////////////////////////////////////
-int scroll_channelspace = 0;
-int dmx_view = 0;                // 0 pourcentage 1 dmx
-unsigned char bufferSaisie[514]; // le 0 n est pas pris, le 512 est en  513
-unsigned char bufferBlind[514];
-unsigned char bufferFaders[514];
-unsigned char bufferSequenciel[514];
-unsigned char bufferCopyPaste[514];
-unsigned char buffer_affichage_valeurs_sequenciel[514];
-unsigned char bufferPourcentStepdefaultlevel[514]; // buffer tampon pour simplifier les steps levels en % ou dmx
+extern int scroll_channelspace;
+extern int dmx_view;
+extern unsigned char bufferSaisie[514];
+extern unsigned char bufferBlind[514];
+extern unsigned char bufferFaders[514];
+extern unsigned char bufferSequenciel[514];
+extern unsigned char bufferCopyPaste[514];
+extern unsigned char buffer_affichage_valeurs_sequenciel[514];
+extern unsigned char bufferPourcentStepdefaultlevel[514];
 
-bool SelectedForCopyPaste[514];
-bool Selected_Channel[514];
-bool Temp_Selected_Channel[514]; // pour selection chainee souris ( comme ds schwz)
-int last_ch_selected = 0;
-int check_channel_level = 255;
-int previous_ch_selected = 0;
-bool index_blind = 0;
-char string_last_over_dock[36];
-char string_secondary_feeback[64];
-bool index_ch_thruth = 0;
-int default_step_level = 1;
-bool index_level_attribue = 0; // pour deselection lors d une resaisie nouvelle
+extern bool SelectedForCopyPaste[514];
+extern bool Selected_Channel[514];
+extern bool Temp_Selected_Channel[514];
+extern int last_ch_selected;
+extern int check_channel_level;
+extern int previous_ch_selected;
+extern bool index_blind;
+extern char string_last_over_dock[36];
+extern char string_secondary_feeback[64];
+extern bool index_ch_thruth;
+extern int default_step_level;
+extern bool index_level_attribue;
 
 ///////////////////CHANNELS////////////////////////////////////////////////////
 
-int XChannels = -20, YChannels = 70;
-int ChScrollX = 580, ChScrollY = 50; // scroller ascenceur
-float Ch_Scroll_Factor = 12.0;
-int last_scroll_mouse_for_chan = 0;
-bool index_moving_channel_scroller = 0;
-char string_last_ch[36];
+extern int XChannels, YChannels;
+extern int ChScrollX, ChScrollY;
+extern float Ch_Scroll_Factor;
+extern int last_scroll_mouse_for_chan;
+extern bool index_moving_channel_scroller;
+extern char string_last_ch[36];
 
 ///////////AFFICHAGES DIVERS CHANNEL SPACE/////////////////////////////////////
 
-bool ClassicalChannelView = 1;
-int ChannelXMenu = 0, ChannelYMenu = 0;
-int hauteur_ChannelMenu = 30;
-int largeur_ChannelMenu = 1180;
+extern bool ClassicalChannelView;
+extern int ChannelXMenu, ChannelYMenu;
+extern int hauteur_ChannelMenu;
+extern int largeur_ChannelMenu;
 const int nbre_de_vues_circuits = 16;
-int hauteur_preset_titre = 30;
+extern int hauteur_preset_titre;
 
-bool Channel_View_MODE[nbre_de_vues_circuits]; // les 16 indexes de vision
-int Channel_View_ROUTING[nbre_de_vues_circuits][514];
-int channel_view_is = 0; // 0 pas touché car sortie du patch
+extern bool Channel_View_MODE[nbre_de_vues_circuits];
+extern int Channel_View_ROUTING[nbre_de_vues_circuits][514];
+extern int channel_view_is;
 
-char channel_view_Name[nbre_de_vues_circuits][25];
-int channel_view_link_type[nbre_de_vues_circuits]; // 0:no link 1:memory 2: fader
-int channel_view_link_ref[nbre_de_vues_circuits];  // num de mem ou de fader. desaffectation=-1;
+extern char channel_view_Name[nbre_de_vues_circuits][25];
+extern int channel_view_link_type[nbre_de_vues_circuits];
+extern int channel_view_link_ref[nbre_de_vues_circuits];
 
-int channel_view_type_of_behaviour[nbre_de_vues_circuits]; // 0 normal view // 1 mem // 2 fader
-bool channel_view_mode_builder[nbre_de_vues_circuits];     // 0 solo // 1 ALL
+extern int channel_view_type_of_behaviour[nbre_de_vues_circuits];
+extern bool channel_view_mode_builder[nbre_de_vues_circuits];
 
-int channel_number_in_View[nbre_de_vues_circuits];
-int channel_number_of_lines[nbre_de_vues_circuits];
-bool index_ask_record_selection_of_view = 0;
-bool index_ask_modify_selection_of_view = 0;
-bool index_ask_clear_selection_of_view = 0;
-bool index_ask_report_selection_of_view = 0;
+extern int channel_number_in_View[nbre_de_vues_circuits];
+extern int channel_number_of_lines[nbre_de_vues_circuits];
+extern bool index_ask_record_selection_of_view;
+extern bool index_ask_modify_selection_of_view;
+extern bool index_ask_clear_selection_of_view;
+extern bool index_ask_report_selection_of_view;
 
-bool index_ask_build_view = 0;
-bool index_do_build_view = 0;
+extern bool index_ask_build_view;
+extern bool index_do_build_view;
 
-int total_pixel_vision = 0;
-float ratioview = 270.0 / total_pixel_vision;
+extern int total_pixel_vision;
+extern float ratioview;
 
-int scroll_pos_preset[nbre_de_vues_circuits]; // affichage vision
+extern int scroll_pos_preset[nbre_de_vues_circuits];
 
-bool index_show_main_menu = 0; // main menu par click droit
-int x_mainmenu = 0, y_mainmenu = 0;
-int size_x_mainmenu = 365;
-int size_y_mainmenu = 200;
+extern bool index_show_main_menu;
+extern int x_mainmenu, y_mainmenu;
+extern int size_x_mainmenu;
+extern int size_y_mainmenu;
 
-int expert_mode = 0; // confirmations ou pas de record etc...
-bool index_show_first_dim = 0;
-int show_first_dim_array[514][4]; // pour affichage du premier grada patché au circuit
-bool show_more_than_one_dim[514];
+extern int expert_mode;
+extern bool index_show_first_dim;
+extern int show_first_dim_array[514][4];
+extern bool show_more_than_one_dim[514];

@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
@@ -25,33 +27,25 @@ WWWWWWWW           C  WWWWWWWW   |
            WWWWWWWWt             |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
-
-#pragma once
-
-extern char versionis[72];
-extern char nickname_version[48];
-
-extern bool init_done;
+char versionis[72] = {"alpha 0.9.0 - 23 avril 2026"};
+char nickname_version[48] = {"arpschuino reborn"};
+bool init_done = 0; // démarrage pour éviter envoyer data pdt procedure d initialisation
 /////////////////////REPERTOIRE/////////////////////////////////////////////////
-extern char rep[255];
+char rep[255]; // repertoire avec arborescence complete du fichier
 // sab 02/03/2014 char mondirectory[200];//endroit de l exe
 /** Directory where is the executable file - Répertoire où se trouve l'exécutable **/
-extern char mondirectory[512];
-extern char working_nameis[120];
-extern char rep_saves[10];
-extern char nomduspectacle[48];
-extern char video_folder[256];
-extern char my_show_is_coming_from[128];
-
-extern bool there_is_change_on_show_save_state;
-
-extern int adapater_is_selected;
-extern bool right_click_for_menu;
-
+char mondirectory[512];
+char working_nameis[120];
+char rep_saves[10] = {"saves\\"};
+char nomduspectacle[48] = {"last_save\\"};
+char video_folder[256];
+char my_show_is_coming_from[128] = {"default"};
+bool there_is_change_on_show_save_state = 0;
+int adapater_is_selected = -1; // numero d adaptateur selectionne pour adresse mac
+bool right_click_for_menu = 0;
 ////////////////////////////////////////////////////////////////////////////////
-extern int index_liste_kbd_custom;
-extern char kbd_custom[256][2];
-
+int index_liste_kbd_custom = 0;
+char kbd_custom[256][2];
 /////////////////////////////////////////////////////////////////////////////////
 enum WINDOW {
     W_SAVEREPORT = 900,
@@ -79,10 +73,9 @@ enum WINDOW {
     W_CHASERS = 923,
     W_GRID = 926
 };
-extern int max_window_identity_is;
-extern int index_to_navigate_between_window;
-
-extern int window_opened[72];
+int max_window_identity_is = 926;
+int index_to_navigate_between_window = 0;
+int window_opened[72]; // la liste des fenetres ouvertes modification en 0.4.1 d un size 64 en size 72,
 // y compris dans save_show.cpp
-extern int nbre_fenetre_actives;
-extern int temp_report_window[72];
+int nbre_fenetre_actives = 0;
+int temp_report_window[72];
