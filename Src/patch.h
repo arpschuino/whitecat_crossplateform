@@ -33,17 +33,17 @@ extern int curves[514];
 extern int curve_ctrl_pt[16][8][2];
 extern int diam_curve_node;
 typedef struct curve_node {
-extern int x, y;
-extern fixed tangent;
-extern } curve_node;
+int x, y;
+fixed tangent;
+} curve_node;
 #define MAX_curve_nodeS 8
 extern curve_node curve_nodes[MAX_curve_nodeS];
 extern int curve_node_count;
 extern fixed curve_curviness;
 typedef struct NODE {
-extern int x, y;
-extern fixed tangent;
-extern } NODE;
+int x, y;
+fixed tangent;
+} NODE;
 #define MAX_NODES 49
 extern NODE nodes[MAX_NODES];
 extern int node_count;

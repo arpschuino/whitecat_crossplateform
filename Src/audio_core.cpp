@@ -41,6 +41,44 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "graphics_backend.h"
+#include "audio_backend.h"
+#include "midi_backend.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <direct.h>
+#include "Crossplateform.h"
+using namespace ol;
+using namespace audiere;
+#include "globals.h"
+#include "display.h"
+#include "ui_indexes.h"
+#include "saveload.h"
+#include "faders.h"
+#include "midi.h"
+#include "patch.h"
+#include "plot.h"
+#include "audio.h"
+
+// Forward declarations — defined in CORE_6.cpp
+int player1_do_stop();
+int player2_do_stop();
+int player3_do_stop();
+int player4_do_stop();
+int toggle(int index_to_toggle);
+int reset_index_actions();
+int reset_indexs_confirmation();
+int reset_numeric_entry();
+int attribute_midi_solo_affectation(int faderis, int modeaction);
+int scan_audio_root_folders();
+int scan_audiofolder();
+// Forward declarations — defined in gui_boutons_rebuild1.cpp
+int raccrochage_midi_logical_horizontal_audio(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_horizontal_audio(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_vertical(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+
 int Save_Audio_Conf();
 
 int Load_audiofiles_cues()

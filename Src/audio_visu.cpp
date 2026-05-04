@@ -41,6 +41,23 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "graphics_backend.h"
+#include "audio_backend.h"
+#include "midi_backend.h"
+#include <string.h>
+using namespace ol;
+using namespace audiere;
+#include "audio.h"
+#include "theme.h"
+#include "display.h"
+#include "ui_indexes.h"
+#include "midi.h"
+
+// Forward declarations — defined in CORE_6.cpp
+int toggle(int index_to_toggle);
+// Forward declarations — defined in gui_boutons_rebuild1.cpp
+int raccrochage_midi_visuel_horizontal_audio(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
 
 int fader_niveau_son(int xp, int yp, int numero)
 {

@@ -806,29 +806,29 @@ int reset_indexs_confirmation()
 
 int do_clock_level_modification(int level)
 {
-switch(clocklevel_absolutemode)
-{
-case 0://relatif
-    if(level<64){
-    midi_BPM+=relativ_encoder_midi_clock_value;
-    ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
-    install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);}
-    else if(level>64){
-    midi_BPM-=relativ_encoder_midi_clock_value;
-    if(midi_BPM<=0){midi_BPM=relativ_encoder_midi_clock_value;}
-    ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
-    install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);
+    if(clocklevel_absolutemode==0)
+    {
+        if(level<64){
+            midi_BPM+=relativ_encoder_midi_clock_value;
+            ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
+            install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);}
+            else if(level>64){
+            midi_BPM-=relativ_encoder_midi_clock_value;
+            if(midi_BPM<=0){midi_BPM=relativ_encoder_midi_clock_value;}
+            ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
+            install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);
+        }
     }
-break;
-case 1://absolute , on récupère de toute facon le niveau midi comme base
-    midi_BPM=relativ_encoder_midi_clock_value*level;
-    if(midi_BPM<=0){midi_BPM=relativ_encoder_midi_clock_value;}
-    ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
-    install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);
-break;
-}
+    else{//absolute , on récupère de toute facon le niveau midi comme base
+        midi_BPM=relativ_encoder_midi_clock_value*level;
+        if(midi_BPM<=0){
+            midi_BPM=relativ_encoder_midi_clock_value;
+        }
+        ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
+        install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);
+    }
 
-return(0);
+    return(0);
 }
 
 int reset_channel_first_dimmer_list()
@@ -2440,12 +2440,7 @@ FILE* wc_fopen_utf8(const char* utf8path, const char* mode) {
     return fopen(acp_path, mode);
 }
 
-// Convertit un chemin ACP (CP-1252) en UTF-8 pour SDL2 (SDL_RWFromFile attend UTF-8)
-static void wc_acp_to_utf8(const char* acp, char* utf8, int maxlen) {
-    wchar_t wpath[512];
-    MultiByteToWideChar(CP_ACP, 0, acp, -1, wpath, 512);
-    WideCharToMultiByte(CP_UTF8, 0, wpath, -1, utf8, maxlen, NULL, NULL);
-}
+// wc_acp_to_utf8 est maintenant inline dans Crossplateform.h
 
 int scan_audio_root_folders()
 {
@@ -3150,15 +3145,12 @@ int patch_to_default_selected()
 
 int set_channel_scroll( int ch)
 {
-    switch (ClassicalChannelView)
-    {
-    case 0:
+    if (ClassicalChannelView==0)
     {
         int pr=check_wich_channel_is_in_view(ch);
         scroll_channelspace=(int)(ratioview*scroll_pos_preset[pr-1]);
-        break;
     }
-    case 1:
+    else
     {
         if(ch>0 && ch<48)
         {
@@ -3204,9 +3196,8 @@ int set_channel_scroll( int ch)
         {
             scroll_channelspace=236;
         }
-        break;
     }
-    }
+
     return(0);
 }
 

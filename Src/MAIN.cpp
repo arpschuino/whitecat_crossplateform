@@ -75,8 +75,6 @@ int ticker_rate = BPS_TO_TIMER(BPS_RATE);
 int ticker_dmxIn_rate = BPS_TO_TIMER(dmxINrate);
 int midi_BPM = 120;
 int ticks_passed = 0;
-volatile int mouse_button;
-volatile int mouse_released;
 volatile int mouse_maintained;
 volatile int mouse_R_button;
 volatile int mouse_R_released;
@@ -139,7 +137,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "plot_core9.cpp"
 #include "plot9.cpp"
 
-#include <audio_core5.cpp>
+#include <audio_core.cpp>
 
 #include <save_show_13.cpp>
 #include <network_artnet_3.cpp> //artnet functions
@@ -151,7 +149,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <grand_master.cpp>
 #include <faders_core_24.cpp>
 
-#include <audio_visu4.cpp>
+#include <audio_visu.cpp>
 
 #include <arduino_device_core.cpp>
 #include <banger_core_8.cpp>

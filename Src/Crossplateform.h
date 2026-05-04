@@ -56,4 +56,13 @@ uncomment if whitecat is compilled for POSIX (ex:OSX) else comment it and uncomm
 */
 // #define WhitePOSIX
 
+#ifdef WhiteMicrosoft
+// Convertit un chemin ACP (CP-1252) en UTF-8 pour SDL2
+inline void wc_acp_to_utf8(const char* acp, char* utf8, int maxlen) {
+    wchar_t wpath[512];
+    MultiByteToWideChar(CP_ACP, 0, acp, -1, wpath, 512);
+    WideCharToMultiByte(CP_UTF8, 0, wpath, -1, utf8, maxlen, NULL, NULL);
+}
+#endif
+
 #endif // CROSSPLATEFORM_H_INCLUDED

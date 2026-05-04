@@ -28,6 +28,8 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #pragma once
 
+extern volatile int mouse_button;
+extern volatile int mouse_released;
 extern volatile int ticks_dixieme_for_icat_and_draw;
 ////////////////////AFFICHAGE///////////////////////////////////////////////////
 extern int largeur_ecran;

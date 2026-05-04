@@ -1,6 +1,9 @@
 #include "graphics_backend.h"
 #include "display.h"
 
+volatile int mouse_button = 0;
+volatile int mouse_released = 0;
+
 /*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
