@@ -1,3 +1,4 @@
+#define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
 using namespace ol;
 #include "theme.h"

@@ -23,9 +23,6 @@ bool index_window_sequentiel = 0;
 int xseq_window = 50;
 int yseq_window = 10;
 int nbre_memoires_visualisables_en_preset = 8;
-inline int calc_hauteur_sequenciel(int n) {
-    return 180 + 35 * (n + 1) + 40;
-}
 int hauteur_globale_sequenciel = calc_hauteur_sequenciel(nbre_memoires_visualisables_en_preset);
 bool MemoiresExistantes[10000];
 unsigned char Memoires[10000][514];

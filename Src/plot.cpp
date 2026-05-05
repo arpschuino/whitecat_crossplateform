@@ -1,4 +1,6 @@
+#define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
+using namespace ol;
 #include "plot.h"
 
 /// window plot
@@ -26,7 +28,6 @@ char symbol_nickname[127][25];
 float angle_projo_selectionne = 0.0;
 int symbol_id_to_select = 0;
 // 128 symbols possibles par page x4
-const int nbre_symbol_per_layer = 128;
 bool show_calc_number[4];
 short view_plot_calc_number_is = 0;
 bool plot_layer_mode = 0; // 0 calc, 1 solo
@@ -115,7 +116,6 @@ float alpha_grille = 0.5;
 float Color_plotline = 0.0;
 float Color_plotfill = 1.0;
 int nbre_shapes_on_plot = 0;
-const short max_shape_type = 11;
 char shape_nickname[max_shape_type + 1][25]; // 12 Shapes
 int lock_background_proportions = 0;
 int shape_selected_type = 0;

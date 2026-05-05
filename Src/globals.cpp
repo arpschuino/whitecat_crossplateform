@@ -47,32 +47,6 @@ bool right_click_for_menu = 0;
 int index_liste_kbd_custom = 0;
 char kbd_custom[256][2];
 /////////////////////////////////////////////////////////////////////////////////
-enum WINDOW {
-    W_SAVEREPORT = 900,
-    W_DRAW = 901,
-    W_TRICHROMY = 902,
-    W_NUMPAD = 903,
-    W_TRACKINGVIDEO = 904,
-    W_ARTPOLLREPLY = 905,
-    W_FADERS = 906,
-    W_PATCH = 907,
-    W_TIME = 908,
-    W_SEQUENCIEL = 909,
-    W_ASKCONFIRM = 911,
-    W_PLOT = 912,
-    W_ECHO = 913,
-    W_LIST = 914,
-    W_SAVE = 915,
-    W_MAINMENU = 916,
-    W_BANGER = 917,
-    W_ALARM = 918,
-    W_AUDIO = 919,
-    W_CFGMENU = 920,
-    W_WIZARD = 921,
-    W_MINIFADERS = 922,
-    W_CHASERS = 923,
-    W_GRID = 926
-};
 int max_window_identity_is = 926;
 int index_to_navigate_between_window = 0;
 int window_opened[72]; // la liste des fenetres ouvertes modification en 0.4.1 d un size 64 en size 72,

@@ -140,8 +140,13 @@ static SDL_Window *wc_sdl_window = nullptr;
 static SDL_Renderer *wc_sdl_renderer = nullptr;
 
 // SCREEN_W / SCREEN_H : equivalents Allegro, mis a jour par Setup::SetupScreen
+#ifndef WC_SKIP_GLOBALS
 int SCREEN_W = 1280;
 int SCREEN_H = 800;
+#else
+extern int SCREEN_W;
+extern int SCREEN_H;
+#endif
 
 
 // ============================================================
@@ -272,8 +277,13 @@ inline void remove_timer() {
 // ============================================================
 // Variables globales souris / Global mouse variables
 // ============================================================
+#ifndef WC_SKIP_GLOBALS
 volatile int mouse_x = 0;
 volatile int mouse_y = 0;
+#else
+extern volatile int mouse_x;
+extern volatile int mouse_y;
+#endif
 
 static int wc_mouse_range_x1 = 0;
 static int wc_mouse_range_y1 = 0;
@@ -286,7 +296,11 @@ static wc_mouse_cb_t mouse_callback = nullptr;
 // ============================================================
 // Variables globales clavier / Global keyboard variables
 // ============================================================
+#ifndef WC_SKIP_GLOBALS
 int key_shifts = 0;
+#else
+extern int key_shifts;
+#endif
 static std::queue<int> wc_key_queue; // format Allegro : (scancode<<8)|ascii
 
 // Scancodes Allegro courants / Common Allegro scancodes
@@ -603,7 +617,11 @@ inline void triangle3d_f(SDL_Surface *bmp, int /*type*/, void * /*texture*/, V3D
 }
 
 // Mouse Z (molette) / Mouse wheel
+#ifndef WC_SKIP_GLOBALS
 volatile int mouse_z = 0;
+#else
+extern volatile int mouse_z;
+#endif
 static int wc_mouse_z_value = 0;
 
 // position_mouse_z : certains codes l'appellent comme fonction ET d'autres assignent dessus
@@ -629,10 +647,19 @@ struct WC_MouseZType {
     operator int() const {
         return value;
     }
-} position_mouse_z;
+};
+#ifndef WC_SKIP_GLOBALS
+WC_MouseZType position_mouse_z;
+#else
+extern WC_MouseZType position_mouse_z;
+#endif
 
 // mouse_b : etat boutons souris format Allegro (bits 0=gauche 1=droit 2=milieu)
+#ifndef WC_SKIP_GLOBALS
 volatile int mouse_b = 0;
+#else
+extern volatile int mouse_b;
+#endif
 
 // ============================================================
 // Buffer bitmap CPU (remplace Allegro BITMAP)
@@ -898,7 +925,12 @@ struct WC_KeyArray {
             return state[scancode] != 0;
         return false;
     }
-} key;
+};
+#ifndef WC_SKIP_GLOBALS
+WC_KeyArray key;
+#else
+extern WC_KeyArray key;
+#endif
 
 inline void poll_keyboard() {
     SDL_PumpEvents(); // SDL2 met a jour l'etat clavier automatiquement
@@ -1227,13 +1259,15 @@ struct Rgba {
     static Rgba YELLOW;
 };
 
-// Definitions (ok en single-TU)
+// Definitions (une seule TU definit WC_SKIP_GLOBALS=non-defini, les autres sautent)
+#ifndef WC_SKIP_GLOBALS
 Rgba Rgba::WHITE(1.0f, 1.0f, 1.0f, 1.0f);
 Rgba Rgba::BLACK(0.0f, 0.0f, 0.0f, 1.0f);
 Rgba Rgba::RED(1.0f, 0.0f, 0.0f, 1.0f);
 Rgba Rgba::GREEN(0.0f, 1.0f, 0.0f, 1.0f);
 Rgba Rgba::BLUE(0.0f, 0.0f, 1.0f, 1.0f);
 Rgba Rgba::YELLOW(1.0f, 1.0f, 0.0f, 1.0f);
+#endif
 
 // ----------------------------------------------------------------
 // Helper interne namespace

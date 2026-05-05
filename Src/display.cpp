@@ -1,4 +1,6 @@
+#define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
+using namespace ol;
 #include "display.h"
 
 volatile int mouse_button = 0;

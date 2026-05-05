@@ -41,6 +41,7 @@ bool grid_player_slave[4];
 bool grid_affect_to_dock[4];
 int largeurGrider = 710;
 int grider_facteur_hauteur = 10;
+extern int index_nbre_players_visibles;
 int hauteurGrider =
     50 + (index_nbre_players_visibles * (30 + (grider_facteur_hauteur * size_grille))) + hauteurGlobalGridviewer;
 int position_grid_editing;

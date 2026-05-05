@@ -48,8 +48,7 @@ extern bool grid_affect_to_dock[4];
 
 extern int largeurGrider;
 extern int grider_facteur_hauteur;
-int hauteurGrider =
-extern 50 + (index_nbre_players_visibles * (30 + (grider_facteur_hauteur * size_grille))) + hauteurGlobalGridviewer;
+extern int hauteurGrider;
 
 extern int position_grid_editing;
 

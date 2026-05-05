@@ -61,7 +61,6 @@ bool ClassicalChannelView = 1;
 int ChannelXMenu = 0, ChannelYMenu = 0;
 int hauteur_ChannelMenu = 30;
 int largeur_ChannelMenu = 1180;
-const int nbre_de_vues_circuits = 16;
 int hauteur_preset_titre = 30;
 bool Channel_View_MODE[nbre_de_vues_circuits]; // les 16 indexes de vision
 int Channel_View_ROUTING[nbre_de_vues_circuits][514];

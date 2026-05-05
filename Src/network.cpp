@@ -1,3 +1,4 @@
+#define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
 #include <winsock2.h>
 #include "Crossplateform.h"

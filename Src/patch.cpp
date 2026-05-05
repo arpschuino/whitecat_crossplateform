@@ -1,3 +1,4 @@
+#define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
 #include "Crossplateform.h"
 #include "patch.h"
