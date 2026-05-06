@@ -123,7 +123,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "core.h"  // compile separement dans core.cpp
 
 #include <saves_export_pdf2.cpp>
-#include <saves_export_import.cpp>
+#include "saves_export_import.h"
 #include <saves_menu_8.cpp>
 #include "gestionaire_fenetres2.h"
 

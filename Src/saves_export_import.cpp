@@ -41,6 +41,12 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+
 int do_reset_all_listproj()
 {
 for (int r=0;r<514;r++)
