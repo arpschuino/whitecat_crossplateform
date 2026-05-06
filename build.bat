@@ -100,6 +100,7 @@ echo [build] Compilation en cours...
  %SRC%\grider_calcul.cpp ^
  %SRC%\grider_core.cpp ^
  %SRC%\grider_visu.cpp ^
+ %SRC%\gestionaire_fenetres2.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^

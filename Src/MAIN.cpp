@@ -125,7 +125,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <saves_export_pdf2.cpp>
 #include <saves_export_import.cpp>
 #include <saves_menu_8.cpp>
-#include <gestionaire_fenetres2.cpp>
+#include "gestionaire_fenetres2.h"
 
 #include <gui_boutons_rebuild1.cpp>
 #include "grider_core.h"

@@ -41,6 +41,14 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+void scan_importfolder(const char* subdir);
+int scan_savesfolder();
+
 int reset_config_indexes()
 {
 index_config_dmx=0;
