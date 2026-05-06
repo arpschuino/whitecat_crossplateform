@@ -27,7 +27,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 /**
 
-* \file patch_splines_2.cpp
+* \file patch_splines.cpp
 * \brief {Curves calcul for each canal in the patch}
 * \author Christoph Guillermet
 * \version {0.8.6.3}
@@ -40,6 +40,11 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Calcul fonction of the curves in the dmx patch
 *
 **/
+
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
 
 /* calculates the distance between two curve_nodes */
 fixed curve_node_dist(curve_node n1, curve_node n2)

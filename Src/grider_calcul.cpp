@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
-       WWWWWWWWWWWWWWW           |
+       WWWWWWWWWWWWWWW           |               2026       Jacques Bouault - arpschuino.fr
      WWWWWWWWWWWWWWWWWWW         | This file is part of White Cat.
     WWWWWWWWWWWWWWWWWCWWWW       |
    WWWWWWWWWWWWWWWWW tWWWWW      | White Cat is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 /**
 
-* \file grider_calculs8.cpp
+* \file grider_calcul.cpp
 * \brief {calcul fonctions for grid players}
 * \author Christoph Guillermet
 * \version {0.8.6.3}
@@ -40,6 +40,11 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Calcul fonctions to manage the gridplayers
 *
  **/
+
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
 
 int affichage_time_format(float time_to_convert)
 {

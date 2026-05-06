@@ -92,8 +92,12 @@ echo [build] Compilation en cours...
  %SRC%\echo.cpp ^
  %SRC%\trichro.cpp ^
  %SRC%\schwz.cpp ^
+ %SRC%\core.cpp ^
+ %SRC%\midi_CORE.cpp ^
+ %SRC%\patch_splines.cpp ^
  %SRC%\SmoothData.cpp ^
  %SRC%\grand_master.cpp ^
+ %SRC%\grider_calcul.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^

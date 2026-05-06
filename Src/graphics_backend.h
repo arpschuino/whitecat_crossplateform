@@ -136,8 +136,13 @@ extern bool index_quit;
 // Etat global SDL2
 // Global SDL2 state
 // ============================================================
-static SDL_Window *wc_sdl_window = nullptr;
-static SDL_Renderer *wc_sdl_renderer = nullptr;
+#ifndef WC_SKIP_GLOBALS
+SDL_Window *wc_sdl_window = nullptr;
+SDL_Renderer *wc_sdl_renderer = nullptr;
+#else
+extern SDL_Window *wc_sdl_window;
+extern SDL_Renderer *wc_sdl_renderer;
+#endif
 
 // SCREEN_W / SCREEN_H : equivalents Allegro, mis a jour par Setup::SetupScreen
 #ifndef WC_SKIP_GLOBALS

@@ -114,13 +114,13 @@ void ticker_midi_clock() {
 }
 END_OF_FUNCTION(ticker_midi_clock);
 
-#include <patch_splines_2.cpp> //spline pour curves
+#include "patch_splines.h"  // compile separement dans patch_splines.cpp
 
-#include <grider_calculs8.cpp>
+#include "grider_calcul.h"
 
-#include <midi_CORE.cpp>
+#include "midi_CORE.h"  // compile separement dans midi_CORE.cpp
 
-#include <CORE_6.cpp>
+#include "core.h"  // compile separement dans core.cpp
 
 #include <saves_export_pdf2.cpp>
 #include <saves_export_import.cpp>
@@ -128,7 +128,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <gestionaire_fenetres2.cpp>
 
 #include <gui_boutons_rebuild1.cpp>
-#include <grider_core8.cpp>
+#include <grider_core.cpp>
 #include <wizard_operations.cpp>
 
 #include <faders_operations.cpp>
@@ -180,7 +180,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <network_MAC_adress_3.cpp>
 #include <midi_launchpad.cpp>
 
-#include <grider8.cpp>
+#include <grider_visu.cpp>
 #include <sequentiel_7_visu.cpp>
 #include <Draw3.cpp>
 #include <echo3.cpp>

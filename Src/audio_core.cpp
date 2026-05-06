@@ -1992,3 +1992,71 @@ int do_logical_fenetre_audio(int xb, int yb) {
 
     return (0);
 }
+
+int player1_do_stop()
+{
+if (!player1) return 0;
+float value_lecteur=(((float)player_niveauson[0])/127);
+for(float i=value_lecteur*30; i>0.0;i--)
+{ if(i>=0.0){player1->setVolume(i/30);} }
+player1->setVolume(0.0);
+player1->stop();
+for(float i=value_lecteur*30; i<1.0;i++)
+{ if(i<1.0){player1->setVolume(i/30);} }
+player1->setVolume(value_lecteur);
+return(0);
+}
+
+int player2_do_stop()
+{
+if (!player2) return 0;
+float value_lecteur=(((float)player_niveauson[1])/127);
+for(float i=value_lecteur*30; i>0.0;i--)
+{ if(i>=0.0){player2->setVolume(i/30);} }
+player2->setVolume(0.0);
+player2->stop();
+for(float i=value_lecteur*30; i<1.0;i++)
+{ if(i<1.0){player2->setVolume(i/30);} }
+player2->setVolume(value_lecteur);
+return(0);
+}
+
+int player3_do_stop()
+{
+if (!player3) return 0;
+float value_lecteur=(((float)player_niveauson[2])/127);
+for(float i=value_lecteur*30; i>0.0;i--)
+{ if(i>=0.0){player3->setVolume(i/30);} }
+player3->setVolume(0.0);
+player3->stop();
+for(float i=value_lecteur*30; i<1.0;i++)
+{ if(i<1.0){player3->setVolume(i/30);} }
+player3->setVolume(value_lecteur);
+return(0);
+}
+
+int player4_do_stop()
+{
+if (!player4) return 0;
+float value_lecteur=(((float)player_niveauson[3])/127);
+for(float i=value_lecteur*30; i>0.0;i--)
+{ if(i>=0.0){player4->setVolume(i/30);} }
+player4->setVolume(0.0);
+player4->stop();
+for(float i=value_lecteur*30; i<1.0;i++)
+{ if(i<1.0){player4->setVolume(i/30);} }
+player4->setVolume(value_lecteur);
+return(0);
+}
+
+int player_toggle(int the_audio_player)
+{
+    switch(the_audio_player)
+    {
+    case 0: if (!player1->isPlaying()) { player1->play(); } else { player1_do_stop(); } break;
+    case 1: if (!player2->isPlaying()) { player2->play(); } else { player2_do_stop(); } break;
+    case 2: if (!player3->isPlaying()) { player3->play(); } else { player3_do_stop(); } break;
+    case 3: if (!player4->isPlaying()) { player4->play(); } else { player4_do_stop(); } break;
+    }
+    return(0);
+}

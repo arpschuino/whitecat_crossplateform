@@ -44,6 +44,10 @@ WWWWWWWW           C  WWWWWWWW   | GNU General Public License for more details.
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
 #include "midi_backend.h"
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -86,3 +86,10 @@ extern int window_opened[72];
 // y compris dans save_show.cpp
 extern int nbre_fenetre_actives;
 extern int temp_report_window[72];
+extern int BPS_RATE;
+extern int dmxINrate;
+extern int ARDUINO_RATE;
+extern int ticks_passed;
+extern int midi_BPM;
+extern volatile int ticker_midi_clock_rate;
+extern volatile bool calculation_on_faders_done;

@@ -27,7 +27,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 /**
 
-* \file grider8.cpp
+* \file grider_visu.cpp
 * \brief {GUI fonctions for grid players}
 * \author Christoph Guillermet
 * \version {0.8.6.3}
