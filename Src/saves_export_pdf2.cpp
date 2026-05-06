@@ -515,7 +515,7 @@ draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_e
 cmptline_pdf++;
 verification_fin_de_page();
 
-switch(echo_is_echo_mode[pr])
+switch((int)echo_is_echo_mode[pr])
 {
 case 0:
 sprintf(header_export,"Echo Mode is /OFF ");
@@ -529,7 +529,7 @@ cmptline_pdf++;
 verification_fin_de_page();
 
 
-switch(echo_channel_manipulate_mode[pr])
+switch((int)echo_channel_manipulate_mode[pr])
 {
 case 0:
 sprintf(header_export,"ChanMode is CH/LEVEL");
@@ -818,7 +818,7 @@ draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_e
 cmptline_pdf++;
 char tmp_y[16];
 //time
-switch(chaser_time_mode[chaser_num])
+switch((int)chaser_time_mode[chaser_num])
 {
 case 0:
 sprintf(tmp_y,"Time Standard");
@@ -831,7 +831,7 @@ sprintf(header_export,"Time Unit: %f Time Mode: %s ", time_unit[chaser_num], tmp
 draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
 cmptline_pdf++;
 //WAY
-switch(chaser_way[chaser_num])
+switch((int)chaser_way[chaser_num])
 {
 case 0:
 sprintf(tmp_y,"Forward Way");
@@ -847,7 +847,7 @@ else
 draw_info(page, 100, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_export);
 cmptline_pdf++;
 //Play Loop
-switch(chaser_is_playing[chaser_num])
+switch((int)chaser_is_playing[chaser_num])
 {
 case 0:
 sprintf(tmp_y,"PLAY OFF");
@@ -957,7 +957,7 @@ HPDF_Page_SetRGBFill (page, 0.0, 0.0, 0.0);//couleur remplissage
 char tmp_u[6];
 for(int ly=0;ly<nbre_tracks_par_chaser;ly++)
 {
-switch( track_is_on[chaser_num][ly])
+switch((int)track_is_on[chaser_num][ly])
 {
 case 0:
 sprintf(tmp_u,"OFF");
@@ -1562,7 +1562,7 @@ break;
 default:
 break;
 }
-switch(macro_channel_on[cp][m])
+switch((int)macro_channel_on[cp][m])
 {
 case 0:
 sprintf(titlemacro3,"Off");
@@ -3207,7 +3207,7 @@ sprintf(header_export,"LFO: Speed: %d  Mode: ",lfo_speed[f]);
 int dc= 127*Fader_dampered[f].getdecay();
 int ddt=127*Fader_dampered[f].getdt();
 int md=Fader_dampered[f].getdampermode();
-switch(fader_damper_is_on[f])
+switch((int)fader_damper_is_on[f])
 {
 case 0:
 sprintf(header_export,"Damper OFF/ D:%d D:%d Mode:%d",  dc,ddt,md);
@@ -3259,7 +3259,7 @@ cmptline_pdf++;
 if(LevelStopPos[f]!=0)
 {
 sprintf(header_export,"Stop position:  %d  ",(int)(((float)LevelStopPos[f])/2.55));
-switch(ActionnateStopOn[f])
+switch((int)ActionnateStopOn[f])
 {
 case 0:
 break;
@@ -3586,7 +3586,7 @@ there_is_someone_in_color_preset=1;break;
 if(there_is_someone_in_color_preset==1)
 {
 //titre trichro/quadri
-switch(dock_color_type[t])
+switch((int)dock_color_type[t])
 {
 case 0:
 sprintf(header_export,"Color Preset %d in Trichromy Mode",t+1);
@@ -3599,7 +3599,7 @@ draw_title(page, 50, debut_lignes -(position_ligne1 +(cmptline_pdf*12)),header_e
 cmptline_pdf++;
 ///////
 verification_fin_de_page();
-switch(dock_color_type[t])
+switch((int)dock_color_type[t])
 {
 case 0:
 sprintf(header_export,"Actual Color is: R=%d G=%d B=%d",picker_trichro[t][0],picker_trichro[t][1],picker_trichro[t][2]);

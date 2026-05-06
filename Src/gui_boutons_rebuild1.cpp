@@ -972,13 +972,8 @@ if(mouse_released==0)
 {
 
               mouse_released=1;
-              switch(index_show_main_menu)
-              {
-              case 0:add_a_window(W_MAINMENU);index_show_main_menu=1; break;
-              case 1:substract_a_window(W_MAINMENU);index_show_main_menu=0; break;
-              default:
-              break;
-              }
+              if (!index_show_main_menu) { add_a_window(W_MAINMENU); index_show_main_menu=1; }
+              else { substract_a_window(W_MAINMENU); index_show_main_menu=0; }
 
 }
 break;

@@ -46,3 +46,4 @@ int InitSound();
 int do_logical_fader_niveau_son(int xp, int yp, int numero);
 int do_logical_lecteur_audio(int xp, int yp, int numero);
 int do_logical_fenetre_audio(int xb, int yb);
+int player_toggle_loop(int n);

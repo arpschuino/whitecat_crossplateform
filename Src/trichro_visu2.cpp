@@ -403,7 +403,7 @@ break;
 Rect mytype_of_list(Vec2D((xchroma+260),ychroma-185),Vec2D(70,20));
 mytype_of_list.SetLineWidth(1);
 mytype_of_list.DrawOutline(CouleurLigne);
-switch(show_designer_list)
+switch((int)show_designer_list)
 {
 case 0:
     petitchiffre.Print("NUMERIC",xchroma+270, ychroma-172);

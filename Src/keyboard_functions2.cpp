@@ -96,7 +96,7 @@ int check_channel_minus()
 int vv=0;
 int circ=0;
 int prevcirc=0;
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0: //VIEWS
 for(int v=0;v<nbre_de_vues_circuits; v++)
@@ -192,7 +192,7 @@ int check_channel_plus()
 int vv=0;
 int circ=0;
 int nextcirc=0;
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0: //VIEWS
 for(int v=0;v<nbre_de_vues_circuits; v++)
@@ -291,7 +291,7 @@ int select_channel_minus()
 int vv=0;
 int circ=0;
 int prevcirc=0;
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0: //VIEWS
 for(int v=0;v<nbre_de_vues_circuits; v++)
@@ -382,7 +382,7 @@ int select_channel_plus()
 int vv=0;
 int circ=0;
 int nextcirc=0;
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0: //VIEWS
 for(int v=0;v<nbre_de_vues_circuits; v++)
@@ -617,7 +617,7 @@ if(chlevelis<0){chlevelis=0;}
 
  for (int ci=1;ci<514;ci++)
  {
- switch(index_do_hipass)
+ switch((int)index_do_hipass)
  {
  case 0://normal
  if(Selected_Channel[ci]==1 && index_blind==0)    {bufferSaisie[ci]=chlevelis;}
@@ -706,7 +706,7 @@ if(index_level_attribue==1)//deselection si un niveau a ete attribue
              }
 if(idchannel>0 && idchannel<513)
 {
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0:
 if(check_presence_of_a_channel_in_views(idchannel)==1)
@@ -765,7 +765,7 @@ if(index_type==0)
 idchannel=atol(numeric);
 if(idchannel>0 && idchannel<513)
 {
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0:
 if(check_presence_of_a_channel_in_views(idchannel)==1)
@@ -804,7 +804,7 @@ break;
 int key_up()
 {
 
-switch(index_do_hipass)
+switch((int)index_do_hipass)
 {
 case 0://mode normal
 
@@ -915,7 +915,7 @@ index_level_attribue=1;//pour déselection lors prochain circuit piqué
 
 int key_down()
 {
-switch(index_do_hipass)
+switch((int)index_do_hipass)
 {
 case 0://mode normal
 
@@ -1099,7 +1099,7 @@ int key_thruth()
            previous_ch_selected=last_ch_selected;
            if(idchannel>0 && idchannel<513)
            {
-           switch (ClassicalChannelView)
+           switch ((int)ClassicalChannelView)
            {
            case 0:
            if(check_presence_of_a_channel_in_views(idchannel)==1)
@@ -1321,7 +1321,7 @@ int key_at_zero()
 
 int key_select_inv()
 {
-switch (ClassicalChannelView)
+switch ((int)ClassicalChannelView)
 {
 case 0:
 

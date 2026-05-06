@@ -869,7 +869,7 @@ int do_logical_lfo_fader_functions (int cmptfader, int x, int y,int largeur, int
             index_choose_mode_dkloop=1;break;
           }
         }
-        switch(index_choose_mode_dkloop)
+        switch((int)index_choose_mode_dkloop)
         {
         case 0:
         for(int op=0;op<core_user_define_nb_docks;op++)
@@ -1708,239 +1708,52 @@ switch(DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]])
 case 6://vol the_audio_player
 if(player_ignited[the_audio_player]==1)
 {
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
- player1->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player1->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
- player2->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player2->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
- player3->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player3->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
- player4->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player4->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-}
+player_toggle_loop(the_audio_player);
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
+if (player_is_onloop[the_audio_player])
+    sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+else
+    sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
 
 }
 break;
 case 7://pan
 if(player_ignited[the_audio_player]==1)
 {
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
- player1->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player1->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
- player2->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player2->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
- player3->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player3->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
- player4->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player4->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-}
+player_toggle_loop(the_audio_player);
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
+if (player_is_onloop[the_audio_player])
+    sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+else
+    sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
 
 }
 break;
 case 8://pitch
 if(player_ignited[the_audio_player]==1)
 {
-switch(the_audio_player)
-{
-case 0://PLAYER 1
- switch(player1-> getRepeat())
- {
- case 0:
- player1->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player1->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 1://PLAYER 2
- switch(player2-> getRepeat())
- {
- case 0:
- player2->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player2->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 2://PLAYER 3
- switch(player3-> getRepeat())
- {
- case 0:
- player3->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player3->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-case 3://PLAYER 4
- switch(player4-> getRepeat())
- {
- case 0:
- player4->setRepeat(true);
- player_is_onloop[the_audio_player]=1;
- break;
- case 1:
- player4->setRepeat(false);
- player_is_onloop[the_audio_player]=0;
- break;
- }
-break;
-}
+player_toggle_loop(the_audio_player);
 
-switch(player_is_onloop[the_audio_player])//inversed by action
-{
-case 0:
-sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
-break;
-}
+if (player_is_onloop[the_audio_player])
+    sprintf(string_Last_Order,">> LOOP ON from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
+else
+    sprintf(string_Last_Order,">> LOOP OFF from Fader %d Audio %d",cmptfader+1,the_audio_player+1);
 
 }
 break;
 case 11: //chaser
 chaser_is_in_loop[the_chaser]=toggle(chaser_is_in_loop[the_chaser]);
-switch(chaser_is_in_loop[the_chaser])
-{
-case 0:
-sprintf(string_Last_Order,">> LOOP OFF from Fader %d Chaser %d",cmptfader+1, the_chaser+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> LOOP ON from Fader %d Chaser %d",cmptfader+1, the_chaser+1);
-break;
-}
+if (chaser_is_in_loop[the_chaser])
+    sprintf(string_Last_Order,">> LOOP ON from Fader %d Chaser %d",cmptfader+1, the_chaser+1);
+else
+    sprintf(string_Last_Order,">> LOOP OFF from Fader %d Chaser %d",cmptfader+1, the_chaser+1);
 break;
 case 12: //grid
 grider_autostopmode[the_grid_player]=toggle(grider_autostopmode[the_grid_player]);
-switch(grider_autostopmode[the_grid_player])
-{
-case 0:
-sprintf(string_Last_Order,">> AutoStop OFF from Fader %d Gpl %d",cmptfader+1, the_grid_player+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> AutoStop ON from Fader %d Gpl %d",cmptfader+1, the_grid_player+1);
-break;
-}
+if (grider_autostopmode[the_grid_player])
+    sprintf(string_Last_Order,">> AutoStop ON from Fader %d Gpl %d",cmptfader+1, the_grid_player+1);
+else
+    sprintf(string_Last_Order,">> AutoStop OFF from Fader %d Gpl %d",cmptfader+1, the_grid_player+1);
 break;
 default:
 break;
@@ -1961,15 +1774,10 @@ attribute_midi_solo_affectation(1278+cmptfader,Midi_Faders_Affectation_Mode);
 else
 {
 autolaunch[cmptfader]=toggle( autolaunch[cmptfader] );
-switch(autolaunch[cmptfader])
-{
-case 0:
-sprintf(string_Last_Order,">> AUTOLAUNCH OFF Fader %d",cmptfader+1);
-break;
-case 1:
-sprintf(string_Last_Order,">> AUTOLAUNCH ON Fader %d",cmptfader+1);
-break;
-}
+if (autolaunch[cmptfader])
+    sprintf(string_Last_Order,">> AUTOLAUNCH ON Fader %d",cmptfader+1);
+else
+    sprintf(string_Last_Order,">> AUTOLAUNCH OFF Fader %d",cmptfader+1);
 }
 
 mouse_released=1;

@@ -54,7 +54,7 @@ int entetes_confirmation()
    }
    else if(numeric_postext==0)
    {
-   switch(index_blind)
+   switch((int)index_blind)
    {
    case 0:
    mem_to_delete=position_onstage;
@@ -143,7 +143,7 @@ int entetes_confirmation()
 
 
 
- switch(index_blind)
+ switch((int)index_blind)
  {
  case 0:
       mem_to_create=position_onstage;
@@ -416,7 +416,7 @@ else if( index_do_banger_membeforeone==1)
 
   else if(index_do_wizard_ch==1)
  {
- switch(wizard_amplitude_is_global)
+ switch((int)wizard_amplitude_is_global)
  {
  case 0:
  sprintf(string_confirmation,"Do Wizard CH from Mem %d.%d to Mem %d.%d ?",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
@@ -429,7 +429,7 @@ else if( index_do_banger_membeforeone==1)
 
 else if(index_do_wizard_mem==1)
 {
- switch(wizard_amplitude_is_global)
+ switch((int)wizard_amplitude_is_global)
  {
  case 0:
  sprintf(string_confirmation,"Do Wizard MEM from Mem %d.%d to Mem %d.%d ?",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
@@ -446,7 +446,7 @@ sprintf(string_confirmation,"Reload from disk ALL memories ?");
 
 else if(index_do_record_direct_ch==1)//direct channel
 {
-switch( multiple_direct_chan)
+switch((int)multiple_direct_chan)
 {
 case 0:
  sprintf(string_confirmation,"Affect as Direct Channel to Fader %d dock %d ?",fader_selected_for_record+1,dock_selected_for_record+1);
@@ -547,7 +547,7 @@ sprintf(string_confirmation,"Clear in Grid %d Steps %d to %d?",grid_to_clear+1,s
 
 else if(index_for_copy_grid==1)
 {
-switch(index_grid_tostep_or_not)//mode un pas ou mode serie de pas
+switch((int)index_grid_tostep_or_not)//mode un pas ou mode serie de pas
 {
 case 0:
 sprintf(string_confirmation,"Copy Grid %d Step %d in Grid %d Step %d?",grid_to_clear+1,step_grid_to_clear+1 , destination_grid_for_copy+1,destination_step_for_copy+1);
@@ -661,7 +661,7 @@ else if(index_ask_build_view==1)
 
 int nummem=(int)(atof(numeric)*10);
 
-switch(channel_view_mode_builder[channel_view_is])//solo ou all
+switch((int)channel_view_mode_builder[channel_view_is])//solo ou all
 {
 case 0:
       // 1 mem // 2 fader
@@ -752,7 +752,7 @@ int operations_confirmation()
    }
    else if(numeric_postext==0)
    {
-   switch(index_blind)
+   switch((int)index_blind)
    {
    case 0:
    mem_to_delete=position_onstage;
@@ -823,7 +823,7 @@ int operations_confirmation()
    else if(index_do_overecord_mem_plus_faders==1)//CTRL F3
    {
     int mem_to_overrec=0;
-    switch(index_blind)
+    switch((int)index_blind)
     {
     case 0:
       mem_to_overrec=position_onstage;
@@ -1311,7 +1311,7 @@ clear_part_of_a_grid(grid_to_clear,step_grid_to_clear , index_for_grid_stepto);
 
 else if(index_for_copy_grid==1)
 {
-switch(index_grid_tostep_or_not)
+switch((int)index_grid_tostep_or_not)
 {
 case 0:
 copy_step_to_step(grid_to_clear,step_grid_to_clear,destination_grid_for_copy,destination_step_for_copy);
@@ -1438,7 +1438,7 @@ else if(index_ask_build_view==1)
 
 int nummem=(int)(atof(numeric)*10);
 
-switch(channel_view_mode_builder[channel_view_is])//all ou solo
+switch((int)channel_view_mode_builder[channel_view_is])//all ou solo
 {
 case 0:
       // 1 mem // 2 fader

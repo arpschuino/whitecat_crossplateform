@@ -524,7 +524,7 @@ numeric_postext=0;
 if(last_ch_selected>0 && last_ch_selected<513)
 {
 ClearDock(fad,dk);
-switch(multiple_direct_chan)
+switch((int)multiple_direct_chan)
 {
 case 0:
 DockTypeIs[fad][dk]=10;//direct channel mode

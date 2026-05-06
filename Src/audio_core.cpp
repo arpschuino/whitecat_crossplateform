@@ -2060,3 +2060,17 @@ int player_toggle(int the_audio_player)
     }
     return(0);
 }
+
+int player_toggle_loop(int n)
+{
+    audiere::OutputStreamPtr players[4] = {player1, player2, player3, player4};
+    if (n < 0 || n > 3 || !players[n]) return 0;
+    if (players[n]->getRepeat()) {
+        players[n]->setRepeat(false);
+        player_is_onloop[n] = 0;
+    } else {
+        players[n]->setRepeat(true);
+        player_is_onloop[n] = 1;
+    }
+    return 0;
+}
