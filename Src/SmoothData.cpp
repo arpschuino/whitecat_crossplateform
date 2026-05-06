@@ -1,6 +1,5 @@
 #include <SmoothData.h>
-
-const int max_damper_mode=2;
+// max_damper_mode defini dans SmoothData.h
 
 SmoothData::SmoothData()
 {

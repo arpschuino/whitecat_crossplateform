@@ -54,7 +54,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include <vector>
 
-#include <SmoothData.cpp>
+#include "SmoothData.h"  // classe compilee separement dans SmoothData.cpp
 
 #include "midi_backend.h"
 // création du damper sur les faders
@@ -146,7 +146,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <channels_9_core.cpp>
 #include <wizard.cpp>
-#include <grand_master.cpp>
+#include "grand_master.h"
 #include <faders_core_24.cpp>
 
 #include <audio_visu.cpp>

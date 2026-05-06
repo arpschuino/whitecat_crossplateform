@@ -1,12 +1,20 @@
 #pragma once
 
-////SOUND/////////////////////////////////////////////////////////////////////
-extern AudioDevicePtr device;
+// Forward declarations pour autonomie (eviter d'inclure audio_backend.h complet)
+struct WCAudioDevice;
+struct WCAudioPlayer;
+namespace audiere {
+typedef WCAudioDevice *AudioDevicePtr;
+typedef WCAudioPlayer *OutputStreamPtr;
+}
 
-extern OutputStreamPtr player1;
-extern OutputStreamPtr player2;
-extern OutputStreamPtr player3;
-extern OutputStreamPtr player4;
+////SOUND/////////////////////////////////////////////////////////////////////
+extern audiere::AudioDevicePtr device;
+
+extern audiere::OutputStreamPtr player1;
+extern audiere::OutputStreamPtr player2;
+extern audiere::OutputStreamPtr player3;
+extern audiere::OutputStreamPtr player4;
 
 extern char audio_device_name[256];
 extern char list_audio_device[16][256];

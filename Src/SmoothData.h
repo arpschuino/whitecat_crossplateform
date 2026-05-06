@@ -12,10 +12,10 @@
 class SmoothData {
   public:
     SmoothData ();
-    void set_value(int value);//pour passer une donnée à damperiser, venant de la souris, du midi ou arduino ou icat
-    void damper();//traitement de la donnée en damper
-    void set_target_val(int val);//specifies la valeur d'arrivée
-    void fix_all_damper_state_value(int val);//raccorde la valeur si elle est manipulée hors mode damper
+    void set_value(int value);//pour passer une donnï¿½e ï¿½ damperiser, venant de la souris, du midi ou arduino ou icat
+    void damper();//traitement de la donnï¿½e en damper
+    void set_target_val(int val);//specifies la valeur d'arrivï¿½e
+    void fix_all_damper_state_value(int val);//raccorde la valeur si elle est manipulï¿½e hors mode damper
     //damper specifique
     void set_damper_decay(float value);
     void set_damper_dt(float value);
@@ -24,8 +24,8 @@ class SmoothData {
 
 
     int getdmxvalue();//renvoi de la valeur en dmx raw_data
-    int getdmxvalue_dampered();//0 à 255
-    float getvalue_dampered();// 0.0 à 1.0
+    int getdmxvalue_dampered();//0 ï¿½ 255
+    float getvalue_dampered();// 0.0 ï¿½ 1.0
     float getdecay();
     float getdt();
     int getdampermode();
@@ -33,10 +33,10 @@ class SmoothData {
 
   private:
 
-    int _data_val;//valeur du capteur après process
+    int _data_val;//valeur du capteur aprï¿½s process
     //damper
     bool _damper_do_calculation;
-    bool _damper_blocking_mode;//sortie de la main bloque la donnée au niveau
+    bool _damper_blocking_mode;//sortie de la main bloque la donnï¿½e au niveau
     int _damper_mode;//0 default , 1 montee plus rapide, descente plus lente
     int _dampered_data;
     float _damper_decay_constant;
@@ -48,5 +48,7 @@ class SmoothData {
     float _damper_accel;
 
 };
+
+const int max_damper_mode = 2;
 
 #endif

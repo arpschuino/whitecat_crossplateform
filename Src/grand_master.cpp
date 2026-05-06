@@ -43,6 +43,14 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+int attribute_midi_solo_affectation(int faderis, int modeaction);
+int raccrochage_midi_logical_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+
 int do_logical_grand_master(int GMX, int GMY, int larg) {
 
     if (mouse_x > GMX && mouse_x < GMX + larg && mouse_y >= GMY - 20 && mouse_y <= GMY + 275) {
