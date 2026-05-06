@@ -129,9 +129,9 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <gui_boutons_rebuild1.cpp>
 #include "grider_core.h"
-#include <wizard_operations.cpp>
+#include "wizard_operations.h"
 
-#include <faders_operations.cpp>
+#include "faders_operations.h"
 #include <chasers_core_5.cpp>
 
 #include "plot_core9.cpp"

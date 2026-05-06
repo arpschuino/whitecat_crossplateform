@@ -102,6 +102,8 @@ echo [build] Compilation en cours...
  %SRC%\grider_visu.cpp ^
  %SRC%\gestionaire_fenetres2.cpp ^
  %SRC%\saves_export_import.cpp ^
+ %SRC%\faders_operations.cpp ^
+ %SRC%\wizard_operations.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^
