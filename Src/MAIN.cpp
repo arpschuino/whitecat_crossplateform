@@ -128,7 +128,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <gestionaire_fenetres2.cpp>
 
 #include <gui_boutons_rebuild1.cpp>
-#include <grider_core.cpp>
+#include "grider_core.h"
 #include <wizard_operations.cpp>
 
 #include <faders_operations.cpp>
@@ -180,7 +180,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <network_MAC_adress_3.cpp>
 #include <midi_launchpad.cpp>
 
-#include <grider_visu.cpp>
+#include "grider_visu.h"
 #include <sequentiel_7_visu.cpp>
 #include <Draw3.cpp>
 #include <echo3.cpp>

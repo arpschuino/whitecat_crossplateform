@@ -41,6 +41,17 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+int previous_button_view(int xp, int yp, bool state);
+int next_button_view(int xp, int yp, bool state);
+int play_button_view(int xp, int yp, bool state);
+int seek_button_view(int xp, int yp, bool state);
+int playstop_button_view(int xp, int yp, bool state);
+
 int TheStepBox(int xb,int yb, int num_grid_player)
 {
 

@@ -41,6 +41,13 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "grider_calcul.h"
+#include "core.h"
+
 int do_logical_TheStepBox(int xb,int yb, int num_grid_player)
 {
 
