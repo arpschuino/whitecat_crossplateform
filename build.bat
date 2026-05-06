@@ -104,6 +104,8 @@ echo [build] Compilation en cours...
  %SRC%\saves_export_import.cpp ^
  %SRC%\faders_operations.cpp ^
  %SRC%\wizard_operations.cpp ^
+ %SRC%\gui_boutons_rebuild1.cpp ^
+ %SRC%\network_artnet_3.cpp ^
  %RTMIDI%\RtMidi.cpp ^
  -o "%OUT%\Whitecat_Crossplatform.exe" ^
  -L%SDL2%\lib ^

@@ -1,0 +1,33 @@
+#pragma once
+
+int bouton_on_view(int xp, int yp, bool state);
+void bouton_text_view(int xp, int yp, const std::string dex, bool state);
+int rotatif(int xr, int yr, int Rrayon, float valeur);
+int play_button_view(int xp, int yp, bool state);
+int seek_button_view(int xp, int yp, bool state);
+int loop_button_view(int xp, int yp, bool state);
+int playstop_button_view(int xp, int yp, bool state);
+int autolaunch_button_view(int xp, int yp, bool state);
+int next_button_view(int xp, int yp, bool state);
+int previous_button_view(int xp, int yp, bool state);
+int case_moins_view(int xp, int yp, bool state);
+int case_plus_view(int xp, int yp, bool state);
+void toggling_bar_view(int xp, int yp, bool state, const std::string titre);
+int pulse_bar_view(int xp, int yp, char *titre);
+int raccrochage_midi_logical_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical_dmx_inverted(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_vertical(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_vertical(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_horizontal_audio(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_horizontal_audio(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_horizontal(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_horizontal(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_horizontal_little(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_horizontal_little(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_logical_circulaire(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int raccrochage_midi_visuel_circulaire(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
+int midi_send_faders_button_logical(int Xb, int Yb, int id_window);
+int midi_send_faders_button_visuel(int Xb, int Yb);
+void command_button_view(int xcom, int ycom, int isstate, const std::string desc, const std::string shortcut, int IDmidi);
+void command_button_logical(int xcom, int ycom, int isstate, const std::string desc, const std::string raccourci, int IDmidi, int thecommand);

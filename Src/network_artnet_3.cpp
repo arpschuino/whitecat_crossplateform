@@ -41,6 +41,11 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+
 #include<winsock2.h>
 //#pragma comment(lib,"ws2_32.lib")
 

@@ -127,7 +127,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <saves_menu_8.cpp>
 #include "gestionaire_fenetres2.h"
 
-#include <gui_boutons_rebuild1.cpp>
+#include "gui_boutons_rebuild1.h"
 #include "grider_core.h"
 #include "wizard_operations.h"
 
@@ -140,7 +140,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <audio_core.cpp>
 
 #include <save_show_13.cpp>
-#include <network_artnet_3.cpp> //artnet functions
+#include "network_artnet_3.h" //artnet functions
 
 #include <logicals_intres.cpp>
 

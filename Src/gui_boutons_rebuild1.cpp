@@ -41,6 +41,14 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#include "gestionaire_fenetres2.h"
+#define PI 3.14116
+
 int bouton_on_view(int xp, int yp, bool state)
 {
 Rect On(Vec2D(xp,yp),Vec2D(20,20));
