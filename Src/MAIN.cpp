@@ -151,7 +151,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <audio_visu.cpp>
 
-#include <arduino_device_core.cpp>
+#include "arduino_device_core.h"
 #include <banger_core_8.cpp>
 #include <banger_visu_8.cpp>
 #include <Call_everybody_5.cpp>
@@ -177,7 +177,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <list_proj_visu.cpp> //liste projecteurs
 
 #include <sequentiel_6_core.cpp>
-#include <network_MAC_adress_3.cpp>
+#include "network_MAC_adress_3.h"
 #include <midi_launchpad.cpp>
 
 #include "grider_visu.h"

@@ -41,6 +41,13 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#include "network_artnet_3.h"
+
 int Box_IP_routing ( int macx, int macy)
 {
 

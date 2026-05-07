@@ -12,6 +12,15 @@ set SRC=%ROOT%\Src
 set OUT=%ROOT%\whitecatbuild\build\white_cat_for_mingw
 set RTMIDI=%ROOT%\whitecatlib\lib\sources_of_libs\rtmidi
 set SDL2=%WC%\lib\windows\sdl2
+set OPENCV=%WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib
+
+:: Variables avec forward slashes pour le response file (g++ traite \ comme escape)
+set SRC_F=%SRC:\=/%
+set WC_F=%WC:\=/%
+set OUT_F=%OUT:\=/%
+set RTMIDI_F=%RTMIDI:\=/%
+set SDL2_F=%SDL2:\=/%
+set OPENCV_F=%OPENCV:\=/%
 
 :: ============================================================
 :: Prepend tous les emplacements MinGW connus en une seule ligne
@@ -31,7 +40,7 @@ if not defined GCC where g++ >nul 2>&1 && set GCC=g++
 if not defined GCC goto :no_gcc
 echo [build] Compilateur : %GCC%
 
-:: windres est dans le même dossier que g++
+:: windres est dans le meme dossier que g++
 set WINDRES=%GCC:g++.exe=windres.exe%
 if not exist "%WINDRES%" set WINDRES=windres
 echo [build] windres : %WINDRES%
@@ -53,94 +62,101 @@ set RES_OBJ=
 if errorlevel 1 (
     echo [AVERTISSEMENT] windres a echoue, icone non integree
 ) else (
-    set RES_OBJ="%OUT%\whitecat_res.o"
+    set RES_OBJ=%OUT%\whitecat_res.o
     echo [build] Ressources OK
 )
 
 echo [build] Compilation en cours...
 
-"%GCC%" -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g ^
- -I%SDL2%\include ^
- -I%WC%\lib\windows\Cserial ^
- -I%WC%\lib\windows\dashard ^
- -I%WC%\lib\windows\enttec_pro ^
- -I%WC%\lib\windows\odmxusb_terry ^
- -I%WC%\lib\windows\compiledlibsforGCC4_8_1\include ^
- -I%SRC% ^
- -I%RTMIDI% ^
- %SRC%\MAIN.cpp ^
- %SRC%\saveload.cpp ^
- %SRC%\globals.cpp ^
- %SRC%\display.cpp ^
- %SRC%\channels.cpp ^
- %SRC%\video.cpp ^
- %SRC%\ui_indexes.cpp ^
- %SRC%\patch.cpp ^
- %SRC%\audio.cpp ^
- %SRC%\dmx.cpp ^
- %SRC%\midi.cpp ^
- %SRC%\network.cpp ^
- %SRC%\chasers.cpp ^
- %SRC%\faders.cpp ^
- %SRC%\sequenciel.cpp ^
- %SRC%\theme.cpp ^
- %SRC%\banger.cpp ^
- %SRC%\arduino.cpp ^
- %SRC%\grider.cpp ^
- %SRC%\plot.cpp ^
- %SRC%\draw.cpp ^
- %SRC%\echo.cpp ^
- %SRC%\trichro.cpp ^
- %SRC%\schwz.cpp ^
- %SRC%\core.cpp ^
- %SRC%\midi_CORE.cpp ^
- %SRC%\patch_splines.cpp ^
- %SRC%\SmoothData.cpp ^
- %SRC%\grand_master.cpp ^
- %SRC%\grider_calcul.cpp ^
- %SRC%\grider_core.cpp ^
- %SRC%\grider_visu.cpp ^
- %SRC%\gestionaire_fenetres2.cpp ^
- %SRC%\saves_export_import.cpp ^
- %SRC%\faders_operations.cpp ^
- %SRC%\wizard_operations.cpp ^
- %SRC%\gui_boutons_rebuild1.cpp ^
- %SRC%\network_artnet_3.cpp ^
- %RTMIDI%\RtMidi.cpp ^
- -o "%OUT%\Whitecat_Crossplatform.exe" ^
- -L%SDL2%\lib ^
- -L%WC%\lib\windows\enttec_pro ^
- -L%WC%\lib\windows\odmxusb_terry ^
- -L%WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib ^
- -L%WC%\lib\windows\compiledlibsforGCC4_8_1\lib ^
- -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer ^
- -luser32 -lgdi32 -lwsock32 -liphlpapi ^
- -lkernel32 -lcomctl32 -lwinmm -lole32 -lopengl32 ^
- %WC%\lib\windows\odmxusb_terry\FTD2XX.lib ^
- %WC%\lib\windows\enttec_pro\ftd2xx.lib ^
- -lhpdf ^
- -lz ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_calib3d248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_contrib248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_core248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_features2d248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_flann248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_gpu248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_highgui248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_imgproc248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_legacy248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_ml248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_nonfree248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_objdetect248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_ocl248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_photo248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_stitching248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_superres248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_ts248.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_video248.dll.a ^
- %WC%\lib\windows\compiledlibsforGCC4_8_1\x86\mingw\lib\libopencv_videostab248.dll.a ^
- %RES_OBJ% ^
- -mwindows 2>&1
+:: Response file pour contourner la limite de 8191 chars de CMD
+set RSP=%OUT%\wc_build.rsp
+
+echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g > "%RSP%"
+echo -I%SDL2_F%/include >> "%RSP%"
+echo -I%WC_F%/lib/windows/Cserial >> "%RSP%"
+echo -I%WC_F%/lib/windows/dashard >> "%RSP%"
+echo -I%WC_F%/lib/windows/enttec_pro >> "%RSP%"
+echo -I%WC_F%/lib/windows/odmxusb_terry >> "%RSP%"
+echo -I%WC_F%/lib/windows/compiledlibsforGCC4_8_1/include >> "%RSP%"
+echo -I%SRC_F% >> "%RSP%"
+echo -I%RTMIDI_F% >> "%RSP%"
+echo %SRC_F%/MAIN.cpp >> "%RSP%"
+echo %SRC_F%/saveload.cpp >> "%RSP%"
+echo %SRC_F%/globals.cpp >> "%RSP%"
+echo %SRC_F%/display.cpp >> "%RSP%"
+echo %SRC_F%/channels.cpp >> "%RSP%"
+echo %SRC_F%/video.cpp >> "%RSP%"
+echo %SRC_F%/ui_indexes.cpp >> "%RSP%"
+echo %SRC_F%/patch.cpp >> "%RSP%"
+echo %SRC_F%/audio.cpp >> "%RSP%"
+echo %SRC_F%/dmx.cpp >> "%RSP%"
+echo %SRC_F%/midi.cpp >> "%RSP%"
+echo %SRC_F%/network.cpp >> "%RSP%"
+echo %SRC_F%/chasers.cpp >> "%RSP%"
+echo %SRC_F%/faders.cpp >> "%RSP%"
+echo %SRC_F%/sequenciel.cpp >> "%RSP%"
+echo %SRC_F%/theme.cpp >> "%RSP%"
+echo %SRC_F%/banger.cpp >> "%RSP%"
+echo %SRC_F%/arduino.cpp >> "%RSP%"
+echo %SRC_F%/grider.cpp >> "%RSP%"
+echo %SRC_F%/plot.cpp >> "%RSP%"
+echo %SRC_F%/draw.cpp >> "%RSP%"
+echo %SRC_F%/echo.cpp >> "%RSP%"
+echo %SRC_F%/trichro.cpp >> "%RSP%"
+echo %SRC_F%/schwz.cpp >> "%RSP%"
+echo %SRC_F%/core.cpp >> "%RSP%"
+echo %SRC_F%/midi_CORE.cpp >> "%RSP%"
+echo %SRC_F%/patch_splines.cpp >> "%RSP%"
+echo %SRC_F%/SmoothData.cpp >> "%RSP%"
+echo %SRC_F%/grand_master.cpp >> "%RSP%"
+echo %SRC_F%/grider_calcul.cpp >> "%RSP%"
+echo %SRC_F%/grider_core.cpp >> "%RSP%"
+echo %SRC_F%/grider_visu.cpp >> "%RSP%"
+echo %SRC_F%/gestionaire_fenetres2.cpp >> "%RSP%"
+echo %SRC_F%/saves_export_import.cpp >> "%RSP%"
+echo %SRC_F%/faders_operations.cpp >> "%RSP%"
+echo %SRC_F%/wizard_operations.cpp >> "%RSP%"
+echo %SRC_F%/gui_boutons_rebuild1.cpp >> "%RSP%"
+echo %SRC_F%/network_artnet_3.cpp >> "%RSP%"
+echo %SRC_F%/arduino_device_core.cpp >> "%RSP%"
+echo %SRC_F%/network_MAC_adress_3.cpp >> "%RSP%"
+echo %RTMIDI_F%/RtMidi.cpp >> "%RSP%"
+echo -o %OUT_F%/Whitecat_Crossplatform.exe >> "%RSP%"
+echo -L%SDL2_F%/lib >> "%RSP%"
+echo -L%WC_F%/lib/windows/enttec_pro >> "%RSP%"
+echo -L%WC_F%/lib/windows/odmxusb_terry >> "%RSP%"
+echo -L%WC_F%/lib/windows/compiledlibsforGCC4_8_1/x86/mingw/lib >> "%RSP%"
+echo -L%WC_F%/lib/windows/compiledlibsforGCC4_8_1/lib >> "%RSP%"
+echo -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer >> "%RSP%"
+echo -luser32 -lgdi32 -lwsock32 -liphlpapi >> "%RSP%"
+echo -lkernel32 -lcomctl32 -lwinmm -lole32 -lopengl32 >> "%RSP%"
+echo %WC_F%/lib/windows/odmxusb_terry/FTD2XX.lib >> "%RSP%"
+echo %WC_F%/lib/windows/enttec_pro/ftd2xx.lib >> "%RSP%"
+echo -lhpdf >> "%RSP%"
+echo -lz >> "%RSP%"
+echo %OPENCV_F%/libopencv_calib3d248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_contrib248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_core248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_features2d248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_flann248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_gpu248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_highgui248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_imgproc248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_legacy248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_ml248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_nonfree248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_objdetect248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_ocl248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_photo248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_stitching248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_superres248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_ts248.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_video248.dll.a >> "%RSP%"
+echo %OPENCV_F%/libopencv_videostab248.dll.a >> "%RSP%"
+if defined RES_OBJ echo %RES_OBJ:\=/% >> "%RSP%"
+echo -mwindows >> "%RSP%"
+
+"%GCC%" @"%RSP%" 2>&1
 
 if %ERRORLEVEL%==0 (
     echo.
