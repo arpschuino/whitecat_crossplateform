@@ -608,9 +608,11 @@ if(mouse_x>xchroma+260 && mouse_x<xchroma+330 && mouse_y>ychroma-185 && mouse_y<
 show_designer_list=toggle(show_designer_list);
 if (!show_designer_list)
 {
+load_gel_list_numerical();
 }
 else
 {
+load_gel_list_designer();
 }
 mouse_released=1;
 }
