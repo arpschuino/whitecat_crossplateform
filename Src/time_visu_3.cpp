@@ -36,11 +36,17 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   GUI fonctions pour la fenêtre time
+*   GUI fonctions pour la fenï¿½tre time
 *
 *   GUI fonctions for the time window
 *
 **/
+
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
 
 int print_time_reperes(int the_time_wheel_datatype)//affichage des chiffres sur le tableau de bord
 {

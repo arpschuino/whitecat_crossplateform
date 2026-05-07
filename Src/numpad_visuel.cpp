@@ -41,6 +41,13 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#define PIknob 3.14159265358979323846264338327950288419716939937510
+
 int rafraichissement_padwheel()
 {
 angle_snap_pad=(((PIknob*2)+angle_correction_wheel) / 128)*midi_levels[664];

@@ -159,11 +159,11 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <patch_core.cpp>
 #include <patch_visu.cpp>
 #include <time_core_3.cpp>
-#include <time_visu_3.cpp>
+#include "time_visu_3.h"
 #include <trichro_core2.cpp>
 #include <trichro_visu2.cpp>
 #include <numpad_core.cpp>
-#include <numpad_visuel.cpp>
+#include "numpad_visuel.h"
 #include <keyboard_functions2.cpp>
 #include <keyboard_routines2.cpp>
 #include <minifaders_core.cpp>
