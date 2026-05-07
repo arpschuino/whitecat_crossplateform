@@ -952,7 +952,7 @@ int main(int /*argc*/, char ** /*argv*/) {
     idf++;
     On_Open_name_of_directory();
     save_load_print_to_screen("Loading Gels List");
-    // load_gel_list_numerical();
+    load_gel_list_numerical();
     idf++;
     Canvas::Fill(CouleurFond);
     Canvas::Refresh();
