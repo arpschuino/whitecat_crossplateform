@@ -156,8 +156,8 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <banger_visu_8.cpp>
 #include <Call_everybody_5.cpp>
 
-#include <patch_core.cpp>
-#include <patch_visu.cpp>
+#include "patch_core.h"
+#include "patch_visu.h"
 #include "time_core.h"
 #include "time_visu_3.h"
 #include <trichro_core2.cpp>

@@ -41,6 +41,13 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#include "patch_splines.h"
+
 int do_curve_affectation()
 {
 for(int k=0;k<513;k++)
