@@ -42,6 +42,14 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#include "gui_boutons_rebuild1.h"
+#define PI 3.14116
+
 int Interface_Trichromie(int xchroma, int ychroma, int rayon, int largeurchroma)
 {
 

@@ -41,6 +41,13 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#define PIknob 3.14159265358979323846264338327950288419716939937510
+
 int do_wheel_level_job(int levelwheelis)
 {
 if (!wheellevel_absolutemode)
