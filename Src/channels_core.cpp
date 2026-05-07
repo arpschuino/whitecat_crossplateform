@@ -41,9 +41,19 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+#include "gui_boutons_rebuild1.h"
+template <class T> const T &Tmax(const T &a, const T &b) {
+    return (b < a) ? a : b;
+}
 int key_up();
 int key_down();
-#include <OpenLayer.hpp>
+int add_channel_selection_to_layers_plot();
+int substract_channel_selection_to_layers_plot();
 
 int snap_channels_selection_array()//pour saisie continue des circuits, au click button
 {

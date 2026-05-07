@@ -144,7 +144,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <logicals_intres.cpp>
 
-#include <channels_9_core.cpp>
+#include "channels_core.h"
 #include <wizard.cpp>
 #include "grand_master.h"
 #include <faders_core_24.cpp>
@@ -158,7 +158,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <patch_core.cpp>
 #include <patch_visu.cpp>
-#include <time_core_3.cpp>
+#include "time_core.h"
 #include "time_visu_3.h"
 #include <trichro_core2.cpp>
 #include "trichro_visu2.h"

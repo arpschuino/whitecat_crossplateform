@@ -43,6 +43,14 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+int Chrono_Reset();
+int set_chaser_tempo_unit(int the_chas);
+
 int Chrono_PlayPause()
 {
 index_play_chrono=toggle(index_play_chrono);
