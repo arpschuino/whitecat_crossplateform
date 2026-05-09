@@ -5047,6 +5047,7 @@ else
 if(mouse_released==0)
 {
 Bang_event(index_banger_selected,lp);
+do_light_bang_solo[lp]=1;
 mouse_released=1;
 }
 }
