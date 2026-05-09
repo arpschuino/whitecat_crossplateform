@@ -270,7 +270,7 @@ Circle Bangsolo(Vec2D(xb+450,yb+110+(lp*30)),10);
 
 if(event_sended[index_banger_selected][lp]==1 &&  bang_is_sended[index_banger_selected]==0)
 {
-Bangsolo.Draw(CouleurSurvol);
+Bangsolo.Draw(CouleurFader.WithAlpha(alpha_blinker));
 }
 if(do_light_bang_solo[lp]==1){Bangsolo.Draw(CouleurFader);do_light_bang_solo[lp]=0;}
 Bangsolo.DrawOutline(CouleurLigne);

@@ -2,6 +2,10 @@
 
 ## Bugs / Fonctionnalités incomplètes
 
+- [ ] **Banger — les 6 gros ronds ne flashent pas en rouge**
+  Les 6 gros cercles de la fenêtre banger devraient flasher en rouge quand ils sont activés, comme le fait le bouton "bang it".
+  Fichiers probables : `Src/banger_visu_8.cpp`, `Src/banger_core_8.cpp`
+
 - [x] **Trichromie — bouton NUMERIC/DESIGNER sans effet**
   Origine : code original Christoph, jamais implémenté.
   `show_designer_list` est togglé mais la liste s'affiche toujours dans l'ordre numérique.
