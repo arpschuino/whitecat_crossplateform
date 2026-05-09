@@ -25,6 +25,12 @@ WWWWWWWW           C  WWWWWWWW   |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
 
+#define WC_SKIP_GLOBALS
+#include "graphics_backend.h"
+using namespace ol;
+#include "whitecat.h"
+#include "core.h"
+
 /**
 
 * \file list_proj_visu.cpp

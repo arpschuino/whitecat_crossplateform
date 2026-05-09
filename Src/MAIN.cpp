@@ -174,11 +174,11 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <video_tracking_visu.cpp>
 
 #include <list_proj_core.cpp>
-#include <list_proj_visu.cpp> //liste projecteurs
+#include "list_proj_visu.h" //liste projecteurs
 
 #include <sequentiel_6_core.cpp>
 #include "network_MAC_adress_3.h"
-#include <midi_launchpad.cpp>
+#include "midi_launchpad.h"
 
 #include "grider_visu.h"
 #include <sequentiel_7_visu.cpp>
