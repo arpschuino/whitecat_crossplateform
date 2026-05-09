@@ -35,7 +35,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   GUI fonctions pour la fenêtre de tracking video
+*   GUI fonctions pour la fenï¿½tre de tracking video
 *
 *   GUI fonctions for the tracking video window
 *
@@ -160,7 +160,7 @@ return(0);
 
 int tracking_print_to_screen()
 {
-//cadre image définit pixel blanc : ne pas supprimer
+//cadre image dï¿½finit pixel blanc : ne pas supprimer
 Rect backim(Vec2D(videoX+15,videoY+61),Vec2D(video_size_x,video_size_y));
 backim.DrawOutline(CouleurLigne);
 //AFFICHAGE CAM et calculs///////////////////////////////////////////////////////////
@@ -198,7 +198,7 @@ Point::FinishFastDrawing();
 int Interface_video_window(int WindowVideoX,int WindowVideoY)
 {
 //background window
-if(video_size_x>320 && video_size_y>240)//taille de l image video grabée
+if(video_size_x>320 && video_size_y>240)//taille de l image video grabï¿½e
 {
 frame_video_x=video_size_x; frame_video_y=video_size_y;
 }
