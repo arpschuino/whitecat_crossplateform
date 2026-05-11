@@ -124,7 +124,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <saves_export_pdf2.cpp>
 #include "saves_export_import.h"
-#include <saves_menu_8.cpp>
+#include "saves_menu.h"
 #include "gestionaire_fenetres2.h"
 
 #include "gui_boutons_rebuild1.h"
@@ -182,14 +182,14 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include "grider_visu.h"
 #include <sequentiel_7_visu.cpp>
-#include <Draw3.cpp>
-#include <echo3.cpp>
+#include "Draw3.h"
+#include "echo3.h"
 
 #include <procs_visuels_rebuild1.cpp>
 #include <dmx_functions_13.cpp>
 
 #include <midi_13.cpp>
-#include <CFG_screen.cpp>
+#include "CFG_screen.h"
 
 #include <arduino_core_6_UNO.cpp>
 #include <arduino_6_UNO.cpp>
