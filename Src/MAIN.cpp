@@ -304,7 +304,7 @@ END_OF_FUNCTION(ticker);
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <CFG_config_panel_8.cpp>
+#include "CFG_config_panel.h"
 
 #include "chasers_visu.h"
 

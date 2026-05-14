@@ -43,6 +43,21 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+#include "dmx_functions.h"
+#include "network_artnet_3.h"
+#include "network_MAC_adress_3.h"
+#include "save_show.h"
+#include "CFG_screen.h"
+#include "arduino_visu.h"
+#include "video_tracking_core.h"
+#include "CFG_config_panel.h"
+int do_midi_config(int cfg_midiX, int cfg_midiY, int largeurCFGmidi, int hauteurCFGmidi);
+extern int ticker_rate;
+extern int ticker_dmxIn_rate;
+void ticker();
+void ticker_dmxIn();
+
 int init_kbd_custom() {
     for (int i = 0; i < 256; i++) {
         kbd_custom[i][0] = i;

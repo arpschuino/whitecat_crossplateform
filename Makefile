@@ -118,6 +118,7 @@ SRC_CPPS := \
     $(SRC)/faders_core.cpp \
     $(SRC)/arduino_core.cpp \
     $(SRC)/arduino_visu.cpp \
+    $(SRC)/CFG_config_panel.cpp \
     $(SRC)/faders_operations.cpp \
     $(SRC)/minifaders_visu.cpp \
     $(SRC)/minifaders_core.cpp \
