@@ -1,4 +1,8 @@
 #pragma once
+#include <vector>
+#include "SmoothData.h"
+
+extern std::vector<SmoothData> Fader_dampered;
 
 int reset_numeric_entry();
 int return_lowest(int data1, int data2);

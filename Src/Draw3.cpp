@@ -41,6 +41,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
 
 int snap_state_of_draw_grid(int pr)
 {

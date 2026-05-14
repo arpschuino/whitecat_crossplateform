@@ -42,7 +42,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-
+// keypressed()/readkey() utilisent wc_key_queue (static dans graphics_backend.h)
+// → ce fichier doit rester inclus dans la TU de MAIN.cpp (même queue que l'event loop)
 
 int recall_config_page()
 {

@@ -46,6 +46,8 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "opencv2/cv/cv.h"
 #include "opencv2/highui/highgui.h"
 */
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
 CvCapture* g_capture = NULL;
 IplImage* frame;
 IplImage* affichage;

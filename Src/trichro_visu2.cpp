@@ -42,11 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
-#include "core.h"
+#include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
 #define PI 3.14116
 
@@ -129,7 +125,7 @@ TrichroBackground.DrawOutline(CouleurLigne);
 }
 
 
-Circle MasqueNoir(Vec2D(xchroma,ychroma),rayon-16);
+Circle MasqueNoir(Vec2D(xchroma,ychroma),rayon-17);
 MasqueNoir.Draw(CouleurFond);
 
 // Triangle HSV interne — Gouraud SDL2 (remplace triangle3d_f, qui était un stub no-op)

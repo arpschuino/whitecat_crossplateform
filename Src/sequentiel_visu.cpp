@@ -43,6 +43,10 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+#include "grider_visu.h"
+
 int refresh_vision_memories(int x_seq, int y_seq) {
 
     Rect ExclueMem(Vec2D(x_seq, y_seq), Vec2D(10, 30));

@@ -290,10 +290,17 @@ extern volatile int mouse_x;
 extern volatile int mouse_y;
 #endif
 
-static int wc_mouse_range_x1 = 0;
-static int wc_mouse_range_y1 = 0;
-static int wc_mouse_range_x2 = 1279;
-static int wc_mouse_range_y2 = 799;
+#ifndef WC_SKIP_GLOBALS
+int wc_mouse_range_x1 = 0;
+int wc_mouse_range_y1 = 0;
+int wc_mouse_range_x2 = 1279;
+int wc_mouse_range_y2 = 799;
+#else
+extern int wc_mouse_range_x1;
+extern int wc_mouse_range_y1;
+extern int wc_mouse_range_x2;
+extern int wc_mouse_range_y2;
+#endif
 
 typedef void (*wc_mouse_cb_t)(int flags);
 static wc_mouse_cb_t mouse_callback = nullptr;

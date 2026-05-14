@@ -41,6 +41,10 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+#include "video_tracking_core.h"
+
 int ShowTrackers()
 {
 char num_tr[4];

@@ -43,6 +43,9 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+
 int fader_damper_commands(int _x, int _y, int fd) {
     Rect DB(Vec2D(_x, _y + 20), Vec2D(20, 20));
     DB.SetRoundness(4);

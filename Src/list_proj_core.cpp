@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -35,11 +35,16 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Fonctions core pour g�rer le menu list des projos et channels macro
+*   Fonctions core pour gï¿½rer le menu list des projos et channels macro
 *
 *   Core fonctions for the spot list menu and macro channels
 *
  **/
+
+#include "wc_tus.h"
+#include "audio_core.h"
+#include "channels_core.h"
+#include "plot_core.h"
 
 int do_the_macro_of_the_channel(int the_chan, int num_macro)
 {
@@ -52,10 +57,10 @@ break;
 case 1://Bang Banger
 the_Abanger_num=channel_macro_val[the_chan][num_macro][1]-1;
 start_time_for_banger[the_Abanger_num]=actual_time;
-//4 aout 2010 initalisation  un temps plus long par defaut pour faire partir mes �v�nements
+//4 aout 2010 initalisation  un temps plus long par defaut pour faire partir mes ï¿½vï¿½nements
 end_time_for_banger[the_Abanger_num]=default_time_of_the_bang;
-//reset du banger concern�
-for (int o=0;o<6;o++)//reset des �v�nements
+//reset du banger concernï¿½
+for (int o=0;o<6;o++)//reset des ï¿½vï¿½nements
 {
 event_sended[the_Abanger_num][o]=0;
 if(bangers_delay[the_Abanger_num][o]>end_time_for_banger[the_Abanger_num])
@@ -93,16 +98,16 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1)
 switch(channel_macro_val[the_chan][num_macro][1]-1)
 {
 case 0://PLAYER 1
- player1->play();
+ player_op_play(0);
 break;
 case 1://PLAYER 2
- player2->play();
+ player_op_play(1);
 break;
 case 2://PLAYER 3
- player3->play();
+ player_op_play(2);
 break;
 case 3://PLAYER 4
- player4->play();
+ player_op_play(3);
 break;
 default:
 break;
@@ -115,16 +120,16 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1)
 switch(channel_macro_val[the_chan][num_macro][1]-1)
 {
 case 0://PLAYER 1
- player1->stop();
+ player_op_stop(0);
 break;
 case 1://PLAYER 2
- player2->stop();
+ player_op_stop(1);
 break;
 case 2://PLAYER 3
- player3->stop();
+ player_op_stop(2);
 break;
 case 3://PLAYER 4
- player4->stop();
+ player_op_stop(3);
 break;
 default:
 break;
@@ -137,16 +142,16 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1)
 switch(channel_macro_val[the_chan][num_macro][1]-1)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 }
@@ -157,19 +162,19 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1)
 switch(channel_macro_val[the_chan][num_macro][1]-1)
 {
 case 0://PLAYER 1
- player1->setRepeat(true);
+ player_op_set_repeat(0, true);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=1;
 break;
 case 1://PLAYER 2
- player2->setRepeat(true);
+ player_op_set_repeat(1, true);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=1;
 break;
 case 2://PLAYER 3
- player3->setRepeat(true);
+ player_op_set_repeat(2, true);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=1;
 break;
 case 3://PLAYER 4
- player4->setRepeat(true);
+ player_op_set_repeat(3, true);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=1;
 break;
 }
@@ -181,19 +186,19 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1)
 switch(channel_macro_val[the_chan][num_macro][1]-1)
 {
 case 0://PLAYER 1
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=0;
 break;
 case 1://PLAYER 2
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=0;
 break;
 case 2://PLAYER 3
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=0;
 break;
 case 3://PLAYER 4
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloop[channel_macro_val[the_chan][num_macro][1]-1]=0;
 break;
 }
@@ -218,16 +223,16 @@ else if(lev_to_do<0.0){lev_to_do=0.0;}
      switch(channel_macro_val[the_chan][num_macro][1]-1)
      {
      case 0:
-     player1->setVolume(lev_to_do);
+     player_op_set_volume(0, lev_to_do);
      break;
      case 1:
-     player2->setVolume(lev_to_do);
+     player_op_set_volume(1, lev_to_do);
      break;
      case 2:
-     player3->setVolume(lev_to_do);
+     player_op_set_volume(2, lev_to_do);
      break;
      case 3:
-     player4->setVolume(lev_to_do);
+     player_op_set_volume(3, lev_to_do);
      break;
      }
      player_niveauson[channel_macro_val[the_chan][num_macro][1]-1]=(int)(lev_to_do*127);
@@ -257,17 +262,17 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1 && index_loadi
      switch(channel_macro_val[the_chan][num_macro][1]-1)
      {
      case 0:
-     player1->setPan((pitc_to_do-64)/64);
+     player_op_set_pan(0, (pitc_to_do-64)/64);
 
      break;
      case 1:
-     player2->setPan((pitc_to_do-64)/64);
+     player_op_set_pan(1, (pitc_to_do-64)/64);
      break;
      case 2:
-     player3->setPan((pitc_to_do-64)/64);
+     player_op_set_pan(2, (pitc_to_do-64)/64);
      break;
      case 3:
-     player4->setPan((pitc_to_do-64)/64);
+     player_op_set_pan(3, (pitc_to_do-64)/64);
      break;
      }
      player_pan[channel_macro_val[the_chan][num_macro][1]-1]=(int)(pitc_to_do);
@@ -298,17 +303,17 @@ if(player_ignited[channel_macro_val[the_chan][num_macro][1]-1]==1 && index_loadi
      switch(channel_macro_val[the_chan][num_macro][1]-1)
      {
      case 0:
-     player1->setPitchShift(pitc_to_do/64);
+     player_op_set_pitch_shift(0, pitc_to_do/64);
 
      break;
      case 1:
-     player2->setPitchShift(pitc_to_do/64);
+     player_op_set_pitch_shift(1, pitc_to_do/64);
      break;
      case 2:
-     player3->setPitchShift(pitc_to_do/64);
+     player_op_set_pitch_shift(2, pitc_to_do/64);
      break;
      case 3:
-     player4->setPitchShift(pitc_to_do/64);
+     player_op_set_pitch_shift(3, pitc_to_do/64);
      break;
      }
      player_pitch[channel_macro_val[the_chan][num_macro][1]-1]=(int)(pitc_to_do);
@@ -689,7 +694,7 @@ mouse_released=1;
 }
 else
 {
-if(index_level_attribue==1)//pour d�selection auto
+if(index_level_attribue==1)//pour dï¿½selection auto
 {
 for(int y=1;y<512;y++)
 {
@@ -764,3 +769,4 @@ Channel_macros_core(xlist+10,ylist+470);
 
  return(0);
 }
+

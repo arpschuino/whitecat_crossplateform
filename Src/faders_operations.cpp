@@ -41,11 +41,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
-#include "core.h"
+#include "wc_tus.h"
 #include <vector>
 #include "SmoothData.h"
 extern std::vector<SmoothData> Fader_dampered;

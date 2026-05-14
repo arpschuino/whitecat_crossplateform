@@ -41,6 +41,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+
 int alarm_window()
 {
 Rect windowAlarm(Vec2D(XAlarm,YAlarm),Vec2D(300,110));

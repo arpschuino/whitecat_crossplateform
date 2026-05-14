@@ -41,6 +41,30 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "trichro_core.h"
+#include "numpad_visuel.h"
+#include "numpad_core.h"
+#include "Call_everybody_5.h"
+#include "video_tracking_core.h"
+#include "patch_core.h"
+#include "time_core.h"
+#include "sequentiel_core.h"
+#include "Draw3.h"
+#include "echo3.h"
+#include "saves_menu.h"
+#include "audio_core.h"
+#include "gestionaire_fenetres2.h"
+#include "grider_core.h"
+#include "minifaders_core.h"
+#include "channels_core.h"
+#include "grand_master.h"
+int do_logical_FaderSpace(int x, int y, int largeur, int espacement, int nbr_fader);
+int do_logical_Plot_window(int plotx, int ploty);
+int do_logical_liste_projecteurs(int xlist, int ylist);
+int do_logical_fenetre_banger(int xb, int yb);
+int do_logical_fenetre_chasers(int xcha, int ycha);
+
 //sab 29/05/2013 deb ------------------------------------------------------
 bool wc_askConfirmWindowIsOpen()
 {

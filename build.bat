@@ -53,7 +53,47 @@ echo Installe MinGW dans %ROOT%\tools\MinGW\ ou C:\Program Files (x86)\CodeBlock
 exit /b 1
 
 :compile
+:: Le Makefile gere PCH, ressources, compilation parallele et linkage
+echo [build] Compilation parallele (make -j8)...
+"%ROOT%\tools\MinGW\bin\mingw32-make.exe" -j8 -C "%ROOT%"
+
+if %ERRORLEVEL%==0 (
+    echo.
+    echo [build] OK : %OUT%\Whitecat_Crossplatform.exe
+) else (
+    echo.
+    echo [build] ECHEC - voir erreurs ci-dessus
+)
+endlocal
+exit /b %ERRORLEVEL%
+
+:: ============================================================
+:: Ancien build monolithique (conserve en secours)
+:: ============================================================
+:compile_legacy
 if not exist "%OUT%" mkdir "%OUT%"
+
+:: En-tete precompile (PCH) — compile une seule fois, reutilise par tous les TUs
+set PCH_RSP=%OUT%\wc_pch.rsp
+echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g > "%PCH_RSP%"
+echo -I%SDL2_F%/include >> "%PCH_RSP%"
+echo -I%WC_F%/lib/windows/Cserial >> "%PCH_RSP%"
+echo -I%WC_F%/lib/windows/dashard >> "%PCH_RSP%"
+echo -I%WC_F%/lib/windows/enttec_pro >> "%PCH_RSP%"
+echo -I%WC_F%/lib/windows/odmxusb_terry >> "%PCH_RSP%"
+echo -I%WC_F%/lib/windows/compiledlibsforGCC4_8_1/include >> "%PCH_RSP%"
+echo -I%SRC_F% >> "%PCH_RSP%"
+echo -I%RTMIDI_F% >> "%PCH_RSP%"
+echo -mwindows >> "%PCH_RSP%"
+echo -x c++-header %SRC_F%/wc_tus.h >> "%PCH_RSP%"
+echo -o %SRC_F%/wc_tus.h.gch >> "%PCH_RSP%"
+echo [build] Compilation de l'en-tete precompile (PCH)...
+"%GCC%" @"%PCH_RSP%" 2>&1
+if errorlevel 1 (
+    echo [AVERTISSEMENT] PCH echouee - compilation normale sans cache
+) else (
+    echo [build] PCH OK
+)
 
 :: Compilation des ressources (icone)
 echo [build] Compilation des ressources...
@@ -122,6 +162,9 @@ echo %SRC_F%/patch_core.cpp >> "%RSP%"
 echo %SRC_F%/patch_visu.cpp >> "%RSP%"
 echo %SRC_F%/list_proj_visu.cpp >> "%RSP%"
 echo %SRC_F%/midi_launchpad.cpp >> "%RSP%"
+echo %SRC_F%/CFG_screen.cpp >> "%RSP%"
+echo %SRC_F%/echo3.cpp >> "%RSP%"
+echo %SRC_F%/Draw3.cpp >> "%RSP%"
 echo %SRC_F%/arduino_device_core.cpp >> "%RSP%"
 echo %SRC_F%/network_MAC_adress_3.cpp >> "%RSP%"
 echo %SRC_F%/numpad_visuel.cpp >> "%RSP%"

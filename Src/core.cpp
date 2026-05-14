@@ -1,4 +1,4 @@
-﻿/*-------------------------------------------------------------------------------------------------------------
+/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -40,10 +40,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Global fonctions for the core of whitecat
 *
  **/
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
+#include "wc_tus.h"
 #include "midi_backend.h"
 #include "grider_calcul.h"
 #include "patch_splines.h"

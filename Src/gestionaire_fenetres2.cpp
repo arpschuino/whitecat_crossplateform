@@ -41,11 +41,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
-#include "core.h"
+#include "wc_tus.h"
 void scan_importfolder(const char* subdir);
 int scan_savesfolder();
 

@@ -41,7 +41,9 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
-
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+#include "faders_operations.h"
 
 int all_at_zero_panel_core(int xf, int yf)
 {
@@ -715,7 +717,7 @@ refresh_minifader_state_view_core(position_minifader_selected);
 }
 
 //MANIP DU MINI FADER/////////////////////////////////////////////////////////////
-if( mouse_x>xmf+(cmptfader*larg) && mouse_x<xmf+(cmptfader*larg)+larg && mouse_y>(ymf+15+(lfad*hmfd))  && mouse_y<(ymf+20+127+(lfad*hmfd)) )
+if( mouse_x>xmf+(cmptfader*larg) && mouse_x<xmf+(cmptfader*larg)+larg && mouse_y>(ymf+15+(lfad*hmfd))  && mouse_y<=(ymf+20+127+(lfad*hmfd)) )
 {
 
 position_minifader_selected=cmptfader+(lfad*24);
@@ -723,7 +725,7 @@ refresh_minifader_state_view_core(cmptfader+(lfad*24));
 if(index_inspekt==1){ //affichage qui dans dock si VIEW activé
 show_who_is_in_dock( cmptfader+(lfad*24),   detect_dock_used(cmptfader+(lfad*24)));
 }
-set_mouse_range(xmf+(cmptfader*larg), ymf+20+(lfad*hmfd), xmf+(cmptfader*larg)+larg, ymf+20+127+(lfad*hmfd));//pour pas deborder
+set_mouse_range(xmf+(cmptfader*larg), ymf+19+(lfad*hmfd), xmf+(cmptfader*larg)+larg, ymf+20+127+(lfad*hmfd));//pour pas deborder
 //click niveau fader
 if( index_main_clear==0)
 {
@@ -732,6 +734,8 @@ if( index_main_clear==0)
 //midi_levels[cmptfader+(lfad*24)]=((ymf+127+20+(lfad*hmfd))-mouse_y);//desafffceté pour trouver pb
 
 int val=((ymf+127+20+(lfad*hmfd))-mouse_y)*2;
+if (val > 255) val = 255;
+if (val < 0) val = 0;
 fader_set_level(cmptfader+(lfad*24),val);
 //if(Fader[cmptfader+(lfad*24)]>=254){Fader[cmptfader+(lfad*24)]=255;midi_levels[cmptfader+(lfad*24)]=127;}
 

@@ -41,6 +41,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+
 int do_bouncing_levels(int ech)
 {
 //echo_global_params[24][3];Gravity Mass Delta

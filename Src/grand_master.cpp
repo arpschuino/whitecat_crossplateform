@@ -43,10 +43,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
+#include "wc_tus.h"
 int attribute_midi_solo_affectation(int faderis, int modeaction);
 int raccrochage_midi_logical_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);
 int raccrochage_midi_visuel_vertical_dmx(int Xb, int Yb, int IDmidi, int largeur, int hauteur);

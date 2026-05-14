@@ -1,0 +1,26 @@
+#pragma once
+extern unsigned char dmxIN[513];
+extern int sunlite_version_number;
+extern int sunlite_serial_number;
+int Detect_EnttecProIn();
+int Open_ProIn();
+int Close_ProIn();
+int Init_single_dmx_interface(int which);
+int Init_dmx_interface();
+int Close_single_dmx_interface(int which);
+int Close_dmx_interface();
+int check_if_dmx_change();
+int SendData_to_interface();
+int Attribute_ArtNet(int aff, int ddok);
+int refresh_modified_levels_in_crossfade();
+int do_crossfade();
+int do_goback();
+int prepare_lfos(int cmptfader, int dksel);
+int do_lfos();
+int Merger_Faders();
+int calculs_etats_faders_et_contenus();
+int Merger_Sequenciel();
+int Merger();
+int load_dmx_conf();
+int Save_my_dmx_conf();
+int Receive_DMX_IN();

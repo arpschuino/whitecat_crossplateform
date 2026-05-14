@@ -173,7 +173,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "video_tracking_core.h"
 #include "video_tracking_visu.h"
 
-#include <list_proj_core.cpp>
+#include "list_proj_core.h"
 #include "list_proj_visu.h" //liste projecteurs
 
 #include "sequentiel_core.h"

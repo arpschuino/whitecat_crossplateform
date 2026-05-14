@@ -41,10 +41,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
+#include "wc_tus.h"
 
 /* calculates the distance between two curve_nodes */
 fixed curve_node_dist(curve_node n1, curve_node n2)

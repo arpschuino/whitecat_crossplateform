@@ -41,11 +41,7 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-#define WC_SKIP_GLOBALS
-#include "graphics_backend.h"
-using namespace ol;
-#include "whitecat.h"
-#include "core.h"
+#include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
 template <class T> const T &Tmax(const T &a, const T &b) {
     return (b < a) ? a : b;

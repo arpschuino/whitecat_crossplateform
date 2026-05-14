@@ -41,6 +41,10 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+#include "channels_core.h"
+
 int reset_other_index_cfg()
 {
 index_config_dmx=0;

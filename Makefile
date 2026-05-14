@@ -126,6 +126,7 @@ SRC_CPPS := \
     $(SRC)/logicals_intres.cpp \
     $(SRC)/saves_export_pdf2.cpp \
     $(SRC)/save_show.cpp \
+    $(SRC)/list_proj_core.cpp \
     $(SRC)/gui_boutons_rebuild1.cpp \
     $(SRC)/network_artnet_3.cpp \
     $(SRC)/patch_core.cpp \

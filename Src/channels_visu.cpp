@@ -41,7 +41,8 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
-
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
 
 int ChannelScroller( int ScrollX, int ScrollY)
 {
@@ -131,7 +132,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
     Rect ChannelRect(Vec2D(xchan,ypos_l),Vec2D(40,65));
     ChannelRect.SetRoundness(10);
     ChannelRect.SetLineWidth(epaisseur_ligne_fader);
-    Rect LevelOverdock(Vec2D(xchan,ypos_l),Vec2D(35,13));
+    Rect LevelOverdock(Vec2D(xchan,ypos_l),Vec2D(20,13));
     Rect LevelOverTrack(Vec2D(xchan,ypos_l),Vec2D(35,13));
     Rect LevelModified(Vec2D(xchan,ypos_l),Vec2D(20,13));
 
@@ -162,7 +163,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                 if((ypos_l -ypos_ch)>-140 && ypos_l+ 40 -ypos_ch<hauteur_ecran)//condition d'affichage
                 {
 
-                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)),((ypos_l)+ 30 -ypos_ch)));
+                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)),((ypos_l)+ 36 -ypos_ch)));
 
                     unsigned char circuittoshow=bufferSequenciel[num_circ] ;
                     showisup=0;
@@ -241,13 +242,13 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         {
                             ChannelRect.DrawOutline(CouleurFader);
 //affichage du niveau du dock survol�
-                            LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+15,((ypos_l)+ 92 - ypos_ch)));
+                            LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+20,((ypos_l)+ 90 - ypos_ch)));
                             LevelOverdock.Draw(CouleurFader);
                         }
 //affichage du master  qui envoie le plus haut niveau au circuit
                         if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 � 48 quand attribu�
                         {
-                            petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),((ypos_l) + 72 - ypos_ch),CENTER);
+                            petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),((ypos_l) + 62 - ypos_ch),CENTER);
                         }
                         if(i_m_over_a_track==1 && over_track_show_channel[num_circ]>0)
                         {
@@ -263,17 +264,17 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     {
                         if(circuittoshow>0)
                         {
-                            circuitlevel.Print(ol::ToString((int) (((float)(circuittoshow) /2.55))) ,(xchan + (xposch)),((ypos_l) + 80 - ypos_ch),CENTER );
+                            circuitlevel.Print(ol::ToString((int) (((float)(circuittoshow) /2.55))) ,(xchan + (xposch)),((ypos_l) + 74 - ypos_ch),CENTER );
                         }
 //
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int) (((float)(bufferFaders[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 90 - ypos_ch),CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int) (((float)(bufferFaders[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
                         }
 //blind
                         if( index_blind==1 && bufferBlind[num_circ]>0)
                         {
-                            circuitblindlevel.Print(ol::ToString((int) (((float)(bufferBlind[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 100 - ypos_ch),CENTER );
+                            circuitblindlevel.Print(ol::ToString((int) (((float)(bufferBlind[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)
@@ -294,25 +295,22 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                             petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
                         }
 
-
-                        break;
-
 //affichage 255
                     }
                     else
                     {
                         if(circuittoshow>0)
                         {
-                            circuitlevel.Print(ol::ToString((int)circuittoshow) ,(xchan + (xposch)),((ypos_l) + 80 - ypos_ch),CENTER );
+                            circuitlevel.Print(ol::ToString((int)circuittoshow) ,(xchan + (xposch)),((ypos_l) + 74 - ypos_ch),CENTER );
                         }
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int)(bufferFaders[num_circ])) ,(xchan + (xposch)),((ypos_l) + 90 - ypos_ch),CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int)(bufferFaders[num_circ])) ,(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
                         }
 //blind
                         if(index_blind==1 && bufferBlind[num_circ]>0 )
                         {
-                            circuitblindlevel.Print(ol::ToString((int)(bufferBlind[num_circ])) ,(xchan + (xposch)),((ypos_l) + 100 - ypos_ch),CENTER );
+                            circuitblindlevel.Print(ol::ToString((int)(bufferBlind[num_circ])) ,(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)
@@ -412,7 +410,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         {
                             if(show_first_dim_array[num_circ][llo]!=0)
                             {
-                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch +5),((ypos_l) + 75 - ypos_ch+(llo*10)));
+                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch +0),((ypos_l) + 62 - ypos_ch+(llo*10)));
                             }
                         }
                         if(show_more_than_one_dim[num_circ]==1)

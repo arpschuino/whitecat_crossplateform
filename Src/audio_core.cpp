@@ -1766,6 +1766,17 @@ int do_logical_fenetre_audio(int xb, int yb) {
 
     bool dropdown_was_open = (bool)index_show_audio_folder_list;
 
+    // ferme le dropdown sur clic hors de sa zone
+    if (index_show_audio_folder_list && !audio_folder_scroll_dragging) {
+        const int max_vis = 8;
+        int vis = (nbre_audio_folders < max_vis) ? nbre_audio_folders : max_vis;
+        int nb  = (vis > 0) ? vis : 1;
+        bool inside = (original_posx >= xb + 350 && original_posx <= xb + 590 &&
+                       original_posy >= yb + 10  && original_posy <= yb + 46 + nb * 20);
+        if (!inside)
+            index_show_audio_folder_list = 0;
+    }
+
     // chevron : ouvre/ferme le dropdown des dossiers audio
     if (original_posx > xb + 570 && original_posx < xb + 590 && original_posy > yb + 10 && original_posy < yb + 40) {
         if (index_show_audio_folder_list) {
@@ -2074,3 +2085,20 @@ int player_toggle_loop(int n)
     }
     return 0;
 }
+
+static audiere::OutputStreamPtr get_player_ptr(int n) {
+    switch(n) {
+    case 0: return player1;
+    case 1: return player2;
+    case 2: return player3;
+    case 3: return player4;
+    default: return 0;
+    }
+}
+int player_op_play(int n)                     { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->play(); return 0; }
+int player_op_stop(int n)                     { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->stop(); return 0; }
+int player_op_set_position(int n, float pos)  { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setPosition(pos); return 0; }
+int player_op_set_repeat(int n, bool r)       { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setRepeat(r); return 0; }
+int player_op_set_pan(int n, float val)       { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setPan(val); return 0; }
+int player_op_set_volume(int n, float val)    { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setVolume(val); return 0; }
+int player_op_set_pitch_shift(int n, float v) { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setPitchShift(v); return 0; }

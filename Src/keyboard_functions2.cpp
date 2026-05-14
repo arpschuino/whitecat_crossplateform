@@ -41,6 +41,21 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+#include "gestionaire_fenetres2.h"
+#include "channels_core.h"
+#include "patch_core.h"
+
+// defined in plot_core9.cpp (still #included in MAIN)
+int add_channel_selection_to_layers_plot();
+int substract_channel_selection_to_layers_plot();
+// defined in logicals_intres.cpp (still #included in MAIN)
+int operations_confirmation();
+// defined in banger_core.cpp (still #included in MAIN)
+int do_go_back_bang(int banger_is);
+int do_send_bang();
+int refresh_banger_wx();
+
 int generation_Tableau_noms_clavier_FR()
 {
 sprintf(list_keyname[0],"PGDN");

@@ -41,6 +41,16 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+#include "grider_calcul.h"
+#include "grider_core.h"
+
+// defined in banger_core.cpp (still #included in MAIN)
+int do_go_back_bang(int banger_is);
+int do_send_bang();
+int refresh_banger_wx();
+
 int call_mem_onstage()
 {
 int mem_to_call=(int)(atof(numeric)*10.0001);

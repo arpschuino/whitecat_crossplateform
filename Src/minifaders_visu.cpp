@@ -41,6 +41,9 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+
 int draw_sign_up(int xs,int ys)
 {
     Line(Vec2D(xs+12,ys+5),Vec2D(xs+12,ys+20)).Draw(CouleurLigne);//barre milieu vert
