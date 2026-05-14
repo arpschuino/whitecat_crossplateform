@@ -148,7 +148,8 @@ SRC_CPPS := \
     $(SRC)/video_tracking_core.cpp \
     $(SRC)/video_tracking_visu.cpp \
     $(SRC)/procs_visuels_rebuild1.cpp \
-    $(SRC)/dmx_functions.cpp
+    $(SRC)/dmx_functions.cpp \
+    $(SRC)/chasers_core.cpp
 
 RTMIDI_CPP := $(RTMIDI)/RtMidi.cpp
 

@@ -2,6 +2,10 @@
 #include <vector>
 #include "SmoothData.h"
 
+template <class T> const T &Tmax(const T &a, const T &b) {
+    return (b < a) ? a : b;
+}
+
 extern std::vector<SmoothData> Fader_dampered;
 
 int reset_numeric_entry();

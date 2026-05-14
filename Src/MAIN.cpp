@@ -85,11 +85,6 @@ volatile bool calculation_on_faders_done = 0; // pour snap des faders depuis Ech
 // #define PI  3.14159265358979323846264338327950288419716939937510
 //////////////////////////////////////////////////////////////////////////////
 
-////////////////////REMPLACEMENT DU GCC 3.4 >? //////////////////////////////////
-template <class T> const T &Tmax(const T &a, const T &b) {
-    return (b < a) ? a : b; // or: return comp(b,a)?a:b; for the comp version
-}
-
 #include <hpdf.h>
 // #include <MidiShare.h>
 #include <whitecat.h>
@@ -132,7 +127,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "wizard_operations.h"
 
 #include "faders_operations.h"
-#include <chasers_core_5.cpp>
+#include "chasers_core.h"
 
 #include "plot_core9.cpp"
 #include "plot9.cpp"

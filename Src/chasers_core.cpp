@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -40,6 +40,12 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Core fonctions for the chasers
 *
  **/
+
+#include "wc_tus.h"
+#include "audio_core.h"
+#include "gui_boutons_rebuild1.h"
+#include "grider_calcul.h"
+#include "chasers_core.h"
 
 int refresh_chaser_midi_out()
 {
@@ -1352,42 +1358,42 @@ switch(the_audio_player)
 case 0://PLAYER 1
 if  (Fader[cmptfader]==0)
 {
-player1->stop();
-if(player_is_onloopCue[0]==0  ){player1->setPosition(0);}
+player_op_stop(0);
+if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
-{player1->setPosition(player_seek_position[0]);}
+{player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player1->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
 {
-player2->stop();
-if(player_is_onloopCue[1]==0  ){player2->setPosition(0);}
+player_op_stop(1);
+if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
-{player2->setPosition(player_seek_position[1]);}
+{player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player2->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
 {
-player3->stop();
-if(player_is_onloopCue[2]==0  ){player1->setPosition(0);}
+player_op_stop(2);
+if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
-{player3->setPosition(player_seek_position[2]);}
+{player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player3->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
 {
-player4->stop();
-if(player_is_onloopCue[3]==0  ){player4->setPosition(0);}
+player_op_stop(3);
+if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
-{player4->setPosition(player_seek_position[3]);}
+{player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player4->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
 break;
 }
 }
@@ -1401,42 +1407,42 @@ switch(the_audio_player)
 case 0://PLAYER 1
 if  (Fader[cmptfader]==0)
 {
-player1->stop();
-if(player_is_onloopCue[0]==0  ){player1->setPosition(0);}
+player_op_stop(0);
+if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
-{player1->setPosition(player_seek_position[0]);}
+{player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player1->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
 {
-player2->stop();
-if(player_is_onloopCue[1]==0  ){player2->setPosition(0);}
+player_op_stop(1);
+if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
-{player2->setPosition(player_seek_position[1]);}
+{player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player2->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
 {
-player3->stop();
-if(player_is_onloopCue[2]==0  ){player1->setPosition(0);}
+player_op_stop(2);
+if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
-{player3->setPosition(player_seek_position[2]);}
+{player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player3->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
 {
-player4->stop();
-if(player_is_onloopCue[3]==0  ){player4->setPosition(0);}
+player_op_stop(3);
+if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
-{player4->setPosition(player_seek_position[3]);}
+{player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player4->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
 break;
 }
 }
@@ -1451,42 +1457,42 @@ switch(the_audio_player)
 case 0://PLAYER 1
 if  (Fader[cmptfader]==0)
 {
-player1->stop();
-if(player_is_onloopCue[0]==0  ){player1->setPosition(0);}
+player_op_stop(0);
+if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
-{player1->setPosition(player_seek_position[0]);}
+{player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player1->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
 {
-player2->stop();
-if(player_is_onloopCue[1]==0  ){player2->setPosition(0);}
+player_op_stop(1);
+if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
-{player2->setPosition(player_seek_position[1]);}
+{player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player2->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
 {
-player3->stop();
-if(player_is_onloopCue[2]==0  ){player1->setPosition(0);}
+player_op_stop(2);
+if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
-{player3->setPosition(player_seek_position[2]);}
+{player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player3->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
 {
-player4->stop();
-if(player_is_onloopCue[3]==0  ){player4->setPosition(0);}
+player_op_stop(3);
+if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
-{player4->setPosition(player_seek_position[3]);}
+{player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player4->play();
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
 break;
 }
 }

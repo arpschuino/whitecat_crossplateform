@@ -50,9 +50,6 @@ PC CPU to be send to the enttec open dmx via the D2XX drivers
 #include "audio_core.h"
 #include "grider_calcul.h"
 #include "sequentiel_core.h"
-template <class T> const T &Tmax(const T &a, const T &b) {
-    return (b < a) ? a : b;
-}
 int DoLock(int masterfader, int locklevel);
 int do_send_bang();
 

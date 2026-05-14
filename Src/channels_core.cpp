@@ -43,9 +43,6 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
-template <class T> const T &Tmax(const T &a, const T &b) {
-    return (b < a) ? a : b;
-}
 int key_up();
 int key_down();
 int add_channel_selection_to_layers_plot();
