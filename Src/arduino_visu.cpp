@@ -43,6 +43,11 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 
+#include "wc_tus.h"
+#include "arduino_device_core.h"
+#include "arduino_core.h"
+#include "arduino_visu.h"
+
 //Christoph 21/04/2015 simplification and reversing out the whitekitten dynamic method
 //wich was too much dangerous for show usage (electrical cut off is killing configuration of the arduino)
 int do_arduino_config(int cfg_X, int cfg_Y)

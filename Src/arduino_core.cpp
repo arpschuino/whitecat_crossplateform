@@ -55,6 +55,15 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 
+#include "wc_tus.h"
+#include "arduino_device_core.h"
+#include "Draw3.h"
+#include "sequentiel_core.h"
+#include "arduino_core.h"
+int simulate_midi(int letype, int lechan, int lepitch, int lavaleur);
+int do_send_bang();
+int do_go_back_bang(int banger_is);
+
 //le volatile int dans arduino car possibilité de changer le rate d appel de la fonction read
 volatile int ticks_arduino=0;
 int old_ticks_arduino=0;

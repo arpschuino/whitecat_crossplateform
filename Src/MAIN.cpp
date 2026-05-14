@@ -186,8 +186,8 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <midi_13.cpp>
 #include "CFG_screen.h"
 
-#include <arduino_core_6_UNO.cpp>
-#include <arduino_6_UNO.cpp>
+#include "arduino_core.h"
+#include "arduino_visu.h"
 
 int time_doing() {
     if (index_play_chrono == 1) {
