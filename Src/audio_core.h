@@ -55,3 +55,6 @@ int player_op_set_pan(int n, float val);
 int player_op_set_volume(int n, float val);
 int player_op_set_pitch_shift(int n, float v);
 bool player_op_is_playing(int n);
+float player_op_get_position(int n);
+float player_op_get_length(int n);
+bool player_op_get_repeat(int n);

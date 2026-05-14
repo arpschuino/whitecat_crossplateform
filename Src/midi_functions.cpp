@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -43,6 +43,30 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 
+
+#include "wc_tus.h"
+#include "midi_backend.h"
+#include "midi_CORE.h"
+#include "audio_core.h"
+#include "midi_launchpad.h"
+#include "gestionaire_fenetres2.h"
+#include "plot_core.h"
+#include "chasers_core.h"
+#include "grider_calcul.h"
+#include "faders_core.h"
+#include "faders_operations.h"
+#include "sequentiel_core.h"
+#include "numpad_core.h"
+#include "time_core.h"
+#include "midi_13.h"
+int Bang_event_back(int banger_num, int event_num);
+int Bang_event(int banger_num, int event_num);
+int refresh_banger_wx();
+int do_send_bang();
+#ifndef PIknob
+#define PIknob 3.14159265358979323846264338327950288419716939937510
+#endif
+void ticker_midi_clock();
 
 int do_midi_call_order(int control)
 {
@@ -627,16 +651,16 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0:
-player1->setVolume(((float)player_niveauson[bum])/127);
+player_op_set_volume(0, ((float)player_niveauson[bum])/127);
 break;
 case 1:
-player2->setVolume(((float)player_niveauson[bum])/127);
+player_op_set_volume(1, ((float)player_niveauson[bum])/127);
 break;
 case 2:
-player3->setVolume(((float)player_niveauson[bum])/127);
+player_op_set_volume(2, ((float)player_niveauson[bum])/127);
 break;
 case 3:
-player4->setVolume(((float)player_niveauson[bum])/127);
+player_op_set_volume(3, ((float)player_niveauson[bum])/127);
 break;
 }
 }
@@ -652,25 +676,25 @@ case 0://PLAYER 1
  player_pan[bum]=midi_levels[control] ;
  if(player_pan[bum]<1){player_pan[bum]=1;}
  else if(player_pan[bum]>127){player_pan[bum]=127;}
- player1->setPan(((float)(player_pan[bum]-64))/63); // -64 /63 OK POUR AVOIR -1.00 +1.00 GAUCHE DROITE
+ player_op_set_pan(0, ((float)(player_pan[bum]-64))/63); // -64 /63 OK POUR AVOIR -1.00 +1.00 GAUCHE DROITE
 break;
 case 1://PLAYER 2
  player_pan[bum]=midi_levels[control];
  if(player_pan[bum]<1){player_pan[bum]=1;}
  else if(player_pan[bum]>127){player_pan[bum]=127;}
- player2->setPan(((float)(player_pan[bum]-64))/63);
+ player_op_set_pan(1, ((float)(player_pan[bum]-64))/63);
 break;
 case 2://PLAYER 3
  player_pan[bum]=midi_levels[control];
  if(player_pan[bum]<1){player_pan[bum]=1;}
  else if(player_pan[bum]>127){player_pan[bum]=127;}
- player3->setPan(((float)(player_pan[bum]-64))/63);
+ player_op_set_pan(2, ((float)(player_pan[bum]-64))/63);
 break;
 case 3://PLAYER 4
  player_pan[bum]=midi_levels[control];
  if(player_pan[bum]<1){player_pan[bum]=1;}
  else if(player_pan[bum]>127){player_pan[bum]=127;}
- player4->setPan(((float)(player_pan[bum]-64))/63);
+ player_op_set_pan(3, ((float)(player_pan[bum]-64))/63);
 break;
 }
 }
@@ -686,25 +710,25 @@ case 0://PLAYER 1
  player_pitch[bum]=midi_levels[control];
  if(player_pitch[bum]<1){player_pitch[bum]=1;}
  else if(player_pitch[bum]>127){player_pitch[bum]=127;}
- player1->setPitchShift((((float)player_pitch[bum])/64));
+ player_op_set_pitch_shift(0, (((float)player_pitch[bum])/64));
 break;
 case 1://PLAYER 2
   player_pitch[bum]=midi_levels[control];
  if(player_pitch[bum]<1){player_pitch[bum]=1;}
  else if(player_pitch[bum]>127){player_pitch[bum]=127;}
- player2->setPitchShift((((float)player_pitch[bum])/64));
+ player_op_set_pitch_shift(1, (((float)player_pitch[bum])/64));
 break;
 case 2://PLAYER 3
   player_pitch[bum]=midi_levels[control] ;
  if(player_pitch[bum]<1){player_pitch[bum]=1;}
  else if(player_pitch[bum]>127){player_pitch[bum]=127;}
- player3->setPitchShift((((float)player_pitch[bum])/64));
+ player_op_set_pitch_shift(2, (((float)player_pitch[bum])/64));
 break;
 case 3://PLAYER 4
   player_pitch[bum]=midi_levels[control] ;
  if(player_pitch[bum]<1){player_pitch[bum]=1;}
  else if(player_pitch[bum]>127){player_pitch[bum]=127;}
- player4->setPitchShift((((float)player_pitch[bum])/64));
+ player_op_set_pitch_shift(3, (((float)player_pitch[bum])/64));
 break;
 }
 }
@@ -718,29 +742,29 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- if (!player1->isPlaying()) {
- player1->play(); player_is_playing[bum]=1;
+ if (!player_op_is_playing(0)) {
+ player_op_play(0); player_is_playing[bum]=1;
  } else {
  player1_do_stop();player_is_playing[bum]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2->isPlaying()) {
- player2->play();    player_is_playing[bum]=1;
+ if (!player_op_is_playing(1)) {
+ player_op_play(1);    player_is_playing[bum]=1;
  } else {
  player2_do_stop();player_is_playing[bum]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3->isPlaying()) {
- player3->play();    player_is_playing[bum]=1;
+ if (!player_op_is_playing(2)) {
+ player_op_play(2);    player_is_playing[bum]=1;
  } else {
  player3_do_stop();player_is_playing[bum]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4->isPlaying()) {
- player4->play();     player_is_playing[bum]=1;
+ if (!player_op_is_playing(3)) {
+ player_op_play(3);     player_is_playing[bum]=1;
  } else {
  player4_do_stop();  player_is_playing[bum]=0;
  }
@@ -756,16 +780,16 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 midi_show_flash_seektouch[bum]=1;
@@ -781,38 +805,38 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- if (!player1-> getRepeat()) {
- player1->setRepeat(true);
+ if (!player_op_get_repeat(0)) {
+ player_op_set_repeat(0, true);
  player_is_onloop[bum]=1;
  } else {
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloop[bum]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2-> getRepeat()) {
- player2->setRepeat(true);
+ if (!player_op_get_repeat(1)) {
+ player_op_set_repeat(1, true);
  player_is_onloop[bum]=1;
  } else {
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloop[bum]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3-> getRepeat()) {
- player3->setRepeat(true);
+ if (!player_op_get_repeat(2)) {
+ player_op_set_repeat(2, true);
  player_is_onloop[bum]=1;
  } else {
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloop[bum]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4-> getRepeat()) {
- player4->setRepeat(true);
+ if (!player_op_get_repeat(3)) {
+ player_op_set_repeat(3, true);
  player_is_onloop[bum]=1;
  } else {
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloop[bum]=0;
  }
 break;
@@ -827,16 +851,16 @@ if(player_ignited[bum]==1  && position_of_file_in_player[bum]-100000>0)
 switch(bum)
 {
  case 0://PLAYER 1
-    player1->setPosition(position_of_file_in_player[bum]-100000);
+    player_op_set_position(0, position_of_file_in_player[bum]-100000);
     break;
     case 1://PLAYER 2
-    player2->setPosition(position_of_file_in_player[bum]-100000);
+    player_op_set_position(1, position_of_file_in_player[bum]-100000);
     break;
     case 2://PLAYER 3
-    player3->setPosition(position_of_file_in_player[bum]-1000000);
+    player_op_set_position(2, position_of_file_in_player[bum]-1000000);
     break;
     case 3://PLAYER 4
-    player4->setPosition(position_of_file_in_player[bum]-100000);
+    player_op_set_position(3, position_of_file_in_player[bum]-100000);
     break;
 }
 }
@@ -851,16 +875,16 @@ if(player_ignited[bum]==1 && position_of_file_in_player[bum]+100000<length_of_fi
 switch(bum)
 {
   case 0://PLAYER 1
-    player1->setPosition(position_of_file_in_player[bum]+100000);
+    player_op_set_position(0, position_of_file_in_player[bum]+100000);
     break;
     case 1://PLAYER 2
-    player2->setPosition(position_of_file_in_player[bum]+100000);
+    player_op_set_position(1, position_of_file_in_player[bum]+100000);
     break;
     case 2://PLAYER 3
-    player3->setPosition(position_of_file_in_player[bum]+100000);
+    player_op_set_position(2, position_of_file_in_player[bum]+100000);
     break;
     case 3://PLAYER 4
-    player4->setPosition(position_of_file_in_player[bum]+100000);
+    player_op_set_position(3, position_of_file_in_player[bum]+100000);
     break;
 }
 }
@@ -877,7 +901,7 @@ switch(bum)
 case 0://PLAYER 1
 if(index_main_clear==0)
 {
-player_seek_position[bum]=(player1->getPosition());
+player_seek_position[bum]=(player_op_get_position(0));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
 else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_seek_position[bum]=0;index_main_clear=0;}
@@ -885,7 +909,7 @@ break;
 case 1://PLAYER 2
 if(index_main_clear==0)
 {
-player_seek_position[bum]=(player2->getPosition());
+player_seek_position[bum]=(player_op_get_position(1));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
 else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_seek_position[bum]=0;index_main_clear=0;}
@@ -893,7 +917,7 @@ break;
 case 2://PLAYER 3
 if(index_main_clear==0)
 {
-player_seek_position[bum]=(player3->getPosition());
+player_seek_position[bum]=(player_op_get_position(2));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
 else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_seek_position[bum]=0;index_main_clear=0;}
@@ -901,7 +925,7 @@ break;
 case 3://PLAYER 4
 if(index_main_clear==0)
 {
-player_seek_position[bum]=(player4->getPosition());
+player_seek_position[bum]=(player_op_get_position(3));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
 else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_seek_position[bum]=0;index_main_clear=0;}
@@ -922,34 +946,34 @@ switch(bum)
 case 0://PLAYER 1
 if(index_main_clear==0)
 {
-player_loop_out_position[bum]=(player1->getPosition());
+player_loop_out_position[bum]=(player_op_get_position(0));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
-else if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_loop_out_position[bum]=(player1->getLength());}
+else if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_loop_out_position[bum]=(player_op_get_length(0));}
 break;
 case 1://PLAYER 2
 if(index_main_clear==0)
 {
-player_loop_out_position[bum]=(player2->getPosition());
+player_loop_out_position[bum]=(player_op_get_position(1));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
-else if(player_loop_out_position[bum]!=player_seek_position[bum])  {player_loop_out_position[bum]=(player2->getLength());}
+else if(player_loop_out_position[bum]!=player_seek_position[bum])  {player_loop_out_position[bum]=(player_op_get_length(1));}
 break;
 case 2://PLAYER 3
 if(index_main_clear==0)
 {
-player_loop_out_position[bum]=(player3->getPosition());
+player_loop_out_position[bum]=(player_op_get_position(2));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
-else if(player_loop_out_position[bum]!=player_seek_position[bum])  {player_loop_out_position[bum]=(player3->getLength());}
+else if(player_loop_out_position[bum]!=player_seek_position[bum])  {player_loop_out_position[bum]=(player_op_get_length(2));}
 break;
 case 3://PLAYER 4
 if(index_main_clear==0)
 {
-player_loop_out_position[bum]=(player4->getPosition());
+player_loop_out_position[bum]=(player_op_get_position(3));
 if(player_loop_out_position[bum]<=player_seek_position[bum]){player_loop_out_position[bum]=player_seek_position[bum]+1;}
 }
-else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_loop_out_position[bum]=(player4->getLength());}
+else  if(player_loop_out_position[bum]!=player_seek_position[bum]) {player_loop_out_position[bum]=(player_op_get_length(3));}
 break;
 }
 /*if(enable_launchpad==1){launchpad_impulsion(control, red);}*/
@@ -964,38 +988,38 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
  case 0://PLAYER 1
- if (!player1-> getRepeat()) {
- player1->setRepeat(true);
+ if (!player_op_get_repeat(0)) {
+ player_op_set_repeat(0, true);
  player_is_onloopCue[bum]=1;
  } else {
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloopCue[bum]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2-> getRepeat()) {
- player2->setRepeat(true);
+ if (!player_op_get_repeat(1)) {
+ player_op_set_repeat(1, true);
  player_is_onloopCue[bum]=1;
  } else {
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloopCue[bum]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3-> getRepeat()) {
- player3->setRepeat(true);
+ if (!player_op_get_repeat(2)) {
+ player_op_set_repeat(2, true);
  player_is_onloopCue[bum]=1;
  } else {
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloopCue[bum]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4-> getRepeat()) {
- player4->setRepeat(true);
+ if (!player_op_get_repeat(3)) {
+ player_op_set_repeat(3, true);
  player_is_onloopCue[bum]=1;
  } else {
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloopCue[bum]=0;
  }
 break;
@@ -1010,16 +1034,16 @@ if(player_ignited[bum]==1)
 switch(bum)
 {
 case 0://PLAYER 1
- player1->setPosition(player_seek_position[bum]);
+ player_op_set_position(0, player_seek_position[bum]);
 break;
 case 1://PLAYER 2
- player2->setPosition(player_seek_position[bum]);
+ player_op_set_position(1, player_seek_position[bum]);
 break;
 case 2://PLAYER 3
- player3->setPosition(player_seek_position[bum]);
+ player_op_set_position(2, player_seek_position[bum]);
 break;
 case 3://PLAYER 4
- player4->setPosition(player_seek_position[bum]);
+ player_op_set_position(3, player_seek_position[bum]);
 break;
 }
 midi_show_flash_cueSeektouch[bum]=1;
@@ -1788,29 +1812,29 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1->isPlaying()) {
- player1->play();
+ if (!player_op_is_playing(0)) {
+ player_op_play(0);
  } else {
  player1_do_stop();
  }
 break;
 case 1://PLAYER 2
- if (!player2->isPlaying()) {
- player2->play();
+ if (!player_op_is_playing(1)) {
+ player_op_play(1);
  } else {
  player2_do_stop();
  }
 break;
 case 2://PLAYER 3
- if (!player3->isPlaying()) {
- player3->play();
+ if (!player_op_is_playing(2)) {
+ player_op_play(2);
  } else {
  player3_do_stop();
  }
 break;
 case 3://PLAYER 4
- if (!player4->isPlaying()) {
- player4->play();
+ if (!player_op_is_playing(3)) {
+ player_op_play(3);
  } else {
  player4_do_stop();
  }
@@ -1829,29 +1853,29 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1->isPlaying()) {
- player1->play();
+ if (!player_op_is_playing(0)) {
+ player_op_play(0);
  } else {
  player1_do_stop();
  }
 break;
 case 1://PLAYER 2
- if (!player2->isPlaying()) {
- player2->play();
+ if (!player_op_is_playing(1)) {
+ player_op_play(1);
  } else {
  player2_do_stop();
  }
 break;
 case 2://PLAYER 3
- if (!player3->isPlaying()) {
- player3->play();
+ if (!player_op_is_playing(2)) {
+ player_op_play(2);
  } else {
  player3_do_stop();
  }
 break;
 case 3://PLAYER 4
- if (!player4->isPlaying()) {
- player4->play();
+ if (!player_op_is_playing(3)) {
+ player_op_play(3);
  } else {
  player4_do_stop();
  }
@@ -1870,29 +1894,29 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1->isPlaying()) {
- player1->play();
+ if (!player_op_is_playing(0)) {
+ player_op_play(0);
  } else {
  player1_do_stop();
  }
 break;
 case 1://PLAYER 2
- if (!player2->isPlaying()) {
- player2->play();
+ if (!player_op_is_playing(1)) {
+ player_op_play(1);
  } else {
  player2_do_stop();
  }
 break;
 case 2://PLAYER 3
- if (!player3->isPlaying()) {
- player3->play();
+ if (!player_op_is_playing(2)) {
+ player_op_play(2);
  } else {
  player3_do_stop();
  }
 break;
 case 3://PLAYER 4
- if (!player4->isPlaying()) {
- player4->play();
+ if (!player_op_is_playing(3)) {
+ player_op_play(3);
  } else {
  player4_do_stop();
  }
@@ -1954,16 +1978,16 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",control-1164+1,the_audio_player+1);
@@ -1975,16 +1999,16 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",control-1164+1,the_audio_player+1);
@@ -1996,24 +2020,24 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
-if(player_is_onloopCue[0]==0  ){player1->setPosition(0);}
+if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
-{player1->setPosition(player_seek_position[0]);}
+{player_op_set_position(0, player_seek_position[0]);}
 break;
 case 1://PLAYER 2
-if(player_is_onloopCue[1]==0  ){player2->setPosition(0);}
+if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
-{player2->setPosition(player_seek_position[1]);}
+{player_op_set_position(1, player_seek_position[1]);}
 break;
 case 2://PLAYER 3
-if(player_is_onloopCue[2]==0  ){player1->setPosition(0);}
+if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
-{player3->setPosition(player_seek_position[2]);}
+{player_op_set_position(2, player_seek_position[2]);}
 break;
 case 3://PLAYER 4
-if(player_is_onloopCue[3]==0  ){player4->setPosition(0);}
+if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
-{player4->setPosition(player_seek_position[3]);}
+{player_op_set_position(3, player_seek_position[3]);}
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",control-1164+1,the_audio_player+1);
@@ -2055,38 +2079,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1-> getRepeat()) {
- player1->setRepeat(true);
+ if (!player_op_get_repeat(0)) {
+ player_op_set_repeat(0, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2-> getRepeat()) {
- player2->setRepeat(true);
+ if (!player_op_get_repeat(1)) {
+ player_op_set_repeat(1, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3-> getRepeat()) {
- player3->setRepeat(true);
+ if (!player_op_get_repeat(2)) {
+ player_op_set_repeat(2, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4-> getRepeat()) {
- player4->setRepeat(true);
+ if (!player_op_get_repeat(3)) {
+ player_op_set_repeat(3, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
@@ -2106,38 +2130,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1-> getRepeat()) {
- player1->setRepeat(true);
+ if (!player_op_get_repeat(0)) {
+ player_op_set_repeat(0, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2-> getRepeat()) {
- player2->setRepeat(true);
+ if (!player_op_get_repeat(1)) {
+ player_op_set_repeat(1, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3-> getRepeat()) {
- player3->setRepeat(true);
+ if (!player_op_get_repeat(2)) {
+ player_op_set_repeat(2, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4-> getRepeat()) {
- player4->setRepeat(true);
+ if (!player_op_get_repeat(3)) {
+ player_op_set_repeat(3, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
@@ -2157,38 +2181,38 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- if (!player1-> getRepeat()) {
- player1->setRepeat(true);
+ if (!player_op_get_repeat(0)) {
+ player_op_set_repeat(0, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player1->setRepeat(false);
+ player_op_set_repeat(0, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 1://PLAYER 2
- if (!player2-> getRepeat()) {
- player2->setRepeat(true);
+ if (!player_op_get_repeat(1)) {
+ player_op_set_repeat(1, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player2->setRepeat(false);
+ player_op_set_repeat(1, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 2://PLAYER 3
- if (!player3-> getRepeat()) {
- player3->setRepeat(true);
+ if (!player_op_get_repeat(2)) {
+ player_op_set_repeat(2, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player3->setRepeat(false);
+ player_op_set_repeat(2, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
 case 3://PLAYER 4
- if (!player4-> getRepeat()) {
- player4->setRepeat(true);
+ if (!player_op_get_repeat(3)) {
+ player_op_set_repeat(3, true);
  player_is_onloop[the_audio_player]=1;
  } else {
- player4->setRepeat(false);
+ player_op_set_repeat(3, false);
  player_is_onloop[the_audio_player]=0;
  }
 break;
@@ -3149,16 +3173,16 @@ if(player_ignited[lect]==1 && index_loading_a_sound_file==0)
 switch(lect)
 {
 case 0://PLAYER 1
-player1->setPosition(length_of_file_in_player[lect]-1000);
+player_op_set_position(0, length_of_file_in_player[lect]-1000);
 break;
 case 1://PLAYER 2
- player2->setPosition(length_of_file_in_player[lect]-1000);
+ player_op_set_position(1, length_of_file_in_player[lect]-1000);
 break;
 case 2://PLAYER 3
- player3->setPosition(length_of_file_in_player[lect]-1000);
+ player_op_set_position(2, length_of_file_in_player[lect]-1000);
 break;
 case 3://PLAYER 4
- player4->setPosition(length_of_file_in_player[lect]-1000);
+ player_op_set_position(3, length_of_file_in_player[lect]-1000);
 break;
 default:
 break;

@@ -183,7 +183,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "procs_visuels_rebuild1.h"
 #include "dmx_functions.h"
 
-#include <midi_13.cpp>
+#include "midi_13.h"
 #include "CFG_screen.h"
 
 #include "arduino_core.h"

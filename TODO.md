@@ -31,7 +31,32 @@
 - [x] save_show.cpp (ex save_show_13.cpp)
 - [x] logicals_intres.cpp
 - [x] wizard.cpp
-- [x] video_tracking_core.cpp  ← fait session précédente
+- [x] video_tracking_core.cpp
+- [x] faders_core_24.cpp → faders_core.cpp
+- [x] arduino_core_6_UNO.cpp → arduino_core.cpp
+- [x] arduino_6_UNO.cpp → arduino_visu.cpp
+- [x] CFG_config_panel_8.cpp → CFG_config_panel.cpp
+- [x] midi_13.cpp → midi_functions.cpp
+- [ ] **banger_core.cpp** — candidat restant (5137 lignes, appels player->)
+
+### À vérifier : midi_functions.cpp (ex midi_13)
+- [ ] Envoi MIDI CC depuis un fader (fader MIDI out)
+- [ ] Réception MIDI CC → déplace un fader
+- [ ] Note ON/OFF depuis launchpad → action correspondante
+- [ ] simulate_midi() : déclencher une action MIDI simulée depuis menu
+- [ ] clock_wheel : tempo MIDI ticker visible et fonctionnel
+- [ ] do_midi_config : ouvrir la fenêtre de config MIDI, changer un port, sauvegarder
+
+### À vérifier : faders_core.cpp (ex faders_core_24)
+- [ ] Déplacer un fader à la souris → niveau circuit OK
+- [ ] LFO sur fader : oscillation visible
+- [ ] Lock preset : verrouiller/déverrouiller un fader
+- [ ] Dock fader : affecter une mémoire à un fader
+
+### À vérifier : arduino_core + arduino_visu
+- [ ] Connexion Arduino sur port COM → données reçues (analog/digital)
+- [ ] arduino_do_digital_out_whitecat : envoi digital vers Arduino
+- [ ] do_arduino_config : affichage de la fenêtre de config Arduino
 
 ### Phases suivantes
 - [ ] **Phase 5** — Font cache (Font::Print GPU, CPU élevé)

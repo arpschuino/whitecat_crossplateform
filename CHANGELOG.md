@@ -70,6 +70,27 @@
 - **Anciennes bibliothèques** : sources et binaires Allegro 4.4.2, OpenLayer 2.1, Audiere 1.9.4, MidiShare 1.91 supprimés de `whitecatlib/`. Documentation OpenLayer (`doc_ol/`, 172 Mo) supprimée.
 - **DLL obsolètes** dans le dossier build : `alleg44.dll`, `audiere.dll`, `libopenlayer.dll`, `mshare32.dll`, `msMMSystem.dll`. Log parasite `msMMSystem.log` (65 Mo) supprimé.
 
+### Phase 4 — Découpage en TUs indépendants (en cours)
+
+Extraction progressive des fichiers inclus par `#include <xxx.cpp>` dans MAIN.cpp
+vers des TUs compilés séparément, avec leurs propres headers `.h`.
+
+Fichiers extraits (session courante) :
+- `faders_core_24.cpp` → `faders_core.cpp` / `faders_core.h`
+- `arduino_core_6_UNO.cpp` → `arduino_core.cpp` / `arduino_core.h`
+- `arduino_6_UNO.cpp` → `arduino_visu.cpp` / `arduino_visu.h`
+- `CFG_config_panel_8.cpp` → `CFG_config_panel.cpp` / `CFG_config_panel.h`
+- `midi_13.cpp` → `midi_functions.cpp` / `midi_13.h`
+
+Nouveaux wrappers audio (audio_core.h) : `player_op_is_playing`, `player_op_get_position`,
+`player_op_get_length`, `player_op_get_repeat`.
+
+Fichiers non extractibles (contraintes techniques) :
+- `audio_core.cpp` / `audio_visu.cpp` : `audio_backend.h` contient des implémentations concrètes (minimp3, stb_vorbis, dr_flac) sans garde d'inclusion → ne peut être inclus qu'une seule fois
+- `keyboard_routines2.cpp` : utilise `wc_key_queue` (static dans `graphics_backend.h`)
+- `graphics_rebuild1.cpp` : inclus après les gestionnaires d'événements SDL dans MAIN, ordre critique
+- `banger_core.cpp` : non encore traité
+
 ### Technique (sans impact visible direct)
 
 - Compilation avec GCC 5.1.0 (MinGW portable dans `tools/`).
