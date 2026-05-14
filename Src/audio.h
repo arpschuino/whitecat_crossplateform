@@ -1,11 +1,11 @@
 #pragma once
 
 // Forward declarations pour autonomie (eviter d'inclure audio_backend.h complet)
-struct WCAudioDevice;
-struct WCAudioPlayer;
 namespace audiere {
-typedef WCAudioDevice *AudioDevicePtr;
-typedef WCAudioPlayer *OutputStreamPtr;
+    struct WCAudioDevice;
+    struct WCAudioPlayer;
+    typedef WCAudioDevice *AudioDevicePtr;
+    typedef WCAudioPlayer *OutputStreamPtr;
 }
 
 ////SOUND/////////////////////////////////////////////////////////////////////

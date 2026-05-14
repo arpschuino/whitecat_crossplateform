@@ -1,11 +1,11 @@
 #define WC_SKIP_GLOBALS
 #include "graphics_backend.h"
 // Forward-declare seulement les types pour eviter double implementation dr_flac/stb_vorbis
-struct WCAudioDevice;
-struct WCAudioPlayer;
 namespace audiere {
-typedef WCAudioDevice *AudioDevicePtr;
-typedef WCAudioPlayer *OutputStreamPtr;
+    struct WCAudioDevice;
+    struct WCAudioPlayer;
+    typedef WCAudioDevice *AudioDevicePtr;
+    typedef WCAudioPlayer *OutputStreamPtr;
 }
 using namespace audiere;
 #include "audio.h"

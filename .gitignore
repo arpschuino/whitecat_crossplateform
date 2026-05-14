@@ -117,6 +117,9 @@ ipch/
 *.vsp
 *.vspx
 
+# Windows NUL device (artefact de redirection 2>nul dans les scripts)
+nul
+
 # Guidance Automation Toolkit
 *.gpState
 
