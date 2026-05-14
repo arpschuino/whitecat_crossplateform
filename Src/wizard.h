@@ -41,3 +41,10 @@ extern char Wiz_descriptif_memoires[10000][25];
 extern char Wiz_annotation_memoires[10000][25];
 extern bool MemoiresDetruites[10000];
 extern bool index_wizard_do_reload_from_disk;
+
+int clear_wizard_store_ch_in();
+int clear_wizard_store_ch_out();
+int wizard_store_channel_in();
+int wizard_store_channel_out();
+int Box_mem_to_mem(int xb, int yb);
+int fenetre_wizard(int xb, int yb);

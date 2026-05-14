@@ -41,6 +41,9 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+
+int Save_Screen_Config(); // defined in save_show.cpp
 
 int reload_window_positions()
 {

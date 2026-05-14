@@ -1,4 +1,6 @@
+#include "wc_tus.h"
 #include "wizard.h"
+#include "wizard_operations.h"
 
 //////////////WIZARD /////////////////////////
 int Xwizard = 100;

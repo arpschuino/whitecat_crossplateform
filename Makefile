@@ -110,8 +110,22 @@ SRC_CPPS := \
     $(SRC)/gestionaire_fenetres2.cpp \
     $(SRC)/saves_export_import.cpp \
     $(SRC)/saves_menu.cpp \
+    $(SRC)/banger_visu.cpp \
+    $(SRC)/chasers_visu.cpp \
+    $(SRC)/channels_visu.cpp \
+    $(SRC)/sequentiel_visu.cpp \
+    $(SRC)/trichro_core.cpp \
     $(SRC)/faders_operations.cpp \
+    $(SRC)/minifaders_visu.cpp \
+    $(SRC)/minifaders_core.cpp \
+    $(SRC)/faders_visuels.cpp \
+    $(SRC)/sequentiel_core.cpp \
+    $(SRC)/keyboard_functions2.cpp \
     $(SRC)/wizard_operations.cpp \
+    $(SRC)/wizard.cpp \
+    $(SRC)/logicals_intres.cpp \
+    $(SRC)/saves_export_pdf2.cpp \
+    $(SRC)/save_show.cpp \
     $(SRC)/gui_boutons_rebuild1.cpp \
     $(SRC)/network_artnet_3.cpp \
     $(SRC)/patch_core.cpp \
@@ -128,7 +142,12 @@ SRC_CPPS := \
     $(SRC)/trichro_visu2.cpp \
     $(SRC)/numpad_core.cpp \
     $(SRC)/time_core.cpp \
-    $(SRC)/channels_core.cpp
+    $(SRC)/channels_core.cpp \
+    $(SRC)/Call_everybody_5.cpp \
+    $(SRC)/video_tracking_core.cpp \
+    $(SRC)/video_tracking_visu.cpp \
+    $(SRC)/procs_visuels_rebuild1.cpp \
+    $(SRC)/dmx_functions.cpp
 
 RTMIDI_CPP := $(RTMIDI)/RtMidi.cpp
 

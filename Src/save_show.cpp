@@ -24,7 +24,16 @@ WWWWWWWW           C  WWWWWWWW   |
            WWWWWWWWt             |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
+#include "wc_tus.h"
+#include "midi_backend.h"
+#include "patch_core.h"
+#include "audio_core.h"
+#include "gestionaire_fenetres2.h"
+#include "chasers_core.h"
+#include "plot_core.h"
 #include <ctime>
+
+void ticker_midi_clock();
 
 /**
 

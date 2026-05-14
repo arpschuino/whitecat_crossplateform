@@ -122,7 +122,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include "core.h"  // compile separement dans core.cpp
 
-#include <saves_export_pdf2.cpp>
+#include "saves_export_pdf2.h"
 #include "saves_export_import.h"
 #include "saves_menu.h"
 #include "gestionaire_fenetres2.h"
@@ -139,54 +139,54 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include <audio_core.cpp>
 
-#include <save_show_13.cpp>
+#include "save_show.h"
 #include "network_artnet_3.h" //artnet functions
 
-#include <logicals_intres.cpp>
+#include "logicals_intres.h"
 
 #include "channels_core.h"
-#include <wizard.cpp>
+#include "wizard.h"
 #include "grand_master.h"
 #include <faders_core_24.cpp>
 
 #include <audio_visu.cpp>
 
 #include "arduino_device_core.h"
-#include <banger_core_8.cpp>
-#include <banger_visu_8.cpp>
-#include <Call_everybody_5.cpp>
+#include <banger_core.cpp>
+#include "banger_visu.h"
+#include "Call_everybody_5.h"
 
 #include "patch_core.h"
 #include "patch_visu.h"
 #include "time_core.h"
 #include "time_visu_3.h"
-#include <trichro_core2.cpp>
+#include "trichro_core.h"
 #include "trichro_visu2.h"
 #include "numpad_core.h"
 #include "numpad_visuel.h"
-#include <keyboard_functions2.cpp>
+#include "keyboard_functions2.h"
 #include <keyboard_routines2.cpp>
-#include <minifaders_core.cpp>
-#include <minifaders_visu.cpp>
-#include <faders_visuels_26.cpp>
-#include <channels_10_visu.cpp>
-#include <video_tracking_core.cpp>
-#include <video_tracking_visu.cpp>
+#include "minifaders_core.h"
+#include "minifaders_visu.h"
+#include "faders_visuels.h"
+#include "channels_visu.h"
+#include "video_tracking_core.h"
+#include "video_tracking_visu.h"
 
 #include <list_proj_core.cpp>
 #include "list_proj_visu.h" //liste projecteurs
 
-#include <sequentiel_6_core.cpp>
+#include "sequentiel_core.h"
 #include "network_MAC_adress_3.h"
 #include "midi_launchpad.h"
 
 #include "grider_visu.h"
-#include <sequentiel_7_visu.cpp>
+#include "sequentiel_visu.h"
 #include "Draw3.h"
 #include "echo3.h"
 
-#include <procs_visuels_rebuild1.cpp>
-#include <dmx_functions_13.cpp>
+#include "procs_visuels_rebuild1.h"
+#include "dmx_functions.h"
 
 #include <midi_13.cpp>
 #include "CFG_screen.h"
@@ -311,7 +311,7 @@ END_OF_FUNCTION(ticker);
 
 #include <CFG_config_panel_8.cpp>
 
-#include <chasers_visu.cpp>
+#include "chasers_visu.h"
 
 #include <graphics_rebuild1.cpp>
 

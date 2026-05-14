@@ -41,6 +41,15 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
+#include "wc_tus.h"
+#include "gui_boutons_rebuild1.h"
+
+#define PI 3.14116
+
+// defined in save_show.cpp
+int load_gel_list_numerical();
+int load_gel_list_designer();
+
 /*BITMAP *bmp_buffer_trichro= create_bitmap(320, 200);
 clear_bitmap(bmp_buffer_trichro);
 destroy_bitmap(bmp_buffer_trichro);
@@ -166,6 +175,9 @@ return(0);
 int trichro_back_buffer(int xchroma, int ychroma, int rayon, int largeurchroma)//calcul et couleurs dans les 10eme de sec.
 {
 clear_bitmap(bmp_buffer_trichro);
+// coordonnees bitmap centrées : le centre du bitmap correspond au centre de la fenetre
+const int bmp_cx = bmp_buffer_trichro ? bmp_buffer_trichro->w / 2 : 157;
+const int bmp_cy = bmp_buffer_trichro ? bmp_buffer_trichro->h / 2 : 275;
 int coord[4];
 for (hcl=0.0; hcl<360.0; hcl+=0.4)
 {
@@ -174,17 +186,14 @@ for (hcl=0.0; hcl<360.0; hcl+=0.4)
 
 	 hsv_to_rgb(hcl, 1.0, 1.0, &rcl, &gcl, &bcl);
 
-	 coord[0]=xchroma;
-     coord[1]=ychroma;
-     coord[2]=(int)(xchroma+xcl);
-     coord[3]=(int)(ychroma+ycl);
-//	 Line(Vec2D(xchroma,ychroma),Vec2D(xchroma+xcl,ychroma+ycl)).Draw(Rgba(rcl,gcl,bcl));
+	 coord[0]=bmp_cx;
+     coord[1]=bmp_cy;
+     coord[2]=(int)(bmp_cx+xcl);
+     coord[3]=(int)(bmp_cy+ycl);
  polygon(bmp_buffer_trichro, 2, coord, makecol(rcl,gcl,bcl));
 }
 
-//Circle MasqueNoir(Vec2D(xchroma,ychroma),rayon-16);
-//MasqueNoir.Draw(CouleurFond);
-circlefill(bmp_buffer_trichro,  xchroma,ychroma, rayon-16, makecol(0,0,0));
+circlefill(bmp_buffer_trichro, bmp_cx, bmp_cy, rayon-16, makecol(0,0,0));
 
 for(angle = 0 ; angle <(PI*360) / 180  ; angle+=0.1)//radians
 {
@@ -198,10 +207,7 @@ for(angle = 0 ; angle <(PI*360) / 180  ; angle+=0.1)//radians
    angle_snap=angle;//angle rotation roue couleur
    position_curseur_hue_x= xtrichro_window+vx;//affichage
    position_curseur_hue_y=ytrichro_window+vy ;//affichage
-   cref=getpixel(bmp_buffer_trichro,(int)(xchroma+vx),(int)(ychroma+vy));
-    r_pick=getr(cref);
-    v_pick=getg(cref);
-    b_pick=getb(cref);
+   {float hue_deg=angle*(180.0f/3.14159265f); if(hue_deg<0.0f)hue_deg+=360.0f; hsv_to_rgb(hue_deg,1.0f,1.0f,&r_pick,&v_pick,&b_pick);}
 
    stock_etat_picker_dans_dockcolor(dock_color_selected);
    do_colors();//ventilation des niveaux pickés ainsi que distrib dans faders et docks
@@ -222,10 +228,7 @@ if (miditable[0][497]==istyp && miditable[1][497]==ischan && miditable[2][497]==
   vy = sin(angle_snap)*125;
   position_curseur_hue_x= xtrichro_window+vx;
   position_curseur_hue_y=ytrichro_window+vy ;
-  cref=getpixel(bmp_buffer_trichro,(int)(xchroma+vx),(int)(ychroma+vy));
-  r_pick=getr(cref);
-  v_pick=getg(cref);
-  b_pick=getb(cref);
+  {float hue_deg=angle_snap*(180.0f/3.14159265f); if(hue_deg<0.0f)hue_deg+=360.0f; hsv_to_rgb(hue_deg,1.0f,1.0f,&r_pick,&v_pick,&b_pick);}
   stock_etat_picker_dans_dockcolor(dock_color_selected);
   do_colors();//ventilation des niveaux pickés ainsi que distrib dans faders et docks
   if (midi_levels[497]!=previous_trichro_wheel)
@@ -237,19 +240,19 @@ if (miditable[0][497]==istyp && miditable[1][497]==ischan && miditable[2][497]==
 //triangle
 	V3D_f v1 =
 	{
-		xchroma+vxd, ychroma+vyd, 0,
+		(float)(bmp_cx+vxd), (float)(bmp_cy+vyd), 0,
 		0., 0.,
 		makecol(0, 0, 0) // black vertex
 	};
 	V3D_f v2 =
 	{
-		xchroma+vxw, ychroma+vyw, 0,
+		(float)(bmp_cx+vxw), (float)(bmp_cy+vyw), 0,
 		0., 0.,
 		makecol(255, 255, 255) // white vertex
 	};
 	V3D_f v3 =
 	{
-		xchroma+vxh, ychroma+vyh, 0,
+		(float)(bmp_cx+vxh), (float)(bmp_cy+vyh), 0,
 		0., 0.,
 		makecol(r_pick, v_pick, b_pick) // color vertex
 	};
@@ -283,8 +286,8 @@ index_snap_color_wheel_levels=1;
 
 if(   index_snap_color_wheel_levels==1)//take measurement on mouse or midi
 {
-if(getpixel(bmp_buffer_trichro,(int)(xchroma+picker_x),(int)(ychroma+picker_y))!=0)
-{colorpicker=getpixel(bmp_buffer_trichro,(int)(xchroma+picker_x),(int)(ychroma+picker_y));}
+if(getpixel(bmp_buffer_trichro,(int)(bmp_cx+picker_x),(int)(bmp_cy+picker_y))!=0)
+{colorpicker=getpixel(bmp_buffer_trichro,(int)(bmp_cx+picker_x),(int)(bmp_cy+picker_y));}
 
 my_red=getr(colorpicker);
 my_green=getg(colorpicker);

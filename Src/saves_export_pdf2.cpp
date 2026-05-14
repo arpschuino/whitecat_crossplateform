@@ -42,6 +42,8 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 
+#include "wc_tus.h"
+#include "grider_calcul.h"
 #include <setjmp.h>
 #include "hpdf.h"
 int max_ligne_pdf=52;

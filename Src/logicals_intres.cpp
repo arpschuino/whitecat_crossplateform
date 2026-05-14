@@ -41,6 +41,24 @@ WWWWWWWW           C  WWWWWWWW   |
 *
  **/
 
+#include "wc_tus.h"
+#include "sequentiel_core.h"
+#include "faders_operations.h"
+#include "channels_core.h"
+#include "Draw3.h"
+#include "echo3.h"
+#include "patch_core.h"
+#include "video_tracking_core.h"
+#include "network_artnet_3.h"
+#include "saves_export_import.h"
+#include "saves_export_pdf2.h"
+#include "save_show.h"
+#include "saves_menu.h"
+#include "wizard_operations.h"
+#include "grider_calcul.h"
+#include "gestionaire_fenetres2.h"
+#include "chasers_core.h"
+#include "plot_core.h"
 
 int entetes_confirmation()
 {
