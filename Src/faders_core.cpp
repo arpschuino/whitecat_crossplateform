@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -40,6 +40,14 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Fonctions for controlling the faders and their effects
 *
  **/
+
+#include "wc_tus.h"
+#include "audio_core.h"
+#include "grider_calcul.h"
+#include "gui_boutons_rebuild1.h"
+#include "faders_operations.h"
+#include "chasers_core.h"
+#include "faders_core.h"
 
 int indicate_wich_fader_is_the_highest()
 {
@@ -1420,35 +1428,35 @@ else
         switch(the_audio_player)
         {
         case 0://PLAYER 1
-          if(player1->isPlaying()){
-            player1->stop();
+          if(player_op_is_playing(0)){
+            player_op_stop(0);
           }
           else{
-            player1->play();
+            player_op_play(0);
           }
           break;
         case 1://PLAYER 2
-          if(player2->isPlaying()){
-            player2->stop();
+          if(player_op_is_playing(1)){
+            player_op_stop(1);
           }
           else{
-            player2->play();
+            player_op_play(1);
           }
           break;
         case 2://PLAYER 3
-          if(player3->isPlaying()){
-            player3->stop();
+          if(player_op_is_playing(2)){
+            player_op_stop(2);
           }
           else{
-            player3->play();
+            player_op_play(2);
           }
           break;
         case 3://PLAYER 4
-          if(player4->isPlaying()){
-            player4->stop();
+          if(player_op_is_playing(3)){
+            player_op_stop(3);
           }
           else{
-            player4->play();
+            player_op_play(3);
           }
           break;
         }
@@ -1466,35 +1474,35 @@ else
           switch(the_audio_player)
           {
           case 0://PLAYER 1
-            if(player1->isPlaying()){
-              player1->stop();
+            if(player_op_is_playing(0)){
+              player_op_stop(0);
             }
             else{
-              player1->play();
+              player_op_play(0);
             }
             break;
           case 1://PLAYER 2
-            if(player2->isPlaying()){
-              player2->stop();
+            if(player_op_is_playing(1)){
+              player_op_stop(1);
             }
             else{
-              player2->play();
+              player_op_play(1);
             }
             break;
           case 2://PLAYER 3
-            if(player3->isPlaying()){
-              player3->stop();
+            if(player_op_is_playing(2)){
+              player_op_stop(2);
             }
             else{
-              player3->play();
+              player_op_play(2);
             }
             break;
           case 3://PLAYER 4
-            if(player4->isPlaying()){
-              player4->stop();
+            if(player_op_is_playing(3)){
+              player_op_stop(3);
             }
             else{
-              player4->play();
+              player_op_play(3);
             }
             break;
           }
@@ -1512,35 +1520,35 @@ else
           switch(the_audio_player)
           {
           case 0://PLAYER 1
-            if(player1->isPlaying()){
-              player1->stop();
+            if(player_op_is_playing(0)){
+              player_op_stop(0);
             }
             else{
-              player1->play();
+              player_op_play(0);
             }
             break;
           case 1://PLAYER 2
-            if(player2->isPlaying()){
-              player2->stop();
+            if(player_op_is_playing(1)){
+              player_op_stop(1);
             }
             else{
-              player2->play();
+              player_op_play(1);
             }
             break;
           case 2://PLAYER 3
-            if(player3->isPlaying()){
-              player3->stop();
+            if(player_op_is_playing(2)){
+              player_op_stop(2);
             }
             else{
-              player3->play();
+              player_op_play(2);
             }
             break;
           case 3://PLAYER 4
-            if(player4->isPlaying()){
-              player4->stop();
+            if(player_op_is_playing(3)){
+              player_op_stop(3);
             }
             else{
-              player4->play();
+              player_op_play(3);
             }
             break;
           }
@@ -1611,16 +1619,16 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",cmptfader+1,the_audio_player+1);
@@ -1632,16 +1640,16 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
- player1->setPosition(0);
+ player_op_set_position(0, 0);
 break;
 case 1://PLAYER 2
- player2->setPosition(0);
+ player_op_set_position(1, 0);
 break;
 case 2://PLAYER 3
- player3->setPosition(0);
+ player_op_set_position(2, 0);
 break;
 case 3://PLAYER 4
- player4->setPosition(0);
+ player_op_set_position(3, 0);
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",cmptfader+1,the_audio_player+1);
@@ -1653,25 +1661,25 @@ if(player_ignited[the_audio_player]==1)
 switch(the_audio_player)
 {
 case 0://PLAYER 1
-if(player_is_onloopCue[0]==0  ){player1->setPosition(0);}
+if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
-{player1->setPosition(player_seek_position[0]);}
+{player_op_set_position(0, player_seek_position[0]);}
 break;
 case 1://PLAYER 2
-if(player_is_onloopCue[1]==0  ){player2->setPosition(0);}
+if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
-{player2->setPosition(player_seek_position[1]);}
+{player_op_set_position(1, player_seek_position[1]);}
 break;
 case 2://PLAYER 3
-player3->stop();
-if(player_is_onloopCue[2]==0  ){player1->setPosition(0);}
+player_op_stop(2);
+if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
-{player3->setPosition(player_seek_position[2]);}
+{player_op_set_position(2, player_seek_position[2]);}
 break;
 case 3://PLAYER 4
-if(player_is_onloopCue[3]==0  ){player4->setPosition(0);}
+if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
-{player4->setPosition(player_seek_position[3]);}
+{player_op_set_position(3, player_seek_position[3]);}
 break;
 }
 sprintf(string_Last_Order,">> Seek from Fader %d AudioPl %d",cmptfader+1,the_audio_player+1);

@@ -142,7 +142,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include "channels_core.h"
 #include "wizard.h"
 #include "grand_master.h"
-#include <faders_core_24.cpp>
+#include "faders_core.h"
 
 #include <audio_visu.cpp>
 

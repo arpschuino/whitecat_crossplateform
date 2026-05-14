@@ -2069,3 +2069,4 @@ int player_op_set_repeat(int n, bool r)       { audiere::OutputStreamPtr p=get_p
 int player_op_set_pan(int n, float val)       { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setPan(val); return 0; }
 int player_op_set_volume(int n, float val)    { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setVolume(val); return 0; }
 int player_op_set_pitch_shift(int n, float v) { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->setPitchShift(v); return 0; }
+bool player_op_is_playing(int n)              { audiere::OutputStreamPtr p=get_player_ptr(n); return p ? p->isPlaying() : false; }
