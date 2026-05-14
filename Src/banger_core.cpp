@@ -1,4 +1,4 @@
-/*-------------------------------------------------------------------------------------------------------------
+﻿/*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
        WWWWWWWWWWWWWWW           |
@@ -40,6 +40,18 @@ WWWWWWWW           C  WWWWWWWW   |
 *   Bangers Core fonctions
 *
  **/
+
+#include "wc_tus.h"
+#include "audio_core.h"
+#include "gestionaire_fenetres2.h"
+#include "chasers_core.h"
+#include "grider_calcul.h"
+#include "faders_core.h"
+#include "faders_operations.h"
+#include "midi_backend.h"
+#include "arduino_device_core.h"
+#include "banger_core.h"
+void ticker_midi_clock();
 
 int Chrono_Reset()
 {
@@ -775,37 +787,37 @@ if(param1_is>=0 && param1_is<5)
      {
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[616+param1_is]=audio_volume_was[param1_is];
-     player1->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(0, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616+param1_is]==1){ index_send_midi_out[616+param1_is]=1;}//VOL
 
      player_pan[param1_is]=audio_pan_was[param1_is];
      midi_levels[620+param1_is]=audio_pan_was[param1_is];
-     player1->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(0, ((float)player_pan[param1_is])/127);
      if(midi_send_out[620+param1_is]==1){ index_send_midi_out[620+param1_is]=1;}//PAN
 
      player_pitch[param1_is]=audio_pitch_was[param1_is];
      midi_levels[624+param1_is]=audio_pitch_was[param1_is];
-     player1->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(0, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[624+param1_is]==1){ index_send_midi_out[624+param1_is]=1;}//PICTH
 
-     player1->setPosition(audio_position_was[param1_is]);
+     player_op_set_position(0, audio_position_was[param1_is]);
 
      player_seek_position[param1_is]=audio_cue_in_was[param1_is];
      player_loop_out_position[param1_is]=audio_cue_out_was[param1_is];
 
      if(player_was_playing[param1_is]==1)
      {
-     player1->play();
-     player_is_playing[param1_is]=(player1->isPlaying());
+     player_op_play(0);
+     player_is_playing[param1_is]=(player_op_is_playing(0));
      }
      if(player_was_onloop[param1_is]==1)
      {
-     player1->setRepeat(true);
+     player_op_set_repeat(0, true);
      player_is_onloop[param1_is]=1;
      }
      else if(player_was_onloopCue[param1_is]==1)
      {
-     player1->setRepeat(true);
+     player_op_set_repeat(0, true);
      player_is_onloopCue[param1_is]=1;
      }
      }
@@ -818,37 +830,37 @@ if(param1_is>=0 && param1_is<5)
      {
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[616+param1_is]=audio_volume_was[param1_is];
-     player2->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(1, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616+param1_is]==1){ index_send_midi_out[616+param1_is]=1;}//VOL
 
      player_pan[param1_is]=audio_pan_was[param1_is];
      midi_levels[620+param1_is]=audio_pan_was[param1_is];
-     player2->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(1, ((float)player_pan[param1_is])/127);
      if(midi_send_out[620+param1_is]==1){ index_send_midi_out[620+param1_is]=1;}//PAN
 
      player_pitch[param1_is]=audio_pitch_was[param1_is];
      midi_levels[624+param1_is]=audio_pitch_was[param1_is];
-     player2->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(1, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[624+param1_is]==1){ index_send_midi_out[624+param1_is]=1;}//PICTH
 
-     player2->setPosition(audio_position_was[param1_is]);
+     player_op_set_position(1, audio_position_was[param1_is]);
 
      player_seek_position[param1_is]=audio_cue_in_was[param1_is];
      player_loop_out_position[param1_is]=audio_cue_out_was[param1_is];
 
      if(player_was_playing[param1_is]==1)
      {
-     player2->play();
-     player_is_playing[param1_is]=(player2->isPlaying());
+     player_op_play(1);
+     player_is_playing[param1_is]=(player_op_is_playing(1));
      }
      if(player_was_onloop[param1_is]==1)
      {
-     player2->setRepeat(true);
+     player_op_set_repeat(1, true);
      player_is_onloop[param1_is]=1;
      }
      else if(player_was_onloopCue[param1_is]==1)
      {
-     player2->setRepeat(true);
+     player_op_set_repeat(1, true);
      player_is_onloopCue[param1_is]=1;
      }
      }
@@ -861,37 +873,37 @@ if(param1_is>=0 && param1_is<5)
      {
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[616+param1_is]=audio_volume_was[param1_is];
-     player3->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(2, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616+param1_is]==1){ index_send_midi_out[616+param1_is]=1;}//VOL
 
      player_pan[param1_is]=audio_pan_was[param1_is];
      midi_levels[620+param1_is]=audio_pan_was[param1_is];
-     player3->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(2, ((float)player_pan[param1_is])/127);
      if(midi_send_out[620+param1_is]==1){ index_send_midi_out[620+param1_is]=1;}//PAN
 
      player_pitch[param1_is]=audio_pitch_was[param1_is];
      midi_levels[624+param1_is]=audio_pitch_was[param1_is];
-     player3->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(2, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[624+param1_is]==1){ index_send_midi_out[624+param1_is]=1;}//PICTH
 
-     player3->setPosition(audio_position_was[param1_is]);
+     player_op_set_position(2, audio_position_was[param1_is]);
 
      player_seek_position[param1_is]=audio_cue_in_was[param1_is];
      player_loop_out_position[param1_is]=audio_cue_out_was[param1_is];
 
      if(player_was_playing[param1_is]==1)
      {
-     player3->play();
-     player_is_playing[param1_is]=(player3->isPlaying());
+     player_op_play(2);
+     player_is_playing[param1_is]=(player_op_is_playing(2));
      }
      if(player_was_onloop[param1_is]==1)
      {
-     player3->setRepeat(true);
+     player_op_set_repeat(2, true);
      player_is_onloop[param1_is]=1;
      }
      else if(player_was_onloopCue[param1_is]==1)
      {
-     player3->setRepeat(true);
+     player_op_set_repeat(2, true);
      player_is_onloopCue[param1_is]=1;
      }
      }
@@ -904,37 +916,37 @@ if(param1_is>=0 && param1_is<5)
      {
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[616+param1_is]=audio_volume_was[param1_is];
-     player4->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(3, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616+param1_is]==1){ index_send_midi_out[616+param1_is]=1;}//VOL
 
      player_pan[param1_is]=audio_pan_was[param1_is];
      midi_levels[620+param1_is]=audio_pan_was[param1_is];
-     player4->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(3, ((float)player_pan[param1_is])/127);
      if(midi_send_out[620+param1_is]==1){ index_send_midi_out[620+param1_is]=1;}//PAN
 
      player_pitch[param1_is]=audio_pitch_was[param1_is];
      midi_levels[624+param1_is]=audio_pitch_was[param1_is];
-     player4->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(3, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[624+param1_is]==1){ index_send_midi_out[624+param1_is]=1;}//PICTH
 
-     player4->setPosition(audio_position_was[param1_is]);
+     player_op_set_position(3, audio_position_was[param1_is]);
 
      player_seek_position[param1_is]=audio_cue_in_was[param1_is];
      player_loop_out_position[param1_is]=audio_cue_out_was[param1_is];
 
      if(player_was_playing[param1_is]==1)
      {
-     player4->play();
-     player_is_playing[param1_is]=(player4->isPlaying());
+     player_op_play(3);
+     player_is_playing[param1_is]=(player_op_is_playing(3));
      }
      if(player_was_onloop[param1_is]==1)
      {
-     player4->setRepeat(true);
+     player_op_set_repeat(3, true);
      player_is_onloop[param1_is]=1;
      }
      else if(player_was_onloopCue[param1_is]==1)
      {
-     player4->setRepeat(true);
+     player_op_set_repeat(3, true);
      player_is_onloopCue[param1_is]=1;
      }
      }
@@ -962,13 +974,13 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {player1_do_stop();
-                           player_is_playing[param1_is]=(player1->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(0));
                            sprintf(string_event,"BACK: Player 1 STOP");}
                            break;
                            case 0:
                            if(player_ignited[param1_is]==1)
-                           {player1->play();
-                           player_is_playing[param1_is]=(player1->isPlaying());
+                           {player_op_play(0);
+                           player_is_playing[param1_is]=(player_op_is_playing(0));
                            sprintf(string_event,"BACK: Player 1 PLAY");}
                            break;
                            }
@@ -979,13 +991,13 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {player2_do_stop();
-                           player_is_playing[param1_is]=(player2->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(1));
                            sprintf(string_event,"BACK: Player 2 STOP");}
                            break;
                            case 0:
                            if(player_ignited[param1_is]==1)
-                           {player2->play();
-                           player_is_playing[param1_is]=(player2->isPlaying());
+                           {player_op_play(1);
+                           player_is_playing[param1_is]=(player_op_is_playing(1));
                            sprintf(string_event,"BACK: Player 2 PLAY");}
                            break;
                            }
@@ -996,13 +1008,13 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {player3_do_stop();
-                           player_is_playing[param1_is]=(player3->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(2));
                            sprintf(string_event,"BACK: Player 3 STOP");}
                            break;
                            case 0:
                            if(player_ignited[param1_is]==1)
-                           {player3->play();
-                           player_is_playing[param1_is]=(player3->isPlaying());
+                           {player_op_play(2);
+                           player_is_playing[param1_is]=(player_op_is_playing(2));
                            sprintf(string_event,"BACK: Player 3 PLAY");}
                            break;
                            }
@@ -1013,13 +1025,13 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {player4_do_stop();
-                           player_is_playing[param1_is]=(player4->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(3));
                            sprintf(string_event,"BACK: Player 4 STOP");}
                            break;
                            case 0:
                            if(player_ignited[param1_is]==1)
-                           {player4->play();
-                           player_is_playing[param1_is]=(player4->isPlaying());
+                           {player_op_play(3);
+                           player_is_playing[param1_is]=(player_op_is_playing(3));
                            sprintf(string_event,"BACK: Player 4 PLAY");}
                            break;
                            }
@@ -1035,7 +1047,7 @@ if(param1_is>=0 && param1_is<5)
 
                            if(player_ignited[param1_is]==1)
                            {player1_do_stop();
-                           player_is_playing[param1_is]=(player1->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(0));
                            sprintf(string_event,"BACK: Player 1 STOP");}
           break;
 
@@ -1043,21 +1055,21 @@ if(param1_is>=0 && param1_is<5)
 
                            if(player_ignited[param1_is]==1)
                            {player2_do_stop();
-                           player_is_playing[param1_is]=(player2->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(1));
                            sprintf(string_event,"BACK: Player 2 STOP");}
           break;
           case 2:
 
                            if(player_ignited[param1_is]==1)
                            {player3_do_stop();
-                           player_is_playing[param1_is]=(player3->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(2));
                            sprintf(string_event,"BACK: Player 3 STOP");}
           break;
           case 3:
 
                            if(player_ignited[param1_is]==1)
                            {player4_do_stop();
-                           player_is_playing[param1_is]=(player4->isPlaying());
+                           player_is_playing[param1_is]=(player_op_is_playing(3));
                            sprintf(string_event,"BACK: Player 4 STOP");}
           break;
           default:
@@ -1083,7 +1095,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player1->setRepeat(false);
+                           player_op_set_repeat(0, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"BACK: Player 1 Loop OFF");
                            }
@@ -1091,7 +1103,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player1->setRepeat(true);
+                           player_op_set_repeat(0, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"BACK: Player 1 Loop ON");
                            }
@@ -1104,7 +1116,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player2->setRepeat(false);
+                           player_op_set_repeat(1, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"BACK: Player 2 Loop OFF");
                            }
@@ -1112,7 +1124,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player2->setRepeat(true);
+                           player_op_set_repeat(1, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"BACK: Player 2 Loop ON");
                            }
@@ -1125,7 +1137,7 @@ if(param1_is>=0 && param1_is<5)
                             case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player3->setRepeat(false);
+                           player_op_set_repeat(2, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"BACK: Player 3 Loop OFF");
                            }
@@ -1133,7 +1145,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player3->setRepeat(true);
+                           player_op_set_repeat(2, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"BACK: Player 3 Loop ON");
                            }
@@ -1146,7 +1158,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player4->setRepeat(false);
+                           player_op_set_repeat(3, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"BACK: Player 4 Loop OFF");
                            }
@@ -1154,7 +1166,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player4->setRepeat(true);
+                           player_op_set_repeat(3, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"BACK: Player 4 Loop ON");
                            }
@@ -1170,22 +1182,22 @@ if(param1_is>=0 && param1_is<5)
      {
           case 0:
           if(player_ignited[param1_is]==1)
-          {player1->setPosition(audio_position_was[param1_is]);
+          {player_op_set_position(0, audio_position_was[param1_is]);
           sprintf(string_event,"BACK: Player 1 SeekToZero");}
           break;
           case 1:
           if(player_ignited[param1_is]==1)
-          {player3->setPosition(audio_position_was[param1_is]);
+          {player_op_set_position(2, audio_position_was[param1_is]);
           sprintf(string_event,"BACK: Player 2 SeekToZero");}
           break;
           case 2:
           if(player_ignited[param1_is]==1)
-          {player3->setPosition(audio_position_was[param1_is]);
+          {player_op_set_position(2, audio_position_was[param1_is]);
           sprintf(string_event,"BACK: Player 3 SeekToZero");}
           break;
           case 3:
           if(player_ignited[param1_is]==1)
-          {player4->setPosition(audio_position_was[param1_is]);
+          {player_op_set_position(3, audio_position_was[param1_is]);
           sprintf(string_event,"BACK: Player 4 SeekToZero");}
           break;
       }
@@ -1199,14 +1211,14 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[616]=audio_volume_was[param1_is];
-     player1->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(0, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616]==1){ index_send_midi_out[616]=1;}//vol
      sprintf(string_event,"BACK: Player 1 SetVolume at %d", audio_volume_was[param1_is]);
      break;
      case 1:
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[617]=audio_volume_was[param1_is];
-     player2->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(1, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[617]==1){ index_send_midi_out[617]=1;}//vol
      sprintf(string_event,"BACK: Player 2 SetVolume at %d", audio_volume_was[param1_is]);
      break;
@@ -1214,14 +1226,14 @@ if(param1_is>=0 && param1_is<5)
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[618]=audio_volume_was[param1_is];
      if(midi_send_out[618]==1){ index_send_midi_out[618]=1;}//vol
-     player3->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(2, ((float)player_niveauson[param1_is])/127);
      sprintf(string_event,"BACK: Player 3 SetVolume at %d", audio_volume_was[param1_is]);
      break;
      case 3:
      player_niveauson[param1_is]=audio_volume_was[param1_is];
      midi_levels[619]=audio_volume_was[param1_is];
      if(midi_send_out[619]==1){ index_send_midi_out[619]=1;}//vol
-     player4->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(3, ((float)player_niveauson[param1_is])/127);
      sprintf(string_event,"BACK: Player 4 SetVolume at %d", audio_volume_was[param1_is]);
      break;
      }
@@ -1238,12 +1250,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 1:
-           player1->setRepeat(false);
+           player_op_set_repeat(0, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"BACK: Player 1 CUE OFF");
            break;
            case 0:
-           player1->setRepeat(true);
+           player_op_set_repeat(0, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"BACK: Player 1 CUE ON");
            break;
@@ -1253,12 +1265,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 1:
-           player2->setRepeat(false);
+           player_op_set_repeat(1, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"BACK: Player 2 CUE OFF");
            break;
            case 0:
-           player2->setRepeat(true);
+           player_op_set_repeat(1, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"BACK: Player 2 CUE ON");
            break;
@@ -1268,12 +1280,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 1:
-           player3->setRepeat(false);
+           player_op_set_repeat(2, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"BACK: Player 3 CUE OFF");
            break;
            case 0:
-           player3->setRepeat(true);
+           player_op_set_repeat(2, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"BACK: Player 3 CUE ON");
            break;
@@ -1283,12 +1295,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 1:
-           player4->setRepeat(false);
+           player_op_set_repeat(3, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"BACK: Player 4 CUE OFF");
            break;
            case 0:
-           player4->setRepeat(true);
+           player_op_set_repeat(3, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"Player 4 CUE ON");
            break;
@@ -1305,19 +1317,19 @@ if(param1_is>=0 && param1_is<5)
      {
 
        case 0://PLAYER 1
-       player1->setPosition(audio_position_was[param1_is]);
+       player_op_set_position(0, audio_position_was[param1_is]);
        sprintf(string_event,"BACK: Player 1 SeekToCueIn");
        break;
        case 1://PLAYER 2
-       player2->setPosition(audio_position_was[param1_is]);
+       player_op_set_position(1, audio_position_was[param1_is]);
        sprintf(string_event,"BACK: Player 2 SeekToCueIn");
        break;
        case 2://PLAYER 3
-       player3->setPosition(audio_position_was[param1_is]);
+       player_op_set_position(2, audio_position_was[param1_is]);
        sprintf(string_event,"BACK: Player 3 SeekToCueIn");
        break;
        case 3://PLAYER 4
-       player4->setPosition(audio_position_was[param1_is]);
+       player_op_set_position(3, audio_position_was[param1_is]);
        sprintf(string_event,"BACK: Player 4 SeekToCueIn");
        break;
        }
@@ -1333,28 +1345,28 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_pan[param1_is]=param2_is;
      midi_levels[620]=param2_is;
-     player1->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(0, ((float)player_pan[param1_is])/127);
      if(midi_send_out[620]==1){ index_send_midi_out[620]=1;}//PAN
      sprintf(string_event,"BACK: Player 1 SetPan at %d",param2_is);
      break;
      case 1:
      player_pan[param1_is]=param2_is;
      midi_levels[621]=param2_is;
-     player2->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(1, ((float)player_pan[param1_is])/127);
      if(midi_send_out[621]==1){ index_send_midi_out[621]=1;}//PAN
      sprintf(string_event,"BACK: Player 2 SetPan at %d",param2_is);
      break;
      case 2:
      player_pan[param1_is]=param2_is;
      midi_levels[622]=param2_is;
-     player3->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(2, ((float)player_pan[param1_is])/127);
      if(midi_send_out[622]==1){ index_send_midi_out[622]=1;}//PAN
      sprintf(string_event,"BACK: Player 3 SetPan at %d",param2_is);
      break;
      case 3:
      player_pan[param1_is]=param2_is;
      midi_levels[623]=param2_is;
-     player4->setPan(((float)player_pan[param1_is])/127);
+     player_op_set_pan(3, ((float)player_pan[param1_is])/127);
      if(midi_send_out[623]==1){ index_send_midi_out[623]=1;}//PAN
      sprintf(string_event,"BACK: Player 4 SetPan at %d",param2_is);
      break;
@@ -1371,28 +1383,28 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_pitch[param1_is]=param2_is;
      midi_levels[624]=param2_is;
-     player1->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(0, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[624]==1){ index_send_midi_out[624]=1;}//PICTH
      sprintf(string_event,"BACK: Player 1 SetPitch at %d",param2_is);
      break;
      case 1:
      player_pitch[param1_is]=param2_is;
      midi_levels[625]=param2_is;
-     player2->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(1, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[625]==1){ index_send_midi_out[625]=1;}//PICTH
      sprintf(string_event,"BACK: Player 2 SetPitch at %d",param2_is);
      break;
      case 2:
      player_pitch[param1_is]=param2_is;
      midi_levels[626]=param2_is;
-     player3->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(2, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[626]==1){ index_send_midi_out[626]=1;}//PICTH
      sprintf(string_event,"BACK: Player 3 SetPitch at %d",param2_is);
      break;
      case 3:
      player_pitch[param1_is]=param2_is;
      midi_levels[627]=param2_is;
-     player4->setPitchShift(((float)player_pitch[param1_is])/127);
+     player_op_set_pitch_shift(3, ((float)player_pitch[param1_is])/127);
      if(midi_send_out[627]==1){ index_send_midi_out[627]=1;}//PICTH
      sprintf(string_event,"BACK: Player 4 SetPitch at %d",param2_is);
      break;
@@ -2519,35 +2531,35 @@ if(param1_is>=0 && param1_is<5)
       {
       case 0:
       player1_do_stop();
-      player_is_playing[param1_is]=(player1->isPlaying());
-      player1->setPitchShift((((float)player_pitch[param1_is])/64));
-      player1->setPan(((float)(player_pan[param1_is]-64))/63);
-      player1->setRepeat(false);
-      player1->setVolume(((float)player_niveauson[param1_is])/127);
+      player_is_playing[param1_is]=(player_op_is_playing(0));
+      player_op_set_pitch_shift(0, (((float)player_pitch[param1_is])/64));
+      player_op_set_pan(0, ((float)(player_pan[param1_is]-64))/63);
+      player_op_set_repeat(0, false);
+      player_op_set_volume(0, ((float)player_niveauson[param1_is])/127);
       break;
       case 1:
       player2_do_stop();
-      player_is_playing[param1_is]=(player2->isPlaying());
-      player2->setPitchShift((((float)player_pitch[param1_is])/64));
-      player2->setPan(((float)(player_pan[param1_is]-64))/63);
-      player2->setRepeat(false);
-      player2->setVolume(((float)player_niveauson[param1_is])/127);
+      player_is_playing[param1_is]=(player_op_is_playing(1));
+      player_op_set_pitch_shift(1, (((float)player_pitch[param1_is])/64));
+      player_op_set_pan(1, ((float)(player_pan[param1_is]-64))/63);
+      player_op_set_repeat(1, false);
+      player_op_set_volume(1, ((float)player_niveauson[param1_is])/127);
       break;
       case 2:
       player3_do_stop();
-      player_is_playing[param1_is]=(player3->isPlaying());
-      player3->setPitchShift((((float)player_pitch[param1_is])/64));
-      player3->setPan(((float)(player_pan[param1_is]-64))/63);
-      player3->setRepeat(false);
-      player3->setVolume(((float)player_niveauson[param1_is])/127);
+      player_is_playing[param1_is]=(player_op_is_playing(2));
+      player_op_set_pitch_shift(2, (((float)player_pitch[param1_is])/64));
+      player_op_set_pan(2, ((float)(player_pan[param1_is]-64))/63);
+      player_op_set_repeat(2, false);
+      player_op_set_volume(2, ((float)player_niveauson[param1_is])/127);
       break;
       case 3:
       player4_do_stop();
-      player_is_playing[param1_is]=(player4->isPlaying());
-      player4->setPitchShift((((float)player_pitch[param1_is])/64));
-      player4->setPan(((float)(player_pan[param1_is]-64))/63);
-      player4->setRepeat(false);
-      player4->setVolume(((float)player_niveauson[param1_is])/127);
+      player_is_playing[param1_is]=(player_op_is_playing(3));
+      player_op_set_pitch_shift(3, (((float)player_pitch[param1_is])/64));
+      player_op_set_pan(3, ((float)(player_pan[param1_is]-64))/63);
+      player_op_set_repeat(3, false);
+      player_op_set_volume(3, ((float)player_niveauson[param1_is])/127);
       break;
       }
 
@@ -2590,7 +2602,7 @@ if(param1_is>=0 && param1_is<5)
                            if(player_ignited[param1_is]==1){player1_do_stop();sprintf(string_event,"Player 1 STOP");}
                            break;
                            case 1:
-                           if(player_ignited[param1_is]==1){player1->play();sprintf(string_event,"Player 1 PLAY");}
+                           if(player_ignited[param1_is]==1){player_op_play(0);sprintf(string_event,"Player 1 PLAY");}
                            break;
                            }
           break;
@@ -2601,7 +2613,7 @@ if(param1_is>=0 && param1_is<5)
                            if(player_ignited[param1_is]==1){player2_do_stop();sprintf(string_event,"Player 2 STOP");}
                            break;
                            case 1:
-                           if(player_ignited[param1_is]==1){player2->play();sprintf(string_event,"Player 2 PLAY");}
+                           if(player_ignited[param1_is]==1){player_op_play(1);sprintf(string_event,"Player 2 PLAY");}
                            break;
                            }
           break;
@@ -2612,7 +2624,7 @@ if(param1_is>=0 && param1_is<5)
                            if(player_ignited[param1_is]==1){player3_do_stop();sprintf(string_event,"Player 3 STOP");}
                            break;
                            case 1:
-                           if(player_ignited[param1_is]==1){player3->play();sprintf(string_event,"Player 3 PLAY");}
+                           if(player_ignited[param1_is]==1){player_op_play(2);sprintf(string_event,"Player 3 PLAY");}
                            break;
                            }
           break;
@@ -2623,7 +2635,7 @@ if(param1_is>=0 && param1_is<5)
                            if(player_ignited[param1_is]==1){player4_do_stop();sprintf(string_event,"Player 4 STOP");}
                            break;
                            case 1:
-                           if(player_ignited[param1_is]==1){player4->play();sprintf(string_event,"Player 4 PLAY");}
+                           if(player_ignited[param1_is]==1){player_op_play(3);sprintf(string_event,"Player 4 PLAY");}
                            break;
                            }
           break;
@@ -2646,16 +2658,16 @@ if(param1_is>=0 && param1_is<5)
      switch(param1_is)//lecteur
      {
           case 0:
-          if(player_ignited[param1_is]==1){player1->play();sprintf(string_event,"Player 1 PLAY");}
+          if(player_ignited[param1_is]==1){player_op_play(0);sprintf(string_event,"Player 1 PLAY");}
           break;
           case 1:
-          if(player_ignited[param1_is]==1){player2->play();sprintf(string_event,"Player 2 PLAY");}
+          if(player_ignited[param1_is]==1){player_op_play(1);sprintf(string_event,"Player 2 PLAY");}
           break;
           case 2:
-          if(player_ignited[param1_is]==1){player3->play();sprintf(string_event,"Player 3 PLAY");}
+          if(player_ignited[param1_is]==1){player_op_play(2);sprintf(string_event,"Player 3 PLAY");}
           break;
           case 3:
-          if(player_ignited[param1_is]==1){player4->play();sprintf(string_event,"Player 4 PLAY");}
+          if(player_ignited[param1_is]==1){player_op_play(3);sprintf(string_event,"Player 4 PLAY");}
           break;
      }
 
@@ -2671,7 +2683,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player1->setRepeat(false);
+                           player_op_set_repeat(0, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"Player 1 Loop OFF");
                            }
@@ -2679,7 +2691,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player1->setRepeat(true);
+                           player_op_set_repeat(0, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"Player 1 Loop ON");
                            }
@@ -2692,7 +2704,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player2->setRepeat(false);
+                           player_op_set_repeat(1, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"Player 2 Loop OFF");
                            }
@@ -2700,7 +2712,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player2->setRepeat(true);
+                           player_op_set_repeat(1, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"Player 2 Loop ON");
                            }
@@ -2713,7 +2725,7 @@ if(param1_is>=0 && param1_is<5)
                             case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player3->setRepeat(false);
+                           player_op_set_repeat(2, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"Player 3 Loop OFF");
                            }
@@ -2721,7 +2733,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player3->setRepeat(true);
+                           player_op_set_repeat(2, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"Player 3 Loop ON");
                            }
@@ -2734,7 +2746,7 @@ if(param1_is>=0 && param1_is<5)
                            case 0:
                            if(player_ignited[param1_is]==1)
                            {
-                           player4->setRepeat(false);
+                           player_op_set_repeat(3, false);
                            player_is_onloop[param1_is]=0;
                            sprintf(string_event,"Player 4 Loop OFF");
                            }
@@ -2742,7 +2754,7 @@ if(param1_is>=0 && param1_is<5)
                            case 1:
                            if(player_ignited[param1_is]==1)
                            {
-                           player4->setRepeat(true);
+                           player_op_set_repeat(3, true);
                            player_is_onloop[param1_is]=1;
                            sprintf(string_event,"Player 4 Loop ON");
                            }
@@ -2759,22 +2771,22 @@ if(param1_is>=0 && param1_is<5)
           case 0:
           if(player_ignited[param1_is]==1)
           {audio_position_was[param1_is]=position_of_file_in_player[param1_is];
-          player1->setPosition(0); sprintf(string_event,"Player 1 SeekToZero");}
+          player_op_set_position(0, 0); sprintf(string_event,"Player 1 SeekToZero");}
           break;
           case 1:
           if(player_ignited[param1_is]==1)
           {audio_position_was[param1_is]=position_of_file_in_player[param1_is];
-          player2->setPosition(0); sprintf(string_event,"Player 2 SeekToZero");}
+          player_op_set_position(1, 0); sprintf(string_event,"Player 2 SeekToZero");}
           break;
           case 2:
           if(player_ignited[param1_is]==1)
           {audio_position_was[param1_is]=position_of_file_in_player[param1_is];
-          player3->setPosition(0); sprintf(string_event,"Player 3 SeekToZero");}
+          player_op_set_position(2, 0); sprintf(string_event,"Player 3 SeekToZero");}
           break;
           case 3:
           if(player_ignited[param1_is]==1)
           {audio_position_was[param1_is]=position_of_file_in_player[param1_is];
-          player4->setPosition(0); sprintf(string_event,"Player 4 SeekToZero");}
+          player_op_set_position(3, 0); sprintf(string_event,"Player 4 SeekToZero");}
           break;
       }
       midi_show_flash_seektouch[param1_is]=1;
@@ -2789,14 +2801,14 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_niveauson[param1_is]=param2_is;
      midi_levels[616]=param2_is;
-     player1->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(0, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[616]==1){ index_send_midi_out[616]=1;}//vol
      sprintf(string_event,"Player 1 SetVolume at %d", param2_is);
      break;
      case 1:
      player_niveauson[param1_is]=param2_is;
      midi_levels[617]=param2_is;
-     player2->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(1, ((float)player_niveauson[param1_is])/127);
      if(midi_send_out[617]==1){ index_send_midi_out[617]=1;}//vol
      sprintf(string_event,"Player 2 SetVolume at %d", param2_is);
      break;
@@ -2804,14 +2816,14 @@ if(param1_is>=0 && param1_is<5)
      player_niveauson[param1_is]=param2_is;
      midi_levels[618]=param2_is;
      if(midi_send_out[618]==1){ index_send_midi_out[618]=1;}//vol
-     player3->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(2, ((float)player_niveauson[param1_is])/127);
      sprintf(string_event,"Player 3 SetVolume at %d", param2_is);
      break;
      case 3:
      player_niveauson[param1_is]=param2_is;
      midi_levels[619]=param2_is;
      if(midi_send_out[619]==1){ index_send_midi_out[619]=1;}//vol
-     player4->setVolume(((float)player_niveauson[param1_is])/127);
+     player_op_set_volume(3, ((float)player_niveauson[param1_is])/127);
      sprintf(string_event,"Player 4 SetVolume at %d", param2_is);
      break;
      }
@@ -2828,12 +2840,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 0:
-           player1->setRepeat(false);
+           player_op_set_repeat(0, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"Player 1 CUE OFF");
            break;
            case 1:
-           player1->setRepeat(true);
+           player_op_set_repeat(0, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"Player 1 CUE ON");
            break;
@@ -2843,12 +2855,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 0:
-           player2->setRepeat(false);
+           player_op_set_repeat(1, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"Player 2 CUE OFF");
            break;
            case 1:
-           player2->setRepeat(true);
+           player_op_set_repeat(1, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"Player 2 CUE ON");
            break;
@@ -2858,12 +2870,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 0:
-           player3->setRepeat(false);
+           player_op_set_repeat(2, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"Player 3 CUE OFF");
            break;
            case 1:
-           player3->setRepeat(true);
+           player_op_set_repeat(2, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"Player 3 CUE ON");
            break;
@@ -2873,12 +2885,12 @@ if(param1_is>=0 && param1_is<5)
           switch(param2_is)
           {
            case 0:
-           player4->setRepeat(false);
+           player_op_set_repeat(3, false);
            player_is_onloopCue[param1_is]=0;
            sprintf(string_event,"Player 4 CUE OFF");
            break;
            case 1:
-           player4->setRepeat(true);
+           player_op_set_repeat(3, true);
            player_is_onloopCue[param1_is]=1;
            sprintf(string_event,"Player 4 CUE ON");
            break;
@@ -2895,19 +2907,19 @@ if(param1_is>=0 && param1_is<5)
      switch(param1_is)
      {
        case 0://PLAYER 1
-       player1->loopBackTo(player_seek_position[param1_is]);
+       player_op_loop_back_to(0, player_seek_position[param1_is]);
        sprintf(string_event,"Player 1 SeekToCueIn");
        break;
        case 1://PLAYER 2
-       player2->loopBackTo(player_seek_position[param1_is]);
+       player_op_loop_back_to(1, player_seek_position[param1_is]);
        sprintf(string_event,"Player 2 SeekToCueIn");
        break;
        case 2://PLAYER 3
-       player3->loopBackTo(player_seek_position[param1_is]);
+       player_op_loop_back_to(2, player_seek_position[param1_is]);
        sprintf(string_event,"Player 3 SeekToCueIn");
        break;
        case 3://PLAYER 4
-       player4->loopBackTo(player_seek_position[param1_is]);
+       player_op_loop_back_to(3, player_seek_position[param1_is]);
        sprintf(string_event,"Player 4 SeekToCueIn");
        break;
        }
@@ -2923,28 +2935,28 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_pan[param1_is]=param2_is;
      midi_levels[620]=param2_is;
-     player1->setPan(((float)player_pan[param1_is]-64)/63);
+     player_op_set_pan(0, ((float)player_pan[param1_is]-64)/63);
      if(midi_send_out[620]==1){ index_send_midi_out[620]=1;}//PAN
      sprintf(string_event,"Player 1 SetPan at %d",param2_is);
      break;
      case 1:
      player_pan[param1_is]=param2_is;
      midi_levels[621]=param2_is;
-     player2->setPan(((float)player_pan[param1_is]-64)/63);
+     player_op_set_pan(1, ((float)player_pan[param1_is]-64)/63);
      if(midi_send_out[621]==1){ index_send_midi_out[621]=1;}//PAN
      sprintf(string_event,"Player 2 SetPan at %d",param2_is);
      break;
      case 2:
      player_pan[param1_is]=param2_is;
      midi_levels[622]=param2_is;
-     player3->setPan(((float)player_pan[param1_is]-64)/63);
+     player_op_set_pan(2, ((float)player_pan[param1_is]-64)/63);
      if(midi_send_out[622]==1){ index_send_midi_out[622]=1;}//PAN
      sprintf(string_event,"Player 3 SetPan at %d",param2_is);
      break;
      case 3:
      player_pan[param1_is]=param2_is;
      midi_levels[623]=param2_is;
-     player4->setPan(((float)player_pan[param1_is]-64)/63);
+     player_op_set_pan(3, ((float)player_pan[param1_is]-64)/63);
      if(midi_send_out[623]==1){ index_send_midi_out[623]=1;}//PAN
      sprintf(string_event,"Player 4 SetPan at %d",param2_is);
      break;
@@ -2961,28 +2973,28 @@ if(param1_is>=0 && param1_is<5)
      case 0:
      player_pitch[param1_is]=param2_is;
      midi_levels[624]=param2_is;
-     player1->setPitchShift(((float)player_pitch[param1_is])/64);
+     player_op_set_pitch_shift(0, ((float)player_pitch[param1_is])/64);
      if(midi_send_out[624]==1){ index_send_midi_out[624]=1;}//PICTH
      sprintf(string_event,"Player 1 SetPitch at %d",param2_is);
      break;
      case 1:
      player_pitch[param1_is]=param2_is;
      midi_levels[625]=param2_is;
-     player2->setPitchShift(((float)player_pitch[param1_is])/64);
+     player_op_set_pitch_shift(1, ((float)player_pitch[param1_is])/64);
      if(midi_send_out[625]==1){ index_send_midi_out[625]=1;}//PICTH
      sprintf(string_event,"Player 2 SetPitch at %d",param2_is);
      break;
      case 2:
      player_pitch[param1_is]=param2_is;
      midi_levels[626]=param2_is;
-     player3->setPitchShift(((float)player_pitch[param1_is])/64);
+     player_op_set_pitch_shift(2, ((float)player_pitch[param1_is])/64);
      if(midi_send_out[626]==1){ index_send_midi_out[626]=1;}//PICTH
      sprintf(string_event,"Player 3 SetPitch at %d",param2_is);
      break;
      case 3:
      player_pitch[param1_is]=param2_is;
      midi_levels[627]=param2_is;
-     player4->setPitchShift(((float)player_pitch[param1_is])/64);
+     player_op_set_pitch_shift(3, ((float)player_pitch[param1_is])/64);
      if(midi_send_out[627]==1){ index_send_midi_out[627]=1;}//PICTH
      sprintf(string_event,"Player 4 SetPitch at %d",param2_is);
      break;

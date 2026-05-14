@@ -37,7 +37,15 @@
 - [x] arduino_6_UNO.cpp → arduino_visu.cpp
 - [x] CFG_config_panel_8.cpp → CFG_config_panel.cpp
 - [x] midi_13.cpp → midi_functions.cpp
-- [ ] **banger_core.cpp** — candidat restant (5137 lignes, appels player->)
+- [x] banger_core.cpp → banger_core.cpp / banger_core.h
+
+### À vérifier : banger_core.cpp
+- [ ] Bang "bang it" : clic sur le bouton → flash rouge des 6 ronds + action
+- [ ] Bang depuis mémoire (do_send_bang) : rappel mémoire avec bang associé
+- [ ] do_go_back_bang : retour au banger précédent
+- [ ] Chrono_Reset : reset du chrono dans la fenêtre time
+- [ ] do_loop_bang : banger en boucle → cycle continu sans blocage
+- [ ] do_logical_fenetre_banger : ouvrir la fenêtre banger, interagir avec les boutons
 
 ### À vérifier : midi_functions.cpp (ex midi_13)
 - [ ] Envoi MIDI CC depuis un fader (fader MIDI out)

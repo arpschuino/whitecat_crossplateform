@@ -81,15 +81,15 @@ Fichiers extraits (session courante) :
 - `arduino_6_UNO.cpp` → `arduino_visu.cpp` / `arduino_visu.h`
 - `CFG_config_panel_8.cpp` → `CFG_config_panel.cpp` / `CFG_config_panel.h`
 - `midi_13.cpp` → `midi_functions.cpp` / `midi_13.h`
+- `banger_core.cpp` → `banger_core.cpp` / `banger_core.h` (nom conservé)
 
 Nouveaux wrappers audio (audio_core.h) : `player_op_is_playing`, `player_op_get_position`,
-`player_op_get_length`, `player_op_get_repeat`.
+`player_op_get_length`, `player_op_get_repeat`, `player_op_loop_back_to`.
 
 Fichiers non extractibles (contraintes techniques) :
 - `audio_core.cpp` / `audio_visu.cpp` : `audio_backend.h` contient des implémentations concrètes (minimp3, stb_vorbis, dr_flac) sans garde d'inclusion → ne peut être inclus qu'une seule fois
 - `keyboard_routines2.cpp` : utilise `wc_key_queue` (static dans `graphics_backend.h`)
 - `graphics_rebuild1.cpp` : inclus après les gestionnaires d'événements SDL dans MAIN, ordre critique
-- `banger_core.cpp` : non encore traité
 
 ### Technique (sans impact visible direct)
 

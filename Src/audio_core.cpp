@@ -2073,3 +2073,4 @@ bool player_op_is_playing(int n)              { audiere::OutputStreamPtr p=get_p
 float player_op_get_position(int n)           { audiere::OutputStreamPtr p=get_player_ptr(n); return p ? p->getPosition() : 0.0f; }
 float player_op_get_length(int n)             { audiere::OutputStreamPtr p=get_player_ptr(n); return p ? p->getLength() : 0.0f; }
 bool player_op_get_repeat(int n)              { audiere::OutputStreamPtr p=get_player_ptr(n); return p ? p->getRepeat() : false; }
+int player_op_loop_back_to(int n, float pos)  { audiere::OutputStreamPtr p=get_player_ptr(n); if(p) p->loopBackTo(pos); return 0; }

@@ -147,7 +147,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 #include <audio_visu.cpp>
 
 #include "arduino_device_core.h"
-#include <banger_core.cpp>
+#include "banger_core.h"
 #include "banger_visu.h"
 #include "Call_everybody_5.h"
 

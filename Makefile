@@ -115,6 +115,7 @@ SRC_CPPS := \
     $(SRC)/channels_visu.cpp \
     $(SRC)/sequentiel_visu.cpp \
     $(SRC)/trichro_core.cpp \
+    $(SRC)/banger_core.cpp \
     $(SRC)/faders_core.cpp \
     $(SRC)/arduino_core.cpp \
     $(SRC)/arduino_visu.cpp \

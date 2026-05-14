@@ -58,3 +58,4 @@ bool player_op_is_playing(int n);
 float player_op_get_position(int n);
 float player_op_get_length(int n);
 bool player_op_get_repeat(int n);
+int player_op_loop_back_to(int n, float pos);
