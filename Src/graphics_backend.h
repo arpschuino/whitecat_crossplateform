@@ -1840,8 +1840,13 @@ struct WC_CacheSlot {
     SDL_Texture *tex;
     int w, h, ascent;
 };
-static WC_CacheSlot *wc_cache = nullptr; // heap via calloc au premier Print()
-static SDL_mutex *wc_cache_mutex = nullptr;
+#ifndef WC_SKIP_GLOBALS
+WC_CacheSlot *wc_cache = nullptr;
+SDL_mutex *wc_cache_mutex = nullptr;
+#else
+extern WC_CacheSlot *wc_cache;
+extern SDL_mutex *wc_cache_mutex;
+#endif
 static int wc_print_count = 0;
 
 static unsigned wc_cache_hash(TTF_Font *font, Uint32 col, const char *text) {

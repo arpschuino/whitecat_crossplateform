@@ -2154,6 +2154,7 @@ void save_load_print_to_screen(const std::string label)
 {
     const std::string string_print_to_screen = label.substr (0,64);
 
+    Canvas::Fill(CouleurFond); // garantit wc_frame_was_updated=true dans ce TU → presents_since_draw remis à 0
     if(index_do_quick_save==0)
     {
         show_title();
