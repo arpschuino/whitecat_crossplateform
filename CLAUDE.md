@@ -22,6 +22,9 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - ✅ Process terminates cleanly after quit
 - ✅ Build system fully portable (relative paths, MinGW in tools/)
 - ✅ whitecatlib moved into repo (Nextcloud-synced)
+- ✅ Phase 4 TU extraction (6 TUs extraits, PCH Makefile, WC_SKIP_GLOBALS pattern)
+- ✅ Ticker intelligent — cap 3 niveaux (60/25/idle fps), détection LFO/chasers/GO/dampers
+- ✅ wc_cache/wc_cache_mutex globaux (WC_SKIP_GLOBALS) — rendu texte stable dans tous les TUs
 ## Current Architecture
 - `Src/midi_backend.h` — MIDI abstraction layer (RtMidi)
 - `Src/midi_CORE.cpp` — MIDI init/quit using midi_backend.h
@@ -42,7 +45,9 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - Réactiver les fenêtres désactivées une par une après stabilisation
 - OpenCV 2.4.8 à mettre à jour (non bloquant)
 ## Known Issues
-- CPU usage à surveiller (vsync fallback + cap 60fps en place)
+- CPU idle : 0,4–0,8 % (ticker intelligent en place — cap 3 niveaux 60/25/100 ms)
+- **WC_SKIP_GLOBALS** : tout nouveau global dans `graphics_backend.h` doit suivre ce patron — sinon symbole dupliqué par TU (bug silencieux, difficile à diagnostiquer)
+- **PCH** : si `graphics_backend.h` est modifié, `make clean pch` ou supprimer manuellement `Src/wc_tus.h.gch` avant rebuild
 - **Warnings cachés** : `-w` dans `build.bat` (ligne 44) supprime tous les warnings GCC — à retirer et trier quand le code sera plus propre
 - **Dette technique** : architecture single-file + indentation irrégulière + pas de séparation .h/.cpp — refonte long terme prévue
 ## État des fenêtres (SDL2 migration)

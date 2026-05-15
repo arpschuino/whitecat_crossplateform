@@ -4798,7 +4798,11 @@ sprintf(string_save_load_report[idf],"Opening file %s",   file_bangers_values);
 if (fread(bangers_params, sizeof(int), banger_values_size, fp) !=banger_values_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_bangers_values);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_bangers_values);
- fclose(fp);
+fclose(fp);
+for(int i=0;i<128;i++) for(int j=0;j<6;j++){
+    if(bangers_params[i][j][0]<0||bangers_params[i][j][0]>512) bangers_params[i][j][0]=0;
+    if(bangers_params[i][j][1]<0||bangers_params[i][j][1]>255) bangers_params[i][j][1]=0;
+}
 }
 idf++;
 

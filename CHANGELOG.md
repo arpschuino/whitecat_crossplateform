@@ -39,7 +39,14 @@
 
 ### Performance
 
-- **Réduction CPU** : consommation processeur nettement réduite grâce à un mode idle adaptatif et un cap à 30 fps. WhiteCat sollicite beaucoup moins la machine en veille ou entre les actions.
+- **Réduction CPU — ticker intelligent** : consommation processeur nettement réduite grâce à un mode idle adaptatif et un cap à trois niveaux :
+  - **60 fps** (16 ms) tant que l'utilisateur interagit (< 500 ms depuis le dernier événement souris/clavier)
+  - **25 fps** (40 ms) pendant les animations automatiques (LFO, chasers, crossfade GO/GO BACK, dampers de faders)
+  - **Idle quasi-total** (100 ms) dès qu'aucune animation n'est active
+
+  Le ticker détecte précisément quelles animations sont réellement actives (LFO par canal — modes montée/descente et cyclique —, chasers en cours, passage GO/GO BACK, dampers) et ne signale des frames que si nécessaire. L'ancienne implémentation appelait `wc_request_refresh()` à chaque tick (50 Hz), maintenant le mode 25 fps en permanence même au repos.
+
+  Mesures constatées : CPU 0,4–0,8 %, GPU 0 % au repos ; CPU 7–8 %, GPU 7–8 % pendant des LFOs actifs.
 
 ### Interface & graphisme
 
@@ -90,6 +97,14 @@ Fichiers non extractibles (contraintes techniques) :
 - `audio_core.cpp` / `audio_visu.cpp` : `audio_backend.h` contient des implémentations concrètes (minimp3, stb_vorbis, dr_flac) sans garde d'inclusion → ne peut être inclus qu'une seule fois
 - `keyboard_routines2.cpp` : utilise `wc_key_queue` (static dans `graphics_backend.h`)
 - `graphics_rebuild1.cpp` : inclus après les gestionnaires d'événements SDL dans MAIN, ordre critique
+
+### Corrections architecture (Phase 4 TUs)
+
+- **Rendu texte invisible dans les TUs séparés — correction critique** : après l'extraction en TUs indépendants, tout le texte disparaissait dans toutes les fenêtres sauf la fenêtre principale. Cause racine : `wc_cache` et `wc_cache_mutex` étaient déclarés `static` dans `graphics_backend.h`, créant un symbole distinct par TU de compilation — chaque TU avait son propre pointeur initialisé à `nullptr`, au lieu de partager le pointeur alloué dans MAIN.cpp. Conséquence : `Font::Print()` cherchait dans un cache toujours vide et n'affichait rien. Aggravant : le PCH (`wc_tus.h.gch`) ne dépendait pas de `graphics_backend.h` dans le Makefile ; après modification de ce header, le PCH n'était pas régénéré et tous les TUs compilaient avec l'ancienne déclaration `static`.
+
+  Corrections appliquées :
+  - Migration de `wc_cache` / `wc_cache_mutex` vers le patron `WC_SKIP_GLOBALS` : définition concrète dans MAIN.cpp (sans `WC_SKIP_GLOBALS`), déclarations `extern` dans tous les autres TUs (avec `WC_SKIP_GLOBALS`).
+  - Règle PCH du Makefile corrigée : `$(PCH)` dépend désormais de `$(SRC)/graphics_backend.h` en plus de `$(SRC)/wc_tus.h`, garantissant la régénération du PCH à chaque modification de ce header.
 
 ### Technique (sans impact visible direct)
 

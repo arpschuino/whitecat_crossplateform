@@ -51,6 +51,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "midi_backend.h"
 #include "arduino_device_core.h"
 #include "banger_core.h"
+extern int index_nbre_players_visibles;
 void ticker_midi_clock();
 
 int Chrono_Reset()
@@ -5087,14 +5088,109 @@ mouse_released=1;
 //val 1
 if(mouse_x>xb+270 && mouse_x<xb+270+40 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1)
 {
-bangers_params[index_banger_selected][lp][0]=atol(numeric);
+long v=atol(numeric);
+int btype=bangers_type[index_banger_selected][lp];
+int max1=512;
+char popup_msg[64]="";
+switch(btype){
+    case 1:
+        max1=core_user_define_nb_faders;
+        snprintf(popup_msg,64,"val1 (Fader): 1 to %d",core_user_define_nb_faders);
+        break;
+    case 2: {
+        int act=bangers_action[index_banger_selected][lp];
+        if(act<=4){ max1=15; snprintf(popup_msg,64,"val1 (MIDI Ch): 0 to 15"); }
+        else      { max1=127; snprintf(popup_msg,64,"val1 (MIDI): 0 to 127"); }
+        break;
+    }
+    case 3:
+        max1=core_user_define_nb_bangers;
+        snprintf(popup_msg,64,"val1 (Windows): 1 to %d",core_user_define_nb_bangers);
+        break;
+    case 5:
+        max1=index_nbre_players_visibles;
+        snprintf(popup_msg,64,"val1 (Audio): 0 to %d (%d players active)",index_nbre_players_visibles,index_nbre_players_visibles);
+        break;
+    case 6:
+        max1=core_user_define_nb_bangers;
+        snprintf(popup_msg,64,"val1 (Seq): 1 to %d",core_user_define_nb_bangers);
+        break;
+    case 7:
+        max1=core_user_define_nb_chasers;
+        snprintf(popup_msg,64,"val1 (Chaser): 1 to %d",core_user_define_nb_chasers);
+        break;
+    case 8:
+        max1=core_user_define_nb_faders;
+        snprintf(popup_msg,64,"val1 (MiniFader): 1 to %d",core_user_define_nb_faders);
+        break;
+    case 10:
+        max1=2;
+        snprintf(popup_msg,64,"val1 (Chrono): 0 to 2");
+        break;
+    case 12:
+        max1=core_user_define_nb_bangers;
+        snprintf(popup_msg,64,"val1 (SetBanger): 1 to %d",core_user_define_nb_bangers);
+        break;
+    case 13:
+        max1=core_user_define_nb_faders;
+        snprintf(popup_msg,64,"val1 (MidiMute): 1 to %d",core_user_define_nb_faders);
+        break;
+    case 14:
+        max1=127;
+        snprintf(popup_msg,64,"val1 (GridPlayer): 1 to 127");
+        break;
+    case 15:
+        max1=1;
+        snprintf(popup_msg,64,"val1 (Hardware): 0 or 1");
+        break;
+    case 17:
+        max1=6;
+        snprintf(popup_msg,64,"val1 (Draw): 1 to 6");
+        break;
+}
+if(v>=0 && v<=max1)
+    bangers_params[index_banger_selected][lp][0]=(int)v;
+else if(popup_msg[0]){
+    snprintf(string_confirmation,128,"%s",popup_msg);
+    index_ask_confirm=1;
+}
 reset_numeric_entry();
 mouse_released=1;
 }
 //val 2
 if(mouse_x>xb+320 && mouse_x<xb+320+40 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1)
 {
-bangers_params[index_banger_selected][lp][1]=atol(numeric);
+long v=atol(numeric);
+int btype2=bangers_type[index_banger_selected][lp];
+int max2=255;
+char popup2[64]="";
+switch(btype2){
+    case 2: {
+        int act=bangers_action[index_banger_selected][lp];
+        if(act==21||act==22){ max2=1; snprintf(popup2,64,"val2 (MIDI): 0 or 1"); }
+        else if(act<=23)    { max2=127; snprintf(popup2,64,"val2 (MIDI): 0 to 127"); }
+        break;
+    }
+    case 3:  max2=1;  snprintf(popup2,64,"val2 (Windows): 0 or 1");  break;
+    case 4:  max2=1;  snprintf(popup2,64,"val2 (Alarm): 0 or 1");    break;
+    case 5: {
+        int act=bangers_action[index_banger_selected][lp];
+        if(act==1||act==3)         { max2=126; snprintf(popup2,64,"val2 (Audio file): 0 to 126"); }
+        else if(act==6||act==9||act==10) { max2=127; snprintf(popup2,64,"val2 (Audio): 0 to 127"); }
+        else                       { max2=1;   snprintf(popup2,64,"val2 (Audio): 0 or 1"); }
+        break;
+    }
+    case 8:  max2=1;  snprintf(popup2,64,"val2 (MiniFader): 0 or 1"); break;
+    case 12: max2=1;  snprintf(popup2,64,"val2 (SetBanger): 0 or 1"); break;
+    case 13: max2=1;  snprintf(popup2,64,"val2 (MidiMute): 0 or 1");  break;
+    case 15: max2=50; snprintf(popup2,64,"val2 (Hardware): 0 to 50"); break;
+}
+if(v>=0 && v<=max2)
+    bangers_params[index_banger_selected][lp][1]=(int)v;
+else if(popup2[0]){
+    snprintf(string_confirmation,128,"%s",popup2);
+    index_ask_confirm=1;
+}
 reset_numeric_entry();
 mouse_released=1;
 }
