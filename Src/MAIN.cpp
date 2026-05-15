@@ -222,7 +222,6 @@ void ticker() {
     if (index_is_saving == 0 && init_done == 1 && index_writing_curve == 0 && index_quit == 0) {
         for (int i = 0; i < 9; i++) {
             if (core_do_calculations[i] == 1) {
-                wc_request_refresh(); // une automation tourne → maintenir le rendu actif
                 switch (i) {
                 case 0:
                     detect_actual_master_lock_is();
@@ -267,6 +266,35 @@ void ticker() {
             }
         }
 
+        // wc_request_refresh() uniquement si une animation est réellement en cours.
+        // Évite de forcer 25fps quand tout est statique (automation "enabled" mais rien ne bouge).
+        // — crossfade / go-back en cours, OU vient juste de se terminer (frame final).
+        {
+            static bool prev_go = false;
+            static bool prev_go_back = false;
+            bool go_just_ended = (prev_go && !index_go) || (prev_go_back && !index_go_back);
+            if (index_go || index_go_back || go_just_ended) {
+                wc_request_refresh();
+            }
+            prev_go      = (bool)index_go;
+            prev_go_back = (bool)index_go_back;
+        }
+        // — au moins un LFO actif sur un fader (up/down ou cyclique)
+        if (core_do_calculations[0]) {
+            for (int i = 0; i < 48; i++) {
+                if (lfo_mode_is[i] != 0 || lfo_cycle_is_on[i] != 0) {
+                    wc_request_refresh();
+                    break;
+                }
+            }
+        }
+        // — au moins un chaser en lecture
+        if (core_do_calculations[5]) {
+            for (int i = 0; i < core_user_define_nb_chasers; i++) {
+                if (chaser_is_playing[i]) { wc_request_refresh(); break; }
+            }
+        }
+
         for (int pr = 0; pr < 6; pr++) {
             if (draw_point_is_traced[pr] == 1)
                 wc_request_refresh();
@@ -282,6 +310,7 @@ void ticker() {
                 index_send_midi_out[1960 + i] = 1; //???
                 if (Fader_dampered[i].calculating() == 1) {
                     index_fader_is_manipulated[i] = 1;
+                    wc_request_refresh();
                 } // direct chan
             }
         }

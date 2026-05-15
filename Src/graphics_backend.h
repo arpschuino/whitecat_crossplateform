@@ -1036,9 +1036,10 @@ static inline int set_display_switch_mode(int) {
 // Traitement des evenements SDL (appele dans Canvas::Refresh)
 // SDL event processing (called inside Canvas::Refresh)
 // ============================================================
-static Uint32 wc_last_input_ms = 0;       // timestamp du dernier evenement souris/clavier/midi
-static bool wc_dirty = true;              // faut-il redessiner ce frame ?
-static bool wc_frame_was_updated = false; // un dessin a eu lieu ce cycle
+static Uint32 wc_last_input_ms = 0;        // timestamp du dernier evenement souris/clavier/midi
+static bool wc_dirty = true;               // faut-il redessiner ce frame ?
+static bool wc_frame_was_updated = false;  // un dessin a eu lieu ce cycle
+static bool wc_automation_active = false;  // wc_request_refresh() appelé depuis le dernier Canvas::Refresh
 // Posé sur chaque SDL_MOUSEBUTTONDOWN gauche, consommé par la boucle principale.
 // Garantit que check_graphics_mouse_handling() s'exécute même si DOWN+UP ont
 // été traités dans le même wc_process_events() (mouse_button retombe à 0 trop tôt).
@@ -1050,10 +1051,12 @@ inline void wc_notify_midi_activity() {
     wc_dirty = true;
 }
 
-// Appelé par les automations (LFO, crossfade, chasers...) pour maintenir le rendu actif
+// Appelé par les automations (LFO, crossfade, chasers...) pour maintenir le rendu actif.
+// N'update PAS wc_last_input_ms : seule l'entrée utilisateur réelle garde le cap 60fps.
+// L'automation seule utilise le cap 25fps (40ms), plus doux pour le GPU.
 inline void wc_request_refresh() {
-    wc_last_input_ms = SDL_GetTicks();
     wc_dirty = true;
+    wc_automation_active = true;
 }
 
 // Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
@@ -2026,10 +2029,20 @@ inline void Refresh() {
         WC_FDEBUG("Refresh-after-RenderPresent");
         presents_since_draw++;
 
-        // Cap FPS : actif → 60fps, idle → 10fps
+        // Cap FPS à 3 niveaux :
+        //   utilisateur actif (< 500ms) → 60fps (16ms)
+        //   automation seule            → 25fps (40ms)
+        //   idle (aucune des deux)      → 100ms
         static Uint32 last_frame = 0;
         Uint32 now = SDL_GetTicks();
-        Uint32 cap_ms = (now - wc_last_input_ms < 500) ? 16 : 100;
+        Uint32 cap_ms;
+        if (now - wc_last_input_ms < 500)
+            cap_ms = 16;
+        else if (wc_automation_active)
+            cap_ms = 40;
+        else
+            cap_ms = 100;
+        wc_automation_active = false;
         Uint32 elapsed = now - last_frame;
         if (elapsed < cap_ms)
             SDL_Delay(cap_ms - elapsed);
