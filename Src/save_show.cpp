@@ -1505,6 +1505,20 @@ ticker_midi_clock_rate=BPM_TO_TIMER(24 * midi_BPM);
 install_int_ex(ticker_midi_clock , ticker_midi_clock_rate);
 if(relativ_encoder_midi_clock_value<=0){relativ_encoder_midi_clock_value=1;}
 if(clocklevel_absolutemode<0){clocklevel_absolutemode=0;}
+// Restauration des ports MIDI IN (bitmask) et MIDI OUT sauvegardés
+{
+    int bitmask = index_report_customs[69];
+    int total_in = midi_backend_get_device_count_in();
+    for (int i = 0; i < RTMIDI_MAX_PORTS_IN && i < total_in; i++) {
+        if (bitmask & (1 << i))
+            midi_backend_open_device_in(i);
+    }
+}
+{
+    int port_out = index_report_customs[70];
+    if (port_out >= 0 && port_out < midi_backend_get_device_count_out())
+        midi_backend_open_device_out(port_out);
+}
 return(0);
 }
 

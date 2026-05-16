@@ -29,7 +29,7 @@
 - **Multi-ports MIDI** : prise en charge de plusieurs interfaces MIDI simultanées.
 - **Hotplug MIDI** : branchement/débranchement d'interfaces MIDI à chaud, sans redémarrage.
 - **Stabilité MIDI** : les décrochages et déconnexions aléatoires d'interfaces MIDI présents avec l'ancienne bibliothèque (MidiShare) sont résolus.
-- **Sauvegarde/restauration** : la configuration MIDI est sauvegardée dans le fichier show et restaurée au chargement.
+- **Sauvegarde/restauration** : la configuration MIDI est sauvegardée dans le fichier show et restaurée au chargement. Les ports MIDI IN actifs (bitmask) et le port MIDI OUT sélectionné sont rétablis automatiquement au démarrage — le contrôleur est reconnecté sans intervention de l'utilisateur.
 - **Migration MIDI** : remplacement de MidiShare (obsolète) par RtMidi.
 
 ### Circuits DMX
