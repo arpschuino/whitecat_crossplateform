@@ -37,6 +37,12 @@
 - **Molette souris** : la molette de la souris permet à nouveau de monter/baisser le niveau des circuits sélectionnés (fonctionnalité perdue lors de la migration SDL2, désormais restaurée).
 - **Molette véloce** : plus la molette tourne vite, plus le niveau change rapidement (courbe quadratique, sans inertie).
 
+### MIDI
+
+- **Rafraîchissement des faders en mode idle** : lorsque WhiteCat était en mode veille (aucune interaction utilisateur depuis > 500 ms), les faders actionnés via MIDI n'étaient pas rafraîchis visuellement. Cause racine : `wc_dirty` est une variable `static` locale à chaque TU de compilation — `wc_notify_midi_activity()` appelé depuis `midi_CORE.cpp` mettait à `true` la copie de ce TU, invisible pour la boucle de rendu dans `MAIN.cpp`. De plus, la boucle était bloquée dans `SDL_WaitEventTimeout(100 ms)` et ne se réveillait pas à l'arrivée de données MIDI (événements non-SDL).
+
+  Correction : `wc_notify_midi_activity()` pousse maintenant un `SDL_USEREVENT` via `SDL_PushEvent()` (thread-safe), qui réveille immédiatement `SDL_WaitEventTimeout`. Le handler `wc_handle_event()` s'exécutant dans le contexte de MAIN.cpp, il met à `true` la bonne copie de `wc_dirty` → la boucle principale redessine dès la prochaine itération.
+
 ### Performance
 
 - **Réduction CPU — ticker intelligent** : consommation processeur nettement réduite grâce à un mode idle adaptatif et un cap à trois niveaux :

@@ -1045,10 +1045,20 @@ static bool wc_automation_active = false;  // wc_request_refresh() appelé depui
 // été traités dans le même wc_process_events() (mouse_button retombe à 0 trop tôt).
 static bool wc_click_pending = false;
 
-// Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI
+// Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI.
+// wc_dirty est static-par-TU : le mettre à true ici (midi_CORE.cpp) ne suffit pas
+// à réveiller le rendu dans MAIN.cpp. On pousse un SDL_USEREVENT qui :
+//   1) réveille SDL_WaitEventTimeout si la boucle est en mode idle,
+//   2) est traité dans wc_handle_event() (contexte MAIN.cpp) qui met wc_dirty=true
+//      dans la bonne copie.
+// SDL_PushEvent est thread-safe (RtMidi callback tourne dans un thread séparé).
 inline void wc_notify_midi_activity() {
     wc_last_input_ms = SDL_GetTicks();
     wc_dirty = true;
+    SDL_Event e;
+    SDL_zero(e);
+    e.type = SDL_USEREVENT;
+    SDL_PushEvent(&e);
 }
 
 // Appelé par les automations (LFO, crossfade, chasers...) pour maintenir le rendu actif.
@@ -1189,6 +1199,13 @@ static void wc_handle_event(const SDL_Event &e) {
         if (e.window.event == SDL_WINDOWEVENT_EXPOSED) {
             wc_dirty = true;
         }
+        break;
+
+    case SDL_USEREVENT:
+        // Réveillé par wc_notify_midi_activity() depuis le thread MIDI.
+        // wc_dirty est static-par-TU : on le positionne ici, dans le contexte
+        // de MAIN.cpp, pour que la boucle principale voie le changement.
+        wc_dirty = true;
         break;
 
     default:
