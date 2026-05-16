@@ -1108,7 +1108,6 @@ int main(int /*argc*/, char ** /*argv*/) {
             if (!index_art_polling)
             {
                 process_midi_input();
-                commandes_clavier(); // ici : même thread que wc_key_queue.push() → thread-safe
                 DoMouseLevel();
                 if ((mouse_button == 1 && mouse_released == 0) || wc_click_pending) {
                     wc_click_pending = false;
@@ -1144,6 +1143,21 @@ int main(int /*argc*/, char ** /*argv*/) {
 
             WC_FDEBUG("main-before-Canvas-Refresh");
             Canvas::Refresh();
+            // Drain supplémentaire : récupère tout KEYDOWN arrivé pendant rest(10)/rest(5)
+            // (SDL_Delay ne traite pas les events — ils s'accumulent dans la queue SDL).
+            // Ne pas appeler wc_process_events() ici (s'arrête à MOUSEBUTTONDOWN) :
+            // on veut récupérer les KEYDOWN sans risquer de dépiler un MOUSEDOWN.
+            {
+                SDL_Event _ke;
+                while (SDL_PeepEvents(&_ke, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_KEYDOWN) > 0)
+                    wc_handle_event(_ke);
+            }
+            // Merger() (ticker, 50Hz) calcule bufferSequenciel depuis bufferSaisie.
+            // Si on dessine avant qu'il ait tourné, l'affichage montre les anciennes valeurs
+            // alors que le DMX est déjà mis à jour (source du bug "premier appui invisible").
+            // Quand une touche est en attente : 25ms >= 1 cycle ticker (20ms) — bufferSequenciel frais.
+            bool _had_key = !wc_key_queue.empty();
+            commandes_clavier();
 
             if (index_do_a_screen_capture == 1) {
                 do_a_screen_capture();
@@ -1154,7 +1168,7 @@ int main(int /*argc*/, char ** /*argv*/) {
                 index_do_a_plot_screen_capture = 0;
             }
 
-            rest(5); // limite le CPU - 5ms de pause par cycle
+            rest(_had_key ? 25 : 5); // 25ms si touche : attend Merger() ticker
         }
     } catch (const std::exception &e) {
         FILE *f = fopen(WC_LOG_FILE, "a");

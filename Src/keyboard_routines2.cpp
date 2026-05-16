@@ -742,8 +742,6 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_O:
-
-
             if(index_type==0)
             {
                 key_at_zero();

@@ -310,10 +310,11 @@ static wc_mouse_cb_t mouse_callback = nullptr;
 // ============================================================
 #ifndef WC_SKIP_GLOBALS
 int key_shifts = 0;
+std::queue<int> wc_key_queue; // format Allegro : (scancode<<8)|ascii
 #else
 extern int key_shifts;
+extern std::queue<int> wc_key_queue;
 #endif
-static std::queue<int> wc_key_queue; // format Allegro : (scancode<<8)|ascii
 
 // Scancodes Allegro courants / Common Allegro scancodes
 #define KEY_A SDL_SCANCODE_A
@@ -2062,18 +2063,35 @@ inline void Refresh() {
             cap_ms = 100;
         wc_automation_active = false;
         Uint32 elapsed = now - last_frame;
-        if (elapsed < cap_ms)
-            SDL_Delay(cap_ms - elapsed);
+        // Remplace SDL_Delay par SDL_WaitEventTimeout : réveille immédiatement sur
+        // tout événement (clavier, souris, MIDI) au lieu de dormir aveuglément.
+        // Garantit une réactivité clavier < 1ms quelle que soit la charge MIDI.
+        if (elapsed < cap_ms) {
+            SDL_Event wake_e;
+            if (SDL_WaitEventTimeout(&wake_e, cap_ms - elapsed)) {
+                wc_handle_event(wake_e);
+                if (wake_e.type != SDL_MOUSEBUTTONDOWN)
+                    wc_process_events(); // vide la queue restante sans bloquer
+            }
+        }
         last_frame = SDL_GetTicks();
     } else {
         // Mode stable : attend un événement ou 100ms max.
-        // On traite UN SEUL événement ici : si c'est MOUSEBUTTONDOWN, la boucle
-        // principale verra mouse_button==1 avant que MOUSEBUTTONUP ne soit traité
-        // (sinon SDL_Delay bloquait, les deux events s'accumulaient, et mouse_button
-        // repassait à 0 avant que check_graphics_mouse_handling() soit appelé).
+        // Si c'est MOUSEBUTTONDOWN : traiter UN SEUL event pour que la boucle principale
+        // voie mouse_button==1 avant MOUSEBUTTONUP (sinon le clic serait manqué).
+        // Si c'est un autre event (MOUSEMOTION, etc.) : vider la queue jusqu'au prochain
+        // MOUSEBUTTONDOWN pour qu'un KEYDOWN en attente ne soit pas retardé d'une itération.
         SDL_Event e;
         if (SDL_WaitEventTimeout(&e, 100)) {
             wc_handle_event(e);
+            if (e.type != SDL_MOUSEBUTTONDOWN) {
+                SDL_Event e2;
+                while (SDL_PollEvent(&e2)) {
+                    wc_handle_event(e2);
+                    if (e2.type == SDL_MOUSEBUTTONDOWN)
+                        break;
+                }
+            }
         }
     }
 }
