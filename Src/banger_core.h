@@ -1,4 +1,5 @@
 #pragma once
+void sanitize_banger_params();
 int Chrono_Reset();
 int store_state_of_fader_before_bang(int fader_num);
 int restore_state_of_fader_before_bang(int fader_num);

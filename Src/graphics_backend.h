@@ -2012,15 +2012,16 @@ inline void Refresh() {
     if (!wc_sdl_renderer)
         return;
 
-    // Présente au plus 3× après le dernier dessin pour remplir tous les back-buffers,
-    // puis arrête complètement — zéro travail GPU au repos.
-    static int presents_since_draw = 3;
+    // Présente exactement 1× après chaque draw — le double buffering SDL2 fait que
+    // le 2e present sans redraw affiche l'ANCIEN back buffer → clignotement visible.
+    // On tire profit du SDL_WaitEventTimeout en mode idle pour rester réactif sans GPU.
+    static int presents_since_draw = 1;
     if (wc_frame_was_updated) {
         presents_since_draw = 0;
         wc_frame_was_updated = false;
     }
 
-    if (presents_since_draw < 3) {
+    if (presents_since_draw < 1) {
         // Mode actif : pompe les événements sans bloquer, puis présente
         WC_FDEBUG("Refresh-before-process_events");
         wc_process_events();

@@ -1744,8 +1744,10 @@ int reset_banger_params( int banger_selected, int event)
 
 int reset_banger_event( int banger_selected, int event)
 {
-    bangers_action[banger_selected][ event]=0;
-    reset_banger_params(banger_selected,event);
+    bangers_action[banger_selected][event]=0;
+    bangers_params[banger_selected][event][0]=0;
+    bangers_params[banger_selected][event][1]=0;
+    bangers_delay[banger_selected][event]=0.0;
     return(0);
 }
 
@@ -5416,7 +5418,7 @@ int GlobInit()
 
     if(specify_who_to_save_load[11]==1)///banger////////////////////////////////////
     {
-        for (int bg=0; bg<127; bg++) //127 max=126++
+        for (int bg=0; bg<128; bg++)
         {
             clear_banger(bg);
         }

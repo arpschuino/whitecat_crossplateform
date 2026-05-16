@@ -67,6 +67,15 @@
 
 ### Banger
 
+- **Hold-to-scroll sur les boutons banger** : maintenir le bouton gauche enfoncé sur les boutons de navigation banger (BANGER ++/--), de type d'événement et d'action déclenche maintenant un défilement automatique rapide (délai initial 400 ms, répétition toutes les 80 ms). Avant, un seul clic était enregistré quelle que soit la durée d'appui.
+
+  Fichiers modifiés : `Src/banger_core.cpp`, `Src/MAIN.cpp`.
+
+  Détails techniques :
+  - Mécanique timer SDL (`SDL_GetTicks`) : seuil initial 400 ms + répétition 80 ms.
+  - `wc_request_refresh()` appelé inconditionnellement (pas uniquement lors d'un fire) pour maintenir la boucle en mode actif (25–60 fps) pendant l'appui.
+  - `wc_dirty = true` forcé dans la boucle principale (`MAIN.cpp`) à chaque itération où `check_graphics_mouse_handling()` est appelé, garantissant le rafraîchissement visuel à chaque frame pendant le maintien.
+
 - **Flash des 6 ronds lors de l'activation** : les 6 cercles de la fenêtre banger flashent maintenant en rouge (comme le bouton "bang it") lorsqu'ils sont actifs. Deux corrections :
   - Affichage : les ronds utilisaient `CouleurSurvol` (couleur de survol statique) au lieu de `CouleurFader.WithAlpha(alpha_blinker)` (rouge pulsé).
   - Interaction : un clic direct sur un rond ne déclenchait pas le flash visuel (`do_light_bang_solo[lp]` non mis à jour côté GUI, contrairement au handler MIDI).

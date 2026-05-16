@@ -31,6 +31,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gestionaire_fenetres2.h"
 #include "chasers_core.h"
 #include "plot_core.h"
+#include "banger_core.h"
 #include <ctime>
 
 void ticker_midi_clock();
@@ -4765,6 +4766,7 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_bangers_names);
 }
 idf++;
 
+memset(bangers_type, 0, sizeof(bangers_type));
 if ((fp=fopen( file_bangers_types, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_bangers_types);b_report_error[idf]=1;}
 else
@@ -4777,6 +4779,7 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_bangers_types);
 }
 idf++;
 
+memset(bangers_action, 0, sizeof(bangers_action));
 if ((fp=fopen( file_bangers_actions, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_bangers_actions);b_report_error[idf]=1;}
 else
@@ -4790,6 +4793,7 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_bangers_actions)
 idf++;
 
 
+memset(bangers_params, 0, sizeof(bangers_params));
 if ((fp=fopen( file_bangers_values, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_bangers_values);b_report_error[idf]=1;}
 else
@@ -4799,11 +4803,8 @@ if (fread(bangers_params, sizeof(int), banger_values_size, fp) !=banger_values_s
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_bangers_values);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_bangers_values);
 fclose(fp);
-for(int i=0;i<128;i++) for(int j=0;j<6;j++){
-    if(bangers_params[i][j][0]<0||bangers_params[i][j][0]>512) bangers_params[i][j][0]=0;
-    if(bangers_params[i][j][1]<0||bangers_params[i][j][1]>255) bangers_params[i][j][1]=0;
 }
-}
+sanitize_banger_params();
 idf++;
 
 

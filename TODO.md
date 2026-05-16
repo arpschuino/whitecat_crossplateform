@@ -45,7 +45,7 @@
 - [ ] do_go_back_bang : retour au banger précédent
 - [x] Chrono_Reset : reset du chrono dans la fenêtre time
 - [ ] do_loop_bang : banger en boucle → cycle continu sans blocage
-- [ ] do_logical_fenetre_banger : ouvrir la fenêtre banger, interagir avec les boutons
+- [x] do_logical_fenetre_banger : ouvrir la fenêtre banger, interagir avec les boutons (hold-to-scroll ajouté sur ++/--, type, action)
 
 ### À vérifier : midi_functions.cpp (ex midi_13)
 - [ ] Envoi MIDI CC depuis un fader (fader MIDI out)

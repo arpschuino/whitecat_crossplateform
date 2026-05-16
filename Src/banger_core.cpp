@@ -54,6 +54,54 @@ WWWWWWWW           C  WWWWWWWW   |
 extern int index_nbre_players_visibles;
 void ticker_midi_clock();
 
+void sanitize_banger_params(){
+    for(int i=0;i<128;i++) for(int j=0;j<6;j++){
+        int btype=bangers_type[i][j];
+        int act=bangers_action[i][j];
+        int &v1=bangers_params[i][j][0];
+        int &v2=bangers_params[i][j][1];
+        // type invalide ou non utilisé → tout à zéro
+        if(btype<0 || btype>18 || btype==9){ bangers_type[i][j]=0; bangers_action[i][j]=0; v1=0; v2=0; continue; }
+        if(btype==0){ v1=0; v2=0; continue; }
+        int max1=512;
+        switch(btype){
+            case 1:  max1=core_user_define_nb_faders;   break;
+            case 2:  max1=(act<=4)?15:127;               break;
+            case 3:  max1=core_user_define_nb_bangers;  break;
+            case 5:  max1=index_nbre_players_visibles;  break;
+            case 6:  max1=core_user_define_nb_bangers;  break;
+            case 7:  max1=core_user_define_nb_chasers;  break;
+            case 8:  max1=core_user_define_nb_faders;   break;
+            case 10: max1=2;                             break;
+            case 12: max1=core_user_define_nb_bangers;  break;
+            case 13: max1=core_user_define_nb_faders;   break;
+            case 14: max1=127;                           break;
+            case 15: max1=1;                             break;
+            case 17: max1=6;                             break;
+        }
+        if(v1<0||v1>max1) v1=0;
+        int max2=255;
+        switch(btype){
+            case 2:
+                if(act==21||act==22)     max2=1;
+                else if(act<=23)         max2=127;
+                break;
+            case 3:  max2=1;   break;
+            case 4:  max2=1;   break;
+            case 5:
+                if(act==1||act==3)               max2=126;
+                else if(act==6||act==9||act==10) max2=127;
+                else                             max2=1;
+                break;
+            case 8:  max2=1;   break;
+            case 12: max2=1;   break;
+            case 13: max2=1;   break;
+            case 15: max2=50;  break;
+        }
+        if(v2<0||v2>max2) v2=0;
+    }
+}
+
 int Chrono_Reset()
 {
  actual_tickers_chrono=0;
@@ -4884,9 +4932,15 @@ mouse_released=1;
 }
 else
 {
-if(index_banger_selected<126){index_banger_selected++;}
-else {index_banger_selected=0;}
-mouse_released=1;
+static Uint32 bpp_hold=0,bpp_last_call=0,bpp_last_fire=0;
+Uint32 now=SDL_GetTicks();
+bool new_press=(now-bpp_last_call>200);
+bpp_last_call=now;
+bool fire=false;
+if(new_press){bpp_hold=now;bpp_last_fire=now;fire=true;}
+else if(now-bpp_hold>400&&now-bpp_last_fire>80){bpp_last_fire=now;fire=true;}
+if(fire){if(index_banger_selected<126){index_banger_selected++;}else{index_banger_selected=0;}}
+wc_request_refresh();
 }
 }
 //BANGER --
@@ -4917,9 +4971,15 @@ mouse_released=1;
 }
 else
 {
-if(index_banger_selected>0){index_banger_selected--;}
-else{index_banger_selected=126;}
-mouse_released=1;
+static Uint32 bpm_hold=0,bpm_last_call=0,bpm_last_fire=0;
+Uint32 now=SDL_GetTicks();
+bool new_press=(now-bpm_last_call>200);
+bpm_last_call=now;
+bool fire=false;
+if(new_press){bpm_hold=now;bpm_last_fire=now;fire=true;}
+else if(now-bpm_hold>400&&now-bpm_last_fire>80){bpm_last_fire=now;fire=true;}
+if(fire){if(index_banger_selected>0){index_banger_selected--;}else{index_banger_selected=126;}}
+wc_request_refresh();
 }
 }
 //COPY TO////////////////////////////////////////////////////////////////////////
@@ -5069,19 +5129,29 @@ mouse_released=1;
 //change type d'ev
 if(window_focus_id==917 && mouse_x>xb+30 && mouse_x<xb+30+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1)
 {
-bangers_type[index_banger_selected][lp]++;
-reset_banger_event(index_banger_selected,lp);
-constrain_banger_type(lp);
-mouse_released=1;
+static Uint32 t_hold=0,t_last_call=0,t_last_fire=0; static int t_held=-1;
+Uint32 now=SDL_GetTicks();
+bool new_press=(t_held!=lp)||(now-t_last_call>200);
+t_last_call=now;
+bool fire=false;
+if(new_press){t_held=lp;t_hold=now;t_last_fire=now;fire=true;}
+else if(now-t_hold>400&&now-t_last_fire>80){t_last_fire=now;fire=true;}
+if(fire){bangers_type[index_banger_selected][lp]++;reset_banger_event(index_banger_selected,lp);constrain_banger_type(lp);}
+wc_request_refresh();
 }
 
 //change type action
 if(window_focus_id==917 && mouse_x>xb+150 && mouse_x<xb+150+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1 )
 {
-bangers_action[index_banger_selected][lp]++;
-reset_banger_params(index_banger_selected,lp);
-constrain_banger_param(lp);
-mouse_released=1;
+static Uint32 a_hold=0,a_last_call=0,a_last_fire=0; static int a_held=-1;
+Uint32 now=SDL_GetTicks();
+bool new_press=(a_held!=lp)||(now-a_last_call>200);
+a_last_call=now;
+bool fire=false;
+if(new_press){a_held=lp;a_hold=now;a_last_fire=now;fire=true;}
+else if(now-a_hold>400&&now-a_last_fire>80){a_last_fire=now;fire=true;}
+if(fire){bangers_action[index_banger_selected][lp]++;reset_banger_params(index_banger_selected,lp);constrain_banger_param(lp);}
+wc_request_refresh();
 }
 
 //affectaction datas

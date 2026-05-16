@@ -1120,6 +1120,7 @@ int main(int /*argc*/, char ** /*argv*/) {
                     {
                         move_window(window_focus_id);
                     }
+                    wc_dirty = true; // redraw while mouse held (for hold-to-scroll visual feedback)
                 }
                 if (wc_dirty) {
                     main_actions_on_screen();
