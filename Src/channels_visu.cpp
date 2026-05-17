@@ -410,7 +410,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         {
                             if(show_first_dim_array[num_circ][llo]!=0)
                             {
-                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch +0),((ypos_l) + 62 - ypos_ch+(llo*10)));
+                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch -3),((ypos_l) + 62 - ypos_ch+(llo*10)));
                             }
                         }
                         if(show_more_than_one_dim[num_circ]==1)
@@ -601,8 +601,9 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
                 if(ypos_ch>-30 && ypos_ch<hauteur_ecran)//condition affichage
                 {
+                    int y0 = ypos_ch + 2;
 
-                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)), ypos_ch));
+                    ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)), y0));
 
                     unsigned char circuittoshow=bufferSequenciel[num_circ] ;
                     showisup=0;
@@ -651,12 +652,12 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                     if(c<100)
                     {
                         sprintf(chan_is," %d",num_circ);
-                        petitchiffre.Print(chan_is ,(xchan + (xposch)),ypos_ch +10,CENTER);
+                        petitchiffre.Print(chan_is ,(xchan + (xposch)),ypos_ch +16,CENTER);
                     }
                     else if(c>=100)
                     {
                         sprintf(chan_is,"%d",num_circ);
-                        petitchiffre.Print(chan_is ,((xchan + (xposch))-5),ypos_ch +10,CENTER);
+                        petitchiffre.Print(chan_is ,((xchan + (xposch))-5),ypos_ch +16,CENTER);
                     }
 
 
@@ -679,18 +680,18 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         {
                             ChannelRect.DrawOutline(CouleurFader);
 //affichage du niveau du dock survol�
-                            LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+15, ypos_ch+52));
+                            LevelOverdock.MoveTo(Vec2D(((xchan-5) + (xposch))+15, y0+52));
                             LevelOverdock.Draw(CouleurFader);
                         }
 //affichage du master  qui envoie le plus haut niveau au circuit
                         if(highest_level_comes_from_fader[num_circ]>0)//si le highest level exist : valeur faders de 1 � 48 quand attribu�
                         {
-                            petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),ypos_ch+32,CENTER);
+                            petitdoomInspekt.Print(ol::ToString(highest_level_comes_from_fader[num_circ]) ,((xchan + (xposch))+15),ypos_ch+28,CENTER);
                         }
                         if(i_m_over_a_track==1 && over_track_show_channel[num_circ]>0)
                         {
                             ChannelRect.DrawOutline(CouleurGreen);
-                            LevelOverTrack.MoveTo(Vec2D(((xchan-5) + (xposch))-15,ypos_ch+52));
+                            LevelOverTrack.MoveTo(Vec2D(((xchan-5) + (xposch))-15,y0+52));
                             LevelOverTrack.Draw(CouleurGreen);
                         }
                     }
@@ -731,8 +732,6 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                             petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10, ypos_ch+30,CENTER );
                         }
-
-                        break;
 
 //affichage 255
                     }
@@ -786,13 +785,13 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 //exclude from GM action
                     if(Channels_excluded_from_grand_master[num_circ]==1)
                     {
-                        Circle CircleExcluded(xchan + xposch+26, ypos_ch +11, 3);
+                        Circle CircleExcluded(xchan + xposch+26, y0+11, 3);
                         CircleExcluded.DrawOutline(CouleurBlind);
                     }
 
                     if(channel_is_touched_by_fader_fx[num_circ]==1)
                     {
-                        Circle CircleTouchedbyFx(xchan + xposch+26, ypos_ch +20, 3);
+                        Circle CircleTouchedbyFx(xchan + xposch+26, y0+20, 3);
                         switch(channel_is_touched_by_fader_type_fx[num_circ])
                         {
                         case 0://normal HTP
@@ -830,7 +829,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 //etiquette niveau correction
                     if(channel_level_mofification_while_crossfade[num_circ]!=0)
                     {
-                        LevelModified.MoveTo(Vec2D(xchan+xposch+20,ypos_ch+30));
+                        LevelModified.MoveTo(Vec2D(xchan+xposch+20,y0+30));
                         LevelModified.Draw(CouleurBlind);
                         if (!dmx_view)
                         {
@@ -849,12 +848,12 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         {
                             if(show_first_dim_array[num_circ][llo]!=0)
                             {
-                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch +5), ypos_ch+35+(llo*10));
+                                petitdoomrouge.Print(ol::ToString(show_first_dim_array[num_circ][llo]),(xchan + xposch -3), ypos_ch+28+(llo*10));
                             }
                         }
                         if(show_more_than_one_dim[num_circ]==1)
                         {
-                            petitdoomrouge.Print("+",(xchan + xposch +20), ypos_ch+23);
+                            petitdoomrouge.Print("+",(xchan + xposch +15), ypos_ch+16);
                         }
                     }
 
