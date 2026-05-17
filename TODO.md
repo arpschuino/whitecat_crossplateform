@@ -2,7 +2,7 @@
 
 ## Bugs / Fonctionnalités incomplètes
 
-
+- [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
 
 ---
 
@@ -48,12 +48,12 @@
 - [x] do_logical_fenetre_banger : ouvrir la fenêtre banger, interagir avec les boutons (hold-to-scroll ajouté sur ++/--, type, action)
 
 ### À vérifier : midi_functions.cpp (ex midi_13)
-- [ ] Envoi MIDI CC depuis un fader (fader MIDI out)
+- [x] Envoi MIDI CC depuis un fader (fader MIDI out)
 - [ ] Réception MIDI CC → déplace un fader
 - [ ] Note ON/OFF depuis launchpad → action correspondante
 - [ ] simulate_midi() : déclencher une action MIDI simulée depuis menu
 - [ ] clock_wheel : tempo MIDI ticker visible et fonctionnel
-- [ ] do_midi_config : ouvrir la fenêtre de config MIDI, changer un port, sauvegarder
+- [x] do_midi_config : ouvrir la fenêtre de config MIDI, changer un port, sauvegarder
 
 ### À vérifier : faders_core.cpp (ex faders_core_24)
 - [ ] Déplacer un fader à la souris → niveau circuit OK
@@ -67,9 +67,9 @@
 - [ ] do_arduino_config : affichage de la fenêtre de config Arduino
 
 ### À vérifier : validation banger val1/val2 (banger_core.cpp)
-- [ ] Fader (type 1) : val1 = 1 à core_user_define_nb_faders → popup si dépassement
+- [x] Fader (type 1) : val1 = 1 à core_user_define_nb_faders → popup si dépassement
 - [ ] MIDI (type 2) : val1 = Ch.Midi 0-15 (actions 0-4) ou 0-127 (actions 5+) ; val2 = 0-127 ou 0-1 selon action → popup
-- [ ] Windows (type 3) : val1 ≤ 128, val2 = 0-1
+- [ ] Windows (type 3) : val1 ≤ 128, val2 = 0-1440
 - [ ] Alarm (type 4) : val2 = 0-1
 - [ ] Audio (type 5) : val1 = 0 à index_nbre_players_visibles ; val2 = 0-126 (fichier, actions 1/3), 0-127 (vol/pan/pitch), 0-1 (autres) — **vérifier borne haute fichier (0 ou 1 indexé ?)**
 - [ ] Sequences (type 6) : val1 ≤ 128

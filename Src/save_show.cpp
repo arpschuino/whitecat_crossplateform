@@ -4566,7 +4566,17 @@ else
 sprintf(string_save_load_report[idf],"Opening file %s",   file_chview_name);
 if (fread( channel_view_Name, sizeof(char), chview_name_size, fp) !=chview_name_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_chview_name);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_chview_name);
+else
+{
+    sprintf(string_save_load_report[idf],"Loaded file %s",file_chview_name);
+    char old_name[25];
+    for(int i=1; i<nbre_de_vues_circuits; i++)
+    {
+        sprintf(old_name,"CHANNEL VIEW %d",i+1);
+        if(strcmp(channel_view_Name[i],old_name)==0)
+            sprintf(channel_view_Name[i],"CHANNEL VIEW %d",i);
+    }
+}
  fclose(fp);
 }
 idf++;

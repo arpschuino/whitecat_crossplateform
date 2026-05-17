@@ -436,8 +436,8 @@ int Draw_Channel_Preset_Title(int xchan, int ychan, int prst_v)
     Background_title.SetRoundness(5);
     Background_title.Draw(CouleurLigne.WithAlpha(0.05));
 
-    neuromoyen.Print( ol::ToString(prst_v+1), xchan+25,ychan+15);
-    petitpetitchiffre.Print(ol::ToString(channel_number_in_View[prst_v]),xchan+35,ychan+5);
+    neuromoyen.Print( ol::ToString(prst_v), xchan+25,ychan+15);
+
     neuromoyen.Print( channel_view_Name[prst_v], xchan+45,ychan+15);
     Line(Vec2D(xchan,ychan+25),Vec2D(xchan+600,ychan+25)).Draw(CouleurLigne);
 
@@ -869,86 +869,101 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 int ChannelsMenuSelection(int chx, int chy)
 {
-    Rect Barre(Vec2D(chx,chy),Vec2D(largeur_ChannelMenu,hauteur_ChannelMenu));
+    Rect Barre(Vec2D(chx,chy),Vec2D(largeur_ChannelMenu,30));
     Barre.Draw(CouleurFond);
-    neuromoyen.Print("Ch.View:",chx,chy+13);
-    Rect Classical(Vec2D(chx+70,chy+1),Vec2D(60,18));
-    Classical.SetRoundness(5.0);
-    Classical.Draw(CouleurFader.WithAlpha(ClassicalChannelView));
-    Classical.DrawOutline(CouleurLigne.WithAlpha(0.4));
-    petitchiffre.Print("Classical", chx+75,chy+14);
+    Rect BarreBas(Vec2D(chx,chy+25),Vec2D(555,28));
+    BarreBas.Draw(CouleurFond);
 
-    if(window_focus_id==0 && Midi_Faders_Affectation_Type!=0 && mouse_x>chx+70 && mouse_x<chx+130 && mouse_y>chy+1 && mouse_y<chy+19)
-    {
-        Classical.DrawOutline(CouleurBlind);
-        show_type_midi(1644,"Classical Channel View");
-    }
-
-    Rect ChooseChannelView(Vec2D(chx+80,chy+5),Vec2D(10,10));
-    char tmp_hain[24];
-    for(int lv=0; lv<2; lv++)
-    {
-        for(int i=0; i<8; i++)
-        {
-            ChooseChannelView.MoveTo(Vec2D(chx+140+(i*15),chy+1+(15*lv)));
-            ChooseChannelView.Draw(CouleurNiveau.WithAlpha(Channel_View_MODE[i+(lv*8)]));
-            ChooseChannelView.DrawOutline(CouleurLigne.WithAlpha(0.4));
-            minichiffre.Print(ol::ToString(i+(lv*8)+1),chx+142+(i*15),chy+(15*lv)+8);
-            if(window_focus_id==0 && Midi_Faders_Affectation_Type!=0 && mouse_x>chx+140+(i*15) && mouse_x<chx+150+(i*15) && mouse_y>chy+1+(15*lv) && mouse_y<chy+11+(15*lv))
-            {
-                ChooseChannelView.DrawOutline(CouleurBlind);
-                sprintf(tmp_hain,"Channel View %d",i+(lv*8)+1);
-                show_type_midi(1628+(i+(lv*8)),tmp_hain);
-            }
-        }
-    }
-
-    command_button_view(chx+270,chy+1,index_blind,"BLIND","Shift-F10",754);// int x, inty ,bool state, char *textedesc, int midiaffectation
+    command_button_view(chx+0,chy+1,index_do_freeze,"Freeze","",1335);
+    command_button_view(chx+70,chy+1,index_do_exclude,"Exclude","",1541);
+    command_button_view(chx+140,chy+1,index_blind,"BLIND","Shift-F10",754);
     if (!multiple_direct_chan)
     {
-        command_button_view(chx+340,chy+1,index_direct_chan,"Direct CH.","",1333);
+        command_button_view(chx+210,chy+1,index_direct_chan,"Direct CH.","",1333);
     }
     else
     {
-        command_button_view(chx+340,chy+1,index_direct_chan,"Direct x12","",1333);
+        command_button_view(chx+210,chy+1,index_direct_chan,"Direct x12","",1333);
     }
 
-    command_button_view(chx+410,chy+1,index_inspekt,"View","",1334);// int x, inty ,bool state, char *textedesc, int midiaffectation
-    command_button_view(chx+480,chy+1,index_do_hipass,"HiPass","",1542);// int x, inty ,bool state, char *textedesc, int midiaffectation
-    command_button_view(chx+550,chy+1,index_do_fgroup,"FGroup","",1592);// int x, inty ,bool state, char *textedesc, int midiaffectation
+    command_button_view(chx+280,chy+1,index_inspekt,"View","",1334);
+    command_button_view(chx+350,chy+1,index_do_hipass,"HiPass","",1542);
+    command_button_view(chx+420,chy+1,index_do_fgroup,"FGroup","",1592);
 
     switch(Midi_Faders_Affectation_Type)
     {
     case 0:
-        command_button_view(chx+620,chy+1,Midi_Faders_Affectation_Type,"MidiAffect","",1625);// int x, inty ,bool state, char *textedesc, int midiaffectation
+        command_button_view(chx+490,chy+1,Midi_Faders_Affectation_Type,"MidiAffect","",1625);
         break;
     case 1:
-        command_button_view(chx+620,chy+1,Midi_Faders_Affectation_Type,"MidiAff.X1","",1625);// int x, inty ,bool state, char *textedesc, int midiaffectation
+        command_button_view(chx+490,chy+1,Midi_Faders_Affectation_Type,"MidiAff.X1","",1625);
         break;
     case 2:
-        command_button_view(chx+620,chy+1,Midi_Faders_Affectation_Type,"MidiAff.X8","",1625);// int x, inty ,bool state, char *textedesc, int midiaffectation
+        command_button_view(chx+490,chy+1,Midi_Faders_Affectation_Type,"MidiAff.X8","",1625);
         if(toggle_numerical_midi_way==0)
         {
-        minidoomblanc.Print("P",chx+670,chy+25);
-         }
+        minidoomblanc.Print("P",chx+540,chy+25);
+        }
         else
         {
-        minidoomblanc.Print("CH",chx+670,chy+25);
+        minidoomblanc.Print("CH",chx+540,chy+25);
         }
         break;
     default:
         break;
     }
-    command_button_view(chx+690,chy+1,index_midi_mute,"MidiMute","",1277);
-    command_button_view(chx+760,chy+1,index_global_midi_send_on_faders,"M.Out Fad.","",1593);
-    command_button_view(chx+830,chy+1,index_do_dock,"STORE","F1",743);
-    command_button_view(chx+900,chy+1,index_do_modify,"MODIFY","F2",744);
-    command_button_view(chx+970,chy+1,index_do_report,"REPORT","F3",745);
-    command_button_view(chx+1040,chy+1,index_main_clear,"CLEAR","F4",746);
-    command_button_view(chx+1110,chy+1,index_show_main_menu,"MENUS","RIGHT CLICK",1634);
+    command_button_view(chx+560,chy+1,index_midi_mute,"MidiMute","",1277);
+    command_button_view(chx+630,chy+1,index_global_midi_send_on_faders,"M.Out Fad.","",1593);
+    command_button_view(chx+700,chy+1,index_do_dock,"STORE","F1",743);
+    command_button_view(chx+770,chy+1,index_do_modify,"MODIFY","F2",744);
+    command_button_view(chx+840,chy+1,index_do_report,"REPORT","F3",745);
+    command_button_view(chx+910,chy+1,index_main_clear,"CLEAR","F4",746);
+    command_button_view(chx+980,chy+1,index_show_main_menu,"MENUS","RIGHT CLICK",1634);
+    command_button_view(chx+1050,chy+1,index_call_help,"Help","",1342);
 
-//ligne fin du menu
-    Line(Vec2D(chx,chy+hauteur_ChannelMenu),Vec2D(chx+largeur_ChannelMenu,chy+hauteur_ChannelMenu)).Draw(CouleurLigne);
+//ligne séparatrice
+    Line(Vec2D(chx,chy+26),Vec2D(chx+largeur_ChannelMenu-53,chy+26)).Draw(CouleurLigne);
+
+//bloc Ch.View sous la ligne
+    neuromoyen.Print("Ch.View:",chx,chy+44);
+
+    Rect Classical(Vec2D(chx+70,chy+31),Vec2D(60,18));
+    Classical.SetRoundness(5.0);
+    Classical.Draw(CouleurFader.WithAlpha(ClassicalChannelView));
+    Classical.DrawOutline(CouleurLigne.WithAlpha(0.4));
+    petitchiffre.Print("Classical", chx+75,chy+45);
+    if(window_focus_id==0 && Midi_Faders_Affectation_Type!=0 && mouse_x>chx+70 && mouse_x<chx+130 && mouse_y>chy+31 && mouse_y<chy+49)
+    {
+        Classical.DrawOutline(CouleurBlind);
+        show_type_midi(1644,"Classical Channel View");
+    }
+
+    Rect Patched(Vec2D(chx+140,chy+31),Vec2D(60,18));
+    Patched.SetRoundness(5.0);
+    Patched.Draw(CouleurNiveau.WithAlpha(Channel_View_MODE[0]));
+    Patched.DrawOutline(CouleurLigne.WithAlpha(0.4));
+    petitchiffre.Print("Patched", chx+145,chy+45);
+    if(window_focus_id==0 && Midi_Faders_Affectation_Type!=0 && mouse_x>chx+140 && mouse_x<chx+200 && mouse_y>chy+31 && mouse_y<chy+49)
+    {
+        Patched.DrawOutline(CouleurBlind);
+        show_type_midi(1628,"Patched Channel View");
+    }
+
+    Rect ChooseChannelView(Vec2D(chx+210,chy+31),Vec2D(18,18));
+    char tmp_hain[24];
+    for(int i=1; i<16; i++)
+    {
+        ChooseChannelView.MoveTo(Vec2D(chx+210+((i-1)*23),chy+31));
+        ChooseChannelView.Draw(CouleurNiveau.WithAlpha(Channel_View_MODE[i]));
+        ChooseChannelView.DrawOutline(CouleurLigne.WithAlpha(0.4));
+        petitchiffre.Print(ol::ToString(i),chx+215+((i-1)*23),chy+43,CENTER);
+        if(window_focus_id==0 && Midi_Faders_Affectation_Type!=0 && mouse_x>chx+210+((i-1)*23) && mouse_x<chx+228+((i-1)*23) && mouse_y>chy+31 && mouse_y<chy+49)
+        {
+            ChooseChannelView.DrawOutline(CouleurBlind);
+            sprintf(tmp_hain,"Channel View %d",i);
+            show_type_midi(1628+i,tmp_hain);
+        }
+    }
 
     return(0);
 }

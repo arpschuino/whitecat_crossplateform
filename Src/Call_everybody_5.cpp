@@ -250,7 +250,7 @@ break;
 
 
 //2ème colonne Circuit relatif
-for(int cl=0;cl<5;cl++)
+for(int cl=0;cl<3;cl++)
 {
 switch(cl)
 {
@@ -275,24 +275,10 @@ strcpy(nom_commande,"Light Plot");
 strcpy(raccourci_commande,"");
 stae=index_plot_window;
 break;
-case 3:
-IDmidi=1335;
-IDcommand=cl+10;
-strcpy(nom_commande,"Freeze");
-strcpy(raccourci_commande,"");
-stae=index_do_freeze;
-break;
-case 4:
-IDmidi=1541;
-IDcommand=cl+10;
-strcpy(nom_commande,"Exclude");
-strcpy(raccourci_commande,"");
-stae=index_do_exclude;
-break;
 default:
 break;
 }
-command_button_logical(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);// int x, inty ,bool state, char *textedesc, int midiaffectation
+command_button_logical(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);
 }
 
 
@@ -393,7 +379,7 @@ command_button_logical(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_co
 
 
 //5ème colonne grands blocs
-for(int cl=0;cl<4;cl++)
+for(int cl=0;cl<3;cl++)
 {
 switch(cl)
 {
@@ -412,15 +398,8 @@ sprintf(raccourci_commande,"P");
 stae=index_visual_pad;
 break;
 case 2:
-IDmidi=1342;
-IDcommand=cl+40;
-strcpy(nom_commande,"Help");
-strcpy(raccourci_commande,"");
-stae=index_call_help;
-break;
-case 3:
 IDmidi=757;
-IDcommand=cl+40;
+IDcommand=43;
 sprintf(nom_commande,"QUIT");
 sprintf(raccourci_commande,"CTRL-F12");
 stae=index_do_quit_with_save;
@@ -428,7 +407,7 @@ break;
 default:
 break;
 }
-command_button_logical(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);// int x, inty ,bool state, char *textedesc, int midiaffectation
+command_button_logical(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);
 }
 //fin condition focus + souris
 }
@@ -518,49 +497,32 @@ command_button_view(xmenu+10,ymenu+50+(cl*25),stae,nom_commande,raccourci_comman
 }
 
 //2ème colonne Circuit relatif
-for(int cl=0;cl<5;cl++)
+for(int cl=0;cl<3;cl++)
 {
 switch(cl)
 {
 case 0:
 IDmidi=1331;
-//02/043/2014 unused var IDcommand=cl+10;
 sprintf(nom_commande,"PATCH");
 sprintf(raccourci_commande,"Shift-P");
 stae=index_patch_window;
 break;
 case 1:
 IDmidi=1332;
-//02/03/2014 unused var IDcommand=cl+10;
 strcpy(nom_commande,"LIST");
 strcpy(raccourci_commande,"");
 stae=index_list_projecteurs;
 break;
 case 2:
 IDmidi=1594;
-//02/03/2014 unused var IDcommand=cl+30;
 strcpy(nom_commande,"LIGHT PLOT");
 strcpy(raccourci_commande,"");
 stae=index_plot_window;
 break;
-case 3:
-IDmidi=1335;
-//02/03/2014 unused var IDcommand=cl+10;
-strcpy(nom_commande,"Freeze");
-strcpy(raccourci_commande,"");
-stae=index_do_freeze;
-break;
-case 4:
-IDmidi=1541;
-//02/03/2014 unused var IDcommand=cl+10;
-strcpy(nom_commande,"Exclude");
-strcpy(raccourci_commande,"");
-stae=index_do_exclude;
-break;
 default:
 break;
 }
-command_button_view(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);// int x, inty ,bool state, char *textedesc, int midiaffectation
+command_button_view(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);
 }
 
 
@@ -658,34 +620,24 @@ command_button_view(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_comma
 }
 
 //5ème colonne grands blocs
-for(int cl=0;cl<4;cl++)
+for(int cl=0;cl<3;cl++)
 {
 switch(cl)
 {
 case 0:
 IDmidi=755;
-//02/043/2014 unused var IDcommand=cl+40;
 sprintf(nom_commande,"CFG-Menu");
 sprintf(raccourci_commande,"Shift-F11");
 stae=index_show_config_window;
 break;
 case 1:
 IDmidi=1338;
-//02/03/2014 unused var IDcommand=cl+30;
 sprintf(nom_commande,"N-Pad");
 sprintf(raccourci_commande,"P");
 stae=index_visual_pad;
 break;
 case 2:
-IDmidi=1342;
-//02/03/2014 unused var IDcommand=cl+40;
-strcpy(nom_commande,"Help");
-strcpy(raccourci_commande,"");
-stae=index_call_help;
-break;
-case 3:
 IDmidi=757;
-//02/03/2014 unused var IDcommand=cl+40;
 sprintf(nom_commande,"QUIT");
 sprintf(raccourci_commande,"Ctrl-F12");
 stae=index_do_quit_with_save;
@@ -693,7 +645,7 @@ break;
 default:
 break;
 }
-command_button_view(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);// int x, inty ,bool state, char *textedesc, int midiaffectation
+command_button_view(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);
 }
 
 return(0);

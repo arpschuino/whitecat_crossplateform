@@ -59,7 +59,7 @@ char string_last_ch[36];
 ///////////AFFICHAGES DIVERS CHANNEL SPACE/////////////////////////////////////
 bool ClassicalChannelView = 1;
 int ChannelXMenu = 0, ChannelYMenu = 0;
-int hauteur_ChannelMenu = 30;
+int hauteur_ChannelMenu = 53;
 int largeur_ChannelMenu = 1180;
 int hauteur_preset_titre = 30;
 bool Channel_View_MODE[nbre_de_vues_circuits]; // les 16 indexes de vision

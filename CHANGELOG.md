@@ -54,6 +54,14 @@
 
   Mesures constatées : CPU 0,4–0,8 %, GPU 0 % au repos ; CPU 7–8 %, GPU 7–8 % pendant des LFOs actifs.
 
+### Channel Views — refonte UI et corrections
+
+- **Barre de menu circuits** : restructuration en deux rangées — rangée haute (boutons opérationnels) et rangée basse (sélecteur Ch.View). Les boutons Freeze et Exclude quittent la fenêtre MENUS et rejoignent la barre, à gauche du bouton BLIND. Le bouton Help quitte MENUS et s'affiche à droite du bouton MENUS. Tous les boutons sont décalés vers la gauche.
+- **Sélecteur Ch.View** : les petits carrés passent de 12×12 px à 18×18 px, alignés verticalement avec les boutons Classical/Patched. Renumérotés de 1 à 15 (le carré 0 est remplacé par le bouton "Patched"). Espacement 23 px, numéros centrés en `petitchiffre`.
+- **Numérotation des vues** : les vues sont désormais numérotées de 1 à 15 dans tous les affichages (menu, titres de vue, tooltips MIDI). Correction de la numérotation chargée depuis le fichier de sauvegarde (migration automatique des anciens noms "CHANNEL VIEW N+1" → "CHANNEL VIEW N" au chargement).
+- **Vue Patched** : la vue 0 (Patched) n'affiche plus les circuits déjà assignés à une Channel View 1–15 — seuls les circuits patchés non encore affectés à une autre vue y apparaissent.
+- **Titre de vue** : suppression de l'indicateur de nombre de circuits (petit chiffre en haut de chaque titre de vue).
+
 ### Interface & graphisme
 
 - **Migration graphique** : remplacement d'Allegro + OpenLayer par SDL2. L'application tourne sans dépendance aux anciennes bibliothèques.

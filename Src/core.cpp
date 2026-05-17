@@ -1217,12 +1217,15 @@ int generate_channel_view_list_from_patched_circuits()
         {
             if(Patch[i]==ch)
             {
-                for(int u=0; u<513; u++)
+                for(int v=0; v<nbre_de_vues_circuits && nopatchit==0; v++)
                 {
-                    if(Channel_View_ROUTING[0][u]==ch)
+                    for(int u=0; u<513; u++)
                     {
-                        nopatchit=1;
-                        break;
+                        if(Channel_View_ROUTING[v][u]==ch)
+                        {
+                            nopatchit=1;
+                            break;
+                        }
                     }
                 }
                 if(nopatchit==0)
@@ -5347,10 +5350,9 @@ int GlobInit()
 
         for(int i=0; i<nbre_de_vues_circuits; i++)
         {
-            sprintf(channel_view_Name[i],"CHANNEL VIEW %d", i+1);
+            sprintf(channel_view_Name[i],"CHANNEL VIEW %d", i);
             channel_view_link_type[i]=0;
-            channel_view_link_ref[i]=0;
-            sprintf(channel_view_Name[i],"CHANNEL VIEW %d",i+1);
+            channel_view_link_ref[i]=-1;
             channel_number_in_View[i]=0;
             channel_number_of_lines[i]=0;
             Channel_View_MODE[i]=0;

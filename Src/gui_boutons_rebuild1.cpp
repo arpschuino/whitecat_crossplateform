@@ -1029,6 +1029,14 @@ reset_index_actions();
 }
 index_do_dock=index_do_fgroup;
 break;
+case 115://FREEZE
+index_do_freeze=1;
+index_ask_confirm=1;
+break;
+case 116://EXCLUDE
+index_do_exclude=1;
+index_ask_confirm=1;
+break;
 default:
 break;
 }
