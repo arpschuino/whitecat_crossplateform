@@ -100,6 +100,23 @@
 - **Anciennes bibliothèques** : sources et binaires Allegro 4.4.2, OpenLayer 2.1, Audiere 1.9.4, MidiShare 1.91 supprimés de `whitecatlib/`. Documentation OpenLayer (`doc_ol/`, 172 Mo) supprimée.
 - **DLL obsolètes** dans le dossier build : `alleg44.dll`, `audiere.dll`, `libopenlayer.dll`, `mshare32.dll`, `msMMSystem.dll`. Log parasite `msMMSystem.log` (65 Mo) supprimé.
 
+### UI / Séquenciel
+
+- **Saisie de numéro de mémoire** : la saisie d'un numéro supérieur à 999.9 affiche désormais un message d'erreur dans la fenêtre de confirmation ("Invalid memory number (max 999.9)") au lieu de tronquer silencieusement l'index. Aucune mémoire n'est créée en cas de dépassement.
+- **Fenêtre W_ASKCONFIRM élargie** : largeur passée de 400 à 500 px pour accueillir les messages d'erreur sans débordement.
+
+### Banger
+
+- **Type 6 renommé Sequences → CueList** : le libellé "Sequences" est remplacé par "CueList" dans l'affichage du type de banger, la fenêtre de type Windows et le type de fader.
+- **Validation val1 / val2 (CueList)** : val1 (partie entière) bornée à 0–999, val2 (décimale) à 0–9 — le popup reflète clairement les deux bornes.
+
+### MIDI — Change Reaction
+
+- **Ascenseur (scrollbar)** : remplacement des anciens boutons LineUp/LineDown par un ascenseur complet — piste, thumb draggable, flèches `^`/`v`. La liste de 128 entrées défile 10 par 10.
+- **Flèches à répétition continue** : maintenir le bouton enfoncé sur `^` ou `v` scrolle en continu sans avoir à relâcher.
+- **Scroll molette** : la roulette de la souris fait défiler la liste lorsque le curseur survole la zone Change Reaction.
+- **Protection anti-clic** : les items de la liste ne changent plus de mode pendant le drag du thumb.
+
 ### Phase 4 — Découpage en TUs indépendants (en cours)
 
 Extraction progressive des fichiers inclus par `#include <xxx.cpp>` dans MAIN.cpp
