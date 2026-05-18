@@ -313,7 +313,7 @@ void ticker() {
             bool has_popup = false;
             for (int _wi = 0; _wi < 72 && window_opened[_wi] != 0; _wi++) {
                 int _w = window_opened[_wi];
-                if (_w == W_ASKCONFIRM || _w == W_MAINMENU || _w == W_NUMPAD ||
+                if (_w == W_ASKCONFIRM || _w == W_NUMPAD ||
                     _w == W_SAVE || _w == W_ALARM) {
                     has_popup = true; break;
                 }
