@@ -77,6 +77,7 @@ extern float fraction_goback_X2_in;
 extern float fraction_goback_X1_out;
 extern float alpha_blinker;
 extern float alpha_smooth_blinker;
+extern float alpha_blinker_slow;
 extern float default_time_back;
 extern int ratio_cross_manuel[10000];
 extern bool index_get_back_faders_need_to_be_done;

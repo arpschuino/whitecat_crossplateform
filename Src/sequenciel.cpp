@@ -73,6 +73,7 @@ float fraction_goback_X2_in = 0.0;
 float fraction_goback_X1_out = 0.0;
 float alpha_blinker = 0.0;
 float alpha_smooth_blinker = 0.0;
+float alpha_blinker_slow = 0.2f;
 float default_time_back = 3.0;
 int ratio_cross_manuel[10000];
 bool index_get_back_faders_need_to_be_done = 0;

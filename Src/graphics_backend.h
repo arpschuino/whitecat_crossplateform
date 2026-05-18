@@ -1045,6 +1045,10 @@ static bool wc_automation_active = false;  // wc_request_refresh() appelé depui
 // Garantit que check_graphics_mouse_handling() s'exécute même si DOWN+UP ont
 // été traités dans le même wc_process_events() (mouse_button retombe à 0 trop tôt).
 static bool wc_click_pending = false;
+// Posé par ticker() quand une popup (hors W_SEQUENCIEL) est visible.
+// Lu par Canvas::Refresh() stable mode pour réduire le timeout à 40ms
+// et poser wc_dirty=true sur timeout → blinkers animés sans USEREVENT.
+static bool wc_blink_needed = false;
 
 // Appelé par le backend MIDI pour maintenir le mode actif pendant les mouvements MIDI.
 // wc_dirty est static-par-TU : le mettre à true ici (midi_CORE.cpp) ne suffit pas
@@ -2081,8 +2085,18 @@ inline void Refresh() {
         // voie mouse_button==1 avant MOUSEBUTTONUP (sinon le clic serait manqué).
         // Si c'est un autre event (MOUSEMOTION, etc.) : vider la queue jusqu'au prochain
         // MOUSEBUTTONDOWN pour qu'un KEYDOWN en attente ne soit pas retardé d'une itération.
+        // wc_blink_needed : posé par ticker() quand une fenêtre popup (hors séquenceur)
+        // est ouverte ou que F-Shift/F-Ctrl est actif. Réduit le timeout à 40ms (25fps)
+        // et force wc_dirty=true sur timeout pour que les éléments alpha_blinker
+        // continuent d'animer sans USEREVENT ni wc_request_refresh().
         SDL_Event e;
-        if (SDL_WaitEventTimeout(&e, 100)) {
+        // 40ms (25fps) si popup/blinker actif, 500ms (2fps) sinon :
+        // garantit horloge et led artnet visibles même souris immobile.
+        Uint32 wait_ms = wc_blink_needed ? 40u : 1000u;
+        bool _got_event = SDL_WaitEventTimeout(&e, wait_ms);
+        if (!_got_event)
+            wc_dirty = true;
+        if (_got_event) {
             wc_handle_event(e);
             if (e.type != SDL_MOUSEBUTTONDOWN) {
                 SDL_Event e2;

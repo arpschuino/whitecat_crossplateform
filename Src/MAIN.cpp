@@ -197,11 +197,15 @@ int time_doing() {
     actual_time++;
     alpha_blinker += 0.05;
     alpha_smooth_blinker += 0.001;
+    alpha_blinker_slow += 0.008f;
     if (alpha_blinker > 1) {
         alpha_blinker = 0.2;
     }
     if (alpha_smooth_blinker > 1) {
         alpha_smooth_blinker = 0.0;
+    }
+    if (alpha_blinker_slow > 1.0f) {
+        alpha_blinker_slow = 0.2f;
     }
     return (0);
 }
@@ -299,6 +303,22 @@ void ticker() {
             if (draw_point_is_traced[pr] == 1)
                 wc_request_refresh();
             merge_draw_and_grid_player(pr);
+        }
+
+        // — blinker : wc_blink_needed → Canvas::Refresh réduit le timeout à 40ms (25fps)
+        // et pose wc_dirty=true pour que alpha_blinker continue d'animer en idle.
+        // Seuls les vrais popups/dialogs sont dans la whitelist (les fenêtres workspace
+        // comme W_FADERS, W_CFGMENU... ne blinkent pas : pas besoin de les réveiller).
+        {
+            bool has_popup = false;
+            for (int _wi = 0; _wi < 72 && window_opened[_wi] != 0; _wi++) {
+                int _w = window_opened[_wi];
+                if (_w == W_ASKCONFIRM || _w == W_MAINMENU || _w == W_NUMPAD ||
+                    _w == W_SAVE || _w == W_ALARM) {
+                    has_popup = true; break;
+                }
+            }
+            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup;
         }
 
         // damper of faders
