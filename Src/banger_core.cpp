@@ -5182,8 +5182,8 @@ switch(btype){
         snprintf(popup_msg,64,"val1 (Audio): 0 to %d (%d players active)",index_nbre_players_visibles,index_nbre_players_visibles);
         break;
     case 6:
-        max1=core_user_define_nb_bangers;
-        snprintf(popup_msg,64,"val1 (Seq): 1 to %d",core_user_define_nb_bangers);
+        max1=999;
+        snprintf(popup_msg,64,"CueList int: 0-999  val2 dec: 0-9");
         break;
     case 7:
         max1=core_user_define_nb_chasers;
@@ -5250,6 +5250,7 @@ switch(btype2){
         else                       { max2=1;   snprintf(popup2,64,"val2 (Audio): 0 or 1"); }
         break;
     }
+    case 6:  max2=9;  snprintf(popup2,64,"CueList dec part: 0 to 9");                    break;
     case 8:  max2=1;  snprintf(popup2,64,"val2 (MiniFader): 0 or 1"); break;
     case 12: max2=1;  snprintf(popup2,64,"val2 (SetBanger): 0 or 1"); break;
     case 13: max2=1;  snprintf(popup2,64,"val2 (MidiMute): 0 or 1");  break;

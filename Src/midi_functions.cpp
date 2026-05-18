@@ -59,6 +59,10 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "numpad_core.h"
 #include "time_core.h"
 #include "midi_13.h"
+extern bool midi_changesignal_scroll_dragging;
+extern int  midi_changesignal_scroll_drag_start_y;
+extern int  midi_changesignal_scroll_drag_start_scroll;
+extern int  last_scroll_mouse_for_midi_changesignal;
 int Bang_event_back(int banger_num, int event_num);
 int Bang_event(int banger_num, int event_num);
 int refresh_banger_wx();
@@ -3563,7 +3567,7 @@ ChangeCh.DrawOutline(CouleurLigne);
 
 
 
-Rect BackDeroule(Vec2D(xrep,yrep),Vec2D(190,210));
+Rect BackDeroule(Vec2D(xrep,yrep),Vec2D(200,210));
 BackDeroule.SetRoundness(15);
 BackDeroule.Draw(CouleurFond.WithAlpha(0.3));
 
@@ -3575,7 +3579,7 @@ OverMidi.SetRoundness(7.5);
 if(mouse_x>xrep+5 && mouse_x<xrep+5+110 && mouse_y>(yrep+10+(y*20)-10) && mouse_y<(yrep+10+(y*20)+5))
 {
 OverMidi.DrawOutline(CouleurLigne);
-if(mouse_button==1 && mouse_released==0)
+if(mouse_button==1 && mouse_released==0 && !midi_changesignal_scroll_dragging)
 {
 midi_change_vel_type[change_vel_midichan_selected][line_midi_changesignal+y]++;
 if(midi_change_vel_type[change_vel_midichan_selected][line_midi_changesignal+y]>6)
@@ -3585,76 +3589,98 @@ mouse_released=1;
 }
 if(y+line_midi_changesignal<=127)
 {
-
 switch(midi_change_vel_type[change_vel_midichan_selected][line_midi_changesignal+y])
 {
-case 0:
-petitpetitchiffre.Print("Normal 0-127",xrep+30,yrep+10+(y*20));
-break;
-case 1:
-OverMidi.Draw(CouleurLock);
-petitpetitchiffre.Print("Inversed 127-0",xrep+30,yrep+10+(y*20));
-break;
-case 2:
-OverMidi.Draw(CouleurSurvol);
-petitpetitchiffre.Print("Toggle mode",xrep+30,yrep+10+(y*20));
-break;
-case 3:
-OverMidi.Draw(CouleurYellow);
-petitpetitchiffre.Print("KOn Vel0 =KOff",xrep+30,yrep+10+(y*20));
-break;
-case 4:
-OverMidi.Draw(CouleurSelection);
-petitpetitchiffre.Print("KOff =KOn Vel0",xrep+30,yrep+10+(y*20));
-break;
-case 5:
-OverMidi.Draw(CouleurBleuProcedure);
-petitpetitchiffre.Print("Pad To Trigger",xrep+30,yrep+10+(y*20));
-break;
-case 6:
-OverMidi.Draw(CouleurBleuProcedure);
-petitpetitchiffre.Print("CC Vel0 =Koff",xrep+30,yrep+10+(y*20));
-break;
-default:
-break;
+case 0: petitpetitchiffre.Print("Normal 0-127",xrep+30,yrep+10+(y*20)); break;
+case 1: OverMidi.Draw(CouleurLock);          petitpetitchiffre.Print("Inversed 127-0",xrep+30,yrep+10+(y*20)); break;
+case 2: OverMidi.Draw(CouleurSurvol);        petitpetitchiffre.Print("Toggle mode",   xrep+30,yrep+10+(y*20)); break;
+case 3: OverMidi.Draw(CouleurYellow);        petitpetitchiffre.Print("KOn Vel0 =KOff",xrep+30,yrep+10+(y*20)); break;
+case 4: OverMidi.Draw(CouleurSelection);     petitpetitchiffre.Print("KOff =KOn Vel0",xrep+30,yrep+10+(y*20)); break;
+case 5: OverMidi.Draw(CouleurBleuProcedure); petitpetitchiffre.Print("Pad To Trigger",xrep+30,yrep+10+(y*20)); break;
+case 6: OverMidi.Draw(CouleurBleuProcedure); petitpetitchiffre.Print("CC Vel0 =Koff", xrep+30,yrep+10+(y*20)); break;
+default: break;
 }
 petitpetitchiffre.Print(ol::ToString(line_midi_changesignal+y),xrep+10,yrep+10+(y*20));
 }
 }
 
-//////////////////UP DOWN LINE save/////////////////////
-Circle LineUp(Vec2D(xrep+170,yrep+25),12);
-LineUp.Draw(CouleurFond);
-Circle LineDown(Vec2D(xrep+170,yrep+185),12);
-LineDown.Draw(CouleurFond);
-if(mouse_x>xrep+170-12 && mouse_x<xrep+170+12)
+//////////////////ASCENSEUR/////////////////////
 {
-if(mouse_y>yrep+25-12 && mouse_y<yrep+25+12)
-{
-LineUp.Draw(CouleurSurvol);
-if(mouse_button==1)
-{
-LineUp.Draw(CouleurFader);
-if(line_midi_changesignal>0){line_midi_changesignal--;}
-}
-}
-else if(mouse_y>yrep+185-12 && mouse_y<yrep+185+12)
-{
-LineDown.Draw(CouleurSurvol);
-if(mouse_button==1)
-{
-LineDown.Draw(CouleurFader);
-if(line_midi_changesignal<127){line_midi_changesignal++;}
-else (line_midi_changesignal=127);
-}
-}
-}
-petitchiffre.Print("-",xrep+166,yrep+30);
-petitchiffre.Print("+",xrep+166,yrep+190);
-LineUp.DrawOutline(CouleurLigne);
-LineDown.DrawOutline(CouleurLigne);
+const int total     = 128;
+const int visible   = 10;
+const int max_scroll= total - visible;
+const int bar_w     = 14;
+const int bx        = xrep + 184;
+const int by        = yrep;
+const int bar_h     = 210;
+const int track_h   = bar_h - 2 * bar_w;
+const int thumb_h   = std::max(10, track_h * visible / total);
 
+int thumb_y = by + bar_w + (max_scroll > 0 ? line_midi_changesignal * (track_h - thumb_h) / max_scroll : 0);
+if(thumb_y < by + bar_w)             thumb_y = by + bar_w;
+if(thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
 
+Rect Track(Vec2D(bx, by), Vec2D(bar_w, bar_h));
+Track.SetRoundness(7); Track.Draw(CouleurFond.WithAlpha(0.5));
+
+Rect ArrowUp(Vec2D(bx+1, by), Vec2D(bar_w-2, bar_w));
+ArrowUp.SetRoundness(2);
+ArrowUp.Draw(line_midi_changesignal > 0 ? CouleurGrisAnthracite : CouleurFond);
+petitpetitchiffre.Print("^", bx+4, by+bar_w-2);
+
+Rect ArrowDown(Vec2D(bx+1, by+bar_h-bar_w), Vec2D(bar_w-2, bar_w));
+ArrowDown.SetRoundness(2);
+ArrowDown.Draw(line_midi_changesignal < max_scroll ? CouleurGrisAnthracite : CouleurFond);
+petitpetitchiffre.Print("v", bx+4, by+bar_h-2);
+
+Rect Thumb(Vec2D(bx+2, thumb_y), Vec2D(bar_w-4, thumb_h));
+Thumb.SetRoundness(3);
+Thumb.Draw(midi_changesignal_scroll_dragging ? CouleurGrisAnthracite : CouleurGrisAnthracite.WithAlpha(0.7));
+
+if(window_focus_id == W_CFGMENU)
+{
+if(midi_changesignal_scroll_dragging)
+{
+int delta = mouse_y - midi_changesignal_scroll_drag_start_y;
+int travel = track_h - thumb_h;
+if(travel > 0){
+  int ns = midi_changesignal_scroll_drag_start_scroll + delta * max_scroll / travel;
+  if(ns < 0) ns = 0; if(ns > max_scroll) ns = max_scroll;
+  line_midi_changesignal = ns;
+}
+}
+else if(mouse_button == 1 && mouse_released == 0)
+{
+if(mouse_x > bx+1 && mouse_x < bx+bar_w-1 && mouse_y > by && mouse_y < by+bar_w)
+{
+  if(line_midi_changesignal > 0) line_midi_changesignal--;
+}
+else if(mouse_x > bx+1 && mouse_x < bx+bar_w-1 && mouse_y > by+bar_h-bar_w && mouse_y < by+bar_h)
+{
+  if(line_midi_changesignal < max_scroll) line_midi_changesignal++;
+}
+else if(mouse_x > bx+2 && mouse_x < bx+bar_w-2 && mouse_y > thumb_y && mouse_y < thumb_y+thumb_h)
+{
+  midi_changesignal_scroll_dragging = 1;
+  midi_changesignal_scroll_drag_start_y = mouse_y;
+  midi_changesignal_scroll_drag_start_scroll = line_midi_changesignal;
+}
+}
+}
+}
+
+// Molette souris sur la zone Change Reaction
+if(mouse_x >= xrep && mouse_x <= xrep+200 && mouse_y >= yrep && mouse_y <= yrep+210)
+{
+  int wdelta = mouse_z - last_scroll_mouse_for_midi_changesignal;
+  if(wdelta != 0)
+  {
+    line_midi_changesignal -= wdelta;
+    if(line_midi_changesignal < 0)   line_midi_changesignal = 0;
+    if(line_midi_changesignal > 118) line_midi_changesignal = 118;
+  }
+}
+last_scroll_mouse_for_midi_changesignal = mouse_z;
 
 return(0);
 }

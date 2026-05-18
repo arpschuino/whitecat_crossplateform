@@ -83,6 +83,10 @@ extern bool index_midi_mute_on_lfo;
 
 ////////////MIDI CHANGE SIGNAL///////////////////////////////////////////////////
 extern int line_midi_changesignal;
+extern bool midi_changesignal_scroll_dragging;
+extern int midi_changesignal_scroll_drag_start_y;
+extern int midi_changesignal_scroll_drag_start_scroll;
+extern int last_scroll_mouse_for_midi_changesignal;
 extern char string_midichan[16];
 extern int change_vel_midichan_selected;
 extern int midi_change_vel_type[16][128];

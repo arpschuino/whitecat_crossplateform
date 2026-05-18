@@ -549,7 +549,7 @@ case 3:
           switch(bangers_action[index_banger_selected][lp])
      {
      case 1:
-     sprintf(bangers_type_action,"Sequences");
+     sprintf(bangers_type_action,"CueList");
      break;
      case 2:
      sprintf(bangers_type_action,"Fader space");
@@ -669,7 +669,7 @@ case 5:
      }
 break;
 case 6:
-     sprintf(bangers_type_affiche,"Sequences");
+     sprintf(bangers_type_affiche,"CueList");
      switch(bangers_action[index_banger_selected][lp])
      {
       case 0://stage jump
@@ -968,7 +968,7 @@ case 13://midi mute
      sprintf(bangers_type_action,"LFO");
      break;
      case 4:
-     sprintf(bangers_type_action,"Sequences");
+     sprintf(bangers_type_action,"CueList");
      break;
      case 5:
      sprintf(bangers_type_action,"Trichromy");

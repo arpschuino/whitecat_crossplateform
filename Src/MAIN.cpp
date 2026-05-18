@@ -408,6 +408,7 @@ void my_callback(int flags) {
         index_mouse_is_tracking = 0;
         audio_folder_scroll_dragging = 0;
         audio_filelist_scroll_dragging = 0;
+        midi_changesignal_scroll_dragging = 0;
         for (int i = 0; i < 4; i++) audio_seekbar_dragging[i] = 0;
         for (int i = 0; i < 4; i++) audio_pan_dragging[i] = 0;
         for (int i = 0; i < 4; i++) audio_pitch_dragging[i] = 0;

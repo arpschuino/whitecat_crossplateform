@@ -79,6 +79,10 @@ bool index_midi_auto_demute = 0;
 bool index_midi_mute_on_lfo = 0;
 ////////////MIDI CHANGE SIGNAL///////////////////////////////////////////////////
 int line_midi_changesignal = 0;
+bool midi_changesignal_scroll_dragging = 0;
+int midi_changesignal_scroll_drag_start_y = 0;
+int midi_changesignal_scroll_drag_start_scroll = 0;
+int last_scroll_mouse_for_midi_changesignal = 0;
 char string_midichan[16];
 int change_vel_midichan_selected = 0;
 int midi_change_vel_type[16][128];

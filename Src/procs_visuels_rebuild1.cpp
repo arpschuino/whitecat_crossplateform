@@ -129,7 +129,7 @@ switch(window_opened[i])
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_ASKCONFIRM:
-        if(mouse_x>=XConfirm && mouse_x<=XConfirm+400 && mouse_y>=YConfirm && mouse_y<=YConfirm+100 )
+        if(mouse_x>=XConfirm && mouse_x<=XConfirm+500 && mouse_y>=YConfirm && mouse_y<=YConfirm+100 )
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_PLOT:

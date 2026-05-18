@@ -91,6 +91,11 @@ int entetes_confirmation()
  if(numeric_postext>0)
    {
    mem_to_create=(int)(atof(numeric)*10.0001);
+   if(mem_to_create<0||mem_to_create>9999){
+     snprintf(string_confirmation,128,"Invalid memory number (max 999.9)");
+     index_do_create_mem=0;
+     return(0);
+   }
    }
  else
  {
@@ -127,6 +132,11 @@ int entetes_confirmation()
  if(numeric_postext>0)
    {
    mem_to_create=(int)(atof(numeric)*10.0001);
+   if(mem_to_create<0||mem_to_create>9999){
+     snprintf(string_confirmation,128,"Invalid memory number (max 999.9)");
+     index_do_create_mem_plus_faders=0;
+     return(0);
+   }
    }
  else
  {
@@ -789,6 +799,7 @@ int operations_confirmation()
    if(numeric_postext>0)
    {
    mem_to_rec=(int)(atof(numeric)*10.0001);
+   if(mem_to_rec<0||mem_to_rec>9999){return(0);}
    }
    else
    {
@@ -810,6 +821,7 @@ int operations_confirmation()
    if(numeric_postext>0)
    {
    mem_to_rec=(int)(atof(numeric)*10.0001);
+   if(mem_to_rec<0||mem_to_rec>9999){return(0);}
    }
    else
    {
@@ -1548,7 +1560,7 @@ int fenetre_confirm()
 {
  entetes_confirmation();
 
- Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(400,100));
+ Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(500,100));
  FenetreConfirm.SetRoundness(15);
  FenetreConfirm.SetLineWidth(epaisseur_ligne_fader*3);
  FenetreConfirm.Draw(CouleurFond);
@@ -1559,14 +1571,14 @@ int fenetre_confirm()
  }
  else { FenetreConfirm.DrawOutline(CouleurLigne);}
 
- neuromoyen.Print( string_confirmation,XConfirm+110,YConfirm+10+18, 250,  JUSTIFY);
+ neuromoyen.Print( string_confirmation,XConfirm+110,YConfirm+10+18, 350,  JUSTIFY);
 
 
- Rect EscBox(Vec2D(XConfirm+110,YConfirm+60),Vec2D(70,30));
+ Rect EscBox(Vec2D(XConfirm+120,YConfirm+60),Vec2D(70,30));
  EscBox.SetRoundness(7.5);
  EscBox.Draw(CouleurFond);
 
- if(mouse_x>XConfirm+110 && mouse_x<XConfirm+110+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30 && window_focus_id==W_ASKCONFIRM)
+ if(mouse_x>XConfirm+120 && mouse_x<XConfirm+120+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30 && window_focus_id==W_ASKCONFIRM)
  {
  EscBox.Draw(CouleurFader);
  if(mouse_button==1 && mouse_released==0)
@@ -1581,12 +1593,12 @@ int fenetre_confirm()
  }
  }
  EscBox.DrawOutline(CouleurLigne);
- petitchiffre.Print("ESC",XConfirm+110+18, YConfirm+60+18);
+ petitchiffre.Print("ESC",XConfirm+120+18, YConfirm+60+18);
 
-  Rect OkBox(Vec2D(XConfirm+240,YConfirm+60),Vec2D(70,30));
+  Rect OkBox(Vec2D(XConfirm+310,YConfirm+60),Vec2D(70,30));
   OkBox.SetRoundness(7.5);
   OkBox.Draw(CouleurFond);
-  if(mouse_x>XConfirm+240 && mouse_x<XConfirm+240+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30  && window_focus_id==W_ASKCONFIRM)
+  if(mouse_x>XConfirm+310 && mouse_x<XConfirm+310+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30  && window_focus_id==W_ASKCONFIRM)
   {
   OkBox.Draw(CouleurFader);
   if(mouse_button==1 && mouse_released==0)
@@ -1601,7 +1613,7 @@ int fenetre_confirm()
   }
   }
  OkBox.DrawOutline(CouleurLigne);
- petitchiffre.Print("OK",XConfirm+245+18, YConfirm+60+18);
+ petitchiffre.Print("OK",XConfirm+310+18, YConfirm+60+18);
 
  //by pass des confirmations
  if(expert_mode==1)
