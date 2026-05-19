@@ -1118,6 +1118,7 @@ else
      sprintf(string_save_load_report[idf],"! config_windows.txt");
 	}
 	fscanf( cfg_file , "%d %d / %d %d / %d %d / %d %d /\n" ,  &xtrichro_window, &ytrichro_window, &xnum_window,&ynum_window,&videoX,&videoY, &xpatch_window, &ypatch_window);
+	if(ytrichro_window < 250) ytrichro_window = 270; // MoveCloseBox à y-181 : garantit ≥ 70px du haut
 //2eme ligne
 	if( !fgets( read_buff_winfil, sizeof( read_buff_winfil ) ,cfg_file ) )
 	{

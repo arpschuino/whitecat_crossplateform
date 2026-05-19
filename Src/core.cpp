@@ -1864,7 +1864,7 @@ int reset_window_positions()
     xseq_window=500;
     yseq_window=200;
     xtrichro_window=600;
-    ytrichro_window=200;
+    ytrichro_window=270;
     xnum_window=300;
     ynum_window=200;
     videoX=600;
