@@ -21,7 +21,7 @@
 - [ ] Sortie DMX Enttec Open : idem (si interface dispo)
 - [x] Sortie DMX Enttec Pro : idem (si interface dispo)
 - [x] Crossfade GO : le passage de mémoire se fait bien (niveaux, timing)
-- [xi] GO BACK : retour à la mémoire précédente OK
+- [x] GO BACK : retour à la mémoire précédente OK
 - [x] LFOs : un fader avec LFO actif monte/descend correctement
 - [x] Merger : HTP faders + séquentiel → résultat correct sur les circuits
 - [ ] DMX IN (Enttec Pro IN ou Sunlite) : réception et affectation à un dock
@@ -49,17 +49,17 @@
 
 ### À vérifier : midi_functions.cpp (ex midi_13)
 - [x] Envoi MIDI CC depuis un fader (fader MIDI out)
-- [ ] Réception MIDI CC → déplace un fader
-- [ ] Note ON/OFF depuis launchpad → action correspondante
+- [x] Réception MIDI CC → déplace un fader
+- [x] Note ON/OFF depuis launchpad → action correspondante
 - [ ] simulate_midi() : déclencher une action MIDI simulée depuis menu
 - [ ] clock_wheel : tempo MIDI ticker visible et fonctionnel
 - [x] do_midi_config : ouvrir la fenêtre de config MIDI, changer un port, sauvegarder
 
 ### À vérifier : faders_core.cpp (ex faders_core_24)
-- [ ] Déplacer un fader à la souris → niveau circuit OK
+- [x3333] Déplacer un fader à la souris → niveau circuit OK
 - [x] LFO sur fader : oscillation visible (testé — montée/descente + cyclique)
 - [ ] Lock preset : verrouiller/déverrouiller un fader
-- [ ] Dock fader : affecter une mémoire à un fader
+- [x] Dock fader : affecter une mémoire à un fader
 
 ### À vérifier : arduino_core + arduino_visu
 - [ ] Connexion Arduino sur port COM → données reçues (analog/digital)
@@ -70,9 +70,9 @@
 - [x] Fader (type 1) : val1 = 1 à core_user_define_nb_faders → popup si dépassement
 - [ ] MIDI (type 2) : val1 = Ch.Midi 0-15 (actions 0-4) ou 0-127 (actions 5+) ; val2 = 0-127 ou 0-1 selon action → popup
 - [ ] Windows (type 3) : val1 ≤ 128, val2 = 0-1440
-- [ ] Alarm (type 4) : val2 = 0-1
+- [x] Alarm (type 4) : val2 = 0-1
 - [ ] Audio (type 5) : val1 = 0 à index_nbre_players_visibles ; val2 = 0-126 (fichier, actions 1/3), 0-127 (vol/pan/pitch), 0-1 (autres) — **vérifier borne haute fichier (0 ou 1 indexé ?)**
-- [ ] Sequences (type 6) : val1 ≤ 128
+- [x] Sequences (type 6) : val1 ≤ 999
 - [ ] Chasers (type 7) : val1 = 1 à core_user_define_nb_chasers
 - [ ] MiniFaders (type 8) : val1 ≤ core_user_define_nb_faders, val2 = 0-1
 - [ ] Chrono (type 10) : val1 = 0-2
@@ -86,6 +86,6 @@
 - [x] **Ticker intelligent** — wc_request_refresh() ciblé (LFO/chasers/GO/dampers) + cap 3 niveaux (60/25/idle fps)
 - [x] **Correction PCH Makefile** — graphics_backend.h ajouté comme dépendance du PCH
 - [x] **wc_cache global WC_SKIP_GLOBALS** — rendu texte restauré dans tous les TUs
-- [ ] **Phase 5** — Font cache (Font::Print GPU, CPU élevé)
+- [x] **Phase 5** — Font cache 4-way set-associatif LRU (2048 slots, éviction LRU par SDL_GetTicks)
 - [ ] **Phase 6** — Dirty rects
 - [ ] **Phase 7** — Port Linux / Raspberry Pi

@@ -117,6 +117,10 @@
 - **Scroll molette** : la roulette de la souris fait défiler la liste lorsque le curseur survole la zone Change Reaction.
 - **Protection anti-clic** : les items de la liste ne changent plus de mode pendant le drag du thumb.
 
+### Performance — Font cache (Phase 5)
+
+- **Cache texte 4-way set-associatif** : remplacement du cache direct-mapped 512 slots par un cache 4-way LRU 2048 slots (512 sets × 4 ways). Sur un miss, le slot le moins récemment utilisé du set est évinc (horodatage `SDL_GetTicks()`), au lieu d'écraser aveuglément l'unique slot disponible. Réduit drastiquement le nombre de `SDL_DestroyTexture` / `SDL_CreateTextureFromSurface` par frame dans les vues denses (patch, séquenciel, faders). Empreinte mémoire : ~310 Ko (stable, pas d'allocation dynamique).
+
 ### Phase 4 — Découpage en TUs indépendants (en cours)
 
 Extraction progressive des fichiers inclus par `#include <xxx.cpp>` dans MAIN.cpp

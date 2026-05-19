@@ -1854,16 +1854,21 @@ class Bitmap {
 
 // ----------------------------------------------------------------
 // TextRenderer (polices TTF → SDL2_ttf)
-// Cache : tableau fixe 512 slots, zéro-initialisé, pas d'allocation dynamique
-// Collision = éviction simple (overwrite)
+// Cache 4-way set-associatif avec LRU (SDL_GetTicks).
+// 2048 slots = 512 sets × 4 ways.
+// Sur un miss : on évince le slot le moins récemment utilisé dans le set
+// (ou un slot vide en priorité) — élimine les évictions de collision.
 // ----------------------------------------------------------------
-#define WC_CACHE_SIZE 512
+#define WC_CACHE_WAYS 4
+#define WC_CACHE_SETS 512
+#define WC_CACHE_SIZE (WC_CACHE_SETS * WC_CACHE_WAYS)
 struct WC_CacheSlot {
     TTF_Font *font; // null = slot vide
     Uint32 col;
     char text[128];
     SDL_Texture *tex;
     int w, h, ascent;
+    Uint32 last_used; // SDL_GetTicks() au dernier accès (LRU)
 };
 #ifndef WC_SKIP_GLOBALS
 WC_CacheSlot *wc_cache = nullptr;
@@ -1872,7 +1877,6 @@ SDL_mutex *wc_cache_mutex = nullptr;
 extern WC_CacheSlot *wc_cache;
 extern SDL_mutex *wc_cache_mutex;
 #endif
-static int wc_print_count = 0;
 
 static unsigned wc_cache_hash(TTF_Font *font, Uint32 col, const char *text) {
     unsigned h = (unsigned)(uintptr_t)font * 2654435761u ^ col * 2246822519u;
@@ -1929,40 +1933,55 @@ class TextRenderer {
     }
 
     void Print(const char *text, int x, int y) const {
-        if (!font || !text || text[0] == '\0' || !wc_sdl_renderer)
-            return;
-        if (!wc_cache)
+        if (!font || !text || text[0] == '\0' || !wc_sdl_renderer || !wc_cache)
             return;
         char trunc[128];
         strncpy(trunc, text, 127);
         trunc[127] = '\0';
         Uint32 key_col = (Uint32)col.r | ((Uint32)col.g << 8) | ((Uint32)col.b << 16) | ((Uint32)col.a << 24);
-        unsigned idx = wc_cache_hash(font, key_col, trunc) % WC_CACHE_SIZE;
+        unsigned set = wc_cache_hash(font, key_col, trunc) % WC_CACHE_SETS;
+        WC_CacheSlot *base = wc_cache + set * WC_CACHE_WAYS;
 
-        // Pas de mutex : Print() est appelé uniquement depuis le thread principal (SDL2
-        // interdit le rendu multi-thread). wc_purge_font() garde son mutex par sécurité.
-        WC_CacheSlot &slot = wc_cache[idx];
-        if (slot.font != font || slot.col != key_col || strncmp(slot.text, trunc, 128) != 0 || !slot.tex) {
-            if (slot.tex)
-                SDL_DestroyTexture(slot.tex);
-            slot.tex = nullptr;
-            slot.font = nullptr;
+        // Recherche dans les 4 ways du set
+        // Pas de mutex : rendu uniquement depuis le thread principal.
+        WC_CacheSlot *hit = nullptr;
+        for (int w = 0; w < WC_CACHE_WAYS; w++) {
+            WC_CacheSlot &s = base[w];
+            if (s.font == font && s.col == key_col && s.tex && strncmp(s.text, trunc, 128) == 0) {
+                hit = &s;
+                break;
+            }
+        }
+
+        if (!hit) {
+            // Miss — trouver slot vide ou LRU dans le set
+            WC_CacheSlot *victim = nullptr;
+            for (int w = 0; w < WC_CACHE_WAYS; w++) {
+                WC_CacheSlot &s = base[w];
+                if (!s.font) { victim = &s; break; }
+                if (!victim || s.last_used < victim->last_used) victim = &s;
+            }
+            if (victim->tex) SDL_DestroyTexture(victim->tex);
+            victim->tex = nullptr;
+            victim->font = nullptr;
             SDL_Surface *surf = TTF_RenderText_Blended(font, trunc, col);
-            if (!surf)
-                return;
+            if (!surf) return;
             SDL_Texture *tex = SDL_CreateTextureFromSurface(wc_sdl_renderer, surf);
             SDL_FreeSurface(surf);
-            if (!tex)
-                return;
-            slot.font = font;
-            slot.col = key_col;
-            strncpy(slot.text, trunc, 128);
-            slot.tex = tex;
-            SDL_QueryTexture(tex, nullptr, nullptr, &slot.w, &slot.h);
-            slot.ascent = font_ascent;
+            if (!tex) return;
+            victim->font = font;
+            victim->col  = key_col;
+            strncpy(victim->text, trunc, 128);
+            victim->tex  = tex;
+            SDL_QueryTexture(tex, nullptr, nullptr, &victim->w, &victim->h);
+            victim->ascent    = font_ascent;
+            victim->last_used = SDL_GetTicks();
+            hit = victim;
         }
-        SDL_Rect dst = {x, y - slot.ascent, slot.w, slot.h};
-        SDL_RenderCopy(wc_sdl_renderer, slot.tex, nullptr, &dst);
+
+        hit->last_used = SDL_GetTicks();
+        SDL_Rect dst = {x, y - hit->ascent, hit->w, hit->h};
+        SDL_RenderCopy(wc_sdl_renderer, hit->tex, nullptr, &dst);
     }
 
     // Surcharges / Overloads
