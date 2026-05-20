@@ -90,52 +90,61 @@ int show_windows_list_id(int x_info, int y_info) {
 }
 
 int Boxes() {
-    ChannelScroller(ChScrollX, ChScrollY);
-    if (ClassicalChannelView == 1) {
-        Canvas::SetClipping(0, ChannelYMenu + hauteur_ChannelMenu, largeur_ecran, hauteur_ecran);
-        ClassicalChannelSpace(XChannels, YChannels, scroll_channelspace);
-        Canvas::DisableClipping();
-    }
-
-    else {
-        int pos_y_vision = 0;
-        Canvas::SetClipping(XChannels, ChannelYMenu + hauteur_ChannelMenu, XChannels + 600, hauteur_ecran);
-        for (int i = 0; i < nbre_de_vues_circuits; i++) {
-            if (Channel_View_MODE[i] == 1) {
-                Draw_Channel_Preset_Title(
-                    XChannels, YChannels + pos_y_vision - (int)(((float)scroll_channelspace) / ratioview), i);
-                pos_y_vision += 60;
-                Draw_Channel_Preset_View(XChannels,
-                                         YChannels + pos_y_vision - (int)(((float)scroll_channelspace) / ratioview), i);
-                pos_y_vision += ((channel_number_of_lines[i]) * (70)) + hauteur_preset_titre;
-            }
+    // Phase 6 : fond (circuits, scroller, infos) redessiné seulement quand nécessaire.
+    // Sur MOUSEMOTION pur (hover), wc_bg_dirty reste false → section fond skippée,
+    // la texture conserve le fond en cache → ~15 ms économisés par frame de survol.
+    if (wc_bg_dirty) {
+        ChannelScroller(ChScrollX, ChScrollY);
+        if (ClassicalChannelView == 1) {
+            Canvas::SetClipping(0, ChannelYMenu + hauteur_ChannelMenu, largeur_ecran, hauteur_ecran);
+            ClassicalChannelSpace(XChannels, YChannels, scroll_channelspace);
+            Canvas::DisableClipping();
         }
-        Canvas::DisableClipping();
+
+        else {
+            int pos_y_vision = 0;
+            Canvas::SetClipping(XChannels, ChannelYMenu + hauteur_ChannelMenu, XChannels + 600, hauteur_ecran);
+            for (int i = 0; i < nbre_de_vues_circuits; i++) {
+                if (Channel_View_MODE[i] == 1) {
+                    Draw_Channel_Preset_Title(
+                        XChannels, YChannels + pos_y_vision - (int)(((float)scroll_channelspace) / ratioview), i);
+                    pos_y_vision += 60;
+                    Draw_Channel_Preset_View(XChannels,
+                                             YChannels + pos_y_vision - (int)(((float)scroll_channelspace) / ratioview), i);
+                    pos_y_vision += ((channel_number_of_lines[i]) * (70)) + hauteur_preset_titre;
+                }
+            }
+            Canvas::DisableClipping();
+        }
+
+        RetourInfos(680, 40);
+        grand_master(1050, 55);         // x y largeur
+        petitchiffre.Print(versionis, 680, 195);
+        petitchiffre.Print(nickname_version, 680, 205);
+        Rect RetourConduite(Vec2D(680, 240), Vec2D(270, 40));
+        RetourConduite.SetRoundness(5);
+        RetourConduite.Draw(CouleurBlind.WithAlpha(0.5));
+        RetourConduite.DrawOutline(CouleurLigne);
+        petitchiffre.Print("Last_save / SAVE:", 685, 255);
+        petitchiffre.Print(my_show_is_coming_from, 685, 270);
+
+        // visualisation retour faux shift faux ctrl de banger ou de iCat
+        Rect False(Vec2D(970, 240), Vec2D(55, 15));
+        False.Draw(CouleurBlind.WithAlpha(index_false_shift * alpha_blinker));
+        False.DrawOutline(CouleurLigne.WithAlpha(0.5));
+        petitchiffre.Print("F-Shift", 975, 252);
+
+        False.MoveTo(Vec2D(970, 265));
+        False.Draw(CouleurBlind.WithAlpha(index_false_control * alpha_blinker));
+        False.DrawOutline(CouleurLigne.WithAlpha(0.5));
+        petitchiffre.Print("F-Ctrl", 980, 277);
+
+        wc_bg_dirty = false;
     }
-
-    RetourInfos(680, 40);
-    grand_master(1050, 55);         // x y largeur
-    petitchiffre.Print(versionis, 680, 195);
-    petitchiffre.Print(nickname_version, 680, 205);
-    Rect RetourConduite(Vec2D(680, 240), Vec2D(270, 40));
-    RetourConduite.SetRoundness(5);
-    RetourConduite.Draw(CouleurBlind.WithAlpha(0.5));
-    RetourConduite.DrawOutline(CouleurLigne);
-    petitchiffre.Print("Last_save / SAVE:", 685, 255);
-    petitchiffre.Print(my_show_is_coming_from, 685, 270);
-
-    // visualisation retour faux shift faux ctrl de banger ou de iCat
-    Rect False(Vec2D(970, 240), Vec2D(55, 15));
-    False.Draw(CouleurBlind.WithAlpha(index_false_shift * alpha_blinker));
-    False.DrawOutline(CouleurLigne.WithAlpha(0.5));
-    petitchiffre.Print("F-Shift", 975, 252);
-
-    False.MoveTo(Vec2D(970, 265));
-    False.Draw(CouleurBlind.WithAlpha(index_false_control * alpha_blinker));
-    False.DrawOutline(CouleurLigne.WithAlpha(0.5));
-    petitchiffre.Print("F-Ctrl", 980, 277);
-
     //////////////AFFICHAGES CONDITIONNES//////////////////////////////////////////////
+    // wc_win_dirty=false sur hover pur : fenêtres non redessinées, ChannelsMenuSelection reste actif.
+    if (wc_win_dirty) {
+    wc_win_dirty = false;
     for (int f = 63; f >= 0; f--) {
         switch (window_opened[f]) {
         case W_SAVEREPORT:
@@ -241,6 +250,7 @@ int Boxes() {
             break;
         }
     }
+    } // end if (wc_win_dirty)
     ChannelsMenuSelection(ChannelXMenu, ChannelYMenu); // menu par dessus
 
     // over windows if text

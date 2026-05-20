@@ -139,9 +139,13 @@ extern bool index_quit;
 #ifndef WC_SKIP_GLOBALS
 SDL_Window *wc_sdl_window = nullptr;
 SDL_Renderer *wc_sdl_renderer = nullptr;
+// Texture persistante pour dirty-rects (Phase 6) :
+// tous les rendus y sont redirigés via Canvas::Fill ; blit vers l'écran dans Canvas::Refresh.
+SDL_Texture *wc_ui_texture = nullptr;
 #else
 extern SDL_Window *wc_sdl_window;
 extern SDL_Renderer *wc_sdl_renderer;
+extern SDL_Texture *wc_ui_texture;
 #endif
 
 // SCREEN_W / SCREEN_H : equivalents Allegro, mis a jour par Setup::SetupScreen
@@ -1039,6 +1043,8 @@ static inline int set_display_switch_mode(int) {
 // ============================================================
 static Uint32 wc_last_input_ms = 0;        // timestamp du dernier evenement souris/clavier/midi
 static bool wc_dirty = true;               // faut-il redessiner ce frame ?
+static bool wc_bg_dirty = true;           // fond (circuits, scroller, infos) à redessiner
+static bool wc_win_dirty = true;          // fenêtres ouvertes à redessiner (false sur hover pur)
 static bool wc_frame_was_updated = false;  // un dessin a eu lieu ce cycle
 static bool wc_automation_active = false;  // wc_request_refresh() appelé depuis le dernier Canvas::Refresh
 // Posé sur chaque SDL_MOUSEBUTTONDOWN gauche, consommé par la boucle principale.
@@ -1072,6 +1078,8 @@ inline void wc_notify_midi_activity() {
 inline void wc_request_refresh() {
     wc_dirty = true;
     wc_automation_active = true;
+    wc_bg_dirty = true;
+    wc_win_dirty = true;
 }
 
 // Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
@@ -1099,7 +1107,11 @@ static void wc_handle_event(const SDL_Event &e) {
 
     case SDL_MOUSEMOTION: {
         wc_last_input_ms = SDL_GetTicks();
-        wc_dirty = true;
+        // Throttle hover renders à ~15fps : curseur fluide (OS), circuits à jour toutes les 67ms.
+        // Click/touche/MIDI posent wc_dirty=true directement → rendu immédiat sans throttle.
+        { static Uint32 s_last_motion_ms = 0;
+          Uint32 _now = SDL_GetTicks();
+          if (_now - s_last_motion_ms >= 67) { wc_dirty = true; wc_win_dirty = true; s_last_motion_ms = _now; } }
         int mx = e.motion.x;
         int my = e.motion.y;
         if (mx < wc_mouse_range_x1)
@@ -1120,6 +1132,8 @@ static void wc_handle_event(const SDL_Event &e) {
     case SDL_MOUSEBUTTONDOWN:
         wc_last_input_ms = SDL_GetTicks();
         wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         mouse_x = e.button.x;
         mouse_y = e.button.y;
         if (e.button.button == SDL_BUTTON_LEFT)
@@ -1143,6 +1157,8 @@ static void wc_handle_event(const SDL_Event &e) {
 
     case SDL_MOUSEBUTTONUP:
         wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         mouse_x = e.button.x;
         mouse_y = e.button.y;
         if (e.button.button == SDL_BUTTON_LEFT)
@@ -1162,6 +1178,8 @@ static void wc_handle_event(const SDL_Event &e) {
     case SDL_MOUSEWHEEL:
         wc_last_input_ms = SDL_GetTicks();
         wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         mouse_z += e.wheel.y;
         position_mouse_z += e.wheel.y;
         break;
@@ -1169,6 +1187,8 @@ static void wc_handle_event(const SDL_Event &e) {
     case SDL_KEYDOWN: {
         wc_last_input_ms = SDL_GetTicks();
         wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         SDL_Keymod mod = SDL_GetModState();
         key_shifts = 0;
         if (mod & KMOD_SHIFT)
@@ -1200,10 +1220,15 @@ static void wc_handle_event(const SDL_Event &e) {
         if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
             SCREEN_W = e.window.data1;
             SCREEN_H = e.window.data2;
+            if (wc_ui_texture && wc_sdl_renderer) {
+                SDL_DestroyTexture(wc_ui_texture);
+                wc_ui_texture = SDL_CreateTexture(wc_sdl_renderer, SDL_PIXELFORMAT_ARGB8888,
+                                                   SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
+            }
         }
-        if (e.window.event == SDL_WINDOWEVENT_EXPOSED) {
-            wc_dirty = true;
-        }
+        wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         break;
 
     case SDL_USEREVENT:
@@ -1211,6 +1236,8 @@ static void wc_handle_event(const SDL_Event &e) {
         // wc_dirty est static-par-TU : on le positionne ici, dans le contexte
         // de MAIN.cpp, pour que la boucle principale voie le changement.
         wc_dirty = true;
+        wc_bg_dirty = true;
+        wc_win_dirty = true;
         break;
 
     default:
@@ -2044,8 +2071,19 @@ namespace Canvas {
 inline void Fill(const Rgba &color) {
     if (!wc_sdl_renderer)
         return;
-    wc_set_render_color(wc_sdl_renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderClear(wc_sdl_renderer);
+    if (wc_ui_texture) {
+        // Phase 6 : tout le rendu va sur la texture persistante.
+        // Effacement complet seulement si le fond a changé (circuits, scroller, infos).
+        // Sur MOUSEMOTION pur, wc_bg_dirty=false → on réutilise le fond en cache.
+        SDL_SetRenderTarget(wc_sdl_renderer, wc_ui_texture);
+        if (wc_bg_dirty) {
+            wc_set_render_color(wc_sdl_renderer, color.r, color.g, color.b, color.a);
+            SDL_RenderClear(wc_sdl_renderer);
+        }
+    } else {
+        wc_set_render_color(wc_sdl_renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderClear(wc_sdl_renderer);
+    }
     wc_frame_was_updated = true;
 }
 
@@ -2067,6 +2105,13 @@ inline void Refresh() {
         WC_FDEBUG("Refresh-before-process_events");
         wc_process_events();
         WC_FDEBUG("Refresh-before-RenderPresent");
+        // Phase 6 : blit la texture persistante vers le back-buffer écran.
+        // Résout le problème de double-buffering SDL (le 2e present sans redraw
+        // afficherait l'ancien back-buffer ; ici la texture est toujours à jour).
+        if (wc_ui_texture) {
+            SDL_SetRenderTarget(wc_sdl_renderer, nullptr);
+            SDL_RenderCopy(wc_sdl_renderer, wc_ui_texture, nullptr, nullptr);
+        }
         SDL_RenderPresent(wc_sdl_renderer);
         WC_FDEBUG("Refresh-after-RenderPresent");
         presents_since_draw++;
@@ -2079,7 +2124,7 @@ inline void Refresh() {
         Uint32 now = SDL_GetTicks();
         Uint32 cap_ms;
         if (now - wc_last_input_ms < 500)
-            cap_ms = 16;
+            cap_ms = 33; // ~30fps actif (Phase 6a : draw~10ms → cap désormais effectif)
         else if (wc_automation_active)
             cap_ms = 40;
         else
@@ -2113,8 +2158,11 @@ inline void Refresh() {
         // garantit horloge et led artnet visibles même souris immobile.
         Uint32 wait_ms = wc_blink_needed ? 40u : 1000u;
         bool _got_event = SDL_WaitEventTimeout(&e, wait_ms);
-        if (!_got_event)
+        if (!_got_event) {
             wc_dirty = true;
+            wc_bg_dirty = true;
+            wc_win_dirty = true;
+        }
         if (_got_event) {
             wc_handle_event(e);
             if (e.type != SDL_MOUSEBUTTONDOWN) {
@@ -2232,6 +2280,10 @@ inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
     }
 
     SDL_SetRenderDrawBlendMode(wc_sdl_renderer, SDL_BLENDMODE_BLEND);
+
+    // Phase 6 : texture persistante plein-écran pour les dirty-rects.
+    wc_ui_texture = SDL_CreateTexture(wc_sdl_renderer, SDL_PIXELFORMAT_ARGB8888,
+                                      SDL_TEXTUREACCESS_TARGET, w, h);
 
     wc_mouse_range_x2 = w - 1;
     wc_mouse_range_y2 = h - 1;
