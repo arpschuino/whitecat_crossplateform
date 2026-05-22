@@ -320,6 +320,13 @@ extern int key_shifts;
 extern std::queue<int> wc_key_queue;
 #endif
 
+// Buffer SDL_TEXTINPUT : caractères produits par le système (accents, ponctuation, layout-aware)
+// Utilisé uniquement en mode nom (F5, index_type==1). static : partagé dans le TU MAIN.
+static std::string wc_textinput_buf;
+static std::string wc_confirm_textinput_buf;
+extern bool index_type;           // défini dans ui_indexes.cpp
+extern bool index_confirm_name_active; // défini dans ui_indexes.cpp
+
 // Scancodes Allegro courants / Common Allegro scancodes
 #define KEY_A SDL_SCANCODE_A
 #define KEY_B SDL_SCANCODE_B
@@ -1185,6 +1192,14 @@ static void wc_handle_event(const SDL_Event &e) {
         break;
 
     case SDL_KEYDOWN: {
+        if (e.key.repeat) {
+            // Autoriser la répétition pour les flèches (scroll, navigation) uniquement
+            SDL_Keycode _s = e.key.keysym.sym;
+            bool _is_arrow = (_s == SDLK_UP || _s == SDLK_DOWN ||
+                              _s == SDLK_LEFT || _s == SDLK_RIGHT ||
+                              _s == SDLK_BACKSPACE);
+            if (!_is_arrow) break;
+        }
         wc_last_input_ms = SDL_GetTicks();
         wc_dirty = true;
         wc_bg_dirty = true;
@@ -1209,12 +1224,46 @@ static void wc_handle_event(const SDL_Event &e) {
         SDL_Keycode sym = e.key.keysym.sym;
         if (sym >= 32 && sym < 127)
             ascii = (int)sym;
+        // SDL2 renvoie toujours la minuscule dans sym ; appliquer Shift/CapsLock
+        if (sym >= SDLK_a && sym <= SDLK_z) {
+            bool shift_held = (mod & KMOD_SHIFT) != 0;
+            bool caps_on   = (mod & KMOD_CAPS)  != 0;
+            if (shift_held ^ caps_on)
+                ascii -= 32; // 'a'→'A'
+        }
         if ((mod & KMOD_CTRL) && sym >= SDLK_a && sym <= SDLK_z)
             ascii = (int)(sym - SDLK_a + 1);
 
-        wc_key_queue.push((scancode << 8) | ascii);
+        // Ne pas queuer les modificateurs : leur état est dans key_shifts via SDL_GetModState().
+        // Sans ce filtre, tenir Shift inonde la queue de key-repeats et retarde les lettres.
+        bool is_modifier = (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT ||
+                            sym == SDLK_LCTRL  || sym == SDLK_RCTRL  ||
+                            sym == SDLK_LALT   || sym == SDLK_RALT   ||
+                            sym == SDLK_LGUI   || sym == SDLK_RGUI   ||
+                            sym == SDLK_CAPSLOCK || sym == SDLK_NUMLOCKCLEAR ||
+                            sym == SDLK_SCROLLLOCK);
+        // En mode nom (F5) : les caractères visibles arrivent via SDL_TEXTINPUT (accents, layout...).
+        // On ne queuje ici que les touches spéciales : Backspace/Enter/Esc (sym<32) et Fn/flèches
+        // (sym & SDLK_SCANCODE_MASK). Les lettres, chiffres, ponctuation → SDL_TEXTINPUT.
+        bool skip_for_textinput = index_type &&
+                                  !(sym < 32) &&
+                                  !(sym & SDLK_SCANCODE_MASK);
+        if (!is_modifier && !skip_for_textinput)
+            wc_key_queue.push((scancode << 8) | ascii);
         break;
     }
+
+    case SDL_TEXTINPUT:
+        if (index_confirm_name_active) {
+            wc_confirm_textinput_buf += e.text.text;
+            wc_dirty = true;
+            wc_win_dirty = true;
+        } else if (index_type) {
+            wc_textinput_buf += e.text.text;
+            wc_dirty = true;
+            wc_win_dirty = true;
+        }
+        break;
 
     case SDL_WINDOWEVENT:
         if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -1959,6 +2008,13 @@ class TextRenderer {
         return ok;
     }
 
+    int TextWidth(const char *text) const {
+        if (!font || !text || !text[0]) return 0;
+        int w = 0, h = 0;
+        TTF_SizeUTF8(font, text, &w, &h);
+        return w;
+    }
+
     void Print(const char *text, int x, int y) const {
         if (!font || !text || text[0] == '\0' || !wc_sdl_renderer || !wc_cache)
             return;
@@ -1991,7 +2047,7 @@ class TextRenderer {
             if (victim->tex) SDL_DestroyTexture(victim->tex);
             victim->tex = nullptr;
             victim->font = nullptr;
-            SDL_Surface *surf = TTF_RenderText_Blended(font, trunc, col);
+            SDL_Surface *surf = TTF_RenderUTF8_Blended(font, trunc, col);
             if (!surf) return;
             SDL_Texture *tex = SDL_CreateTextureFromSurface(wc_sdl_renderer, surf);
             SDL_FreeSurface(surf);

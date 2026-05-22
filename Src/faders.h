@@ -48,7 +48,7 @@ extern int ChaserAffectedToDck[48][6];
 extern int actual_master_lock;
 extern int colorpreset_linked_to_dock[8][2];
 extern char string_docktypvideo[8];
-extern char DockName[48][6][25];
+extern char DockName[48][6][50];
 extern unsigned char FaderDockContains[48][6][514];
 extern unsigned char FaderDoDmx[49][514];
 extern bool show_who_is_in_FADER_DOCK[514];

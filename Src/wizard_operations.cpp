@@ -142,8 +142,8 @@ Wiz_Links_Memoires[pm]=0;
 Wiz_Banger_Memoire[pm]=0;
 strcpy(Wiz_descriptif_memoires[pm],"");
 strcpy(Wiz_annotation_memoires[pm],"");
-Wiz_descriptif_memoires[pm][24]='\0';
-Wiz_annotation_memoires[pm][24]='\0';
+Wiz_descriptif_memoires[pm][49]='\0';
+Wiz_annotation_memoires[pm][49]='\0';
 }
  return(0);
 }

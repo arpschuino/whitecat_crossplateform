@@ -62,11 +62,11 @@ extern int CTRLC_mem_to_copy;
 extern bool index_copy_mem_in;
 
 //////////////////////TEXT ENTRY////////////////////////////////////////////////
-extern char string_numeric_entry[36];
+extern char string_numeric_entry[110];
 
 extern int numeric_postext;
 extern float numeric_entry;
-extern char numeric[25];
+extern char numeric[100];
 extern int maxchar_numeric;
 extern int idchannel;
 
@@ -325,3 +325,8 @@ extern int max_channel_macro_reaction;
 extern int max_channel_macro_action;
 extern unsigned char previous_state_of_outputted_channels[514];
 extern int chan_to_manipulate;
+
+// Champ nom dans la boite de confirmation (création mémoire)
+extern char confirm_name_buf[50];
+extern int confirm_name_len;
+extern bool index_confirm_name_active;

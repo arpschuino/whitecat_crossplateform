@@ -1,4 +1,4 @@
-
+﻿
 /*-------------------------------------------------------------------------------------------------------------
                                  |
           CWWWWWWWW              | Copyright (C) 2009-2013  Christoph Guillermet
@@ -36,14 +36,14 @@ WWWWWWWW           C  WWWWWWWW   |
 
  White Cat {- categorie} {- sous categorie {- sous categorie}}
 
-*   Fonctions core pour gérer les raccourcis clavier dans whitecat
+*   Fonctions core pour gÃ©rer les raccourcis clavier dans whitecat
 *
 *   Core fonctions for keyboard shortcut
 *
  **/
 
 // keypressed()/readkey() utilisent wc_key_queue (static dans graphics_backend.h)
-// → ce fichier doit rester inclus dans la TU de MAIN.cpp (même queue que l'event loop)
+// â†’ ce fichier doit rester inclus dans la TU de MAIN.cpp (mÃªme queue que l'event loop)
 
 int recall_config_page()
 {
@@ -78,13 +78,69 @@ int recall_config_page()
 
 int commandes_clavier()//la fonction sprintf tue l acces clavier
 {
-    if ( keypressed())
+    // Champ nom boite confirm : consommer SDL_TEXTINPUT (max 430px dans le champ)
+    if (index_confirm_name_active && !wc_confirm_textinput_buf.empty()) {
+        const char *p = wc_confirm_textinput_buf.c_str();
+        while (*p) {
+            unsigned char c = (unsigned char)*p;
+            int clen = (c < 0x80) ? 1 : (c < 0xE0) ? 2 : (c < 0xF0) ? 3 : 4;
+            if (confirm_name_len + clen > 49) break;
+            char cand[51];
+            memcpy(cand, confirm_name_buf, confirm_name_len);
+            memcpy(cand + confirm_name_len, p, clen);
+            cand[confirm_name_len + clen] = '\0';
+            if (neuro.TextWidth(cand) <= 290) {
+                memcpy(confirm_name_buf + confirm_name_len, p, clen);
+                confirm_name_len += clen;
+                confirm_name_buf[confirm_name_len] = '\0';
+            }
+            p += clen;
+        }
+        wc_confirm_textinput_buf.clear();
+        wc_dirty = true;
+    }
+
+    // Mode nom (F5) : consommer les caractères SDL_TEXTINPUT un par un (UTF-8).
+    // Limite par largeur pixel rendue dans nameAera (380px, texte à x+10, marge droite 15px).
+    if (index_type == 1 && !wc_textinput_buf.empty()) {
+        const char *p = wc_textinput_buf.c_str();
+        while (*p) {
+            // Longueur du prochain caractère UTF-8
+            unsigned char c = (unsigned char)*p;
+            int clen = (c < 0x80) ? 1 : (c < 0xE0) ? 2 : (c < 0xF0) ? 3 : 4;
+            if (numeric_postext + clen > 96) break; // sécurité buffer
+            // Candidat : numeric + nouveau caractère, null-terminé
+            char cand[101];
+            memcpy(cand, numeric, numeric_postext);
+            memcpy(cand + numeric_postext, p, clen);
+            cand[numeric_postext + clen] = '\0';
+            // Vérifier la largeur rendue avec le préfixe "<< "
+            char full[106];
+            snprintf(full, sizeof(full), "<< %s", cand);
+            if (neuro.TextWidth(full) <= 355) {
+                memcpy(numeric + numeric_postext, p, clen);
+                numeric_postext += clen;
+                numeric[numeric_postext] = '\0';
+            }
+            p += clen;
+        }
+        wc_textinput_buf.clear();
+        wc_dirty = true;
+    }
+
+    while ( keypressed())
     {
 
         int chi = readkey();
         scan_ascii_is=(chi & 0xff);//prend pas en compte touches fonctions
-        scan_allegro_key_is=(chi >> 8);//prend en compte tout le monde mais à redistribuer fr et anglais
+        scan_allegro_key_is=(chi >> 8);//prend en compte tout le monde mais Ã  redistribuer fr et anglais
 
+
+        if (index_confirm_name_active) {
+            int k = chi >> 8;
+            if (k != KEY_ESC && k != KEY_BACKSPACE && k != KEY_F1 &&
+                k != KEY_ENTER && k != KEY_ENTER_PAD) continue;
+        }
 
         switch (chi >> 8)
         {
@@ -142,7 +198,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             key_switch_window_down();
             break;
 //////////////////SPECIAL KEYS ////////////////////////////////////////////////
-        case  KEY_TILDE://carré
+        case  KEY_TILDE://carrÃ©
             if(window_focus_id==W_PLOT)
             {
                 index_move_plot_view_port=toggle(index_move_plot_view_port);
@@ -150,6 +206,16 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_F1://dock mode
+            if (index_ask_confirm)
+            {
+                operations_confirmation();
+                reset_index_actions();
+                reset_indexs_confirmation();
+                substract_a_window(W_ASKCONFIRM);
+                window_focus_id=previous_window_focus_id;
+                add_a_window(window_focus_id);
+                break;
+            }
             if (key_shifts & KB_CTRL_FLAG  || index_false_control==1)
             {
                 reset_indexs_confirmation();
@@ -244,7 +310,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                 index_ask_confirm=1;
                 index_do_overecord_mem_plus_faders=1;
             }
-            else if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1) //creation mémoires en mode merge Faders / seq
+            else if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1) //creation mÃ©moires en mode merge Faders / seq
             {
                 index_do_dock=0;
                 index_do_modify=0;
@@ -275,6 +341,8 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             index_type=toggle(index_type);
             strcpy(numeric,"");
             numeric_postext=0;
+            if (index_type) SDL_StartTextInput();
+            else            SDL_StopTextInput();
             break;
 
         case KEY_F6:
@@ -434,11 +502,31 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_ENTER :
+            if (index_ask_confirm)
+            {
+                operations_confirmation();
+                reset_index_actions();
+                reset_indexs_confirmation();
+                substract_a_window(W_ASKCONFIRM);
+                window_focus_id=previous_window_focus_id;
+                add_a_window(window_focus_id);
+                break;
+            }
             key_affectation();
             sprintf(string_key_id,list_keyname[3]);
             break;
 
         case KEY_ENTER_PAD:
+            if (index_ask_confirm)
+            {
+                operations_confirmation();
+                reset_index_actions();
+                reset_indexs_confirmation();
+                substract_a_window(W_ASKCONFIRM);
+                window_focus_id=previous_window_focus_id;
+                add_a_window(window_focus_id);
+                break;
+            }
             key_affectation();
             sprintf(string_key_id,list_keyname[4]);
             break;
@@ -520,7 +608,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                 }
                 else  if (index_type==1)
                 {
-                    numeric[numeric_postext]='A';
+                    numeric[numeric_postext]=scan_ascii_is;
                     numeric_postext++;
                 }
             }
@@ -533,7 +621,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='B';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[13]);
@@ -571,7 +659,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='C';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[14]);
@@ -584,7 +672,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if(index_type==1)
             {
-                numeric[numeric_postext]='D';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[15]);
@@ -597,7 +685,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='E';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[16]);
@@ -611,7 +699,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
             else if (index_type==1)
             {
-                numeric[numeric_postext]='F';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[17]);
@@ -640,7 +728,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='G';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[18]);
@@ -654,7 +742,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='H';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
 
@@ -668,7 +756,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if(index_type==1)
             {
-                numeric[numeric_postext]='I';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[20]);
@@ -681,7 +769,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             if (index_type==1)
             {
-                numeric[numeric_postext]='J';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[21]);
@@ -694,7 +782,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='K';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[22]);
@@ -707,7 +795,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if(index_type==1)
             {
-                numeric[numeric_postext]='L';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[23]);
@@ -722,7 +810,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if(index_type==1)
             {
-                numeric[numeric_postext]='M';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[38]);
@@ -735,7 +823,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='N';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[24]);
@@ -748,7 +836,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='O';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[25]);
@@ -756,7 +844,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
         case KEY_P:
 
-            if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1)
+            if ((key_shifts & KB_SHIFT_FLAG || index_false_shift==1) && index_type == 0)
             {
                 if(index_patch_window==0)
                 {
@@ -782,7 +870,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                 }
                 else if (index_type==1)
                 {
-                    numeric[numeric_postext]='P';
+                    numeric[numeric_postext]=scan_ascii_is;
                     numeric_postext++;
                 }
             }
@@ -796,7 +884,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='Q';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[26]);
@@ -809,7 +897,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if(index_type==1)
             {
-                numeric[numeric_postext]='R';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[27]);
@@ -833,7 +921,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='S';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[28]);
@@ -846,7 +934,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='T';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[29]);
@@ -859,7 +947,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='U';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[30]);
@@ -874,7 +962,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                     {
                         channel_paste();
                     }
-                    else//si chiffre de mem tapée
+                    else//si chiffre de mem tapÃ©e
                     {
                         index_copy_mem_in=1;
                         index_ask_confirm=1;
@@ -889,7 +977,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='V';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[31]);
@@ -909,7 +997,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='W';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[32]);
@@ -930,7 +1018,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else  if (index_type==1)
             {
-                numeric[numeric_postext]='X';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[33]);
@@ -944,7 +1032,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             }
             else if (index_type==1)
             {
-                numeric[numeric_postext]='Y';
+                numeric[numeric_postext]=scan_ascii_is;
                 numeric_postext++;
             }
             sprintf(string_key_id,list_keyname[34]);
@@ -957,7 +1045,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                 index_do_reload_mem=1;
                 index_ask_confirm=1;
             }
-            else if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1)
+            else if ((key_shifts & KB_SHIFT_FLAG || index_false_shift==1) && index_type == 0)
             {
                 //ctrl Z resurrect mem as recorded
                 mem_to_resurrect=(int)(atof(numeric)*10);
@@ -972,7 +1060,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                 }
                 else if (index_type==1)
                 {
-                    numeric[numeric_postext]='Z';
+                    numeric[numeric_postext]=scan_ascii_is;
                     numeric_postext++;
                 }
             }
@@ -1098,12 +1186,21 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
 
         case KEY_BACKSPACE:
-            numeric[numeric_postext]=' ';
-            numeric_postext--;
-            numeric[numeric_postext]=' ';
-            if (numeric_postext<0)
-            {
-                numeric_postext=0;
+            if (index_confirm_name_active && confirm_name_len > 0) {
+                // effacer dernier caractère UTF-8 du champ nom confirm
+                int i = confirm_name_len - 1;
+                while (i > 0 && ((unsigned char)confirm_name_buf[i] & 0xC0) == 0x80) i--;
+                confirm_name_buf[i] = '\0';
+                confirm_name_len = i;
+                wc_dirty = true;
+            } else {
+                numeric[numeric_postext]=' ';
+                numeric_postext--;
+                numeric[numeric_postext]=' ';
+                if (numeric_postext<0)
+                {
+                    numeric_postext=0;
+                }
             }
             break;
 
@@ -1183,4 +1280,5 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
     return(0);
 }
+
 

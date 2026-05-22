@@ -813,6 +813,12 @@ int operations_confirmation()
    }
    }
    create_memory(mem_to_rec);
+   if (confirm_name_buf[0] != '\0') {
+       strncpy(descriptif_memoires[mem_to_rec], confirm_name_buf, 49);
+       descriptif_memoires[mem_to_rec][49] = '\0';
+   }
+   refresh_mem_onpreset(position_preset);
+   someone_changed_in_sequences=1;
    }
 
    else if(index_do_create_mem_plus_faders==1)
@@ -835,6 +841,11 @@ int operations_confirmation()
    }
    }
    create_memory_plus_faders(mem_to_rec);
+   if (confirm_name_buf[0] != '\0') {
+       strncpy(descriptif_memoires[mem_to_rec], confirm_name_buf, 49);
+       descriptif_memoires[mem_to_rec][49] = '\0';
+   }
+   refresh_mem_onpreset(position_preset);
    }
 
    else if(index_copy_mem_in==1)//CTRL c v avec num de mem
@@ -895,6 +906,10 @@ int operations_confirmation()
    else if(index_do_record_on_faders==1)
    {
    DoDock(fader_selected_for_record,dock_selected_for_record);
+   if (confirm_name_buf[0] != '\0') {
+       strncpy(DockName[fader_selected_for_record][dock_selected_for_record], confirm_name_buf, 49);
+       DockName[fader_selected_for_record][dock_selected_for_record][49] = '\0';
+   }
    }
 
    else if(index_do_modify_on_faders==1)
@@ -1560,7 +1575,12 @@ int fenetre_confirm()
 {
  entetes_confirmation();
 
- Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(500,100));
+ bool _show_name_field = (index_do_create_mem == 1 || index_do_create_mem_plus_faders == 1 ||
+                          index_do_record_on_faders == 1);
+ int confirm_h  = _show_name_field ? 145 : 100;
+ int btn_y      = _show_name_field ? YConfirm + 103 : YConfirm + 60;
+
+ Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(500,confirm_h));
  FenetreConfirm.SetRoundness(15);
  FenetreConfirm.SetLineWidth(epaisseur_ligne_fader*3);
  FenetreConfirm.Draw(CouleurFond);
@@ -1573,12 +1593,31 @@ int fenetre_confirm()
 
  neuromoyen.Print( string_confirmation,XConfirm+110,YConfirm+10+18, 350,  JUSTIFY);
 
+ // Champ nom — création de mémoire (avec ou sans faders)
+ if (_show_name_field)
+ {
+  if (!index_confirm_name_active) {
+   index_confirm_name_active = 1;
+   SDL_StartTextInput();
+  }
+  petitchiffre.Print("Nom :", XConfirm+10, YConfirm+57);
+  Rect NameField(Vec2D(XConfirm+60, YConfirm+47), Vec2D(300, 26));
+  NameField.SetRoundness(6);
+  NameField.Draw(CouleurFond);
+  NameField.DrawOutline(CouleurFader);
+  {
+   SDL_Rect clip = {XConfirm+62, YConfirm+47, 292, 26};
+   SDL_RenderSetClipRect(wc_sdl_renderer, &clip);
+   neuro.Print(confirm_name_buf, XConfirm+65, YConfirm+67);
+   SDL_RenderSetClipRect(wc_sdl_renderer, NULL);
+  }
+ }
 
- Rect EscBox(Vec2D(XConfirm+120,YConfirm+60),Vec2D(70,30));
+ Rect EscBox(Vec2D(XConfirm+120,btn_y),Vec2D(70,30));
  EscBox.SetRoundness(7.5);
  EscBox.Draw(CouleurFond);
 
- if(mouse_x>XConfirm+120 && mouse_x<XConfirm+120+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30 && window_focus_id==W_ASKCONFIRM)
+ if(mouse_x>XConfirm+120 && mouse_x<XConfirm+120+70 && mouse_y>btn_y && mouse_y<btn_y+30 && window_focus_id==W_ASKCONFIRM)
  {
  EscBox.Draw(CouleurFader);
  if(mouse_button==1 && mouse_released==0)
@@ -1593,12 +1632,12 @@ int fenetre_confirm()
  }
  }
  EscBox.DrawOutline(CouleurLigne);
- petitchiffre.Print("ESC",XConfirm+120+18, YConfirm+60+18);
+ petitchiffre.Print("ESC",XConfirm+120+18, btn_y+18);
 
-  Rect OkBox(Vec2D(XConfirm+310,YConfirm+60),Vec2D(70,30));
+  Rect OkBox(Vec2D(XConfirm+310,btn_y),Vec2D(70,30));
   OkBox.SetRoundness(7.5);
   OkBox.Draw(CouleurFond);
-  if(mouse_x>XConfirm+310 && mouse_x<XConfirm+310+70 && mouse_y>YConfirm+60 && mouse_y<YConfirm+60+30  && window_focus_id==W_ASKCONFIRM)
+  if(mouse_x>XConfirm+310 && mouse_x<XConfirm+310+70 && mouse_y>btn_y && mouse_y<btn_y+30  && window_focus_id==W_ASKCONFIRM)
   {
   OkBox.Draw(CouleurFader);
   if(mouse_button==1 && mouse_released==0)
@@ -1613,7 +1652,7 @@ int fenetre_confirm()
   }
   }
  OkBox.DrawOutline(CouleurLigne);
- petitchiffre.Print("OK",XConfirm+310+18, YConfirm+60+18);
+ petitchiffre.Print("OK",XConfirm+310+18, btn_y+18);
 
  //by pass des confirmations
  if(expert_mode==1)

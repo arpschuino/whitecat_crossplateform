@@ -47,7 +47,26 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gui_boutons_rebuild1.h"
 #include "grider_visu.h"
 
+static void seq_print_clipped(const char *text, int x, int y) {
+    char buf[50];
+    strncpy(buf, text, 49);
+    buf[49] = '\0';
+    while (buf[0] && petitpetitchiffre.TextWidth(buf) > 125) {
+        int len = (int)strlen(buf);
+        int i = len - 1;
+        while (i > 0 && ((unsigned char)buf[i] & 0xC0) == 0x80) i--;
+        buf[i] = '\0';
+    }
+    petitpetitchiffre.Print(buf, x, y);
+}
+
 int refresh_vision_memories(int x_seq, int y_seq) {
+    sprintf(string_mem_onstage, "%d.%d", position_onstage / 10, position_onstage % 10);
+    sprintf(string_mem_preset,  "%d.%d", position_preset  / 10, position_preset  % 10);
+    if (MemoiresExistantes[mem_before_one] == 1)
+        sprintf(string_mem_before_one, "%d.%d", mem_before_one / 10, mem_before_one % 10);
+    else
+        sprintf(string_mem_before_one, "-");
 
     Rect ExclueMem(Vec2D(x_seq, y_seq), Vec2D(10, 30));
 
@@ -243,8 +262,8 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         petitpetitchiffre.Print(string_time_memonstage[3], x_seq + 70, y_seq + 90);
         // out
         petitpetitchiffrerouge.Print(string_time_memonstage[1], x_seq + 70, y_seq + 100);
-        petitpetitchiffre.Print(descriptif_memoires[mem_before_one], x_seq + 320, y_seq + 90);
-        petitpetitchiffre.Print(annotation_memoires[mem_before_one], x_seq + 320, y_seq + 105);
+        seq_print_clipped(descriptif_memoires[mem_before_one], x_seq + 320, y_seq + 90);
+        seq_print_clipped(annotation_memoires[mem_before_one], x_seq + 320, y_seq + 105);
         if (Links_Memoires[mem_before_one] == 1) {
             Line(Vec2D(x_seq + 190, y_seq + 85), Vec2D(x_seq + 200, y_seq + 85)).Draw(CouleurLigne);
             Line(Vec2D(x_seq + 200, y_seq + 85), Vec2D(x_seq + 200, y_seq + 100)).Draw(CouleurLigne);
@@ -260,8 +279,8 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.MoveTo(Vec2D(x_seq + 170, y_seq + 110));
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_onstage])));
 
-        petitpetitchiffre.Print(descriptif_memoires[position_onstage], x_seq + 320, y_seq + 120);
-        petitpetitchiffre.Print(annotation_memoires[position_onstage], x_seq + 320, y_seq + 135);
+        seq_print_clipped(descriptif_memoires[position_onstage], x_seq + 320, y_seq + 120);
+        seq_print_clipped(annotation_memoires[position_onstage], x_seq + 320, y_seq + 135);
         // banger
         if (Banger_Memoire[position_onstage] != 0) {
             petitchiffre.Print(ol::ToString(Banger_Memoire[position_onstage]), x_seq + 235, y_seq + 130);
@@ -283,8 +302,8 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.MoveTo(Vec2D(x_seq + 170, y_seq + 140));
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_preset])));
         neuro.Print(string_mem_preset, x_seq + 115, y_seq + 160);
-        petitpetitchiffre.Print(descriptif_memoires[position_preset], x_seq + 320, y_seq + 150);
-        petitpetitchiffre.Print(annotation_memoires[position_preset], x_seq + 320, y_seq + 165);
+        seq_print_clipped(descriptif_memoires[position_preset], x_seq + 320, y_seq + 150);
+        seq_print_clipped(annotation_memoires[position_preset], x_seq + 320, y_seq + 165);
         petitpetitchiffre.Print(cross_din, x_seq + 20, y_seq + 160);
         petitchiffre.Print(cross_in, x_seq + 55, y_seq + 160);
         petitchiffre.Print(cross_out, x_seq + 55, y_seq + 130);
@@ -321,10 +340,10 @@ int refresh_vision_memories(int x_seq, int y_seq) {
             // mems
             sprintf(string_next_mem, "%d.%d", memsearch / 10, memsearch % 10);
             neuro.Print(string_next_mem, x_seq + 115, y_seq + 160 + (35 * index_nbre_mem_visues));
-            petitpetitchiffre.Print(descriptif_memoires[memsearch], x_seq + 320,
-                                    y_seq + 150 + (35 * index_nbre_mem_visues));
-            petitpetitchiffre.Print(annotation_memoires[memsearch], x_seq + 320,
-                                    y_seq + 165 + (35 * index_nbre_mem_visues));
+            seq_print_clipped(descriptif_memoires[memsearch], x_seq + 320,
+                              y_seq + 150 + (35 * index_nbre_mem_visues));
+            seq_print_clipped(annotation_memoires[memsearch], x_seq + 320,
+                              y_seq + 165 + (35 * index_nbre_mem_visues));
 
             Line(Vec2D(x_seq + 10, y_seq + 100 + 70 + (35 * index_nbre_mem_visues)),
                  Vec2D(x_seq + 450, y_seq + 170 + (35 * index_nbre_mem_visues)))

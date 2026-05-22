@@ -693,11 +693,8 @@ if(index_do_dock==0 && index_do_modify==0  && index_type==0    && index_main_cle
  //nommage de dock
  else if( index_type==1 && index_do_dock==0 && index_do_report==0 && index_do_modify==0   && numeric_postext!=0 )
  {
- for(int tt=0;tt<24;tt++)
- {
- DockName[position_minifader_selected][dock_selected_is][tt]=numeric[tt];
- }
- DockName[position_minifader_selected][dock_selected_is][24]='\0';
+ strncpy(DockName[position_minifader_selected][dock_selected_is], numeric, 49);
+ DockName[position_minifader_selected][dock_selected_is][49]='\0';
  reset_numeric_entry();numeric_postext=0;
  if(index_text_auto_close==1){index_type=0;}
  sprintf(string_Last_Order,">>On Master %d GIVED A NAME FOR DOCK %d ", position_minifader_selected+1,dock_selected_is+1);

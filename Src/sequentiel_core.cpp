@@ -309,19 +309,13 @@ if(index_type==1)
 
 if(mouse_y>y_seq+110 && mouse_y<y_seq+110+15)
 {
-for(int tt=0;tt<24;tt++)
-{
-descriptif_memoires[position_onstage][tt]=numeric[tt];
-}
-descriptif_memoires[position_onstage][24]='\0';
+strncpy(descriptif_memoires[position_onstage], numeric, 49);
+descriptif_memoires[position_onstage][49]='\0';
 }
 else
 {
-for(int tt=0;tt<24;tt++)
-{
-annotation_memoires[position_onstage][tt]=numeric[tt];
-}
-annotation_memoires[position_onstage][24]='\0';
+strncpy(annotation_memoires[position_onstage], numeric, 49);
+annotation_memoires[position_onstage][49]='\0';
 }
 
 reset_numeric_entry();numeric_postext=0;
@@ -408,19 +402,13 @@ if(index_type==1)
 {
 if(mouse_y>y_seq+140 && mouse_y<y_seq+155)
 {
-for(int tt=0;tt<24;tt++)
-{
-descriptif_memoires[position_preset][tt]=numeric[tt];
-}
-descriptif_memoires[position_preset][24]='\0';
+strncpy(descriptif_memoires[position_preset], numeric, 49);
+descriptif_memoires[position_preset][49]='\0';
 }
 else
 {
-for(int tt=0;tt<24;tt++)
-{
-annotation_memoires[position_preset][tt]=numeric[tt];
-}
-annotation_memoires[position_preset][24]='\0';
+strncpy(annotation_memoires[position_preset], numeric, 49);
+annotation_memoires[position_preset][49]='\0';
 }
 someone_changed_in_sequences=1;//icat
 reset_numeric_entry();numeric_postext=0;if(index_text_auto_close==1){index_type=0;}
@@ -477,19 +465,13 @@ if(index_type==1)
 {
 if(mouse_y>y_seq+80 && mouse_y<y_seq+95)
 {
-for(int tt=0;tt<24;tt++)
-{
-descriptif_memoires[mem_before_one][tt]=numeric[tt];
-}
-descriptif_memoires[mem_before_one][24]='\0';
+strncpy(descriptif_memoires[mem_before_one], numeric, 49);
+descriptif_memoires[mem_before_one][49]='\0';
 }
 else
 {
-for(int tt=0;tt<24;tt++)
-{
-annotation_memoires[mem_before_one][tt]=numeric[tt];
-}
-annotation_memoires[mem_before_one][24]='\0';
+strncpy(annotation_memoires[mem_before_one], numeric, 49);
+annotation_memoires[mem_before_one][49]='\0';
 }
 reset_numeric_entry();numeric_postext=0;if(index_text_auto_close==1){index_type=0;}
 mouse_released=1;
@@ -565,19 +547,13 @@ if(index_type==1)
 
 if(mouse_y> y_seq+140+(35*index_nbre_mem_visues) && mouse_y < y_seq+140+(35*index_nbre_mem_visues)+15)
 {
-for(int tt=0;tt<24;tt++)
-{
-descriptif_memoires[memsearch][tt]=numeric[tt];
-}
-descriptif_memoires[memsearch][24]='\0';
+strncpy(descriptif_memoires[memsearch], numeric, 49);
+descriptif_memoires[memsearch][49]='\0';
 }
 else
 {
-for(int tt=0;tt<24;tt++)
-{
-annotation_memoires[memsearch][tt]=numeric[tt];
-}
-annotation_memoires[memsearch][24]='\0';
+strncpy(annotation_memoires[memsearch], numeric, 49);
+annotation_memoires[memsearch][49]='\0';
 }
 reset_numeric_entry();numeric_postext=0;if(index_text_auto_close==1){index_type=0;}
 mouse_released=1;

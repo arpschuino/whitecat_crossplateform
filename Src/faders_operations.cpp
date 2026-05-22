@@ -130,7 +130,7 @@ int ClearDock(int fad, int dk)
    index_type_of_time_to_affect[3]=0;
  //nettoyage du descriptif
  strcpy(DockName[fad][dk],"");
- DockName[fad][dk][24]='\0';
+ DockName[fad][dk][49]='\0';
  //boucle lfo
  is_dock_for_lfo_selected[fad][dk]=0;
  DockHasAudioVolume[fad][dk]=999;

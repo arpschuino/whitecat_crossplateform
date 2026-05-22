@@ -1088,11 +1088,8 @@ if (DockIsSelected[cmptfader][dd]==1)
 
  if(DockTypeIs[cmptfader][dd]==5)
   {
-  for(int tt=0;tt<24;tt++)
-  {
-  DockName[cmptfader][dd][tt]=descriptif_memoires[(DockHasMem[cmptfader][dd])][tt] ;
-  }
-  DockName[cmptfader][dd][24]='\0';
+  strncpy(DockName[cmptfader][dd], descriptif_memoires[(DockHasMem[cmptfader][dd])], 49);
+  DockName[cmptfader][dd][49]='\0';
   }
 
 
@@ -1116,11 +1113,8 @@ if(mouse_x>=(x+(cmptfader*espacement)+(largeur+30)) && mouse_x<=(x+(cmptfader*es
  //nommage de dock
  else if( index_type==1)
  {
- for(int tt=0;tt<24;tt++)
- {
- DockName[cmptfader][dd][tt]=numeric[tt];
- }
- DockName[cmptfader][dd][24]='\0';
+ strncpy(DockName[cmptfader][dd], numeric, 49);
+ DockName[cmptfader][dd][49]='\0';
  reset_numeric_entry();numeric_postext=0; if(index_text_auto_close==1){index_type=0;}
 
  //MAJ d'un fader en DCH

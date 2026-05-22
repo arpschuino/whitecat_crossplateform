@@ -58,9 +58,8 @@ int player_toggle(int the_audio_player);
 
 int reset_numeric_entry()
 {
-    sprintf(numeric,"                        ");
+    numeric[0]='\0';
     numeric_postext=0;
-    numeric[numeric_postext]='\0';
     return(0);
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -741,6 +740,14 @@ int reset_indexs_confirmation()
 
     //sab 02/03/2014 sprintf(string_confirmation,"");
     strcpy(string_confirmation,"");
+
+    confirm_name_buf[0] = '\0';
+    confirm_name_len = 0;
+    if (index_confirm_name_active) {
+        index_confirm_name_active = 0;
+        if (!index_type) SDL_StopTextInput();
+    }
+
     return(0);
 }
 
@@ -5451,7 +5458,7 @@ int GlobInit()
 //sab 02/03/2014 sprintf(DockName[in][dd],"");
                 strcpy(DockName[in][dd],"");
 
-                DockName[in][dd][24]='\n';
+                DockName[in][dd][49]='\0';
                 DrawAffectedToDck[in][dd]=0;
                 for(int c=0; c<514; c++)
                 {

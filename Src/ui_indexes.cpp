@@ -57,11 +57,11 @@ int mem_to_resurrect = 0;
 int CTRLC_mem_to_copy = 0;  // pour CTRL C CTRL V avec numeros
 bool index_copy_mem_in = 0; // ask confirm
 //////////////////////TEXT ENTRY////////////////////////////////////////////////
-char string_numeric_entry[36];
+char string_numeric_entry[110];
 int numeric_postext = 0;
 float numeric_entry = 0.0;
-char numeric[25];
-int maxchar_numeric = 24;
+char numeric[100];
+int maxchar_numeric = 96;
 int idchannel;
 //////////////////////UTILITIES///////////////////////////////////////
 int xBoxutilities = 580;
@@ -285,3 +285,7 @@ int max_channel_macro_reaction = 8;
 int max_channel_macro_action = 17;
 unsigned char previous_state_of_outputted_channels[514];
 int chan_to_manipulate = 0;
+
+char confirm_name_buf[50] = {0};
+int confirm_name_len = 0;
+bool index_confirm_name_active = 0;

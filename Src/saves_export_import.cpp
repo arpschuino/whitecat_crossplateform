@@ -217,12 +217,8 @@ chdir(rep);
 
                  if(strncmp(line,"TEXT",4)==0)
                  {
-
-                 for (int p=0; p<24;p++)
-                 {
-                 DockName[sub_f][sub_d][p]=line[p+5];
-                 }
-                 DockName[sub_f][sub_d][24]='\0';
+                 strncpy(DockName[sub_f][sub_d], line+5, 49);
+                 DockName[sub_f][sub_d][49]='\0';
                  }
 
 				if(strncmp(line,"DOWN",4)==0)
@@ -725,12 +721,8 @@ chdir(rep);
 
                  if(strncmp(line,"Text",4)==0)
                  {
-
-                 for (int p=0; p<24;p++)
-                 {
-                 DockName[sub_f][sub_d][p]=line[p+5];
-                 }
-                 DockName[sub_f][sub_d][24]='\0';
+                 strncpy(DockName[sub_f][sub_d], line+5, 49);
+                 DockName[sub_f][sub_d][49]='\0';
                  }
 
 

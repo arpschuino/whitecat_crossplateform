@@ -45,7 +45,7 @@ int ChaserAffectedToDck[48][6];
 int actual_master_lock = 0;
 int colorpreset_linked_to_dock[8][2];
 char string_docktypvideo[8];
-char DockName[48][6][25];
+char DockName[48][6][50];
 unsigned char FaderDockContains[48][6][514];
 unsigned char FaderDoDmx[49][514]; // sortie de chaque fader // 49 pour éviter débordement ECHO SNAP
 bool show_who_is_in_FADER_DOCK[514];

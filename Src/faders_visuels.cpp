@@ -752,10 +752,8 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                         Dock.Draw(CouleurLock);
                     }
                     if (DockTypeIs[cmptfader][dd] == 5) {
-                        for (int tt = 0; tt < 24; tt++) {
-                            DockName[cmptfader][dd][tt] = descriptif_memoires[(DockHasMem[cmptfader][dd])][tt];
-                        }
-                        DockName[cmptfader][dd][24] = '\0';
+                        strncpy(DockName[cmptfader][dd], descriptif_memoires[(DockHasMem[cmptfader][dd])], 49);
+                        DockName[cmptfader][dd][49] = '\0';
                     } else if (DockTypeIs[cmptfader][dd] == 6 || DockTypeIs[cmptfader][dd] == 7 ||
                                DockTypeIs[cmptfader][dd] == 8) {
                         Dock.Draw(CouleurNiveau);
@@ -770,18 +768,13 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                         }
                     } else if (DockTypeIs[cmptfader][dd] == 11) // chaser
                     {
-                        for (int tt = 0; tt < 24; tt++) {
-                            DockName[cmptfader][dd][tt] = chaser_name[(ChaserAffectedToDck[cmptfader][dd])][tt];
-                        }
-                        DockName[cmptfader][dd][24] = '\0';
+                        strncpy(DockName[cmptfader][dd], chaser_name[(ChaserAffectedToDck[cmptfader][dd])], 49);
+                        DockName[cmptfader][dd][49] = '\0';
                         Dock.Draw(CouleurGreen);
                     } else if (DockTypeIs[cmptfader][dd] == 12) // Grid
                     {
-                        for (int tt = 0; tt < 24; tt++) {
-                            DockName[cmptfader][dd][tt] =
-                                grider_name[index_grider_selected[faders_dock_grid_affectation[cmptfader][dd]]][tt];
-                        }
-                        DockName[cmptfader][dd][24] = '\0';
+                        strncpy(DockName[cmptfader][dd], grider_name[index_grider_selected[faders_dock_grid_affectation[cmptfader][dd]]], 49);
+                        DockName[cmptfader][dd][49] = '\0';
                         Dock.Draw(CouleurBlind);
                     } else if (DockTypeIs[cmptfader][dd] == 13) // Fgroup
                     {
@@ -799,7 +792,19 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                         Dock.Draw(Discrete8);
                     }
 
-                    petitpetitchiffre.Print(DockName[cmptfader][dd], x + (cmptfader * espacement) - 5, y - 10);
+                    {
+                        char dock_disp[50];
+                        strncpy(dock_disp, DockName[cmptfader][dd], 49);
+                        dock_disp[49] = '\0';
+                        int max_dock_w = espacement - 10;
+                        while (dock_disp[0] && petitpetitchiffre.TextWidth(dock_disp) > max_dock_w) {
+                            int len = (int)strlen(dock_disp);
+                            int i = len - 1;
+                            while (i > 0 && ((unsigned char)dock_disp[i] & 0xC0) == 0x80) i--;
+                            dock_disp[i] = '\0';
+                        }
+                        petitpetitchiffre.Print(dock_disp, x + (cmptfader * espacement) - 5, y - 10);
+                    }
                 }
 
                 switch (DockTypeIs[cmptfader][dd]) {

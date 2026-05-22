@@ -87,5 +87,69 @@
 - [x] **Correction PCH Makefile** — graphics_backend.h ajouté comme dépendance du PCH
 - [x] **wc_cache global WC_SKIP_GLOBALS** — rendu texte restauré dans tous les TUs
 - [x] **Phase 5** — Font cache 4-way set-associatif LRU (2048 slots, éviction LRU par SDL_GetTicks)
-- [ ] **Phase 6** — Dirty rects
-- [ ] **Phase 7** — Port Linux / Raspberry Pi
+- [x] **Phase 6** — Dirty rects (texture cache + wc_bg_dirty + wc_win_dirty + throttle 67ms → 33% → ~18% CPU)
+- [ ] **Phase 7** — Port Linux / Raspberry Pi 3
+
+---
+
+## Phase 7 — Port Linux / Raspberry Pi 3 / macOS
+
+Cibles :
+- **Linux x86** (Ubuntu/Debian) — étape intermédiaire avant Pi
+- **Raspberry Pi 3** (Cortex-A53, 1GB RAM, VideoCore IV, RPi OS Lite + X11)
+- **macOS** (Apple Silicon + Intel, Homebrew SDL2)
+
+### 7a — Audit dépendances Windows
+- [ ] Inventaire de tous les `#include <windows.h>` / `<winsock2.h>` dans le code
+- [ ] Liste des appels Win32 : `GetModuleFileName`, `FindFirstFile/NextFile`, `WSAStartup`, `SetUnhandledExceptionFilter`, `FTD2XX`, serial COM
+- [ ] Identifier ce qui peut être gardé avec `#ifdef _WIN32` vs ce qui doit être réécrit
+
+### 7b — Build system Linux
+- [ ] Makefile Linux (GCC, SDL2, RtMidi ALSA, SDL_mixer, SDL_ttf, SDL_image)
+- [ ] Retirer `-mwindows`, `whitecat_res.o`, FTD2XX.lib du link Linux
+- [ ] Premier objectif : **compiler sur Linux x86** (Ubuntu/Debian) avant de cibler Pi
+- [ ] Makefile ARM pour Pi 3 (cross-compile depuis Linux x86 ou compilation native)
+
+### 7b-mac — Build system macOS
+- [ ] Makefile macOS (Clang, SDL2 via Homebrew, RtMidi CoreMIDI, SDL_mixer, SDL_ttf, SDL_image)
+- [ ] Retirer `-mwindows`, `whitecat_res.o`, FTD2XX.lib du link macOS
+- [ ] Gérer Universal Binary (arm64 + x86_64) ou cibles séparées
+
+### 7c — Portabilité chemins et fichiers
+- [ ] `GetModuleFileName` → `/proc/self/exe` (Linux) / `dladdr` ou `NSBundle` (macOS)
+- [ ] Séparateurs `\` → `/` dans les chemins (save/load, chemins relatifs)
+- [ ] `FindFirstFile/FindNextFile` → `opendir/readdir` POSIX (Linux + macOS)
+- [ ] Dossier temporaire (`GetTempPath`) → `/tmp`
+
+### 7d — Portabilité réseau Art-Net
+- [ ] `winsock2.h` / `WSAStartup` / `WSACleanup` → POSIX `sys/socket.h` (Linux + macOS)
+- [ ] `SOCKADDR` → `struct sockaddr_in`
+- [ ] Wrapper `#ifdef _WIN32` / `#else` dans network_artnet_3.cpp
+
+### 7e — DMX Linux
+- [ ] FTD2XX.lib (Windows-only) → sur Linux : `/dev/ttyUSB0` via libftdi ou driver kernel FTDI
+- [ ] Option court terme : désactiver DMX USB hardware sur Linux, garder Art-Net (aucune lib externe)
+- [ ] Enttec Pro / Enttec Open / DMX King : implémenter backends Linux si interfaces disponibles
+
+### 7e-mac — DMX macOS
+- [ ] FTD2XX.lib → libftdi (Homebrew) ou D2XX macOS d'FTDI (dylib macOS officielle)
+- [ ] Option court terme : désactiver DMX USB hardware sur macOS, garder Art-Net
+- [ ] Serial : `/dev/tty.usbserial-*` ou `/dev/cu.usbmodem*` (Arduino)
+
+### 7f — Divers
+- [ ] Retirer `SetUnhandledExceptionFilter` (Win32) → garder `signal(SIGABRT)` déjà en place
+- [ ] Icône application : ressource `.rc` Windows → `.icns` macOS / pas nécessaire sur Linux
+- [ ] OpenCV : rebuilder 2.4.8 pour ARM, ou désactiver `W_TRACKINGVIDEO` sur Pi/Mac (non bloquant)
+- [ ] Serial Arduino : vérifier si le code COM est POSIX-compatible (`/dev/ttyACM0` Linux, `/dev/cu.*` macOS)
+- [ ] RtMidi : CoreMIDI sur macOS (déjà supporté par RtMidi ✅), ALSA sur Linux ✅
+
+### 7g — Test et tuning Pi 3
+- [ ] Compiler nativement sur Pi 3 (RPi OS Lite, `sudo apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev`)
+- [ ] Mesurer les temps de render réels (fond, fenêtres, hover)
+- [ ] Ajuster throttle / cap FPS si nécessaire pour le VideoCore IV
+- [ ] Valider : MIDI ALSA, DMX Art-Net, audio SDL_mixer
+
+### 7h — Test macOS
+- [ ] Compiler sur macOS (Homebrew : `brew install sdl2 sdl2_ttf sdl2_image sdl2_mixer`)
+- [ ] Valider RtMidi CoreMIDI, Art-Net POSIX, audio SDL_mixer
+- [ ] Tester sur Intel et Apple Silicon (arm64)

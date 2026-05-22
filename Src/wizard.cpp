@@ -37,8 +37,8 @@ unsigned char Wiz_Memoires[10000][514];
 float Wiz_Times_Memoires[10000][4];
 bool Wiz_Links_Memoires[10000];
 int Wiz_Banger_Memoire[10000];
-char Wiz_descriptif_memoires[10000][25];
-char Wiz_annotation_memoires[10000][25];
+char Wiz_descriptif_memoires[10000][50];
+char Wiz_annotation_memoires[10000][50];
 bool MemoiresDetruites[10000];
 bool index_wizard_do_reload_from_disk = 0;
 

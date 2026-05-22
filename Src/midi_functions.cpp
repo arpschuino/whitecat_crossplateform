@@ -174,11 +174,8 @@ dock_selected_for_record=detect_dock_used(control) ;
  //nommage de dock
  else if( index_type==1 )
  {
- for(int tt=0;tt<24;tt++)
- {
- DockName[fader_selected_for_record][dock_selected_for_record ][tt]=numeric[tt];
- }
- DockName[fader_selected_for_record][dock_selected_for_record ][24]='\0';
+ strncpy(DockName[fader_selected_for_record][dock_selected_for_record], numeric, 49);
+ DockName[fader_selected_for_record][dock_selected_for_record][49]='\0';
  index_type=0; reset_numeric_entry();numeric_postext=0;
  sprintf(string_Last_Order,">>On Master %d GIVED A NAME FOR DOCK %d ",fader_selected_for_record,dock_selected_for_record );
  index_ask_confirm=1;

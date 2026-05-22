@@ -69,7 +69,7 @@ unsigned int dock_type_size=48*6;//unsigned char DockTypeIs[48][6];
 const char file_dock_net[24]={"fader_dock_net.whc"};
 unsigned int dock_net_size=48*6; //unsigned char DockNetIs[48][6]; // numero Universe artnet(0 à 15)
 const char file_dock_name[24]={"fader_dock_name.whc"};
-unsigned int dock_name_size=48*6*25;//char DockName[48][6][25];
+unsigned int dock_name_size=48*6*50;//char DockName[48][6][50];
 const char file_dock_channels[24]={"fader_dock_channels.whc"};
 unsigned int dock_channels_size=48*6*514;//unsigned char FaderDockContains[48][6][514];
 const char file_fader_locked[24]={"fader_locked.whc"};
@@ -199,9 +199,9 @@ unsigned int mem_existantes_size=10000;
 const char file_memories[24]={"memories.whc"};
 unsigned int memories_size=10000*514;
 const char file_text_mems[24]={"memories_txt.whc"};
-unsigned int text_mems_size=10000*25;
+unsigned int text_mems_size=10000*50;
 const char file_text_annots[24]={"memories_notes.whc"};
-unsigned int text_annots_size=10000*25;
+unsigned int text_annots_size=10000*50;
 const char file_times_mem[24]={"memories_times.whc"};
 unsigned int times_mems_size=10000*4;
 const char file_link_mem[24]={"memories_links.whc"};
@@ -4369,9 +4369,25 @@ if ((fp=fopen(  file_text_mems, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",   file_text_mems);
-if (fread(descriptif_memoires, sizeof(char), text_mems_size, fp) != text_mems_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s",  file_text_mems);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_text_mems);
+{
+    fseek(fp, 0, SEEK_END);
+    long fsz = ftell(fp);
+    rewind(fp);
+    int entry_sz = (int)(fsz / 10000); // 25 (ancien) ou 50 (nouveau)
+    if (entry_sz == 50) {
+        if (fread(descriptif_memoires, 1, text_mems_size, fp) != text_mems_size)
+        { sprintf(string_save_load_report[idf],"Error Loaded %s", file_text_mems); b_report_error[idf]=1;}
+        else sprintf(string_save_load_report[idf],"Loaded file %s", file_text_mems);
+    } else {
+        for (int i = 0; i < 10000; i++) {
+            char tmp[50] = {0};
+            fread(tmp, 1, 25, fp);
+            strncpy(descriptif_memoires[i], tmp, 49);
+            descriptif_memoires[i][49] = '\0';
+        }
+        sprintf(string_save_load_report[idf],"Loaded file %s (old format)", file_text_mems);
+    }
+}
 fclose(fp);
 }
 idf++;
@@ -4380,9 +4396,25 @@ if ((fp=fopen(  file_text_annots, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",   file_text_annots);
-if (fread(annotation_memoires, sizeof(char), text_annots_size, fp) != text_annots_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s",  file_text_annots);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_text_annots);
+{
+    fseek(fp, 0, SEEK_END);
+    long fsz = ftell(fp);
+    rewind(fp);
+    int entry_sz = (int)(fsz / 10000);
+    if (entry_sz == 50) {
+        if (fread(annotation_memoires, 1, text_annots_size, fp) != text_annots_size)
+        { sprintf(string_save_load_report[idf],"Error Loaded %s", file_text_annots); b_report_error[idf]=1;}
+        else sprintf(string_save_load_report[idf],"Loaded file %s", file_text_annots);
+    } else {
+        for (int i = 0; i < 10000; i++) {
+            char tmp[50] = {0};
+            fread(tmp, 1, 25, fp);
+            strncpy(annotation_memoires[i], tmp, 49);
+            annotation_memoires[i][49] = '\0';
+        }
+        sprintf(string_save_load_report[idf],"Loaded file %s (old format)", file_text_annots);
+    }
+}
 fclose(fp);
 }
 idf++;
@@ -4931,9 +4963,27 @@ if ((fp=fopen(file_dock_name, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_dock_name);
-if (fread(DockName, sizeof(char),dock_name_size, fp) !=dock_name_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_dock_name);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_dock_name);
+{
+    fseek(fp, 0, SEEK_END);
+    long fsz = ftell(fp);
+    rewind(fp);
+    int entry_sz = (int)(fsz / (48*6)); // 25 (ancien) ou 50 (nouveau)
+    if (entry_sz == 50) {
+        if (fread(DockName, 1, dock_name_size, fp) != dock_name_size)
+        { sprintf(string_save_load_report[idf],"Error Loaded %s", file_dock_name); b_report_error[idf]=1;}
+        else sprintf(string_save_load_report[idf],"Loaded file %s", file_dock_name);
+    } else {
+        for (int f = 0; f < 48; f++) {
+            for (int d = 0; d < 6; d++) {
+                char tmp[50] = {0};
+                fread(tmp, 1, 25, fp);
+                strncpy(DockName[f][d], tmp, 49);
+                DockName[f][d][49] = '\0';
+            }
+        }
+        sprintf(string_save_load_report[idf],"Loaded file %s (old format)", file_dock_name);
+    }
+}
  fclose(fp);
 }
 idf++;

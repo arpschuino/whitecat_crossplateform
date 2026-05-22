@@ -37,8 +37,8 @@ extern unsigned char Wiz_Memoires[10000][514];
 extern float Wiz_Times_Memoires[10000][4];
 extern bool Wiz_Links_Memoires[10000];
 extern int Wiz_Banger_Memoire[10000];
-extern char Wiz_descriptif_memoires[10000][25];
-extern char Wiz_annotation_memoires[10000][25];
+extern char Wiz_descriptif_memoires[10000][50];
+extern char Wiz_annotation_memoires[10000][50];
 extern bool MemoiresDetruites[10000];
 extern bool index_wizard_do_reload_from_disk;
 

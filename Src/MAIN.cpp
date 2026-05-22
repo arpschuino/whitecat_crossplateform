@@ -1183,6 +1183,18 @@ int main(int /*argc*/, char ** /*argv*/) {
             // Quand une touche est en attente : 25ms >= 1 cycle ticker (20ms) — bufferSequenciel frais.
             bool _had_key = !wc_key_queue.empty();
             commandes_clavier();
+            if (_had_key) {
+                wc_dirty = true;
+                wc_win_dirty = true;
+                wc_bg_dirty = true;
+                // Présenter le résultat du clavier sans attendre rest(25)+rest(10).
+                main_actions_on_screen();
+                wc_dirty = false;
+                SDL_SetRenderTarget(wc_sdl_renderer, nullptr);
+                if (wc_ui_texture)
+                    SDL_RenderCopy(wc_sdl_renderer, wc_ui_texture, nullptr, nullptr);
+                SDL_RenderPresent(wc_sdl_renderer);
+            }
 
             if (index_do_a_screen_capture == 1) {
                 do_a_screen_capture();
@@ -1194,6 +1206,13 @@ int main(int /*argc*/, char ** /*argv*/) {
             }
 
             rest(_had_key ? 25 : 5); // 25ms si touche : attend Merger() ticker
+            if (_had_key) {
+                // Deuxième passe : Merger() a tourné → bufferSequenciel frais.
+                // Sans ça le mode stable 1000ms affiche la frame périmée pendant ~1s.
+                wc_dirty = true;
+                wc_bg_dirty = true;
+                wc_win_dirty = true;
+            }
         }
     } catch (const std::exception &e) {
         FILE *f = fopen(WC_LOG_FILE, "a");

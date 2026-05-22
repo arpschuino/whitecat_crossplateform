@@ -259,7 +259,7 @@ int Boxes() {
         nameAera.SetRoundness(15);
         nameAera.SetLineWidth(epaisseur_bordure_fenetre);
         nameAera.Draw(CouleurFader.WithAlpha(index_type));
-        Rect UnderText(Vec2D(670, 32), Vec2D((numeric_postext * 14) + 50, 30));
+        Rect UnderText(Vec2D(670, 32), Vec2D(neuro.TextWidth(string_numeric_entry) + 20, 30));
         UnderText.SetRoundness(7.5);
         UnderText.Draw(CouleurFond);
         UnderText.Draw(CouleurLigne.WithAlpha(0.1));
