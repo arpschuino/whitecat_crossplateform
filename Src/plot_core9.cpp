@@ -260,9 +260,10 @@ plot_generate_gels_list();
 
 int scan_planfolder()
 {
+    int nrbe_de_fichiers=0;
+#ifdef _WIN32
     WIN32_FIND_DATA f;
     HANDLE hFind;
-    int nrbe_de_fichiers=0;
     char search_path[512];
     sprintf(search_path,"%s\\plans\\*.*",mondirectory);
     hFind = FindFirstFile(search_path, &f);
@@ -271,9 +272,9 @@ int scan_planfolder()
         do {
             int f_name_len = strlen(f.cFileName);
             bool index_check_is_supported=0;
-            for(unsigned int a=0;a<f_name_len;a++)
+            for(unsigned int a=0;a<(unsigned int)f_name_len;a++)
             {
-                if(f.cFileName[a]=='.' && a<=f_name_len-3)
+                if(f.cFileName[a]=='.' && a<=(unsigned int)(f_name_len-3))
                 {
                     if(
                     (f.cFileName[a+1]=='j' && f.cFileName[a+2]=='p' && f.cFileName[a+3]=='g')
@@ -294,7 +295,44 @@ int scan_planfolder()
         } while(FindNextFile(hFind, &f));
         FindClose(hFind);
     }
-    sprintf(rep,"%s\\",mondirectory);
+#else
+    char search_path[512];
+    snprintf(search_path, sizeof(search_path), "%s/plans", mondirectory);
+    DIR* dir = opendir(search_path);
+    if(dir)
+    {
+        struct dirent* entry;
+        while((entry = readdir(dir)) != NULL && nrbe_de_fichiers < 127)
+        {
+            if(entry->d_name[0] == '.') continue;
+            const char* name = entry->d_name;
+            int f_name_len = (int)strlen(name);
+            bool index_check_is_supported=0;
+            for(unsigned int a=0;a<(unsigned int)f_name_len;a++)
+            {
+                if(name[a]=='.' && a<=(unsigned int)(f_name_len-3))
+                {
+                    if(
+                    (name[a+1]=='j' && name[a+2]=='p' && name[a+3]=='g')
+                    ||(name[a+1]=='b' && name[a+2]=='m' && name[a+3]=='p')
+                    ||(name[a+1]=='p' && name[a+2]=='n' && name[a+3]=='g')
+                    ||(name[a+1]=='J' && name[a+2]=='P' && name[a+3]=='G')
+                    ||(name[a+1]=='B' && name[a+2]=='M' && name[a+3]=='P')
+                    ||(name[a+1]=='P' && name[a+2]=='N' && name[a+3]=='G')
+                    )
+                    {index_check_is_supported=1; break;}
+                }
+            }
+            if(index_check_is_supported)
+            {
+                sprintf(list_import_plans[nrbe_de_fichiers], "%s", name);
+                nrbe_de_fichiers++;
+            }
+        }
+        closedir(dir);
+    }
+#endif
+    sprintf(rep,"%s" WC_DIRSEP, mondirectory);
     chdir(rep);
     return(0);
 }

@@ -2384,14 +2384,18 @@ int reset_save_load_report_string()
 }
 
 
-// Ouvre un fichier depuis un chemin UTF-8 (gÃ¨re accents et espaces sur Windows)
-// Conversion UTF-8 â†’ wide â†’ ACP pour fopen (CP-1252 couvre tous les accents fr/eu)
+// Ouvre un fichier depuis un chemin UTF-8
 FILE* wc_fopen_utf8(const char* utf8path, const char* mode) {
+#ifdef _WIN32
+    // Windows : UTF-8 -> wide -> ACP pour fopen (CP-1252 couvre les accents fr/eu)
     wchar_t wpath[512];
     char acp_path[512];
     MultiByteToWideChar(CP_UTF8, 0, utf8path, -1, wpath, 512);
     WideCharToMultiByte(CP_ACP, 0, wpath, -1, acp_path, 512, NULL, NULL);
     return fopen(acp_path, mode);
+#else
+    return fopen(utf8path, mode);  // POSIX : nativement UTF-8
+#endif
 }
 
 // wc_acp_to_utf8 est maintenant inline dans Crossplateform.h
@@ -2402,11 +2406,10 @@ int scan_audio_root_folders()
     for (int i = 0; i < 64; i++)
         strcpy(list_audio_folders[i], "");
 
-    // Chemin de recherche en wide (mondirectory est ANSI/ACP)
+#ifdef _WIN32
     wchar_t wmondo[512], wsearch[512];
     MultiByteToWideChar(CP_ACP, 0, mondirectory, -1, wmondo, 512);
     _snwprintf(wsearch, 512, L"%ls\\audio\\*", wmondo);
-
     WIN32_FIND_DATAW fw;
     HANDLE h = FindFirstFileW(wsearch, &fw);
     if (h == INVALID_HANDLE_VALUE)
@@ -2418,13 +2421,29 @@ int scan_audio_root_folders()
             continue;
         if (nbre_audio_folders >= 64)
             break;
-        // Stockage en ACP (CP-1252) â€” encodage natif Windows, compatible affichage police
         WideCharToMultiByte(CP_ACP, 0, fw.cFileName, -1,
                             list_audio_folders[nbre_audio_folders], 63, NULL, NULL);
         list_audio_folders[nbre_audio_folders][63] = '\0';
         nbre_audio_folders++;
     } while (FindNextFileW(h, &fw));
     FindClose(h);
+#else
+    char search[512];
+    snprintf(search, sizeof(search), "%s/audio", mondirectory);
+    DIR* dir = opendir(search);
+    if (dir) {
+        struct dirent* entry;
+        while ((entry = readdir(dir)) != NULL) {
+            if (entry->d_name[0] == '.') continue;
+            if (entry->d_type != DT_DIR) continue;
+            if (nbre_audio_folders >= 64) break;
+            strncpy(list_audio_folders[nbre_audio_folders], entry->d_name, 63);
+            list_audio_folders[nbre_audio_folders][63] = '\0';
+            nbre_audio_folders++;
+        }
+        closedir(dir);
+    }
+#endif
     return nbre_audio_folders;
 }
 
@@ -2437,27 +2456,26 @@ int scan_audiofolder()
 //sab 02/03/2014     sprintf(list_audio_files[o],"");
         strcpy(list_audio_files[o],"");
     }
-    //detection â€” Unicode pour supporter accents et espaces dans les noms de fichiers
-WIN32_FIND_DATAW fw;
-HANDLE hFind;
 bool isSomeone=0;
 int nrbe_de_fichiers=0;
-wchar_t wsearch_audio[512], wmondo2[512], wfolder[128];
-MultiByteToWideChar(CP_ACP,  0, mondirectory, -1, wmondo2,  512);
-MultiByteToWideChar(CP_ACP, 0, audio_folder, -1, wfolder, 128);
-_snwprintf(wsearch_audio, 512, L"%ls\\audio\\%ls\\*.*", wmondo2, wfolder);
-hFind = FindFirstFileW(wsearch_audio, &fw);
-if(hFind != INVALID_HANDLE_VALUE)
-{
-    do
+#ifdef _WIN32
+    WIN32_FIND_DATAW fw;
+    HANDLE hFind;
+    wchar_t wsearch_audio[512], wmondo2[512], wfolder[128];
+    MultiByteToWideChar(CP_ACP,  0, mondirectory, -1, wmondo2,  512);
+    MultiByteToWideChar(CP_ACP, 0, audio_folder, -1, wfolder, 128);
+    _snwprintf(wsearch_audio, 512, L"%ls\\audio\\%ls\\*.*", wmondo2, wfolder);
+    hFind = FindFirstFileW(wsearch_audio, &fw);
+    if(hFind != INVALID_HANDLE_VALUE)
     {
-        // Convertit le nom Unicode en ACP (CP-1252) â€” compatible affichage et fopen natif
-        char acpname[72];
-        WideCharToMultiByte(CP_ACP, 0, fw.cFileName, -1, acpname, 72, NULL, NULL);
-        acpname[71] = '\0';
-        int f_name_len = strlen(acpname);
-
-            for(unsigned int a=0; a< (unsigned int)f_name_len; a++)
+        do
+        {
+            char acpname[72];
+            WideCharToMultiByte(CP_ACP, 0, fw.cFileName, -1, acpname, 72, NULL, NULL);
+            acpname[71] = '\0';
+            int f_name_len = strlen(acpname);
+            isSomeone = false;
+            for(unsigned int a=0; a<(unsigned int)f_name_len; a++)
             {
                 if(acpname[a]=='.' && a<=(unsigned int)(f_name_len-3))
                 {
@@ -2470,14 +2488,7 @@ if(hFind != INVALID_HANDLE_VALUE)
                             ||(acpname[a+1]=='F' &&  acpname[a+2]=='L' &&  acpname[a+3]=='A' && a<=(unsigned int)(f_name_len-4) && acpname[a+4]=='C')
                             ||(acpname[a+1]=='f' &&  acpname[a+2]=='l' &&  acpname[a+3]=='a' && a<=(unsigned int)(f_name_len-4) && acpname[a+4]=='c')
                       )
-                    {
-                        isSomeone=true;
-                        break;
-                    }
-                    else
-                    {
-                        isSomeone=false;
-                    }
+                    { isSomeone=true; break; }
                 }
             }
             if(isSomeone && nrbe_de_fichiers<126)
@@ -2486,15 +2497,53 @@ if(hFind != INVALID_HANDLE_VALUE)
                 list_audio_files[nrbe_de_fichiers+1][71] = '\0';
                 nrbe_de_fichiers++;
             }
+        }
+        while(FindNextFileW(hFind, &fw));
+        FindClose(hFind);
     }
-    while(FindNextFileW(hFind, &fw));
-    FindClose(hFind);
-}
+#else
+    char search_audio[512];
+    snprintf(search_audio, sizeof(search_audio), "%s/audio/%s", mondirectory, audio_folder);
+    DIR* dir_audio = opendir(search_audio);
+    if(dir_audio)
+    {
+        struct dirent* entry;
+        while((entry = readdir(dir_audio)) != NULL)
+        {
+            if(entry->d_name[0] == '.') continue;
+            const char* name = entry->d_name;
+            int f_name_len = (int)strlen(name);
+            isSomeone = false;
+            for(unsigned int a=0; a<(unsigned int)f_name_len; a++)
+            {
+                if(name[a]=='.' && a<=(unsigned int)(f_name_len-3))
+                {
+                    if((name[a+1]=='W' && name[a+2]=='A' && name[a+3]=='V')
+                       ||(name[a+1]=='w' && name[a+2]=='a' && name[a+3]=='v')
+                       ||(name[a+1]=='M' && name[a+2]=='P' && name[a+3]=='3')
+                       ||(name[a+1]=='m' && name[a+2]=='p' && name[a+3]=='3')
+                       ||(name[a+1]=='O' && name[a+2]=='G' && name[a+3]=='G')
+                       ||(name[a+1]=='o' && name[a+2]=='g' && name[a+3]=='g')
+                       ||(name[a+1]=='F' && name[a+2]=='L' && name[a+3]=='A' && a<=(unsigned int)(f_name_len-4) && name[a+4]=='C')
+                       ||(name[a+1]=='f' && name[a+2]=='l' && name[a+3]=='a' && a<=(unsigned int)(f_name_len-4) && name[a+4]=='c')
+                      )
+                    { isSomeone=true; break; }
+                }
+            }
+            if(isSomeone && nrbe_de_fichiers<126)
+            {
+                strncpy(list_audio_files[nrbe_de_fichiers+1], name, 71);
+                list_audio_files[nrbe_de_fichiers+1][71] = '\0';
+                nrbe_de_fichiers++;
+            }
+        }
+        closedir(dir_audio);
+    }
+#endif
     // +1 : slot vide en fin de liste (list_audio_files[nrbe_de_fichiers+1]="") pour vider un player
     audio_number_total_in_folder=nrbe_de_fichiers+1;
-//REROLL
-    sprintf(rep,"%s\\",mondirectory);
-    chdir (rep);
+    sprintf(rep,"%s" WC_DIRSEP, mondirectory);
+    chdir(rep);
     return(0);
 }
 

@@ -34,6 +34,8 @@
     #include <netinet/in.h>    // struct sockaddr_in, IPPROTO_UDP
     #include <arpa/inet.h>     // inet_addr, inet_ntoa
     #include <netdb.h>         // gethostname, gethostbyname
+    #include <dirent.h>        // opendir, readdir, closedir
+    #include <sys/stat.h>      // stat, struct stat
 
     // Types compatibles Winsock
     typedef int             SOCKET;
@@ -48,6 +50,15 @@
     typedef struct { unsigned short wVersion; char _pad[126]; } WSADATA;
     static inline int  WSAStartup(unsigned short v, WSADATA* d) { (void)v; (void)d; return 0; }
     static inline void WSACleanup(void) {}
+#endif
+
+// Separateur de chemin (backslash Win32, slash POSIX)
+#ifdef _WIN32
+    #define WC_DIRSEP     "\\"
+    #define WC_DIRSEP_C   '\\'
+#else
+    #define WC_DIRSEP     "/"
+    #define WC_DIRSEP_C   '/'
 #endif
 
 // ============================================================

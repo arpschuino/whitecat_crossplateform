@@ -45,10 +45,10 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int scan_savesfolder()
 {
+    int nbre_de_shows=0;
+#ifdef _WIN32
     WIN32_FIND_DATA f;
     HANDLE hFind;
-    bool isDir;
-    int nbre_de_shows=0;
     char search_saves[512];
     sprintf(search_saves,"%s\\saves\\*.*",mondirectory);
     hFind = FindFirstFile(search_saves, &f);
@@ -57,14 +57,10 @@ int scan_savesfolder()
         do
         {
             int f_name_len = strlen(f.cFileName);
-            isDir=true;
-            for(unsigned int a=0;a<f_name_len;a++)
+            bool isDir=true;
+            for(unsigned int a=0;a<(unsigned int)f_name_len;a++)
             {
-                if(f.cFileName[a]=='.')
-                {
-                    isDir=false;
-                    break;
-                }
+                if(f.cFileName[a]=='.') { isDir=false; break; }
             }
             if(isDir)
             {
@@ -75,7 +71,24 @@ int scan_savesfolder()
         while(FindNextFile(hFind, &f));
         FindClose(hFind);
     }
-    sprintf(rep,"%s\\",mondirectory);
+#else
+    char search_saves[512];
+    snprintf(search_saves, sizeof(search_saves), "%s/saves", mondirectory);
+    DIR* dir = opendir(search_saves);
+    if(dir)
+    {
+        struct dirent* entry;
+        while((entry = readdir(dir)) != NULL)
+        {
+            if(entry->d_name[0] == '.') continue;
+            if(entry->d_type != DT_DIR) continue;
+            snprintf(list_save_files[nbre_de_shows], sizeof(list_save_files[0]), "%s", entry->d_name);
+            nbre_de_shows++;
+        }
+        closedir(dir);
+    }
+#endif
+    sprintf(rep,"%s" WC_DIRSEP, mondirectory);
     chdir(rep);
     return(0);
 }
@@ -83,13 +96,11 @@ int scan_savesfolder()
 //sab 02/03/2014 int scan_importfolder(char *subdir)
 void scan_importfolder(const char* subdir)
 {
-for(int i=0;i<127;i++)
-{
- strcpy(list_import_files[i],"");
-}
+    for(int i=0;i<127;i++) strcpy(list_import_files[i],"");
+    int nrbe_de_fichiers=0;
+#ifdef _WIN32
     WIN32_FIND_DATA f;
     HANDLE hFind;
-    int nrbe_de_fichiers=0;
     char search_import[512];
     sprintf(search_import,"%s\\import_export\\%s*.*",mondirectory,subdir);
     hFind = FindFirstFile(search_import, &f);
@@ -106,7 +117,24 @@ for(int i=0;i<127;i++)
         while(FindNextFile(hFind, &f));
         FindClose(hFind);
     }
-    sprintf(rep,"%s\\",mondirectory);
+#else
+    char search_import[512];
+    snprintf(search_import, sizeof(search_import), "%s/import_export", mondirectory);
+    DIR* dir = opendir(search_import);
+    if(dir)
+    {
+        struct dirent* entry;
+        while((entry = readdir(dir)) != NULL && nrbe_de_fichiers < 127)
+        {
+            if(entry->d_name[0] == '.') continue;
+            if(subdir && subdir[0] && strncmp(entry->d_name, subdir, strlen(subdir)) != 0) continue;
+            snprintf(list_import_files[nrbe_de_fichiers], sizeof(list_import_files[0]), "%s", entry->d_name);
+            nrbe_de_fichiers++;
+        }
+        closedir(dir);
+    }
+#endif
+    sprintf(rep,"%s" WC_DIRSEP, mondirectory);
     chdir(rep);
 }
 
