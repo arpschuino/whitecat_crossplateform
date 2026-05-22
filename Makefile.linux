@@ -1,0 +1,181 @@
+# ============================================================
+# WhiteCat - Build Linux x86 (GCC, SDL2, ALSA/RtMidi)
+# Usage : make -f Makefile.linux -j8
+#         make -f Makefile.linux clean
+#
+# Prerequis (Ubuntu/Debian) :
+#   sudo apt install build-essential libsdl2-dev libsdl2-ttf-dev \
+#        libsdl2-image-dev libsdl2-mixer-dev libhpdf-dev \
+#        libasound2-dev libftdi1-dev zlib1g-dev
+#
+# DMX USB (Enttec Pro, DMX King, OdMx) : FTD2XX remplace par libftdi1.
+#   L adaptation du code source est faite en Phase 7E.
+#
+# OpenCV (video tracking) : desactive par #ifdef _WIN32 dans les sources (Phase 7F).
+# ============================================================
+
+SRC     := $(CURDIR)/Src
+RTMIDI  := $(CURDIR)/whitecatlib/lib/sources_of_libs/rtmidi
+OUT     := $(CURDIR)/whitecatbuild/build/linux
+
+GCC     := g++
+
+SDL2_CFLAGS := $(shell pkg-config --cflags sdl2 SDL2_ttf SDL2_image SDL2_mixer 2>/dev/null)
+SDL2_LIBS   := $(shell pkg-config --libs   sdl2 SDL2_ttf SDL2_image SDL2_mixer 2>/dev/null)
+
+CFLAGS  := -D__LINUX_ALSA__ \
+            -D__POSIX__ \
+            -std=c++11 -O2 -g \
+            $(SDL2_CFLAGS)
+
+INCS    := -I$(SRC) \
+            -I$(RTMIDI)
+
+LDFLAGS := $(SDL2_LIBS) \
+            -lasound \
+            -lpthread \
+            -lftdi1 \
+            -lhpdf -lz
+
+# ============================================================
+# Sources (identiques au Makefile Windows, sans whitecat_res.o)
+# ============================================================
+
+SRC_CPPS := \
+    $(SRC)/MAIN.cpp \
+    $(SRC)/saveload.cpp \
+    $(SRC)/globals.cpp \
+    $(SRC)/display.cpp \
+    $(SRC)/channels.cpp \
+    $(SRC)/video.cpp \
+    $(SRC)/ui_indexes.cpp \
+    $(SRC)/patch.cpp \
+    $(SRC)/audio.cpp \
+    $(SRC)/dmx.cpp \
+    $(SRC)/midi.cpp \
+    $(SRC)/network.cpp \
+    $(SRC)/chasers.cpp \
+    $(SRC)/faders.cpp \
+    $(SRC)/sequenciel.cpp \
+    $(SRC)/theme.cpp \
+    $(SRC)/banger.cpp \
+    $(SRC)/arduino.cpp \
+    $(SRC)/grider.cpp \
+    $(SRC)/plot.cpp \
+    $(SRC)/draw.cpp \
+    $(SRC)/echo.cpp \
+    $(SRC)/trichro.cpp \
+    $(SRC)/schwz.cpp \
+    $(SRC)/core.cpp \
+    $(SRC)/midi_CORE.cpp \
+    $(SRC)/patch_splines.cpp \
+    $(SRC)/SmoothData.cpp \
+    $(SRC)/grand_master.cpp \
+    $(SRC)/grider_calcul.cpp \
+    $(SRC)/grider_core.cpp \
+    $(SRC)/grider_visu.cpp \
+    $(SRC)/gestionaire_fenetres2.cpp \
+    $(SRC)/saves_export_import.cpp \
+    $(SRC)/saves_menu.cpp \
+    $(SRC)/banger_visu.cpp \
+    $(SRC)/chasers_visu.cpp \
+    $(SRC)/channels_visu.cpp \
+    $(SRC)/sequentiel_visu.cpp \
+    $(SRC)/trichro_core.cpp \
+    $(SRC)/banger_core.cpp \
+    $(SRC)/faders_core.cpp \
+    $(SRC)/arduino_core.cpp \
+    $(SRC)/arduino_visu.cpp \
+    $(SRC)/midi_functions.cpp \
+    $(SRC)/CFG_config_panel.cpp \
+    $(SRC)/faders_operations.cpp \
+    $(SRC)/minifaders_visu.cpp \
+    $(SRC)/minifaders_core.cpp \
+    $(SRC)/faders_visuels.cpp \
+    $(SRC)/sequentiel_core.cpp \
+    $(SRC)/keyboard_functions2.cpp \
+    $(SRC)/wizard_operations.cpp \
+    $(SRC)/wizard.cpp \
+    $(SRC)/logicals_intres.cpp \
+    $(SRC)/saves_export_pdf2.cpp \
+    $(SRC)/save_show.cpp \
+    $(SRC)/list_proj_core.cpp \
+    $(SRC)/gui_boutons_rebuild1.cpp \
+    $(SRC)/network_artnet_3.cpp \
+    $(SRC)/patch_core.cpp \
+    $(SRC)/patch_visu.cpp \
+    $(SRC)/list_proj_visu.cpp \
+    $(SRC)/midi_launchpad.cpp \
+    $(SRC)/CFG_screen.cpp \
+    $(SRC)/echo3.cpp \
+    $(SRC)/Draw3.cpp \
+    $(SRC)/arduino_device_core.cpp \
+    $(SRC)/network_MAC_adress_3.cpp \
+    $(SRC)/numpad_visuel.cpp \
+    $(SRC)/time_visu_3.cpp \
+    $(SRC)/trichro_visu2.cpp \
+    $(SRC)/numpad_core.cpp \
+    $(SRC)/time_core.cpp \
+    $(SRC)/channels_core.cpp \
+    $(SRC)/Call_everybody_5.cpp \
+    $(SRC)/video_tracking_core.cpp \
+    $(SRC)/video_tracking_visu.cpp \
+    $(SRC)/procs_visuels_rebuild1.cpp \
+    $(SRC)/dmx_functions.cpp \
+    $(SRC)/chasers_core.cpp
+
+RTMIDI_CPP := $(RTMIDI)/RtMidi.cpp
+
+# ============================================================
+# Objets et dependances
+# ============================================================
+
+OBJS := $(SRC_CPPS:$(SRC)/%.cpp=$(OUT)/%.o) $(OUT)/RtMidi.o
+DEPS := $(OBJS:.o=.d)
+
+PCH  := $(SRC)/wc_tus.h.gch
+EXE  := $(OUT)/Whitecat_Crossplatform
+
+# ============================================================
+# Cibles
+# ============================================================
+
+.PHONY: all clean pch dirs
+
+all: dirs $(PCH) $(EXE)
+	@echo
+	@echo [OK] $(EXE)
+
+# Linkage
+$(EXE): $(OBJS)
+	@echo [link] Whitecat_Crossplatform ...
+	$(GCC) $^ $(LDFLAGS) -o $@
+
+# En-tete precompile
+$(PCH): $(SRC)/wc_tus.h $(SRC)/graphics_backend.h $(SRC)/wc_platform.h
+	@echo [pch] wc_tus.h ...
+	$(GCC) $(CFLAGS) $(INCS) -x c++-header $(SRC)/wc_tus.h -o $@
+
+pch: dirs $(PCH)
+
+# Compilation SRC (avec dependances automatiques -MMD)
+$(OUT)/%.o: $(SRC)/%.cpp $(PCH)
+	@echo [cc] $(<F)
+	$(GCC) $(CFLAGS) $(INCS) -MMD -MP -c $< -o $@
+
+# RtMidi (pas de PCH)
+$(OUT)/RtMidi.o: $(RTMIDI_CPP)
+	@echo [cc] RtMidi.cpp
+	$(GCC) $(CFLAGS) $(INCS) -MMD -MP -c $< -o $@
+
+# Creation des dossiers de sortie
+dirs:
+	mkdir -p $(OUT)
+
+# Nettoyage
+clean:
+	rm -f $(OUT)/*.o $(OUT)/*.d $(SRC)/wc_tus.h.gch
+	@echo [clean] OK
+
+# Dependances auto-generees (incremental builds)
+-include $(DEPS)
