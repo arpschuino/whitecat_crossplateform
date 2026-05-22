@@ -158,8 +158,14 @@ if(mouse_x>x_cfg_sc+20 && mouse_x<x_cfg_sc+75 && mouse_y>y_cfg_sc+75+(lps*30) &&
 screen_mode.Draw(CouleurSurvol);
 if(mouse_button==1 && mouse_released==0)
 {
-if(index_fullscreen==0) {index_fullscreen=1;index_specify_size=0;largeur_ecran= GetSystemMetrics(SM_CXVIRTUALSCREEN);
-hauteur_ecran = GetSystemMetrics(SM_CYVIRTUALSCREEN);}
+if(index_fullscreen==0) {index_fullscreen=1;index_specify_size=0;
+#ifdef _WIN32
+largeur_ecran= GetSystemMetrics(SM_CXVIRTUALSCREEN);
+hauteur_ecran = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+#else
+{ SDL_Rect _r; SDL_GetDisplayBounds(0,&_r); largeur_ecran=_r.w; hauteur_ecran=_r.h; }
+#endif
+}
 else if (index_fullscreen==1) {index_fullscreen=0;}
 mouse_released=1;
 }
