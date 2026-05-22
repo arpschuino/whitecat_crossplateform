@@ -1088,90 +1088,48 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 //////////////////////ENTREES NUMERIQUES COMMUNES//////////////////////////////////////////
 
         case KEY_0:
-            numeric[numeric_postext]='0';
-            numeric_postext++;
-            break;
         case KEY_0_PAD:
-            numeric[numeric_postext]='0';
-            numeric_postext++;
+            numeric[numeric_postext]='0'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_1:
-            numeric[numeric_postext]='1';
-            numeric_postext++;
-            break;
         case KEY_1_PAD:
-            numeric[numeric_postext]='1';
-            numeric_postext++;
+            numeric[numeric_postext]='1'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
-
         case KEY_2:
-            numeric[numeric_postext]='2';
-            numeric_postext++;
-            break;
         case KEY_2_PAD:
-            numeric[numeric_postext]='2';
-            numeric_postext++;
+            numeric[numeric_postext]='2'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_3:
-            numeric[numeric_postext]='3';
-            numeric_postext++;
-            break;
         case KEY_3_PAD:
-            numeric[numeric_postext]='3';
-            numeric_postext++;
+            numeric[numeric_postext]='3'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_4:
-            numeric[numeric_postext]='4';
-            numeric_postext++;
-            break;
         case KEY_4_PAD:
-            numeric[numeric_postext]='4';
-            numeric_postext++;
+            numeric[numeric_postext]='4'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_5:
-            numeric[numeric_postext]='5';
-            numeric_postext++;
-            break;
         case KEY_5_PAD:
-            numeric[numeric_postext]='5';
-            numeric_postext++;
+            numeric[numeric_postext]='5'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_6:
-            numeric[numeric_postext]='6';
-            numeric_postext++;
-            break;
         case KEY_6_PAD:
-            numeric[numeric_postext]='6';
-            numeric_postext++;
+            numeric[numeric_postext]='6'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_7:
-            numeric[numeric_postext]='7';
-            numeric_postext++;
-            break;
         case KEY_7_PAD:
-            numeric[numeric_postext]='7';
-            numeric_postext++;
+            numeric[numeric_postext]='7'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_8:
-            numeric[numeric_postext]='8';
-            numeric_postext++;
-            break;
         case KEY_8_PAD:
-            numeric[numeric_postext]='8';
-            numeric_postext++;
+            numeric[numeric_postext]='8'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
         case KEY_9:
-            numeric[numeric_postext]='9';
-            numeric_postext++;
-            break;
         case KEY_9_PAD:
-            numeric[numeric_postext]='9';
-            numeric_postext++;
+            numeric[numeric_postext]='9'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
 
         case KEY_COMMA:
-            numeric[numeric_postext]='.';
-            numeric_postext++;
+            numeric[numeric_postext]='.'; numeric_postext++; numeric[numeric_postext]='\0';
             break;
 
         case  KEY_DEL_PAD:

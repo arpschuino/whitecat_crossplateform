@@ -58,7 +58,7 @@ int player_toggle(int the_audio_player);
 
 int reset_numeric_entry()
 {
-    numeric[0]='\0';
+    memset(numeric, 0, sizeof(char) * 100);
     numeric_postext=0;
     return(0);
 }
