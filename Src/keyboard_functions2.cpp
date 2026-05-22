@@ -1117,18 +1117,12 @@ int key_thruth()
            switch ((int)ClassicalChannelView)
            {
            case 0:
-           if(check_presence_of_a_channel_in_views(idchannel)==1)
-           {
-           Selected_Channel[idchannel]=1;
            last_ch_selected=idchannel;
            numeric_postext=0;
            reset_numeric_entry();
-           }
-           else if(check_presence_of_a_channel_in_views(idchannel)==0)
+           if(check_presence_of_a_channel_in_views(idchannel)==1)
            {
-           sprintf(string_Last_Order,"This Channel is not in an activ View");
-           numeric_postext=0;
-           reset_numeric_entry();
+           Selected_Channel[idchannel]=1;
            }
 
             if(previous_ch_selected<last_ch_selected)
