@@ -50,7 +50,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include <stdio.h>
 #include <assert.h>
-#include <Iphlpapi.h>
+// Iphlpapi.h retiré — non utilisé
 
 #include <vector>
 
@@ -770,6 +770,7 @@ static void sigabrt_handler(int) {
     signal(SIGABRT, SIG_DFL);
     raise(SIGABRT);
 }
+#ifdef _WIN32
 static LONG WINAPI crash_handler(EXCEPTION_POINTERS *ep) {
     FILE *f;
     wc_open_log(&f);
@@ -780,6 +781,7 @@ static LONG WINAPI crash_handler(EXCEPTION_POINTERS *ep) {
     }
     return EXCEPTION_EXECUTE_HANDLER;
 }
+#endif
 static void wc_terminate_handler() {
     FILE *f;
     wc_open_log(&f);
@@ -799,24 +801,19 @@ static void wc_atexit_handler() {
 }
 
 int main(int /*argc*/, char ** /*argv*/) {
-    GetModuleFileName(NULL, mondirectory, 512);
-    // Enlever le nom de l'exe pour garder seulement le dossier
-    for (int i = strlen(mondirectory) - 1; i >= 0; i--) {
-        if (mondirectory[i] == '\\') {
-            mondirectory[i] = '\0';
-            break;
-        }
-    }
+    wc_get_exe_dir(mondirectory, 512);
     {
-        char _tmp[512];
-        if (GetTempPathA(512, _tmp) > 0)
+        char _tmp[512] = "";
+        wc_get_temp_dir(_tmp, 512);
+        if (_tmp[0] != '\0')
             snprintf(wc_log_path, 512, "%swc_debug.txt", _tmp);
-    } // log dans %TEMP%
+    } // log dans %TEMP% (Windows) ou /tmp/ (Linux/macOS)
     load_screen_config();
 
     if (dpi_native_rendering)
         SDL_SetHint(SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitorv2");
 
+#ifdef _WIN32
     {
         int logical_w = GetSystemMetrics(SM_CXSCREEN);
         DEVMODE dm;
@@ -825,6 +822,13 @@ int main(int /*argc*/, char ** /*argv*/) {
         if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) && dm.dmPelsWidth > 0 && logical_w > 0)
             wc_dpi_scale = (float)dm.dmPelsWidth / (float)logical_w;
     }
+#else
+    {
+        float hdpi = 0.f, vdpi = 0.f, ddpi = 0.f;
+        if (SDL_GetDisplayDPI(0, &ddpi, &hdpi, &vdpi) == 0 && ddpi > 0.f)
+            wc_dpi_scale = ddpi / 96.0f;
+    }
+#endif
 
     Settings::SetWindowBorder(false); // plus de momde border window, car inutilisable avec les menus
 
@@ -836,9 +840,16 @@ int main(int /*argc*/, char ** /*argv*/) {
         Setup::SetupScreen(largeur_ecran, hauteur_ecran, FULLSCREEN, desktop_color_depth());
     }
 
-    HWND hwnd = win_get_window();
-    if (hwnd != NULL)
-        MoveWindow(hwnd, posX_mainwindow, posY_mainwindow, SCREEN_W, SCREEN_H, true);
+#ifdef _WIN32
+    {
+        HWND hwnd = win_get_window();
+        if (hwnd != NULL)
+            MoveWindow(hwnd, posX_mainwindow, posY_mainwindow, SCREEN_W, SCREEN_H, true);
+    }
+#else
+    if (wc_sdl_window)
+        SDL_SetWindowPosition(wc_sdl_window, posX_mainwindow, posY_mainwindow);
+#endif
 
     install_joystick(JOY_TYPE_AUTODETECT);
     calibrate_joystick_name(0);
@@ -849,7 +860,9 @@ int main(int /*argc*/, char ** /*argv*/) {
 
     mouse_callback = my_callback;
 
+#ifdef _WIN32
     SetUnhandledExceptionFilter(crash_handler);
+#endif
     std::set_terminate(wc_terminate_handler);
     signal(SIGABRT, sigabrt_handler);
     atexit(wc_atexit_handler);
@@ -1094,7 +1107,9 @@ int main(int /*argc*/, char ** /*argv*/) {
                                                   // channels macros
 
     starting_wcat = 0;
+#ifdef _WIN32
     SetUnhandledExceptionFilter(crash_handler);
+#endif
     signal(SIGABRT, sigabrt_handler);
     {
         FILE *_d = fopen(WC_LOG_FILE, "a");
@@ -1271,7 +1286,7 @@ int main(int /*argc*/, char ** /*argv*/) {
     remove_timer();
     WSACleanup(); // liberation librairie socket
     midi_backend_close();
-    Sleep(200);
+    rest(200);
     WSACleanup();
     exit(0);
     return 0;

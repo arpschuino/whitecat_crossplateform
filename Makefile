@@ -186,7 +186,7 @@ $(EXE): $(OBJS) $(RES)
 	$(GCC) $^ $(LDFLAGS) -o $@
 
 # En-tete precompile
-$(PCH): $(SRC)/wc_tus.h $(SRC)/graphics_backend.h
+$(PCH): $(SRC)/wc_tus.h $(SRC)/graphics_backend.h $(SRC)/wc_platform.h
 	@echo [pch] wc_tus.h ...
 	$(GCC) $(CFLAGS) $(INCS) -x c++-header $(SRC)/wc_tus.h -o $@
 

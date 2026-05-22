@@ -65,10 +65,9 @@ static char wc_log_path[512] = "wc_debug.txt"; // fallback relatif
 // Block all Allegro 4 + OpenLayer includes
 // (other .cpp files doing #include <allegro.h> will be silently ignored)
 // ============================================================
-// Forcer winsock2 avant que windows.h ne charge l'ancien winsock.h
-// Force winsock2 before windows.h loads the old winsock.h
-#define WIN32_LEAN_AND_MEAN
-#define _WINSOCKAPI_
+// wc_platform.h gère WIN32_LEAN_AND_MEAN, _WINSOCKAPI_, windows.h, winsock2.h
+// et fournit les stubs POSIX (SOCKET, WSAStartup…) pour Linux/macOS.
+#include "wc_platform.h"
 
 #define ALLEGRO_H
 #define WIN_ALLEGRO_H
@@ -126,8 +125,7 @@ static char wc_log_path[512] = "wc_debug.txt"; // fallback relatif
 #include <queue>
 #include <string>
 #include <vector>
-#include <windows.h>  // HWND, MoveWindow
-#include <winsock2.h> // SOCKET, SOCKADDR_IN — doit preceder windows.h
+// windows.h + winsock2.h déjà inclus via wc_platform.h ci-dessus.
 
 // index_quit est defini dans whitecat.h comme bool (meme unite de compilation)
 extern bool index_quit;
@@ -507,11 +505,7 @@ inline void replace_filename(char *dest, const char *path, const char *newname, 
     strncat(dest, newname, size - base_len - 1);
 }
 
-// chdir : Allegro utilise POSIX chdir, Win32 a _chdir dans <direct.h>
-#include <direct.h>
-#ifndef chdir
-#define chdir _chdir
-#endif
+// chdir : inclus via wc_platform.h (direct.h + _chdir sur Windows, unistd.h sur POSIX)
 
 // Constantes Allegro texte / Allegro text alignment constants
 #define ALLEGRO_ALIGN_LEFT 0
@@ -799,6 +793,7 @@ inline void set_mouse_range(int x1, int y1, int x2, int y2) {
     wc_mouse_range_y2 = y2;
 }
 
+#ifdef _WIN32
 inline HWND win_get_window() {
     if (!wc_sdl_window)
         return NULL;
@@ -808,6 +803,7 @@ inline HWND win_get_window() {
         return info.info.win.window;
     return NULL;
 }
+#endif
 
 inline void rest(int ms) {
     if (ms > 0)

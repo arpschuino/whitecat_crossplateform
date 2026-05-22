@@ -43,8 +43,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include "wc_tus.h"
 
-#include<winsock2.h>
-//#pragma comment(lib,"ws2_32.lib")
+// winsock2 / POSIX sockets inclus via wc_tus.h → graphics_backend.h → wc_platform.h
 
 // convert from shorts to bytes and back again
 #define short_get_high_byte(x) ((HIGH_BYTE & x) >> 8)
