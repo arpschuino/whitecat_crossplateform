@@ -25,6 +25,11 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - ✅ Phase 4 TU extraction (6 TUs extraits, PCH Makefile, WC_SKIP_GLOBALS pattern)
 - ✅ Ticker intelligent — cap 3 niveaux (60/25/idle fps), détection LFO/chasers/GO/dampers
 - ✅ wc_cache/wc_cache_mutex globaux (WC_SKIP_GLOBALS) — rendu texte stable dans tous les TUs
+- ✅ Phase 6 dirty rects — wc_ui_texture persistante, 33%→18% CPU
+- ✅ Phase 7A — abstraction Win32 (wc_platform.h, network.cpp, CFG_screen.cpp)
+- ✅ Phase 7B — Makefile.linux (GCC, SDL2, ALSA, libftdi1) — pas encore testé
+- ✅ Phase 7C — POSIX porting fichiers (opendir/readdir dans core.cpp, saves_menu.cpp, plot_core9.cpp ; wc_fopen_utf8 #ifdef _WIN32)
+- ✅ Fix thru/Tab — range endpoint incorrect en mode vues (ClassicalChannelView=0) dans keyboard_functions2.cpp
 ## Current Architecture
 - `Src/midi_backend.h` — MIDI abstraction layer (RtMidi)
 - `Src/midi_CORE.cpp` — MIDI init/quit using midi_backend.h
@@ -33,17 +38,26 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 ## Dependencies
 | Library | Version | Status |
 |---------|---------|--------|
-| Allegro | 4.4.2 | TO REPLACE with SDL2 |
-| OpenLayer | 2.1 | TO REPLACE with SDL2 |
-| Audiere | 1.9.4 | TO REPLACE with SDL2_mixer |
+| SDL2 + SDL2_mixer + SDL2_ttf + SDL2_image | 2.x | ✅ Active |
 | RtMidi | latest | ✅ Active |
-| OpenCV | 2.4.8 | to update later |
+| OpenCV | 2.4.8 | ⚠️ Windows only — à wrapper #ifdef |
+| FTD2XX | FTDI | ⚠️ Windows only — à remplacer libftdi1 (Linux) |
+| libftdi1 | — | 🔜 Linux/macOS (Makefile.linux prêt) |
 | MidiShare | 1.91 | ❌ Removed |
-## Next Steps
-- Continuer le développement fonctionnel (SDL2 en place)
-- Remettre la restauration des fenêtres ouvertes au démarrage (window_opened[] remis à zéro après Load_Show pour éviter les crashs — à réactiver quand le rendu de chaque fenêtre sera validé)
-- Réactiver les fenêtres désactivées une par une après stabilisation
-- OpenCV 2.4.8 à mettre à jour (non bloquant)
+| Allegro / OpenLayer / Audiere | — | ❌ Removed |
+## Next Steps — Phase 7 portage Linux/Pi/macOS (branche 0.9.1)
+Reprendre en **Phase 7D** :
+- **7D** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (détection adresse MAC, inutile sur Linux/macOS — retourner une adresse factice ou 00:00:...)
+- **7E** `Src/dmx_functions.cpp` — remplacer FTD2XX par libftdi1 (Linux/macOS), Makefile.linux déjà configuré avec `-lftdi1`
+- **7F** OpenCV — guards `#ifdef _WIN32` ou `#ifdef WC_ENABLE_OPENCV` autour du tracking vidéo (opencv 2.4.8 non dispo ARM/macOS)
+- **7G** Test compilation Linux x86 (WSL2/Ubuntu) puis mesures CPU/GPU
+- **7H** Test Raspberry Pi 3 (compilation native, VideoCore IV)
+
+## Key Context — Cross-platform
+- `Src/wc_platform.h` — abstraction OS : headers POSIX, types Winsock compat, `wc_get_exe_dir()`, `wc_get_temp_dir()`, `WC_DIRSEP`/`WC_DIRSEP_C`
+- `ClassicalChannelView` : 0 = mode vues (thru filtre par vues actives), 1 = mode classique
+- `wc_key_queue` est `static` dans graphics_backend.h → keyboard_routines2.cpp doit rester `#include` dans MAIN.cpp (jamais TU séparée)
+- **WC_SKIP_GLOBALS** : tout nouveau global dans graphics_backend.h doit utiliser ce patron (extern dans TUs, définition dans MAIN.cpp) — sinon symbole dupliqué silencieux
 ## Known Issues
 - CPU idle : 0,4–0,8 % (ticker intelligent en place — cap 3 niveaux 60/25/100 ms)
 - **WC_SKIP_GLOBALS** : tout nouveau global dans `graphics_backend.h` doit suivre ce patron — sinon symbole dupliqué par TU (bug silencieux, difficile à diagnostiquer)
