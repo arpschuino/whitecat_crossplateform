@@ -50,6 +50,10 @@
     typedef struct { unsigned short wVersion; char _pad[126]; } WSADATA;
     static inline int  WSAStartup(unsigned short v, WSADATA* d) { (void)v; (void)d; return 0; }
     static inline void WSACleanup(void) {}
+
+    // ioctlsocket n'existe pas sur POSIX — ioctl(s, FIONBIO, ...) est l'équivalent
+    #include <sys/ioctl.h>
+    #define ioctlsocket(s, cmd, argp) ioctl(s, cmd, argp)
 #endif
 
 // Separateur de chemin (backslash Win32, slash POSIX)
