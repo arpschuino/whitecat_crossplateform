@@ -30,6 +30,9 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - ✅ Phase 7B — Makefile.linux (GCC, SDL2, ALSA, libftdi1) — pas encore testé
 - ✅ Phase 7C — POSIX porting fichiers (opendir/readdir dans core.cpp, saves_menu.cpp, plot_core9.cpp ; wc_fopen_utf8 #ifdef _WIN32)
 - ✅ Fix thru/Tab — range endpoint incorrect en mode vues (ClassicalChannelView=0) dans keyboard_functions2.cpp
+- ✅ Phase 7D — ioctlsocket → ioctl POSIX dans wc_platform.h
+- ✅ Phase 7E — backend DMX POSIX sans FTD2XX (dmx_backend_linux.h : Enttec Open pthread + Enttec Pro serial)
+- ✅ Phase 7F — OpenCV guards #ifdef _WIN32 + stubs Linux/macOS (video_tracking_core.cpp/.h)
 ## Current Architecture
 - `Src/midi_backend.h` — MIDI abstraction layer (RtMidi)
 - `Src/midi_CORE.cpp` — MIDI init/quit using midi_backend.h
@@ -46,12 +49,14 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 | MidiShare | 1.91 | ❌ Removed |
 | Allegro / OpenLayer / Audiere | — | ❌ Removed |
 ## Next Steps — Phase 7 portage Linux/Pi/macOS (branche 0.9.1)
-Reprendre en **Phase 7D** :
-- **7D** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (détection adresse MAC, inutile sur Linux/macOS — retourner une adresse factice ou 00:00:...)
-- **7E** `Src/dmx_functions.cpp` — remplacer FTD2XX par libftdi1 (Linux/macOS), Makefile.linux déjà configuré avec `-lftdi1`
-- **7F** OpenCV — guards `#ifdef _WIN32` ou `#ifdef WC_ENABLE_OPENCV` autour du tracking vidéo (opencv 2.4.8 non dispo ARM/macOS)
-- **7G** Test compilation Linux x86 (WSL2/Ubuntu) puis mesures CPU/GPU
+Reprendre en **Phase 7G** :
+- **7D** ✅ `wc_platform.h` — `ioctlsocket` → `ioctl` POSIX + `sys/ioctl.h`
+- **7E** ✅ `Src/dmx_functions.cpp` + `Src/dmx_backend_linux.h` — backend POSIX sans FTD2XX
+  (Enttec Open : serial 250000 baud + pthread ; Enttec Pro : serial 57600 baud ; Sunlite : stubs)
+- **7F** ✅ OpenCV — `#ifdef _WIN32` autour de tout le tracking vidéo ; stubs Linux/macOS
+- **7G** ← PROCHAINE : Test compilation Linux x86 (WSL2/Ubuntu) — chercher les erreurs restantes
 - **7H** Test Raspberry Pi 3 (compilation native, VideoCore IV)
+- **7D-réseau** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (à faire si 7G révèle des erreurs de link)
 
 ## Key Context — Cross-platform
 - `Src/wc_platform.h` — abstraction OS : headers POSIX, types Winsock compat, `wc_get_exe_dir()`, `wc_get_temp_dir()`, `WC_DIRSEP`/`WC_DIRSEP_C`
