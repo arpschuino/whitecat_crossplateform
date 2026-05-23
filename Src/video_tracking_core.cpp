@@ -41,13 +41,15 @@ WWWWWWWW           C  WWWWWWWW   |
 *
 **/
 
-#include "opencv2/opencv.hpp"
-/*
-#include "opencv2/cv/cv.h"
-#include "opencv2/highui/highgui.h"
-*/
 #include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
+
+#ifdef _WIN32
+// ============================================================
+// OpenCV 2.4.8 — Video tracking — Windows x86 uniquement
+// Désactivé sur Linux/macOS (#else stubs ci-dessous)
+// ============================================================
+#include "opencv2/opencv.hpp"
 CvCapture* g_capture = NULL;
 IplImage* frame;
 IplImage* affichage;
@@ -685,3 +687,26 @@ mouse_released=1;
 
 return(0);
 }
+
+#else // !_WIN32
+// ============================================================
+// Stubs Linux/macOS — OpenCV non disponible, tracking désactivé
+// ============================================================
+int set_default_image_size()              { return 0; }
+int Load_Video_Conf()                     { return 0; }
+int Save_Video_Conf()                     { return 0; }
+int set_camera_size()                     { return 0; }
+int set_image_caches()                    { return 0; }
+int InitVideo()                           { return 0; }
+int CloseVideo()                          { return 0; }
+int Snap_Background()                     { return 0; }
+int Filter_Image(int,int,int,int)         { return 0; }
+int do_logical_Move_Tracker(int,int)      { return 0; }
+int do_logical_Edit_Tracker_Size(int,int) { return 0; }
+int ventilation_video_trackers()          { return 0; }
+int Trackers()                            { return 0; }
+int do_logical_Set_Filtering_Image()      { return 0; }
+int show_who_is_in_ROI_as_channel(int,int){ return 0; }
+int do_logical_Interface_video_window(int,int) { return 0; }
+
+#endif // _WIN32

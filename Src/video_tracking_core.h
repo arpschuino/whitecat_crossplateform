@@ -1,16 +1,19 @@
 #pragma once
-#include "opencv2/opencv.hpp"
 
+#ifdef _WIN32
+// OpenCV 2.4.8 — Windows x86 uniquement
+#include "opencv2/opencv.hpp"
 extern CvCapture* g_capture;
-extern IplImage* frame;
-extern IplImage* affichage;
-extern IplImage* onech_temoin_prev;
-extern IplImage* onech_temoin;
-extern IplImage* onech_difference;
-extern IplImage* onech_visu;
-extern IplImage* onech_snap_background;
+extern IplImage*  frame;
+extern IplImage*  affichage;
+extern IplImage*  onech_temoin_prev;
+extern IplImage*  onech_temoin;
+extern IplImage*  onech_difference;
+extern IplImage*  onech_visu;
+extern IplImage*  onech_snap_background;
 extern CvCapture* file_capture;
-extern IplImage* frame_played;
+extern IplImage*  frame_played;
+#endif // _WIN32
 
 int set_default_image_size();
 int Load_Video_Conf();
