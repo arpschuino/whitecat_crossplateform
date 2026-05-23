@@ -53,13 +53,25 @@ PC CPU to be send to the enttec open dmx via the D2XX drivers
 int DoLock(int masterfader, int locklevel);
 int do_send_bang();
 
+#ifdef _WIN32
+// --- Interfaces USB/FTDI/série — Windows (FTD2XX + Win32 serial) ---
 #include <odmxusb.cpp>
 #include <odmxusb.h>
 Open_USB_DMX *pUsbDmx = NULL;
 unsigned char DmxBlockEnttecOpen[513];
-unsigned char dmxIN[513];
+unsigned char dmxIN[513];  // utilisé par dmx_enttec_pro.cpp et dmx_sunlite.cpp ci-dessous
 #include <dmx_enttec_pro.cpp>
 #include <dmx_sunlite.cpp>
+#else
+// --- Backend DMX POSIX (Linux/macOS) ---
+// Enttec Open DMX : POSIX serial 250000 baud + break via ioctl + pthread
+// Enttec Pro      : POSIX serial 57600 baud, protocole Enttec identique Win32
+// Sunlite         : non disponible (DLL Windows)
+#include "dmx_backend_linux.h"
+Open_USB_DMX *pUsbDmx = NULL;
+unsigned char DmxBlockEnttecOpen[513];
+unsigned char dmxIN[513];
+#endif
 
 int Init_single_dmx_interface(int which) {
     switch (which) {
@@ -202,7 +214,11 @@ int SendData_to_interface() {
         if (dmx_interface_active[3]) {
             int res3 = Enttec_Pro_SendData(6, DmxBlock, 513, NULL); // 1 start code + 512 canaux, max spec Enttec Pro
             if (res3 < 0)
+#ifdef _WIN32
                 sprintf(string_display_dmx_params, "EnttecPro: WriteFile FAILED (handle=%p)", com_handle_);
+#else
+                sprintf(string_display_dmx_params, "EnttecPro: SendData FAILED (fd=%d)", com_handle_);
+#endif
         }
         if (dmx_interface_active[4]) {
             sunlite_send_data();
