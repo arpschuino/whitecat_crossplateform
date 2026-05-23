@@ -129,14 +129,15 @@ int Boxes() {
         petitchiffre.Print(my_show_is_coming_from, 685, 270);
 
         // visualisation retour faux shift faux ctrl de banger ou de iCat
-        Rect False(Vec2D(970, 240), Vec2D(55, 15));
-        False.Draw(CouleurBlind.WithAlpha(index_false_shift * alpha_blinker));
-        False.DrawOutline(CouleurLigne.WithAlpha(0.5));
+        // NB: variable renommée rctFalse — X11 définit False=0 sur Linux
+        Rect rctFalse(Vec2D(970, 240), Vec2D(55, 15));
+        rctFalse.Draw(CouleurBlind.WithAlpha(index_false_shift * alpha_blinker));
+        rctFalse.DrawOutline(CouleurLigne.WithAlpha(0.5));
         petitchiffre.Print("F-Shift", 975, 252);
 
-        False.MoveTo(Vec2D(970, 265));
-        False.Draw(CouleurBlind.WithAlpha(index_false_control * alpha_blinker));
-        False.DrawOutline(CouleurLigne.WithAlpha(0.5));
+        rctFalse.MoveTo(Vec2D(970, 265));
+        rctFalse.Draw(CouleurBlind.WithAlpha(index_false_control * alpha_blinker));
+        rctFalse.DrawOutline(CouleurLigne.WithAlpha(0.5));
         petitchiffre.Print("F-Ctrl", 980, 277);
 
         wc_bg_dirty = false;

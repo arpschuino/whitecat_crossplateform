@@ -123,7 +123,7 @@ int midi_backend_close()
         if (rtmidi_in_ports[i]) {
             if (rtmidi_in_ports[i]->isPortOpen()) {
                 rtmidi_in_ports[i]->cancelCallback();
-                Sleep(100);
+                wc_sleep_ms(100);
                 rtmidi_in_ports[i]->closePort();
             }
             delete rtmidi_in_ports[i];
@@ -151,9 +151,9 @@ int midi_backend_close_port_in(int index)
     if (!rtmidi_in_ports[index]) return -1;
     if (rtmidi_in_ports[index]->isPortOpen()) {
         rtmidi_in_ports[index]->cancelCallback();
-        Sleep(100);
+        wc_sleep_ms(100);
         rtmidi_in_ports[index]->closePort();
-        Sleep(100);
+        wc_sleep_ms(100);
     }
     delete rtmidi_in_ports[index];
     rtmidi_in_ports[index]     = NULL;

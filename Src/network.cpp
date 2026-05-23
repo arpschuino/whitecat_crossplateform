@@ -41,11 +41,11 @@ char my_ip_is[4];
 // client
 SOCKET sockartnet;
 SOCKADDR_IN sinS;
-int sinsize;
+socklen_t sinsize;
 // serveur
 SOCKET sock;
 SOCKADDR_IN sinServ;
-int sinsizeServ;
+socklen_t sinsizeServ;
 struct hostent *phe;
 char FAR hostnamebuffer[64];
 char broadcast = '1';

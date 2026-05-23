@@ -24,18 +24,26 @@
     #ifndef chdir
     #define chdir _chdir
     #endif
+    #define wc_mkdir(p) _mkdir(p)   // _mkdir Win32 : 1 seul argument
+    // socklen_t n'est pas défini par Winsock2 (utilise int) — on l'aligne sur POSIX
+    typedef int socklen_t;
+    // Sleep Win32 en ms — SDL_Delay est préférable mais Sleep reste utilisé dans l'ancien code
+    #define wc_sleep_ms(ms) Sleep(ms)
 
 // ============================================================
 // POSIX (Linux + macOS)
 // ============================================================
 #else
     #include <unistd.h>        // chdir, readlink, close, ssize_t
-    #include <sys/socket.h>    // socket, bind, sendto, recvfrom
+    #include <sys/socket.h>    // socket, bind, sendto, recvfrom (socklen_t inclus)
     #include <netinet/in.h>    // struct sockaddr_in, IPPROTO_UDP
     #include <arpa/inet.h>     // inet_addr, inet_ntoa
     #include <netdb.h>         // gethostname, gethostbyname
     #include <dirent.h>        // opendir, readdir, closedir
     #include <sys/stat.h>      // stat, struct stat
+    #include <sys/ioctl.h>     // ioctl, FIONBIO
+    #include <signal.h>        // signal, SIGABRT, SIG_DFL, raise
+    #include <stdio.h>         // fprintf (pour les handlers de crash)
 
     // Types compatibles Winsock
     typedef int             SOCKET;
@@ -51,9 +59,14 @@
     static inline int  WSAStartup(unsigned short v, WSADATA* d) { (void)v; (void)d; return 0; }
     static inline void WSACleanup(void) {}
 
-    // ioctlsocket n'existe pas sur POSIX — ioctl(s, FIONBIO, ...) est l'équivalent
-    #include <sys/ioctl.h>
+    // ioctlsocket n'existe pas sur POSIX
     #define ioctlsocket(s, cmd, argp) ioctl(s, cmd, argp)
+
+    // Sleep Win32 → usleep POSIX (ms → µs)
+    #define wc_sleep_ms(ms) usleep((ms) * 1000)
+
+    // mkdir POSIX : requiert droits (mode_t)
+    #define wc_mkdir(p) mkdir((p), 0755)
 #endif
 
 // Separateur de chemin (backslash Win32, slash POSIX)

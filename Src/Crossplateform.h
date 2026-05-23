@@ -50,18 +50,19 @@ WWWWWWWW           C  WWWWWWWW   |
 /**
 uncomment if whitecat is compilled for windows with MinGW else comment it and uncomment an other White define ex WhitePOSIX
 */
-#define WhiteMicrosoft
-/**
-uncomment if whitecat is compilled for POSIX (ex:OSX) else comment it and uncomment an other White define ex:: WhiteMicrosoft
-*/
-// #define WhitePOSIX
-
-#ifdef WhiteMicrosoft
+#ifdef _WIN32
 // Convertit un chemin ACP (CP-1252) en UTF-8 pour SDL2
 inline void wc_acp_to_utf8(const char* acp, char* utf8, int maxlen) {
     wchar_t wpath[512];
     MultiByteToWideChar(CP_ACP, 0, acp, -1, wpath, 512);
     WideCharToMultiByte(CP_UTF8, 0, wpath, -1, utf8, maxlen, NULL, NULL);
+}
+#else
+// POSIX : chemins déjà en UTF-8, copie directe
+#include <string.h>
+inline void wc_acp_to_utf8(const char* acp, char* utf8, int maxlen) {
+    strncpy(utf8, acp, maxlen - 1);
+    utf8[maxlen - 1] = '\0';
 }
 #endif
 

@@ -1735,7 +1735,7 @@ sprintf(rep,"%s\%s\%s",mondirectory,rep_saves,nomduspectacle);
 //LPSECURITY_ATTRIBUTES attr;
 //attr=NULL;
 //CreateDirectory(rep,attr);
-mkdir (rep);
+wc_mkdir(rep);
 //chmod (rep,0777);
 chdir (rep);
 clear_report_string();

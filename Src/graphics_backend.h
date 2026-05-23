@@ -483,7 +483,12 @@ inline void calc_spline(const int points[8], int npts, int *x_out, int *y_out) {
 
 // Utilitaires fichiers Allegro / Allegro file utilities
 inline void get_executable_name(char *buf, int size) {
+#ifdef _WIN32
     GetModuleFileNameA(NULL, buf, (DWORD)size);
+#else
+    ssize_t n = readlink("/proc/self/exe", buf, (size_t)(size - 1));
+    if (n > 0) buf[n] = '\0'; else { buf[0] = '.'; buf[1] = '\0'; }
+#endif
 }
 inline const char *get_filename(const char *path) {
     const char *p = path;

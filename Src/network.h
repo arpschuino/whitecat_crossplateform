@@ -47,11 +47,11 @@ extern char my_ip_is[4];
 // client
 extern SOCKET sockartnet;
 extern SOCKADDR_IN sinS;
-extern int sinsize;
+extern socklen_t sinsize;
 // serveur
 extern SOCKET sock;
 extern SOCKADDR_IN sinServ;
-extern int sinsizeServ;
+extern socklen_t sinsizeServ;
 
 extern struct hostent *phe;
 extern char FAR hostnamebuffer[64];

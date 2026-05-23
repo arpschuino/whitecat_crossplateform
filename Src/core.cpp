@@ -3277,7 +3277,7 @@ int send_my_midi_note(int letype, int lechannel, int lanote, int lavelocite, int
 
 int send_my_midi_note_delayed(int letype, int lechannel, int lanote, int lavelocite, int laduree, int delay)
 {
-    Sleep(delay);
+    wc_sleep_ms(delay);
     midi_backend_send(letype, lechannel, lanote, lavelocite);
     return(0);
 }

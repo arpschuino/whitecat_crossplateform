@@ -45,6 +45,11 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gui_boutons_rebuild1.h"
 #include "video_tracking_core.h"
 
+#ifdef _WIN32
+// ============================================================
+// OpenCV 2.4.8 — Video tracking visu — Windows x86 uniquement
+// ============================================================
+
 int ShowTrackers()
 {
 char num_tr[4];
@@ -465,3 +470,10 @@ petitchiffre.Print("AFFECT TO DOCK",videoX+(frame_video_y/2)-10, videoY+frame_vi
 
 return(0);
 }
+
+#else // !_WIN32
+int ShowTrackers()                   { return 0; }
+int Set_Filtering_Image()            { return 0; }
+int tracking_print_to_screen()       { return 0; }
+int Interface_video_window(int, int) { return 0; }
+#endif // _WIN32

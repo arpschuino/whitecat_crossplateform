@@ -50,8 +50,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include <stdio.h>
 #include <assert.h>
-// Iphlpapi.h retiré — non utilisé
-
+#include <exception>   // std::set_terminate
 #include <vector>
 
 #include "SmoothData.h"  // classe compilee separement dans SmoothData.cpp
@@ -1135,7 +1134,9 @@ int main(int /*argc*/, char ** /*argv*/) {
                 init_done == 1 && index_writing_curve == 0 && index_quit == 0) {
                 arduino_merge_and_do_data_out();
                 arduino_read(); // doit etre posé après data out
+#ifdef _WIN32
                 serial0.Flush();
+#endif
                 old_ticks_arduino = ticks_arduino;
                 arduino_do_digital_in_whitecat();
                 arduino_do_analog_in_whitecat();

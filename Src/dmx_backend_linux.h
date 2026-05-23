@@ -68,9 +68,10 @@ WWWWWWWW           C  WWWWWWWW   |
 // On définit la structure ici pour éviter le conflit de headers
 // entre <termios.h> et <linux/termios.h>.
 // ============================================================
-#ifndef BOTHER
-#define BOTHER 0010000
-struct termios2 {
+// wc_termios2 : layout identique au struct termios2 kernel Linux.
+// On utilise un nom propre pour éviter le conflit avec <asm/termbits.h>
+// qui peut être inclus indirectement sur Ubuntu 26.04.
+struct wc_termios2 {
     tcflag_t c_iflag;
     tcflag_t c_oflag;
     tcflag_t c_cflag;
@@ -80,9 +81,16 @@ struct termios2 {
     speed_t  c_ispeed;
     speed_t  c_ospeed;
 };
-#define TCGETS2 _IOR('T', 0x2A, struct termios2)
-#define TCSETS2 _IOW('T', 0x2B, struct termios2)
+#ifndef BOTHER
+#  define BOTHER 0010000
 #endif
+// On force TCGETS2/TCSETS2 avec notre struct complète wc_termios2.
+// Sur Ubuntu 26.04, TCGETS2 peut être défini via <asm/ioctls.h> avec
+// struct termios2 incomplète en user space — on le remplace.
+#undef TCGETS2
+#undef TCSETS2
+#define TCGETS2 _IOR('T', 0x2A, struct wc_termios2)
+#define TCSETS2 _IOW('T', 0x2B, struct wc_termios2)
 
 // ============================================================
 // Variables globales (équivalent HANDLE Win32 → fd POSIX)
@@ -124,7 +132,7 @@ static int wc_serial_open_dmx(const char* path, int baud, bool stop2)
         cfsetospeed(&tio, B38400);
         tcsetattr(fd, TCSANOW, &tio);
 
-        struct termios2 tio2;
+        struct wc_termios2 tio2;
         if (ioctl(fd, TCGETS2, &tio2) == 0) {
             tio2.c_cflag &= ~CBAUD;
             tio2.c_cflag |= BOTHER;
@@ -246,7 +254,7 @@ static int Detect_EnttecProOut() {
     return 0;
 }
 
-static int Detect_EnttecProIn() {
+int Detect_EnttecProIn() {
     com_handle_IN = -1;
     // Commence à ttyUSB1 pour ne pas prendre le même que OUT
     for (int i = 1; i < 10; i++) {
@@ -343,7 +351,7 @@ static int Enttec_Pro_ReceiveData(int label, unsigned char* data,
     return (int)n;
 }
 
-static int Open_ProIn() {
+int Open_ProIn() {
     com_handle_IN = wc_serial_open_dmx(DeviceNameIN, 57600, false);
     if (com_handle_IN < 0) {
         sprintf(string_display_dmx_params,
@@ -357,7 +365,7 @@ static int Open_ProIn() {
     return 0;
 }
 
-static int Close_ProIn() {
+int Close_ProIn() {
     if (com_handle_IN >= 0) { close(com_handle_IN); com_handle_IN = -1; }
     index_init_EnttecPROIN_ok = 0;
     sprintf(string_display_dmx_params,

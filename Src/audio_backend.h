@@ -328,8 +328,8 @@ static void wc_fill_wav(WCStreamState& s, int need) {
     }
 }
 
-// Log de diagnostic audio (debug — chemin absolu via %TEMP%)
-// Log via Win32 WriteFile — fonctionne depuis n'importe quel thread (pas MSVCRT)
+#ifdef _WIN32
+// Log de diagnostic audio — Win32 WriteFile (thread-safe, sans MSVCRT)
 static void wc_audio_log(const char* msg) {
     HANDLE h = CreateFileA("wcat_audio.log", GENERIC_WRITE,
                            FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -343,10 +343,19 @@ static void wc_audio_log(const char* msg) {
 static void wc_audio_logf(const char* fmt, ...) {
     char buf[512];
     va_list ap; va_start(ap, fmt);
-    wvsprintfA(buf, fmt, ap); // Win32, sans MSVCRT
+    wvsprintfA(buf, fmt, ap);
     va_end(ap);
     wc_audio_log(buf);
 }
+#else
+// Log de diagnostic audio — POSIX stderr
+static void wc_audio_log(const char* msg) { fprintf(stderr, "%s", msg); }
+static void wc_audio_logf(const char* fmt, ...) {
+    va_list ap; va_start(ap, fmt);
+    vfprintf(stderr, fmt, ap);
+    va_end(ap);
+}
+#endif
 
 // Remplit le convertisseur 'conv' depuis le stream MP3 (minimp3)
 static void wc_fill_mp3(WCStreamState& s, int need) {

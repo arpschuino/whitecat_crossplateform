@@ -42,8 +42,11 @@ WWWWWWWW           C  WWWWWWWW   |
  **/
 
 #include "wc_tus.h"
+#include "Serial.h"
 
+#ifdef _WIN32
 #include "serial.cpp"
+#endif
 CSerial serial0;
 
 int arduino_init(int device)

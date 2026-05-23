@@ -3,6 +3,10 @@
 #ifndef __SERIAL_H__
 #define __SERIAL_H__
 
+#ifdef _WIN32
+// CSerial — communication série Win32 (Arduino via COM port)
+// Sur Linux/macOS : utiliser POSIX open/read/write sur /dev/ttyACM0
+
 #define FC_DTRDSR       0x01
 #define FC_RTSCTS       0x02
 #define FC_XONXOFF      0x04
@@ -39,4 +43,19 @@ protected:
 
 };
 
-#endif
+#else // !_WIN32
+// Stub CSerial pour compilation POSIX — Arduino série via /dev/ttyACM0 à implémenter
+class CSerial {
+public:
+    CSerial() {}
+    ~CSerial() {}
+    int Open(int nPort = 2, int nBaud = 9600) { (void)nPort; (void)nBaud; return 0; }
+    int Close()                               { return 0; }
+    int ReadData(void*, int)                  { return 0; }
+    int SendData(unsigned char*, int)         { return 0; }
+    int ReadDataWaiting()                     { return 0; }
+    int Flush()                               { return 0; }
+    int IsOpened()                            { return 0; }
+};
+#endif // _WIN32
+#endif // __SERIAL_H__

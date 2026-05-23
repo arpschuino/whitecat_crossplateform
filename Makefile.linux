@@ -35,6 +35,7 @@ LDFLAGS := $(SDL2_LIBS) \
             -lasound \
             -lpthread \
             -lftdi1 \
+            -lGL \
             -lhpdf -lz
 
 # ============================================================
