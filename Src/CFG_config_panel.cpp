@@ -1220,7 +1220,7 @@ int load_network_conf() {
 
     // sab 02/03/2014 unused var char motcleinterfaceis[24];
     // sab 02/03/2014 unused var int it=0;
-    cfg_file = fopen("user\\config_network.txt", "rt");
+    cfg_file = fopen("user/config_network.txt", "rt");
     if (!cfg_file) {
         printf("\nPb à ouverture de config_network.txt\n");
         return (1);

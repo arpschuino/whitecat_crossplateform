@@ -499,6 +499,7 @@ void dixiemes_de_secondes() {
 
             index_is_saving = 1;
             Save_Show();
+            chdir(mondirectory);
             sprintf(string_Last_Order, ">> Show Saved at %s", tmp_time);
             index_do_quick_save = 0;
             index_is_saving = 0;
@@ -1016,6 +1017,7 @@ int main(int /*argc*/, char ** /*argv*/) {
     save_load_print_to_screen("Init Sound");
     InitSound();
     Load_Show();
+    chdir(mondirectory);
     init_kbd_custom();
     save_load_print_to_screen("Init Keyboard");
     Show_report_save_load();

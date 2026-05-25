@@ -58,8 +58,13 @@ Reprendre en **Phase 7G** :
   (Enttec Open : serial 250000 baud + pthread ; Enttec Pro : serial 57600 baud ; Sunlite : stubs)
 - **7F** ✅ OpenCV — `#ifdef _WIN32` autour de tout le tracking vidéo ; stubs Linux/macOS
 - **7G** ✅ Build Linux propre (WSL2/Ubuntu 26.04) — -lGL, ProIn non-static, toutes erreurs résolues
-- **7H** ← PROCHAINE : Test Raspberry Pi 3 (compilation native, VideoCore IV)
-- **7D-réseau** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (à faire si 7H révèle des erreurs de link)
+- **7H** ✅ Raspberry Pi 3 (aarch64, Bookworm) — compile et tourne sans crash
+  Fixes runtime : fclose(NULL) dans write_show_coming_from() (core.cpp), chemins user\\ → user/
+  chdir(mondirectory) après Load_Show/Save_Show dans MAIN.cpp
+  Transfert via SSH (scp). Assets (Fonts/, user/, saves/) à côté de l'exe.
+  Lag visible — SDL2 GPU actif (software encore plus lent) — Pi 3 limite matérielle.
+- **7I** ← PROCHAINE : optimisation performances Pi 3 (FPS cap, rendu, profiling)
+- **7D-réseau** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (à faire si révèle des erreurs de link)
 
 ## Key Context — Cross-platform
 - `Src/wc_platform.h` — abstraction OS : headers POSIX, types Winsock compat, `wc_get_exe_dir()`, `wc_get_temp_dir()`, `WC_DIRSEP`/`WC_DIRSEP_C`

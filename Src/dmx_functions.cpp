@@ -1228,7 +1228,7 @@ int load_dmx_conf() {
 
     char motcleinterfaceis[24];
     // sab 02/03/2014 unused var int it=0;
-    cfg_file = fopen("user\\config_dmx.txt", "rt");
+    cfg_file = fopen("user/config_dmx.txt", "rt");
     if (!cfg_file) {
         printf("\nPb à ouverture de config_dmx.txt\n");
         return 1;

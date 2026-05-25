@@ -82,7 +82,7 @@ set_default_image_size();
     FILE *video_file = NULL ;
     char read_buff_vid[ 512 ] ;
     //sab 02/03/2014 unused var int it=0;
-	video_file = fopen("user\\config_video.txt", "rt" );
+	video_file = fopen("user/config_video.txt", "rt" );
 	if( !video_file )
 	{
 	 printf("\nPb à ouverture de config_video.txt\n");

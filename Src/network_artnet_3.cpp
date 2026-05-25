@@ -209,7 +209,7 @@ char read_buff[ 512 ] ;
 
 
     //sab 0/03/2014 unused int it=0;
-	cfg_file = fopen("user\\config_artnet.txt", "rt" );
+	cfg_file = fopen("user/config_artnet.txt", "rt" );
 	if( !cfg_file )
 	{
 	 printf("\nPb à ouverture de config_artnet.txt\n");
