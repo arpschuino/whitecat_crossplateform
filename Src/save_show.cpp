@@ -1731,7 +1731,7 @@ index_is_saving=1;
 save_load_print_to_screen("Saving ...");
 
 //index_show_save_load_report=1;
-sprintf(rep,"%s\%s\%s",mondirectory,rep_saves,nomduspectacle);
+sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
 //LPSECURITY_ATTRIBUTES attr;
 //attr=NULL;
 //CreateDirectory(rep,attr);
@@ -7030,7 +7030,7 @@ refresh_all_midi_out_faders();
 sprintf(rep,"%s",mondirectory);
 chdir (rep);
 scan_planfolder();
-sprintf(rep,"%s\%s\%s",mondirectory,rep_saves,nomduspectacle);
+sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
 chdir (rep);
 
 

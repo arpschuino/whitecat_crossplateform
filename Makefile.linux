@@ -28,6 +28,11 @@ CFLAGS  := -D__LINUX_ALSA__ \
             -std=c++11 -O2 -g \
             $(SDL2_CFLAGS)
 
+# Pi 3 mode : caps FPS réduits (20fps/10fps). Usage : make -f Makefile.linux PI3=1 -j4
+ifeq ($(PI3),1)
+CFLAGS += -DWC_PI3
+endif
+
 INCS    := -I$(SRC) \
             -I$(RTMIDI)
 

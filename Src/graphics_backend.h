@@ -2174,18 +2174,27 @@ inline void Refresh() {
         presents_since_draw++;
 
         // Cap FPS à 3 niveaux :
-        //   utilisateur actif (< 500ms) → 60fps (16ms)
-        //   automation seule            → 25fps (40ms)
-        //   idle (aucune des deux)      → 100ms
+        //   utilisateur actif (< 500ms) → 30fps (33ms) — 20fps (50ms) sur Pi3
+        //   automation seule            → 25fps (40ms) — 10fps (100ms) sur Pi3
+        //   idle (aucune des deux)      → 100ms — 250ms sur Pi3
         static Uint32 last_frame = 0;
         Uint32 now = SDL_GetTicks();
         Uint32 cap_ms;
+#ifdef WC_PI3
+        if (now - wc_last_input_ms < 500)
+            cap_ms = 50;  // 20fps sur Pi3
+        else if (wc_automation_active)
+            cap_ms = 100; // 10fps sur Pi3
+        else
+            cap_ms = 250;
+#else
         if (now - wc_last_input_ms < 500)
             cap_ms = 33; // ~30fps actif (Phase 6a : draw~10ms → cap désormais effectif)
         else if (wc_automation_active)
             cap_ms = 40;
         else
             cap_ms = 100;
+#endif
         wc_automation_active = false;
         Uint32 elapsed = now - last_frame;
         // Remplace SDL_Delay par SDL_WaitEventTimeout : réveille immédiatement sur
@@ -2211,9 +2220,14 @@ inline void Refresh() {
         // et force wc_dirty=true sur timeout pour que les éléments alpha_blinker
         // continuent d'animer sans USEREVENT ni wc_request_refresh().
         SDL_Event e;
-        // 40ms (25fps) si popup/blinker actif, 500ms (2fps) sinon :
+        // 40ms (25fps) si popup/blinker actif, 1000ms sinon :
         // garantit horloge et led artnet visibles même souris immobile.
+        // Sur Pi3 : 100ms / 1000ms pour réduire la charge.
+#ifdef WC_PI3
+        Uint32 wait_ms = wc_blink_needed ? 100u : 1000u;
+#else
         Uint32 wait_ms = wc_blink_needed ? 40u : 1000u;
+#endif
         bool _got_event = SDL_WaitEventTimeout(&e, wait_ms);
         if (!_got_event) {
             wc_dirty = true;

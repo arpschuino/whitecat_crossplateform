@@ -22,5 +22,22 @@
             },
             "problemMatcher": "$gcc"
         }
+        ,
+        {
+            "label": "Build WhiteCat Linux (WSL2)",
+            "type": "shell",
+            "command": "wsl",
+            "args": [
+                "--cd", "${workspaceFolder}",
+                "make", "-f", "Makefile.linux", "-j4"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": false
+            },
+            "problemMatcher": "$gcc"
+        }
     ]
 }
