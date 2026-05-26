@@ -102,6 +102,8 @@
 
 ### UI / Séquenciel
 
+- **Édition inline des noms et annotations dans la cue list** : un double-clic sur le nom ou la ligne d'annotation d'une mémoire (onstage, preset, mem_before_one, mémoires suivantes) ouvre un champ d'édition directement dans la cue list. La modification est validée par Entrée ou annulée par Échap. Le texte s'affiche en `petitchiffre` avec un scroll horizontal automatique si le contenu dépasse la largeur du champ.
+- **Navigation curseur ← → dans tous les champs texte** : les flèches gauche/droite permettent de déplacer le curseur à l'intérieur du texte en cours de saisie, dans toutes les fenêtres d'édition — cue list (inline), fenêtre de confirmation W_ASKCONFIRM, et saisie numérique F5. La navigation est UTF-8 correcte (pas de coupure en milieu de caractère multi-octet). Le curseur clignote à 25 fps dans toutes ces fenêtres.
 - **Saisie de numéro de mémoire** : la saisie d'un numéro supérieur à 999.9 affiche désormais un message d'erreur dans la fenêtre de confirmation ("Invalid memory number (max 999.9)") au lieu de tronquer silencieusement l'index. Aucune mémoire n'est créée en cas de dépassement.
 - **Fenêtre W_ASKCONFIRM élargie** : largeur passée de 400 à 500 px pour accueillir les messages d'erreur sans débordement.
 
