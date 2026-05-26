@@ -59,6 +59,7 @@ bool index_copy_mem_in = 0; // ask confirm
 //////////////////////TEXT ENTRY////////////////////////////////////////////////
 char string_numeric_entry[110];
 int numeric_postext = 0;
+int numeric_cursor = 0;
 float numeric_entry = 0.0;
 char numeric[100];
 int maxchar_numeric = 96;

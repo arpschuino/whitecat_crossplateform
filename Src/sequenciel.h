@@ -78,6 +78,7 @@ extern float fraction_goback_X1_out;
 extern float alpha_blinker;
 extern float alpha_smooth_blinker;
 extern float alpha_blinker_slow;
+extern float popup_alert_alpha;
 extern float default_time_back;
 extern int ratio_cross_manuel[10000];
 extern bool index_get_back_faders_need_to_be_done;
@@ -96,3 +97,6 @@ extern float totalTimeCrossfade;
 extern char string_time_left_is[52];
 extern char string_total_time_is[52];
 extern char string_last_copy_mem[25];
+extern int seq_editing_mem;        // -1 = none, else memory index being edited inline in cue list
+extern int seq_edit_cursor;       // cursor byte position in confirm_name_buf during inline edit
+extern bool seq_editing_annotation; // false = editing descriptif, true = editing annotation

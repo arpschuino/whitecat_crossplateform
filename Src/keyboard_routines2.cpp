@@ -78,7 +78,7 @@ int recall_config_page()
 
 int commandes_clavier()//la fonction sprintf tue l acces clavier
 {
-    // Champ nom boite confirm : consommer SDL_TEXTINPUT (max 430px dans le champ)
+    // Champ nom boite confirm : consommer SDL_TEXTINPUT
     if (index_confirm_name_active && !wc_confirm_textinput_buf.empty()) {
         const char *p = wc_confirm_textinput_buf.c_str();
         while (*p) {
@@ -89,10 +89,18 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             memcpy(cand, confirm_name_buf, confirm_name_len);
             memcpy(cand + confirm_name_len, p, clen);
             cand[confirm_name_len + clen] = '\0';
-            if (neuro.TextWidth(cand) <= 290) {
-                memcpy(confirm_name_buf + confirm_name_len, p, clen);
-                confirm_name_len += clen;
-                confirm_name_buf[confirm_name_len] = '\0';
+            {
+                // insertion au curseur — petitchiffre pour l'inline, neuro pour la boîte confirm
+                bool fits = (seq_editing_mem >= 0) ? (petitchiffre.TextWidth(cand) <= 430)
+                                                   : (neuro.TextWidth(cand) <= 290);
+                if (fits) {
+                    memmove(confirm_name_buf + seq_edit_cursor + clen,
+                            confirm_name_buf + seq_edit_cursor,
+                            confirm_name_len - seq_edit_cursor + 1);
+                    memcpy(confirm_name_buf + seq_edit_cursor, p, clen);
+                    seq_edit_cursor += clen;
+                    confirm_name_len += clen;
+                }
             }
             p += clen;
         }
@@ -118,9 +126,12 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             char full[106];
             snprintf(full, sizeof(full), "<< %s", cand);
             if (neuro.TextWidth(full) <= 355) {
-                memcpy(numeric + numeric_postext, p, clen);
+                memmove(numeric + numeric_cursor + clen,
+                        numeric + numeric_cursor,
+                        numeric_postext - numeric_cursor + 1);
+                memcpy(numeric + numeric_cursor, p, clen);
+                numeric_cursor += clen;
                 numeric_postext += clen;
-                numeric[numeric_postext] = '\0';
             }
             p += clen;
         }
@@ -138,8 +149,10 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
         if (index_confirm_name_active) {
             int k = chi >> 8;
-            if (k != KEY_ESC && k != KEY_BACKSPACE && k != KEY_F1 &&
-                k != KEY_ENTER && k != KEY_ENTER_PAD) continue;
+            bool allow_key = (k == KEY_ESC || k == KEY_BACKSPACE || k == KEY_F1 ||
+                              k == KEY_ENTER || k == KEY_ENTER_PAD ||
+                              k == KEY_LEFT || k == KEY_RIGHT);
+            if (!allow_key) continue;
         }
 
         switch (chi >> 8)
@@ -341,6 +354,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             index_type=toggle(index_type);
             strcpy(numeric,"");
             numeric_postext=0;
+            numeric_cursor=0;
             if (index_type) SDL_StartTextInput();
             else            SDL_StopTextInput();
             break;
@@ -502,6 +516,24 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_ENTER :
+            if (seq_editing_mem >= 0 && index_confirm_name_active) {
+                if (seq_editing_annotation) {
+                    strncpy(annotation_memoires[seq_editing_mem], confirm_name_buf, 49);
+                    annotation_memoires[seq_editing_mem][49] = '\0';
+                } else {
+                    strncpy(descriptif_memoires[seq_editing_mem], confirm_name_buf, 49);
+                    descriptif_memoires[seq_editing_mem][49] = '\0';
+                }
+                someone_changed_in_sequences = 1;
+                seq_editing_mem = -1;
+                seq_editing_annotation = false;
+                confirm_name_buf[0] = '\0';
+                confirm_name_len = 0;
+                index_confirm_name_active = 0;
+                SDL_StopTextInput();
+                wc_dirty = true;
+                break;
+            }
             if (index_ask_confirm)
             {
                 operations_confirmation();
@@ -517,6 +549,24 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_ENTER_PAD:
+            if (seq_editing_mem >= 0 && index_confirm_name_active) {
+                if (seq_editing_annotation) {
+                    strncpy(annotation_memoires[seq_editing_mem], confirm_name_buf, 49);
+                    annotation_memoires[seq_editing_mem][49] = '\0';
+                } else {
+                    strncpy(descriptif_memoires[seq_editing_mem], confirm_name_buf, 49);
+                    descriptif_memoires[seq_editing_mem][49] = '\0';
+                }
+                someone_changed_in_sequences = 1;
+                seq_editing_mem = -1;
+                seq_editing_annotation = false;
+                confirm_name_buf[0] = '\0';
+                confirm_name_len = 0;
+                index_confirm_name_active = 0;
+                SDL_StopTextInput();
+                wc_dirty = true;
+                break;
+            }
             if (index_ask_confirm)
             {
                 operations_confirmation();
@@ -1068,11 +1118,43 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_LEFT:
+            if (index_confirm_name_active && seq_edit_cursor > 0) {
+                seq_edit_cursor--;
+                while (seq_edit_cursor > 0 &&
+                       ((unsigned char)confirm_name_buf[seq_edit_cursor] & 0xC0) == 0x80)
+                    seq_edit_cursor--;
+                wc_dirty = true;
+                break;
+            }
+            if (index_type == 1 && numeric_cursor > 0) {
+                numeric_cursor--;
+                while (numeric_cursor > 0 &&
+                       ((unsigned char)numeric[numeric_cursor] & 0xC0) == 0x80)
+                    numeric_cursor--;
+                wc_dirty = true;
+                break;
+            }
             key_left();
             sprintf(string_key_id,list_keyname[36]);
             break;
 
         case KEY_RIGHT:
+            if (index_confirm_name_active && seq_edit_cursor < confirm_name_len) {
+                unsigned char _rc = (unsigned char)confirm_name_buf[seq_edit_cursor];
+                int _rclen = (_rc < 0x80) ? 1 : (_rc < 0xE0) ? 2 : (_rc < 0xF0) ? 3 : 4;
+                seq_edit_cursor += _rclen;
+                if (seq_edit_cursor > confirm_name_len) seq_edit_cursor = confirm_name_len;
+                wc_dirty = true;
+                break;
+            }
+            if (index_type == 1 && numeric_cursor < numeric_postext) {
+                unsigned char _rc = (unsigned char)numeric[numeric_cursor];
+                int _rclen = (_rc < 0x80) ? 1 : (_rc < 0xE0) ? 2 : (_rc < 0xF0) ? 3 : 4;
+                numeric_cursor += _rclen;
+                if (numeric_cursor > numeric_postext) numeric_cursor = numeric_postext;
+                wc_dirty = true;
+                break;
+            }
             key_right();
             sprintf(string_key_id,list_keyname[37]);
             break;
@@ -1144,14 +1226,30 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
 
         case KEY_BACKSPACE:
-            if (index_confirm_name_active && confirm_name_len > 0) {
-                // effacer dernier caractère UTF-8 du champ nom confirm
-                int i = confirm_name_len - 1;
-                while (i > 0 && ((unsigned char)confirm_name_buf[i] & 0xC0) == 0x80) i--;
-                confirm_name_buf[i] = '\0';
-                confirm_name_len = i;
+            if (index_confirm_name_active) {
+                if (seq_edit_cursor > 0) {
+                    // supprimer le caractère UTF-8 avant le curseur
+                    int i = seq_edit_cursor - 1;
+                    while (i > 0 && ((unsigned char)confirm_name_buf[i] & 0xC0) == 0x80) i--;
+                    int char_len = seq_edit_cursor - i;
+                    memmove(confirm_name_buf + i,
+                            confirm_name_buf + seq_edit_cursor,
+                            confirm_name_len - seq_edit_cursor + 1);
+                    seq_edit_cursor = i;
+                    confirm_name_len -= char_len;
+                    wc_dirty = true;
+                }
+            } else if (index_type == 1 && numeric_cursor > 0) {
+                // mode F5 texte : supprimer le caractère UTF-8 avant le curseur
+                int _i = numeric_cursor - 1;
+                while (_i > 0 && ((unsigned char)numeric[_i] & 0xC0) == 0x80) _i--;
+                int _cl = numeric_cursor - _i;
+                memmove(numeric + _i, numeric + numeric_cursor,
+                        numeric_postext - numeric_cursor + 1);
+                numeric_cursor = _i;
+                numeric_postext -= _cl;
                 wc_dirty = true;
-            } else {
+            } else if (index_type == 0) {
                 numeric[numeric_postext]=' ';
                 numeric_postext--;
                 numeric[numeric_postext]=' ';

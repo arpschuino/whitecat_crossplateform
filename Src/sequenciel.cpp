@@ -74,6 +74,7 @@ float fraction_goback_X1_out = 0.0;
 float alpha_blinker = 0.0;
 float alpha_smooth_blinker = 0.0;
 float alpha_blinker_slow = 0.2f;
+float popup_alert_alpha = 0.5f;  // opacité fenêtres d'alerte (blink x3 → stable 0.5)
 float default_time_back = 3.0;
 int ratio_cross_manuel[10000];
 bool index_get_back_faders_need_to_be_done = 0;
@@ -92,3 +93,6 @@ float totalTimeCrossfade = 0.0;
 char string_time_left_is[52];
 char string_total_time_is[52];
 char string_last_copy_mem[25];
+int seq_editing_mem = -1;
+int seq_edit_cursor = 0;
+bool seq_editing_annotation = false;

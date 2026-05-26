@@ -1059,6 +1059,7 @@ static bool wc_automation_active = false;  // wc_request_refresh() appelé depui
 // Garantit que check_graphics_mouse_handling() s'exécute même si DOWN+UP ont
 // été traités dans le même wc_process_events() (mouse_button retombe à 0 trop tôt).
 static bool wc_click_pending = false;
+static bool wc_popup_input_hint = false; // posé sur keydown/click — lu par ticker() pour popup_alert_retrigger
 // Posé par ticker() quand une popup (hors W_SEQUENCIEL) est visible.
 // Lu par Canvas::Refresh() stable mode pour réduire le timeout à 40ms
 // et poser wc_dirty=true sur timeout → blinkers animés sans USEREVENT.
@@ -1142,6 +1143,7 @@ static void wc_handle_event(const SDL_Event &e) {
         wc_dirty = true;
         wc_bg_dirty = true;
         wc_win_dirty = true;
+        wc_popup_input_hint = true;
         mouse_x = e.button.x;
         mouse_y = e.button.y;
         if (e.button.button == SDL_BUTTON_LEFT)
@@ -1205,6 +1207,7 @@ static void wc_handle_event(const SDL_Event &e) {
         wc_dirty = true;
         wc_bg_dirty = true;
         wc_win_dirty = true;
+        wc_popup_input_hint = true;
         SDL_Keymod mod = SDL_GetModState();
         key_shifts = 0;
         if (mod & KMOD_SHIFT)

@@ -60,6 +60,7 @@ int reset_numeric_entry()
 {
     memset(numeric, 0, sizeof(char) * 100);
     numeric_postext=0;
+    numeric_cursor=0;
     return(0);
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -747,6 +748,9 @@ int reset_indexs_confirmation()
         index_confirm_name_active = 0;
         if (!index_type) SDL_StopTextInput();
     }
+    seq_editing_mem = -1;
+    seq_edit_cursor = 0;
+    seq_editing_annotation = false;
 
     return(0);
 }

@@ -65,6 +65,7 @@ extern bool index_copy_mem_in;
 extern char string_numeric_entry[110];
 
 extern int numeric_postext;
+extern int numeric_cursor;
 extern float numeric_entry;
 extern char numeric[100];
 extern int maxchar_numeric;

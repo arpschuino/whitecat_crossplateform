@@ -47,6 +47,39 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gui_boutons_rebuild1.h"
 #include "grider_visu.h"
 
+static void seq_draw_editbox(int x, int y) {
+    const int inner_w = 148; // text area width
+
+    // Measure cursor pixel position in petitchiffre
+    char buf_cur[50];
+    int cur_b = (seq_edit_cursor < 50) ? seq_edit_cursor : 49;
+    memcpy(buf_cur, confirm_name_buf, cur_b);
+    buf_cur[cur_b] = '\0';
+    int cursor_px = (int)petitchiffre.TextWidth(buf_cur);
+
+    // Scroll so cursor stays visible
+    int scroll_x = 0;
+    if (cursor_px > inner_w - 4) scroll_x = cursor_px - (inner_w - 4);
+
+    // Box outline (slightly wider than inner area)
+    Rect box(Vec2D(x - 4, y - 14), Vec2D(inner_w + 8, 20));
+    box.SetLineWidth(1);
+    box.DrawOutline(CouleurLigne);
+
+    // Text clipped to inner area
+    SDL_Rect clip = {x, y - 12, inner_w, 16};
+    SDL_RenderSetClipRect(wc_sdl_renderer, &clip);
+    petitchiffre.Print(confirm_name_buf, x + 2 - scroll_x, y);
+    SDL_RenderSetClipRect(wc_sdl_renderer, NULL);
+
+    // Blinking cursor
+    if (alpha_blinker > 0.5f) {
+        int cx = x + 2 + cursor_px - scroll_x;
+        if (cx >= x - 2 && cx <= x + inner_w + 2)
+            Line(Vec2D(cx, y - 11), Vec2D(cx, y + 1)).Draw(CouleurLigne);
+    }
+}
+
 static void seq_print_clipped(const char *text, int x, int y) {
     char buf[50];
     strncpy(buf, text, 49);
@@ -262,8 +295,14 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         petitpetitchiffre.Print(string_time_memonstage[3], x_seq + 70, y_seq + 90);
         // out
         petitpetitchiffrerouge.Print(string_time_memonstage[1], x_seq + 70, y_seq + 100);
-        seq_print_clipped(descriptif_memoires[mem_before_one], x_seq + 320, y_seq + 90);
-        seq_print_clipped(annotation_memoires[mem_before_one], x_seq + 320, y_seq + 105);
+        if (seq_editing_mem == mem_before_one && !seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 90);
+        else
+            seq_print_clipped(descriptif_memoires[mem_before_one], x_seq + 320, y_seq + 90);
+        if (seq_editing_mem == mem_before_one && seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 105);
+        else
+            seq_print_clipped(annotation_memoires[mem_before_one], x_seq + 320, y_seq + 105);
         if (Links_Memoires[mem_before_one] == 1) {
             Line(Vec2D(x_seq + 190, y_seq + 85), Vec2D(x_seq + 200, y_seq + 85)).Draw(CouleurLigne);
             Line(Vec2D(x_seq + 200, y_seq + 85), Vec2D(x_seq + 200, y_seq + 100)).Draw(CouleurLigne);
@@ -279,8 +318,14 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.MoveTo(Vec2D(x_seq + 170, y_seq + 110));
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_onstage])));
 
-        seq_print_clipped(descriptif_memoires[position_onstage], x_seq + 320, y_seq + 120);
-        seq_print_clipped(annotation_memoires[position_onstage], x_seq + 320, y_seq + 135);
+        if (seq_editing_mem == position_onstage && !seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 120);
+        else
+            seq_print_clipped(descriptif_memoires[position_onstage], x_seq + 320, y_seq + 120);
+        if (seq_editing_mem == position_onstage && seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 135);
+        else
+            seq_print_clipped(annotation_memoires[position_onstage], x_seq + 320, y_seq + 135);
         // banger
         if (Banger_Memoire[position_onstage] != 0) {
             petitchiffre.Print(ol::ToString(Banger_Memoire[position_onstage]), x_seq + 235, y_seq + 130);
@@ -302,8 +347,14 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.MoveTo(Vec2D(x_seq + 170, y_seq + 140));
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_preset])));
         neuro.Print(string_mem_preset, x_seq + 115, y_seq + 160);
-        seq_print_clipped(descriptif_memoires[position_preset], x_seq + 320, y_seq + 150);
-        seq_print_clipped(annotation_memoires[position_preset], x_seq + 320, y_seq + 165);
+        if (seq_editing_mem == position_preset && !seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 150);
+        else
+            seq_print_clipped(descriptif_memoires[position_preset], x_seq + 320, y_seq + 150);
+        if (seq_editing_mem == position_preset && seq_editing_annotation)
+            seq_draw_editbox(x_seq + 320, y_seq + 165);
+        else
+            seq_print_clipped(annotation_memoires[position_preset], x_seq + 320, y_seq + 165);
         petitpetitchiffre.Print(cross_din, x_seq + 20, y_seq + 160);
         petitchiffre.Print(cross_in, x_seq + 55, y_seq + 160);
         petitchiffre.Print(cross_out, x_seq + 55, y_seq + 130);
@@ -340,10 +391,16 @@ int refresh_vision_memories(int x_seq, int y_seq) {
             // mems
             sprintf(string_next_mem, "%d.%d", memsearch / 10, memsearch % 10);
             neuro.Print(string_next_mem, x_seq + 115, y_seq + 160 + (35 * index_nbre_mem_visues));
-            seq_print_clipped(descriptif_memoires[memsearch], x_seq + 320,
-                              y_seq + 150 + (35 * index_nbre_mem_visues));
-            seq_print_clipped(annotation_memoires[memsearch], x_seq + 320,
-                              y_seq + 165 + (35 * index_nbre_mem_visues));
+            if (seq_editing_mem == memsearch && !seq_editing_annotation)
+                seq_draw_editbox(x_seq + 320, y_seq + 150 + (35 * index_nbre_mem_visues));
+            else
+                seq_print_clipped(descriptif_memoires[memsearch], x_seq + 320,
+                                  y_seq + 150 + (35 * index_nbre_mem_visues));
+            if (seq_editing_mem == memsearch && seq_editing_annotation)
+                seq_draw_editbox(x_seq + 320, y_seq + 165 + (35 * index_nbre_mem_visues));
+            else
+                seq_print_clipped(annotation_memoires[memsearch], x_seq + 320,
+                                  y_seq + 165 + (35 * index_nbre_mem_visues));
 
             Line(Vec2D(x_seq + 10, y_seq + 100 + 70 + (35 * index_nbre_mem_visues)),
                  Vec2D(x_seq + 450, y_seq + 170 + (35 * index_nbre_mem_visues)))

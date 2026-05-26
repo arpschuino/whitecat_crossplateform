@@ -117,7 +117,7 @@ int entetes_confirmation()
  sprintf(string_confirmation,"Create Mem %d.%d ?", mem_to_create/10,mem_to_create%10);
    }
  else  {
- sprintf(string_confirmation,"Add a Memory to CueList  ?");
+ sprintf(string_confirmation,"Add Memory %d.%d to CueList ?", mem_to_create/10, mem_to_create%10);
    }
  }
  else if(MemoiresExistantes[mem_to_create]==1)
@@ -156,7 +156,7 @@ int entetes_confirmation()
  sprintf(string_confirmation,"Create Mem %d.%d ?", mem_to_create/10,mem_to_create%10);
     }
  else  {
- sprintf(string_confirmation,"Add a Memory to CueList  ?");
+ sprintf(string_confirmation,"Add Memory %d.%d to CueList ?", mem_to_create/10, mem_to_create%10);
    }
  }
  else if(MemoiresExistantes[mem_to_create]==1)
@@ -1584,7 +1584,7 @@ int fenetre_confirm()
  FenetreConfirm.SetRoundness(15);
  FenetreConfirm.SetLineWidth(epaisseur_ligne_fader*3);
  FenetreConfirm.Draw(CouleurFond);
- FenetreConfirm.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+ FenetreConfirm.Draw(CouleurBlind.WithAlpha(popup_alert_alpha));
  if(window_focus_id==W_ASKCONFIRM)
  {
   FenetreConfirm.DrawOutline(CouleurFader);
@@ -1598,6 +1598,7 @@ int fenetre_confirm()
  {
   if (!index_confirm_name_active) {
    index_confirm_name_active = 1;
+   seq_edit_cursor = confirm_name_len;
    SDL_StartTextInput();
   }
   petitchiffre.Print("Nom :", XConfirm+10, YConfirm+57);
@@ -1609,6 +1610,13 @@ int fenetre_confirm()
    SDL_Rect clip = {XConfirm+62, YConfirm+47, 292, 26};
    SDL_RenderSetClipRect(wc_sdl_renderer, &clip);
    neuro.Print(confirm_name_buf, XConfirm+65, YConfirm+67);
+   if (alpha_blinker > 0.5f) {
+    char _cb[50]; int _cb_b = (seq_edit_cursor < 50) ? seq_edit_cursor : 49;
+    memcpy(_cb, confirm_name_buf, _cb_b); _cb[_cb_b] = '\0';
+    int _cpx = XConfirm + 65 + (int)neuro.TextWidth(_cb);
+    if (_cpx <= XConfirm + 354)
+     Line(Vec2D(_cpx, YConfirm+49), Vec2D(_cpx, YConfirm+71)).Draw(CouleurLigne);
+   }
    SDL_RenderSetClipRect(wc_sdl_renderer, NULL);
   }
  }

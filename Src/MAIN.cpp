@@ -317,7 +317,42 @@ void ticker() {
                     has_popup = true; break;
                 }
             }
-            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup;
+            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1);
+        }
+
+        // — popup_alert_alpha : blink × 3 puis stable 0.5 pour W_ALARM / W_ASKCONFIRM.
+        // Retrigger 1 cycle si l'utilisateur interagit hors popup (posé par wc_handle_event).
+        {
+            static int  pa_state  = 0;   // 0=idle  1=blinking  2=settled
+            static int  pa_cycles = 0;
+            static float pa_phase = 0.0f;
+            bool has_alert = false;
+            for (int _wi = 0; _wi < 72 && window_opened[_wi] != 0; _wi++) {
+                int _w = window_opened[_wi];
+                if (_w == W_ASKCONFIRM || _w == W_ALARM) { has_alert = true; break; }
+            }
+            if (!has_alert) {
+                pa_state = 0; pa_cycles = 0; pa_phase = 0.0f;
+                popup_alert_alpha = 0.3f;
+            } else {
+                if (pa_state == 0) {
+                    pa_state = 1; pa_cycles = 0; pa_phase = 0.0f;
+                } else if (wc_popup_input_hint && pa_state == 2 && !index_confirm_name_active) {
+                    pa_state = 1; pa_cycles = 2; pa_phase = 0.0f; // 1 seul cycle
+                }
+                wc_popup_input_hint = false;
+                if (pa_state == 1) {
+                    pa_phase += 0.12f;
+                    popup_alert_alpha = 0.15f + 0.75f * sinf(pa_phase * 3.14159f);
+                    if (pa_phase >= 1.0f) {
+                        pa_phase = 0.0f;
+                        if (++pa_cycles >= 3)
+                            pa_state = 2;
+                    }
+                } else {
+                    popup_alert_alpha = 0.3f;
+                }
+            }
         }
 
         // damper of faders
