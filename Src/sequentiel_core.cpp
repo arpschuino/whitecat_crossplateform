@@ -269,14 +269,14 @@ MemoiresExclues[position_onstage]=toggle(MemoiresExclues[position_onstage]);
 mouse_released=1;
 }
 
-if(mouse_x> x_seq+185 && mouse_x<x_seq+185+40)//LINKS
+if(mouse_x> x_seq+182 && mouse_x<x_seq+213)//LINKS
 {
 reset_indexs_confirmation();
 index_do_link_memonstage=1;
 index_ask_confirm=1;
 mouse_released=1;
 }
-if(mouse_x> x_seq+225 && mouse_x<x_seq+265)//BANGER
+if(mouse_x> x_seq+215 && mouse_x<x_seq+245)//BANGER
 {
 affect_banger_number=atol(numeric);
 if(affect_banger_number>=0 && affect_banger_number<128)
@@ -289,7 +289,7 @@ mouse_released=1;
 else {sprintf(string_Last_Order,">> Wrong entry: banger is between 1 and 127, 0 to desaffect !");}
 }
 
-if(mouse_x> x_seq+275 && mouse_x<x_seq+300)//Gridplayer
+if(mouse_x> x_seq+248 && mouse_x<x_seq+278)//Gridplayer
 {
 gpl1_affect_step_to_mem=atoi(numeric);
 if(gpl1_affect_step_to_mem>=0 && gpl1_affect_step_to_mem<=1024)
@@ -303,7 +303,7 @@ mouse_released=1;
 else {sprintf(string_Last_Order,">> Wrong entry: step is between 1 and 1024, 0 to desaffect !");}
 }
 
-if(mouse_x> x_seq+310 && mouse_x<x_seq+470)//TEXT DECRIPTION
+if(mouse_x> x_seq+286 && mouse_x<x_seq+470)//TEXT DECRIPTION
 {
 
 if(index_type==1)
@@ -377,14 +377,14 @@ MemoiresExclues[position_preset]=toggle(MemoiresExclues[position_preset]);
 mouse_released=1;
 }
 
-if(mouse_x> x_seq+185  && mouse_x<x_seq+180+35)//LINKS
+if(mouse_x> x_seq+182 && mouse_x<x_seq+213)//LINKS
 {
 reset_indexs_confirmation();
 index_do_link_memonpreset=1;
 index_ask_confirm=1;
 mouse_released=1;
 }
-if(mouse_x> x_seq+225 && mouse_x<x_seq+265)//BANGER
+if(mouse_x> x_seq+215 && mouse_x<x_seq+245)//BANGER
 {
 affect_banger_number=atol(numeric);
 if(affect_banger_number>=0 && affect_banger_number<128)
@@ -396,7 +396,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: banger is between 1 and 127 !");}
 }
-if(mouse_x> x_seq+275 && mouse_x<x_seq+300)//Gridplayer
+if(mouse_x> x_seq+248 && mouse_x<x_seq+278)//Gridplayer
 {
 gpl1_affect_step_to_mem=atoi(numeric);
 if(gpl1_affect_step_to_mem>=0 && gpl1_affect_step_to_mem<1024)
@@ -409,7 +409,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: step is between 1 and 1023, 0 to desaffect !");}
 }
-if(mouse_x> x_seq+310 && mouse_x<x_seq+470)//TEXT DECRIPTION
+if(mouse_x> x_seq+286 && mouse_x<x_seq+470)//TEXT DECRIPTION
 {
 if(index_type==1)
 {
@@ -450,7 +450,7 @@ MemoiresExclues[mem_before_one]=toggle(MemoiresExclues[mem_before_one]);
 mouse_released=1;
 }
 
-if(mouse_x> x_seq+185  && mouse_x<x_seq+180+35)//LINKS
+if(mouse_x> x_seq+182 && mouse_x<x_seq+213)//LINKS
 {
 reset_indexs_confirmation();
 index_do_link_membefore=1;
@@ -458,7 +458,7 @@ index_ask_confirm=1;
 mouse_released=1;
 }
 
-if(mouse_x> x_seq+225 && mouse_x<x_seq+265)//BANGER
+if(mouse_x> x_seq+215 && mouse_x<x_seq+245)//BANGER
 {
 affect_banger_number=atol(numeric);
 if(affect_banger_number>=0 && affect_banger_number<128)
@@ -470,7 +470,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: banger is between 1 and 127 !");}
 }
-if(mouse_x> x_seq+275 && mouse_x<x_seq+300)//Gridplayer
+if(mouse_x> x_seq+248 && mouse_x<x_seq+278)//Gridplayer
 {
 gpl1_affect_step_to_mem=atoi(numeric);
 if(gpl1_affect_step_to_mem>=0 && gpl1_affect_step_to_mem<1024)
@@ -483,7 +483,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: step is between 1 and 1023, 0 to desaffect !");}
 }
-if(mouse_x> x_seq+310 && mouse_x<x_seq+470)//TEXT DECRIPTION
+if(mouse_x> x_seq+286 && mouse_x<x_seq+470)//TEXT DECRIPTION
 {
 if(index_type==1)
 {
@@ -541,7 +541,7 @@ MemoiresExclues[memsearch]=toggle(MemoiresExclues[memsearch]);
 mouse_released=1;
 }
 
-if(mouse_x> x_seq+185  && mouse_x<x_seq+180+35)//LINKS
+if(mouse_x> x_seq+182 && mouse_x<x_seq+213)//LINKS
 {
 other_mem_in_loop=memsearch;
 reset_indexs_confirmation();
@@ -549,7 +549,7 @@ index_do_link_memother=1;
 index_ask_confirm=1;
 mouse_released=1;
 }
-if(mouse_x> x_seq+225 && mouse_x<x_seq+265)//BANGER
+if(mouse_x> x_seq+215 && mouse_x<x_seq+245)//BANGER
 {
 affect_banger_number=atol(numeric);
 if(affect_banger_number>=0 && affect_banger_number<128)
@@ -562,7 +562,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: banger is between 1 and 127 !");}
 }
-if(mouse_x> x_seq+275 && mouse_x<x_seq+300)//Gridplayer
+if(mouse_x> x_seq+248 && mouse_x<x_seq+278)//Gridplayer
 {
 gpl1_affect_step_to_mem=atoi(numeric);
 if(gpl1_affect_step_to_mem>=0 && gpl1_affect_step_to_mem<1024)
@@ -575,7 +575,7 @@ mouse_released=1;
 }
 else {sprintf(string_Last_Order,">> Wrong entry: step is between 1 and 1023, 0 to desaffect !");}
 }
-if(mouse_x> x_seq+310 && mouse_x<x_seq+470)//TEXT DECRIPTION
+if(mouse_x> x_seq+286 && mouse_x<x_seq+470)//TEXT DECRIPTION
 {
 if(index_type==1)
 {
@@ -1030,7 +1030,7 @@ do_logical_x1_x2(xseq,yseq-25);
 //options hautes
 
 ///alink
-if(mouse_x>xseq+180 && mouse_x<xseq+180+35 && mouse_y>yseq+50 && mouse_y<yseq+50+15)
+if(mouse_x>xseq+182 && mouse_x<xseq+212 && mouse_y>yseq+50 && mouse_y<yseq+50+15)
 {
 if(index_link_is_on==0){index_link_is_on=1;}
 else if(index_link_is_on==1){index_link_is_on=0;}
@@ -1038,14 +1038,14 @@ mouse_released=1;
 }
 
 ///banger
-if(mouse_x>xseq+223 && mouse_x<xseq+263 && mouse_y>yseq+50 && mouse_y<yseq+50+15)
+if(mouse_x>xseq+215 && mouse_x<xseq+245 && mouse_y>yseq+50 && mouse_y<yseq+50+15)
 {
 index_banger_is_on=toggle(index_banger_is_on);
 mouse_released=1;
 }
 
 //grid player 1 embeded
-if(mouse_x>xseq+275 && mouse_x<xseq+275+30 && mouse_y>yseq+50 && mouse_y<yseq+50+15 )
+if(mouse_x>xseq+248 && mouse_x<xseq+278 && mouse_y>yseq+50 && mouse_y<yseq+50+15 )
 {
 show_gridplayer_in_seq=toggle(show_gridplayer_in_seq);
 mouse_released=1;

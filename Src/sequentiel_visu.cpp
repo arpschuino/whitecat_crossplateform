@@ -48,7 +48,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "grider_visu.h"
 
 static void seq_draw_editbox(int x, int y) {
-    const int inner_w = 148; // text area width
+    const int inner_w = 184; // text area width
 
     // Measure cursor pixel position in petitchiffre
     char buf_cur[50];
@@ -62,7 +62,7 @@ static void seq_draw_editbox(int x, int y) {
     if (cursor_px > inner_w - 4) scroll_x = cursor_px - (inner_w - 4);
 
     // Box outline (slightly wider than inner area)
-    Rect box(Vec2D(x - 4, y - 14), Vec2D(inner_w + 8, 20));
+    Rect box(Vec2D(x - 4, y - 14), Vec2D(inner_w + 4, 20));
     box.SetLineWidth(1);
     box.DrawOutline(CouleurLigne);
 
@@ -84,7 +84,7 @@ static void seq_print_clipped(const char *text, int x, int y) {
     char buf[50];
     strncpy(buf, text, 49);
     buf[49] = '\0';
-    while (buf[0] && petitpetitchiffre.TextWidth(buf) > 125) {
+    while (buf[0] && petitpetitchiffre.TextWidth(buf) > 184) {
         int len = (int)strlen(buf);
         int i = len - 1;
         while (i > 0 && ((unsigned char)buf[i] & 0xC0) == 0x80) i--;
@@ -112,35 +112,35 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         InOutOver.SetRoundness(7.5);
         Rect MemOver(Vec2D(x_seq, y_seq), Vec2D(60, 20));
         MemOver.SetRoundness(7.5);
-        Rect LinkOver(Vec2D(x_seq, y_seq), Vec2D(35, 20));
+        Rect LinkOver(Vec2D(x_seq, y_seq), Vec2D(30, 20));
         LinkOver.SetRoundness(7.5);
-        Rect bangOver(Vec2D(x_seq, y_seq), Vec2D(40, 20));
+        Rect bangOver(Vec2D(x_seq, y_seq), Vec2D(30, 20));
         bangOver.SetRoundness(7.5);
         Rect Gpl1Over(Vec2D(x_seq, y_seq), Vec2D(30, 20));
         Gpl1Over.SetRoundness(7.5);
-        Rect TextOver(Vec2D(x_seq, y_seq), Vec2D(160, 15));
+        Rect TextOver(Vec2D(x_seq, y_seq), Vec2D(184, 15));
         TextOver.SetRoundness(5);
 
         // MANIPULATIONS MEM BEFORE ONE
         if (mouse_y > y_seq + 80 && mouse_y < y_seq + 100) {
-            if (mouse_x > x_seq + 180 && mouse_x < x_seq + 215) // LINKS
+            if (mouse_x > x_seq + 180 && mouse_x < x_seq + 213) // LINKS
             {
                 LinkOver.MoveTo(Vec2D(x_seq + 180, y_seq + 80));
                 LinkOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 225 && mouse_x < x_seq + 265) // BANGER
+            } else if (mouse_x > x_seq + 213 && mouse_x < x_seq + 246) // BANGER
             {
-                bangOver.MoveTo(Vec2D(x_seq + 225, y_seq + 80));
+                bangOver.MoveTo(Vec2D(x_seq + 215,y_seq + 80));
                 bangOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 270 && mouse_x < x_seq + 300) // GRID PLAYER
+            } else if (mouse_x > x_seq + 246 && mouse_x < x_seq + 280) // GRID PLAYER
             {
-                Gpl1Over.MoveTo(Vec2D(x_seq + 275, y_seq + 80));
+                Gpl1Over.MoveTo(Vec2D(x_seq + 248,y_seq + 80));
                 Gpl1Over.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 310 && mouse_x < x_seq + 470) // TEXT DECRIPTION
+            } else if (mouse_x > x_seq + 286 && mouse_x < x_seq + 470) // TEXT DECRIPTION
             {
                 if (mouse_y > y_seq + 80 && mouse_y < y_seq + 95) {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 80));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 80));
                 } else {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 95));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 95));
                 }
                 TextOver.DrawOutline(CouleurLigne);
             }
@@ -160,24 +160,24 @@ int refresh_vision_memories(int x_seq, int y_seq) {
             {
                 MemOver.MoveTo(Vec2D(x_seq + 110, y_seq + 115));
                 MemOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 215) // LINKS
+            } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 213) // LINKS
             {
                 LinkOver.MoveTo(Vec2D(x_seq + 180, y_seq + 115));
                 LinkOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 225 && mouse_x < x_seq + 265) // BANGER
+            } else if (mouse_x > x_seq + 213 && mouse_x < x_seq + 246) // BANGER
             {
-                bangOver.MoveTo(Vec2D(x_seq + 225, y_seq + 115));
+                bangOver.MoveTo(Vec2D(x_seq + 215,y_seq + 115));
                 bangOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 270 && mouse_x < x_seq + 300) // GRID PLAYER
+            } else if (mouse_x > x_seq + 246 && mouse_x < x_seq + 280) // GRID PLAYER
             {
-                Gpl1Over.MoveTo(Vec2D(x_seq + 275, y_seq + 115));
+                Gpl1Over.MoveTo(Vec2D(x_seq + 248,y_seq + 115));
                 Gpl1Over.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 310 && mouse_x < x_seq + 470) // TEXT DECRIPTION
+            } else if (mouse_x > x_seq + 286 && mouse_x < x_seq + 470) // TEXT DECRIPTION
             {
                 if (mouse_y > y_seq + 110 && mouse_y < y_seq + 125) {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 110));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 110));
                 } else {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 125));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 125));
                 }
                 TextOver.DrawOutline(CouleurLigne);
             }
@@ -197,24 +197,24 @@ int refresh_vision_memories(int x_seq, int y_seq) {
             {
                 MemOver.MoveTo(Vec2D(x_seq + 110, y_seq + 145));
                 MemOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 215) // LINKS
+            } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 213) // LINKS
             {
                 LinkOver.MoveTo(Vec2D(x_seq + 180, y_seq + 145));
                 LinkOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 225 && mouse_x < x_seq + 265) // BANGER
+            } else if (mouse_x > x_seq + 213 && mouse_x < x_seq + 246) // BANGER
             {
-                bangOver.MoveTo(Vec2D(x_seq + 225, y_seq + 145));
+                bangOver.MoveTo(Vec2D(x_seq + 215,y_seq + 145));
                 bangOver.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 270 && mouse_x < x_seq + 300) // GRID PLAYER
+            } else if (mouse_x > x_seq + 246 && mouse_x < x_seq + 280) // GRID PLAYER
             {
-                Gpl1Over.MoveTo(Vec2D(x_seq + 275, y_seq + 145));
+                Gpl1Over.MoveTo(Vec2D(x_seq + 248,y_seq + 145));
                 Gpl1Over.DrawOutline(CouleurLigne);
-            } else if (mouse_x > x_seq + 310 && mouse_x < x_seq + 470) // TEXT DECRIPTION
+            } else if (mouse_x > x_seq + 286 && mouse_x < x_seq + 470) // TEXT DECRIPTION
             {
                 if (mouse_y > y_seq + 140 && mouse_y < y_seq + 155) {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 140));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 140));
                 } else {
-                    TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 155));
+                    TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 155));
                 }
                 TextOver.DrawOutline(CouleurLigne);
             }
@@ -229,24 +229,24 @@ int refresh_vision_memories(int x_seq, int y_seq) {
                 {
                     MemOver.MoveTo(Vec2D(x_seq + 110, y_seq + 145 + (35 * i)));
                     MemOver.DrawOutline(CouleurLigne);
-                } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 215) // LINKS
+                } else if (mouse_x > x_seq + 180 && mouse_x < x_seq + 213) // LINKS
                 {
                     LinkOver.MoveTo(Vec2D(x_seq + 180, y_seq + 145 + (35 * i)));
                     LinkOver.DrawOutline(CouleurLigne);
-                } else if (mouse_x > x_seq + 225 && mouse_x < x_seq + 265) // BANGER
+                } else if (mouse_x > x_seq + 213 && mouse_x < x_seq + 246) // BANGER
                 {
-                    bangOver.MoveTo(Vec2D(x_seq + 225, y_seq + 145 + (35 * i)));
+                    bangOver.MoveTo(Vec2D(x_seq + 215,y_seq + 145 + (35 * i)));
                     bangOver.DrawOutline(CouleurLigne);
-                } else if (mouse_x > x_seq + 270 && mouse_x < x_seq + 300) // GRID PLAYER
+                } else if (mouse_x > x_seq + 246 && mouse_x < x_seq + 280) // GRID PLAYER
                 {
-                    Gpl1Over.MoveTo(Vec2D(x_seq + 275, y_seq + 145 + (35 * i)));
+                    Gpl1Over.MoveTo(Vec2D(x_seq + 248,y_seq + 145 + (35 * i)));
                     Gpl1Over.DrawOutline(CouleurLigne);
-                } else if (mouse_x > x_seq + 310 && mouse_x < x_seq + 470) // TEXT DECRIPTION
+                } else if (mouse_x > x_seq + 286 && mouse_x < x_seq + 470) // TEXT DECRIPTION
                 {
                     if (mouse_y > y_seq + 140 + (35 * i) && mouse_y < y_seq + 155 + (35 * i)) {
-                        TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 140 + (35 * i)));
+                        TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 140 + (35 * i)));
                     } else {
-                        TextOver.MoveTo(Vec2D(x_seq + 310, y_seq + 155 + (35 * i)));
+                        TextOver.MoveTo(Vec2D(x_seq + 286, y_seq + 155 + (35 * i)));
                     }
                     TextOver.DrawOutline(CouleurLigne);
                 }
@@ -276,11 +276,11 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         // banger
         if (Banger_Memoire[mem_before_one] != 0) // dout
         {
-            petitchiffre.Print(ol::ToString(Banger_Memoire[mem_before_one]), x_seq + 235, y_seq + 100);
+            petitchiffre.Print(ol::ToString(Banger_Memoire[mem_before_one]), x_seq + 220, y_seq + 100);
         }
         // griplayer
         if (set_from_seq_gridplayer1_next_step[mem_before_one] != -1) {
-            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[mem_before_one] + 1), x_seq + 280,
+            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[mem_before_one] + 1), x_seq + 251,
                                y_seq + 100);
         }
         if (Times_Memoires[position_onstage][0] > 0.0) {
@@ -296,18 +296,18 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         // out
         petitpetitchiffrerouge.Print(string_time_memonstage[1], x_seq + 70, y_seq + 100);
         if (seq_editing_mem == mem_before_one && !seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 90);
+            seq_draw_editbox(x_seq + 286, y_seq + 90);
         else
-            seq_print_clipped(descriptif_memoires[mem_before_one], x_seq + 320, y_seq + 90);
+            seq_print_clipped(descriptif_memoires[mem_before_one], x_seq + 286, y_seq + 90);
         if (seq_editing_mem == mem_before_one && seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 105);
+            seq_draw_editbox(x_seq + 286, y_seq + 105);
         else
-            seq_print_clipped(annotation_memoires[mem_before_one], x_seq + 320, y_seq + 105);
+            seq_print_clipped(annotation_memoires[mem_before_one], x_seq + 286, y_seq + 105);
         if (Links_Memoires[mem_before_one] == 1) {
-            Line(Vec2D(x_seq + 190, y_seq + 85), Vec2D(x_seq + 200, y_seq + 85)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 85), Vec2D(x_seq + 200, y_seq + 100)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 100), Vec2D(x_seq + 195, y_seq + 95)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 100), Vec2D(x_seq + 205, y_seq + 95)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 187, y_seq + 84), Vec2D(x_seq + 197, y_seq + 84)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 84), Vec2D(x_seq + 197, y_seq + 99)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 99), Vec2D(x_seq + 192, y_seq + 94)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 99), Vec2D(x_seq + 202, y_seq + 94)).Draw(CouleurLigne);
         }
     }
 
@@ -319,27 +319,27 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_onstage])));
 
         if (seq_editing_mem == position_onstage && !seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 120);
+            seq_draw_editbox(x_seq + 286, y_seq + 120);
         else
-            seq_print_clipped(descriptif_memoires[position_onstage], x_seq + 320, y_seq + 120);
+            seq_print_clipped(descriptif_memoires[position_onstage], x_seq + 286, y_seq + 120);
         if (seq_editing_mem == position_onstage && seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 135);
+            seq_draw_editbox(x_seq + 286, y_seq + 135);
         else
-            seq_print_clipped(annotation_memoires[position_onstage], x_seq + 320, y_seq + 135);
+            seq_print_clipped(annotation_memoires[position_onstage], x_seq + 286, y_seq + 135);
         // banger
         if (Banger_Memoire[position_onstage] != 0) {
-            petitchiffre.Print(ol::ToString(Banger_Memoire[position_onstage]), x_seq + 235, y_seq + 130);
+            petitchiffre.Print(ol::ToString(Banger_Memoire[position_onstage]), x_seq + 220, y_seq + 130);
         }
         // griplayer
         if (set_from_seq_gridplayer1_next_step[position_onstage] != -1) {
-            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[position_onstage] + 1), x_seq + 280,
+            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[position_onstage] + 1), x_seq + 251,
                                y_seq + 130);
         }
         if (Links_Memoires[position_onstage] == 1) {
-            Line(Vec2D(x_seq + 190, y_seq + 115 + 5), Vec2D(x_seq + 200, y_seq + 120)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 115 + 5), Vec2D(x_seq + 200, y_seq + 135)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 130 + 5), Vec2D(x_seq + 195, y_seq + 130)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 130 + 5), Vec2D(x_seq + 205, y_seq + 130)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 187, y_seq + 114 + 5), Vec2D(x_seq + 197, y_seq + 119)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 114 + 5), Vec2D(x_seq + 197, y_seq + 134)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 130 + 4), Vec2D(x_seq + 192, y_seq + 129)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 130 + 4), Vec2D(x_seq + 202, y_seq + 129)).Draw(CouleurLigne);
         }
     }
     // mem on preset
@@ -348,31 +348,31 @@ int refresh_vision_memories(int x_seq, int y_seq) {
         ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[position_preset])));
         neuro.Print(string_mem_preset, x_seq + 115, y_seq + 160);
         if (seq_editing_mem == position_preset && !seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 150);
+            seq_draw_editbox(x_seq + 286, y_seq + 150);
         else
-            seq_print_clipped(descriptif_memoires[position_preset], x_seq + 320, y_seq + 150);
+            seq_print_clipped(descriptif_memoires[position_preset], x_seq + 286, y_seq + 150);
         if (seq_editing_mem == position_preset && seq_editing_annotation)
-            seq_draw_editbox(x_seq + 320, y_seq + 165);
+            seq_draw_editbox(x_seq + 286, y_seq + 165);
         else
-            seq_print_clipped(annotation_memoires[position_preset], x_seq + 320, y_seq + 165);
+            seq_print_clipped(annotation_memoires[position_preset], x_seq + 286, y_seq + 165);
         petitpetitchiffre.Print(cross_din, x_seq + 20, y_seq + 160);
         petitchiffre.Print(cross_in, x_seq + 55, y_seq + 160);
         petitchiffre.Print(cross_out, x_seq + 55, y_seq + 130);
         petitpetitchiffre.Print(cross_dout, x_seq + 20, y_seq + 130);
         // banger
         if (Banger_Memoire[position_preset] != 0) {
-            petitchiffre.Print(ol::ToString(Banger_Memoire[position_preset]), x_seq + 235, y_seq + 160);
+            petitchiffre.Print(ol::ToString(Banger_Memoire[position_preset]), x_seq + 220, y_seq + 160);
         }
         // griplayer
         if (set_from_seq_gridplayer1_next_step[position_preset] != -1) {
-            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[position_preset] + 1), x_seq + 280,
+            petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[position_preset] + 1), x_seq + 251,
                                y_seq + 160);
         }
         if (Links_Memoires[position_preset] == 1) {
-            Line(Vec2D(x_seq + 190, y_seq + 150), Vec2D(x_seq + 200, y_seq + 150)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 150), Vec2D(x_seq + 200, y_seq + 165)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 165), Vec2D(x_seq + 195, y_seq + 160)).Draw(CouleurLigne);
-            Line(Vec2D(x_seq + 200, y_seq + 165), Vec2D(x_seq + 205, y_seq + 160)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 187, y_seq + 149), Vec2D(x_seq + 197, y_seq + 149)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 149), Vec2D(x_seq + 197, y_seq + 164)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 164), Vec2D(x_seq + 192, y_seq + 159)).Draw(CouleurLigne);
+            Line(Vec2D(x_seq + 197, y_seq + 164), Vec2D(x_seq + 202, y_seq + 159)).Draw(CouleurLigne);
         }
     }
 
@@ -392,14 +392,14 @@ int refresh_vision_memories(int x_seq, int y_seq) {
             sprintf(string_next_mem, "%d.%d", memsearch / 10, memsearch % 10);
             neuro.Print(string_next_mem, x_seq + 115, y_seq + 160 + (35 * index_nbre_mem_visues));
             if (seq_editing_mem == memsearch && !seq_editing_annotation)
-                seq_draw_editbox(x_seq + 320, y_seq + 150 + (35 * index_nbre_mem_visues));
+                seq_draw_editbox(x_seq + 286, y_seq + 150 + (35 * index_nbre_mem_visues));
             else
-                seq_print_clipped(descriptif_memoires[memsearch], x_seq + 320,
+                seq_print_clipped(descriptif_memoires[memsearch], x_seq + 286,
                                   y_seq + 150 + (35 * index_nbre_mem_visues));
             if (seq_editing_mem == memsearch && seq_editing_annotation)
-                seq_draw_editbox(x_seq + 320, y_seq + 165 + (35 * index_nbre_mem_visues));
+                seq_draw_editbox(x_seq + 286, y_seq + 165 + (35 * index_nbre_mem_visues));
             else
-                seq_print_clipped(annotation_memoires[memsearch], x_seq + 320,
+                seq_print_clipped(annotation_memoires[memsearch], x_seq + 286,
                                   y_seq + 165 + (35 * index_nbre_mem_visues));
 
             Line(Vec2D(x_seq + 10, y_seq + 100 + 70 + (35 * index_nbre_mem_visues)),
@@ -428,27 +428,27 @@ int refresh_vision_memories(int x_seq, int y_seq) {
                                          y_seq + 165 + (35 * index_nbre_mem_visues));
             // banger
             if (Banger_Memoire[memsearch] != 0) {
-                petitchiffre.Print(ol::ToString(Banger_Memoire[memsearch]), x_seq + 235,
+                petitchiffre.Print(ol::ToString(Banger_Memoire[memsearch]), x_seq + 220,
                                    y_seq + 160 + (35 * index_nbre_mem_visues));
             }
             // griplayer
             if (set_from_seq_gridplayer1_next_step[memsearch] != -1) {
-                petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[memsearch] + 1), x_seq + 280,
+                petitchiffre.Print(ol::ToString(set_from_seq_gridplayer1_next_step[memsearch] + 1), x_seq + 251,
                                    y_seq + 160 + (35 * index_nbre_mem_visues));
             }
 
             if (Links_Memoires[memsearch] == 1) {
-                Line(Vec2D(x_seq + 190, y_seq + 145 + (35 * index_nbre_mem_visues)),
-                     Vec2D(x_seq + 200, y_seq + 145 + (35 * index_nbre_mem_visues)))
+                Line(Vec2D(x_seq + 187, y_seq + 144 + (35 * index_nbre_mem_visues)),
+                     Vec2D(x_seq + 197, y_seq + 144 + (35 * index_nbre_mem_visues)))
                     .Draw(CouleurLigne);
-                Line(Vec2D(x_seq + 200, y_seq + 145 + (35 * index_nbre_mem_visues)),
-                     Vec2D(x_seq + 200, y_seq + 160 + (35 * index_nbre_mem_visues)))
+                Line(Vec2D(x_seq + 197, y_seq + 144 + (35 * index_nbre_mem_visues)),
+                     Vec2D(x_seq + 197, y_seq + 159 + (35 * index_nbre_mem_visues)))
                     .Draw(CouleurLigne);
-                Line(Vec2D(x_seq + 200, y_seq + 160 + (35 * index_nbre_mem_visues)),
-                     Vec2D(x_seq + 195, y_seq + 155 + (35 * index_nbre_mem_visues)))
+                Line(Vec2D(x_seq + 197, y_seq + 159 + (35 * index_nbre_mem_visues)),
+                     Vec2D(x_seq + 192, y_seq + 154 + (35 * index_nbre_mem_visues)))
                     .Draw(CouleurLigne);
-                Line(Vec2D(x_seq + 200, y_seq + 160 + (35 * index_nbre_mem_visues)),
-                     Vec2D(x_seq + 205, y_seq + 155 + (35 * index_nbre_mem_visues)))
+                Line(Vec2D(x_seq + 197, y_seq + 159 + (35 * index_nbre_mem_visues)),
+                     Vec2D(x_seq + 202, y_seq + 154 + (35 * index_nbre_mem_visues)))
                     .Draw(CouleurLigne);
             }
 
@@ -707,20 +707,20 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
     ////////////////////MENUS///////////////////////////////////////////////////////
     // options hautes
     // LINK
-    Rect SeqModL(Vec2D(xseq + 185, yseq + 50), Vec2D(35, 15));
+    Rect SeqModL(Vec2D(xseq + 182, yseq + 50), Vec2D(30, 15));
     SeqModL.Draw(CouleurFader.WithAlpha(index_link_is_on));
     SeqModL.DrawOutline(CouleurLigne.WithAlpha(0.5));
-    petitchiffre.Print("Link", xseq + 187, yseq + 60);
+    petitchiffre.Print("Link", xseq + 185, yseq + 60);
     // BANGER
-    Rect SeqMod(Vec2D(xseq + 223, yseq + 50), Vec2D(45, 15));
+    Rect SeqMod(Vec2D(xseq + 215, yseq + 50), Vec2D(30, 15));
     SeqMod.Draw(CouleurFader.WithAlpha(index_banger_is_on));
     SeqMod.DrawOutline(CouleurLigne.WithAlpha(0.5));
-    petitchiffre.Print("Banger", xseq + 225, yseq + 60);
+    petitchiffre.Print("Bang", xseq + 215, yseq + 60);
     // GRID PLAYER EMBEDED
-    Rect GplMod(Vec2D(xseq + 275, yseq + 50), Vec2D(30, 15));
+    Rect GplMod(Vec2D(xseq + 248, yseq + 50), Vec2D(30, 15));
     GplMod.Draw(CouleurFader.WithAlpha(show_gridplayer_in_seq));
     GplMod.DrawOutline(CouleurLigne.WithAlpha(0.5));
-    petitchiffre.Print("Gpl.1", xseq + 277, yseq + 60);
+    petitchiffre.Print("Gpl.1", xseq + 250, yseq + 60);
 
     /////menus bas
     // sab 02/03/2014 unused var char string_seq_function[5];
@@ -800,12 +800,12 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
         .Draw(CouleurLigne.WithAlpha(0.5)); // après mem
     Line(Vec2D(xseq + 180, yseq + 80), Vec2D(xseq + 180, yseq + hauteur_seq - 75))
         .Draw(CouleurLigne.WithAlpha(0.5)); // après exclude mem
-    Line(Vec2D(xseq + 220, yseq + 80), Vec2D(xseq + 220, yseq + hauteur_seq - 75))
+    Line(Vec2D(xseq + 213, yseq + 80), Vec2D(xseq + 213, yseq + hauteur_seq - 75))
         .Draw(CouleurLigne.WithAlpha(0.5)); // apres link
-    Line(Vec2D(xseq + 270, yseq + 80), Vec2D(xseq + 270, yseq + hauteur_seq - 75))
+    Line(Vec2D(xseq + 246, yseq + 80), Vec2D(xseq + 246, yseq + hauteur_seq - 75))
         .Draw(CouleurLigne.WithAlpha(0.5)); // apres banger
-    Line(Vec2D(xseq + 310, yseq + 80), Vec2D(xseq + 310, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // apres banger
+    Line(Vec2D(xseq + 280, yseq + 80), Vec2D(xseq + 280, yseq + hauteur_seq - 75))
+        .Draw(CouleurLigne.WithAlpha(0.5)); // apres gpl.1
 
     // Grid Player 1 enchassé
     if (show_gridplayer_in_seq == 1) {
