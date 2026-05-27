@@ -4348,15 +4348,18 @@ if( window_focus_id==W_CFGMENU)
 
 int midipage_preset_and_options(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteurCFGmidi)
 {
-//affichage signal
-petitchiffrerouge.Print( my_midi_original_string,cfg_midiX+470,cfg_midiY+17);
-petitchiffre.Print( my_midi_string,cfg_midiX+500,cfg_midiY+32);
+//affichage signal (deplace a droite pour laisser place aux 2 colonnes d'options)
+petitchiffrerouge.Print( my_midi_original_string,cfg_midiX+655,cfg_midiY+17);
+petitchiffre.Print( my_midi_string,cfg_midiX+655,cfg_midiY+30);
+// 2 colonnes : col1=pm 0-4 (x+20), col2=pm 5-8 (x+260)
 for(int pm=0;pm<9;pm++)
 {
-Rect MidiOption(Vec2D(cfg_midiX+20,cfg_midiY+45+(pm*30)),Vec2D(55,20));
+int col_x   = (pm < 5) ? 0 : 220;         // offset horizontal colonne
+int col_row = (pm < 5) ? pm : (pm - 5);   // rang dans la colonne
+Rect MidiOption(Vec2D(cfg_midiX+20+col_x,cfg_midiY+45+(col_row*30)),Vec2D(55,20));
 MidiOption.SetRoundness(7.5);
 MidiOption.Draw(CouleurFond.WithAlpha(0.5));
-if(mouse_x>cfg_midiX+20 && mouse_x<cfg_midiX+20+55 && mouse_y>cfg_midiY+45+(pm*30) && mouse_y<cfg_midiY+45+20+(pm*30)  && window_focus_id==920)
+if(mouse_x>cfg_midiX+20+col_x && mouse_x<cfg_midiX+20+col_x+55 && mouse_y>cfg_midiY+45+(col_row*30) && mouse_y<cfg_midiY+45+20+(col_row*30)  && window_focus_id==920)
 {
 MidiOption.Draw(CouleurSurvol) ;
 if(mouse_button==1 && mouse_released==0)
@@ -4402,48 +4405,45 @@ switch(pm)
 {
 case 0:
 MidiOption.Draw(CouleurFader.WithAlpha(cheat_key_off)) ;
-petitpetitchiffre.Print("Key-On Vel 0 = Key-Off",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Key-On Vel 0 = Key-Off",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 1:
 MidiOption.Draw(CouleurFader.WithAlpha(cheat_key_off_to_key_on)) ;
-petitpetitchiffre.Print("Key-Off = Key-On Vel 0",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Key-Off = Key-On Vel 0",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 2:
 MidiOption.Draw(CouleurFader.WithAlpha(index_midi_auto_desaffect)) ;
-petitpetitchiffre.Print("Auto-Desaffectation",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Auto-Desaffectation",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 3://auto demute
 MidiOption.Draw(CouleurFader.WithAlpha(index_midi_auto_demute)) ;
-petitpetitchiffre.Print("Auto-demute",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Auto-demute",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 4://mute on LFO
 MidiOption.Draw(CouleurFader.WithAlpha(index_midi_mute_on_lfo)) ;
-petitpetitchiffre.Print("Mute on LFO",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Mute on LFO",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 5:
 MidiOption.Draw(CouleurFader.WithAlpha(index_auto_mute_cuelist_speed)) ;
-petitpetitchiffre.Print("Auto-mute Cuelist Speed",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Auto-mute Cuelist Speed",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 6:
 MidiOption.Draw(CouleurFader.WithAlpha(enable_launchpad)) ;
-petitpetitchiffre.Print("To LAUNCHPAD",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("To LAUNCHPAD",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 7:
 MidiOption.Draw(CouleurFader.WithAlpha(index_midi_global_thruth)) ;
-petitpetitchiffre.Print("Midi THRU",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Midi THRU",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 case 8:
 MidiOption.Draw(CouleurFader.WithAlpha(seq_midi_xfade_continuous)) ;
-petitpetitchiffre.Print("Xfade continu (descend+remonte)",cfg_midiX+80,cfg_midiY+57+(pm*30));
+petitpetitchiffre.Print("Continuous xfade",cfg_midiX+80+col_x,cfg_midiY+57+(col_row*30));
 break;
 }
 }
 
-midi_launchpad_colors(cfg_midiX+230,cfg_midiY+60);
-midi_change_signal(cfg_midiX+355, cfg_midiY+70);
-
-
-midi_clock_part(cfg_midiX+570, cfg_midiY+55);//on off midi clock and BPM
+midi_launchpad_colors(cfg_midiX+480,cfg_midiY+60);
+midi_change_signal(cfg_midiX+590, cfg_midiY+70);
 
 
 return(0);
@@ -4623,7 +4623,7 @@ int midipage_devices(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteur
 int do_midi_config(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteurCFGmidi)
 {
 
-for(int pp=0;pp<3;pp++)
+for(int pp=0;pp<4;pp++)
 {
 Rect MidiMenu( Vec2D(cfg_midiX+20+(pp*150),cfg_midiY+1), Vec2D ( 140,35));
      MidiMenu.SetRoundness(7.5);
@@ -4657,6 +4657,10 @@ else if(pp==2)
 {
   petitchiffre.Print("MIDI AFFECT",cfg_midiX+30+(pp*150),cfg_midiY+20);
 }
+else if(pp==3)
+{
+  petitchiffre.Print("MIDI CLOCK",cfg_midiX+30+(pp*150),cfg_midiY+20);
+}
 
   if(midi_page==pp){MidiMenu.DrawOutline(CouleurLigne);}
 }
@@ -4669,6 +4673,8 @@ else if(pp==2)
   if(midi_page==1){midipage_preset_and_options(cfg_midiX,cfg_midiY,largeurCFGmidi,hauteurCFGmidi);}
 
   if(midi_page==2){midipage_affectation(cfg_midiX,cfg_midiY,largeurCFGmidi,hauteurCFGmidi);}
+
+  if(midi_page==3){midi_clock_part(cfg_midiX+20,cfg_midiY+50);}
 
 return(0);
 }
