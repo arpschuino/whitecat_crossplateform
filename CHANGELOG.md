@@ -106,6 +106,8 @@
 - **Navigation curseur ← → dans tous les champs texte** : les flèches gauche/droite permettent de déplacer le curseur à l'intérieur du texte en cours de saisie, dans toutes les fenêtres d'édition — cue list (inline), fenêtre de confirmation W_ASKCONFIRM, et saisie numérique F5. La navigation est UTF-8 correcte (pas de coupure en milieu de caractère multi-octet). Le curseur clignote à 25 fps dans toutes ces fenêtres.
 - **Saisie de numéro de mémoire** : la saisie d'un numéro supérieur à 999.9 affiche désormais un message d'erreur dans la fenêtre de confirmation ("Invalid memory number (max 999.9)") au lieu de tronquer silencieusement l'index. Aucune mémoire n'est créée en cas de dépassement.
 - **Fenêtre W_ASKCONFIRM élargie** : largeur passée de 400 à 500 px pour accueillir les messages d'erreur sans débordement.
+- **Colonnes Link / Bang / Gpl.1 uniformisées** : les trois colonnes passent à 30 px de large chacune avec un espacement égal de 3 px, libérant de la place pour la colonne texte. Le label "Banger" est raccourci en "Bang". Zones de clic et de survol recalées en conséquence.
+- **Zone texte agrandie de 36 px** : largeur inscriptible passée de 148 px à 184 px (+24 px par réduction des colonnes Link/Bang/Gpl.1, +4 px par récupération de la marge droite de la boîte d'édition — sans déplacer aucun élément visible).
 
 ### Banger
 
