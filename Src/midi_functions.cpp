@@ -433,13 +433,20 @@ midi_levels[1508]=crossfade_speed;
 gridder_prepare_cross(0,index_grider_selected[0],index_grider_step_is[0]);
 }
 }
-//X1
+//X1 — stage fader (blue). In continuous inverted phase, formula is reversed so that
+// going UP still maps to niveauX1 255→0 (stage fading out), keeping X1=stage semantics.
 if(control==491)
 {
 if(seq_midi_xfade_continuous) {
-    // mode continu : même formule qu'en mode classique, sans le garde raccrochage
-    if(midi_levels[control]<127) niveauX1=midi_levels[control]*2;
-    else niveauX1=255;
+    if(!seq_midi_xfade_inverted) {
+        // normal phase: pots go DOWN, MIDI 127→0 → niveauX1 255→0
+        if(midi_levels[control]<127) niveauX1=midi_levels[control]*2;
+        else niveauX1=255;
+    } else {
+        // inverted phase: pots go UP, MIDI 0→127 → niveauX1 255→0 (reversed)
+        if(midi_levels[control]>0) niveauX1=(127-midi_levels[control])*2;
+        else niveauX1=255;
+    }
 } else {
     if(midi_levels[control]<127 && index_get_back_faders_need_to_be_done==0)
     { niveauX1=midi_levels[control]*2; }
@@ -448,12 +455,20 @@ if(seq_midi_xfade_continuous) {
 }
 }
 
-if(control==492)//X2
+//X2 — preset fader (red). Same principle: in inverted phase formula is reversed so
+// going UP maps to niveauX2 0→255 (preset fading in), keeping X2=preset semantics.
+if(control==492)
 {
 if(seq_midi_xfade_continuous) {
-    // mode continu : même formule qu'en mode classique, sans le garde raccrochage
-    if((127-midi_levels[control])<127) niveauX2=(127-midi_levels[control])*2;
-    else niveauX2=255;
+    if(!seq_midi_xfade_inverted) {
+        // normal phase: MIDI 127→0 → niveauX2 0→255 (natural X2 inversion)
+        if((127-midi_levels[control])<127) niveauX2=(127-midi_levels[control])*2;
+        else niveauX2=255;
+    } else {
+        // inverted phase: pots go UP, MIDI 0→127 → niveauX2 0→255
+        if(midi_levels[control]<127) niveauX2=midi_levels[control]*2;
+        else niveauX2=255;
+    }
 } else {
     if((127-midi_levels[control])<127 && index_get_back_faders_need_to_be_done==0)
     { niveauX2=(127-midi_levels[control])*2; }
@@ -462,38 +477,43 @@ if(seq_midi_xfade_continuous) {
 }
 }
 
-// reset raccrochage (mode classique uniquement)
+// reset raccrochage (classic mode only)
 if(midi_levels[491]==127 && (127-midi_levels[492])==0 )
 { if(!seq_midi_xfade_continuous) index_get_back_faders_need_to_be_done=0; }
 
-// trigger normal : les deux pots en bas (491=0, 492=0 physique) → niveauX1=0, niveauX2=255
-// en mode continu, ne se déclenche que si on est en phase normale (pas encore inversé)
-if(midi_levels[491]==0 && (127-midi_levels[492])==127 && niveauX1==0 && niveauX2==255 )
+// trigger — both phases produce niveauX1==0 && niveauX2==255 at end:
+// normal phase  : pots at bottom (MIDI 491=0,  492=0)   → niveauX1=0, niveauX2=255
+// inverted phase: pots at top    (MIDI 491=127, 492=127) → niveauX1=0, niveauX2=255
+if(niveauX1==0 && niveauX2==255)
 {
-if(!seq_midi_xfade_continuous || !seq_midi_xfade_inverted) {
+bool should_fire = false;
+if(!seq_midi_xfade_continuous) {
+    // Classic mode: guard by MIDI position (pots must be physically at bottom)
+    should_fire = (midi_levels[491]==0 && midi_levels[492]==0);
+} else {
+    // Continuous mode: niveauX1/niveauX2 are reset to 255/0 immediately after firing,
+    // so the outer condition niveauX1==0 && niveauX2==255 is itself the guard.
+    // Do NOT use midi_levels[] here — ventilation_midi_sur_crossfade() corrupts them
+    // (sets [491]=niveauX1/2=0 and [492]=127-(niveauX2/2)=0 when at the end condition),
+    // which would make the at_inverted_end guard (==127,127) always fail.
+    should_fire = true;
+}
+if(should_fire) {
 next_mem_crossfade_finished(position_preset);
 index_go=0;
 if(index_auto_mute_cuelist_speed==1 && crossfade_speed!=64)
 {is_raccrochage_midi_remote[493]=1; }
 crossfade_speed=64;
 if(midi_send_out[493]==1){index_send_midi_out[493]=1;}//remise du speed midi
-if(seq_midi_xfade_continuous) { seq_midi_xfade_inverted=true; }
+if(seq_midi_xfade_continuous) {
+    seq_midi_xfade_inverted=!seq_midi_xfade_inverted;
+    // New stage immediately full, new preset immediately dark.
+    // Pots don't send events while stationary, so force the reset here.
+    niveauX1=255;
+    niveauX2=0;
+}
 else index_get_back_faders_need_to_be_done=1;
 }
-}
-
-// trigger inversé : les deux pots en haut (491=127, 492=127 physique) → niveauX1=255, niveauX2=0
-// (mode continu + phase inversée uniquement — remonter les pots déclenche le xfade suivant)
-if(seq_midi_xfade_continuous && seq_midi_xfade_inverted &&
-   midi_levels[491]==127 && midi_levels[492]==127 && niveauX1==255 && niveauX2==0)
-{
-next_mem_crossfade_finished(position_preset);
-index_go=0;
-if(index_auto_mute_cuelist_speed==1 && crossfade_speed!=64)
-{is_raccrochage_midi_remote[493]=1; }
-crossfade_speed=64;
-if(midi_send_out[493]==1){index_send_midi_out[493]=1;}//remise du speed midi
-seq_midi_xfade_inverted=false;
 }
 
 //COLOR WHEEL
