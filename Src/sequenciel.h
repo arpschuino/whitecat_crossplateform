@@ -103,3 +103,5 @@ extern char string_last_copy_mem[25];
 extern int seq_editing_mem;        // -1 = none, else memory index being edited inline in cue list
 extern int seq_edit_cursor;       // cursor byte position in confirm_name_buf during inline edit
 extern bool seq_editing_annotation; // false = editing descriptif, true = editing annotation
+extern bool seq_midi_xfade_continuous; // option : enchaînement xfade MIDI sans raccrochage
+extern bool seq_midi_xfade_inverted;   // état runtime : phase inversée (remonter = xfade)

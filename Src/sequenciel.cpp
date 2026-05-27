@@ -81,6 +81,8 @@ float popup_alert_alpha = 0.5f;  // opacité fenêtres d'alerte (blink x3 → st
 float default_time_back = 3.0;
 int ratio_cross_manuel[10000];
 bool index_get_back_faders_need_to_be_done = 0;
+bool seq_midi_xfade_continuous = false; // option : enchaînement xfade MIDI sans raccrochage
+bool seq_midi_xfade_inverted   = false; // état runtime : phase inversée (remonter = xfade)
 char cross_to_come[52];
 char cross_din[12];
 char cross_in[12];

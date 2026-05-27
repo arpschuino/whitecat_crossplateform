@@ -109,6 +109,17 @@
 - **Colonnes Link / Bang / Gpl.1 uniformisées** : les trois colonnes passent à 30 px de large chacune avec un espacement égal de 3 px, libérant de la place pour la colonne texte. Le label "Banger" est raccourci en "Bang". Zones de clic et de survol recalées en conséquence.
 - **Zone texte agrandie de 36 px** : largeur inscriptible passée de 148 px à 184 px (+24 px par réduction des colonnes Link/Bang/Gpl.1, +4 px par récupération de la marge droite de la boîte d'édition — sans déplacer aucun élément visible).
 
+### MIDI — Crossfade continu (sans raccrochage)
+
+- **Enchaînement crossfade X1/X2 sans recharger les potards** : nouvelle option dans l'onglet MIDI de la configuration. Lorsqu'elle est activée, le crossfade manuel via les potards X1/X2 (contrôles MIDI 491/492) fonctionne en mode alterné :
+  - **Descendre les deux potards** → le crossfade se déclenche (preset → stage), phase bascule en "inversée"
+  - **Remonter les deux potards** → le crossfade suivant se déclenche automatiquement, phase revient en "normale"
+  - Et ainsi de suite, sans jamais avoir à recharger les potards.
+
+  En mode classique (option désactivée), le comportement existant est conservé : WC attend que les potards soient remontés ("GET UP MIDI FADERS") avant d'accepter un nouveau crossfade.
+
+  L'option `seq_midi_xfade_continuous` est sauvegardée dans le fichier show (index_report_customs[71]). La phase interne `seq_midi_xfade_inverted` est réinitialisée à `false` lorsque l'option est désactivée.
+
 ### Banger
 
 - **Type 6 renommé Sequences → CueList** : le libellé "Sequences" est remplacé par "CueList" dans l'affichage du type de banger, la fenêtre de type Windows et le type de fader.

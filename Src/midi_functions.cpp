@@ -436,32 +436,56 @@ gridder_prepare_cross(0,index_grider_selected[0],index_grider_step_is[0]);
 //X1
 if(control==491)
 {
-if(midi_levels[control]<127 && index_get_back_faders_need_to_be_done==0)
-{
-niveauX1=midi_levels[control]*2;
-}
-if(midi_levels[control]==127 && index_get_back_faders_need_to_be_done==0)
-{
-niveauX1=255;
+if(seq_midi_xfade_continuous) {
+    // mode continu : même formule qu'en mode classique, sans le garde raccrochage
+    if(midi_levels[control]<127) niveauX1=midi_levels[control]*2;
+    else niveauX1=255;
+} else {
+    if(midi_levels[control]<127 && index_get_back_faders_need_to_be_done==0)
+    { niveauX1=midi_levels[control]*2; }
+    if(midi_levels[control]==127 && index_get_back_faders_need_to_be_done==0)
+    { niveauX1=255; }
 }
 }
 
 if(control==492)//X2
 {
-if((127-midi_levels[control])<127 && index_get_back_faders_need_to_be_done==0)
-{
-niveauX2=(127-midi_levels[control])*2;
-}
-if((127-midi_levels[control])==127 && index_get_back_faders_need_to_be_done==0)
-{
-niveauX2=255;
+if(seq_midi_xfade_continuous) {
+    // mode continu : même formule qu'en mode classique, sans le garde raccrochage
+    if((127-midi_levels[control])<127) niveauX2=(127-midi_levels[control])*2;
+    else niveauX2=255;
+} else {
+    if((127-midi_levels[control])<127 && index_get_back_faders_need_to_be_done==0)
+    { niveauX2=(127-midi_levels[control])*2; }
+    if((127-midi_levels[control])==127 && index_get_back_faders_need_to_be_done==0)
+    { niveauX2=255; }
 }
 }
 
+// reset raccrochage (mode classique uniquement)
 if(midi_levels[491]==127 && (127-midi_levels[492])==0 )
-{index_get_back_faders_need_to_be_done=0;}
+{ if(!seq_midi_xfade_continuous) index_get_back_faders_need_to_be_done=0; }
 
+// trigger normal : les deux pots en bas (491=0, 492=0 physique) → niveauX1=0, niveauX2=255
+// en mode continu, ne se déclenche que si on est en phase normale (pas encore inversé)
 if(midi_levels[491]==0 && (127-midi_levels[492])==127 && niveauX1==0 && niveauX2==255 )
+{
+if(!seq_midi_xfade_continuous || !seq_midi_xfade_inverted) {
+next_mem_crossfade_finished(position_preset);
+index_go=0;
+if(index_auto_mute_cuelist_speed==1 && crossfade_speed!=64)
+{is_raccrochage_midi_remote[493]=1; }
+crossfade_speed=64;
+if(midi_send_out[493]==1){index_send_midi_out[493]=1;}//remise du speed midi
+if(seq_midi_xfade_continuous) { seq_midi_xfade_inverted=true; }
+else index_get_back_faders_need_to_be_done=1;
+}
+}
+
+// trigger inversé : les deux pots en haut (491=127, 492=127 physique) → niveauX1=255, niveauX2=0
+// (mode continu + phase inversée uniquement — remonter les pots déclenche le xfade suivant)
+if(seq_midi_xfade_continuous && seq_midi_xfade_inverted &&
+   midi_levels[491]==127 && midi_levels[492]==127 && niveauX1==255 && niveauX2==0)
 {
 next_mem_crossfade_finished(position_preset);
 index_go=0;
@@ -469,7 +493,7 @@ if(index_auto_mute_cuelist_speed==1 && crossfade_speed!=64)
 {is_raccrochage_midi_remote[493]=1; }
 crossfade_speed=64;
 if(midi_send_out[493]==1){index_send_midi_out[493]=1;}//remise du speed midi
-index_get_back_faders_need_to_be_done=1;
+seq_midi_xfade_inverted=false;
 }
 
 //COLOR WHEEL
@@ -4327,7 +4351,7 @@ int midipage_preset_and_options(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,
 //affichage signal
 petitchiffrerouge.Print( my_midi_original_string,cfg_midiX+470,cfg_midiY+17);
 petitchiffre.Print( my_midi_string,cfg_midiX+500,cfg_midiY+32);
-for(int pm=0;pm<8;pm++)
+for(int pm=0;pm<9;pm++)
 {
 Rect MidiOption(Vec2D(cfg_midiX+20,cfg_midiY+45+(pm*30)),Vec2D(55,20));
 MidiOption.SetRoundness(7.5);
@@ -4363,6 +4387,10 @@ if(enable_launchpad==1){ reset_launchpad();}
 break;
 case 7:
 index_midi_global_thruth=toggle(index_midi_global_thruth);
+break;
+case 8://xfade continu sans raccrochage
+seq_midi_xfade_continuous=toggle(seq_midi_xfade_continuous);
+if(!seq_midi_xfade_continuous) seq_midi_xfade_inverted=false;
 break;
 default:
 break;
@@ -4403,6 +4431,10 @@ break;
 case 7:
 MidiOption.Draw(CouleurFader.WithAlpha(index_midi_global_thruth)) ;
 petitpetitchiffre.Print("Midi THRU",cfg_midiX+80,cfg_midiY+57+(pm*30));
+break;
+case 8:
+MidiOption.Draw(CouleurFader.WithAlpha(seq_midi_xfade_continuous)) ;
+petitpetitchiffre.Print("Xfade continu (descend+remonte)",cfg_midiX+80,cfg_midiY+57+(pm*30));
 break;
 }
 }

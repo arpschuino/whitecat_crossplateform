@@ -1388,6 +1388,7 @@ index_report_customs[68]=Midi_Force_Go;
     index_report_customs[69] = bitmask;
 }
 index_report_customs[70] = midi_backend_get_open_port_out();
+index_report_customs[71] = seq_midi_xfade_continuous ? 1 : 0;
 
 return(0);
 }
@@ -1520,6 +1521,8 @@ if(clocklevel_absolutemode<0){clocklevel_absolutemode=0;}
     if (port_out >= 0 && port_out < midi_backend_get_device_count_out())
         midi_backend_open_device_out(port_out);
 }
+seq_midi_xfade_continuous = (index_report_customs[71] != 0);
+if(!seq_midi_xfade_continuous) seq_midi_xfade_inverted = false;
 return(0);
 }
 
