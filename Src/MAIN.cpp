@@ -431,12 +431,16 @@ void my_callback(int flags) {
             snap_channels_selection_array();
         }
         mouse_released = 0;
+        seq_ratio_drag_active = 0;  // reset drag session à chaque nouveau clic
+        mouse_click_x = mouse_x;    // enregistre la position d'origine du clic
+        mouse_click_y = mouse_y;
     }
 
     else if (flags & MOUSE_FLAG_LEFT_UP) // relevage bouton
     {
         mouse_button = 0;
         mouse_released = 1; // liberation du curseur souris
+        set_mouse_range(0, 0, 9999, 9999); // reset contrainte souris : les faders X1/X2 laissent une zone étroite active qui intercepte les clics suivants (ratio cursor, etc.)
         index_click_move_faderspace = 0;
         im_moving_a_window = 0;
         index_mouse_is_tracking = 0;

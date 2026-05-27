@@ -49,7 +49,7 @@ Rect windowAlarm(Vec2D(XAlarm,YAlarm),Vec2D(300,110));
 windowAlarm.SetRoundness(15);
 windowAlarm.SetLineWidth(epaisseur_bordure_fenetre);
 windowAlarm.Draw(CouleurFond);
-windowAlarm.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+windowAlarm.Draw(CouleurBlind.WithAlpha(popup_alert_alpha));
 if(window_focus_id==918)
 {windowAlarm.DrawOutline(CouleurFader);}
 else{windowAlarm.DrawOutline(CouleurLigne);}

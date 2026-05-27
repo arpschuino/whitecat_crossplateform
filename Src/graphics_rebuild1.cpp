@@ -266,7 +266,7 @@ int Boxes() {
         UnderText.Draw(CouleurLigne.WithAlpha(0.1));
         UnderText.DrawOutline(CouleurFader);
         neuro.Print(string_numeric_entry, 680, 55); // input chaine clavier numerique
-        if (alpha_blinker > 0.5f) {
+        if (index_type == 1 && alpha_blinker > 0.5f) {
             char _nc[100]; int _ncb = (numeric_cursor < 100) ? numeric_cursor : 99;
             memcpy(_nc, numeric, _ncb); _nc[_ncb] = '\0';
             int _cpx = 680 + (int)neuro.TextWidth("<< ") + (int)neuro.TextWidth(_nc);

@@ -548,7 +548,7 @@ inline void replace_filename(char *dest, const char *path, const char *newname, 
 #define KEY_7_PAD SDL_SCANCODE_KP_7
 #define KEY_8_PAD SDL_SCANCODE_KP_8
 #define KEY_9_PAD SDL_SCANCODE_KP_9
-#define KEY_DEL_PAD SDL_SCANCODE_KP_DECIMAL
+#define KEY_DEL_PAD SDL_SCANCODE_KP_PERIOD
 #define KEY_PLUS_PAD SDL_SCANCODE_KP_PLUS
 #define KEY_MINUS_PAD SDL_SCANCODE_KP_MINUS
 #define KEY_EQUALS SDL_SCANCODE_EQUALS

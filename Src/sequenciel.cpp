@@ -52,6 +52,9 @@ char string_next_mem[6];
 // cross manuel
 bool index_x1_x2_together = 1;
 int ratio_X1X2_together = 0;
+int seq_ratio_drag_active = 0; // 0=pas de drag ratio en cours, 1=drag actif (reset MAIN mouse_down)
+int mouse_click_x = 0;  // position X au moment du dernier mouse_down
+int mouse_click_y = 0;  // position Y au moment du dernier mouse_down
 int remapX1[255];
 int remapX2[255];
 // cross fade

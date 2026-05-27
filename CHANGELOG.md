@@ -152,6 +152,18 @@ Fichiers non extractibles (contraintes techniques) :
   - Migration de `wc_cache` / `wc_cache_mutex` vers le patron `WC_SKIP_GLOBALS` : définition concrète dans MAIN.cpp (sans `WC_SKIP_GLOBALS`), déclarations `extern` dans tous les autres TUs (avec `WC_SKIP_GLOBALS`).
   - Règle PCH du Makefile corrigée : `$(PCH)` dépend désormais de `$(SRC)/graphics_backend.h` en plus de `$(SRC)/wc_tus.h`, garantissant la régénération du PCH à chaque modification de ce header.
 
+### Clavier / Saisie numérique
+
+- **Touche `.` du pavé numérique** : la touche point du pavé numérique ne fonctionnait pas. Cause : `KEY_DEL_PAD` était mappé sur `SDL_SCANCODE_KP_DECIMAL` (scancode 220, variante claviers asiatiques) au lieu de `SDL_SCANCODE_KP_PERIOD` (scancode 99, standard USB HID). Corrigé dans `graphics_backend.h`.
+- **Curseur clignotant en saisie numérique** : un curseur clignotant s'affichait dans la zone de saisie numérique (chiffres, niveaux…) alors qu'il ne doit apparaître qu'en mode saisie de nom/texte (F5, `index_type == 1`). Le curseur est désormais masqué en saisie numérique pure.
+- **Saisie de temps décimaux** : taper `1.1` donnait `1.01 s` (1 centième) au lieu de `1.10 s` (1 dixième). La partie décimale est maintenant normalisée selon sa longueur : 1 chiffre après le point = dixièmes (×10), 2 chiffres = centièmes. Exemples : `1.5` → 1.50 s, `1.05` → 1.05 s, `1.10` → 1.10 s.
+
+### Cue list — protection des interactions
+
+- **Drag du ratio X1/X2 — isolation des zones** : glisser le curseur de ratio entre les deux crossfaders pouvait accidentellement déclencher d'autres éléments (GO, GO BACK, DOUBLE GO, bouton TOGETHER, pastilles MIDI out X1/X2/Speed, ronds de raccrochage MIDI, fader Speed). Principe de correction : chaque élément interactif de la fenêtre cue list ne répond désormais qu'aux clics dont l'origine (bouton enfoncé) est dans sa propre zone. Un drag entrant de l'extérieur est ignoré.
+
+  Mécanisme : deux globaux `mouse_click_x` / `mouse_click_y` enregistrent la position du dernier `MOUSE_FLAG_LEFT_DOWN` (dans MAIN.cpp). Chaque élément vérifie que le clic initial est dans sa zone avant de traiter l'événement. Le flag `seq_ratio_drag_active` protège en plus les boutons GO / GO BACK / DOUBLE GO / TOGETHER contre les drags démarrant dans la zone du curseur de ratio.
+
 ### Technique (sans impact visible direct)
 
 - Compilation avec GCC 5.1.0 (MinGW portable dans `tools/`).

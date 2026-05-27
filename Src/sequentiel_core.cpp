@@ -115,6 +115,8 @@ sprintf(string_Last_Order,"Loaded %d.%d on preset", mem_to_call/10,mem_to_call%1
 position_preset=mem_to_call;
 refresh_mem_onpreset(position_preset);
 ratio_X1X2_together=ratio_cross_manuel[mem_to_call];
+if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;
+if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
 }
 }
 reset_numeric_entry();
@@ -619,10 +621,12 @@ int do_logical_x1_x2(int x_seq,int y_seq)
 
 /////////////////////////////////////CROSSFADE MANUEL/////////////////////////////
 
-if(mouse_y>=y_seq+60 && mouse_y<=y_seq+100+255)//-20 +20
+if(mouse_y>=y_seq+60 && mouse_y<=y_seq+100+255 &&
+   mouse_click_y>=y_seq+60 && mouse_click_y<=y_seq+100+255)//-20 +20
 {
 ///////////////////X///////////////////////////////////////////////////////////
-if(mouse_x> x_seq+480 && mouse_x< x_seq+480+45)
+if(mouse_x> x_seq+480 && mouse_x< x_seq+480+45 &&
+   mouse_click_x> x_seq+480 && mouse_click_x< x_seq+480+45)
 {
 
 
@@ -668,7 +672,8 @@ if(midi_send_out[492]==1){index_send_midi_out[492]=1;}
 }
 
 ////////////////////X2////////////////////////////////////////////////////////////////
-else if(mouse_x> x_seq+580 && mouse_x< x_seq+580+45)
+else if(mouse_x> x_seq+580 && mouse_x< x_seq+580+45 &&
+        mouse_click_x> x_seq+580 && mouse_click_x< x_seq+580+45)
 {
 
 
@@ -715,7 +720,9 @@ if(midi_send_out[491]==1){index_send_midi_out[491]=1;}
 }
 }
 
-if(niveauX1==0 && niveauX2==255)
+if(niveauX1==0 && niveauX2==255 &&
+   ((mouse_click_x>x_seq+480 && mouse_click_x<x_seq+480+45) ||
+    (mouse_click_x>x_seq+580 && mouse_click_x<x_seq+580+45)))
 {
 index_go=0; index_go_back=0; index_pause=0;
 next_mem_crossfade_finished(position_preset);
@@ -725,20 +732,39 @@ mouse_released=1;
 }
 
 
-raccrochage_midi_logical_vertical_dmx ( x_seq+480, (y_seq+80), 491, 45, 255);//X1
-raccrochage_midi_logical_vertical_dmx ( x_seq+580, (y_seq+80), 492, 45, 255);//X2 séparés car inversés pour l'affichage etc
+if(mouse_click_x> x_seq+480 && mouse_click_x< x_seq+480+45 &&
+   mouse_click_y>= y_seq+80 && mouse_click_y<= y_seq+80+255)
+    raccrochage_midi_logical_vertical_dmx(x_seq+480, (y_seq+80), 491, 45, 255);//X1
+if(mouse_click_x> x_seq+580 && mouse_click_x< x_seq+580+45 &&
+   mouse_click_y>= y_seq+80 && mouse_click_y<= y_seq+80+255)
+    raccrochage_midi_logical_vertical_dmx(x_seq+580, (y_seq+80), 492, 45, 255);//X2
 
 //TOGETHER
-if(mouse_x> x_seq+540 && mouse_x< x_seq+540+50 && mouse_y>y_seq+50 && mouse_y<y_seq+50+20)
+if(!seq_ratio_drag_active &&
+   mouse_x>x_seq+540 && mouse_x<x_seq+540+50 && mouse_y>y_seq+50 && mouse_y<y_seq+50+20)
 {
 if(index_x1_x2_together==0){index_x1_x2_together=1;}
 else {index_x1_x2_together=0;}
 mouse_released=1;
 }
 //ratio
-if(mouse_x> x_seq+535 && mouse_x< x_seq+575 && mouse_y>y_seq+80 && mouse_y<y_seq+350)
 {
-ratio_X1X2_together=(int)((mouse_y)-(y_seq+80+255));
+static int s_ratio0 = 0, s_y0 = 0;
+
+if(mouse_button == 1 &&
+   mouse_x > x_seq+535 && mouse_x < x_seq+575 &&
+   mouse_y > y_seq+68  && mouse_y < y_seq+335) // couvre gorge y+70..y+325
+{
+if(!seq_ratio_drag_active) { // premier frame du clic : ancrage sur la valeur affichée (clampée)
+    seq_ratio_drag_active = 1;
+    s_ratio0 = ratio_X1X2_together;
+    if(s_ratio0 > 0)    s_ratio0 = 0;    // évite la zone morte si ratio hors plage
+    if(s_ratio0 < -255) s_ratio0 = -255;
+    s_y0 = mouse_y;
+}
+ratio_X1X2_together = s_ratio0 + (mouse_y - s_y0);
+if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;
+if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
 float fract_remplaX1=(255.0-ratio_X1X2_together)/255;
 float remapis=255.0;
 float fract_remplaX2=(255.0-ratio_X1X2_together)/255;
@@ -763,9 +789,11 @@ else {remapX2[mop]=(int)(remapis);  }
 index_go=0;
 ratio_cross_manuel[position_preset]=ratio_X1X2_together;
 }
+}
 
 //GO
-if(mouse_x>x_seq+534 && mouse_x<x_seq+574 && mouse_y>y_seq+355 && mouse_y<y_seq+395)
+if(!seq_ratio_drag_active &&
+   mouse_x>x_seq+534 && mouse_x<x_seq+574 && mouse_y>y_seq+355 && mouse_y<y_seq+395)
 {
 //midi report
  switch(miditable[0][495])
@@ -806,7 +834,8 @@ mouse_released=1;
 
 //////////////go back
 
-if(mouse_x>x_seq+490+14-20 && mouse_x<x_seq+490+14+20 && mouse_y>y_seq+80+255+40-20 && mouse_y<y_seq+80+255+40+20)
+if(!seq_ratio_drag_active &&
+   mouse_x>x_seq+490+14-20 && mouse_x<x_seq+490+14+20 && mouse_y>y_seq+80+255+40-20 && mouse_y<y_seq+80+255+40+20)
 {
 
 //midi report
@@ -845,7 +874,8 @@ mouse_released=1;
 
 //////////////double go
 
-if(mouse_x>x_seq+590+14-20 && mouse_x<x_seq+590+14+20 && mouse_y>y_seq+80+255+40-20 && mouse_y<y_seq+80+255+40+20)
+if(!seq_ratio_drag_active &&
+   mouse_x>x_seq+590+14-20 && mouse_x<x_seq+590+14+20 && mouse_y>y_seq+80+255+40-20 && mouse_y<y_seq+80+255+40+20)
 {
 
 
@@ -886,7 +916,9 @@ mouse_released=1;
 
 /////////////////////ACCELEROMETRE
 
-if(mouse_x>=x_seq+490 && mouse_x<=x_seq+490+127 && mouse_y>y_seq+405 && mouse_y<y_seq+405+(45/2))
+if(mouse_x>=x_seq+490 && mouse_x<=x_seq+490+127 && mouse_y>y_seq+405 && mouse_y<y_seq+405+(45/2) &&
+   mouse_click_x>=x_seq+490 && mouse_click_x<=x_seq+490+127 &&
+   mouse_click_y>y_seq+405 && mouse_click_y<y_seq+405+(45/2))
 {
 
 
@@ -937,7 +969,10 @@ someone_changed_in_time_sequences=1;//icat
 
 //midi out des x1 et x2
 
-if(mouse_x> x_seq+655-10 && mouse_x<  x_seq+655+10 && mouse_y>y_seq+340-10 && mouse_y<y_seq+340+10)
+if(mouse_click_x> x_seq+655-10 && mouse_click_x<  x_seq+655+10 &&
+   mouse_click_y> y_seq+340-10 && mouse_click_y< y_seq+340+10 &&
+   mouse_x>      x_seq+655-10 && mouse_x<         x_seq+655+10 &&
+   mouse_y>      y_seq+340-10 && mouse_y<          y_seq+340+10)
 {
 
   if(midi_send_out[491]==0){midi_send_out[491]=1; }
@@ -950,17 +985,25 @@ if(mouse_x> x_seq+655-10 && mouse_x<  x_seq+655+10 && mouse_y>y_seq+340-10 && mo
 
 //MIDI OUT DU SPEED
 
-if(mouse_x> x_seq+655-10 && mouse_x<  x_seq+655+10 && mouse_y>y_seq+340-10+85 && mouse_y<y_seq+340+10+85)
+if(mouse_click_x> x_seq+655-10 && mouse_click_x<  x_seq+655+10 &&
+   mouse_click_y> y_seq+340-10+85 && mouse_click_y< y_seq+340+10+85 &&
+   mouse_x>      x_seq+655-10 && mouse_x<         x_seq+655+10 &&
+   mouse_y>      y_seq+340-10+85 && mouse_y<       y_seq+340+10+85)
 {
   if(midi_send_out[493]==0){midi_send_out[493]=1; }
   else if(midi_send_out[493]==1){midi_send_out[493]=0; }
   mouse_released=1;
 }
 
-raccrochage_midi_logical_horizontal ( x_seq+490, y_seq+405, 493,127,13);
+if(mouse_click_x>=x_seq+490 && mouse_click_x<=x_seq+490+127 &&
+   mouse_click_y>y_seq+405 && mouse_click_y<y_seq+405+(45/2))
+    raccrochage_midi_logical_horizontal(x_seq+490, y_seq+405, 493, 127, 13);
 
 //auto reset on link
-if(mouse_x> x_seq+548 && mouse_x<  x_seq+548+15 && mouse_y>y_seq+435 && mouse_y<y_seq+435+15)
+if(!seq_ratio_drag_active &&
+   mouse_click_x> x_seq+548 && mouse_click_x< x_seq+548+15 &&
+   mouse_click_y> y_seq+435 && mouse_click_y< y_seq+435+15 &&
+   mouse_x> x_seq+548 && mouse_x<  x_seq+548+15 && mouse_y>y_seq+435 && mouse_y<y_seq+435+15)
 {
 if( Midi_Faders_Affectation_Type!=0)
 {

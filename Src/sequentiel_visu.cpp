@@ -510,7 +510,11 @@ int x1_x2(int x_seq, int y_seq) {
     Line(Vec2D(x_seq + 540, y_seq + 65), Vec2D(x_seq + 550, y_seq + 65)).Draw(CouleurLigne);
     Line(Vec2D(x_seq + 550, y_seq + 65), Vec2D(x_seq + 560, y_seq + 55)).Draw(CouleurLigne);
     Line(Vec2D(x_seq + 560, y_seq + 55), Vec2D(x_seq + 570, y_seq + 55)).Draw(CouleurLigne);
-    Rect index_together(Vec2D(x_seq + 535, y_seq + 60 + ratio_X1X2_together + 255), Vec2D(40, 20));
+    // clamp défensif rendu
+    int r_display = ratio_X1X2_together;
+    if(r_display > 0)    r_display = 0;
+    if(r_display < -255) r_display = -255;
+    Rect index_together(Vec2D(x_seq + 535, y_seq + 70 + r_display + 255), Vec2D(40, 20)); // curseur: ratio=-255→gorge-top, ratio=0→gorge-bottom
     index_together.SetRoundness(4);
     index_together.SetLineWidth(epaisseur_ligne_fader);
 
@@ -520,7 +524,7 @@ int x1_x2(int x_seq, int y_seq) {
     index_together.Draw(CouleurFond);
     index_together.DrawOutline(CouleurLigne);
 
-    petitchiffre.Print(string_ratio_x1x2, x_seq + 540, y_seq + 330 + ratio_X1X2_together);
+    petitchiffre.Print(string_ratio_x1x2, x_seq + 540, y_seq + 340 + r_display); // label 15px sous curseur (curseur=y_seq+325+r)
 
     Circle GoTouch(Vec2D(x_seq + 540 + 14, y_seq + 375), 20);
     GoTouch.SetLineWidth(2);

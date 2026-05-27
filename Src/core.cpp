@@ -2820,17 +2820,21 @@ int pass=0;
   }
 
 time_secondes=atoi(chaine_multiple[0]);
-time_centiemes=atoi(chaine_multiple[1]);
+// Normaliser la partie décimale : 1 chiffre = dixièmes (×10), 2 chiffres = centièmes
+{
+    int frac_len = (int)strlen(chaine_multiple[1]);
+    int frac_val = atoi(chaine_multiple[1]);
+    time_centiemes = (frac_len == 1) ? frac_val * 10 : frac_val;
+}
 }
 
-else if (numeric[0]=='.')//centiemes appelÃ©s uniquement
+else if (numeric[0]=='.')//centiemes appelés uniquement
 {
-char cent_t[4];
-for (int i=0;i<4;i++)
-{
-cent_t[i]=numeric[i+1];
-time_centiemes=atoi(cent_t);
-}
+char cent_t[8];
+strncpy(cent_t, numeric+1, 7); cent_t[7]='\0';
+int frac_len = (int)strlen(cent_t);
+int frac_val = atoi(cent_t);
+time_centiemes = (frac_len == 1) ? frac_val * 10 : frac_val;
 }
 
 sprintf(string_Last_Order,"Your entry: %d min %d sec %d 1/100", time_minutes, time_secondes, time_centiemes);
@@ -3748,6 +3752,8 @@ int refresh_mem_onpreset(int mem_is)
         bufferBlind[u]=Memoires[mem_is][u];
     }
     ratio_X1X2_together=ratio_cross_manuel[mem_is];
+    if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;
+    if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
     return(0);
 }
 

@@ -3138,6 +3138,8 @@ switch(bangers_action[banger_num][event_num])
      position_preset= memoire_asked_in_bang;
      refresh_mem_onpreset(position_preset);
      ratio_X1X2_together=ratio_cross_manuel[position_preset];
+     if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;
+     if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
      sprintf(string_event,"load in preset mem %d.%d",position_preset/10,position_preset%10);
      refresh_integrated_gridplayer1();
      }

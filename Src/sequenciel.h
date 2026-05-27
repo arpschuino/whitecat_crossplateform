@@ -81,6 +81,9 @@ extern float alpha_blinker_slow;
 extern float popup_alert_alpha;
 extern float default_time_back;
 extern int ratio_cross_manuel[10000];
+extern int seq_ratio_drag_active; // 0=pas de drag ratio en cours, 1=drag actif (reset MAIN mouse_down)
+extern int mouse_click_x;  // position X au moment du dernier mouse_down (reset MAIN)
+extern int mouse_click_y;  // position Y au moment du dernier mouse_down (reset MAIN)
 extern bool index_get_back_faders_need_to_be_done;
 extern char cross_to_come[52];
 extern char cross_din[12];
