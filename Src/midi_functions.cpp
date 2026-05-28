@@ -4134,6 +4134,8 @@ int clock_wheel (int xw,int yw, int rayon_k, float angle_correction)
 Circle (Vec2D(xw,yw), rayon_k+5).DrawOutline(CouleurLigne);
 Circle (Vec2D(xw,yw), rayon_k-5).DrawOutline(CouleurLigne);
 
+{ float dot_vx=cos(angle_snap_clock)*rayon_k; float dot_vy=sin(angle_snap_clock)*rayon_k;
+  position_curseur_clock_x=xw+dot_vx; position_curseur_clock_y=yw+dot_vy; }
 Circle(Vec2D(position_curseur_clock_x,position_curseur_clock_y),5).Draw(CouleurBlind);
 
 
