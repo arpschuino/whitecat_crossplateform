@@ -404,7 +404,7 @@ int refresh_vision_memories(int x_seq, int y_seq) {
 
             Line(Vec2D(x_seq + 10, y_seq + 100 + 70 + (35 * index_nbre_mem_visues)),
                  Vec2D(x_seq + 450, y_seq + 170 + (35 * index_nbre_mem_visues)))
-                .Draw(CouleurLigne.WithAlpha(0.5));
+                .Draw(CouleurLigne.WithAlpha(0.35));
 
             ExclueMem.MoveTo(Vec2D(x_seq + 170, y_seq + 135 + (35 * index_nbre_mem_visues)));
             ExclueMem.Draw(CouleurYellow.WithAlpha(alpha_blinker * (MemoiresExclues[memsearch])));
@@ -724,7 +724,7 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
 
     /////menus bas
     // sab 02/03/2014 unused var char string_seq_function[5];
-    Rect SeqAction(Vec2D(xseq, yseq), Vec2D(50, 20));
+    Rect SeqAction(Vec2D(xseq, yseq), Vec2D(53, 20));
     SeqAction.SetRoundness(7.5);
 
     for (int op = 0; op < 7; op++) {
@@ -735,7 +735,7 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
         // affichage
         SeqAction.DrawOutline(CouleurLigne);
         if (window_focus_id == W_SEQUENCIEL && Midi_Faders_Affectation_Type != 0 && mouse_x > xseq + 20 + (op * 60) &&
-            mouse_x < xseq + 70 + (op * 60) && mouse_y > rangee_y && mouse_y < rangee_y + 20) // config midi
+            mouse_x < xseq + 73 + (op * 60) && mouse_y > rangee_y && mouse_y < rangee_y + 20) // config midi
         {
             SeqAction.DrawOutline(CouleurBlind);
         }
@@ -797,15 +797,15 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
     neuro.Print(string_total_time_is, xseq + 380, yseq + 60);
     // colonnages
     Line(Vec2D(xseq + 170, yseq + 80), Vec2D(xseq + 170, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // après mem
+        .Draw(CouleurLigne.WithAlpha(0.35)); // après mem
     Line(Vec2D(xseq + 180, yseq + 80), Vec2D(xseq + 180, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // après exclude mem
+        .Draw(CouleurLigne.WithAlpha(0.35)); // après exclude mem
     Line(Vec2D(xseq + 213, yseq + 80), Vec2D(xseq + 213, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // apres link
+        .Draw(CouleurLigne.WithAlpha(0.35)); // apres link
     Line(Vec2D(xseq + 246, yseq + 80), Vec2D(xseq + 246, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // apres banger
+        .Draw(CouleurLigne.WithAlpha(0.35)); // apres banger
     Line(Vec2D(xseq + 280, yseq + 80), Vec2D(xseq + 280, yseq + hauteur_seq - 75))
-        .Draw(CouleurLigne.WithAlpha(0.5)); // apres gpl.1
+        .Draw(CouleurLigne.WithAlpha(0.35)); // apres gpl.1
 
     // Grid Player 1 enchassé
     if (show_gridplayer_in_seq == 1) {

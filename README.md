@@ -34,6 +34,18 @@
 
 ---
 
+## Documentation
+
+The user documentation (HTML) is included in the repository:
+
+```
+whitecatbuild/build/white_cat_for_mingw/doc/
+```
+
+Open [`whitecatbuild/build/white_cat_for_mingw/doc/liste.html`](whitecatbuild/build/white_cat_for_mingw/doc/liste.html) locally in a browser to browse all pages (French/English).
+
+---
+
 ## Build — Windows
 
 ### Requirements / Prérequis

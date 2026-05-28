@@ -1429,8 +1429,11 @@ break;
 petitchiffre.Print(bangers_type_affiche,xb+40,yb+113+(lp*30));
 
 
+if(bangers_type[index_banger_selected][lp]!=0)
+{
 sprintf(numev,"%d",bangers_params[index_banger_selected][lp][0]);//val 1
 petitchiffre.Print(numev,xb+275,yb+113+(lp*30));
+}
 
 //si alarme, pour voir bien le descriptif du texte
 if(bangers_type[index_banger_selected][lp]==4)
@@ -1439,11 +1442,14 @@ Rect BoxAlarm(Vec2D(xb+145,yb+100+(lp*30)),Vec2D(170,20));
 BoxAlarm.SetRoundness(5);
 BoxAlarm.Draw(CouleurBleuProcedure);
 }
+if(bangers_type[index_banger_selected][lp]!=0)
+{
 petitchiffre.Print(bangers_type_action,xb+150,yb+113+(lp*30));
 sprintf(numev,"%d",bangers_params[index_banger_selected][lp][1]);//val 2
 petitchiffre.Print(numev,xb+325,yb+113+(lp*30));
 sprintf(numev,"%.1f",bangers_delay[index_banger_selected][lp]);//delay
 petitchiffre.Print(numev,xb+385,yb+113+(lp*30));
+}
 
 }
 

@@ -1,5 +1,36 @@
 # WhiteCat — Changelog
 
+## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
+
+### MIDI — Crossfade continu (sans raccrochage des potards)
+
+- **Nouvelle option** dans l'onglet *MIDI PRESETS & OPTIONS* : **Continuous xfade**. Lorsqu'elle est activée, les potards X1/X2 (contrôles MIDI 491/492) permettent d'enchaîner les crossfades sans jamais avoir à les recharger :
+  - **Descendre les deux potards** → le crossfade se déclenche (preset → stage), la phase bascule en "inversée"
+  - **Remonter les deux potards** → le crossfade suivant se déclenche automatiquement, la phase revient en "normale"
+  - Et ainsi de suite indéfiniment, en alternant descente et montée.
+
+  En mode classique (option désactivée), le comportement existant est conservé : WC attend que les potards soient remontés ("GET UP MIDI FADERS") avant d'accepter un nouveau crossfade.
+
+  L'option est sauvegardée dans le fichier show (`index_report_customs[71]`).
+
+### MIDI — Configuration
+
+- **4e onglet "MIDI CLOCK"** : les paramètres de l'horloge MIDI (BPM, encodeur, grille de tempos mémorisés) sont déplacés dans un onglet dédié. Cela libère de la place dans l'onglet *MIDI PRESETS & OPTIONS* pour accueillir les nouvelles options.
+- **Layout 2 colonnes** dans l'onglet *MIDI PRESETS & OPTIONS* : les 9 options s'affichent sur deux colonnes au lieu d'une, évitant tout débordement de la fenêtre de configuration.
+- **Fix : position du rond orange** de la roue de vitesse MIDI CLOCK au démarrage — le curseur était affiché en (0, 0) à l'ouverture car sa position absolue était calculée depuis un emplacement hardcodé de l'ancienne version. Le curseur est maintenant recalculé à chaque rendu depuis le centre de la roue.
+
+### Cue list — Interface
+
+- **Boutons ovales du bas élargis de 3 px** (50 → 53 px) : le label "Preset+" tient maintenant entièrement dans son bouton.
+- **Grille plus contrastée** : les traits verticaux (séparation colonnes) et horizontaux (séparation lignes) passent de `alpha 0.5` à `alpha 0.35`, rendant la grille légèrement plus foncée et plus lisible.
+
+### Banger
+
+- **Fix : taille de sauvegarde des délais** (`banger_times_size`) : la valeur était `128×6×2` au lieu de `128×6`, causant un dépassement de tampon lors de la lecture/écriture du fichier `banger_times.whc` (le double des octets nécessaires étaient lus/écrits). Les fichiers existants se chargent correctement — seuls les 768 premiers floats (délais réels) sont lus, la portion excédentaire est ignorée.
+- **Affichage val1/val2** : les colonnes val1, val2, action et délai ne s'affichent plus pour les événements de type 0 (vide), éliminant l'apparition de valeurs aberrantes dans les lignes non configurées.
+
+---
+
 ## Version 0.9.x (2026 — Jacques Bouault)
 
 ### Audio

@@ -1059,7 +1059,7 @@ int index_atoi=0;
 for (int op=0;op<7;op++)
 {
 ///actions mouse
-if(mouse_x>xseq+20+(op*60) && mouse_x<xseq+20+(op*60)+50 && mouse_y>rangee_y && mouse_y<rangee_y+20)
+if(mouse_x>xseq+20+(op*60) && mouse_x<xseq+20+(op*60)+53 && mouse_y>rangee_y && mouse_y<rangee_y+20)
 {
 switch(op)
 {

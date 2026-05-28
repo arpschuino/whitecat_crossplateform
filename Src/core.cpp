@@ -1436,9 +1436,10 @@ int show_title()
     if(logo.IsValid()) logo.Blit((largeur_ecran/2)-150,(hauteur_ecran/2));
     neuroTitle.Print("WHITE CAT", (largeur_ecran/2)-200,(hauteur_ecran/2)-200);
     neuromoyen.Print(nickname_version, (largeur_ecran/2)+200,(hauteur_ecran/2)-260);
-    neuro.Print("http://www.le-chat-noir-numerique.fr", (largeur_ecran/2)-160,(hauteur_ecran/2)-170);
-    petitchiffre.Print("(c)christoph guillermet", (largeur_ecran/2)-55,(hauteur_ecran/2)-150);
-    petitpetitchiffre.Print(versionis, (largeur_ecran/2)-70,(hauteur_ecran/2)-120);
+    neuro.Print("https://arpschuino.fr/telechargements.php#WCat", (largeur_ecran/2)-215,(hauteur_ecran/2)-170);
+    petitchiffre.Print("(c)christoph guillermet", (largeur_ecran/2)-215,(hauteur_ecran/2)-150);
+    petitchiffre.Print("Updated and maintained by Jacques Bouault (arpschuino.fr)", (largeur_ecran/2)-215,(hauteur_ecran/2)-130);
+    petitpetitchiffre.Print(versionis, (largeur_ecran/2)-215,(hauteur_ecran/2)-110);
 
     return(0);
 }
