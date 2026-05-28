@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>plot</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-10-15T13:36:14+0200"/>
+<meta name="keywords" content="plot"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="plot.html"/>
+<link rel="contents" href="plot.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="plot.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="plot.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=plot"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"plot","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#light_plotle_plan_lumiere_integre">Light Plot: le plan lumière intégré</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#ce_que_permet_light_plot">Ce que permet Light Plot</a></div></li>
+<li class="level3"><div class="li"><a href="#ce_qu_il_ne_permet_pas">Ce qu&#039;il ne permet pas</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#presentation_de_la_fenetre">Présentation de la fenêtre</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#agencement_des_calques">Agencement des calques</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#la_barre_de_menu_haute">La barre de menu haute</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#edit">Edit</a></div></li>
+<li class="level4"><div class="li"><a href="#les_modes_d_affichage">Les modes d&#039;affichage</a></div></li>
+<li class="level4"><div class="li"><a href="#les_calques_de_symboles">les Calques de symboles</a></div></li>
+<li class="level4"><div class="li"><a href="#le_bouton_viewport">Le bouton Viewport</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#l_export_du_plan_lumiere_integre">L&#039;export du Plan lumière intégré</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#le_plan">Le plan</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#mode_background">Mode Background</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#charger_le_plan_de_masse_d_un_theatre">Charger le plan de masse d&#039;un théâtre</a></div></li>
+<li class="level3"><div class="li"><a href="#edition_de_votre_arriere_plan_background">Edition de votre arrière plan ( background)</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#editer_la_position_et_la_taille">Editer la position et la taille</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#edition_de_la_grille">Edition de la Grille</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#options_de_la_fenetre_plot">Options de la fenêtre Plot</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#mode_shapes">Mode Shapes</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#inserer_un_objet">Insérer un objet</a></div></li>
+<li class="level3"><div class="li"><a href="#selectionner_des_objets_poses_sur_le_plan">Sélectionner des objets posés sur le plan</a></div></li>
+<li class="level3"><div class="li"><a href="#editer_les_valeurs_de_l_objet">Editer les valeurs de l&#039;objet</a></div></li>
+<li class="level3"><div class="li"><a href="#pour_editer_les_valeurs_specifiques">Pour éditer les valeurs spécifiques:</a></div></li>
+<li class="level3"><div class="li"><a href="#manipulation_d_objets">Manipulation d&#039;objets</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#bouger_les_objets_selectionnes">Bouger les objets sélectionnés</a></div></li>
+<li class="level4"><div class="li"><a href="#dub">DUB</a></div></li>
+<li class="level4"><div class="li"><a href="#delete">Delete</a></div></li>
+<li class="level4"><div class="li"><a href="#unselect">Unselect</a></div></li>
+<li class="level4"><div class="li"><a href="#down">Down</a></div></li>
+<li class="level4"><div class="li"><a href="#top">Top</a></div></li>
+<li class="level4"><div class="li"><a href="#group_ungroup">Group/Ungroup</a></div></li>
+<li class="level4"><div class="li"><a href="#alignx">ALIGNX</a></div></li>
+<li class="level4"><div class="li"><a href="#aligny">ALIGNY</a></div></li>
+<li class="level4"><div class="li"><a href="#x">&lt;-X-&gt;</a></div></li>
+<li class="level4"><div class="li"><a href="#y">&lt;-Y-&gt;</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#show_symbol_id">Show Symbol ID</a></div></li>
+<li class="level3"><div class="li"><a href="#attributs_de_shape">Attributs de Shape</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#mode_symbols">Mode Symbols</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#le_selecteur_de_symboles">Le sélecteur de symboles</a></div></li>
+<li class="level3"><div class="li"><a href="#liste_des_symboles">Liste des symboles</a></div></li>
+<li class="level3"><div class="li"><a href="#manipulation_d_un_symbole">Manipulation d&#039;un symbole</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#selection-deselection">Sélection-déselection</a></div></li>
+<li class="level4"><div class="li"><a href="#deplacer_un_ou_plusieurs_symboles">Déplacer un ou plusieurs symboles</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#l_editeur_des_symboles_poses_dans_le_plan">L&#039;éditeur des symboles posés dans le plan</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#rotation_des_symboles_selectionnes">Rotation des symboles sélectionnés</a></div></li>
+<li class="level4"><div class="li"><a href="#manipulation_et_mise_en_page_des_symboles_selectionnes">Manipulation et mise en page des symboles sélectionnés</a></div></li>
+<li class="level4"><div class="li"><a href="#edition_des_attributs_d_un_symbole">Edition des attributs d&#039;un symbole</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#manipulation_du_patch_depuis_plot">Manipulation du patch depuis PLOT</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#legend">Legend</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_midi_des_commandes_de_plot">Affectation midi des commandes de Plot</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="light_plotle_plan_lumiere_integre" id="light_plotle_plan_lumiere_integre">Light Plot: le plan lumière intégré</a></h1>
+
+<p class="level1">
+version 0.8.3
+</p>
+
+<p class="level1">
+<strong>Light Plot</strong> est un plan lumière intégré dans WhiteCat.
+</p>
+<!-- EDIT1 SECTION "Light Plot: le plan lumière intégré" [1-131] -->
+<h3 class="sectionedit2"><a name="ce_que_permet_light_plot" id="ce_que_permet_light_plot">Ce que permet Light Plot</a></h3>
+
+<p class="level3">
+Il permet:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> d&#039;offrir un plan lumière intégré, facilement consultable et éditable dans WhiteCat </div>
+</li>
+<li class="level1"><div class="li"> de voir son implantation, sa sélection de circuits, leurs états, dans une vue 2D synthétique</div>
+</li>
+<li class="level1"><div class="li"> de relier de manière dynamique ( sélection, états de circuits, listes des noms de circuits, patch) les données internes de WhiteCat et du plan</div>
+</li>
+<li class="level1"><div class="li"> d&#039;exporter un résumé de son implantation lumière et une liste des appareils et gélatines utilisés</div>
+</li>
+<li class="level1"><div class="li"> d&#039;exporter un plan sous format d&#039;image bitmap</div>
+</li>
+</ul>
+
+<p class="level3">
+L&#039;ambition de Light Plot est d&#039;être simple et efficace.
+</p>
+<!-- EDIT2 SECTION "Ce que permet Light Plot" [132-738] -->
+<h3 class="sectionedit3"><a name="ce_qu_il_ne_permet_pas" id="ce_qu_il_ne_permet_pas">Ce qu&#039;il ne permet pas</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> l&#039;import de plans dwg, dxf et autres formats type autocad</div>
+</li>
+<li class="level1"><div class="li"> l&#039;import de bibliothèques de symboles externes</div>
+</li>
+<li class="level1"><div class="li"> l&#039;export en vectoriel</div>
+</li>
+<li class="level1"><div class="li"> le zoom dans le plan</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Pour ouvrir Light Plot, clicker [Menus] ou appeller [Menus] par un click droit, sélectionnez [Light Plot]:</strong>
+</p>
+
+<p class="level3">
+<img src="plot_open.jpeg" class="media" title="plot_open.jpg" alt="plot_open.jpg" />
+</p>
+<!-- EDIT3 SECTION "Ce qu'il ne permet pas" [739-1073] -->
+<h1 class="sectionedit4"><a name="presentation_de_la_fenetre" id="presentation_de_la_fenetre">Présentation de la fenêtre</a></h1>
+
+<p class="level1">
+La fenêtre se présente ainsi:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> une barre d&#039;options générales en haut</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> des menus d&#039;éditions sur le coté, fonction du mode du plan ( background, shapes, symbols, legend)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> le plan en lui même, dont l&#039;affichage dépend de la taille de la fenêtre LighPlot.</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="plot_general.jpeg" class="media" title="plot_general.jpg" alt="plot_general.jpg" />
+</p>
+<!-- EDIT4 SECTION "Présentation de la fenêtre" [1074-1415] -->
+<h4 class="sectionedit5"><a name="agencement_des_calques" id="agencement_des_calques">Agencement des calques</a></h4>
+
+<p class="level4">
+Le plan est un espace abstrait décomposable en plusieurs couches. 
+</p>
+
+<p class="level4">
+Il est un espace infini.
+</p>
+
+<p class="level4">
+On peut y naviguer dans l&#039;espace du plan via le ViewPort en X et en Y.
+</p>
+
+<p class="level4">
+Ce principe de calques peut être comparé à un mille-feuilles. 
+</p>
+
+<p class="level4">
+Les calques se présentent, ainsi, de la couche la plus haute à celle qui est la plus basse:
+</p>
+
+<p class="level4">
+<strong>[Symbols]</strong>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> les 4 calques de symboles ( projecteurs, pieds et informations)</div>
+</li>
+</ul>
+
+<p class="level4">
+<strong>[Shapes]</strong>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> le calque des formes géométriques, servant à faire des repères ( centre et côtes),  des objets types rideaux ou symboliser le décor</div>
+</li>
+</ul>
+
+<p class="level4">
+<strong>[Background]</strong>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> une grille permettant d&#039;édicter la côte du plan</div>
+</li>
+<li class="level1"><div class="li"> une image de fond, généralement le plan du théâtre</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="plot_layer_structure.jpeg" class="media" title="plot_layer_structure.jpg" alt="plot_layer_structure.jpg" />
+</p>
+<!-- EDIT5 SECTION "Agencement des calques" [1416-2180] -->
+<h2 class="sectionedit6"><a name="la_barre_de_menu_haute" id="la_barre_de_menu_haute">La barre de menu haute</a></h2>
+
+<p class="level2">
+<img src="plot_upbar.jpeg" class="media" title="plot_upbar.jpg" alt="plot_upbar.jpg" />
+</p>
+
+<p class="level2">
+Elle est située en haut et comprend:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> le bouton d&#039;édition ON/OFF du plan</div>
+</li>
+<li class="level1"><div class="li"> le navigateur dans les calques</div>
+</li>
+<li class="level1"><div class="li"> le changement de mode</div>
+</li>
+<li class="level1"><div class="li"> le bouton de déplacement dans le plan ( ViewPort)</div>
+</li>
+<li class="level1"><div class="li"> La sélection d&#039;affichage des niveaux</div>
+</li>
+<li class="level1"><div class="li"> L&#039;utilitaire d&#039;export de la vue du plan</div>
+</li>
+</ul>
+<!-- EDIT6 SECTION "La barre de menu haute" [2181-2517] -->
+<h4 class="sectionedit7"><a name="edit" id="edit">Edit</a></h4>
+
+<p class="level4">
+Lorsque Edit est ON, vous pouvez bouger les symboles sur le plan, modifier leurs propriétés et le plan dans son ensemble. 
+La légende disparait et fait place aux outils d&#039;édition de plan. 
+Dans la légende vous aurez un résumé du nombre de projecteurs utilisés sur les calques visibles.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Clicker [EDIT] pour activer-désactiver ce mode</div>
+</li>
+</ul>
+<!-- EDIT7 SECTION "Edit" [2518-2880] -->
+<h4 class="sectionedit8"><a name="les_modes_d_affichage" id="les_modes_d_affichage">Les modes d&#039;affichage</a></h4>
+
+<p class="level4">
+<img src="plot_symb.jpeg" class="media" title="plot_symb.jpg" alt="plot_symb.jpg" />
+</p>
+
+<p class="level4">
+Il y 5 modes de menus dans LightPlot qui changent l&#039;affichage à gauche du plan:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> le mode Background, qui permet d&#039;insérer et redimensionner une image en dessous du plan lumière ( plan de la salle)</div>
+</li>
+<li class="level1"><div class="li"> le mode Shapes, qui permet de tracer des lignes de repères, des symboles pour le décor, des plans de pendrillonnage</div>
+</li>
+<li class="level1"><div class="li"> le mode Symbols, qui permet d&#039;éditer son plan lumière ( projecteurs )</div>
+</li>
+<li class="level1"><div class="li"> le mode Legend, qui permet d&#039;afficher le décompte du contenu d&#039;un plan ( nombre de projecteurs, formats de gélats)</div>
+</li>
+<li class="level1"><div class="li"> le mode ThePlot, qui est un affichage du plan sans la barre d&#039;outils latérale</div>
+</li>
+</ul>
+
+<p class="level4">
+Pour changer de mode, clicker ce bouton.
+</p>
+
+<p class="level4">
+Si vous désirez effacer une des section du plan ( Background, Shapes ou Symbols ):
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Taper[F4] [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le bouton dans le mode à effacer. </div>
+</li>
+</ul>
+
+<p class="level4">
+Si par exemple vous êtes en mode [SHAPES] vous effacerez tout le contenu de [SHAPES], pas le plan, ni les les 4 calques de symboles.
+</p>
+<!-- EDIT8 SECTION "Les modes d'affichage" [2881-3871] -->
+<h4 class="sectionedit9"><a name="les_calques_de_symboles" id="les_calques_de_symboles">les Calques de symboles</a></h4>
+
+<p class="level4">
+Comme c&#039;est généralement des 4 calques de [Symbols] dont on va avoir le plus besoin, ceux ci sont directement accessibles depuis la barre de menu haute.
+</p>
+
+<p class="level4">
+Ces 4 calques sont dessinés l&#039;un après l&#039;autre au dessus du background et des shapes.
+</p>
+
+<p class="level4">
+Chacun de ces calques peut comprendre 127 symboles.
+</p>
+
+<p class="level4">
+Pour rendre visible un calque, il faut le sélectionner dans la première ligne des cases carrées.  
+</p>
+
+<p class="level4">
+Lorsqu&#039;un calque est visible, il est affiché en orange.
+</p>
+
+<p class="level4">
+<img src="plot_calques_multi.jpeg" class="media" title="plot_calques_multi.jpg" alt="plot_calques_multi.jpg" />
+</p>
+
+<p class="level4">
+Pour éditer un calque, il faut se positionner sur le calque: 
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> sélectionner le calque dans la deuxième ligne de cases, qui deviendra noire.</div>
+</li>
+</ul>
+
+<p class="level4">
+Vous pouvez utiliser les calques de deux manières:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> comme de vrais calques: un dédié au grill intérieur, un calque aux perches de face, un calque auxx ponctuel, un autre pour les sols. Vous activerez, désactiverez l&#039;affichage des calques fonction de vos besoins.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> comme des plans différents: chaque calque ou jeu de calques peut être une scène différente ( scènes bifrontales ou multiscènes).</div>
+</li>
+</ul>
+
+<p class="level4">
+Le dernier carré à droite permet de sélectionner en clickant les calques soit en solo, soit en multicouches.
+</p>
+
+<p class="level4">
+Le mode solo:
+</p>
+
+<p class="level4">
+<img src="plot_calques_solo.jpeg" class="media" title="plot_calques_solo.jpg" alt="plot_calques_solo.jpg" />
+</p>
+
+<p class="level4">
+Le mode multicouches:
+</p>
+
+<p class="level4">
+<img src="plot_calques_multi.jpeg" class="media" title="plot_calques_multi.jpg" alt="plot_calques_multi.jpg" />
+</p>
+<!-- EDIT9 SECTION "les Calques de symboles" [3872-5162] -->
+<h4 class="sectionedit10"><a name="le_bouton_viewport" id="le_bouton_viewport">Le bouton Viewport</a></h4>
+
+<p class="level4">
+Il permet de naviguer dans l&#039;ensemble du plan.
+</p>
+
+<p class="level4">
+Quand il est actif, lorsque vous clickez à la souris sur le plan, et maintenez la souris clickée, vous glissez la vue de la fenêtre sur le plan:
+</p>
+
+<p class="level4">
+<img src="plot_viewport.jpeg" class="media" title="plot_viewport.jpg" alt="plot_viewport.jpg" />
+</p>
+
+<p class="level4">
+Les coordoonnées du point de vue s&#039;affichent.
+</p>
+
+<p class="level4">
+Il faut considérer la fenêtre de LightPlot comme une sorte de fenêtre, regardant au dessus d&#039;une carte, ou alors, pour être plus imagé, se rappeler des hublots des matelas gonflables: 
+</p>
+
+<p class="level4">
+le plan est le fond de l&#039;eau, et le ViewPort le hublot du matelas pneumatique. 
+</p>
+
+<p class="level4">
+Lorsque vous déplacez le matelas, vous voyez une autre partie du plan.
+</p>
+
+<p class="level4">
+<strong>En utilisant ViewPort, vous déplacez la vue de la fenêtre, pas le plan, ni ses symboles.</strong>
+</p>
+
+<p class="level4">
+<img src="plot_viewport_understand.jpeg" class="media" title="plot_viewport_understand.jpg" alt="plot_viewport_understand.jpg" />
+</p>
+
+<p class="level4">
+Il y a plusieurs façon de manipuler la position du viewport:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> clicker droit sur le plan, le viewport s&#039;active. Vous pouvez glisser la souris en gardant le click droit maintenu et vous déplacer dans tout le plan. Le click droit entraine automatiquement une déselection des symboles et shapes sélectionnés.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> si vous ne désirez pas déselectionner les symboles, vous pouvez clicker le bouton [ViewPort] ou l&#039;activer par la touche [²] , le click droit maintenu dans un espace vide sert alors à déplacer le viewport, et ne désélectionne les symboles.</div>
+</li>
+</ul>
+
+<p class="level4">
+Pour nettoyer le Viewport et le remettre à X 0 Y 0:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> clicker [CLEAR] ou taper [F4]</div>
+</li>
+<li class="level1"><div class="li"> clicker le bouton du Viewport</div>
+</li>
+</ul>
+<!-- EDIT10 SECTION "Le bouton Viewport" [5163-6622] -->
+<h2 class="sectionedit11"><a name="l_export_du_plan_lumiere_integre" id="l_export_du_plan_lumiere_integre">L&#039;export du Plan lumière intégré</a></h2>
+
+<h5><a name="le_bouton_export_view_as" id="le_bouton_export_view_as">Le bouton EXPORT VIEW AS</a></h5>
+
+<p class="level5">
+<strong>Le bouton export permet d&#039;exporter sous forme d&#039;image la vue active du ViewPort.</strong>
+</p>
+
+<p class="level5">
+Vous pouvez donc choisir de sauver plusieurs captures de votre fenêtre de plan, à votre guise : affichage des calques ou pas, segmentation d&#039;un plan du grill en 3 vues ( plateau, face, face lointaine), etc etc…
+</p>
+
+<p class="level5">
+Ces fichiers sont sauvés sous forme d&#039;images JPG dans le dossier import_export de whitecat.
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> taper [F5] pour transformer la saisie numérique en saisie texte</div>
+</li>
+<li class="level1"><div class="li"> clicker la case de nom bleue pour dire sous quel nom de fichier vous sauvez (<strong> l&#039;extension .jpg est faite automatiquement</strong>)</div>
+</li>
+</ul>
+
+<p class="level5">
+<img src="plot_export_fichier.jpeg" class="media" title="plot_export_fichier.jpg" alt="plot_export_fichier.jpg" />
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> clicker [EXPORT VIEW AS] pour générer la vue.</div>
+</li>
+</ul>
+
+<p class="level5">
+<img src="plot_export_fichier2.jpeg" class="media" title="plot_export_fichier2.jpg" alt="plot_export_fichier2.jpg" />
+</p>
+
+<p class="level5">
+Les captures de plans se passent toutes fonction du ViewPort, y compris la légende.
+</p>
+
+<p class="level5">
+Vous retrouverez vos différents exports dans <strong>white_cat/import_export</strong>.
+</p>
+
+<p class="level5">
+<img src="plot_export_fichier3.jpeg" class="media" title="plot_export_fichier3.jpg" alt="plot_export_fichier3.jpg" />
+</p>
+<!-- EDIT11 SECTION "L'export du Plan lumière intégré" [6623-7599] -->
+<h1 class="sectionedit12"><a name="le_plan" id="le_plan">Le plan</a></h1>
+<!-- EDIT12 SECTION "Le plan" [7600-7624] -->
+<h2 class="sectionedit13"><a name="mode_background" id="mode_background">Mode Background</a></h2>
+
+<p class="level2">
+<img src="plot_background.jpeg" class="media" title="plot_background.jpg" alt="plot_background.jpg" />
+</p>
+
+<p class="level2">
+C&#039;est dans cette section là que vous allez pouvoir:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> importer un plan du théâtre</div>
+</li>
+<li class="level1"><div class="li"> régler la taille de votre grille</div>
+</li>
+<li class="level1"><div class="li"> mettre le plan à l&#039;échelle</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "Mode Background" [7625-7838] -->
+<h3 class="sectionedit14"><a name="charger_le_plan_de_masse_d_un_theatre" id="charger_le_plan_de_masse_d_un_theatre">Charger le plan de masse d&#039;un théâtre</a></h3>
+
+<p class="level3">
+Vous pouvez charger <strong>uniquement des images de type jpg, tga, bmp ou png</strong>.
+</p>
+
+<p class="level3">
+Posez vos plans de théâtres dans le dossier /plans de WhiteCat.
+</p>
+
+<p class="level3">
+<img src="plot_dossier_plan.jpeg" class="media" title="plot_dossier_plan.jpg" alt="plot_dossier_plan.jpg" />
+</p>
+
+<p class="level3">
+Puis ouvrez WhiteCat ( ou rafraichissez avec [Rescan !]) pour voir apparaitre votre plan du théâtre dans la liste des plans.
+</p>
+
+<p class="level3">
+<img src="plot_liste_des_plans.jpeg" class="media" title="plot_liste_des_plans.jpg" alt="plot_liste_des_plans.jpg" />
+</p>
+
+<p class="level3">
+En clickant sur un fichier, celui ci est chargé en arrière plan:
+</p>
+
+<p class="level3">
+<img src="plot_background_menu.jpeg" class="media" title="plot_background_menu.jpg" alt="plot_background_menu.jpg" />
+</p>
+
+<h5><a name="logiciels_tiers_pour_transformer_des_formats_d_images" id="logiciels_tiers_pour_transformer_des_formats_d_images">Logiciels tiers pour transformer des formats d&#039;images</a></h5>
+
+<p class="level5">
+WhiteCat reste un logiciel de lumière, avant d&#039;être un éditeur de plans lumières. C&#039;est donc à vous de transformer les plans reçu dans les formats lus par WhiteCat.
+</p>
+
+<p class="level5">
+Il y a beaucoup de logiciels gratuits qui permettent de récupérer une image d&#039;un pdf ou d&#039;un plan vectoriel en DXF. 
+</p>
+
+<h5><a name="extraire_un_plan_d_un_document_pdf" id="extraire_un_plan_d_un_document_pdf">Extraire un plan d&#039;un document pdf</a></h5>
+
+<p class="level5">
+<a href="http://www.foxitsoftware.com/Secure_PDF_Reader/" class="urlextern" title="http://www.foxitsoftware.com/Secure_PDF_Reader/"  rel="nofollow">Foxit reader</a> est un petit lecteur pdf qui remplace aventageusement Adobe Reader: c&#039;est léger, simple, et ultra puissant. Il y a deux versions libres: une sous forme d&#039;installateur, l&#039;autre sous forme de fichier zip ( que l&#039;on peut exécuter de sa clé usb).
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Une fois installé, lancez le programme, ouvrez le pdf de votre plan de salle</div>
+</li>
+<li class="level1"><div class="li"> Sélectionnez l&#039;appareil photo</div>
+</li>
+<li class="level1"><div class="li"> Clickez sur le plan et tirez votre sélection</div>
+</li>
+<li class="level1"><div class="li"> La sélection est alors copiée dans le presse-papier de windows</div>
+</li>
+<li class="level1"><div class="li"> Ouvrez un logiciel libre de manipulation d&#039;image ( Gimp, Irfan Viewer ou FastStone Image viewer, ou même PaintBrush)</div>
+</li>
+<li class="level1"><div class="li"> Faites Ctr-V. Le presse-papier est alors copié dans l&#039;image, que vous pouvez désormais sauver sous forme de jpg ou de bmp. Evitez autant que possible le png, et les compressions fortes sur les jpeg.</div>
+</li>
+</ul>
+
+<p class="level5">
+Ma préférence quant à l&#039;édition d&#039;images va à <a href="http://www.faststone.org/" class="urlextern" title="http://www.faststone.org/"  rel="nofollow">FastStone Image Viewer</a>, rapide, puissant, ultra stable. Les fonctions de crop, de contraste, de désaturation sont suffisantes pour la plus part des plans.
+</p>
+
+<p class="level5">
+Si vous avez besoin de gommer des éléments utilisez <a href="http://www.gimp.org/" class="urlextern" title="http://www.gimp.org/"  rel="nofollow">Gimp</a> ou tout autre programme d&#039;édition photo.
+</p>
+
+<h5><a name="convertir_des_fichiers_dxf_auto-cad" id="convertir_des_fichiers_dxf_auto-cad">Convertir des fichiers DXF auto-cad</a></h5>
+
+<p class="level5">
+Il y a pléthore de petits programmes, comme <a href="http://www.toocharger.com/fiches/windows/free-dwg-viewer/16232.htm" class="urlextern" title="http://www.toocharger.com/fiches/windows/free-dwg-viewer/16232.htm"  rel="nofollow">Free DWG Viewer</a> ou de convertisseurs <a href="http://anydwg.com/dxf-to-bmp-ex.html" class="urlextern" title="http://anydwg.com/dxf-to-bmp-ex.html"  rel="nofollow">http://anydwg.com/dxf-to-bmp-ex.html</a> qui vous permettront d&#039;exporter sous forme jpg ou bmp le plan reçu en dxf.
+</p>
+<!-- EDIT14 SECTION "Charger le plan de masse d'un théâtre" [7839-10266] -->
+<h3 class="sectionedit15"><a name="edition_de_votre_arriere_plan_background" id="edition_de_votre_arriere_plan_background">Edition de votre arrière plan ( background)</a></h3>
+
+<p class="level3">
+Vous pouvez manipuler les paramètres suivants:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> la position du plan en X et en Y</div>
+</li>
+<li class="level1"><div class="li"> sa taille en X et en Y</div>
+</li>
+<li class="level1"><div class="li"> sa rotation</div>
+</li>
+<li class="level1"><div class="li"> sa transparence (alpha)</div>
+</li>
+<li class="level1"><div class="li"> la grille de calibrage qui sera votre repère de taille pour éditer le plan</div>
+</li>
+</ul>
+<!-- EDIT15 SECTION "Edition de votre arrière plan ( background)" [10267-10562] -->
+<h4 class="sectionedit16"><a name="editer_la_position_et_la_taille" id="editer_la_position_et_la_taille">Editer la position et la taille</a></h4>
+
+<p class="level4">
+Ces informations sont éditées en pixels.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Taper un nombre ( 500 )</div>
+</li>
+<li class="level1"><div class="li"> Clickez la case</div>
+</li>
+</ul>
+
+<p class="level4">
+ou alors:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Clickez dans la case ( elle devient orange)</div>
+</li>
+<li class="level1"><div class="li"> En maintenant appuyée le click souris, montez ou descendez la souris pour adapter votre plan en position et taille </div>
+</li>
+</ul>
+
+<h5><a name="fonction_lock" id="fonction_lock">Fonction lock</a></h5>
+
+<p class="level5">
+Le petit carré permet de garder les proportions Scale X et Y lorsque vous retouchez en glissant la souris.
+</p>
+
+<p class="level5">
+Pour enlever le blockage proportions, clicker le carré rouge.
+</p>
+
+<p class="level5">
+<img src="plot_scale.jpeg" class="media" title="plot_scale.jpg" alt="plot_scale.jpg" />
+</p>
+<!-- EDIT16 SECTION "Editer la position et la taille" [10563-11090] -->
+<h3 class="sectionedit17"><a name="edition_de_la_grille" id="edition_de_la_grille">Edition de la Grille</a></h3>
+
+<p class="level3">
+<img src="plot_grid_props.jpeg" class="media" title="plot_grid_props.jpg" alt="plot_grid_props.jpg" />
+</p>
+
+<p class="level3">
+En clickant la case de grille, vous changez le quadrillage ( 0 / 25 / 50 / 75 / 100 / 125 / 150 / 175 / 200 ) posé sur le plan.
+</p>
+
+<p class="level3">
+Cette échelle est donnée <strong>en pixels</strong>. 
+</p>
+
+<p class="level3">
+Libre à vous de l&#039;interpréter : ce quadrillage permet de fournir une échelle arbitraire qui sera commentée dans la légende.
+</p>
+
+<p class="level3">
+Le carreau est un étalon que vous définirez vous même, c&#039;est une convention que vous mettez en place: 1 carreau = 1m ou un carreau = 50cm, etc etc… En utilisant un étalon carré, vous soulagez les régisseurs en donnant une lecture de votre plan simple et claire, sans sortir de règle.
+</p>
+
+<p class="level3">
+Vous choisirez donc votre propre échelle, et <strong>étirerez le plan</strong> de façon à ce que ses proportions concordent avec votre échelle.
+</p>
+
+<p class="level3">
+Vous pouvez basculer l&#039;affichage de la grille en ligne pleines ( Line) ou en petit points ( Dots).
+</p>
+
+<p class="level3">
+Un petit curseur permet de régler l&#039;opacité du quadrillage.
+</p>
+<!-- EDIT17 SECTION "Edition de la Grille" [11091-12045] -->
+<h4 class="sectionedit18"><a name="options_de_la_fenetre_plot" id="options_de_la_fenetre_plot">Options de la fenêtre Plot</a></h4>
+
+<h5><a name="window_size" id="window_size">Window Size</a></h5>
+
+<p class="level5">
+<img src="plot_classical_view.jpeg" class="media" title="plot_classical_view.jpg" alt="plot_classical_view.jpg" />
+</p>
+
+<p class="level5">
+C&#039;est directement depuis ce menu que vous pourrez modifier la taille de la fenêtre Plot:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Tapez un nombre de pixels</div>
+</li>
+<li class="level1"><div class="li"> Clickez la case de taille ( X ou Y )</div>
+</li>
+</ul>
+
+<p class="level5">
+ou alors:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Clickez sur la case</div>
+</li>
+<li class="level1"><div class="li"> Maintenez appuyé le bouton et étirez la fenêtre en montant ou descendant la souris</div>
+</li>
+</ul>
+
+<p class="level5">
+Window size vous permet de préparer votre espace de travail à votre convenance.
+</p>
+
+<p class="level5">
+Lors d&#039;un export, <strong>c&#039;est ce qui est affiché dans la fenêtre qui est exporté</strong>.
+</p>
+
+<p class="level5">
+= Changement des couleurs de remplissage et de ligne ==
+</p>
+
+<p class="level5">
+Vous pouvez changez la couleur de remplissage (BckCol) et de lignage des symboles et du plan (LineCol).
+</p>
+
+<p class="level5">
+Ce changement se fait sur la plage du blanc au noir.
+</p>
+
+<p class="level5">
+Clicker l&#039;une des case de couleur, montez ou descendez la souris.
+</p>
+
+<p class="level5">
+<img src="plot_color_window.jpeg" class="media" title="plot_color_window.jpg" alt="plot_color_window.jpg" />
+</p>
+
+<p class="level5">
+<img src="plot_grey_white.jpeg" class="media" title="plot_grey_white.jpg" alt="plot_grey_white.jpg" />
+</p>
+
+<p class="level5">
+<img src="plot_inversed.jpeg" class="media" title="plot_inversed.jpg" alt="plot_inversed.jpg" />
+</p>
+<!-- EDIT18 SECTION "Options de la fenêtre Plot" [12046-12944] -->
+<h2 class="sectionedit19"><a name="mode_shapes" id="mode_shapes">Mode Shapes</a></h2>
+
+<p class="level2">
+<img src="plot_shapes.jpeg" class="media" title="plot_shapes.jpg" alt="plot_shapes.jpg" />
+</p>
+
+<p class="level2">
+[Shapes] et [Symbols] sont beaucoup plus poussés que [Background].
+</p>
+
+<p class="level2">
+Sur ces calques vous allez pouvoir poser des objets avec des propriétés particulières.
+</p>
+
+<p class="level2">
+Vous avez plusieurs familles d&#039;objets géométriques ( Shapes ) que vous pouvez insérer dans le plan:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> le rideau (Curtain)</div>
+</li>
+<li class="level1"><div class="li"> la ligne pleine (Line)</div>
+</li>
+<li class="level1"><div class="li"> 5 types de lignes en pointillés (Stippled Line)</div>
+</li>
+<li class="level1"><div class="li"> le rectangle (Rectangle)</div>
+</li>
+<li class="level1"><div class="li"> le cercle (Circle)</div>
+</li>
+<li class="level1"><div class="li"> la part de cercle (Circle Slice)</div>
+</li>
+<li class="level1"><div class="li"> le polygone régulier, de 3 à 20 faces (Polygon)</div>
+</li>
+<li class="level1"><div class="li"> des objets textes de 24 caractères</div>
+</li>
+</ul>
+
+<p class="level2">
+Chaque objet à des propriétés particulières que vous pourrez éditer.
+</p>
+<!-- EDIT19 SECTION "Mode Shapes" [12945-13618] -->
+<h3 class="sectionedit20"><a name="inserer_un_objet" id="inserer_un_objet">Insérer un objet</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Naviguez avec les flèches pour sélectionner la forme qui vous intéresse.</div>
+</li>
+<li class="level1"><div class="li"> Clickez [Add to Plot] pour l&#039;insérer dans le plan.</div>
+</li>
+</ul>
+
+<p class="level3">
+A noter qu&#039;au changement de type d&#039;objet, différentes options apparaissent:
+</p>
+<div class="table sectionedit21"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Objet </td><td class="col1 leftalign"> Option générale  </td><td class="col2"> Option particulière 1 </td><td class="col3"> Option particulière 2 </td><td class="col4">Option particulière 3 </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">le rideau</td><td class="col1"> La taille générale: le rayon du cercle </td><td class="col2"> Couleurs </td><td class="col3 leftalign">  </td><td class="col4"> </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">la ligne pleine </td><td class="col1"> La taille générale: l&#039;épaisseur </td><td class="col2"> Couleurs </td><td class="col3 leftalign">  </td><td class="col4"> </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">la ligne en pointillés </td><td class="col1"> La taille générale: l&#039;épaisseur </td><td class="col2"> Couleurs </td><td class="col3 leftalign">  </td><td class="col4"> </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">le rectangle </td><td class="col1"> La taille générale </td><td class="col2"> Le modèle de couleur </td><td class="col3"> la proportion X  que multipliera la taille générale </td><td class="col4"> la proportion Y que multipliera la taille générale</td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">le cercle </td><td class="col1 leftalign"> La taille générale  </td><td class="col2 leftalign">Le modèle de couleur  </td><td class="col3 leftalign">  </td><td class="col4"> </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0">la part de cercle </td><td class="col1 leftalign"> La taille générale  </td><td class="col2 leftalign">Le modèle de couleur  </td><td class="col3"> L&#039;angle d&#039;ouverture </td><td class="col4"> </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0">le polygone</td><td class="col1"> La taille générale: le rayon </td><td class="col2"> Le modèle de couleur </td><td class="col3"> le nombre d’arêtes </td><td class="col4"> </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0">le texte</td><td class="col1 leftalign"> -  </td><td class="col2"> Le modèle de texte ( taille et couleur) </td><td class="col3 leftalign">   </td><td class="col4"> </td>
+	</tr>
+</table></div>
+<!-- EDIT21 TABLE [13863-14691] -->
+<p class="level3">
+Lorsque vous insérez un objet <strong>il est inséré avec les propriétés choisies</strong>:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> la rotation</div>
+</li>
+<li class="level1"><div class="li"> la grosseur</div>
+</li>
+<li class="level1"><div class="li"> les options particulières affichées ( voir ci dessous)</div>
+</li>
+</ul>
+
+<p class="level3">
+L&#039;objet apparait alors en orange, sélectionné.
+</p>
+
+<p class="level3">
+<img src="plot_shapes_editing.jpeg" class="media" title="plot_shapes_editing.jpg" alt="plot_shapes_editing.jpg" />
+</p>
+
+<p class="level3">
+Vous avez droit à 126 objets par calque.
+</p>
+<!-- EDIT20 SECTION "Insérer un objet" [13619-14992] -->
+<h3 class="sectionedit22"><a name="selectionner_des_objets_poses_sur_le_plan" id="selectionner_des_objets_poses_sur_le_plan">Sélectionner des objets posés sur le plan</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Clickez la petite cible rouge dessinée au centre ou au début de l&#039;objet.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> L&#039;objet sélectionné apparait en orange.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Si l&#039;objet est difficilement attrapable, ou caché sous un autre symbole, tapez son ID et clickez la case [Select ID].</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Dans le cas des rideaux et des lignes, si vous clickez l&#039;extrémité avec un  carré vous éditez la longueur et l&#039;orientation du symbole.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour déselectionner, reclicker l&#039;objet, ou faire un click droit ou [ESC], ce qui déselectionnera tous les objets.</div>
+</li>
+</ul>
+<!-- EDIT22 SECTION "Sélectionner des objets posés sur le plan" [14993-15563] -->
+<h3 class="sectionedit23"><a name="editer_les_valeurs_de_l_objet" id="editer_les_valeurs_de_l_objet">Editer les valeurs de l&#039;objet</a></h3>
+
+<p class="level3">
+Lorsque vous sélectionnez un ou plusieurs objets, leurs propriétés sont reportées dans la fenêtre d&#039;édition.
+</p>
+
+<p class="level3">
+<strong>Changer une valeur, ou le type d&#039;objet, modifiera les objets sélectionnés.</strong>
+</p>
+<!-- EDIT23 SECTION "Editer les valeurs de l'objet" [15564-15802] -->
+<h3 class="sectionedit24"><a name="pour_editer_les_valeurs_specifiques" id="pour_editer_les_valeurs_specifiques">Pour éditer les valeurs spécifiques:</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> taper un chiffre, clickez la case</div>
+</li>
+</ul>
+
+<p class="level3">
+ OU
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clickez dans la case</div>
+</li>
+<li class="level1"><div class="li"> maintenez la souris appuyée et glissez vers le haut ou le bas ( rectangle: size x y, part de cercle: opening angle)</div>
+</li>
+</ul>
+<!-- EDIT24 SECTION "Pour éditer les valeurs spécifiques:" [15803-16039] -->
+<h3 class="sectionedit25"><a name="manipulation_d_objets" id="manipulation_d_objets">Manipulation d&#039;objets</a></h3>
+<!-- EDIT25 SECTION "Manipulation d'objets" [16040-16070] -->
+<h4 class="sectionedit26"><a name="bouger_les_objets_selectionnes" id="bouger_les_objets_selectionnes">Bouger les objets sélectionnés</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Sélectionnez les objets</div>
+</li>
+<li class="level1"><div class="li"> Puis clickez sur le plan et glissez la sélection.</div>
+</li>
+</ul>
+<!-- EDIT26 SECTION "Bouger les objets sélectionnés" [16071-16196] -->
+<h4 class="sectionedit27"><a name="dub" id="dub">DUB</a></h4>
+
+<p class="level4">
+Permet de copier une sélection d&#039;objets et de la coller à la suite dans le plan.
+</p>
+<!-- EDIT27 SECTION "DUB" [16197-16292] -->
+<h4 class="sectionedit28"><a name="delete" id="delete">Delete</a></h4>
+
+<p class="level4">
+Détruit du plan les objets sélectionnés.
+</p>
+<!-- EDIT28 SECTION "Delete" [16293-16351] -->
+<h4 class="sectionedit29"><a name="unselect" id="unselect">Unselect</a></h4>
+
+<p class="level4">
+Déselectionne les objets sélectionnés. Peut se faire avec la touche [ESCAPE].
+</p>
+<!-- EDIT29 SECTION "Unselect" [16352-16449] -->
+<h4 class="sectionedit30"><a name="down" id="down">Down</a></h4>
+
+<p class="level4">
+Descend d&#039;un  niveau la sélection d&#039;objets dans l&#039;ordre d&#039;apparition.
+Lorsque vous insérez un objet dans le plan, le premier objet inséré sera dessiné, puis le second, puis le troisième, etc…
+Ce qui veut dire que vous aurez besoin parfois de déplacer l&#039;ordre d&#039;apparition des objets.
+</p>
+<!-- EDIT30 SECTION "Down" [16450-16755] -->
+<h4 class="sectionedit31"><a name="top" id="top">Top</a></h4>
+
+<p class="level4">
+Monte tout au dessus de la pile un objet.
+</p>
+<!-- EDIT31 SECTION "Top" [16756-16809] -->
+<h4 class="sectionedit32"><a name="group_ungroup" id="group_ungroup">Group/Ungroup</a></h4>
+
+<p class="level4">
+Vous pouvez avoir besoin de grouper des objets shapes, vous permettant de créer une représentation sélectionnable et déplaçable d&#039;un click.
+</p>
+
+<p class="level4">
+<img src="plot_shapes_do_group.jpeg" class="media" title="plot_shapes_do_group.jpg" alt="plot_shapes_do_group.jpg" />
+</p>
+
+<p class="level4">
+L&#039;option group ne permet pas de changer les rotations et tailles de plusieurs objets de manière relative. Il s&#039;agit essentiellement d&#039;une commodité de sélection/déselection.
+</p>
+<!-- EDIT32 SECTION "Group/Ungroup" [16810-17187] -->
+<h4 class="sectionedit33"><a name="alignx" id="alignx">ALIGNX</a></h4>
+
+<p class="level4">
+Aligne le centre des symboles d&#039;une sélection sur la même abscisse.
+</p>
+<!-- EDIT33 SECTION "ALIGNX" [17188-17272] -->
+<h4 class="sectionedit34"><a name="aligny" id="aligny">ALIGNY</a></h4>
+
+<p class="level4">
+Aligne le centre des symboles d&#039;une sélection sur la même ordonnée.
+</p>
+<!-- EDIT34 SECTION "ALIGNY" [17273-17358] -->
+<h4 class="sectionedit35"><a name="x" id="x">&lt;-X-&gt;</a></h4>
+
+<p class="level4">
+Répartit les symboles entre les deux symboles les plus extrêmes sur l&#039;axe des X.
+</p>
+<!-- EDIT35 SECTION "<-X->" [17359-17455] -->
+<h4 class="sectionedit36"><a name="y" id="y">&lt;-Y-&gt;</a></h4>
+
+<p class="level4">
+Répartit les symboles entre les deux symboles les plus extrêmes sur l&#039;axe des Y.
+</p>
+<!-- EDIT36 SECTION "<-Y->" [17456-17552] -->
+<h3 class="sectionedit37"><a name="show_symbol_id" id="show_symbol_id">Show Symbol ID</a></h3>
+
+<p class="level3">
+Cette petite case permet de visualiser le numéro du symbole dessiné, dans son ordre d&#039;apparition.
+</p>
+
+<p class="level3">
+Essentiellement pour des question de facilité par rapport à [Down] et [Top].
+</p>
+<!-- EDIT37 SECTION "Show Symbol ID" [17553-17756] -->
+<h3 class="sectionedit38"><a name="attributs_de_shape" id="attributs_de_shape">Attributs de Shape</a></h3>
+
+<p class="level3">
+<img src="plot_shape_edit.jpeg" class="media" title="plot_shape_edit.jpg" alt="plot_shape_edit.jpg" />
+</p>
+
+<p class="level3">
+Cette case permet de rentrer un descriptif texte pour chaque shape sur le plan.
+</p>
+
+<p class="level3">
+Elle permet<strong> aussi</strong> d&#039;éditer l&#039;objet Texte.
+</p>
+
+<p class="level3">
+Editer le texte:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionner le / les symboles</div>
+</li>
+<li class="level1"><div class="li"> Taper [F5] pour transformer l&#039;entrée numérique en entrée texte</div>
+</li>
+<li class="level1"><div class="li"> Taper votre descriptif</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de texte</div>
+</li>
+</ul>
+
+<p class="level3">
+Ce descriptif est le seul attribut que l&#039;on puisse éditer pour chaque Shape ( contrairement aux symboles de projecteurs, beaucoup plus fournis).
+</p>
+
+<p class="level3">
+Une petite surface d&#039;ajustement de ces coordonnées est éditable, de façon à déplacer le positionnement du texte par rapport au Shape.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionner la forme</div>
+</li>
+<li class="level1"><div class="li"> Clicker dans l&#039;espace de tracking</div>
+</li>
+<li class="level1"><div class="li"> Déplacer comme désiré la description du shape</div>
+</li>
+</ul>
+<!-- EDIT38 SECTION "Attributs de Shape" [17757-18524] -->
+<h2 class="sectionedit39"><a name="mode_symbols" id="mode_symbols">Mode Symbols</a></h2>
+
+<p class="level2">
+<img src="plot_symbols_mode.jpeg" class="media" title="plot_symbols_mode.jpg" alt="plot_symbols_mode.jpg" />
+</p>
+<!-- EDIT39 SECTION "Mode Symbols" [18525-18576] -->
+<h3 class="sectionedit40"><a name="le_selecteur_de_symboles" id="le_selecteur_de_symboles">Le sélecteur de symboles</a></h3>
+
+<p class="level3">
+<img src="plot_symbols_lib.jpeg" class="media" title="plot_symbols_lib.jpg" alt="plot_symbols_lib.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Light Plot possède une bibliothèque de symboles qui sont codés dans le coeur de WhiteCat. </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> L&#039;utilisateur ne peut pas éditer les formes, les couleurs, ou importer des symboles externes.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Cependant: <strong>vous pouvez éditer la grosseur générale de la bibliothèque [Global Size].</strong></div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Ou encore <strong>éditer le nom et la taille de chaque symbole [Symbol Size].</strong> </div>
+</li>
+</ul>
+
+<p class="level3">
+Ces informations seront reportées dans la légende et vous permettront de renommer à votre convenance les symboles fonction du parc de matériel fourni par la salle. Ainsi vous pouvez décider que le symbole correspondant aux découpes 713SX ( que vous n&#039;utilisez pas) sera affecté aux Levrons. Vous lui donnerez le nom “Levron courte” et vous modifierez sa taille.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour naviguer dans les symboles possibles, utiliser les petites flèches sur le côté gauche.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour ajouter un symbole au calque, clickez [ADD to Plot]]</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour modifier un symbole déjà sur le plan, sélectionnez-le, puis naviguez dans les symboles.</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Pour éditer la taille générale de la bibliothèque:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Clicker [EDIT the SYMBOL]</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li">  Varier la taille de [Global Size] en clickant le potentiomètre horizontal.</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Pour éditer un symbole:</strong>
+</p>
+
+<p class="level3">
+<img src="plot_edition_symbole.jpeg" class="media" title="plot_edition_symbole.jpg" alt="plot_edition_symbole.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Clicker [EDIT the SYMBOL]</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Varier la taille de [Symbol Size] en clickant le potentiomètre horizontal.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Nom du symbole: Taper [F5] pour transformer l&#039;entrée numérique en texte, tapez le nouveau nom, et clickez la zone de texte du symbole.</div>
+</li>
+</ul>
+
+<p class="level3">
+La librairie de symboles est sauvée dans <strong>chaque dossier de spectacle</strong>. Elle n&#039;est pas générale au logiciel.
+</p>
+<!-- EDIT40 SECTION "Le sélecteur de symboles" [18577-20255] -->
+<h3 class="sectionedit41"><a name="liste_des_symboles" id="liste_des_symboles">Liste des symboles</a></h3>
+
+<p class="level3">
+De gauche à droite:
+</p>
+
+<p class="level3">
+<img src="plot_symbol_list.jpeg" class="media" title="plot_symbol_list.jpg" alt="plot_symbol_list.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> PC 650w, 1kw, 2kw</div>
+</li>
+<li class="level1"><div class="li"> Fresnel 1kw, 2kw, 5kw</div>
+</li>
+<li class="level1"><div class="li"> Découpes SourceFour 30 40 et 50°</div>
+</li>
+<li class="level1"><div class="li"> Découpes 1kw 611SX 614SX 613SX</div>
+</li>
+<li class="level1"><div class="li"> Découpes 2kw 711SX 714SX 713SX</div>
+</li>
+<li class="level1"><div class="li"> PAR64 CP60 CP61 CP62 CP95</div>
+</li>
+<li class="level1"><div class="li"> PAR56 NSP MFL WFL</div>
+</li>
+<li class="level1"><div class="li"> Par32 Par20 Par16</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="plot_symbol_list_1.jpeg" class="media" title="plot_symbol_list_1.jpg" alt="plot_symbol_list_1.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Cycliode 1kw</div>
+</li>
+<li class="level1"><div class="li"> Horiziode 1kw</div>
+</li>
+<li class="level1"><div class="li"> Hallogène 500w</div>
+</li>
+<li class="level1"><div class="li"> BT250w</div>
+</li>
+<li class="level1"><div class="li"> BT500w</div>
+</li>
+<li class="level1"><div class="li"> T8</div>
+</li>
+<li class="level1"><div class="li"> Blinder</div>
+</li>
+<li class="level1"><div class="li"> Svoboda</div>
+</li>
+<li class="level1"><div class="li"> <abbr title="Access Control List">ACL</abbr></div>
+</li>
+<li class="level1"><div class="li"> Tube fluorescent 60cm</div>
+</li>
+<li class="level1"><div class="li"> Tube fluorescent 120cm</div>
+</li>
+<li class="level1"><div class="li"> Poursuite 575w</div>
+</li>
+<li class="level1"><div class="li"> Poursuite 1200w</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="plot_symbol_list_2.jpeg" class="media" title="plot_symbol_list_2.jpg" alt="plot_symbol_list_2.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> VidéoProjecteur 1</div>
+</li>
+<li class="level1"><div class="li"> VidéoProjecteur 2</div>
+</li>
+<li class="level1"><div class="li"> Projecteur diapositives</div>
+</li>
+<li class="level1"><div class="li"> Rétroprojecteur</div>
+</li>
+</ul>
+
+<p class="level3">
+Accessoires PC et Fresnels:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Volets</div>
+</li>
+<li class="level1"><div class="li"> Cône Anti-Hallo</div>
+</li>
+<li class="level1"><div class="li"> Cône à gélatine</div>
+</li>
+<li class="level1"><div class="li"> Color Changer</div>
+</li>
+<li class="level1"><div class="li"> Jalousie</div>
+</li>
+</ul>
+
+<p class="level3">
+Accessoires découpes:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Iris</div>
+</li>
+<li class="level1"><div class="li"> Porte gobo</div>
+</li>
+<li class="level1"><div class="li"> Shutter Dmx</div>
+</li>
+<li class="level1"><div class="li"> Mirroir motorisé</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Machine à fumée</div>
+</li>
+<li class="level1"><div class="li"> Machine à brouillard</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Ligne graduée ( x )</div>
+</li>
+<li class="level1"><div class="li"> Direct électrique ( d )</div>
+</li>
+<li class="level1"><div class="li"> Lumière de service ( s )</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="plot_symbols_list_3.jpeg" class="media" title="plot_symbols_list_3.jpg" alt="plot_symbols_list_3.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Platine de sol</div>
+</li>
+<li class="level1"><div class="li"> Petit pied</div>
+</li>
+<li class="level1"><div class="li"> Grand pied</div>
+</li>
+<li class="level1"><div class="li"> Barre de couplage</div>
+</li>
+<li class="level1"><div class="li"> Echelle</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pont diam 50, 1m</div>
+</li>
+<li class="level1"><div class="li"> Pont diam 50, 3m</div>
+</li>
+<li class="level1"><div class="li"> Pont diam 50, connexion</div>
+</li>
+<li class="level1"><div class="li"> Pont diam 30, 1m</div>
+</li>
+<li class="level1"><div class="li"> Pont diam 30, 3m</div>
+</li>
+<li class="level1"><div class="li"> Pont diam 30, connexion</div>
+</li>
+</ul>
+<!-- EDIT41 SECTION "Liste des symboles" [20256-21521] -->
+<h3 class="sectionedit42"><a name="manipulation_d_un_symbole" id="manipulation_d_un_symbole">Manipulation d&#039;un symbole</a></h3>
+<!-- EDIT42 SECTION "Manipulation d'un symbole" [21522-21558] -->
+<h4 class="sectionedit43"><a name="selection-deselection" id="selection-deselection">Sélection-déselection</a></h4>
+
+<p class="level4">
+Comme pour [SHAPES], vous pouvez sélectionner ou déselectionner un symbole <strong>en clickant sur la croix rouge en son centre</strong>.
+</p>
+
+<p class="level4">
+Le calque sur lequel est ce symbole est automatiquement sélectionné.
+</p>
+
+<p class="level4">
+Lorsqu&#039;un circuit est attribué à un symbole, celui est sélectionné-déselectionné en liaison avec la sélection des circuits ( frappes clavier, click souris).
+</p>
+
+<p class="level4">
+ * Pour déselectionner, reclicker l&#039;objet
+</p>
+
+<p class="level4">
+ * Pour tout déselectionner utiliser la touche [ESC] ou faire un click droit 
+</p>
+<!-- EDIT43 SECTION "Sélection-déselection" [21559-22080] -->
+<h4 class="sectionedit44"><a name="deplacer_un_ou_plusieurs_symboles" id="deplacer_un_ou_plusieurs_symboles">Déplacer un ou plusieurs symboles</a></h4>
+
+<p class="level4">
+Lorsque vous clickez gauche maintenu sur le plan, hors symbole, tout mouvement de la souris sera répercuté sur le ou les symboles sélectionnés. 
+</p>
+<!-- EDIT44 SECTION "Déplacer un ou plusieurs symboles" [22081-22272] -->
+<h3 class="sectionedit45"><a name="l_editeur_des_symboles_poses_dans_le_plan" id="l_editeur_des_symboles_poses_dans_le_plan">L&#039;éditeur des symboles posés dans le plan</a></h3>
+
+<p class="level3">
+L&#039;éditeur  concerne <strong>les symboles sélectionnés sur le calque actif.</strong>
+</p>
+
+<p class="level3">
+Lorsqu&#039;un symbole est sélectionné, il peut être édité. Vous pouvez sélectionner plusieurs symboles en même temps.
+</p>
+
+<p class="level3">
+<img src="plot_editeur_proprietes.jpeg" class="media" title="plot_editeur_proprietes.jpg" alt="plot_editeur_proprietes.jpg" />
+</p>
+<!-- EDIT45 SECTION "L'éditeur des symboles posés dans le plan" [22273-22557] -->
+<h4 class="sectionedit46"><a name="rotation_des_symboles_selectionnes" id="rotation_des_symboles_selectionnes">Rotation des symboles sélectionnés</a></h4>
+
+<p class="level4">
+<img src="plot_rotate.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+Vous pouvez utiliser le potentiomètre horizontal pour varier la rotation, ou utiliser les 8 pré-rotations en clickant l&#039;un des carrés de rotation.
+</p>
+<!-- EDIT46 SECTION "Rotation des symboles sélectionnés" [22558-22775] -->
+<h4 class="sectionedit47"><a name="manipulation_et_mise_en_page_des_symboles_selectionnes" id="manipulation_et_mise_en_page_des_symboles_selectionnes">Manipulation et mise en page des symboles sélectionnés</a></h4>
+
+<p class="level4">
+<img src="plot_mises_en_pages.jpeg" class="media" title="plot_mises_en_pages.jpg" alt="plot_mises_en_pages.jpg" />
+</p>
+
+<h5><a name="dub1" id="dub1">DUB</a></h5>
+
+<p class="level5">
+Duplique les symboles sélectionnés sur le calque actif, avec leurs propriétés ( orientation, type d&#039;appareil, num. circuit, et gélatines)
+</p>
+
+<h5><a name="delete1" id="delete1">DELETE</a></h5>
+
+<p class="level5">
+Supprime les symboles sélectionnés du calque actif
+</p>
+
+<h5><a name="send_to" id="send_to">SEND TO</a></h5>
+
+<p class="level5">
+Lorsque ce mode est enclenché, vous pouvez envoyer la sélection dans un autre calque.
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Activer le mode [Send To]</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case du calque de destination</div>
+</li>
+</ul>
+
+<p class="level5">
+<img src="plot_send_to.png" class="media" alt="" />
+</p>
+
+<h5><a name="down1" id="down1">DOWN</a></h5>
+
+<p class="level5">
+Losrque vous ajoutez des symboles sur un calque, ils sont empilés les uns après les autres sur celui-ci.
+</p>
+
+<p class="level5">
+Vous aurez besoin parfois d&#039;envoyer un symbole  sous un autre( le pied d&#039;un projecteur, sous un projecteur par exemple).
+</p>
+
+<p class="level5">
+<img src="plot_send_down.jpeg" class="media" title="plot_send_down.jpg" alt="plot_send_down.jpg" />
+</p>
+
+<h5><a name="top1" id="top1">TOP</a></h5>
+
+<p class="level5">
+Permet d&#039;envoyer les symboles sélectionnés tout au dessus de la pile des symboles du calque.
+</p>
+
+<h5><a name="unselect1" id="unselect1">UNSELECT</a></h5>
+
+<p class="level5">
+Permet de déselectionner les symboles sélectionnés.
+</p>
+
+<h5><a name="alignx1" id="alignx1">ALIGNX</a></h5>
+
+<p class="level5">
+Aligne le centre des symboles d&#039;une sélection sur la même abscisse.
+</p>
+
+<p class="level5">
+Positions de départ:
+</p>
+
+<p class="level5">
+<img src="plot_departventil.jpeg" class="media" title="plot_departventil.jpg" alt="plot_departventil.jpg" />
+</p>
+
+<p class="level5">
+Résultat:
+</p>
+
+<p class="level5">
+<img src="plot_alignx.jpeg" class="media" title="plot_alignx.jpg" alt="plot_alignx.jpg" />
+</p>
+
+<h5><a name="aligny1" id="aligny1">ALIGNY</a></h5>
+
+<p class="level5">
+<img src="plot_aligny_depart.jpeg" class="media" title="plot_aligny_depart.jpg" alt="plot_aligny_depart.jpg" />
+<img src="plot_aligny.jpeg" class="media" title="plot_aligny.jpg" alt="plot_aligny.jpg" />
+</p>
+
+<h5><a name="x1" id="x1">&lt;-X-&gt;</a></h5>
+
+<p class="level5">
+Il s&#039;agit de la répartition des symboles entre les deux symboles les plus extrêmes sur l&#039;axe des X.
+</p>
+
+<p class="level5">
+Position de départ:
+</p>
+
+<p class="level5">
+<img src="ventil_x_depart.jpeg" class="media" title="ventil_x_depart.jpg" alt="ventil_x_depart.jpg" />
+</p>
+
+<p class="level5">
+Résultat:
+</p>
+
+<p class="level5">
+<img src="ventil_x_arrivee.jpeg" class="media" title="ventil_x_arrivee.jpg" alt="ventil_x_arrivee.jpg" />
+</p>
+
+<h5><a name="y1" id="y1">&lt;-Y-&gt;</a></h5>
+
+<p class="level5">
+Il s&#039;agit de la répartition des symboles entre les deux symboles les plus extrêmes sur l&#039;axe des Y.
+</p>
+<!-- EDIT47 SECTION "Manipulation et mise en page des symboles sélectionnés" [22776-24269] -->
+<h4 class="sectionedit48"><a name="edition_des_attributs_d_un_symbole" id="edition_des_attributs_d_un_symbole">Edition des attributs d&#039;un symbole</a></h4>
+
+<p class="level4">
+Vous pouvez éditer les attributs de chaque symbole:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> le numéro du circuit</div>
+</li>
+<li class="level1"><div class="li"> le descriptif du circuit, en liaison avec <a href="liste.html" class="wikilink1" title="Liste">List</a></div>
+</li>
+<li class="level1"><div class="li"> 3 gélatines</div>
+</li>
+<li class="level1"><div class="li"> le gradateur sur lequel est branché le symbole</div>
+</li>
+<li class="level1"><div class="li"> le numéro d&#039;apparition du symbole dans le calque (Show Symbol ID)</div>
+</li>
+<li class="level1"><div class="li"> les 4 notes</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="plot_symbol_props.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+La visualisation de ces attributs sur le plan est activable en clickant le carré à gauche de chaque grand attribut ( Channel, Gel, Dimmer, …). 
+</p>
+
+<p class="level4">
+Ici un affichage complet:
+</p>
+
+<p class="level4">
+<img src="plot_props_affichage.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+A noter que si le circuit, le dimmer, ou le numéro du gélatine sont égaux à 0, ils ne sont pas affichés. Un projecteur en direct, ou un pied,  se verra donc affecté au circuit 0.
+</p>
+
+<p class="level4">
+Les 4 notes permettent de renseigner de manière complète et personnelle le symbole:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> pense-bête concernant les circuits dmx d&#039;un stroboscope </div>
+</li>
+<li class="level1"><div class="li"> accroche en perroquet ( yoke )</div>
+</li>
+<li class="level1"><div class="li"> gobo rotatif ou pas</div>
+</li>
+<li class="level1"><div class="li"> indications de réglage</div>
+</li>
+</ul>
+
+<h5><a name="editer_les_attributs" id="editer_les_attributs">Editer les attributs</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> Numéros de circuit, de gélatine, ou de dimmer: taper le numéro, clicker la case</div>
+</li>
+</ul>
+<ul class="level5">
+<li class="level1"><div class="li"> Descriptif circuit et notes: appeler la fenêtre [NAME] (F5), tapez le descriptif et clickez la case du nom</div>
+</li>
+</ul>
+<ul class="level5">
+<li class="level1"><div class="li"> Références de gélatines: clicker la marque de la gélatine, qui basculera entre Lee, Rosco, GamColor, et Apollo.</div>
+</li>
+</ul>
+
+<p class="level5">
+Nota Bene: concernant les Etats Unis, la marque Rosco E-Color reprend la numérotation LEE, des références 002 à 452. Les 700 n&#039;ont pas d&#039;équivalent chez E-Color.
+</p>
+
+<h5><a name="ajustement_de_l_affichage_des_attributs" id="ajustement_de_l_affichage_des_attributs">Ajustement de l&#039;affichage des attributs</a></h5>
+
+<p class="level5">
+Pour des raisons de mise en page, il est souvent nécessaire de devoir déplacer les attributs autour du symbole ( numéro de circuit, gélatines, descriptif, dimmer).
+</p>
+
+<p class="level5">
+<img src="plot_xy_adjust.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+Il faut enclencher les cases de sélection de la propriété à modifier.
+</p>
+
+<p class="level5">
+Puis clicker dans le carré rose sur la droite. Cette zone peut être considérée comme un joystick et permet de décaler en une ou plusieurs manœuvres la position d&#039;une propriété par rapport au centre du symbole.
+</p>
+
+<h5><a name="presets_de_mise_en_page_des_attributs" id="presets_de_mise_en_page_des_attributs">Presets de mise en page des attributs</a></h5>
+
+<p class="level5">
+<strong>Vous pouvez stocker dans 8 presets les positions des attributs</strong>. 
+</p>
+
+<p class="level5">
+Ceci permet notamment d&#039;avoir un raccourci de mise en page pour des projecteurs en face, en contre, au sol à cour, ou au sol à jardin.
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Sélectionner le symbole dont vous désirer extraire un preset de position des attributs</div>
+</li>
+<li class="level1"><div class="li"> Enclencher  [F1]</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de preset</div>
+</li>
+</ul>
+
+<p class="level5">
+Pour affecter à une sélection de symboles ce preset:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Sélectionner les symboles</div>
+</li>
+<li class="level1"><div class="li"> Clicker le preset</div>
+</li>
+</ul>
+
+<p class="level5">
+Pour nettoyer un preset:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> Enclencher  [F4]</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de preset</div>
+</li>
+</ul>
+<!-- EDIT48 SECTION "Edition des attributs d'un symbole" [24270-26903] -->
+<h3 class="sectionedit49"><a name="manipulation_du_patch_depuis_plot" id="manipulation_du_patch_depuis_plot">Manipulation du patch depuis PLOT</a></h3>
+
+<p class="level3">
+<img src="plot_direct_repatch.jpeg" class="media" title="plot_direct_repatch.jpg" alt="plot_direct_repatch.jpg" />
+</p>
+
+<p class="level3">
+Très simplement, si votre plan lumière est prêt, vous pouvez patcher depuis Light Plot vos projecteurs, et oublier tout ce qui est jongle de numéros et erreurs de patch…
+</p>
+
+<p class="level3">
+<img src="plot_patcher.jpeg" class="media" title="plot_patcher.jpg" alt="plot_patcher.jpg" />
+</p>
+
+<h5><a name="link_to_patch" id="link_to_patch">Link To Patch</a></h5>
+
+<p class="level5">
+En activant Link To Patch,  <strong>toute saisie de gradateur sur des symboles sélectionnés dans le plan est reportée automatiquement dans le patch</strong>.
+</p>
+
+<p class="level5">
+Vous pouvez donc <strong>faire votre patch depuis votre plan</strong>.
+</p>
+
+<p class="level5">
+Dans la fenêtre du Patch, cette option est activable de façon à reporter dans le plan lumière tout changement de grada sur un circuit.
+</p>
+
+<p class="level5">
+<img src="patch_link_lighplot.jpeg" class="media" title="patch_link_lighplot.jpg" alt="patch_link_lighplot.jpg" />
+</p>
+
+<h5><a name="clear_patch" id="clear_patch">Clear Patch</a></h5>
+
+<p class="level5">
+Mets à zéro, en clear, toutes les affectations.
+</p>
+<!-- EDIT49 SECTION "Manipulation du patch depuis PLOT" [26904-27643] -->
+<h2 class="sectionedit50"><a name="legend" id="legend">Legend</a></h2>
+
+<p class="level2">
+<img src="plot_legend.jpeg" class="media" title="plot_legend.jpg" alt="plot_legend.jpg" />
+</p>
+
+<p class="level2">
+[Legend] permet de créer une légende avec un export des appareils et des formats de gélatines.
+</p>
+
+<p class="level2">
+Sur la gauche de la fenêtre vous pouvez renseigner les contacts compagnie ou des nota bene, en utilisant [F5] et clickant les case de texte.
+</p>
+
+<p class="level2">
+Vous pouvez aussi renseigner l&#039;échelle que vous utilisez ( Un carré = 1m ).
+</p>
+
+<p class="level2">
+Vous pouvez d&#039;un click fournir la légende sous forme de symboles ou de liste d&#039;appareils.
+</p>
+
+<p class="level2">
+Les formats de gélatines sont triés par types de symboles.
+</p>
+<!-- EDIT50 SECTION "Legend" [27644-28161] -->
+<h2 class="sectionedit51"><a name="affectation_midi_des_commandes_de_plot" id="affectation_midi_des_commandes_de_plot">Affectation midi des commandes de Plot</a></h2>
+
+<p class="level2">
+Un certain nombre de commandes sont affectables en midi. Voir la <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a> et le <a href="tableau_affectation_midi.html" class="wikilink1" title="tableau_affectation_midi">Synoptique d&#039;affectations midi</a>.
+</p>
+
+<p class="level2">
+Ces commandes vous apporterons un réel confort en spectacle ( affichage des layers ) et en édition de plans ( navigation dans les symboles, édition des symboles, des paramètres, …, utilisation des presets de mise en forme des attributs) .
+</p>
+<!-- EDIT51 SECTION "Affectation midi des commandes de Plot" [28162-] --></div>
+</body>
+</html>

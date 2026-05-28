@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>FAQ — WhiteCat</title>
+  <meta name="date" content="2026-05-17"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="faq.html">🇫🇷 Version française</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table of contents</h3>
+<div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#installation">Installation</a></div></li>
+<li class="level2"><div class="li"><a href="#mac_linux">Mac / Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#usage">Using WhiteCat</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1">FAQ — White Cat</h1>
+
+<h2 class="sectionedit2" id="installation">INSTALLATION</h2>
+<div class="level2">
+
+<p>
+Some basic operations in WhiteCat giving you trouble?
+This add-on will probably help. It aims to be simple and to the point.
+Here you will find answers to the classic recurring questions that come up first, before you become familiar with the "Cat".
+</p>
+
+<p>
+<strong>Where can I find the latest version of WhiteCat?</strong><br>
+Since April 2026, releases are published on the arpschuino GitHub:<br>
+<a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">https://github.com/arpschuino/whitecat_crossplateform/releases</a>
+</p>
+
+<p>
+<strong>Where should I put the WhiteCat folder?</strong><br>
+You can keep as many versions of WhiteCat as you like.
+Just be tidy and consistent with your folders.
+Name them without spaces — ideally the same name as the release (with a date is even better).
+When versions pile up, this small habit makes it easy to find your way around.<br>
+Important: place the folder directly under the root (in C:).
+In general, WhiteCat does not like spaces in folder or file names.
+</p>
+
+<p>
+<strong>How do I transfer my shows to a new version?</strong><br>
+It's simple — just copy and paste.
+Copy whatever you want to keep from the <code>audio</code>, <code>import_export</code>, <code>plans</code>, <code>save</code>, <code>user</code>… folders.
+</p>
+
+<p>
+<strong>WhiteCat launches and displays "couldn't load fonts/doom.ttf"</strong><br>
+You are trying to run WhiteCat directly from the archive. You must first extract it, then run it from the folder where it was extracted (in C:).
+</p>
+
+<p>
+<strong>WhiteCat gets stuck on startup and won't open</strong><br>
+WhiteCat has an internal server for receiving ArtNet signals.
+This server is initialised at startup and may be blocked by the Windows firewall or your security software.
+You need to allow WhiteCat through, or temporarily disable the blocking software.<br>
+Post on the <a href="https://forum.arpschuino.fr/" class="urlextern" rel="nofollow">forum</a> if the problem persists.
+</p>
+
+</div>
+
+<h2 class="sectionedit3" id="mac_linux">I'M ON A MAC / LINUX</h2>
+<div class="level2">
+
+<ul>
+<li class="level1"><div class="li">For now (0.9.x), WhiteCat runs on Windows only.</div></li>
+</ul>
+
+<p>
+WhiteCat is not yet cross-platform.
+Since the 2026 reborn, we are working towards it: most non-cross-platform libraries have been replaced.
+The goal is to support Mac and Linux by 2027.
+</p>
+
+</div>
+
+<h2 class="sectionedit4" id="usage">USING WHITECAT</h2>
+<div class="level2">
+
+<h5 id="channel_full">When I send a channel to full, it is displayed at 32%</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">The CueList [F9] Stage Master is not at full.</div></li>
+</ul>
+</div>
+
+<h5 id="arrows_wheel">When I try to adjust a channel with the arrow keys or the mouse wheel, nothing happens</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">Check in the CueList that the Stage Master is not set to 0.</div></li>
+<li class="level1"><div class="li">Check that you are not in [Blind] mode, which means you are editing the memory in preset.</div></li>
+<li class="level1"><div class="li">Otherwise, check in the CFG menu, General tab, that the Default Step Level is not 0. This can happen when loading a show saved before version 0.7.6.2.</div></li>
+</ul>
+</div>
+
+<h5 id="faders_memories">I'm using faders but I don't understand how to view memories</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">The heart of WhiteCat is the CueList, where memories are stored.
+Navigate the CueList to edit them directly.</div></li>
+</ul>
+</div>
+
+<h5 id="banger">I launch a Banger and nothing happens</h5>
+<div class="level5">
+<p>Check in [CFG Menu] &gt; Core that the Banger tab is ON.</p>
+</div>
+
+<h5 id="midi_channels">Where is the MIDI assignment for channels?</h5>
+<div class="level5">
+<p>
+The only way is to use the fader structure in Direct Channel mode.
+Assign the desired channel to a dock, then assign the MIDI control to that fader.
+</p>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>

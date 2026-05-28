@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>time_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-02-12T23:16:02+0100"/>
+<meta name="keywords" content="time_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="time_eng.html"/>
+<link rel="contents" href="time_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="time_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="time_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=time_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"time_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#time_window">Time window</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#time_syntax_in_white_cat">Time Syntax in White Cat</a></div></li>
+<li class="level2"><div class="li"><a href="#defining_a_time">Defining a time</a></div></li>
+<li class="level2"><div class="li"><a href="#assigning_the_time">Assigning the time</a></div></li>
+<li class="level2"><div class="li"><a href="#taptempo">TapTempo</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="time_window" id="time_window">Time window</a></h1>
+
+<p class="level1">
+The Time window allows you to assign times to memories and other targets that use time.
+</p>
+
+<p class="level1">
+Time may be assigned to a memory or a dock.  Each time setting contains:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> a wait time before the fade In: Delay In</div>
+</li>
+<li class="level1"><div class="li"> an In-fade time:  In</div>
+</li>
+<li class="level1"><div class="li"> a wait time before the fade Out: Delay Out</div>
+</li>
+<li class="level1"><div class="li"> an out-fade time:  Out</div>
+</li>
+</ul>
+
+<p class="level1">
+To open the Time window, click [TIME] or press [F6]
+</p>
+
+<p class="level1">
+<img src="click_time.jpeg" class="media" title="click_time.jpg" alt="click_time.jpg" />
+</p>
+<!-- EDIT1 SECTION "Time window" [1-406] -->
+<h2 class="sectionedit2"><a name="time_syntax_in_white_cat" id="time_syntax_in_white_cat">Time Syntax in White Cat</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Two points</strong> following a number signify that this is a <strong>minute</strong>.</div>
+</li>
+<li class="level1"><div class="li"> <strong>One point</strong> following a number signifies that this a <strong>second</strong>.</div>
+</li>
+<li class="level1"><div class="li"> A number after a point means that it is a <strong>tenth of a second</strong>.</div>
+</li>
+</ul>
+
+<p class="level2">
+Example: typing <strong>3..50.0</strong> means 3 minutes 50 seconds
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> typing *1.2* means 1 seconds 2 tenths of a second</div>
+</li>
+<li class="level3"><div class="li"> typing *5.* means 5 seconds (note that using the point is obligatory)</div>
+</li>
+</ul>
+
+<p class="level2">
+In certain cases, using this syntax enables you to enter times directly from the keyboard without using the Time window.
+</p>
+<!-- EDIT2 SECTION "Time Syntax in White Cat" [407-974] -->
+<h2 class="sectionedit3"><a name="defining_a_time" id="defining_a_time">Defining a time</a></h2>
+
+<p class="level2">
+<img src="fenetre_time.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>mouse</strong></div>
+<ul class="level2">
+<li class="level2"><div class="li"> click [SEC]/[1/100th] or [MIN] to set the ring to Seconds, Tenth of seconds or Minutes.</div>
+</li>
+<li class="level2"><div class="li"> drag the red circle along the ring of the clock face to set the desired time</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>keyboard</strong></div>
+<ul class="level2">
+<li class="level2"><div class="li"> type the time as previously described, examples:</div>
+<ul class="level2">
+<li class="level4"><div class="li"> <strong>1..0.</strong> </div>
+</li>
+<li class="level4"><div class="li"> <strong>5.</strong> </div>
+</li>
+<li class="level4"><div class="li"> <strong>1.5</strong> is 1 second 5 /1OOth of seconds</div>
+</li>
+<li class="level4"><div class="li"> <strong>2.20</strong> is 2 seconds 20 /100 th of seconds ( = 2/10th)</div>
+</li>
+<li class="level4"><div class="li"> type [CONTROL][ENTER] to enter time that is a direct result of the stopwatch function</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>stopwatch</strong></div>
+<ul class="level2">
+<li class="level2"><div class="li"> click the biggest circle [CHRONO] to pause or start the stopwatch</div>
+</li>
+<li class="level2"><div class="li"> use the little circle [clear] to reset the stopwatch</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Defining a time" [975-1698] -->
+<h2 class="sectionedit4"><a name="assigning_the_time" id="assigning_the_time">Assigning the time</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Select the Time Range that will receive the value set by the stopwatch</strong></div>
+<ul class="level2">
+<li class="level2"><div class="li"> mouse: click [IN][OUT] [D.IN] or [D.OUT]</div>
+</li>
+<li class="level2"><div class="li"> keyboard: press </div>
+<ul class="level2">
+<li class="level4"><div class="li"> [K] for In</div>
+</li>
+<li class="level4"><div class="li"> [J] for Out</div>
+</li>
+<li class="level4"><div class="li"> [L] for  In <strong>AND</strong> Out</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][K] for Delay In</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][J] for Delay Out</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][L] for Delay In <strong>AND</strong> Delay Out</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>click [AFFECT] to turn it ON</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>click the container (a dock or a memory number in CueList) to assign the time</strong></div>
+</li>
+</ul>
+
+<p class="level2">
+Versions 0.8.2.8 and above, a simplified way to assign times in a preset memory:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Type your time</div>
+</li>
+<li class="level1"><div class="li"> By selecting [J] [K] or [L] you can affect directly the time in IN or OUT in the memory on preset</div>
+</li>
+<li class="level1"><div class="li"> [SHIFT] will affect those times on the corresponding  delay</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="temps_dans_sequenciel.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+<strong>! By affecting IN only, you will not affect OUT D.IN or D.OUT, they will remain untouched. 
+</strong>
+</p>
+<!-- EDIT4 SECTION "Assigning the time" [1699-2602] -->
+<h2 class="sectionedit5"><a name="taptempo" id="taptempo">TapTempo</a></h2>
+
+<p class="level2">
+version 0.8.2.2
+</p>
+
+<p class="level2">
+<img src="time_tap_tempo.jpeg" class="media" title="time_tap_tempo.jpg" alt="time_tap_tempo.jpg" />
+</p>
+
+<p class="level2">
+TapTempo enables you to set on a cycle from 1 to 12 steps a global time variant, by clicking on the beat, or on a midi touch.
+Tap Tempo is shown in seconds.
+You can report it as a chaser&#039;s Time Unit .
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Set ON by pressing the recording box[R]</div>
+</li>
+<li class="level1"><div class="li"> Click [Tempo] on the rhythm you want</div>
+</li>
+</ul>
+
+<p class="level2">
+Once the result matches the rhythm you are searching for:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> to send this time to the selected chaser in Chasers window, simply click  [S]</div>
+</li>
+<li class="level1"><div class="li"> to send this time to any chaser, type number of the chaser on your keyboard then  click [S]</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "TapTempo" [2603-] --></div>
+</body>
+</html>

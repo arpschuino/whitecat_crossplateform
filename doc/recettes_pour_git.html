@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>recettes_pour_git</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-03-18T15:28:24+0100"/>
+<meta name="keywords" content="recettes_pour_git"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="recettes_pour_git.html"/>
+<link rel="contents" href="recettes_pour_git.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="recettes_pour_git.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="recettes_pour_git.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=recettes_pour_git"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"recettes_pour_git","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#nos_recettes_pour_git">Nos recettes pour Git</a></div></li>
+<li class="level1"><div class="li"><a href="#git_c_est_quoi">Git c&#039;est quoi?</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#participer_au_projet_opensource">PARTICIPER AU PROJET OPENSOURCE</a></div></li>
+<li class="level2"><div class="li"><a href="#git_en_ligne_de_commande">Git en ligne de commande</a></div></li>
+<li class="level2"><div class="li"><a href="#installer_github_window">Installer Github Window</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#guide_de_survie_pour_participer_sur_git_au_developpement_de_whitecat">Guide de survie pour participer sur git au développement de Whitecat</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#recuperation_du_code_de_whitecat_la_premiere_fois">Récupération du code de Whitecat, la première fois</a></div></li>
+<li class="level4"><div class="li"><a href="#installer_l_environnement">INSTALLER L&#039;ENVIRONNEMENT</a></div></li>
+<li class="level4"><div class="li"><a href="#ca_compile_bien_youpi_au_travail_on_peut_commencer_a_coder_whitecat">Ça compile bien, Youpi au travail, on peut commencer à coder whitecat !</a></div></li>
+<li class="level4"><div class="li"><a href="#pour_savoir_ou_on_en_est_dans_quel_etat_j_erre">Pour savoir où on en est « dans quel état j&#039;erre ? »</a></div></li>
+<li class="level4"><div class="li"><a href="#les_branch">Les branch</a></div></li>
+<li class="level4"><div class="li"><a href="#les_commit">Les commit</a></div></li>
+<li class="level4"><div class="li"><a href="#ajouter_des_nouveaux_fichiers_ou_des_dossier_a_suivre_dans_le_depot_apres_les_avoir_creer">ajouter des nouveaux fichiers ou des dossier à suivre dans le dépot après les avoir créer</a></div></li>
+<li class="level4"><div class="li"><a href="#les_tags">Les tags</a></div></li>
+<li class="level4"><div class="li"><a href="#les_remotes_formellement_interdit_sur_les_depots_partager_uniquement_pour_les_administrateurs_sous_peine_de_bannissement_immediat_a_n_utiliser_qu_uniquement_sur_votre_propre_fork">Les remotes (formellement interdit sur les dépôts partager, uniquement pour les administrateurs sous peine de bannissement immédiat, à n&#039;utiliser qu&#039;uniquement sur votre propre Fork)</a></div></li>
+<li class="level4"><div class="li"><a href="#synchro_entre_depot_et_merge_a_ne_jamais_utiliser_sur_les_depots_partager">Synchro entre dépot et Merge (!! à ne jamais utiliser sur les dépôts partager)</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#git_avec_un_environnement_graphique">Git avec un environnement graphique</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#codeblocks">CodeBlocks</a></div></li>
+<li class="level3"><div class="li"><a href="#eclipse">Eclipse</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<p class="level0">
+par George modifié par Anton
+</p>
+
+<p class="level0">
+Inutile de réinventer l&#039;eau chaude, nous ne sommes pas les premiers à utiliser Git.
+</p>
+
+<p class="level0">
+Ci-dessous, une liste de bons tutoriels, avec un bref commentaire pour chacun :
+</p>
+
+<p class="level0">
+Documents recommandés par Léo le 27 janvier
+</p>
+
+<p class="level0">
+Le Livre de Git est assez bien fait : <a href="http://git-scm.com/book/fr/" class="urlextern" title="http://git-scm.com/book/fr/"  rel="nofollow">http://git-scm.com/book/fr/</a>
+</p>
+
+<p class="level0">
+Il y a aussi : <a href="http://fr.openclassrooms.com/informatiq" class="urlextern" title="http://fr.openclassrooms.com/informatiq"  rel="nofollow">http://fr.openclassrooms.com/informatiq</a> … e-avec-git (Les 2première pages)
+</p>
+
+<p class="level0">
+Mais le top a l&#039;air d&#039;être <a href="http://www.miximum.fr/tutos/1546-enfin-comprendre-git" class="urlextern" title="http://www.miximum.fr/tutos/1546-enfin-comprendre-git"  rel="nofollow">http://www.miximum.fr/tutos/1546-enfin-comprendre-git</a> (que je conseille de lire en premier)
+</p>
+
+<h1 class="sectionedit1"><a name="nos_recettes_pour_git" id="nos_recettes_pour_git">Nos recettes pour Git</a></h1>
+
+<p class="level1">
+Petite introduction à git pour participer au projet whitecat.
+</p>
+<!-- EDIT1 SECTION "Nos recettes pour Git" [529-629] -->
+<h1 class="sectionedit2"><a name="git_c_est_quoi" id="git_c_est_quoi">Git c&#039;est quoi?</a></h1>
+
+<p class="level1">
+Git, en vulgarisant, est un gestionnaire de versions et un outil de partage de code source.
+Non seulement il conserve un historique des diverses évolutions du code, mais tous les développeurs (dev) du projet auront accès au code en permanence, quand ils le voudront. Le code évoluera dans leur propre dossier de projet, mais aussi en fonction des avancées des autres dev. Ils pourront suivre ces modifications, les inclure ou pas, et travailler à plusieurs avec les autres.
+</p>
+
+<p class="level1">
+Sur git chaque participant est un administrateur, le respect du travail collectif et individuel de chacun est donc de mise.
+</p>
+
+<p class="level1">
+Si vous désirez juste télécharger les sources pour rester sur une version de whitecat purement personnel, vous le pouvez en cliquant à droite Download.
+</p>
+<!-- EDIT2 SECTION "Git c'est quoi?" [630-1423] -->
+<h2 class="sectionedit3"><a name="participer_au_projet_opensource" id="participer_au_projet_opensource">PARTICIPER AU PROJET OPENSOURCE</a></h2>
+
+<p class="level2">
+Si vous souhaitez participer au développement de WhiteCat sur des release existante, il va falloir ouvrir un compte Github pour être accepté comme collaborateur et pouvoir ainsi partager avec les autres via Git les améliorations et fonctions que vous avez développé.
+</p>
+
+<h5><a name="forker_le_depot" id="forker_le_depot">Forker le dépot</a></h5>
+
+<p class="level5">
+Si vous désirez d&#039;abord vous familiariser avec la gestion des sources avec git ou créer votre propre évolution du code sans être déranger, ou
+que vous n&#039;êtes pas autoriser pour l&#039;instant par ex à faire des modifications sur le dépôt central partagé ou que vous voulez juste faire des tests ou des changement sur les dépôt git sans polluer le dépôt central, vous pouvez toujours faire un fork. 
+</p>
+
+<p class="level5">
+Si vous n&#039;êtes pas trop à l&#039;aise avec git et la procédure de participation au dépôt commun, ou que vous voulez développer une autre partie de Whitecat, ou que vous n&#039;avez pas encore lu intégralement le wiki git de whitecat (cette page), c&#039;est même conseiller,
+n&#039;hésiter surtout pas sur la page d’accueil du dépôt à vous connecter avec votre nom d&#039;utilisateur sur git, et cliquer sur le petit bouton Fork. 
+Un nouveau dépôt sera créer à votre nom, ce travail vous appartient désormais, il vous à été donné, il est opensource, vous en faite à présent ce que vous voulez, si vous le modifier ou l&#039;améliorer et diffuser votre travail, vous devrez aussi diffuser les modifications que vous avez faites, les contributions des autres et le code sources d&#039;origine afin que votre travail puisse profiter à d&#039;autre, être réutiliser par la communauté whitecat, de la même manière que ce travail vous à été donné (licence <abbr title="GNU General Public License">GPL</abbr> v2). 
+</p>
+
+<p class="level5">
+Si vos modifications faite dans ce Fork sont suffisamment clair (dans des branch indépendantes) et que vous souhaiter les partagé, les administrateurs, si la communauté le souhaite, pourrons réintégrer par la suite au dépôt commun votre travail et il sera profitable à tous, de la même façon que le travail précédent vous à été offert.
+</p>
+
+<h5><a name="participer_sur_les_depots_commun" id="participer_sur_les_depots_commun">Participer sur les dépots commun</a></h5>
+
+<p class="level5">
+La lecture intégral de ce wiki est aussi nécessaire à la participation au projet global directement sur des dossiers partagés.
+</p>
+
+<p class="level5">
+Attention, sur Git, chaque collaborateur est aussi administrateur, et chaque modification se répercutera aussi sur tout les autres et sur toute la communauté, donc le respect du dépôt, du travail collectif et individuel de chacun est de mise. 
+</p>
+
+<p class="level5">
+Un post de présentation est ouvert sur le forum.
+<a href="http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355" class="urlextern" title="http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355"  rel="nofollow">http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355</a>
+</p>
+
+<p class="level5">
+Git est un vaste outil et permet énormément de chose, mais si vous travailler sur le dépôt partager, s&#039;il vous plaît n&#039;utiliser pas d&#039;autres fonction que celle décrite dans le wiki, afin de ne pas faire trop d&#039;erreurs sur les sources et le dépôt partagé par tous, et surtout facilité le travail des autres participant et administrateurs. 
+</p>
+
+<p class="level5">
+Les sources de whitecat sont codé en C et souvent de manière globale, et chaque modification dans un fichier peut avoir facilement des répercutions plus loin, donc:
+</p>
+
+<p class="level5">
+- En cas de commit(modification du code source) non valable ou pas assez détailler pour être lisible directement sur le dépôt et sur une branch en cours, les divers membres de la communauté de dev se réserve le droit de faire un retour en arrière. 
+</p>
+
+<p class="level5">
+- En cas répétition de commit changeant trop de fonctions pour être lisible, sans les séparer en multiples commit, sur des branch commune, merge ou modification répéter du dépôt finalement nuisible ou illisible,  ou l&#039;utilisation d&#039;outil non décrit dans ce wiki sans demande d&#039;autorisation préalable à la communauté, ou du non respect de la procédure de partage (nouvelle fonction codé directement par ex dans la branch master au lieu d&#039;une branch indépendante, commit illisible), un des administrateurs peut temporairement retirer des autorisations de participation au dépôt commun, afin de ne pas être submerger par la gestion du dépôt.
+</p>
+
+<p class="level5">
+N&#039;en soyez surtout pas vexé. Il ne s&#039;agit pas forcement d&#039;une remise en cause de vos capacités.
+En cas de problème avec git ou sur les sources n&#039;hésiter pas à poser la question sur le forum .
+</p>
+
+<p class="level5">
+Les dépôts @ChristophGuillermet sont les dépôts pour l&#039;instant partager par la communauté, traiter les s&#039;il vous plaît avec respect. 
+</p>
+
+<p class="level5">
+Si vous travailler directement sur le dépôt commun ChristophGuillermet/whitecat_crossplateform
+Veuillez s&#039;il vous plait à suivre la procédure de collaboration décrite dans le guide de survie et le lire au moins une fois si vous travailler directement sur le dépôt de Christoph Guillermet afin de ne pas surcharger de travail les administrateurs: 
+</p>
+
+<p class="level5">
+- <strong>ne jamais travailler sur la branch master</strong>
+</p>
+
+<p class="level5">
+- <strong>Les commits doivent être court, pas trop de changement de ligne de code, seul les modifications que l&#039;on a réellement voulu faire doivent apparaitre dans le commit, avec un petit texte explicatif le plus détailler possible, afin de permettre aux autres développeurs et aux admins de ci retrouver.</strong>
+</p>
+
+<p class="level5">
+- <strong>vérifier régulièrement son ou ses commits avant dans reposter, voir aussi les commits des autres, sur la page d&#039;accueil git du dépôt whitecat</strong>.
+</p>
+
+<p class="level5">
+- <strong>toujours créer une nouvelle branch à partir de la branch master si vous vous ne travailler pas sur une fonction particulière déjà en cours de dévellopement</strong>
+</p>
+
+<p class="level5">
+La procédure est un peu laborieuse, mais permet de garder un équilibre sur les dépôt partagé.
+</p>
+<!-- EDIT3 SECTION "PARTICIPER AU PROJET OPENSOURCE" [1424-6931] -->
+<h2 class="sectionedit4"><a name="git_en_ligne_de_commande" id="git_en_ligne_de_commande">Git en ligne de commande</a></h2>
+
+<p class="level2">
+Git s&#039;utilise essentiellement en ligne de commande, par une console. Mais il est possible de l&#039;utiliser aussi via une interface graphique (<abbr title="Graphical User Interface">GUI</abbr>).
+Pour Windows le plus simple est d&#039;utiliser <a href="http://windows.github.com/" class="urlextern" title="http://windows.github.com/"  rel="nofollow">http://windows.github.com/</a>. 
+</p>
+
+<p class="level2">
+L’installeur comprend l&#039;application <abbr title="Graphical User Interface">GUI</abbr> GitHub et un shell (fenêtre en ligne de commande) configuré pour git.
+</p>
+
+<p class="level2">
+C&#039;est dans ce shell  que nous rentrerons par la suite les différentes commande du tuto.
+</p>
+<!-- EDIT4 SECTION "Git en ligne de commande" [6932-7392] -->
+<h2 class="sectionedit5"><a name="installer_github_window" id="installer_github_window">Installer Github Window</a></h2>
+
+<p class="level2">
+Créez vous un compte sur Github.com, c&#039;est libre et gratuit. 
+Vous aurez besoin d&#039;un pseudo et d&#039;un mot de passe vous permettant d&#039;être membre de la communauté Github. 
+Grâce à cet identifiant et ce mot de passe, vous pourrez participer au développement de Whitecat en mettant à jour le dépôt avec vos propres sources.
+</p>
+
+<p class="level2">
+Pour pouvoir être considéré comme un collaborateur officiel ( et donc pouvoir faire des dépôts sur github) merci de demander des droits de collaborateurs via le forum: <a href="http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355&amp;sid=d5cfe8164ab179171ff3aaff34faf22f" class="urlextern" title="http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355&amp;sid=d5cfe8164ab179171ff3aaff34faf22f"  rel="nofollow">http://www.le-chat-noir-numerique.fr/forums/viewtopic.php?f=35&amp;t=2355&amp;sid=d5cfe8164ab179171ff3aaff34faf22f</a>
+</p>
+
+<p class="level2">
+Télécharger ici le logiciel: <a href="http://windows.github.com/" class="urlextern" title="http://windows.github.com/"  rel="nofollow">http://windows.github.com/</a>
+</p>
+
+<p class="level2">
+Connectez vous dans le logiciel Github avec votre identifiant et votre mot de passe.
+</p>
+<!-- EDIT5 SECTION "Installer Github Window" [7393-8185] -->
+<h1 class="sectionedit6"><a name="guide_de_survie_pour_participer_sur_git_au_developpement_de_whitecat" id="guide_de_survie_pour_participer_sur_git_au_developpement_de_whitecat">Guide de survie pour participer sur git au développement de Whitecat</a></h1>
+<!-- EDIT6 SECTION "Guide de survie pour participer sur git au développement de Whitecat" [8186-8270] -->
+<h4 class="sectionedit7"><a name="recuperation_du_code_de_whitecat_la_premiere_fois" id="recuperation_du_code_de_whitecat_la_premiere_fois">Récupération du code de Whitecat, la première fois</a></h4>
+
+<p class="level4">
+Lors de la première récupération des sources on va créer ce que l&#039;on appelle un ==clone==. C&#039;est un dossier qui va être créé sur votre disque dur avec les sources présentes sur Github.
+C&#039;est dans ce dossier que git à créé que l&#039;on va coder et faire les modifications depuis Code Blocks ou Dev-Cpp.
+</p>
+
+<p class="level4">
+Pour ce, via la console il faut se positionner dans le dossier sur votre ordinateur ( commande cd ). 
+</p>
+
+<p class="level4">
+On va taper dans la console ==git clone== avec l&#039;adresse du dépôt sur le serveur, ce qui permet de cloner le répertoire (dossier git) là où l&#039;on est placé avec la commande cd.
+</p>
+
+<p class="level4">
+Deux dépôts existent pour l&#039;instant sur le git de Christoph:
+</p>
+
+<h5><a name="le_depot_originel_des_sources_avec_dev-c_et_gcc_3" id="le_depot_originel_des_sources_avec_dev-c_et_gcc_3">Le dépôt originel des sources avec DEV-C++ et GCC 3</a></h5>
+
+<p class="level5">
+Le dépot des sources originelles, avec un kit de développement pour l&#039;IDE DEV-C++ (uniquement windows). 
+DEV C++ est un environnement de développement guère plus maintenu, et assez dépassé. La dernière version officielle (4.9.2) était pour windows XP: <a href="http://www.bloodshed.net/dev/devcpp.html" class="urlextern" title="http://www.bloodshed.net/dev/devcpp.html"  rel="nofollow">http://www.bloodshed.net/dev/devcpp.html</a> et a servi à écrire et compiler schwartzpeter et whitecat.
+Ces sources ne fonctionnent pas avec la mise à jour d&#039;Orwell de Dev Cpp en version 5.6: <a href="http://orwelldevcpp.blogspot.fr/" class="urlextern" title="http://orwelldevcpp.blogspot.fr/"  rel="nofollow">http://orwelldevcpp.blogspot.fr/</a>
+</p>
+
+<p class="level5">
+Ce dépôt doit être installé sous la racine C:/ du disque pour fonctionner et n&#039;est pas vraiment optimisé pour git.
+</p>
+
+<p class="level5">
+Si vous désirez cependant utiliser Dev Cpp 49.2:
+Ouvrir le git shell et taper:
+</p>
+<pre class="code">cd c:/ 
+git clone git@github.com:ChristophGuillermet/WHITECAT_opensource.git</pre>
+
+<p class="level5">
+Pour ceux qui connaissent pas bien la console, l&#039;instruction “cd” permet de naviguer dans les répertoires de votre ordi et donc de se placer dans le dossier dans lequel on veut faire le clone, ici c:/
+</p>
+
+<p class="level5">
+Si vous ne voulez pas écrire manuellement tout le chemin (path) d&#039;un dossier  ou d&#039;un fichier, vous pouvez simplement faire un drag and drop du dossier vers la console, ou copier le texte d&#039;un click droit depuis le wiki, puis le coller d&#039;un click droit dans la console.
+</p>
+
+<p class="level5">
+PS: Si vous n&#039;utiliser pas la console windows cmd dans le gitshell, mais une commande bash sur windows, vous devrez mettre votre path entre “” pour qu&#039;il soit reconnu.
+</p>
+
+<h5><a name="le_nouveau_depot_pour_le_cross-plateformes" id="le_nouveau_depot_pour_le_cross-plateformes">Le nouveau dépôt pour le cross-plateformes</a></h5>
+
+<p class="level5">
+<a href="https://github.com/ChristophGuillermet/whitecat_crossplateform" class="urlextern" title="https://github.com/ChristophGuillermet/whitecat_crossplateform"  rel="nofollow">https://github.com/ChristophGuillermet/whitecat_crossplateform</a>
+</p>
+
+<p class="level5">
+Un nouveau dépôt est destiné au cross-plateformes ( un même projet compilable sous Linux / Windows / Mac ). Le code originel des libraires à été mise à jours et compiler pour MinGW gcc4.8.1 et l&#039;organisation du dépôt WhiteCat_Opensource a été retouché par Anton, les sources ont été debuger et nettoyé pour pouvoir être compilé par la communauté et sous différents <abbr title="Operating System">OS</abbr>, dans un projet unique.
+</p>
+
+<p class="level5">
+Il contient des projets d&#039;IDE configurer, CodeBlocks, dev-c++, et netbeans intégrer par Ruis Serge.
+Les sources mises à jour avec les derniers debugs, des pas à pas et un début de commentaires des sources pour la doc doxygen.
+</p>
+
+<p class="level5">
+Une doc minimal de L&#039;<abbr title="Application Programming Interface">API</abbr> Whitecat avec Doxygen est aussi disponible dans ce dépôt, elle est encore à compléter, mais contient une brève description de chacun des fichiers de l&#039;<abbr title="Application Programming Interface">API</abbr>.
+Vous trouverez aussi un tutoriel sur comment créer sa première fenêtre whitecat, dans le fichier my_window_file_sample.h de la doc.
+</p>
+
+<p class="level5">
+Ce dépôt peut être installé où on veut sur l&#039;ordi tant qu&#039;il n&#039;y a pas de caractère nationaux dans le path du dossier.
+</p>
+
+<p class="level5">
+Pour l&#039;utiliser et coder avec, taper dans la console git:
+</p>
+<pre class="code">cd &lt;path du dossier ou on veut installer le repertoire whitecat_crossplateform&gt; 
+git clone git@github.com:ChristophGuillermet/whitecat_crossplateform.git</pre>
+
+<p class="level5">
+Il y a ensuite deux autres dépôts qu&#039;il faut cloner dans le répertoire whitecat_crossplateform.
+Vous pouvez, si vous ne voulez pas cloner l&#039;intégralité des deux dossier, trouver sans doute des prébuilds plus légère à l&#039;adresse <a href="http://www.le-chat-noir-numerique.fr/coding/" class="urlextern" title="http://www.le-chat-noir-numerique.fr/coding/"  rel="nofollow">http://www.le-chat-noir-numerique.fr/coding/</a>
+</p>
+
+<p class="level5">
+Le dépôt Whitecatlib contenant: 
+</p>
+
+<p class="level5">
+-les sources des libraires utilisées et leurs dépendances à compiler soit même, pour si vous utiliser un autre compilateur que MinGW_GCC4.8.1, et les libs déjà précompiler et linker pour minGW4.8.1. 
+A terme sans doutes des précompilations pour d&#039;autres plateforme.
+</p>
+
+<p class="level5">
+Le dépôt whitecatbuild contenant:
+</p>
+
+<p class="level5">
+- les applications whitecat compilées pour chaque plateforme suivant l&#039;avancement du projet, les dll et les dossiers nécessaire à whitecat dans le dossier to_copy_in_the_executable_folder. 
+</p>
+
+<p class="level5">
+Pour lancer whitecat avec windows par exemple, 
+il faut décompresser les zips whitecatfolders.zip et MinGW4.8.1dll.zip qu&#039;on trouve dans le dossier to_copy_in_the_executable_folder dans le dossier white_cat_with_mingw, dans lequel se trouve Whitecat_Crossplateform.exe pour windows.
+</p>
+
+<p class="level5">
+Pour cloner les deux dépôt complet, dans la console git
+</p>
+<pre class="code">cd &lt;path du dossier whitecat_crossplateform&gt; 
+git clone git@github.com:ChristophGuillermet/whitecatlib.git
+git clone git@github.com:ChristophGuillermet/whitecatbuild.git</pre>
+
+<p class="level5">
+Pour les mettre à jour après.
+</p>
+<pre class="code">cd &lt;path du dossier whitecat_crossplateform/whitecatlib&gt; 
+git pull
+cd &lt;path du dossier whitecat_crossplateform/whitecatbuild&gt; 
+git pull</pre>
+
+<p class="level5">
+Un MinGW4.8.1 compresser avec toutes les librairies, à décompresser dans C:/, est aussi à l&#039;adresse <a href="https://github.com/ChristophGuillermet/MinGW" class="urlextern" title="https://github.com/ChristophGuillermet/MinGW"  rel="nofollow">https://github.com/ChristophGuillermet/MinGW</a>
+</p>
+<!-- EDIT7 SECTION "Récupération du code de Whitecat, la première fois" [8271-13596] -->
+<h4 class="sectionedit8"><a name="installer_l_environnement" id="installer_l_environnement">INSTALLER L&#039;ENVIRONNEMENT</a></h4>
+
+<p class="level4">
+Si vous êtes sur windows ou une autre plateforme et que vous voulez compiler les libraires,
+s&#039;inspirer du pas à pas BUILD_LIBRARIES_INSTRUCTIONS_for_MinGW.txt pour installer l’environnement de développement, les librairies si besoin et les devkits et compiler une première fois les sources.
+</p>
+
+<p class="level4">
+Sinon sur Windows, suivre plus simplement le pas à pas PREBUILD_INSTALL_WITH_CODEBLOCKS_AND_MINGW4.8.1.txt
+</p>
+
+<p class="level4">
+Une fois ceci fait, c&#039;est parti mon kiki !
+</p>
+<!-- EDIT8 SECTION "INSTALLER L'ENVIRONNEMENT" [13597-14081] -->
+<h4 class="sectionedit9"><a name="ca_compile_bien_youpi_au_travail_on_peut_commencer_a_coder_whitecat" id="ca_compile_bien_youpi_au_travail_on_peut_commencer_a_coder_whitecat">Ça compile bien, Youpi au travail, on peut commencer à coder whitecat !</a></h4>
+
+<p class="level4">
+… oui, mais quand on travaille à plusieurs mains, c&#039;est bien de voir si les autres ont progressé depuis la dernière fois.
+</p>
+<!-- EDIT9 SECTION "Ça compile bien, Youpi au travail, on peut commencer à coder whitecat !" [14082-14292] -->
+<h4 class="sectionedit10"><a name="pour_savoir_ou_on_en_est_dans_quel_etat_j_erre" id="pour_savoir_ou_on_en_est_dans_quel_etat_j_erre">Pour savoir où on en est « dans quel état j&#039;erre ? »</a></h4>
+
+<p class="level4">
+La commande, c&#039;est 
+</p>
+<pre class="code">git status</pre>
+
+<p class="level4">
+elle renvoie la liste de toutes les modifications, celles qui ne le sont pas encore uploader sur le serveur, celles qui ne sont pas encore commit, la branch sur laquelle se trouve les sources du dossier, les nouveaux fichiers ou dossier dans le dossier du dépôt mais qui ne sont pas encore synchroniser au dépot, les erreurs etc. 
+En gros entre chaque commande git on va écrire un petit git status pour vérifier qu&#039;il y a pas de problème, c&#039;est préférable.
+</p>
+
+<p class="level4">
+La commande
+</p>
+<pre class="code">git reset --hard</pre>
+
+<p class="level4">
+Permet de mettre à jour vos donnés et le dépôt sur votre disque
+</p>
+
+<p class="level4">
+Dans la console git
+</p>
+<pre class="code">cd &lt;path du dossier clone whitecat crossplateform&gt;
+git pull</pre>
+
+<p class="level4">
+Ça permet à Git de récupérer toutes les nouveautés qui sont apparues sur le dépôt central des sources de whitecat. Si une des modifications en amont est en contradiction avec une des modification suivies localement, des messages informatifs apparaissent et on dispose d&#039;un moyen simple pour résoudre les conflits.
+ou alors: 
+git pull nom_de_branch_sur_laquelle_travailler (voir chapitre branch).
+ex pour mettre à jour que la branch principal:
+</p>
+<pre class="code">git status
+git reset --hard
+git pull origin master
+git reset --hard</pre>
+<!-- EDIT10 SECTION "Pour savoir où on en est « dans quel état j'erre ? »" [14293-15614] -->
+<h4 class="sectionedit11"><a name="les_branch" id="les_branch">Les branch</a></h4>
+
+<p class="level4">
+<strong>Ne jamais travailler sur la branch master</strong>
+Chaque dépôt peut contenir plusieurs branch, comme les branches d&#039;un arbre, c&#039;est à dire des évolution séparées. Les branches peuvent évoluées un moment de manière séparer pour développer un gros changement de code et une modification plus importante qu&#039;un simple commit, puis après se fusionner avec la branch master (la branche principal) pour prendre en compte une fois qu&#039;un développement est terminé, les modifications et évolution des deux branches.
+</p>
+
+<p class="level4">
+En gros à chaque fois que sur un dépôt ou va vouloir travailler sur un changement important de whitecat, 
+ex: ajout de l&#039;osc, changement de la librairie audio, test de doc avec doxygen etc.. on va créer une nouvelle branch sur laquelle on travaillera. 
+Ainsi les test et changement provisoire de code ne polluerons pas la branch master pour les autres développeurs, et il ne se retrouverons pas tout à coup avec un code en cours de construction, mais que ne compile plus.
+</p>
+
+<p class="level4">
+Pour créer une nouvelle branch dans le dépot origin (clone d&#039;origin voir chapitre fork et remote si on utilise un autre mot clef que origin).
+</p>
+
+<h5><a name="exempleon_veut_developper_whitecat_pour_qu_il_reconnaisse_l_osc" id="exempleon_veut_developper_whitecat_pour_qu_il_reconnaisse_l_osc">Exemple: on veut développer whitecat pour qu&#039;il reconnaisse l&#039;osc</a></h5>
+
+<p class="level5">
+Dans la console git, dans le dépôt taper dans l&#039;ordre:
+</p>
+
+<p class="level5">
+Pour créer une nouvelle branch, on part toujours de la branch master, osc étant le nouveaux nom de la branch.
+</p>
+<pre class="code">git checkout master</pre>
+
+<p class="level5">
+Ce place sur la branch master à partir de laquelle on veut créer une nouvelle branch
+</p>
+<pre class="code">git checkout -b osc</pre>
+
+<p class="level5">
+Crée la branch osc et se place dessus pour les prochains changement.
+</p>
+
+<p class="level5">
+Avant chaque fois qu&#039;on veut reprendre le code de la nouvelle fonction osc de whitecat, on va donc ouvrir et taper dans la console  avant de coder et d&#039;ouvrir son IDE:
+</p>
+<pre class="code">git pull osc</pre>
+
+<p class="level5">
+pour récupérer tout les changement effectuer sur la branch osc  (ou git pulléventuellement pour récuperer toutes les nouvelles branch entre temps sur le serveur, y compris les changement d&#039;autres dev dans la branch osc)
+</p>
+
+<p class="level5">
+pour se placer dans la branch osc avant travailler dessus et updater les sources qui sont dans le  clone sur l&#039;ordinateur afin qu&#039;elle soit identique à la branch osc
+</p>
+<pre class="code">git checkout osc </pre>
+
+<p class="level5">
+Il est fortement conseiller d&#039;ajouter
+</p>
+<pre class="code">git reset --hard origin/osc </pre>
+
+<p class="level5">
+Pour que les sources sur l&#039;ordi soit identique à celle sur le serveur.
+</p>
+
+<p class="level5">
+On va donc ensuite ouvrir l&#039;ide, puisque le code de notre dépôt sur le disque dur sera mis à jour, coder nos petit changement à cette branch en faisant à chaque fois, après avoir un peu coder,  un ou des commit que l&#039;on va envoyer vers le serveur comme décrit précédemment.
+</p>
+<pre class="code">git status</pre>
+
+<p class="level5">
+pour afficher les changements et verifier la branch sur laquelle on travail. 
+Si des modification sont en rouge, c&#039;est qu&#039;il y a des fichiers qui n&#039;ont pas été tracker par git, dans ce cas ajouter les fichiers que l&#039;on souhaite modifier avec
+</p>
+<pre class="code">git add nomdufichier.ccp</pre>
+
+<p class="level5">
+Si tout est en vert ou que les fichiers que vous vouliez modifier apparaisse en vert vous pouvez passer directement au commit.
+</p>
+<pre class="code">git commit -m &quot;description des changement&quot;</pre>
+<pre class="code">git status 
+
+pour vérifier que tout est bon
+
+&lt;code&gt;
+git push origin osc</pre>
+
+<p class="level5">
+pour envoyer nos changement vers la branch osc du serveur sur laquelle on travail
+</p>
+
+<p class="level5">
+Les fusion de branch etc.. pour adapter le code finit de la fonction osc sur la branch master seront vu dans un autre tuto ou chapitre, sinon plus de doc se trouve à l&#039;adresse <a href="http://git-scm.com/book/fr/Les-branches-avec-Git-Brancher-et-fusionner%C2%A0%3A-les-bases" class="urlextern" title="http://git-scm.com/book/fr/Les-branches-avec-Git-Brancher-et-fusionner%C2%A0%3A-les-bases"  rel="nofollow">http://git-scm.com/book/fr/Les-branches-avec-Git-Brancher-et-fusionner%C2%A0%3A-les-bases</a>
+</p>
+<!-- EDIT11 SECTION "Les branch" [15615-19241] -->
+<h4 class="sectionedit12"><a name="les_commit" id="les_commit">Les commit</a></h4>
+
+<p class="level4">
+Le principe de git est simple,pour chaque petite modification de code, ajout d&#039;une petite fonction dans un fichier, changement des commentaire et de la doc, debug d&#039;une fonction, etc..
+</p>
+
+<p class="level4">
+on va poster un commit qui décrit la modification des sources.
+Ainsi dans l&#039;historique du dépôt , un autre dev pourra aisément suivre pas à pas les modification qui ont été faites, et les lignes qui ont changer dans chaque fichiers seront visible.
+</p>
+
+<p class="level4">
+Le principe est donc de poster des commit très régulièrement pendant qu&#039;on code, à chaque fois qu&#039;on finit un petit changement.
+Une seule fonction doit être contenu dans un commit pour que le changement puisse être pris en compte, un type de debug sur une fonction, 
+ex: debug de deux ou trois lignes sur la fonction midi, ne rajouter pas en passant un autre debug sur la doc doxygen. 
+Les commit doivent représenter toujours le changement de code le plus petit possible, mais fonctionnel (ça ne sert à rien de poster un commit sur l&#039;ajout d&#039;une fonction qui n&#039;est pas encore finie d&#039;être écrite aussi dans le fichier .h ou les fichiers qui font appel à cette fonction par ex).
+</p>
+
+<p class="level4">
+On aura donc pendant qu&#039;on code, toujours la console git ouverte avec:
+</p>
+<pre class="code"> cd &lt;path du dossier whitecat_crossplateform&gt; pour être dans le clone du dépôt git sur lequel on code.</pre>
+
+<p class="level4">
+A partir de maintenant, nous allons considérer que la console git est toujours ouverte et que le path de la console mène vers le dossier du clone git sur lequel on travail avec la fonction cd.
+</p>
+
+<p class="level4">
+De temps en temps, pour poster un commit dans le clone git sur notre ordi, rien de plus simple, on va taper dans la console:
+</p>
+<pre class="code">git commit -m &quot;description de ce que on a fait entre temps comme changement sur le code, ex debug de icat, doc doxygen&quot; </pre>
+
+<p class="level4">
+Puis pour poster notre commit sur le serveur central sur le site de git hub, si on est autoriser, pour qu&#039;il soit disponible pour les autres.
+</p>
+<pre class="code">git push origin nomdemabranch</pre>
+
+<p class="level4">
+La fonction “git push” permet de uploader les changement commit dans les fichier sources vers un serveur
+</p>
+
+<p class="level4">
+“origine ” définit le serveur vers lequel on veut uploader, origin est un mot clef définissant l&#039;url du serveur à partir duquel on a fait le clone qui va être utilisé pour uploader les changement, 
+dans notre cas git@github.com:ChristophGuillermet/whitecat_crossplateform.git
+En général c&#039;est toujours dans ce dépot sauf exceptions que l&#039;on va travailler.
+Donc origine est le mot clef du “remote” (c&#039;est comme ça que s&#039;appelle) qui pointe vers l&#039;url du serveur d&#039;origin. 
+Nous travaillerons presque toujours sur cette remote, mais pour plus de détails voir le chapitre plus loin “Les Fork”.
+</p>
+
+<p class="level4">
+“master” définit la branch (voir le chapitre suivant) vers laquelle ont va uploader nos commit et nos changement
+</p>
+
+<p class="level4">
+Si on code sans connexion internet. c&#039;est pas grave. on va au fur et à mesure du code faire seulement des commit.
+</p>
+<pre class="code">git commit -m &quot;petit changement que je veux faire&quot;</pre>
+
+<p class="level4">
+une fois que l&#039;on auras une connexion internet pour mettre à jours les changements:
+</p>
+<pre class="code">//pour récupérer les changement fait sur le dépôt depuis sans les merger, intégré à notre code sur l&#039;ordi
+git fetch origin nomdemabranch
+git push origin nomdemabranch</pre>
+
+<p class="level4">
+Ça peut parfois merder si il y a des changements qui rentre en conflit sur le serveur avec les changement que vous avez coder depuis.
+</p>
+<!-- EDIT12 SECTION "Les commit" [19242-22647] -->
+<h4 class="sectionedit13"><a name="ajouter_des_nouveaux_fichiers_ou_des_dossier_a_suivre_dans_le_depot_apres_les_avoir_creer" id="ajouter_des_nouveaux_fichiers_ou_des_dossier_a_suivre_dans_le_depot_apres_les_avoir_creer">ajouter des nouveaux fichiers ou des dossier à suivre dans le dépot après les avoir créer</a></h4>
+
+<p class="level4">
+C&#039;est la commande git add
+Pour un fichier
+</p>
+<pre class="code">git add nom_de_fichier_à_suivre
+// ex: git add MinGWpackageinstalled.rtf</pre>
+
+<p class="level4">
+ou pour ajouter tous les fichiers contenu dans un dossier
+ex: si on est dans le répertoire principal du dépot  whitecat_crossplateform comme d&#039;hab avec la commande cd et qu&#039;on veut ajouter au suivi le dossier OSC qu&#039;on a par ex créer dans le dossier Src pour y mettre les fichiers du code destiné à la gestion de l&#039;osc
+</p>
+<pre class="code">git add path_du_dossier_depuis_l&#039;endroit_ou_on_se_trouve_dans_la_console/ *
+git add Src/OSC/ *</pre>
+
+<p class="level4">
+Pour rescaner tout le répertoire
+</p>
+<pre class="code">git add --all</pre>
+
+<p class="level4">
+Puis effectuer un commit
+</p>
+<pre class="code">git commit -m &quot;ajout du répertoire IDE/CodeBlocks au dépot&quot;
+git push origin osc
+//pour uploader vers la branch osc créer précédement sur le dépot sur le serveur</pre>
+<!-- EDIT13 SECTION "ajouter des nouveaux fichiers ou des dossier à suivre dans le dépot après les avoir créer" [22648-23587] -->
+<h4 class="sectionedit14"><a name="les_tags" id="les_tags">Les tags</a></h4>
+
+<p class="level4">
+Lorsqu&#039;un version est finie une grosse fonction marche bien etc.., Si on veut garder une sauvegarde de cette version de whitecat et pouvoir à l&#039;avenir la télécharger même si il y a des changement commit depuis, on va la tager.
+</p>
+
+<p class="level4">
+Je ( — <em><a href="mailto:&#x67;&#x65;&#x6f;&#x72;&#x67;&#x65;&#x73;&#x2e;&#x6b;&#x68;&#x61;&#x7a;&#x6e;&#x61;&#x64;&#x61;&#x72;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;" class="mail" title="&#x67;&#x65;&#x6f;&#x72;&#x67;&#x65;&#x73;&#x2e;&#x6b;&#x68;&#x61;&#x7a;&#x6e;&#x61;&#x64;&#x61;&#x72;&#x40;&#x66;&#x72;&#x65;&#x65;&#x2e;&#x66;&#x72;">Georges Khaznadar@free.fr</a> 2014/01/26 18:19</em>) me souviens que quand j&#039;habitais en Lorraine et que je coupais mon bois de chauffage, on avait une habitude pour marquer les tas de bois : un trait de peinture (à la bombe) sur le tas qui permettait de retrouver les bûches qu&#039;on avait placées avant telle date 
+</p>
+
+<p class="level4">
+<img src="tasdebois.tok.2f3e5c_w.150.jpeg" class="media" title="tas de bois marqué" alt="tas de bois marqué" width="150" />
+</p>
+
+<p class="level4">
+Quand on dépose un tag dans Git, c&#039;est un peu pareil. Celui-ci permet dans le future de récupérer exactement l&#039;état des fichiers qui existaient et qui étaient « commis » au moment de la création du tag.
+</p>
+
+<p class="level4">
+Les commandes pour cela sont :
+</p>
+<pre class="code">git tag</pre>
+
+<p class="level4">
+pour voir la liste des tags existants
+</p>
+<pre class="code">git tag nomDunNouveauTag</pre>
+
+<p class="level4">
+pour créer un nouveau tag localement, qui marque tous les fichiers « commis ».
+</p>
+<pre class="code">git push --tags</pre>
+
+<p class="level4">
+pour remonter les tags locaux vers le dépôt central. Quand le dépôt central est géré par GitHub, il crée automatiquement un lien qui permet de récupérer le projet dans une archive .zip ou .tar.gz
+</p>
+
+<p class="level4">
+La gestion des tag et des release est presque plus facile je trouve depuis la page https du dépôt en cliquant sur le petit bouton releases pour afficher toute les versions déjà tagger et éventuellement en télécharger une en particulier. 
+</p>
+
+<p class="level4">
+Sur cette page en cliquant sur le bouton &lt;draft a new release&gt; on peut facilement créer un nouveau tag prenant l&#039;état des sources à ce moment.
+</p>
+<!-- EDIT14 SECTION "Les tags" [23588-25290] -->
+<h4 class="sectionedit15"><a name="les_remotes_formellement_interdit_sur_les_depots_partager_uniquement_pour_les_administrateurs_sous_peine_de_bannissement_immediat_a_n_utiliser_qu_uniquement_sur_votre_propre_fork" id="les_remotes_formellement_interdit_sur_les_depots_partager_uniquement_pour_les_administrateurs_sous_peine_de_bannissement_immediat_a_n_utiliser_qu_uniquement_sur_votre_propre_fork">Les remotes (formellement interdit sur les dépôts partager, uniquement pour les administrateurs sous peine de bannissement immédiat, à n&#039;utiliser qu&#039;uniquement sur votre propre Fork)</a></h4>
+
+<p class="level4">
+Pour mettre à jour votre fork depuis le dépôt à partir duquel vous l&#039;avez créer, vous devez créer donc une nouvelle remote pointant vers le dépôt à partir duquel vous avez forker.
+Ex :
+</p>
+<pre class="code">git remote add depotchristoph git@github.com:ChristophGuillermet/whitecat_crossplateform.git</pre>
+
+<p class="level4">
+depotchristoph étant donc le nom de la nouvelle remote (nous avons donc origin et depotchristoph comme remote)
+suivit de l&#039;url du dépôt vers lequel cette remote pointe.
+</p>
+
+<p class="level4">
+L&#039;url du dépôt peux se trouver par ex sur la page https du dépôt, sur le coté droit, en dessous par ex de ssh clone url ="ou https clone url ou Subversion clone". 
+Pour un même dépôt pourrez trouver et utiliser selon votre convenance l&#039;url https, l&#039;url ssh, ou l&#039;url subvertion. 
+J&#039;utilise en général le ssh, moins bugger que le https en cas de coupure de liaison internet , mais c&#039;est en fonction des préférences de chaque utilisateur.
+</p>
+
+<p class="level4">
+Pour connaitre quelles sont les remote de votre dépôt git
+</p>
+<pre class="code">git remote -v</pre>
+<!-- EDIT15 SECTION "Les remotes (formellement interdit sur les dépôts partager, uniquement pour les administrateurs sous peine de bannissement immédiat, à n'utiliser qu'uniquement sur votre propre Fork)" [25291-26501] -->
+<h4 class="sectionedit16"><a name="synchro_entre_depot_et_merge_a_ne_jamais_utiliser_sur_les_depots_partager" id="synchro_entre_depot_et_merge_a_ne_jamais_utiliser_sur_les_depots_partager">Synchro entre dépot et Merge (!! à ne jamais utiliser sur les dépôts partager)</a></h4>
+
+<p class="level4">
+Pour synchroniser mon dépôt avec les mise à jour effectuer par ex entre temps sur le dépôt de Christoph, je vais faire dans l&#039;ordre sur la console en étant situer dans mon clone :
+</p>
+<pre class="code">git fetch  depotchristoph</pre>
+
+<p class="level4">
+pour récupérer les mise à jour sur son dépôt
+</p>
+<pre class="code">git checkout -b mergesourceChristoph</pre>
+
+<p class="level4">
+Pour me placer dans mon dépôt sur une nouvelle branch mergesourceChristoph que je veux mettre à jour et sur laquelle je travaille, ou n&#039;importe quelle autre branch en changeant seulement le nom master par le nom d&#039;une branch de travail.
+Puis
+</p>
+<pre class="code">git rebase depotchristoph/master</pre>
+
+<p class="level4">
+Ce qui aura pour effet de mettre à jour mon dépôt sur mon disque dur, la branch master avec la branch master du dépôt de christoph
+Si le résultat me plaît, je peux mettre à jour mon dépôt sur mon serveur git en tapant comme toujours
+</p>
+<pre class="code">git add --all</pre>
+
+<p class="level4">
+pour que git regarde les différences dans tous les fichiers
+</p>
+<pre class="code">git merge depotchristoph/master</pre>
+
+<p class="level4">
+pour fusionner et garder l&#039;historique git du dépôt de Christoph
+</p>
+
+<p class="level4">
+Vérifier que tout va bien avec un
+</p>
+<pre class="code">git status</pre>
+
+<p class="level4">
+Puis
+</p>
+<pre class="code">git push origin master</pre>
+
+<p class="level4">
+Pour mettre à jour SON dépôt sur le site de github.
+</p>
+<!-- EDIT16 SECTION "Synchro entre dépot et Merge (!! à ne jamais utiliser sur les dépôts partager)" [26502-27823] -->
+<h2 class="sectionedit17"><a name="git_avec_un_environnement_graphique" id="git_avec_un_environnement_graphique">Git avec un environnement graphique</a></h2>
+<!-- EDIT17 SECTION "Git avec un environnement graphique" [27824-27871] -->
+<h3 class="sectionedit18"><a name="codeblocks" id="codeblocks">CodeBlocks</a></h3>
+<!-- EDIT18 SECTION "CodeBlocks" [27872-27892] -->
+<h3 class="sectionedit19"><a name="eclipse" id="eclipse">Eclipse</a></h3>
+<!-- EDIT19 SECTION "Eclipse" [27893-] --></div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Hardware — WhiteCat</title>
+  <meta name="date" content="2026-05-17"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="hardware_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#systeme">Système</a></div></li>
+<li class="level3"><div class="li"><a href="#configuration_minimum">Configuration minimum</a></div></li>
+<li class="level3"><div class="li"><a href="#configuration_ideale">Configuration idéale</a></div></li>
+<li class="level3"><div class="li"><a href="#tester_configuration">Tester la configuration d'un ordi</a></div></li>
+<li class="level3"><div class="li"><a href="#conseils_achat">Conseils d'achat</a></div></li>
+<li class="level3"><div class="li"><a href="#lumiere_video">Lumière et vidéo sur un même portable</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit0">Configuration matérielle</h1>
+
+<h3 class="sectionedit1" id="systeme">Système</h3>
+<div class="level3">
+
+<p>
+White Cat fonctionne sous Windows 10 et 11.
+À tester sous Windows 7 et Windows 8-8.1.
+Ne fonctionne plus sous XP, Vista.
+</p>
+
+<p>
+Les utilisateurs de très anciennes machines peuvent télécharger une ancienne version (0.8.x), toujours disponible sur <a href="https://1-0-1.fr/logiciel-whitecat/" class="urlextern" rel="nofollow">le site de Christoph Guillermet</a>.
+</p>
+
+</div>
+
+<h3 class="sectionedit2" id="configuration_minimum">Configuration minimum</h3>
+<div class="level3">
+
+<h4>CPU</h4>
+<ul>
+<li class="level1"><div class="li">Minimum théorique : dual-core 1 GHz</div></li>
+<li class="level1"><div class="li">Confortable : n'importe quel CPU post-2010</div></li>
+</ul>
+
+<h4>RAM</h4>
+<ul>
+<li class="level1"><div class="li">Le show complet (512 circuits, mémoires, LFOs) tient largement dans 50–100 Mo</div></li>
+<li class="level1"><div class="li">1 Go RAM suffit, 2 Go confortable</div></li>
+</ul>
+
+<h4>GPU / affichage</h4>
+<ul>
+<li class="level1"><div class="li">SDL2 utilise le renderer hardware par défaut — n'importe quelle carte avec DirectX 9 ou OpenGL 2.0 passe</div></li>
+<li class="level1"><div class="li">Une carte intégrée Intel HD Graphics de génération 2011+ suffit</div></li>
+<li class="level1"><div class="li">Résolution minimum : 1280×800</div></li>
+</ul>
+
+<h4>Stockage</h4>
+<ul>
+<li class="level1"><div class="li">L'exe + DLLs + assets : ~350 Mo</div></li>
+<li class="level1"><div class="li">Les shows sauvegardés : une centaine de Mo chacun</div></li>
+</ul>
+
+<h4>En résumé</h4>
+<ul>
+<li class="level1"><div class="li">Un PC bureautique d'occasion post-2010 avec Windows 10 fait tourner WhiteCat sans problème.</div></li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit3" id="configuration_ideale">Configuration idéale</h3>
+<div class="level3">
+
+<p>Pour une utilisation en conditions de spectacle (fiabilité, réactivité) :</p>
+
+<ul>
+<li class="level1"><div class="li">CPU — Core i3/i5 gen 6+ ou équivalent</div></li>
+<li class="level1"><div class="li">RAM — 4 Go</div></li>
+<li class="level1"><div class="li">GPU — intégré suffit (Intel UHD 620 ou mieux)</div></li>
+<li class="level1"><div class="li">Stockage — SSD</div></li>
+<li class="level1"><div class="li">Écran — 1920×1080, 15"</div></li>
+<li class="level1"><div class="li">OS — Windows 10 ou 11 64 bits</div></li>
+</ul>
+
+<p>En résumé : un laptop bureautique milieu de gamme récent fait parfaitement l'affaire. Pas besoin de machine gaming.</p>
+
+</div>
+
+<h3 class="sectionedit4" id="tester_configuration">Tester la configuration d'un ordi</h3>
+<div class="level3">
+
+<p>En cas d'achat dédié, il est possible de tester si WhiteCat tourne sur la machine :</p>
+
+<ol>
+<li class="level1"><div class="li">Copiez le dossier WhiteCat sur une clé USB.</div></li>
+<li class="level1"><div class="li">Essayez WhiteCat depuis cette clé, en magasin.</div></li>
+</ol>
+
+</div>
+
+<h3 class="sectionedit5" id="conseils_achat">Conseils d'achat</h3>
+<div class="level3">
+
+<ul>
+<li class="level1"><div class="li">Dalle mate de préférence.</div></li>
+<li class="level1"><div class="li">Privilégiez les claviers rétroéclairés et les pavés numériques.</div></li>
+<li class="level1"><div class="li">Pas de mises à jour automatiques Windows actives pendant le spectacle.</div></li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit6" id="lumiere_video">Lumière et vidéo sur un même portable</h3>
+<div class="level3">
+
+<p>
+En utilisant VVVV et WhiteCat vous pouvez faire les deux sur un même ordi en tapant dans un processeur type i5, avec une carte graphique d'1 Go.
+</p>
+
+<p>
+Pour ce genre d'application on privilégiera des machines dites pour « gamers », dont les performances graphiques 3D sont mises en avant.
+</p>
+
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>banger</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-01T14:21:20+0200"/>
+<meta name="keywords" content="banger"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="banger.html"/>
+<link rel="contents" href="banger.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="banger.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="banger.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=banger"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"banger","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#banger">BANGER</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#declenchements_du_banger_et_de_ses_evenements">Déclenchements du Banger et de ses évènements</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#vue_generale_des_127_bangers">Vue générale des 127 bangers</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#navigation_et_edition_des_bangers">Navigation et édition des Bangers</a></div></li>
+<li class="level2"><div class="li"><a href="#declenchement_en_boucle_d_un_banger">Déclenchement en boucle d&#039;un banger</a></div></li>
+<li class="level2"><div class="li"><a href="#selection_des_types_d_evenements">Sélection des types d&#039;évènements</a></div></li>
+<li class="level2"><div class="li"><a href="#selection_des_valeurs">Sélection des valeurs</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_faders">Catégorie Faders</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#tableau_des_actions_et_valeurs_pour_les_faders">Tableau des actions et valeurs pour les faders</a></div></li>
+<li class="level4"><div class="li"><a href="#exemple_de_programmation_faders">Exemple de programmation Faders:</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_midisend">Catégorie MidiSend</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#types_d_actions_en_midisend">Types d&#039;actions en MidiSend</a></div></li>
+<li class="level4"><div class="li"><a href="#et_les_crossfades_de_control-change">Et les crossfades de Control-Change ?</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_windows">Catégorie Windows</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_alarm">Catégorie Alarm</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_audioplayers">Catégorie  AudioPlayers</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#tableau_des_actions_et_valeurs_pour_les_audioplayers">Tableau des actions et valeurs pour les audioplayers</a></div></li>
+<li class="level4"><div class="li"><a href="#question_du_crossfade_audio_automatise">Question du CrossFade Audio automatisé</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_sequences">Catégorie Sequences</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#tableau_des_actions_et_valeurs_pour_le_sequentiel">Tableau des actions et valeurs pour le séquentiel</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_chasers">Catégorie Chasers</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#tableau_des_actions_et_valeurs_pour_les_chasers">Tableau des actions et valeurs pour les chasers</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_minifaders">Catégorie MiniFaders</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#tableau_des_actions_et_valeurs_pour_les_minifaders">Tableau des actions et valeurs pour les minifaders</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#categorie_icat">Catégorie iCat</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_chrono">Catégorie Chrono</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_setchannel">Catégorie SetChannel</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_setbanger">Catégorie SetBanger</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_midimute">Catégorie MidiMute</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_gridplayer">Catégorie GridPlayer</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_hardware">Catégorie Hardware</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_emulate_kbd">Catégorie Emulate Kbd</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_draw">Catégorie Draw</a></div></li>
+<li class="level2"><div class="li"><a href="#categorie_echo">Catégorie Echo</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#echo_selectionne_dans_la_fenetre">Echo sélectionné dans la fenêtre</a></div></li>
+<li class="level3"><div class="li"><a href="#echo_appele_en_val1">Echo appelé en Val1</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#effacement_d_un_banger">Effacement d&#039;un Banger</a></div></li>
+<li class="level2"><div class="li"><a href="#recopie_d_un_banger_vers_un_autre">Recopie d&#039;un banger vers un autre</a></div></li>
+<li class="level2"><div class="li"><a href="#enchassement_d_un_banger_dans_une_memoire">Enchassement d&#039;un Banger dans une mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_midi">Affectation Midi</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="banger" id="banger">BANGER</a></h1>
+
+<h5><a name="acceder_a_banger" id="acceder_a_banger">Accéder à Banger:</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> Clicker [Banger] ou taper [F11]</div>
+</li>
+</ul>
+
+<p class="level5">
+<img src="click_banger.jpeg" class="media" title="click_banger.jpg" alt="click_banger.jpg" />
+</p>
+
+<p class="level5">
+<img src="banger_main.jpeg" class="media" title="banger_main.jpg" alt="banger_main.jpg" />
+</p>
+
+<p class="level5">
+L&#039;idée de Banger est de créer des départs autonomes déclenchés soit par un simple click, soit par le Go de la mémoire où il est enchassé.
+</p>
+
+<p class="level5">
+Il s&#039;agit donc d&#039;envois ponctuels, de déclenchements d&#039;<strong>évènements</strong>.
+</p>
+
+<p class="level5">
+Banger est un module simple mais extrêmement puissant, qui vous permettra d&#039;automatiser certaines actions dans votre conduite ou depuis un click.
+</p>
+
+<p class="level5">
+<strong>WhiteCat comprend 127 Banger.</strong>
+</p>
+
+<p class="level5">
+Un Banger peut comporter jusqu&#039;à 6 évènements différents.
+</p>
+
+<p class="level5">
+On peut déclencher le type d&#039;actions suivantes, en parallèle de l&#039;éxécution globale de White Cat:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> actions sur les faders : plus que des automations, celà permet une autre manière d&#039;approcher un crossfade et la notion de channel time</div>
+</li>
+<li class="level1"><div class="li"> envois de midi pour piloter d&#039;autres logiciels: signaux Key On, key-Off et Ctrl-Change</div>
+</li>
+<li class="level1"><div class="li"> appels des fenêtres</div>
+</li>
+<li class="level1"><div class="li"> déclenchements des 4 lecteurs sons</div>
+</li>
+<li class="level1"><div class="li"> alarmes visuelles</div>
+</li>
+</ul>
+<!-- EDIT1 SECTION "BANGER" [1-1018] -->
+<h2 class="sectionedit2"><a name="declenchements_du_banger_et_de_ses_evenements" id="declenchements_du_banger_et_de_ses_evenements">Déclenchements du Banger et de ses évènements</a></h2>
+
+<p class="level2">
+L&#039;approche de ces déclenchements peut se faire de plusieurs manières:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> déclenchement d&#039;un seul évènement à la souris: en clickant la pastille sur la droite de l&#039;évènement</div>
+</li>
+<li class="level1"><div class="li"> déclenchement de la séquence d&#039;évènements du Banger, en clickant [Bang it !]. Au fur et à mesure de l&#039;envoi de chaque évènement, les pastilles s&#039;affichent en rouge.</div>
+</li>
+<li class="level1"><div class="li"> déclenchement au GO du banger en l&#039;enchassant dans une mémoire</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>Les 127 bangers peuvent être déclenchés parallèlement.</strong>
+</p>
+
+<p class="level2">
+Si le banger 1 est en train de s&#039;éxécuter, vous pouvez très bien lancer les banger 6 et 127 par ex.
+</p>
+
+<p class="level2">
+<strong>! Attention, lors de l&#039;encodage des évènements dans un banger, vous devez absolument respecter la règle suivante:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> dans les cas d&#039;évènements de type différents ( Faders / Windows / Midi /… )les évènements doivent être encodés les uns après les autres, avec une affectation de delay croissante:  </div>
+</li>
+</ul>
+
+<p class="level2">
+si l&#039;évènement 1 déclenché au bout de 1.5 seconde de delay,,il est recommandé que les autres évènements soient<strong> décalés</strong> : 
+évènement 2 en delay 1.6 seconde
+évènement 3 en delay 1.7 seconde par ex.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> éviter d&#039;avoir des évènements pas dans l&#039;ordre de déclenchement:</div>
+</li>
+</ul>
+
+<p class="level2">
+encoder un évènement 5 en delay 1.6 seconde peut faire sauter le déclenchement de l&#039;évènement 2.
+</p>
+<!-- EDIT2 SECTION "Déclenchements du Banger et de ses évènements" [1019-2384] -->
+<h4 class="sectionedit3"><a name="vue_generale_des_127_bangers" id="vue_generale_des_127_bangers">Vue générale des 127 bangers</a></h4>
+
+<p class="level4">
+<img src="banger_g.jpeg" class="media" title=" " alt=" " />
+</p>
+
+<p class="level4">
+Cette vue générale permet de visualiser si un banger est lancé.
+</p>
+
+<p class="level4">
+Un click gauche sur le banger clignotant permet de faire un go back cut sur le banger.
+</p>
+
+<p class="level4">
+Si ce banger est lancé manuellement depuis *Bang it !*, c&#039;est le temps défini en Bang Stay-on Time dans *[CFG Menu] &gt; General* qui est utilisé. 
+Si vous mettez 3 ( secondes). Tout Bang lancé manuellement aura au minimum un temps de Bang Stay-on Time de 3 secondes. Si les évènements dépassent ce temps, c&#039;est la durée totale du banger qui est prise en compte.
+</p>
+
+<p class="level4">
+Si vous lancez ce Bang depuis le séquenciel, c&#039;est la durée la plus haute qui est prise en compte: Durée Goblale du séquenciel ou Durée du Bang ou Durée en Vang Stay-on Time.
+</p>
+<!-- EDIT3 SECTION "Vue générale des 127 bangers" [2385-3152] -->
+<h2 class="sectionedit4"><a name="navigation_et_edition_des_bangers" id="navigation_et_edition_des_bangers">Navigation et édition des Bangers</a></h2>
+
+<p class="level2">
+Pour naviguer dans les 127 Bangers, clicker les touches [-] ou [+].
+</p>
+
+<p class="level2">
+<strong>Pour éditer ( nom et paramètres), enclencher l&#039;autorisation d&#039;édition en clickant [EDIT].</strong>
+</p>
+
+<p class="level2">
+Pour donner un descriptif au Banger sélectionné:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li">appeler [NAME] par [F4]</div>
+</li>
+<li class="level1"><div class="li">taper le nom ou la description du Banger</div>
+</li>
+<li class="level1"><div class="li">cliker la zone texte rouge du Banger pour lui affecter ce descriptif</div>
+</li>
+</ol>
+<!-- EDIT4 SECTION "Navigation et édition des Bangers" [3153-3562] -->
+<h2 class="sectionedit5"><a name="declenchement_en_boucle_d_un_banger" id="declenchement_en_boucle_d_un_banger">Déclenchement en boucle d&#039;un banger</a></h2>
+
+<p class="level2">
+Si vous désirez activer de manière régulière un banger, indiquer le temps du cycle en haut à droite ( taper le chriffre en secondes, F1, clicker la case de temps) et mettre le mode LOOP allumé.
+</p>
+<!-- EDIT5 SECTION "Déclenchement en boucle d'un banger" [3563-3813] -->
+<h2 class="sectionedit6"><a name="selection_des_types_d_evenements" id="selection_des_types_d_evenements">Sélection des types d&#039;évènements</a></h2>
+
+<p class="level2">
+Chaque évènement peut avoir un type différent: faders, séquenciel, émulaton clavier, chasers… etc etc…
+</p>
+
+<p class="level2">
+Pour créer un évènement, il faut donc choisir une de ces catégories. 
+</p>
+
+<p class="level2">
+Pour ce,<strong> clicker la case Ev.Type</strong>, jusqu&#039;à sélectionner le type d&#039;évènement désiré.
+</p>
+
+<p class="level2">
+Comme il y a beaucoup de bangers disponibles, la molette de la souris permet de se déplacer dans les familles de type d&#039;évènements et d&#039;actions en avant et en arrière.
+</p>
+
+<p class="level2">
+<strong>Chaque type d&#039;évènements propose des actions spécifiques.</strong>
+</p>
+
+<p class="level2">
+Celles-ci sont éditables en clickant l&#039;action jusqu&#039;à obtenir celle désirée.
+</p>
+<!-- EDIT6 SECTION "Sélection des types d'évènements" [3814-4466] -->
+<h2 class="sectionedit7"><a name="selection_des_valeurs" id="selection_des_valeurs">Sélection des valeurs</a></h2>
+
+<p class="level2">
+Val1 Val2 sont les paramétrages de ces actions.
+Val1 et Val2 changent de valeurs et de fonctionnement fonction des types d&#039;actions à mener.
+</p>
+
+<p class="level2">
+Delay est le temps exprimé en secondes, permettant de hiérarchiser dans le temps ces envois.
+Delay s&#039;exprime uniquement en secondes, et est donc ainsi noté: 1.5 pour une seconde 5 centièmes, 120 pour deux minutes.
+</p>
+
+<p class="level2">
+<strong>Pour éditer Val1, Val2 ou Delay, s&#039;assurer qu&#039;[EDIT] est bien activé, et taper la valeur , clicker la case.</strong>
+</p>
+<!-- EDIT7 SECTION "Sélection des valeurs" [4467-4979] -->
+<h2 class="sectionedit8"><a name="categorie_faders" id="categorie_faders">Catégorie Faders</a></h2>
+
+<p class="level2">
+La catégorie de type Faders permet la plus part des actions faisables sur <strong>un</strong> Fader.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Ce fader est identifié dans la<strong> valeur 1</strong> de l&#039;action.</div>
+</li>
+<li class="level1"><div class="li"> <strong>Agir sur le fader 48 se fera donc en donnant  Val1=48.</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>Val1: le numéro du Fader, Val2: la valeur de l&#039;action.</strong></div>
+</li>
+</ul>
+
+<p class="level2">
+La programmation des valeurs des actions (Val2) est de deux types:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li">ON/OFF ,soit 0 ou 1</div>
+</li>
+<li class="level1"><div class="li">attribution d&#039;une valeur précise ( niveau, vitesse, numéro de dock à sélectionner)</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "Catégorie Faders" [4980-5472] -->
+<h4 class="sectionedit9"><a name="tableau_des_actions_et_valeurs_pour_les_faders" id="tableau_des_actions_et_valeurs_pour_les_faders">Tableau des actions et valeurs pour les faders</a></h4>
+
+<h5><a name="actions_pour_un_fader" id="actions_pour_un_fader">Actions pour un Fader:</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> Val1 = le numéro du fader</div>
+</li>
+</ul>
+<div class="table sectionedit10"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val2     </strong></td><td class="col2 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col3"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Lock           </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le lock                    </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Up             </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le Go montée Fader         </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Down           </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le Go descente Fader       </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Saw            </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2"> Désactive (0) / Active (1) le Go montée-descente Fader</td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>To Prev.Dock   </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le Prev.Dock mode          </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>To Next Dock   </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le Next Dock mode          </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Up/Down Loop   </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le Up-Down mode            </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Set Dock looped</strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2"> Désactive (0) / Active (1) le loop du dock sélectionné</td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Set All looped </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) tous les loops des docks   </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Set Dock Is    </strong></td><td class="col1 leftalign"> 1-6         </td><td class="col2 leftalign"> Sélectionne le dock du fader                          </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>Set LFO at     </strong></td><td class="col1 leftalign"> 0-127       </td><td class="col2 leftalign"> Met la vitesse à une position donnée ( 64= normal)    </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>SetStopPos At   </strong></td><td class="col1"> 0-100/0-255 </td><td class="col2 leftalign"> Met la butée au niveau donné                          </td><td class="col3 leftalign">        </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>StopPos On   </strong></td><td class="col1"> 0-1 </td><td class="col2 leftalign"> Désactive (0) / Active (1) le StopPos du fader                         </td><td class="col3 leftalign">        </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>Set Fader At   </strong></td><td class="col1"> 0-100/0-255 </td><td class="col2 leftalign"> Met le fader au niveau donné                          </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>Paste to Seq.  </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Copie le dock dans le buffer du séquenciel sur scène  </td><td class="col3 centeralign">   non   </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>Fader MidiOut  </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Désactive (0) / Active (1) le midi out du fader       </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"><strong>All:Faders at 0</strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met tous les 48 faders à zéro                         </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"><strong>All:Speed at 0 </strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met tous les 48 accéléromètres à zéro                 </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"><strong>All:Lock at 0  </strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met tous les Locks des 48 faders à zéro               </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"><strong>All:LFO at 0   </strong></td><td class="col1 leftalign"> -           </td><td class="col2"> Met tous les LFOs des 48 faders à zéro  (up down saw) </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"><strong>All:Loop at 0  </strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met toutes les Loop des 48 faders à zéro              </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"><strong>All:ALL at 0   </strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met tous les 48 faders à zéro                         </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"><strong>All:MidiOut at 0</strong></td><td class="col1 leftalign"> -           </td><td class="col2 leftalign"> Met tous les midi out des 48 faders à zéro           </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row24">
+		<td class="col0"><strong>All:RECALL     </strong></td><td class="col1 leftalign"> -           </td><td class="col2"> Rappelle l&#039;état des 48 fadetrs avant l&#039;envoi All at 0 </td><td class="col3 centeralign">    non  </td>
+	</tr>
+	<tr class="row25">
+		<td class="col0"><strong>Lock Preset    </strong></td><td class="col1 leftalign">0-1          </td><td class="col2 leftalign"> Val2 désactive (0) / Active (1) le lock preset choisi (Val1)       </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row26">
+		<td class="col0"><strong>Fader: Set Curve   </strong></td><td class="col1 leftalign">1-16         </td><td class="col2 leftalign"> Affecte une courbe Val2 au fader Val1        </td><td class="col3 centeralign">    X    </td>
+	</tr>
+	<tr class="row27">
+		<td class="col0"><strong>LoadChaser  </strong></td><td class="col1 leftalign"> 1-128         </td><td class="col2 leftalign"> Charge un chaser dans le dock actif du fader    </td><td class="col3 centeralign">    non   </td>
+	</tr>
+	<tr class="row28">
+		<td class="col0"><strong>Play Chaser  </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Joue (1) ou pas (0) le chaser dans le dock actif, si ce dernier contient un chaser     </td><td class="col3 centeralign">    X   </td>
+	</tr>
+	<tr class="row29">
+		<td class="col0"><strong>Seek Chaser  </strong></td><td class="col1 leftalign"> -         </td><td class="col2 leftalign"> Renvoie en step de départ le chaser du dock actif, si ce dernier contient un chaser      </td><td class="col3 centeralign">    X   </td>
+	</tr>
+	<tr class="row30">
+		<td class="col0"><strong>Loop Chaser  </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Mets en boucle le chaser du dock actif, si ce dernier contient un chaser        </td><td class="col3 centeralign">    X   </td>
+	</tr>
+	<tr class="row31">
+		<td class="col0"><strong>Autol.Chaser  </strong></td><td class="col1 leftalign"> 0-1         </td><td class="col2 leftalign"> Mets en mode autolaunch (1) ou pas (0) le fader, si le dock actif contient un chaser       </td><td class="col3 centeralign">   non  </td>
+	</tr>
+	<tr class="row32">
+		<td class="col0"><strong>Set DCH.  </strong></td><td class="col1 leftalign"> 1-512         </td><td class="col2 leftalign"> Mets le fader Val1 en mode Direct Channel, avec le circuit Val2       </td><td class="col3 centeralign">   non  </td>
+	</tr>
+	<tr class="row33">
+		<td class="col0"><strong>SetCH Full  </strong></td><td class="col1 leftalign"> 1-512         </td><td class="col2 leftalign"> Mets le circuit Val2 dans le fader Val 1 à Full      </td><td class="col3 centeralign">   non  </td>
+	</tr>
+	<tr class="row34">
+		<td class="col0"><strong>SetCH 0  </strong></td><td class="col1 leftalign"> 1-512         </td><td class="col2 leftalign"> Mets le circuit Val2 dans le fader Val 1 à Zéro      </td><td class="col3 centeralign">   non  </td>
+	</tr>
+</table></div>
+<!-- EDIT10 TABLE [5590-9338] --><!-- EDIT9 SECTION "Tableau des actions et valeurs pour les faders" [5473-9345] -->
+<h4 class="sectionedit11"><a name="exemple_de_programmation_faders" id="exemple_de_programmation_faders">Exemple de programmation Faders:</a></h4>
+
+<p class="level4">
+<img src="banger_faders.jpeg" class="media" title="banger_faders.jpg" alt="banger_faders.jpg" />
+</p>
+
+<p class="level4">
+Dans l&#039;exemple ci-dessus, nous partons  de l&#039;état des faders suivant:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Fader 23 est à 60%, sur le dock 1, sans action particulière.</div>
+</li>
+<li class="level1"><div class="li"> Fader 24 est en boucle ( loop ) sur le dock 1 en mode montée, il tourne donc sans arrêt.</div>
+</li>
+</ul>
+
+<p class="level4">
+Si l&#039;on regarde l&#039;architecturation des évènements dans le temps, nous avons donc:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li">0.0sec Fader 23 : Mise à 0% ( Val2=0)du niveau du fader </div>
+</li>
+<li class="level1"><div class="li">0.1sec Fader 23 : Sélection du dock 4 (Val2=4)</div>
+</li>
+<li class="level1"><div class="li">0.2sec Fader 23:  UP ON ( Val2=1)</div>
+</li>
+<li class="level1"><div class="li">0.3sec Fader 24:  DOWN ON ( Val2=1)</div>
+</li>
+<li class="level1"><div class="li">0.4sec Fader 24:  Dock Loop OFF ( Val2=0)</div>
+</li>
+</ol>
+<!-- EDIT11 SECTION "Exemple de programmation Faders:" [9346-9965] -->
+<h2 class="sectionedit12"><a name="categorie_midisend" id="categorie_midisend">Catégorie MidiSend</a></h2>
+
+<p class="level2">
+Le signal midi est envoyé vers les sorties sélectionnées dans le menu Midi CFG.
+</p>
+
+<p class="level2">
+Ce signal midi émit est inclus dans les Bangers de façon à déclencher via le midi des départs audio ou vidéo dans des logiciels tiers.
+Généralement ce genre d&#039;évènements est déclenché par des Key-On. Cependant un logiciel comme SeqCon reçoit des évènements de type Ctrl-Change.
+</p>
+
+<p class="level2">
+Dans le cas de Go Back, le signal envoyé dépend de l&#039;activation du midicheat dans les options midi ( Key-Off= Key-On Vel=0).
+</p>
+<!-- EDIT12 SECTION "Catégorie MidiSend" [9966-10504] -->
+<h4 class="sectionedit13"><a name="types_d_actions_en_midisend" id="types_d_actions_en_midisend">Types d&#039;actions en MidiSend</a></h4>
+<div class="table sectionedit14"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action            </strong></td><td class="col1"><strong>Val1  </strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                     </td><td class="col4 leftalign"> <strong>Go Back  </strong>                            </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Key-On V:127      </strong></td><td class="col1 leftalign"> Ch.Midi  </td><td class="col2 leftalign"> Pitch        </td><td class="col3 leftalign"> Envoie une note Key-On de valeur 127  </td><td class="col4"> midicheat=0: envoie Key-Off  Vel:127 </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign">                      </td><td class="col1 leftalign">          </td><td class="col2 leftalign">              </td><td class="col3 leftalign">                                       </td><td class="col4 leftalign"> midicheat=1: envoie Key-On Vel:0     </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Key-On V:0        </strong></td><td class="col1 leftalign"> Ch.Midi  </td><td class="col2 leftalign"> Pitch        </td><td class="col3 leftalign"> Envoie une note Key-On de valeur 0    </td><td class="col4 leftalign"> envoie Key-On  Vel:0               </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Key-Off V:127     </strong></td><td class="col1 leftalign"> Ch.Midi  </td><td class="col2 leftalign"> Pitch        </td><td class="col3"> Envoie une note Key-Off de valeur 127 </td><td class="col4 leftalign"> envoie Key-On  Vel:127               </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Ctrl-Change V:127 </strong></td><td class="col1 leftalign"> Ch.Midi  </td><td class="col2 leftalign"> Pitch        </td><td class="col3 leftalign"> Envoie un Ctrl-Change de valeur 127   </td><td class="col4 leftalign"> envoie Ctrl-Change  Vel:0            </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Ctrl-Change V:0   </strong></td><td class="col1 leftalign"> Ch.Midi  </td><td class="col2 leftalign"> Pitch        </td><td class="col3 leftalign"> Envoie un Ctrl-Change de valeur 0   </td><td class="col4 leftalign"> envoie Ctrl-Change  Vel:127            </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Ctrl-Change  Ch Midi:</strong></td><td class="col1 leftalign"> Pitch  </td><td class="col2 leftalign"> Vélocité        </td><td class="col3 leftalign"> Envoie un Ctrl-Change de pitch et valeur choisies   </td><td class="col4 centeralign">      -       </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Set Faders/Sp Out</strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> Active(1) - désactives (0) tous les renvois midi des faders et de leurs accéléromètres  </td><td class="col4 centeralign">      -       </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Set ChasersTr Out</strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> Active(1) - désactives (0) tous les renvois midi des tracks de la fenêtre chasers  </td><td class="col4 centeralign">      -       </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Re-emit ALL Out</strong></td><td class="col1"> - </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign"> Raffraichit la demande d&#039;envois midi ( fonction des pastilles)  </td><td class="col4 centeralign">      -       </td>
+	</tr>
+</table></div>
+<!-- EDIT14 TABLE [10543-11983] --><!-- EDIT13 SECTION "Types d'actions en MidiSend" [10505-11984] -->
+<h4 class="sectionedit15"><a name="et_les_crossfades_de_control-change" id="et_les_crossfades_de_control-change">Et les crossfades de Control-Change ?</a></h4>
+
+<p class="level4">
+Banger est module déclencheur d&#039;évènements ponctuels.
+Ce qui veut dire que les informations midi envoyées sont des envois ponctuels: pas de variation dans le temps dans Banger.
+</p>
+
+<p class="level4">
+<strong>Astuce:</strong>
+Si vous désirez utiliser un Ctrl-Change en fondu ( commande de bus vidéo ou de shutter midi, ou de master d&#039;un autre logiciel, par ex), il suffit:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li">d&#039;attribuer une valeur midi à un fader</div>
+</li>
+<li class="level1"><div class="li">cette valeur sera donc renvoyée lors d&#039;actions de niveau sur ce fader</div>
+</li>
+<li class="level1"><div class="li">d&#039;enclencher le midi out de ce fader</div>
+</li>
+<li class="level1"><div class="li">de piloter ce fader via les actions sur les faders du Banger ( up / down / saw )</div>
+</li>
+</ol>
+<!-- EDIT15 SECTION "Et les crossfades de Control-Change ?" [11985-12617] -->
+<h2 class="sectionedit16"><a name="categorie_windows" id="categorie_windows">Catégorie Windows</a></h2>
+
+<p class="level2">
+Il est possible d&#039;afficher ou fermer les différentes fenêtre de whitecat.
+</p>
+<div class="table sectionedit17"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1    </strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                             </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+</table></div>
+<!-- EDIT17 TABLE [12729-12840] --><div class="table sectionedit18"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Sequences    </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) le sequenciel      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Fader space   </strong></td><td class="col1">le numero de fader à afficher</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) l&#039;espace Faders      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Minifaders   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) l&#039;espace Minifaders      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Banger    </strong></td><td class="col1">le numero de banger à afficher</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Banger      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>AudioPlayers   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre AudioPlayers     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Time   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Time    </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Plot  </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Plot     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>List   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre List     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Trichromy    </strong></td><td class="col1">1 à 8 colors preset</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre trichromie      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Video-tracking   </strong></td><td class="col1">1 à 5 video preset</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre de tracking video      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Chasers    </strong></td><td class="col1">le numero de chaser à afficher</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Chasers     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>GridPlayers   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre GridPlayers     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>Draw    </strong></td><td class="col1">le numero de matrice à afficher ( 1 à 6 )</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Draw     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>Echo    </strong></td><td class="col1">le numero d&#039;écho à afficher ( 1 à 12 )</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre ECHO    </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>Mover    </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre Mover     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>NumPad   </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre NumPad     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>CFG    </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre CFGMENU     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"><strong>iCAT    </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) la fenêtre iCAT Builder     </td><td class="col4 centeralign">      X      </td>
+	</tr>
+</table></div>
+<!-- EDIT18 TABLE [12842-14770] -->
+<p class="level2">
+On peut ainsi configurer et automatiser en conduite son espace de travail.
+</p>
+<!-- EDIT16 SECTION "Catégorie Windows" [12618-14847] -->
+<h2 class="sectionedit19"><a name="categorie_alarm" id="categorie_alarm">Catégorie Alarm</a></h2>
+
+<p class="level2">
+Une fenêtre spéciale, Alarm, permet d&#039;afficher un texte sur fond clignotant, en “pense-bête”. 
+Par exemple, on oublie souvent 3&#039;45 après un go lumière de déclencher quelque chose ( lecteur MD, DVD, électro-aimants en manuel): Alarm sert à s&#039;en rappeler.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Val1 n&#039;a aucune importance</div>
+</li>
+</ul>
+
+<p class="level2">
+Enregistrement du texte:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Se mettre en Evènement de Type <strong>Alarm</strong></div>
+</li>
+<li class="level1"><div class="li"> Appeler la fenêtre de texte [NAME] en clickant [F5]</div>
+</li>
+<li class="level1"><div class="li"> Taper le descriptif</div>
+</li>
+<li class="level1"><div class="li"> Cliker la case Action en face de l&#039;évènement Alarm pour y charger le texte</div>
+</li>
+</ol>
+
+<p class="level2">
+Attention: il y a un texte d&#039;alarme par banger !
+</p>
+<div class="table sectionedit20"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1    </strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                             </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Alarm    </strong></td><td class="col1">-</td><td class="col2 leftalign">0-1          </td><td class="col3 leftalign"> Ferme (0) / Ouvre (1) l&#039;alarme avec le texte Alarm du Banger sélectionné      </td><td class="col4 centeralign">      X      </td>
+	</tr>
+</table></div>
+<!-- EDIT20 TABLE [15459-15698] -->
+<p class="level2">
+<img src="alarm.jpeg" class="media" title="alarm.jpg" alt="alarm.jpg" />
+</p>
+<!-- EDIT19 SECTION "Catégorie Alarm" [14848-15713] -->
+<h2 class="sectionedit21"><a name="categorie_audioplayers" id="categorie_audioplayers">Catégorie  AudioPlayers</a></h2>
+
+<p class="level2">
+<img src="banger_sound.jpeg" class="media" title="banger_sound.jpg" alt="banger_sound.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Le player audio est identifié dans la<strong> valeur 1</strong> de l&#039;action ( de 1 à 4 donc).</div>
+</li>
+<li class="level1"><div class="li"> <strong>Agir sur le player 2 se fera donc en donnant  Val1=2.</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>Val1: le numéro du player, Val2: la valeur de l&#039;action.</strong></div>
+</li>
+</ul>
+
+<p class="level2">
+La programmation des valeurs des actions (Val2) est de deux types:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li">ON/OFF ,soit 0 ou 1</div>
+</li>
+<li class="level1"><div class="li">attribution d&#039;une valeur précise pour les niveaux ( volume / pan / pitch) : 0 à 127. Où pour le cas du pan et du pitch, 64 est la valeur par défaut.</div>
+</li>
+</ul>
+
+<p class="level2">
+Attention, les actions ne sont effectives QUE si un fichier son est chargé dans un lecteur.
+</p>
+<!-- EDIT21 SECTION "Catégorie  AudioPlayers" [15714-16332] -->
+<h4 class="sectionedit22"><a name="tableau_des_actions_et_valeurs_pour_les_audioplayers" id="tableau_des_actions_et_valeurs_pour_les_audioplayers">Tableau des actions et valeurs pour les audioplayers</a></h4>
+<div class="table sectionedit23"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Load in Player           </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> numero de fichier        </td><td class="col3 leftalign"> Charge le fichier audio dans le player choisi en Val1                   </td><td class="col4 leftalign">recharge le fichier précédent le bang     </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>SetPlay Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Pause (0) / Active (1) la lecture         </td><td class="col4 centeralign">     X   </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Load &amp; Play             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> numéro de fichier        </td><td class="col3 leftalign"> Charge le fichier dans le player et lance la lecture         </td><td class="col4 centeralign">  recharge le fichier précédent le bang       </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>SetLoop Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Désactive (0) / Active (1) la mise en boucle du lecteur         </td><td class="col4 centeralign">    X    </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Seek Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 1         </td><td class="col3 leftalign"> Si 1, se positionne au début du fichier           </td><td class="col4 leftalign">se repositionne en position avant le bang     </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>SetVolume Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-127         </td><td class="col3 leftalign"> Niveau du player        </td><td class="col4 leftalign"> revient au niveau d&#039;avant le bang       </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Set Cue Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Désactive (0) / Active (1) le mode CUE         </td><td class="col4 leftalign">        </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Seek to CueIn Pl.            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 1         </td><td class="col3 leftalign"> Si 1, se positionne au point IN du CUE        </td><td class="col4 leftalign">        </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>SetPan Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-127         </td><td class="col3 leftalign"> Niveau du panoramique ( milieu=64)         </td><td class="col4 leftalign"> revient au niveau d&#039;avant le bang       </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>SetPitch Player             </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-127         </td><td class="col3 leftalign"> Niveau de la rapidité de lecteur ( vitesse normale=64)         </td><td class="col4 leftalign"> revient au niveau d&#039;avant le bang       </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>Prev.Track Player            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> -         </td><td class="col3 leftalign"> Charge le fichier précédant celui dans le lecteur          </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>Next Track Player            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> -       </td><td class="col3 leftalign"> Charge le fichier suivant celui dans le lecteur         </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>AutoLoad Player            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Désactive (0) / Active (1) l&#039;autochargement des fichiers audio            </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>AutoPause Player            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Désactive (0) / Active (1) l&#039;autopause du lecteur           </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>SetMidiOut Player            </strong></td><td class="col1">1&gt;4</td><td class="col2 leftalign"> 0-1         </td><td class="col3 leftalign"> Désactive (0) / Active (1) le renvoi des valeurs midi sur le volume           </td><td class="col4 centeralign">   X     </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0 leftalign">         </td><td class="col1 leftalign">     </td><td class="col2 leftalign">     </td><td class="col3 leftalign"> le pan et le pitch           </td><td class="col4 leftalign">        </td>
+	</tr>
+</table></div>
+<!-- EDIT23 TABLE [16395-18604] --><!-- EDIT22 SECTION "Tableau des actions et valeurs pour les audioplayers" [16333-18604] -->
+<h4 class="sectionedit24"><a name="question_du_crossfade_audio_automatise" id="question_du_crossfade_audio_automatise">Question du CrossFade Audio automatisé</a></h4>
+
+<p class="level4">
+Il est possible d&#039;affecter à un dock le contrôle du Volume, du Pan ou du Pitch d&#039;un Player Audio.
+Utiliser dans Banger les automations de LFO, couplée à la définition d&#039;une valeur d&#039;arrivée ( SetEndValue ).
+</p>
+<!-- EDIT24 SECTION "Question du CrossFade Audio automatisé" [18605-18868] -->
+<h2 class="sectionedit25"><a name="categorie_sequences" id="categorie_sequences">Catégorie Sequences</a></h2>
+
+<p class="level2">
+Cette catégorie concerne le séquentiel.
+</p>
+<!-- EDIT25 SECTION "Catégorie Sequences" [18869-18946] -->
+<h4 class="sectionedit26"><a name="tableau_des_actions_et_valeurs_pour_le_sequentiel" id="tableau_des_actions_et_valeurs_pour_le_sequentiel">Tableau des actions et valeurs pour le séquentiel</a></h4>
+<div class="table sectionedit27"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Set Mem on Stage           </strong></td><td class="col1">numéro de mémoire </td><td class="col2 leftalign"> point mémoire      </td><td class="col3 leftalign"> Charge la mémoire Val1.Val2 sur scène                   </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Set Mem on Preset           </strong></td><td class="col1">numéro de mémoire </td><td class="col2 leftalign"> point mémoire      </td><td class="col3 leftalign"> Charge la mémoire Val1.Val2 en preset                   </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Set Speed At           </strong></td><td class="col1">Valeur de 0 à 127 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign"> Positionne l&#039;accéléromètre ( 64=vameur vitesse normale)                  </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Set Link On           </strong></td><td class="col1">0-1 </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign"> Désenclenche (0)-Enclenche(1) le mode Link du séquenciel                  </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Set Banger On           </strong></td><td class="col1">0-1 </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign"> Désenclenche (0)-Enclenche(1) le mode Banger du séquenciel                  </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Bang Banger n°           </strong></td><td class="col1">0-127 </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign"> Eteint (0)- Lance(1) le Banger n° Val1      </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Reload  Stage        </strong></td><td class="col1">- </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign"> Recharge la mémoire sur scène     </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong> Reload Preset        </strong></td><td class="col1">- </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign"> Recharge la mémoire en preset    </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>GO         </strong></td><td class="col1">- </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign"> Lance le Go. Permet via un banger de changer le preset et de faire un GO     </td><td class="col4 leftalign">     </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Set Blind        </strong></td><td class="col1">- </td><td class="col2 leftalign"> 0-1  </td><td class="col3 leftalign"> Mets le mode Blind ON (1) ou OFF (0)    </td><td class="col4 leftalign">     </td>
+	</tr>
+</table></div>
+<!-- EDIT27 TABLE [19007-20261] --><!-- EDIT26 SECTION "Tableau des actions et valeurs pour le séquentiel" [18947-20262] -->
+<h2 class="sectionedit28"><a name="categorie_chasers" id="categorie_chasers">Catégorie Chasers</a></h2>
+
+<p class="level2">
+Cette catégorie concerne les Chasers.
+<strong>Les entrées correspondant à Ch.Sel se font uniquement dans la fenêtre des chasers, sur le chaser sélectionné.</strong> Toutes les autres sont applicables à tous les chasers, sans passer par la fenêtre chasers.
+</p>
+<!-- EDIT28 SECTION "Catégorie Chasers" [20263-20547] -->
+<h4 class="sectionedit29"><a name="tableau_des_actions_et_valeurs_pour_les_chasers" id="tableau_des_actions_et_valeurs_pour_les_chasers">Tableau des actions et valeurs pour les chasers</a></h4>
+<div class="table sectionedit30"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Ch.Sel IS          </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">  -    </td><td class="col3 centeralign">  Sélectionne le chaser actif <strong>dans la fenêtre Chasers</strong>                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Play  </strong></td><td class="col1"> 1-128 </td><td class="col2 centeralign">   0-1   </td><td class="col3 centeralign">  Play (1) Pause(0) du chaser appelé                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Seek          </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">   -   </td><td class="col3 leftalign"> Renvoie la position du curseur du chaser  en step de départ                   </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Loop          </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">  0-1    </td><td class="col3 leftalign"> Met en boucle (1) ou pas (0) le chaser choisi                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Way          </strong></td><td class="col1">1-128</td><td class="col2 centeralign">  0-1    </td><td class="col3 leftalign"> Met le sens de lecture du chaser de gauche à droite (0) ou de droite à gauche (1)                   </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Aller-Retour         </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">   0-1   </td><td class="col3 centeralign">  Active (1) désactive(0) l&#039;aller retour du sens de lecture                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Time Mode          </strong></td><td class="col1">1-128 </td><td class="col2 leftalign">0-1      </td><td class="col3 centeralign">    Mets en mode Time Standard (0) ou Time Join(1) le chaser                </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Slave          </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">   0-1   </td><td class="col3 centeralign">  Mets en mode Slave (1) ou pas (0) le chaser sélectionné. Ce dernier est asservi par le dernier fader dans lequel il a été chargé                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Set Beg Point         </strong></td><td class="col1">1-128 </td><td class="col2 leftalign"> 1-36      </td><td class="col3 leftalign"> Repositionne le pas de départ du chaser                    </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Set End Point         </strong></td><td class="col1">1-128 </td><td class="col2 leftalign"> 1-36      </td><td class="col3 leftalign"> Repositionne le pas de fin du chaser                    </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>Set Position         </strong></td><td class="col1">1-128 </td><td class="col2 leftalign"> 1-36      </td><td class="col3 leftalign"> Repositionne la position de lecture du curseur du chaser                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>Toggle Track         </strong></td><td class="col1">1-128 </td><td class="col2 leftalign"> 1-24     </td><td class="col3 leftalign"> Inverse l&#039;état ON/OFF de la piste appelée en val2                   </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>ALL ON          </strong></td><td class="col1">1-128 </td><td class="col2 leftalign"> -      </td><td class="col3 centeralign">  Toutes les pistes ON du chaser                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>ON INV          </strong></td><td class="col1">1-128 </td><td class="col2"> - </td><td class="col3 centeralign">  Inverse l&#039;état de toutes les pistes ON du chaser                  </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>ALL OFF          </strong></td><td class="col1">1-128 </td><td class="col2 centeralign">   -   </td><td class="col3 centeralign">   Toutes les pistes OFF du chaser                 </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>On preset          </strong></td><td class="col1">1-128</td><td class="col2 leftalign"> 1-4     </td><td class="col3 leftalign"> Appelle le preset (val2) d&#039;états ON OFF des pistes             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"><strong>Ch.Sel. Level Track         </strong></td><td class="col1">1-24</td><td class="col2 leftalign"> 0-127     </td><td class="col3 leftalign"> Mets la valeur de la piste du chaser sélectionné <strong>dans la fenêtre chaser</strong>             </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT30 TABLE [20605-22887] --><!-- EDIT29 SECTION "Tableau des actions et valeurs pour les chasers" [20548-22889] -->
+<h2 class="sectionedit31"><a name="categorie_minifaders" id="categorie_minifaders">Catégorie MiniFaders</a></h2>
+
+<p class="level2">
+Cette catégorie concerne les MiniFaders et sont identiques dans leur philosophie de manipulation ([SHIFT F10]).
+</p>
+<!-- EDIT31 SECTION "Catégorie MiniFaders" [22890-23039] -->
+<h4 class="sectionedit32"><a name="tableau_des_actions_et_valeurs_pour_les_minifaders" id="tableau_des_actions_et_valeurs_pour_les_minifaders">Tableau des actions et valeurs pour les minifaders</a></h4>
+<div class="table sectionedit33"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Select num          </strong></td><td class="col1">1-48 </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Sélectionne (1) désélectionne (0) le minifader                 </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Select ALL          </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Sélectionne (1) désélectionne (0) tous les minifaders                 </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Sel. Flash          </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1    </td><td class="col3">Active (1) désactive (0) le flash de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Sel. Tog.Lock         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état de Lock de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Sel. Tog.Loop         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état de Loop de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Sel. Tog.Up         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse ( On/Off) l&#039;état de fade Up de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Sel. Tog.Down         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse ( On/Off) l&#039;état de fade Down de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Sel. Tog.Saw        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse ( On/Off) l&#039;état de fade UpDown(Saw) de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Sel. Tog.AllLoop         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état de Loop de tous les docks des les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Sel. Tog.AllAt         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Les minifaders sélectionnés sont mis en Stop sur leurs mouvement up down saw, le fader est mis à 0, le lock est enlevé, la vitesse LFO est remise au milieu, les fonctions ToPrev Dock et ToNext Dock sont désactivées</td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>Sel. Tog.StopPos         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état STOPPOS de tous les minifaders sélectionnés. L&#039;encodage de la position de StopPos doit avoir été fait auparavant ( valeur écrite en rouge dans le fader) </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>Sel. ToPrev         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état ToPrev/NextPrev de tous les minifaders sélectionnés. Si un minifader est en position ToNext, il devient ToPrev. Si il est déjà en ToPrev, ToPrev est alors désactivé </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>Sel. ToNext         </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse l&#039;état ToNext/ToPrev de tous les minifaders sélectionnés. Si un minifader est en position ToPrev, il devient ToNext. Si il est déjà en ToNext, ToNext est alors désactivé </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>Sel. Tog.Up/Down        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse ( On/Off) l&#039;état d&#039;aller retour du défilement des docks sur de tous les minifaders sélectionnés </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>Sel. Dock -        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Sélectionne le dock d&#039;avant des minifaders sélectionnés</td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>Sel. Dock +        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Sélectionne le dock d&#039;après des minifaders sélectionnés</td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"><strong>Sel. PlayChaser        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3">Inverse ( On/Off) l&#039;état du Play d&#039;un Chaser embarqué. Cette manoeuvre est possible uniquement si le dock sélectionné des minifaders sélectionnés contient un chaser</td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT33 TABLE [23100-25888] --><!-- EDIT32 SECTION "Tableau des actions et valeurs pour les minifaders" [23040-25890] -->
+<h2 class="sectionedit34"><a name="categorie_icat" id="categorie_icat">Catégorie iCat</a></h2>
+
+<p class="level2">
+Cette catégorie concerne Fantastick-iCat, la télécommande sur iPod/Phone.
+</p>
+<div class="table sectionedit35"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Select page num          </strong></td><td class="col1"> 1-8 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Sélectionne la page iCat                </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Select page -          </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Sélectionne la page iCat précédente             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Select page +       </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Sélectionne la page iCat suivante             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Refresh Page       </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Rafraichit la page  actuelle           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Orientation          </strong></td><td class="col1"> - </td><td class="col2 leftalign">-     </td><td class="col3 leftalign">Change l&#039;orientation de la page actuelle              </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT35 TABLE [25998-26603] --><!-- EDIT34 SECTION "Catégorie iCat" [25891-26606] -->
+<h2 class="sectionedit36"><a name="categorie_chrono" id="categorie_chrono">Catégorie Chrono</a></h2>
+
+<p class="level2">
+Cette catégorie concerne la fenêtre Time et son outil Chronomètre
+</p>
+<div class="table sectionedit37"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Clear Chrono          </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Remets à zéro le chrono              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Play Chrono          </strong></td><td class="col1"> 0/1 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">Play(1) ou Pause(0) du chrono              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Set Chrono Page         </strong></td><td class="col1"> 0 à 2 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign">changement d&#039;affichage: 0=minutes 1=secondes 2=dixièmes de secondes              </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT37 TABLE [26708-27150] --><!-- EDIT36 SECTION "Catégorie Chrono" [26607-27152] -->
+<h2 class="sectionedit38"><a name="categorie_setchannel" id="categorie_setchannel">Catégorie SetChannel</a></h2>
+
+<p class="level2">
+Cette catégorie manipule le circuit Val1 en utilisant val 2. Elle contient 2 familles, s&#039;exprimant en pourcentages ( 0-100) ou en unités DMX (0-255).
+</p>
+<div class="table sectionedit39"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>/100 At         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-100     </td><td class="col3 leftalign">Mets le circuit Val1 à Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>/100 +         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-100     </td><td class="col3 leftalign">Ajoutes au circuit Val1 la Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>/100 -         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-100     </td><td class="col3 leftalign">Soustrait au circuit Val1 la Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>/255 At         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-255     </td><td class="col3 leftalign">Mets le circuit Val1 à Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>/255 +         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-255     </td><td class="col3 leftalign">Ajoutes au circuit Val1 la Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>/255 -         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 0-255     </td><td class="col3 leftalign">Soustrait au circuit Val1 la Val2, en scène ou en Blind              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Macro ON         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 1-4     </td><td class="col3 leftalign">Met On la macro Val 2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Macro OFF         </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> 1-4     </td><td class="col3 leftalign">Met Off la macro Val 2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>From-To Macro1 ON        </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met ON la macro 1 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>From-To Macro2 ON        </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met ON la macro 2 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>From-To Macro3 ON        </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met ON la macro 3 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>From-To Macro4 ON        </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met ON la macro 4 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>From-To Macro1 OFF        </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met OFF la macro 1 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>From-To Macro2 OFF       </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met OFF la macro 2 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>From-To Macro3 OFF       </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met OFF la macro 3 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>From-To Macro4 OFF       </strong></td><td class="col1"> 1 à 512 </td><td class="col2 leftalign"> Val1 à 512     </td><td class="col3 leftalign">Met OFF la macro 4 du circuit Val1 au circuit Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT39 TABLE [27341-29458] --><!-- EDIT38 SECTION "Catégorie SetChannel" [27153-29459] -->
+<h2 class="sectionedit40"><a name="categorie_setbanger" id="categorie_setbanger">Catégorie SetBanger</a></h2>
+
+<p class="level2">
+Cette catégorie permet d&#039;enchasser un autre banger dans un banger, ou de faire un go back sur un banger déjà lancé.
+</p>
+<div class="table sectionedit41"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>On/Off        </strong></td><td class="col1"> 1 à 127 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le banger Val1 On(1) ou Off(0)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>RollBack       </strong></td><td class="col1"> 1 à 127 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Met en état d&#039;avant lancement les paramètres les actions de banger Val1             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Loop ON        </strong></td><td class="col1"> 1 à 127 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Mets le banger Val1 en mode Loop              </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Loop OFF        </strong></td><td class="col1"> 1 à 127 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Mets le banger Val1 en mode Loop  OFF           </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT41 TABLE [29615-30171] --><!-- EDIT40 SECTION "Catégorie SetBanger" [29460-30173] -->
+<h2 class="sectionedit42"><a name="categorie_midimute" id="categorie_midimute">Catégorie MidiMute</a></h2>
+
+<p class="level2">
+Cette catégorie permet de muter le pilotage midi le temps de recaller physiquement les potentiomètres midi non motorisés.
+</p>
+<div class="table sectionedit43"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>GLOBAL        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets toutes les affectations midi en Mute On(1) ou Off(0)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Grand Master      </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le Grand Master en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Faders      </strong></td><td class="col1"> 1-48 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le Fader Val1 en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>LFO      </strong></td><td class="col1"> 1-48 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets l&#039;accéléromètre du Fader Val1 en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Séqueciel     </strong></td><td class="col1"> 1-3 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets 1: fader Stage / 2: fader Preset / 3: Accéléromètre crossfade en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Trichromy      </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets la roue de couleur en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Video Tracking     </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le Decay du tracking video en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Audio Level     </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le niveau du lecteur audio Val1 en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Audio Pan     </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le pan du lecteur audio Val1 en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Audio Pitch     </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1      </td><td class="col3 leftalign">Mets le pitch du lecteur audio Val1 en Mute On(1) ou Off(0)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT43 TABLE [30333-31626] --><!-- EDIT42 SECTION "Catégorie MidiMute" [30174-31627] -->
+<h2 class="sectionedit44"><a name="categorie_gridplayer" id="categorie_gridplayer">Catégorie GridPlayer</a></h2>
+
+<p class="level2">
+Cette catégorie permet de piloter les actions dans les 4 GridPlayers du module Grid.
+</p>
+<div class="table sectionedit45"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>1-Load&amp;Play        </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 1: Charge et lance la lecture de Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>2-Load&amp;Play        </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 2: Charge et lance la lecture de Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>3-Load&amp;Play        </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 3: Charge et lance la lecture de Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>4-Load&amp;Play        </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 4: Charge et lance la lecture de Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>1-Stop&amp;Load       </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 1: Stop la lecture et charge la Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>2-Stop&amp;Load       </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 2: Stop la lecture et charge la Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>3-Stop&amp;Load       </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 3: Stop la lecture et charge la Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>4-Stop&amp;Load       </strong></td><td class="col1"> 1-127 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> GridPlayer 4: Stop la lecture et charge la Grid (Val1) Step (Val2)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Play/Pause       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> GridPlayer (Val1) en lecture (1) ou pause(0)            </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>Seek       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign"> Renvoi vers le pas défini comme seek point dans le GridPlayer (Val1)             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>Autostop       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> Enclenche le mode pas à pas (0 ou 1) dans le GridPlayer (Val1)            </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>MacroGoto      </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> GridPlayer (Val1) mode Macro Goto enclenché (1) ou pas (0)            </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>MacroSeek      </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> GridPlayer (Val1) mode Macro Seek enclenché (1) ou pas (0)            </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>MacroStopPlay      </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> GridPlayer (Val1) mode Macro StopPlay enclenché (1) ou pas (0)            </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"><strong>Set Seek      </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 1-1023     </td><td class="col3 leftalign"> Redéfini le point de Seek (Val2) dans le GridPlayer (Val1)         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"><strong>Set Accel.      </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-127     </td><td class="col3 centeralign">  GridPlayer (Val1) Mets l&#039;accéléromètre à (Val2). 64 vitesse normale         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"><strong>Set Slave       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 0-1     </td><td class="col3 leftalign"> Asservi ou pas (0 ou 1)le GridPlayer (Val1) à l&#039;accéléromètre du fader le contenant           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"><strong>Snap Fader       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> 1-48     </td><td class="col3 leftalign"> Copie dans le pas actif du GridPlayer (Val1) le contenu issu du Fader (Val2)           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"><strong>Next Step       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign"> Avance cut d&#039;un pas le GridPlayer (Val1)          </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"><strong>Previous Step       </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -     </td><td class="col3 leftalign"> Recule cut d&#039;un pas le GridPlayer (Val1)          </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"><strong>Goto=Seekstep        </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Défini sur le pas actuel un GO TO vers le seek step          </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"><strong>Define Seekstep        </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Défini le pas actuel comme seek step          </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"><strong>Clear Seekstep        </strong></td><td class="col1"> 1-4 </td><td class="col2 leftalign"> -      </td><td class="col3 leftalign">Efface tous les Seeks points du Grid chargé dans le GridPlayer          </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT45 TABLE [31750-34790] --><!-- EDIT44 SECTION "Catégorie GridPlayer" [31628-34791] -->
+<h2 class="sectionedit46"><a name="categorie_hardware" id="categorie_hardware">Catégorie Hardware</a></h2>
+
+<p class="level2">
+Cette catégorie permet de piloter les actions relatives à la gestion matérielle.
+</p>
+<div class="table sectionedit47"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Arduino On/Off        </strong></td><td class="col1"> 0-1 </td><td class="col2 leftalign"> 0-50     </td><td class="col3 leftalign"> Allume (Val1=1) ou éteint (Val1=0) l&#039;arduino sur le port COM Val2             </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Arduino Baudrate       </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, ou 115200     </td><td class="col3 leftalign"> Défini le baudrate Val2 pour la communication avec l&#039;arduino            </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT47 TABLE [34910-35360] --><!-- EDIT46 SECTION "Catégorie Hardware" [34792-35361] -->
+<h2 class="sectionedit48"><a name="categorie_emulate_kbd" id="categorie_emulate_kbd">Catégorie Emulate Kbd</a></h2>
+
+<p class="level2">
+Cette catégorie permet d&#039;émuler des frappes claviers, et donc de créer des combinaisons d&#039;ordres et de raccourcis si nécessaire, ou encore de piloter par l&#039;arduino et la catégorie Bang! de l&#039;arduino des évènements dans WhiteCat. 
+</p>
+<div class="table sectionedit49"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Emulate Kbd        </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign"> Toutes les touches clavier servant dans WhiteCat ( lettres, chiffres, shift, ctrl, F1 … etc…            </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT49 TABLE [35636-35907] --><!-- EDIT48 SECTION "Catégorie Emulate Kbd" [35362-35908] -->
+<h2 class="sectionedit50"><a name="categorie_draw" id="categorie_draw">Catégorie Draw</a></h2>
+<div class="table sectionedit51"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Select Matrix      </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign"> Sélectionne dans la fenêtre Draw la matrice Val1           </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>Set Brush     </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 1 à 12    </td><td class="col3 leftalign"> Mets dans la matrice Val1 le pinceau à Val2          </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>Set DrawMode     </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 0 à 3    </td><td class="col3 leftalign"> Mets la matrice Val1 en mode [DRAW]=0, [ERASE]=1, [SOLO]=2, [GHOST]=3        </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>Set Pressure     </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 0 à 127    </td><td class="col3 leftalign"> Définit le niveau de pression du pinceau dans la matrice Val1 ( Val2= valeur midi )      </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>Set Angle    </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 0 à 127    </td><td class="col3 leftalign"> Définit le niveau du pinceau dans la matrice Val1 ( Val2= valeur midi )         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Set Size    </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 0 à 127    </td><td class="col3 leftalign"> Définit le niveau de la taille du pinceau dans la matrice Val1 ( Val2= valeur midi )         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>Set Ghost    </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 0 à 127    </td><td class="col3 leftalign"> Définit le niveau d&#039;effacement dans  la matrice Val1 ( Val2 de Ghost= valeur midi )         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>Snap Fader    </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 1 à 48    </td><td class="col3 leftalign"> Recopie dans  la matrice Val1 les niveaux issus du Fader Val2         </td><td class="col4 rightalign">     non </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>Snap GridPl.    </strong></td><td class="col1"> 1 à 6 </td><td class="col2 leftalign"> 1 à 4    </td><td class="col3 leftalign"> Recopie dans  la matrice Val1 les niveaux en cours dans le GridPlayer Val2         </td><td class="col4 rightalign">     non </td>
+	</tr>
+</table></div>
+<!-- EDIT51 TABLE [35939-37256] --><!-- EDIT50 SECTION "Catégorie Draw" [35909-37257] -->
+<h2 class="sectionedit52"><a name="categorie_echo" id="categorie_echo">Catégorie Echo</a></h2>
+<!-- EDIT52 SECTION "Catégorie Echo" [37258-37286] -->
+<h3 class="sectionedit53"><a name="echo_selectionne_dans_la_fenetre" id="echo_selectionne_dans_la_fenetre">Echo sélectionné dans la fenêtre</a></h3>
+<div class="table sectionedit54"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>Select Echo     </strong></td><td class="col1"> 1 à 24 </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign">Sélectionne dans la fenêtre Echo le preset Val1           </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>S.Set Fader    </strong></td><td class="col1"> 1 à 48 </td><td class="col2 leftalign"> -    </td><td class="col3 leftalign">Pointe l&#039;écho sélectionné dans la fenêtre Draw vers le Fader Val.2           </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>S.ChanMode   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Mets le mode de manipulation de circuits en mode CH.LEVEL ( Val2=0 ) ou CH.GROUND ( Val2= 1)          </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>S.SetChan /255   </strong></td><td class="col1"> 1-512 </td><td class="col2 leftalign"> 0-255    </td><td class="col3 leftalign">Mets fonction du mode de manipulation des circuits (CH.LEVEL/CH.GROUND) le circuit Val1 à Val2     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>S.SetChan /100   </strong></td><td class="col1"> 1-512 </td><td class="col2 leftalign"> 0-100    </td><td class="col3 leftalign">Mets fonction du mode de manipulation des circuits (CH.LEVEL/CH.GROUND) le circuit Val1 à Val2     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>Echo Mode   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Mets l&#039;écho sélectionné en Echo Mode  ON (1) ou OFF (0)     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>S.SnapFader   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Capture le fader pointé par l&#039;écho sélectionné     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>S.Bounce !   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Lance ou Pause le bounce de l&#039;écho sélectionné     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>S.S-K-B !   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Capture le fader pointé par l&#039;écho sélectionné, mets le fader à 0, lance le Bounce   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>S.Backfader   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Remets à son niveau avant le bounce le fader pointé par l&#039;écho sélectionné   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>S.SetGravity   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau de gravité ( chiffres en rouge ) de l&#039;écho sélectionné   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>S.SetMass   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau de masse des circuits ( chiffres en rouge ) de l&#039;écho sélectionné   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"><strong>S.SetEnergy   </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau d&#039;énergie appliquée au Bounce ( chiffres en rouge ) de l&#039;écho sélectionné   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"><strong>S.SetChanPos  </strong></td><td class="col1"> - </td><td class="col2 leftalign"> 1-512   </td><td class="col3">Positionne l&#039;affichage de l&#039;écho sélectionné  en circuit Val2 </td><td class="col4 leftalign">       </td>
+	</tr>
+</table></div>
+<!-- EDIT54 TABLE [37334-39183] --><!-- EDIT53 SECTION "Echo sélectionné dans la fenêtre" [37287-39186] -->
+<h3 class="sectionedit55"><a name="echo_appele_en_val1" id="echo_appele_en_val1">Echo appelé en Val1</a></h3>
+<div class="table sectionedit56"><table class="inline">
+	<tr class="row0">
+		<td class="col0"><strong>Action         </strong></td><td class="col1"><strong>Val1</strong></td><td class="col2"><strong>Val2     </strong></td><td class="col3 leftalign"><strong>     Descriptif</strong>                                    </td><td class="col4"> <strong>Go Back</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><strong>E.Echo Mode   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Mets l&#039;écho Val1 en Echo Mode  ON (1) ou OFF (0)     </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><strong>E.Set Fader    </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 1-48    </td><td class="col3 leftalign">Pointe l&#039;écho Val1 le Fader Val2           </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><strong>E.SnapFader   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Capture le fader pointé par l&#039;écho Val1    </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"><strong>E.Bounce !   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Lance ou Pause le bounce de l&#039;écho Val1    </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"><strong>E.S-K-B !   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Capture le fader pointé par l&#039;écho Val1, mets le fader à 0, lance le Bounce   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"><strong>E.Backfader   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> -   </td><td class="col3 leftalign">Remets à son niveau avant le bounce le fader pointé par l&#039;écho Val1   </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"><strong>E.ChanMode   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 0-1    </td><td class="col3 leftalign">Mets le mode de manipulation de circuits de l&#039;écho Val1en mode CH.LEVEL ( Val2=0 ) ou CH.GROUND ( Val2= 1)          </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"><strong>E.SetGravity   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau de gravité ( chiffres en rouge ) de l&#039;écho Val1  </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"><strong>E.SetMass   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau de masse des circuits ( chiffres en rouge ) de l&#039;écho Val1  </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"><strong>E.SetEnergy   </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 0-127   </td><td class="col3 leftalign">Défini le niveau d&#039;énergie appliquée au Bounce ( chiffres en rouge ) de l&#039;écho Val1  </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"><strong>E.SetChanPos  </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> 1-512   </td><td class="col3">Positionne l&#039;affichage de l&#039;écho Val1  en circuit Val2 </td><td class="col4 leftalign">       </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"><strong>E.ClearEcho  </strong></td><td class="col1"> 1-24 </td><td class="col2 leftalign"> -   </td><td class="col3">Reset de l&#039;écho Val1 </td><td class="col4 leftalign">       </td>
+	</tr>
+</table></div>
+<!-- EDIT56 TABLE [39220-40644] --><!-- EDIT55 SECTION "Echo appelé en Val1" [39187-40646] -->
+<h2 class="sectionedit57"><a name="effacement_d_un_banger" id="effacement_d_un_banger">Effacement d&#039;un Banger</a></h2>
+
+<p class="level2">
+version 0.8.3.1
+</p>
+
+<p class="level2">
+Dans la fenêtre Banger:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclencher [CLEAR] ou taper [F4]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le numéro du Banger</div>
+</li>
+</ul>
+<!-- EDIT57 SECTION "Effacement d'un Banger" [40647-40796] -->
+<h2 class="sectionedit58"><a name="recopie_d_un_banger_vers_un_autre" id="recopie_d_un_banger_vers_un_autre">Recopie d&#039;un banger vers un autre</a></h2>
+
+<p class="level2">
+Vous pouvez recopier le contenu du Banger sélectionné dans la fenêtre [BANGER] vers un autre Banger.
+</p>
+
+<p class="level2">
+Pour ce:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> enclencher le mode [Copy To]</div>
+</li>
+<li class="level1"><div class="li"> puis clicker le banger de destination dans l&#039;affichage général des 127 bangers</div>
+</li>
+<li class="level1"><div class="li"> confirmez</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="banger_copyto.jpeg" class="media" title="banger_copyto.jpg" alt="banger_copyto.jpg" />
+</p>
+<!-- EDIT58 SECTION "Recopie d'un banger vers un autre" [40797-41115] -->
+<h2 class="sectionedit59"><a name="enchassement_d_un_banger_dans_une_memoire" id="enchassement_d_un_banger_dans_une_memoire">Enchassement d&#039;un Banger dans une mémoire</a></h2>
+
+<p class="level2">
+On peut donc insérer dans une mémoire un Banger:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li">taper le numéro de banger</div>
+</li>
+<li class="level1"><div class="li">clicker la case banger de la mémoire à laquelle l&#039;attribuer</div>
+</li>
+</ol>
+
+<p class="level2">
+<strong>Si le mode BANGER est enclenché dans la fenêtre du séquenciel</strong>, le banger est déclenché au GO, ou lors de la navigation rapide en CTRL-W ou CTRL-X, sans delays.
+</p>
+
+<p class="level2">
+En GoBack, les évènements déjà lancés seront renvoyés à l&#039;inverse, d&#039;un coup ( pas de base de temps pour l&#039;instant)
+</p>
+
+<p class="level2">
+Pour l&#039;instant ( v.0.7.5 ) le speed du séquenciel n&#039;affecte pas Banger.
+</p>
+
+<p class="level2">
+Pour vider un banger d&#039;une mémoire, taper 0 et charger 0 dans la case banger de la mémoire.
+</p>
+
+<p class="level2">
+<img src="banger_seq.jpeg" class="media" title="banger_seq.jpg" alt="banger_seq.jpg" />
+</p>
+<!-- EDIT59 SECTION "Enchassement d'un Banger dans une mémoire" [41116-41803] -->
+<h2 class="sectionedit60"><a name="affectation_midi" id="affectation_midi">Affectation Midi</a></h2>
+
+<p class="level2">
+Bang it, les 6 départs solo et la navigation + - dans Banger sont assignables en midi, par la page button config.
+</p>
+<!-- EDIT60 SECTION "Affectation Midi" [41804-] --></div>
+</body>
+</html>

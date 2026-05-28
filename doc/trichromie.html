@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>trichromie</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-15T21:57:43+0200"/>
+<meta name="keywords" content="trichromie"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="trichromie.html"/>
+<link rel="contents" href="trichromie.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="trichromie.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="trichromie.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=trichromie"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"trichromie","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#la_fenetre_trichromie_quadrichromie">La fenêtre Trichromie / Quadrichromie</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#appeler_la_fenetre_trichromie">Appeler la fenêtre Trichromie</a></div></li>
+<li class="level4"><div class="li"><a href="#presentation">Présentation</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#mise_en_oeuvre_d_une_trichromie_pas-a-pas">Mise en oeuvre d&#039;une trichromie, pas-à-pas</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#affectation_d_un_color-preset_a_un_fader">Affectation d&#039;un color-preset à un Fader</a></div></li>
+<li class="level3"><div class="li"><a href="#affectation_de_circuits_a_un_color-preset">Affectation de circuits à un color-preset</a></div></li>
+<li class="level3"><div class="li"><a href="#utilisation_de_la_roue_de_couleur_et_du_triangle_de_saturation">Utilisation de la roue de couleur et du triangle de saturation</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#affectation_a_la_volee">Affectation à la volée</a></div></li>
+<li class="level1"><div class="li"><a href="#affectation_midi_et_renvoi_midi">Affectation Midi et renvoi midi</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#visualisation_de_la_couleur_hors_fenetre_trichromie">Visualisation de la couleur hors fenêtre trichromie</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="la_fenetre_trichromie_quadrichromie" id="la_fenetre_trichromie_quadrichromie">La fenêtre Trichromie / Quadrichromie</a></h1>
+<!-- EDIT1 SECTION "La fenêtre Trichromie / Quadrichromie" [1-54] -->
+<h4 class="sectionedit2"><a name="appeler_la_fenetre_trichromie" id="appeler_la_fenetre_trichromie">Appeler la fenêtre Trichromie</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Clicker [Trichro] ou taper [F7]</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="click_trichro.jpeg" class="media" title="click_trichro.jpg" alt="click_trichro.jpg" />
+</p>
+<!-- EDIT2 SECTION "Appeler la fenêtre Trichromie" [55-152] -->
+<h4 class="sectionedit3"><a name="presentation" id="presentation">Présentation</a></h4>
+
+<p class="level4">
+Cette fenêtre permet de gérer des circuits pour composer un éclairage additif à partir de plusieurs sources:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> soit sur une trichromie, à partir de circuits Rouge, Verts, Bleus</div>
+</li>
+<li class="level1"><div class="li"> soit sur une quadrichromie, en rajoutant une composante Jaune</div>
+</li>
+</ul>
+
+<p class="level4">
+Ce module est basé sur un rouge en LEE 106, un vert en LEE 124, un bleu en LEE 119, et un jaune en LEE 102.
+En termes de nombres d&#039;appareils, le bleu comportera deux projecteurs au lieu d&#039;un.
+</p>
+
+<p class="level4">
+<img src="trichro.jpeg" class="media" title="trichro.jpg" alt="trichro.jpg" />
+</p>
+
+<p class="level4">
+La fenêtre trichromie est composée:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> d&#039;un sélecteur de mode ( trichromie / quadrichromie)</div>
+</li>
+<li class="level1"><div class="li"> d&#039;une bague de couleur</div>
+</li>
+<li class="level1"><div class="li"> d&#039;un triangle permettant de travailler la saturation et l&#039;intensité de la couleur</div>
+</li>
+<li class="level1"><div class="li"> des 4 docks permettant d&#039;affecter aux dock-colors les circuits rouges, verts, bleus, et jaunes. Les niveaux issus du triangle s&#039;affichent.</div>
+</li>
+<li class="level1"><div class="li"> de 8 presets, qui permettent de travailler 8 trichros en parallèle. Dans ces 8 presets est affiché le numéro du fader, et le dock auquel ce preset est affecté</div>
+</li>
+<li class="level1"><div class="li"> de 2 boutons d&#039;affectation, l&#039;un pour les circuits à la volée, l&#039;autre popur attribuer au dock d&#039;un fader le preset sélectionné</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Présentation" [153-1294] -->
+<h1 class="sectionedit4"><a name="mise_en_oeuvre_d_une_trichromie_pas-a-pas" id="mise_en_oeuvre_d_une_trichromie_pas-a-pas">Mise en oeuvre d&#039;une trichromie, pas-à-pas</a></h1>
+<!-- EDIT4 SECTION "Mise en oeuvre d'une trichromie, pas-à-pas" [1295-1352] -->
+<h3 class="sectionedit5"><a name="affectation_d_un_color-preset_a_un_fader" id="affectation_d_un_color-preset_a_un_fader">Affectation d&#039;un color-preset à un Fader</a></h3>
+<ol class="level3">
+<li class="level1"><div class="li"> <strong>sélectionner le preset sur lequel travailler </strong> </div>
+</li>
+<li class="level1"><div class="li"> clicker le mode dans lequel ce preset doit être: [TRICHROMIE]</div>
+</li>
+<li class="level1"><div class="li"> clicker [AFFECT TO DOCK]</div>
+</li>
+<li class="level1"><div class="li"> <strong>clicker le dock d&#039;un Fader auquel attribuer ce preset</strong>.</div>
+</li>
+</ol>
+<pre class="code">Attention: lorsqu&#039;un dock contenant une couleur issue de la trichromie est effacé, les pins d&#039;affectation clignotent.</pre>
+<!-- EDIT5 SECTION "Affectation d'un color-preset à un Fader" [1353-1742] -->
+<h3 class="sectionedit6"><a name="affectation_de_circuits_a_un_color-preset" id="affectation_de_circuits_a_un_color-preset">Affectation de circuits à un color-preset</a></h3>
+<ol class="level3">
+<li class="level1"><div class="li"> <strong>sélectionner le ou les circuits à stocker comme étant les rouges</strong></div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la couleur de contrôle rouge</div>
+</li>
+<li class="level1"><div class="li"> <strong>sélectionner le ou les circuits à stocker comme étant les bleus</strong></div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la couleur de contrôle bleue</div>
+</li>
+<li class="level1"><div class="li"> <strong>sélectionner le ou les circuits à stocker comme étant les verts</strong></div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la couleur de contrôle verte</div>
+</li>
+</ol>
+
+<p class="level3">
+! [MODIFY] peut être utilisé pour modifier les couleurs d&#039;un preset.
+</p>
+<!-- EDIT6 SECTION "Affectation de circuits à un color-preset" [1743-2304] -->
+<h3 class="sectionedit7"><a name="utilisation_de_la_roue_de_couleur_et_du_triangle_de_saturation" id="utilisation_de_la_roue_de_couleur_et_du_triangle_de_saturation">Utilisation de la roue de couleur et du triangle de saturation</a></h3>
+
+<p class="level3">
+En bougeant la bague de chrominance, on varie couleur envoyée dans le triangle de saturation.
+</p>
+
+<p class="level3">
+Les niveaux RVBJ sont pris dans le triangle de saturation et envoyés au dock-color choisi.
+</p>
+
+<p class="level3">
+Le trajet est donc COULEUR → SATURATION → PROJECTEURS.
+</p>
+
+<p class="level3">
+En agissant ainsi, on se permet de travailler dans des teintes pastelles très simplement.
+</p>
+<!-- EDIT7 SECTION "Utilisation de la roue de couleur et du triangle de saturation" [2305-2717] -->
+<h1 class="sectionedit8"><a name="affectation_a_la_volee" id="affectation_a_la_volee">Affectation à la volée</a></h1>
+
+<p class="level1">
+Il est possible d&#039;affecter à une sélection de circuits dans le séquenciel les valeurs issus d&#039;un canal de la trichromie.
+</p>
+
+<p class="level1">
+La sélection se verra affectée le niveau issus du Rouge, ou du Bleu, ou du Vert, ou du Jaune.
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Enclencher le mode [Paste on the Fly ]</div>
+</li>
+<li class="level1"><div class="li"> Sélectionner des circuits</div>
+</li>
+<li class="level1"><div class="li"> Clicker la pastille de la couleur à récupérer</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "Affectation à la volée" [2718-3105] -->
+<h1 class="sectionedit9"><a name="affectation_midi_et_renvoi_midi" id="affectation_midi_et_renvoi_midi">Affectation Midi et renvoi midi</a></h1>
+
+<p class="level1">
+La roue de couleur est affectable en midi.
+</p>
+
+<p class="level1">
+Clicker la pastille permet de renvoyer la valeur midi affectée à cette bague.
+</p>
+
+<p class="level1">
+<img src="trichro_midi.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+<strong>Cette affectation se fait:</strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> depuis la page Faders de la configuration Midi. Voir <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a></div>
+</li>
+</ul>
+<!-- EDIT9 SECTION "Affectation Midi et renvoi midi" [3106-3465] -->
+<h2 class="sectionedit10"><a name="visualisation_de_la_couleur_hors_fenetre_trichromie" id="visualisation_de_la_couleur_hors_fenetre_trichromie">Visualisation de la couleur hors fenêtre trichromie</a></h2>
+
+<p class="level2">
+Même lorsque la fenêtre de la roue de couleur est fermée, le midi la manipulant est effectif.
+</p>
+
+<p class="level2">
+C&#039;est ce retour qui s&#039;affiche dans le retour d&#039;infos:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> la teinte du color-dock actif</div>
+</li>
+<li class="level1"><div class="li"> la saturation et intensité du dock-color actif sélectionné.</div>
+</li>
+</ul>
+
+<p class="level2">
+Le numéro du dock color sélectionné est affiché.
+</p>
+
+<p class="level2">
+<img src="retour_infos_822.png" class="media" alt="" />
+</p>
+<!-- EDIT10 SECTION "Visualisation de la couleur hors fenêtre trichromie" [3466-] --></div>
+</body>
+</html>

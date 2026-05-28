@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>configuration_affectation_midi</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-27T18:20:23+0200"/>
+<meta name="keywords" content="configuration_affectation_midi"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="configuration_affectation_midi.html"/>
+<link rel="contents" href="configuration_affectation_midi.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="configuration_affectation_midi.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="configuration_affectation_midi.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_affectation_midi"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"configuration_affectation_midi","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#introduction_au_signal_midi">Introduction au signal MIDI</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#signal">Signal</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#reaction_de_white_cat_a_une_commande">Réaction de White Cat à une commande</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#branchements_et_ports_midi">Branchements, et ports midi</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#presentation_de_midiyoke">Présentation de MidiYoke</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#midi-out">Midi-Out</a></div></li>
+<li class="level2"><div class="li"><a href="#en_savoir_plus">En savoir plus</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#configuration_et_affectation_midi">Configuration et affectation MIDI</a></div></li>
+<li class="level1"><div class="li"><a href="#midi_devices">Midi Devices</a></div></li>
+<li class="level1"><div class="li"><a href="#options_et_presets">Options et Presets</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#options_midi">Options midi</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#key-on_vel0_key-off">Key-On Vel0 = Key-Off</a></div></li>
+<li class="level3"><div class="li"><a href="#auto-desaffectation">Auto-desaffectation</a></div></li>
+<li class="level3"><div class="li"><a href="#midi_mute">Midi Mute</a></div></li>
+<li class="level3"><div class="li"><a href="#auto-demute">Auto-demute</a></div></li>
+<li class="level3"><div class="li"><a href="#mute_on_lfo">Mute on LFO</a></div></li>
+<li class="level3"><div class="li"><a href="#auto-mute_cuelist_speed">Auto-mute CueList Speed</a></div></li>
+<li class="level3"><div class="li"><a href="#to_launchpad">To LAUNCHPAD</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#launchpad_colors">Launchpad colors</a></div></li>
+<li class="level2"><div class="li"><a href="#changer_le_signal_en_entree">Changer le signal en entrée</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#normal_0-127">Normal 0-127</a></div></li>
+<li class="level4"><div class="li"><a href="#inverse_127-0">Inverse 127-0</a></div></li>
+<li class="level4"><div class="li"><a href="#toggle_mode">Toggle Mode</a></div></li>
+<li class="level4"><div class="li"><a href="#kon_vel0_koff">KOn Vel0=KOff</a></div></li>
+<li class="level4"><div class="li"><a href="#koff_kon_vel0">KOff=KOn Vel0</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#presets">Presets</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#creer_un_preset">Créer un preset:</a></div></li>
+<li class="level4"><div class="li"><a href="#charger_un_preset">Charger un preset</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#midi_affect">MIDI AFFECT</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#demarche">Démarche</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#choisir_un_signal_a_affecter">Choisir un signal à affecter</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#la_facon_manuelle">La façon manuelle</a></div></li>
+<li class="level4"><div class="li"><a href="#generer_un_faux_signal_midi">Générer un faux signal midi</a></div></li>
+<li class="level4"><div class="li"><a href="#nettoyer_une_commande">Nettoyer une commande</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#definir_le_mode_d_affectation">Définir le mode d&#039;affectation</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#mode_solo">Mode solo</a></div></li>
+<li class="level4"><div class="li"><a href="#mode_seriel">Mode sériel</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#affecter_a_une_commande_l_assignation_midi">Affecter à une commande l&#039;assignation Midi</a></div></li>
+<li class="level3"><div class="li"><a href="#les_commandes_assignables_en_midi">Les commandes assignables en Midi</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#midimute_system">MidiMute System</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#midimute_global">MidiMute (global)</a></div></li>
+<li class="level3"><div class="li"><a href="#midimute_local">MidiMute (local)</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#qui_est_concerne_par_midimute_local">Qui est concerné par MidiMute (local)?</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#coremidi_et_les_interfaces_midi_sur_le_reseau_wifi">CoreMIDI et les interfaces midi sur le réseau wifi</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="introduction_au_signal_midi" id="introduction_au_signal_midi">Introduction au signal MIDI</a></h1>
+
+<p class="level1">
+Le Midi est un protocole de discussion entre instruments de musiques, ordinateurs, etc…
+C&#039;est un signal robuste.
+</p>
+
+<p class="level1">
+Un nombre important de produits existent, permettant un vaste choix pour un interfaçage manuel avec White Cat et comportant boutons on/off, potentiomètres, rotatifs, ….
+</p>
+
+<p class="level1">
+Généralement, pour de la lumière, on choisira une Surface de Contrôle Midi. Les surfaces de contrôle possèdent des potentiomètres. Mais on peut aussi utliser un clavier (synthé).
+</p>
+
+<p class="level1">
+De nombreux périphériques midi existent sur le marché: boîtes à boutons, boites à faders, etc….
+</p>
+
+<p class="level1">
+Concernant le spectacle et la lumière, les plus utilisés sont la BCF2000 et l&#039;UC-33. Les produits Novation, Korg et Akai sont aussi plébicités.
+</p>
+
+<p class="level1">
+<img src="midi_uc.jpeg" class="media" title="midi_uc.jpg" alt="midi_uc.jpg" /><img src="midi_akai.jpeg" class="media" title="midi_akai.jpg" alt="midi_akai.jpg" /><img src="midi_bcf.jpeg" class="media" title="midi_bcf.jpg" alt="midi_bcf.jpg" /><img src="midi_novation.jpeg" class="media" title="midi_novation.jpg" alt="midi_novation.jpg" /><img src="mini_launchpad.jpeg" class="media" title="mini_launchpad.jpg" alt="mini_launchpad.jpg" /><img src="midi_pad.jpeg" class="media" title="midi_pad.jpg" alt="midi_pad.jpg" />
+</p>
+<!-- EDIT1 SECTION "Introduction au signal MIDI" [1-884] -->
+<h2 class="sectionedit2"><a name="signal" id="signal">Signal</a></h2>
+
+<p class="level2">
+Les instruments midi ne créent pas de sons .wav ou .mp3, mais envoient des messages numériques.
+Ces messages émis envoient des informations sur le type de message envoyé. 
+</p>
+
+<p class="level2">
+<strong>Type de signal</strong>
+</p>
+
+<p class="level2">
+En spectacle on utilise essentiellement la réception de deux types de signaux:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> les signaux Key-On / Key-Off qui correspondent à une touche pressée/relâchée.</div>
+</li>
+<li class="level1"><div class="li"> le signal Ctrl-Change qui correspond à un potentiomètre.</div>
+</li>
+</ol>
+
+<p class="level2">
+L&#039;instrument utilisé enverra donc un signal fonction de l&#039;outil utilisé ( Key-On/Key-Off/Ctrl-Change).
+</p>
+
+<p class="level2">
+<strong>Identifiants</strong>
+</p>
+
+<p class="level2">
+Ce signal, outre son identifiant de type, comporte deux autres identifiants:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> le Channel-Midi, sorte d&#039;univers. Il y a 16 Channel-Midi ( 0 à 15 dans White Cat)</div>
+</li>
+<li class="level1"><div class="li"> le Pitch, hauteur de note, qui est le second identifiant, s&#039;exprime de 0 à 127</div>
+</li>
+</ol>
+
+<p class="level2">
+L&#039;identifiant permet donc d&#039;affecter précisément à une action un contrôleur unique . 
+On a donc 16&times;127 notes possibles.
+</p>
+
+<p class="level2">
+Le Channel-Midi permet de travailler à plusieurs instruments:
+notes issues du synthé en Channel Midi 1, notes issues du Pad en Channel Midi 3, notes issues de <a href="http://vvvv.org/tiki-index.php" class="urlextern" title="http://vvvv.org/tiki-index.php"  rel="nofollow">VVVV</a> en Channel Midi 6…
+</p>
+
+<p class="level2">
+Le Pitch, hauteur de notes, est un identifiant dû historiquement aux claviers: 127 touches sur le clavier.
+</p>
+
+<p class="level2">
+<strong>Valeur</strong>
+</p>
+
+<p class="level2">
+Enfin, ce signal comporte une valeur, exprimée de 0 à 127.
+</p>
+
+<p class="level2">
+Cette valeur est moins fine que le dmx, qui a 255 pas.
+</p>
+
+<p class="level2">
+Concernant les synthés, le signal Key-On ou Key-Off donnera une valeur variant fonction de la célérité de la frappe de la touche. 
+<strong>Cette valeur s&#039;appelle la vélocité.</strong>
+</p>
+
+<p class="level2">
+Les boutons des surfaces de contrôle n&#039;ont pas de vélocité. Ils auront donc des niveaux fixes On/Off ( 127 / 0 par ex).
+</p>
+
+<p class="level2">
+Les pads ont la vélocité.
+</p>
+
+<p class="level2">
+<strong>Programmation interne de l&#039;instrument</strong>
+</p>
+
+<p class="level2">
+Le midi est une norme simple. Mais ses usages sont tellement différents d&#039;un cas de figure à l&#039;autre, d&#039;une pratique professionnelle à l&#039;autre, d&#039;un logiciel à l&#039;autre, que la plus part des instruments midi permettent de:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> re-programmer les signaux émis (envoyer par ex. un Ctrl-Change sur un bouton on/off)</div>
+</li>
+<li class="level1"><div class="li"> re-programmer la réaction des commandes ( toggle / latch)</div>
+</li>
+<li class="level1"><div class="li"> re-programmer la courbe de niveau émise par les potentiomètres et rotatifs </div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Signal" [885-3127] -->
+<h3 class="sectionedit3"><a name="reaction_de_white_cat_a_une_commande" id="reaction_de_white_cat_a_une_commande">Réaction de White Cat à une commande</a></h3>
+
+<p class="level3">
+Depuis la version 0.7.6.6, la lecture de l&#039;ordre se fait désormais sur la base des identifiants Channel Midi et Pitch. Le type ( Ctrl-Change / Key-On / Key-Off / Note ) n&#039;influe plus.
+En effet, certaines surfaces de contrôle ont des boutons émettant un signal de type Ctrl-Change en preset d&#039;usine.
+</p>
+
+<p class="level3">
+<strong> Seule la touche Flash a un comportement nécessitant un signal de type Key-On impérativement.</strong>
+</p>
+
+<p class="level3">
+Dans l&#039;idéal, l&#039;utilisateur néophyte retiendra:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> bouton appuyé= Key On</div>
+</li>
+<li class="level1"><div class="li"> bouton relâché= Key Off</div>
+</li>
+<li class="level1"><div class="li"> Potentiomètre linéaire ou rotatif= Ctrl-Change</div>
+</li>
+<li class="level1"><div class="li"> WhiteCat regarde quel est le channel midi et le pitch reçus pour déclencher l&#039;action associée à ces identifiants.</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Réaction de White Cat à une commande" [3128-3861] -->
+<h2 class="sectionedit4"><a name="branchements_et_ports_midi" id="branchements_et_ports_midi">Branchements, et ports midi</a></h2>
+
+<p class="level2">
+Un périphérique midi peut se brancher soit:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> via une interface midi-usb</div>
+</li>
+<li class="level1"><div class="li"> via un câble usb ( il peut être nécessaire d&#039;installer les drivers du matériel)</div>
+</li>
+<li class="level1"><div class="li"> via une connexion midi virtuelle, dans le cas d&#039;un logiciel</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>Un même port midi ne peut pas être partagé par deux logiciels.</strong>
+</p>
+
+<p class="level2">
+Il faut alors splitter virtuellement le signal, pour pouvoir partager un même instrument entre deux logiciels.
+</p>
+
+<p class="level2">
+<a href="http://www.midiox.com/index.htm" class="urlextern" title="http://www.midiox.com/index.htm"  rel="nofollow">Midi-Ox / MidiYoke</a> est une suite logicielle libre permettant de faire celà ( entre autres).
+</p>
+
+<p class="level2">
+C&#039; est une application essentielle et robuste dans le travail avec le midi.
+MidiYoke est un ami fidèle du whitecatien qui travaille à plusieurs applications.
+</p>
+<!-- EDIT4 SECTION "Branchements, et ports midi" [3862-4607] -->
+<h4 class="sectionedit5"><a name="presentation_de_midiyoke" id="presentation_de_midiyoke">Présentation de MidiYoke</a></h4>
+
+<p class="level4">
+Elle se décline en deux programmes que l&#039;on peut télécharger et installer séparemment: 
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> MidiYoke, qui permet de splitter les ports midi, est une porte d&#039;entrée/sortie simple et légère qui aura votre préférence, si vous n&#039;avez pas besoin de tricher et de remapper les signaux entrant. Elle permet notamment de transiter le midi de logiciel à logiciel.</div>
+</li>
+</ul>
+<ol class="level4">
+<li class="level1"><div class="li">  Un logiciel A reçoit le signal d&#039;une interface physique , et renvoie du midi out sur le port MidiYoke 5. Un logiciel B va écouter le port MidiYoke 5. Les deux logiciels sont sur la même machine et écoutent ainsi la même interface.</div>
+</li>
+<li class="level1"><div class="li">  Un logiciel A envoie du midi out sur le port MidiYoke 5. Un logiciel B va écouter le port MidiYoke 5. Les deux logiciels sont sur la même machine et l“un asservi l&#039;autre via le midi.</div>
+</li>
+</ol>
+<ul class="level4">
+<li class="level1"><div class="li"> Midi-Ox, qui comprend MidiYoke, permet de transformer et de rerouter les signaux midis reçus et d&#039;en faire ce que l&#039;on veut: inverser la valeur ( 0-127 &gt; 127-0), changer le type de signal ( Pitch Bend &gt; Ctrl-Change ) , limiter les valeurs des signaux, etc etc… L&#039;utilisation de MidiOx ajoutera une latence dans la transmission du signal midi. MidiOx permet de renvoyer bien entendu vers les ports MidiYoke le signal, et de le splitter. Son usage est très versatile, mais induis une certaine latence.</div>
+</li>
+</ul>
+
+<p class="level4">
+MidiYoke est compris dans Midi-Ox.
+</p>
+
+<p class="level4">
+MidiYoke ne comprend pas Midi-Ox.
+</p>
+
+<p class="level4">
+Cette technique de branchement est applicable pour recevoir un signal , mais aussi <strong>pour l&#039;émettre</strong>.
+</p>
+<!-- EDIT5 SECTION "Présentation de MidiYoke" [4608-6128] -->
+<h2 class="sectionedit6"><a name="midi-out" id="midi-out">Midi-Out</a></h2>
+
+<p class="level2">
+On peut renvoyer un signal midi depuis White Cat de façon à:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> piloter une surface midi motorisée: </div>
+</li>
+</ul>
+
+<p class="level2">
+    si on utilise à la main, puis dans le logiciel, un fader, on appréciera que le logiciel remette à jour physiquement le fader. 
+</p>
+
+<p class="level2">
+Par exemple, <a href="http://www.behringer.com/EN/Products/BCF2000.aspx" class="urlextern" title="http://www.behringer.com/EN/Products/BCF2000.aspx"  rel="nofollow">avec une BCF200</a>. 
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> piloter d&#039;autres logiciels, notamment vidéo ( fondus, go de pistes vidéos , etc…), ou son, comme <a href="http://hapax84.free.fr/telecharg.html" class="urlextern" title="http://hapax84.free.fr/telecharg.html"  rel="nofollow">SEQ CON</a></div>
+</li>
+</ul>
+<!-- EDIT6 SECTION "Midi-Out" [6129-6631] -->
+<h2 class="sectionedit7"><a name="en_savoir_plus" id="en_savoir_plus">En savoir plus</a></h2>
+
+<p class="level2">
+<a href="http://fr.wikipedia.org/wiki/Musical_Instrument_Digital_Interface" class="urlextern" title="http://fr.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"  rel="nofollow">Midi sur Wikipédia</a>
+</p>
+<!-- EDIT7 SECTION "En savoir plus" [6632-6748] -->
+<h1 class="sectionedit8"><a name="configuration_et_affectation_midi" id="configuration_et_affectation_midi">Configuration et affectation MIDI</a></h1>
+
+<p class="level1">
+Ce menu de configuration comporte plusieurs pages:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> <strong>Midi Devices</strong>: pour configurer le branchement de White Cat avec les périphériques midi présents sur le système</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> <strong>Options et Presets</strong>: pour charger une configuration basée sur du matériel sorti d&#039;usine ou modifier la réaction lue dans le logiciel</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> <strong>Midi AFfect</strong>: pour attribuer un signal midi à chacune des commandes de WhiteCat</div>
+</li>
+</ul>
+
+<p class="level1">
+On accède à ce menu en clickant [CFG MAIN] ( Shift-F11) puis l&#039;onglet [MIDI CONFIG].
+</p>
+
+<p class="level1">
+On accède aux différentes pages en clickant leurs onglets.
+</p>
+<!-- EDIT8 SECTION "Configuration et affectation MIDI" [6749-7354] -->
+<h1 class="sectionedit9"><a name="midi_devices" id="midi_devices">Midi Devices</a></h1>
+
+<p class="level1">
+Vous pouvez connecter <strong>un ou plusieurs périphériques</strong> midi à White Cat.
+</p>
+
+<p class="level1">
+Ici cette capture d&#039;écran montre les ports virtuels de Midi Yoke ainsi qu&#039;une interface midi générique nommée Périphérique audio usb comportant deux entrées.
+</p>
+
+<p class="level1">
+<img src="midi_config_hardware.jpeg" class="media" alt="" />.
+</p>
+
+<p class="level1">
+<strong>Les deux premières colonnes correspondent aux entrées Midi vers White Cat, les deux colonnes de droite aux sorties Midi de White Cat.
+</strong>
+Pour se connecter/déconnecter au port midi de votre choix, il suffit de clicker dessus.
+</p>
+
+<p class="level1">
+Le bouton Rescan permet de mettre à jour la détection des périphériques branchés ou débranchés à chaud pendant l&#039;éxécution de White Cat.
+</p>
+
+<p class="level1">
+<img src="midi_rescan.jpeg" class="media" title="midi_rescan.jpg" alt="midi_rescan.jpg" />
+</p>
+<!-- EDIT9 SECTION "Midi Devices" [7355-8061] -->
+<h1 class="sectionedit10"><a name="options_et_presets" id="options_et_presets">Options et Presets</a></h1>
+
+<p class="level1">
+<div align="center" style="text-align: center"><img src="midi_options_main.jpeg" class="mediacenter" title="midi_options_main.jpg" alt="midi_options_main.jpg" /></div>
+</p>
+<!-- EDIT10 SECTION "Options et Presets" [8062-8124] -->
+<h2 class="sectionedit11"><a name="options_midi" id="options_midi">Options midi</a></h2>
+
+<p class="level2">
+<img src="midi_options.jpeg" class="medialeft" title="midi_options.jpg" alt="midi_options.jpg" />
+</p>
+<!-- EDIT11 SECTION "Options midi" [8125-8170] -->
+<h3 class="sectionedit12"><a name="key-on_vel0_key-off" id="key-on_vel0_key-off">Key-On Vel0 = Key-Off</a></h3>
+
+<p class="level3">
+Certains périphériques nécessitent un trichage du signal , par rapport au fonctionnement interne de White Cat.
+</p>
+
+<p class="level3">
+Ainsi , si vous êtes possesseur d&#039;une BCF2000, qui n&#039;émet en bouton qu &#039;un signal Key-ON Vel 0 au lieu de Key-OFF, vous aurez des soucis pour utiliser la fonction [RECALL] du menu All at Zero.
+</p>
+
+<p class="level3">
+<strong>Astuce:</strong>
+Sur certaines surfaces de controle midi ( type UC-33 ), les boutons génèrent un signal Ctrl-Change en toggle:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> on appuye une fois sur le bouton, on a un signal Ctrl-Change Vel 127</div>
+</li>
+<li class="level1"><div class="li"> on appuye une deuxième fois sur le bouton, on a un signal Ctrl-Change Vel 0</div>
+</li>
+</ul>
+
+<p class="level3">
+En utilisant <strong>Key-On Vel0 = Key-Off</strong>, vous obtenez le comportement d&#039;un bouton poussoir affectable au Go, par exemple, sans devoir reprogrammer en interne votre surface de controle.
+</p>
+<!-- EDIT12 SECTION "Key-On Vel0 = Key-Off" [8171-8977] -->
+<h3 class="sectionedit13"><a name="auto-desaffectation" id="auto-desaffectation">Auto-desaffectation</a></h3>
+
+<p class="level3">
+Par défaut cette option est ON.
+</p>
+
+<p class="level3">
+Elle permet lorsque vous affectez un contrôleur à la volée de vérifier dans toutes les fonctions si il ne s&#039;y trouve pas, et de le retirer.
+</p>
+
+<p class="level3">
+<strong>En le désenclenchant</strong>, vous permettez une affectation multiple, et ainsi un seul controle midi pourra faire plusieurs choses. 
+</p>
+
+<p class="level3">
+Cette option est présente pour des besoins exotiques:
+</p>
+
+<p class="level3">
+exemple: une seule commande midi pour un Fader et le Volume d&#039;un Player permettra manuellement de monter et le son de la rue et l&#039;entrée de lumière de celle-ci à l&#039;ouverture d&#039;une porte, et d&#039;accompagner le jeu des comédiens à la main.
+</p>
+
+<p class="level3">
+<strong>Si vous la désenclenchez, soyez méticuleux dans vos affectations midi, et n&#039;oubliez pas de la ré-enclencher.</strong>
+</p>
+<!-- EDIT13 SECTION "Auto-desaffectation" [8978-9738] -->
+<h3 class="sectionedit14"><a name="midi_mute" id="midi_mute">Midi Mute</a></h3>
+
+<p class="level3">
+Parfois avec certains contrôlleurs, il est nécessaire de MUTER, rendre muette l&#039;entrée midi, et ainsi ne plus affecter les commandes de WhiteCat. 
+Elle est accessible depuis le panneau de configuration:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li">  Clicker [Mute Midi !]</div>
+</li>
+</ul>
+
+<p class="level3">
+Mais depuis la version 0.8.2.2 un nouveau système de mutage prend place dans WhiteCat: Voir MidiMute System en fin de cette page wiki.
+</p>
+<!-- EDIT14 SECTION "Midi Mute" [9739-10132] -->
+<h3 class="sectionedit15"><a name="auto-demute" id="auto-demute">Auto-demute</a></h3>
+
+<p class="level3">
+v.0.8.2.3
+La commande mutée est automatiquement démutée lorsque la valeur du potentiomètre qui la contrôle atteint l&#039;état dans WhiteCat. 
+</p>
+<!-- EDIT15 SECTION "Auto-demute" [10133-10301] -->
+<h3 class="sectionedit16"><a name="mute_on_lfo" id="mute_on_lfo">Mute on LFO</a></h3>
+
+<p class="level3">
+v.0.8.2.3
+Cette fonction concerne uniquement les faders.
+Lorsqu&#039;un LFO est lancé, l&#039;entrée midi est automatiquement mise en mute.
+</p>
+<!-- EDIT16 SECTION "Mute on LFO" [10302-10457] -->
+<h3 class="sectionedit17"><a name="auto-mute_cuelist_speed" id="auto-mute_cuelist_speed">Auto-mute CueList Speed</a></h3>
+
+<p class="level3">
+Lorsque vous utilisez l&#039;accéléromètre du séquenciel, ce dernier est mis en mute automatiquement si la valeur n&#039;est pas la vitesse normale.
+Celà permet de recaller son potentiomètre, et conjugué à auto-demute de reprendre la main sans souci sur un crossfade fait de plusieurs mémoires linkées.
+</p>
+<!-- EDIT17 SECTION "Auto-mute CueList Speed" [10458-10795] -->
+<h3 class="sectionedit18"><a name="to_launchpad" id="to_launchpad">To LAUNCHPAD</a></h3>
+
+<p class="level3">
+Le launchpad est un périphérique midi avec une grille de 64 + 16 boutons.
+Le Launchpad a été intégré dans WhiteCat, du fait du grand nombre de commandes assignables qui demande une boite à ON/OFF importante sur les régies très manuelles. Son prix relativement bas et sa robustesse la rendent intéressante..
+</p>
+
+<p class="level3">
+<img src="launchpad.jpeg" class="medialeft" title="launchpad.jpg" alt="launchpad.jpg" />
+L&#039;une des spécificités du launchpad est le rétro-éclairage de ses boutons, qui permet de se retrouver très rapidement dans ses commandes, et de ne pas vérifier que le logiciel traite l&#039;information appelée, puisque les leds en sont le témoin.
+En enclenchant cette fonction, et en étant branché en sortie midi sur le Launchpad, WhiteCat allumera les commandes fonction de ses états ( LFO UP en cours, GO en cours, etc ).
+Le launchpad est un périphérique lent, seuls sont traités les états en cours. Les impulsions de type Dock+/dock- ou Ctrl-W/X ne générent pas de lumière. 
+</p>
+
+<p class="level3">
+Enclencher [To Launchpad] si vous désirez émettre vers ce dernier les états lumineux des touches.
+</p>
+<!-- EDIT18 SECTION "To LAUNCHPAD" [10796-11850] -->
+<h2 class="sectionedit19"><a name="launchpad_colors" id="launchpad_colors">Launchpad colors</a></h2>
+
+<p class="level2">
+Le launchpad, ainsi que d&#039;autres surfaces midi rétro-éclairées, attendent de <strong>recevoir en retour</strong> le signal émis par la touche, mais à une certain valeur. 
+</p>
+
+<p class="level2">
+<strong>Cette valeur, de 0 à 127, détermine la couleur de la touche.
+</strong>
+</p>
+
+<p class="level2">
+Si vous possédez des périphériques midi dont les boutons sont rétro-éclairés et pilotables ( AKAI MPC40 par ex), vous pouvez reparamétrer les envois midi en tapant les valeurs dans les couleurs désirées. Ceci dépend du matériel. 
+</p>
+
+<p class="level2">
+<img src="midi_launchpad_colors.jpeg" class="medialeft" title="midi_launchpad_colors.jpg" alt="midi_launchpad_colors.jpg" />
+</p>
+
+<p class="level2">
+Il y a 6 couleurs de base définies pour WhiteCat, sur la base du launchpad:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Couleur 1: 63 - orange</div>
+</li>
+<li class="level1"><div class="li"> Couleur 2: 60 - vert</div>
+</li>
+<li class="level1"><div class="li"> Couleur 3: 62 - jaune</div>
+</li>
+<li class="level1"><div class="li"> Couleur 4: 15 - rouge</div>
+</li>
+<li class="level1"><div class="li"> Couleur 5: 31 - ambre</div>
+</li>
+<li class="level1"><div class="li"> Couleur 6: 30 - orange foncé</div>
+</li>
+</ul>
+
+<p class="level2">
+Pour les redéfinir:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> taper la valeur de vélocité à renvoyer au périphérique</div>
+</li>
+<li class="level1"><div class="li"> clicker la case de couleur</div>
+</li>
+</ol>
+
+<p class="level2">
+<strong>Pour un descriptif des couleurs utilisées par commande</strong>, voir <a href="launchpad.html" class="wikilink1" title="Launchpad">Launchpad</a>
+</p>
+<!-- EDIT19 SECTION "Launchpad colors" [11851-12843] -->
+<h2 class="sectionedit20"><a name="changer_le_signal_en_entree" id="changer_le_signal_en_entree">Changer le signal en entrée</a></h2>
+
+<p class="level2">
+Ce changement intervient sur tous les types de signaux ( Key-Off / Key-On / Ctrl-Change), et est effectué dès que les identifiants d&#039;un signal correspondent en Channel Midi et en Pitch.
+Cette transformation du signal s&#039;effectue dans l&#039;ordre suivant:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> signal entrant pur</div>
+</li>
+<li class="level1"><div class="li"> transformation générale ou pas de tout signal Key-On Vel=0 en Key-Off</div>
+</li>
+<li class="level1"><div class="li"> transformation spécifique </div>
+</li>
+<li class="level1"><div class="li"> routage des commandes dans WhiteCat</div>
+</li>
+</ol>
+
+<p class="level2">
+Cet ordre est important à intégrer, car il permettra de configurer précisemment les commandes de WhiteCat fonction de vos périphériques midi.
+</p>
+<!-- EDIT20 SECTION "Changer le signal en entrée" [12844-13459] -->
+<h4 class="sectionedit21"><a name="normal_0-127" id="normal_0-127">Normal 0-127</a></h4>
+
+<p class="level4">
+Comportement normal.
+</p>
+<!-- EDIT21 SECTION "Normal 0-127" [13460-13501] -->
+<h4 class="sectionedit22"><a name="inverse_127-0" id="inverse_127-0">Inverse 127-0</a></h4>
+
+<p class="level4">
+Certains périphériques émettant du midi, comme la PRONTO, ont de drôles de particularités: 
+ainsi cette dernière émet du midi, mais donne un signal inversé sur la deuxième tranche ( 127-0 au lieu de 0-127). On ne peut régler celà dans les menus de la PRONTO.
+</p>
+
+<p class="level4">
+Vous pouvez donc désormais inverser le signal dans White Cat:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> clicker sur CH jusqu&#039;à obtenir le channel midi désiré</div>
+</li>
+<li class="level1"><div class="li"> naviguer dans la grille des 127 pitch, et clicker sur le numéro de pitch désiré pour se mettre en mode inversion</div>
+</li>
+</ol>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="midi_cheat_cc.jpeg" class="mediacenter" title="midi_cheat_cc.jpg" alt="midi_cheat_cc.jpg" /></div>
+</p>
+<!-- EDIT22 SECTION "Inverse 127-0" [13502-14064] -->
+<h4 class="sectionedit23"><a name="toggle_mode" id="toggle_mode">Toggle Mode</a></h4>
+
+<p class="level4">
+Si votre surface de controle n&#039;est pas reparamétrable dans le hardware, vous pouvez enclencher un mode Toggle dans WhiteCat:
+</p>
+
+<p class="level4">
+A réception d&#039;un signal Key-On Vel 127, le signal sera triché en On/OFF 127/0, fonction de son dernier état:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> un appui sur la touche, enclenchera le On ( Vel=127)</div>
+</li>
+<li class="level1"><div class="li"> un deuxième appui sur la touche enclechera le Off ( Vel=0)</div>
+</li>
+</ul>
+
+<p class="level4">
+Celà peut être interressant pour des allumages maintenus type Flash ou Niveau sur un Fader.
+</p>
+<!-- EDIT23 SECTION "Toggle Mode" [14065-14540] -->
+<h4 class="sectionedit24"><a name="kon_vel0_koff" id="kon_vel0_koff">KOn Vel0=KOff</a></h4>
+
+<p class="level4">
+Permet de ressortir spécifiquement un signal Key-Off si le signal est de type Key-On Vel=0
+</p>
+<!-- EDIT24 SECTION "KOn Vel0=KOff" [14541-14654] -->
+<h4 class="sectionedit25"><a name="koff_kon_vel0" id="koff_kon_vel0">KOff=KOn Vel0</a></h4>
+
+<p class="level4">
+Permet de ressortir spécifiquement un signal Key-On Vel=0 si le signal est de type Key-Off
+</p>
+<!-- EDIT25 SECTION "KOff=KOn Vel0" [14655-14768] -->
+<h2 class="sectionedit26"><a name="presets" id="presets">Presets</a></h2>
+
+<p class="level2">
+Les presets midi sont un enregistrement par les utilisateurs de leur configuration d&#039;affectations midi.
+</p>
+
+<p class="level2">
+<strong>Dans l&#039;idéal:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>un preset se doit d&#039;être créé à partir de la configuration d&#039;usine du matériel.</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>le paramétrage interne dans le périphérique midi doit être fait à minima, de façon à avoir des presets facilement échangeables en cours de travail ou de tournée, sans avoir à tout reprogrammer</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>la reprogrammation en interne d&#039;un périphérique se doit d&#039;être clairement expliquée dans le texte accompagnant le preset </strong></div>
+</li>
+</ul>
+<!-- EDIT26 SECTION "Presets" [14769-15350] -->
+<h4 class="sectionedit27"><a name="creer_un_preset" id="creer_un_preset">Créer un preset:</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> mettre en paramétrages d&#039;usine le périphérique</div>
+</li>
+<li class="level1"><div class="li"> reprogrammer le minima de signaux internes</div>
+</li>
+<li class="level1"><div class="li"> reseter le paramétrage midi dans white cat ( dans fonction SAVE )</div>
+</li>
+<li class="level1"><div class="li"> affecter vos commandes</div>
+</li>
+<li class="level1"><div class="li"> sauver et quitter white cat  </div>
+</li>
+<li class="level1"><div class="li"> copier les fichiers <strong>midi_affectation.whc</strong> et <strong>midi_send_out.whc</strong> dans votre sauvegarde de travail( last_save).</div>
+</li>
+<li class="level1"><div class="li"> aller dans le dossier midi_presets</div>
+</li>
+<li class="level1"><div class="li"> créer un dossier du nom de votre preset <strong>sans espace ni accents dans son nom</strong>, et <strong>d&#039;un maximum de 24 caractères</strong></div>
+</li>
+<li class="level1"><div class="li"> copier dans ce dossier les deux fichiers de votre sauvegarde midi</div>
+</li>
+<li class="level1"><div class="li"> y joindre un fichier texte (.txt) créé avec le notepad, décrivant de manière claire les grandes affectations du preset, les éventuels reprogrammations internes au périphérique, ainsi que la marche à suivre pour le reprogrammer</div>
+</li>
+</ol>
+<!-- EDIT27 SECTION "Créer un preset:" [15351-16200] -->
+<h4 class="sectionedit28"><a name="charger_un_preset" id="charger_un_preset">Charger un preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> poser le dossier du preset téléchargé ou envoyé dans le dossier midi_presets</div>
+</li>
+<li class="level1"><div class="li"> ouvrir white cat</div>
+</li>
+<li class="level1"><div class="li"> aller dans le menu CFG / Midi / » Options/Presets</div>
+</li>
+<li class="level1"><div class="li"> sélectionner dans le menu déroulant le preset en question</div>
+</li>
+<li class="level1"><div class="li"> clicker load</div>
+</li>
+</ol>
+
+<p class="level4">
+<img src="midi_preset.jpeg" class="media" alt="" />
+</p>
+
+<p class="level4">
+<strong>Avec la version 0.7.6 sont fournis deux canevas, un pour l&#039;uc-33, un pour la BCF2000. </strong>
+</p>
+
+<p class="level4">
+Honnêtement ils sont présents à titre indicatifs, et il est certain que la communauté pourra fournir des presets plus ad-hoc et plus simples que ceux joints avec la 0.7.6.
+La reprogrammation de la BCF se révèle trop fastidieuse et il est certain que vous apporterez une solution plus élégante.
+</p>
+<!-- EDIT28 SECTION "Charger un preset" [16201-16887] -->
+<h1 class="sectionedit29"><a name="midi_affect" id="midi_affect">MIDI AFFECT</a></h1>
+
+<p class="level1">
+Les commandes affectées peuvent être Ctrl-Change, Key-On et Key-Off, pour toutes les commandes.
+</p>
+
+<p class="level1">
+Assigner une commande midi à une fonction de White Cat se fait ainsi:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> le dernier signal midi reçu sera affecté à la commande choisie</div>
+</li>
+<li class="level1"><div class="li"> survoler la commande ( elle s&#039;affiche en rouge quand la fenêtre de la commande survolée est sélectionnée)</div>
+</li>
+<li class="level1"><div class="li"> clicker pour affecter.</div>
+</li>
+<li class="level1"><div class="li"> lorsque White Cat reçoit un signal identique en midi channel et pitch, il effectue alors l&#039;opération.</div>
+</li>
+</ul>
+
+<p class="level1">
+Attention, le mode d&#039;affectation reste enclenché, donc veillez à le désenclencher avant d&#039;aller manipuler à la souris d&#039;autres commandes.
+</p>
+
+<h5><a name="affecter_sans_la_fenetre_cfg" id="affecter_sans_la_fenetre_cfg">Affecter sans la fenêtre CFG</a></h5>
+
+<p class="level5">
+Vous pouvez fermer la fenêtre CFG et utiliser le bouton [Midi Affect] de la barre de menu en haut:
+</p>
+
+<p class="level5">
+<img src="midi_affect_simplifie.jpeg" class="media" title="midi_affect_simplifie.jpg" alt="midi_affect_simplifie.jpg" />
+</p>
+
+<p class="level5">
+Les options Solo et X8 sont appelables en reclickant [Midi Affect]. 
+</p>
+<!-- EDIT29 SECTION "MIDI AFFECT" [16888-17787] -->
+<h2 class="sectionedit30"><a name="demarche" id="demarche">Démarche</a></h2>
+
+<p class="level2">
+Il faut donc :
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> choisir un signal à affecter</div>
+</li>
+<li class="level1"><div class="li"> définir le mode d&#039;affectation</div>
+</li>
+<li class="level1"><div class="li"> sélectionner la commande à assigner en Midi</div>
+</li>
+</ol>
+<!-- EDIT30 SECTION "Démarche" [17788-17942] -->
+<h3 class="sectionedit31"><a name="choisir_un_signal_a_affecter" id="choisir_un_signal_a_affecter">Choisir un signal à affecter</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> brancher un périphérique midi et <strong>bouger</strong> les potentiomètres ou <strong>toucher</strong> les boutons qui nous intéressent, de façon à afficher en face de <strong>»MIDI IN:</strong> le signal à affecter. Le dernier signal reçu étant celui que l&#039;on va affecter.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> générer en interne un faux signal midi, via le menu FAKE MIDI, qui sera alors attribué à la commande à assigner</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> nettoyer  une affectation Midi par sélection de [CLEAR] et affecter un signal inexistant (CH: 999 P:999) à la commande à assigner</div>
+</li>
+</ul>
+<!-- EDIT31 SECTION "Choisir un signal à affecter" [17943-18492] -->
+<h4 class="sectionedit32"><a name="la_facon_manuelle" id="la_facon_manuelle">La façon manuelle</a></h4>
+
+<p class="level4">
+Le périphérique doit être sélectionné en entrée dans la page [MIDI DEVICES].
+</p>
+
+<p class="level4">
+Lorsque l&#039;on bouge un potentiomètre ou une touche, le signal apparait en face de <strong>»MIDI IN:</strong>
+</p>
+
+<p class="level4">
+! Attention, White Cat <strong>filtre</strong> les données MIDI reçues, ne laissant apparaitre que les types de messages Ctrl-Change, et Key On/ Key Off.
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="midi_in.jpeg" class="mediacenter" title="midi_in.jpg" alt="midi_in.jpg" /></div>
+</p>
+<!-- EDIT32 SECTION "La façon manuelle" [18493-18864] -->
+<h4 class="sectionedit33"><a name="generer_un_faux_signal_midi" id="generer_un_faux_signal_midi">Générer un faux signal midi</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Taper au clavier le numéro de Midi Channel,  clicker [CH] pour affecter cette valeur ( de 0 à 15)</div>
+</li>
+<li class="level1"><div class="li"> Taper au clavier le numéro de Pitch, clicjer [Pitch] pour affecter cette valeur ( de 0 à 127)</div>
+</li>
+<li class="level1"><div class="li"> Clicker le [Type] pour sélectionner le type de donnée: Ctrl-Change / Key-On / Key-Off</div>
+</li>
+<li class="level1"><div class="li"> Clicker [Fake MIDI] pour enclencher en mode assignation le Fake Midi</div>
+</li>
+</ol>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="midi_fake_midi.jpeg" class="mediacenter" title="midi_fake_midi.jpg" alt="midi_fake_midi.jpg" /></div>
+</p>
+
+<p class="level4">
+<strong>Pourquoi un Fake Midi ?</strong>
+</p>
+
+<p class="level4">
+Souvent on peut être amené à piloter d&#039;autres logiciels par le midi. Pas besoin de hardware alors, il suffit de créer ses commandes en faux midi, de les émettre vers un port virtuel comme Midi Yoke pour les partager avec un autre logiciel. 
+</p>
+<!-- EDIT33 SECTION "Générer un faux signal midi" [18865-19576] -->
+<h4 class="sectionedit34"><a name="nettoyer_une_commande" id="nettoyer_une_commande">Nettoyer une commande</a></h4>
+
+<p class="level4">
+<strong>Sélectionner [Clear] et affectez en mode solo ou x8.</strong>
+</p>
+<pre class="code">Si vous avez besoin de remettre à zéro complètement TOUTES vos assignations midi, aller dans le menu de sauvegarde:
+- clicker [SAVE]
+- sélectionner le mode [CHOICE]
+- sélectionner Midi
+- clicker [RESET] </pre>
+<!-- EDIT34 SECTION "Nettoyer une commande" [19577-19883] -->
+<h3 class="sectionedit35"><a name="definir_le_mode_d_affectation" id="definir_le_mode_d_affectation">Définir le mode d&#039;affectation</a></h3>
+
+<p class="level3">
+Il existe plusieurs modes d&#039;affectation. Ces modes dépendent si vous affectez une commande midi dans l&#039;espace Faders, ou une commande midi solo.
+</p>
+
+<p class="level3">
+Dans les versions précédentes à la version 0.7.6.6 on pouvait attribuer en solo, en x8, en x48 et en mode clavier. Ces modes ont été simplifiés pour ne garder que le mode solo et le mode x8.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="midi_affect_way.jpeg" class="mediacenter" title="midi_affect_way.jpg" alt="midi_affect_way.jpg" /></div>
+</p>
+<!-- EDIT35 SECTION "Définir le mode d'affectation" [19884-20296] -->
+<h4 class="sectionedit36"><a name="mode_solo" id="mode_solo">Mode solo</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> mode solo, en sélectionnant [Attribute to this Fader the last midi signal received] </div>
+</li>
+</ul>
+
+<p class="level4">
+Un signal midi est affecté à une seule commande. 
+Le mode solo permettra d&#039;affecter le séquentiel, une roue de couleur, faire une correction dans une affectation, désaffecter une commande.
+</p>
+<!-- EDIT36 SECTION "Mode solo" [20297-20598] -->
+<h4 class="sectionedit37"><a name="mode_seriel" id="mode_seriel">Mode sériel</a></h4>
+
+<p class="level4">
+L&#039;espace Faders comporte 48 Faders. Celà peut devenir très fastidieux de faire une affectation Fader après Fader.
+</p>
+
+<p class="level4">
+Il existe donc un mode d&#039;affectation spécial qui permet de traiter l&#039;affectation de manière <strong>sérielle</strong>.
+</p>
+
+<p class="level4">
+Cette action sérielle est basée sur <strong>incrémentation du Pitch</strong> <em class="u">OU</em>, si séléctionné, du <strong>Channel Midi</strong> ( cf image ci dessous, en mode Chan. et non plus Pitch).
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="midi_pitch_mode.jpeg" class="mediacenter" title="midi_pitch_mode.jpg" alt="midi_pitch_mode.jpg" /></div>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> L&#039;affectation se fait par lot de 8 commandes en sélectionnant [Attribute to this Fader by series of 8 (numerical)] </div>
+</li>
+</ul>
+
+<p class="level4">
+Si une commande ou une action midi comporte 8 ou plus commandes de même type, elle est assignable en 8
+Ex assignable en x8: 
+Les ups des faders sont au nombre de 48.
+Les faders sont 48.
+Les docks colors sont 8.
+Les aires de tracking vidéo sont au nombre de 12 donc assignable en x8 pour les 8 premiers.
+</p>
+
+<p class="level4">
+Si ce nombre de commandes est inférieur à 8, l&#039;asignation doit être faite impérativement en mode solo.
+Le Séquenciel on stage est solo.
+Les presets de tracking vidéo sont 5.
+</p>
+
+<h5><a name="exemple_d_affectation_serielle_et_choix_du_mode_seriel_en_picth_ou_channel" id="exemple_d_affectation_serielle_et_choix_du_mode_seriel_en_picth_ou_channel">Exemple d&#039;affectation sérielle et choix du mode sériel en Picth ou Channel</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> Sur mon périphérique midi, d&#039;usine, au sortir du carton, les 8 potentiomètres ont les identités suivantes:</div>
+</li>
+</ul>
+
+<p class="level5">
+  Pot. 1: Ch:1 Pitch 8 
+</p>
+<pre class="code">Pot. 2: Ch:2 Pitch 8 
+Pot. 3: Ch:3 Pitch 8
+etc .... jusqu&#039;à Pot. 8: Ch:8 Pitch 8</pre>
+
+<p class="level5">
+Plutôt que d&#039;affecter manuellement un à un chaque potentiomètre:
+</p>
+<ol class="level5">
+<li class="level1"><div class="li"> j&#039;enclenche l&#039;incrémentation sérielle en mode <strong>[Channel]</strong></div>
+</li>
+<li class="level1"><div class="li"> j&#039;enclenche le mode série par 8</div>
+</li>
+<li class="level1"><div class="li"> je bouge le premier potentiomètre de ma surface de contrôle</div>
+</li>
+<li class="level1"><div class="li"> j&#039;affecte au premier Fader ( N°1 par ex) de mon choix en clickant dessus</div>
+</li>
+<li class="level1"><div class="li"> l&#039;affectation est faite pour les 8 Faders de 1 à 8 sur base sérielle en Channel</div>
+</li>
+</ol>
+
+<p class="level5">
+Si ma surface de contrôle avait l&#039;affectation suivante:  
+</p>
+<pre class="code">Pot. 1: Ch:0 Pitch 16
+Pot. 2: Ch:0 Pitch 17 
+Pot. 3: Ch:0 Pitch 18
+etc .... jusqu&#039;à Pot. 8: Ch:0 Pitch 23</pre>
+
+<p class="level5">
+<strong>Je laisse l&#039;incrémentation sérielle en mode [Pitch].</strong>
+</p>
+<!-- EDIT37 SECTION "Mode sériel" [20599-22612] -->
+<h3 class="sectionedit38"><a name="affecter_a_une_commande_l_assignation_midi" id="affecter_a_une_commande_l_assignation_midi">Affecter à une commande l&#039;assignation Midi</a></h3>
+
+<p class="level3">
+Une fois vos modes choisis:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> survoler la commande choisie, qui <strong>apparait alors en pourtour rouge</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>clicker</strong> dessus pour mener l&#039;opération d&#039;affectation choisie</div>
+</li>
+</ol>
+
+<p class="level3">
+<img src="midi_affecter_a_un_fader.jpeg" class="media" title="midi_affecter_a_un_fader.jpg" alt="midi_affecter_a_un_fader.jpg" />
+</p>
+<!-- EDIT38 SECTION "Affecter à une commande l'assignation Midi" [22613-22876] -->
+<h3 class="sectionedit39"><a name="les_commandes_assignables_en_midi" id="les_commandes_assignables_en_midi">Les commandes assignables en Midi</a></h3>
+
+<p class="level3">
+Se reporter au <a href="tableau_affectation_midi.html" class="wikilink1" title="tableau_affectation_midi">synoptique d&#039;affectation midi</a>
+</p>
+<!-- EDIT39 SECTION "Les commandes assignables en Midi" [22877-22997] -->
+<h1 class="sectionedit40"><a name="midimute_system" id="midimute_system">MidiMute System</a></h1>
+
+<p class="level1">
+(version 0.8.2.2): un nouveau système de mutage de l&#039;entrée midi est mis en place.
+</p>
+
+<p class="level1">
+Ce système est mis en place pour répondre à la problèmatique des surfaces de controle non motorisées: si vous déclenchez un évènement, type Banger ou LFO sur un Fader, un master, ou encore le séquenciel, les niveaux physiques des potentiomètres ne correspondent plus. 
+</p>
+
+<p class="level1">
+Retoucher la commande physique provoquera une saute d&#039;intensité du niveau piloté dans le logiciel. 
+</p>
+
+<p class="level1">
+Le nouveau système de Mutage règle ce problème.
+</p>
+
+<p class="level1">
+<img src="midi_mute_system.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT40 SECTION "MidiMute System" [22998-23580] -->
+<h3 class="sectionedit41"><a name="midimute_global" id="midimute_global">MidiMute (global)</a></h3>
+
+<p class="level3">
+Le bouton MidiMute est un raccourci Général pour muter toutes les affectations midis.
+</p>
+
+<p class="level3">
+En clickant la touche MidiMute, vous enclenchez / désenclenchez tous les MidiMute(local) de WhiteCat. Cette commande est affectable en midi, et seule cette commande midi n&#039;est pas mutée. Aucune affectation n&#039;est pilotable ( faders, séquenciel, …, ainsi que tout ce qui est touches ). 
+</p>
+
+<p class="level3">
+Lorsque l&#039;on met en ON MidiMute (global) tous les MidiMute (local) sont enclenchés.
+Lorsque l&#039;on met en OFF MidiMute (global) tous les MidiMute (local) sont dés-enclenchés.
+</p>
+
+<p class="level3">
+Vous pouvez débrayer MidiMute(local) même si le MidiMute (Global) est enclenché.
+</p>
+<!-- EDIT41 SECTION "MidiMute (global)" [23581-24251] -->
+<h3 class="sectionedit42"><a name="midimute_local" id="midimute_local">MidiMute (local)</a></h3>
+
+<p class="level3">
+MidiMute (local) est une petite pastille placée généralement en dessous de MidiOUT, et qui est affectée à tout potentiomètre dans WhiteCat.
+Si vous enclenchez la petite pastille, cette commande n&#039; écoute plus le signal midi. Un affichage de ce dernier apparait, de façon à ce que vous recalliez physiquement vos potentiomètres. Le niveau apparait dans une barre blanche, sans être transféré à son affectation.
+</p>
+<!-- EDIT42 SECTION "MidiMute (local)" [24252-24703] -->
+<h4 class="sectionedit43"><a name="qui_est_concerne_par_midimute_local" id="qui_est_concerne_par_midimute_local">Qui est concerné par MidiMute (local)?</a></h4>
+
+<p class="level4">
+Tout ce qui est à potentiomètre dans WhiteCat:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> le Grand Master</div>
+</li>
+<li class="level1"><div class="li"> les faders</div>
+</li>
+<li class="level1"><div class="li"> les accéléromètres des faders</div>
+</li>
+<li class="level1"><div class="li"> le séquenciel ( X1/X2/accéléromètre)</div>
+</li>
+<li class="level1"><div class="li"> le decay du video tracking</div>
+</li>
+<li class="level1"><div class="li"> la roue de couleur de la trichro</div>
+</li>
+<li class="level1"><div class="li"> les pistes des chasers</div>
+</li>
+<li class="level1"><div class="li"> les controles audio ( niveau, pitch, pan)</div>
+</li>
+</ul>
+<!-- EDIT43 SECTION "Qui est concerné par MidiMute (local)?" [24704-25059] -->
+<h3 class="sectionedit44"><a name="coremidi_et_les_interfaces_midi_sur_le_reseau_wifi" id="coremidi_et_les_interfaces_midi_sur_le_reseau_wifi">CoreMIDI et les interfaces midi sur le réseau wifi</a></h3>
+
+<p class="level3">
+De nombreuses applications pour iOS permettent d&#039;émettre du Midi sur le réseau wifi.
+Le protocole utilisé s&#039;appelle CoreMIDI. Il permet donc de relier votre périphérique ( iPhone / iPad / Tablette ou téléphone Android) et votre ordinateur.
+</p>
+
+<p class="level3">
+Pour un programme émettant depuis un iOS, voir ici: <a href="bonjour_rtpmidi.html" class="wikilink1" title="bonjour_rtpmidi">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a>
+</p>
+
+<p class="level3">
+Pour un programme sous Android, généralement un serveur est fourni pour Windows, à installer sur votre machine.
+</p>
+
+<p class="level3">
+Ce genre de périphériques devient intérressant comme contrôleur d&#039;appoint ou si vous avez besoin d&#039;un nombre de boutons déclencheurs conséquent.  
+</p>
+<!-- EDIT44 SECTION "CoreMIDI et les interfaces midi sur le réseau wifi" [25060-] --></div>
+</body>
+</html>

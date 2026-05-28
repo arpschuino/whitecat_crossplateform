@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>grid_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-12-17T03:42:48+0100"/>
+<meta name="keywords" content="grid_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="grid_eng.html"/>
+<link rel="contents" href="grid_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="grid_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="grid_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=grid_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"grid_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#grid">Grid</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#introduction_to_grid">Introduction to Grid</a></div></li>
+<li class="level2"><div class="li"><a href="#description">Description</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#grid_configuration">Grid Configuration</a></div></li>
+<li class="level1"><div class="li"><a href="#view_panel">View panel</a></div></li>
+<li class="level1"><div class="li"><a href="#gridplayers">GridPlayers</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#commands">Commands</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#description1">Description</a></div></li>
+<li class="level4"><div class="li"><a href="#manipulations">Manipulations</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#matrix">Matrix</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#editing_channels_matrix_with_mouse">Editing channels matrix with mouse</a></div></li>
+<li class="level3"><div class="li"><a href="#editing_matrix_with_f1_f2_f3">Editing matrix with[F1][F2][F3]</a></div></li>
+<li class="level3"><div class="li"><a href="#clearing_a_step">Clearing a step</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#step_properties">Step Properties</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#cross-fade_visualization">Cross-fade Visualization</a></div></li>
+<li class="level3"><div class="li"><a href="#accelerometer">Accelerometer</a></div></li>
+<li class="level3"><div class="li"><a href="#step_macros">Step Macros</a></div></li>
+<li class="level3"><div class="li"><a href="#options">Options</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#assign_to_dock">Assign to dock</a></div></li>
+<li class="level4"><div class="li"><a href="#tostep_mode">ToStep Mode</a></div></li>
+<li class="level4"><div class="li"><a href="#copyto">CopyTo</a></div></li>
+<li class="level4"><div class="li"><a href="#insert">Insert</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#snapfader">SnapFader</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#midi_assignment_grid_specific">Midi Assignment, Grid specific</a></div></li>
+<li class="level2"><div class="li"><a href="#including_gridplayer_inside_a_memory_in_the_cuelist">Including GridPlayer inside a memory in the CueList</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#gridplayer_1_embedded_in_cuelista_double_cuelist">GridPlayer 1 embedded in CueList : a double CueList</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#method">Method</a></div></li>
+<li class="level3"><div class="li"><a href="#assign_a_grid_step_to_a_memory">Assign a Grid Step to a memory</a></div></li>
+<li class="level3"><div class="li"><a href="#slaving_gridplayer1_s_accelerometer_from_cuelist_s_accelerometer">Slaving GridPlayer1&#039;s accelerometer from CueList&#039;s accelerometer</a></div></li>
+<li class="level3"><div class="li"><a href="#examples">Examples</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="grid" id="grid">Grid</a></h1>
+
+<p class="level1">
+(version 0.8.3 )
+</p>
+
+<p class="level1">
+To open the Grid window, click [GRID]
+</p>
+
+<p class="level1">
+<img src="grid_open.jpeg" class="media" title="grid_open.jpg" alt="grid_open.jpg" />
+</p>
+<!-- EDIT1 SECTION "Grid" [1-97] -->
+<h2 class="sectionedit2"><a name="introduction_to_grid" id="introduction_to_grid">Introduction to Grid</a></h2>
+
+<p class="level2">
+Grid is a module that enables the creation of complex lighting effects inspired by musical sequencers.
+</p>
+
+<p class="level2">
+Grid allows you to edit lighting paths, patterns and events in a visual manner. 
+</p>
+
+<p class="level2">
+We could easily say that Grid is a 4xCueList module, as it contains 4 independent GridPlayers.
+</p>
+
+<p class="level2">
+You can load a Grid in each one.
+</p>
+
+<p class="level2">
+There are 127 possible Grids in White Cat.
+</p>
+
+<p class="level2">
+Each Grid can contain 1024 steps.
+</p>
+
+<p class="level2">
+Each step has a specific time IN/OUT and of course a Delay In/Out.
+</p>
+
+<p class="level2">
+Keeping a step a certain time (aka Wait or Dwell time) is done using the same Delay In and Delay Out.
+</p>
+
+<p class="level2">
+Each GridPlayer receives a Grid, and reads it,  cross-fading from step to step. 
+</p>
+
+<p class="level2">
+It is from a GridPlayer that you can edit the Grid it contains.
+</p>
+
+<p class="level2">
+A GridPlayer has dynamic contents. So they need to be stored inside a fader to be outputted.
+</p>
+<!-- EDIT2 SECTION "Introduction to Grid" [98-938] -->
+<h2 class="sectionedit3"><a name="description" id="description">Description</a></h2>
+
+<p class="level2">
+<img src="grid_main.jpeg" class="media" title="grid_main.jpg" alt="grid_main.jpg" />
+</p>
+
+<p class="level2">
+Grid window is composed of:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> the configuration of the Grid</div>
+</li>
+<li class="level1"><div class="li"> a Grid viewer</div>
+</li>
+<li class="level1"><div class="li"> 4 GridPlayers</div>
+</li>
+<li class="level1"><div class="li"> with their editing matrix</div>
+</li>
+<li class="level1"><div class="li"> step properties</div>
+</li>
+<li class="level1"><div class="li"> special editing and assignment to a dock</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Description" [939-1177] -->
+<h1 class="sectionedit4"><a name="grid_configuration" id="grid_configuration">Grid Configuration</a></h1>
+
+<p class="level1">
+<img src="grid_barredeconf.jpeg" class="media" title="grid_barredeconf.jpg" alt="grid_barredeconf.jpg" />
+</p>
+
+<p class="level1">
+Grid configuration specifies the channel matrix that will be manipulated by Grid. 
+</p>
+
+<p class="level1">
+To edit Begin Chan/Col. &amp; Rows you need to set [EDIT] mode to ON.
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Begin Chan: The beginning channel of the matrix (1st slot upper left). Channel numbers are read from left to right, by rows. Over mousing a slot shows up channel number and level. Here channel 3 is at 25% in this slot.</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="grid_matrice_num_circuit.jpeg" class="media" title="grid_matrice_num_circuit.jpg" alt="grid_matrice_num_circuit.jpg" />
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Col: number of columns in the matrix, max 24</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Rows: number of rows in the matrix, max 24</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Edit: must be ON to edit a grid or a step</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> View: View panel to inspect a Grid in a preview mode</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Gridplayers: 4 buttons enable you to see in the Grid window the 4 GridPlayers. When hidden they are still active.</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "Grid Configuration" [1178-1967] -->
+<h1 class="sectionedit5"><a name="view_panel" id="view_panel">View panel</a></h1>
+
+<p class="level1">
+View panel allows you to have a look inside the 128 grids to see the contents of their steps, in a global and quick way. No editing is possible from this panel.
+</p>
+
+<p class="level1">
+The four macros do not show up in this view.
+</p>
+
+<p class="level1">
+To activate this panel, click [VIEW].
+</p>
+
+<p class="level1">
+To select the grid to be Viewed:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> type number of the grid (from 1 to 127)</div>
+</li>
+<li class="level1"><div class="li"> click the grid box </div>
+</li>
+</ul>
+
+<p class="level1">
+To select the step to see in  View:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> type step number (from 1 to 1023)</div>
+</li>
+<li class="level1"><div class="li"> click the step box</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="grid_view.jpeg" class="media" title="grid_view.jpg" alt="grid_view.jpg" />
+</p>
+<!-- EDIT5 SECTION "View panel" [1968-2462] -->
+<h1 class="sectionedit6"><a name="gridplayers" id="gridplayers">GridPlayers</a></h1>
+
+<p class="level1">
+<img src="grid_gridplayer.png" class="media" alt="" />
+</p>
+
+<p class="level1">
+A GridPlayer plays a grid that is loaded inside.
+</p>
+
+<p class="level1">
+Each Grid can contains 1024 steps.
+</p>
+
+<p class="level1">
+Each step contains:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> recording of lighting states in the matrix (the channels)</div>
+</li>
+<li class="level1"><div class="li"> IN/OUT, delay In/delay Out times </div>
+</li>
+<li class="level1"><div class="li"> macros per step</div>
+</li>
+</ul>
+
+<p class="level1">
+Those are the 3 types of information that are read while playing a step.
+</p>
+<!-- EDIT6 SECTION "GridPlayers" [2463-2813] -->
+<h2 class="sectionedit7"><a name="commands" id="commands">Commands</a></h2>
+
+<p class="level2">
+<img src="grid_gridplayer_commandes.jpeg" class="media" title="grid_gridplayer_commandes.jpg" alt="grid_gridplayer_commandes.jpg" />
+</p>
+<!-- EDIT7 SECTION "Commands" [2814-2869] -->
+<h4 class="sectionedit8"><a name="description1" id="description1">Description</a></h4>
+
+<p class="level4">
+From left to right:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Selected Grid number box</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Name of the selected Grid</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> A navigator with mouse inside the 127 grid, by clicking - / + buttons</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Step number on stage, and navigation with arrows in the steps</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Play/Pause of the GridPlayer</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Seek: go to a defined step. A little number shows which step is defined as the seek step, it can be defined in Macros.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Autostop button: when this mode is on, reading of a grid is done step-by-step. When the button is off, the play stops after a step has been read.  To cross-fade to the next step the Play button has to be pressed.</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "Description" [2870-3489] -->
+<h4 class="sectionedit9"><a name="manipulations" id="manipulations">Manipulations</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Loading a Grid inside a GridPlayer:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> type grid number</div>
+</li>
+<li class="level2"><div class="li"> Click grid box   </div>
+</li>
+<li class="level2"><div class="li"> or use + - buttons</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Giving a name to the Grid:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> call [NAME] [F5]</div>
+</li>
+<li class="level2"><div class="li"> type its name</div>
+</li>
+<li class="level2"><div class="li"> click the name box</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Setting on stage step in GridPlayer:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> type step number</div>
+</li>
+<li class="level2"><div class="li"> click the step box</div>
+</li>
+<li class="level2"><div class="li"> or use arrows</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Assign a time to a step</div>
+<ul class="level4">
+<li class="level2"><div class="li"> click [TIME] or press [F6]</div>
+</li>
+<li class="level2"><div class="li"> use the TimeWheel with Min. Sec or 1/10th of sec</div>
+</li>
+<li class="level2"><div class="li"> select IN/OUT or DIN/DOUT </div>
+</li>
+<li class="level2"><div class="li"> set TIME AFFECT ON</div>
+</li>
+<li class="level2"><div class="li"> click the step</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+    <img src="fenetre_time.jpeg" class="media" title="fenetre_time.jpg" alt="fenetre_time.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Clear a step:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> click [CLEAR] or press [F4]</div>
+</li>
+<li class="level2"><div class="li"> click step number box</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Clear a grid:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> click [CLEAR] or press [F4]</div>
+</li>
+<li class="level2"><div class="li"> click grid number box</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> To clear or assign a time to a group of steps:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> set Gridplayer step to the first step of the series to be modified</div>
+</li>
+<li class="level2"><div class="li"> click  ToStep Mode box. </div>
+</li>
+<li class="level2"><div class="li"> click last selection step number</div>
+</li>
+<li class="level2"><div class="li"> click ToStep Number box </div>
+</li>
+<li class="level2"><div class="li"> choose [CLEAR] or [TIME] as previously described, and click the step box to execute the action</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+Here Grid 1, from steps 9 to 25 will be affected by the operation:
+</p>
+
+<p class="level4">
+<img src="grid_tostepmode.png" class="media" alt="" />
+</p>
+<!-- EDIT9 SECTION "Manipulations" [3490-4641] -->
+<h2 class="sectionedit10"><a name="matrix" id="matrix">Matrix</a></h2>
+
+<p class="level2">
+<img src="grid_matrice_num_circuit.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> When a slot appears in orange, the channel is at Full</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> In green, channel is at a level less than 100%</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Little red boxes in left upper corner of a slot indicates the channel was lit in the previous step of the grid.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li">  Little white boxes in right upper corner of a slot indicate that the channel that will be lit in next step (of the grid, or in goto).</div>
+</li>
+</ul>
+<!-- EDIT10 SECTION "Matrix" [4642-5063] -->
+<h3 class="sectionedit11"><a name="editing_channels_matrix_with_mouse" id="editing_channels_matrix_with_mouse">Editing channels matrix with mouse</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> To record a channel at Full in the active step:</div>
+<ul class="level3">
+<li class="level2"><div class="li"> simply click the slot</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> To record a channel at a level</div>
+<ul class="level3">
+<li class="level2"><div class="li"> type channel level</div>
+</li>
+<li class="level2"><div class="li"> click the slot</div>
+</li>
+<li class="level2"><div class="li"> channel appears in green.</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> To remove a channel from a step</div>
+<ul class="level3">
+<li class="level2"><div class="li"> click a lit channel: it will be off</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Editing channels matrix with mouse" [5064-5381] -->
+<h3 class="sectionedit12"><a name="editing_matrix_with_f1_f2_f3" id="editing_matrix_with_f1_f2_f3">Editing matrix with[F1][F2][F3]</a></h3>
+
+<p class="level3">
+It is possible to record in a step intensities coming from the CueList buffer or the Faders buffer:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Record onStage or Blind output from CueList:</div>
+<ul class="level3">
+<li class="level3"><div class="li"> press [F1]</div>
+</li>
+<li class="level3"><div class="li"> click the step box</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Copy a memory in the step: </div>
+<ul class="level3">
+<li class="level3"><div class="li"> type the memory number</div>
+</li>
+<li class="level3"><div class="li"> press [F1]</div>
+</li>
+<li class="level3"><div class="li"> click the step box</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level3">
+    Be aware that it is a copy of a memory, and not a link to a memory.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Modifying channel levels:</div>
+<ul class="level3">
+<li class="level3"><div class="li"> press [F2]</div>
+</li>
+<li class="level3"><div class="li"> select channels</div>
+</li>
+<li class="level3"><div class="li"> set them to desired intensity</div>
+</li>
+<li class="level3"><div class="li"> click the step box</div>
+</li>
+<li class="level3"><div class="li"> F2 will cut from CueList the selected channel to paste it in the step</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Reporting mix of Fader&#039;s buffer and CueList Buffer:</div>
+<ul class="level3">
+<li class="level3"><div class="li"> press [F3]</div>
+</li>
+<li class="level3"><div class="li"> click the step box</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- EDIT12 SECTION "Editing matrix with[F1][F2][F3]" [5382-6129] -->
+<h3 class="sectionedit13"><a name="clearing_a_step" id="clearing_a_step">Clearing a step</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> press [F4]</div>
+</li>
+<li class="level2"><div class="li"> click the step box</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "Clearing a step" [6130-6202] -->
+<h2 class="sectionedit14"><a name="step_properties" id="step_properties">Step Properties</a></h2>
+
+<p class="level2">
+<img src="grid_gridplayer_mainstep.jpeg" class="media" title="grid_gridplayer_mainstep.jpg" alt="grid_gridplayer_mainstep.jpg" />
+</p>
+<!-- EDIT14 SECTION "Step Properties" [6203-6265] -->
+<h3 class="sectionedit15"><a name="cross-fade_visualization" id="cross-fade_visualization">Cross-fade Visualization</a></h3>
+
+<p class="level3">
+In the upper part you can see:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> cross-fade state from the actual step to the next step: onstage step is in light blue, preset step in a light pink.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> recorded time of the onstage step, which refers to the previous cross-fade</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> recorded time of the actual cross-fade in <strong>red</strong>, transformed by accelerometer</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> what is in preset (Grid/Step) </div>
+</li>
+</ul>
+
+<h5><a name="assigning_times_approach" id="assigning_times_approach">Assigning times approach</a></h5>
+
+<p class="level5">
+<img src="grid_temps.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+When you record a step, you record:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> in how much time this step fades (IN)</div>
+</li>
+<li class="level1"><div class="li"> in how much time the previous step goes out (OUT)</div>
+</li>
+<li class="level1"><div class="li"> delay IN and OUT to create wait times or delayed fades</div>
+</li>
+</ul>
+
+<p class="level5">
+When you record a time in a step, you are recording the already completed cross-fade. Not the one to come.
+</p>
+<!-- EDIT15 SECTION "Cross-fade Visualization" [6266-7008] -->
+<h3 class="sectionedit16"><a name="accelerometer" id="accelerometer">Accelerometer</a></h3>
+
+<p class="level3">
+Accelerometer enables you to change the speed of a cross-fade.
+Value 64: normal speed. Accelerometer to the left slower, to the right faster.
+</p>
+
+<p class="level3">
+if [Slave] is on:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> GridPlayer output is sent to a Fader</div>
+</li>
+<li class="level1"><div class="li"> each fader has an accelerometer</div>
+</li>
+<li class="level1"><div class="li"> the gridplayer accelerometer will be remotely controlled by the Fader&#039;s accelerometer</div>
+</li>
+</ul>
+<!-- EDIT16 SECTION "Accelerometer" [7009-7360] -->
+<h3 class="sectionedit17"><a name="step_macros" id="step_macros">Step Macros</a></h3>
+
+<p class="level3">
+There are 4 types of macros, you can set ON or OFF for each GridPlayer. 
+</p>
+
+<p class="level3">
+<strong>These 4 macros enable you to navigate thru different grids inside the same GridPlayer (Goto), to do a loop or to repeat a loop a certain number of times (Count), to jump to any step of the grid (Seek) or to define a stopping point that ends the Play of a grid Player (StopPlay).</strong>
+</p>
+
+<p class="level3">
+The idea underlying these macros is to create lighting phrases you can call and recall easily, in an elaborate sequence of effects, or in live, during a concert.
+</p>
+
+<h5><a name="goto" id="goto">Goto:</a></h5>
+
+<p class="level5">
+It is the destination of the cross-fade in preset. If Goto mode is ON (little square box), when a step arrives on stage, and the Goto has a value greater than 0 in Grid box and Step Box, Grid Player will load in preset the goto next step.
+</p>
+
+<p class="level5">
+If Goto is off, or a steps contains a Goto Grid 0 Level 0, the play will continue normally, without goto.
+</p>
+
+<p class="level5">
+This function allows you to pass from one grid to another, or from a combination of complex lighting moves quite smoothly and easily, without re-recording.
+<img src="grid_goto_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="count" id="count">Count:</a></h5>
+
+<p class="level5">
+Is applied to GoTo. It will works only if:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> GoTo mode is ON</div>
+</li>
+<li class="level1"><div class="li"> GoTo is different than Grid 0 Level 0</div>
+</li>
+</ul>
+
+<p class="level5">
+Count counts the number of goto&#039;s done from a goto step.
+</p>
+
+<p class="level5">
+When all the Goto&#039;s defined in the count have been all done, Goto will be inactive and play will continue normally to next step.
+</p>
+
+<p class="level5">
+In this image, step 18 has a Goto to Grid 1 Step 1.
+</p>
+
+<p class="level5">
+We are at the 6th GoTo done on this step.
+</p>
+
+<p class="level5">
+After 13 GoTo&#039;s have been done(each coming back to Grid 1 Step 1), play will continue normally to step 19.
+</p>
+
+<p class="level5">
+<img src="grid_count_done.jpeg" class="media" title="grid_count_done.jpg" alt="grid_count_done.jpg" />
+</p>
+
+<p class="level5">
+It allows you to loop a sequence of steps precisely, before leaving it.
+</p>
+
+<p class="level5">
+<img src="grid_count_schema.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+You can of course have multiple Counts of loops within loops:
+</p>
+
+<p class="level5">
+<img src="grid_count_multiple_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="seekstep" id="seekstep">SeekStep:</a></h5>
+
+<p class="level5">
+The defined SeekStep appears as a small number just above the seek button. Redefinition of the seek point is done by the GridPlayer when setting on stage a step with a different Seek point attribution.
+</p>
+
+<p class="level5">
+<img src="grid_seek_info.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+It works only if SeekStep is activated (little red box on the left).
+</p>
+
+<p class="level5">
+Seek may be triggered manually (mouse/midi/banger). It only sends a seek point within the loaded grid in the player.
+</p>
+
+<p class="level5">
+So you can change seek points in your reading of the grid for live functions.
+</p>
+
+<p class="level5">
+<img src="grid_seek_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="stopplay" id="stopplay">StopPlay:</a></h5>
+
+<p class="level5">
+When  StopPlay mode is ON (little red box on the right), and you have set ON the big box of the StopPlay, the play will stop once you have arrived at this step.
+</p>
+
+<p class="level5">
+You can manually relaunch (mouse, midi, banger) to play the next step in the preset.
+</p>
+
+<p class="level5">
+<img src="grid_stopplay_schema.png" class="media" alt="" />
+</p>
+<!-- EDIT17 SECTION "Step Macros" [7361-10010] -->
+<h3 class="sectionedit18"><a name="options" id="options">Options</a></h3>
+
+<p class="level3">
+<img src="grid_gridplayer_misc.jpeg" class="media" title="grid_gridplayer_misc.jpg" alt="grid_gridplayer_misc.jpg" />
+</p>
+<!-- EDIT18 SECTION "Options" [10011-10059] -->
+<h4 class="sectionedit19"><a name="assign_to_dock" id="assign_to_dock">Assign to dock</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Set Affect to dock ON</div>
+</li>
+<li class="level1"><div class="li"> Call the Faders window [F10], or Minifaders window [Shift-F10] </div>
+</li>
+<li class="level1"><div class="li"> Press [F1]</div>
+</li>
+<li class="level1"><div class="li"> Click  the dock in the Fader window</div>
+</li>
+<li class="level1"><div class="li"> or if it&#039;s the Minifaders window, the fader number</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="grid_affect_fader.png" class="media" alt="" /> <img src="grid_affect_minifader.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+<strong>The 4 Gridplayers are loadable in 4 different Faders.</strong>
+</p>
+
+<p class="level4">
+<img src="grid_faders_charges.png" class="media" alt="" />
+</p>
+<!-- EDIT19 SECTION "Assign to dock" [10060-10451] -->
+<h4 class="sectionedit20"><a name="tostep_mode" id="tostep_mode">ToStep Mode</a></h4>
+
+<p class="level4">
+ToStep Mode enables you to define a set of multiples steps, on which perform an operation.
+</p>
+
+<p class="level4">
+When it is on, the active step in the GridPlayer will be the first step taken in this series of steps. The step number inside the ToStep box will be the ending step of the series.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> To clear or assign a time on a series of steps:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> Set GridPlayer on the first step of the series</div>
+</li>
+<li class="level2"><div class="li"> click ToStep Mode ON (little square). </div>
+</li>
+<li class="level2"><div class="li"> type ToStep number</div>
+</li>
+<li class="level2"><div class="li"> click ToSTep box to define last number of the series</div>
+</li>
+<li class="level2"><div class="li"> choose [CLEAR] ([F4] or [TIME] [F6] as previously explained to perform this operation on all the steps.</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+Here steps from 9 to 25 in Grid 1 will be the series affected by the operation.
+</p>
+
+<p class="level4">
+<img src="grid_tostepmode.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+ToStep Mode maybe used with CopyTo.
+</p>
+<!-- EDIT20 SECTION "ToStep Mode" [10452-11234] -->
+<h4 class="sectionedit21"><a name="copyto" id="copyto">CopyTo</a></h4>
+
+<p class="level4">
+Be aware, CopyTo is an action button, and not a button mode. It allows you to copy a step to a destination step, or to copy a series of steps to a destination step.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> type grid number you want to copy IN</div>
+</li>
+<li class="level1"><div class="li"> click CopyTo Grid box</div>
+</li>
+<li class="level1"><div class="li"> type step number to copy IN</div>
+</li>
+<li class="level1"><div class="li"> click CopyTo Step box again</div>
+</li>
+<li class="level1"><div class="li"> if ToStep mode is OFF: you will copy the current step of the GridPlayer to the Grid and step defined in CopyTo Grid/Steps boxes.</div>
+</li>
+<li class="level1"><div class="li"> if ToStep mode is ON: you will copy the current step of the GridPlayer and steps until the StepTo INSIDE the step and following, specified by CopyTo Grid/STep boxes</div>
+</li>
+<li class="level1"><div class="li"> click CopyTo </div>
+</li>
+<li class="level1"><div class="li"> Confirm</div>
+</li>
+</ul>
+
+<p class="level4">
+Copy concerns channels, times, macros.
+</p>
+
+<p class="level4">
+<strong>
+In the example here, Grid 5 from step 5 to step 25 will be copied inside Grid 2 from step 25 (up until step 46).
+</strong>
+</p>
+
+<p class="level4">
+<img src="grid_copyto.png" class="media" alt="" />
+</p>
+<!-- EDIT21 SECTION "CopyTo" [11235-12062] -->
+<h4 class="sectionedit22"><a name="insert" id="insert">Insert</a></h4>
+
+<p class="level4">
+Allows you to insert a number of empty steps to follow the one you are in.
+</p>
+
+<p class="level4">
+Type the number of empty steps to insert (ignore the Grid number and only type in the step box).
+</p>
+
+<p class="level4">
+<img src="grid_insert.jpeg" class="media" title="grid_insert.jpg" alt="grid_insert.jpg" />
+</p>
+<!-- EDIT22 SECTION "Insert" [12063-12271] -->
+<h3 class="sectionedit23"><a name="snapfader" id="snapfader">SnapFader</a></h3>
+
+<p class="level3">
+v. 0.8.3.1
+</p>
+
+<p class="level3">
+<img src="gpl_snapfader.jpeg" class="media" title="gpl_snapfader.jpg" alt="gpl_snapfader.jpg" />
+</p>
+
+<p class="level3">
+You can also register the issued states of a fader directly in the grid, so that the content can either be fixed or dynamic.
+You can also use <a href="doku.php?id=draw-eng&amp;DokuWiki=bc3f6cff79aa2607b73f042c6fabd60f" class="wikilink2" title="Draw-eng" rel="nofollow">Draw</a> to quickly create a lighting state.
+</p>
+
+<p class="level3">
+To attribute to a fader:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Click [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Type the fader number</div>
+</li>
+<li class="level1"><div class="li"> Press [F1]</div>
+</li>
+<li class="level1"><div class="li"> Click [Snap Fader]</div>
+</li>
+</ul>
+
+<p class="level3">
+To recover the levels issued from the fader, click [Snap Fader].
+</p>
+<!-- EDIT23 SECTION "SnapFader" [12272-12698] -->
+<h2 class="sectionedit24"><a name="midi_assignment_grid_specific" id="midi_assignment_grid_specific">Midi Assignment, Grid specific</a></h2>
+
+<p class="level2">
+As with almost all commands in White Cat, Grid commands are remote controllable in midi. See: <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng">Midi Assignment and Configuration</a> and <a href="tableau_affectation_midi_eng.html" class="wikilink1" title="tableau_affectation_midi_eng">Summary of midi assignments</a>
+</p>
+
+<p class="level2">
+But there is a very subtle difference between the way to call a Grid number and a step number call.
+</p>
+
+<p class="level2">
+Grid has been developed for the KeyFrames project from Group Laps. 
+In this project, White Cat receives midi from another application, being remotely controlled from a timeline.
+</p>
+
+<p class="level2">
+Gridplayers will have their contents changed, depending on the music, and the Banger structure will not be enough.
+</p>
+
+<p class="level2">
+So we can attribute a midi signal to the <strong> Grid Box to load </strong> in a GridPlayer, and <strong>to the Step Box</strong> of the gridplayer.
+</p>
+
+<p class="level2">
+If we assign a Key On Chan 0 Pitch 58 to the Grid Box, velocity will specify which Grid Number to load inside the GridPlayer (aka Vel 56 will load Grid number 56).
+</p>
+
+<p class="level2">
+Concerning Steps, as there are 1023 steps and midi allows only 127 steps, there is a double midi assignment, meaning TWO signals remotely controlling the Step Box:
+</p>
+
+<p class="level2">
+When you assign the step box directly, the midi signal will concerns UNITS:
+</p>
+
+<p class="level2">
+<img src="grid_assignation_midi_127.jpeg" class="media" title="grid_assignation_midi_127.jpg" alt="grid_assignation_midi_127.jpg" />
+</p>
+
+<p class="level2">
+When you assign the little box on its right, the midi signal will assign the x7 factor of the midi step:
+</p>
+
+<p class="level2">
+<img src="grid_assignation_midi_x127.jpeg" class="media" title="grid_assignation_midi_x127.jpg" alt="grid_assignation_midi_x127.jpg" />
+</p>
+
+<p class="level2">
+So if WhiteCat is remotely controlled from a ProTools, a CuBase or any other software enabling midi encoding on a timeline, we will assign two signals for the step box, ie:
+</p>
+
+<p class="level2">
+- Step Unit : CC Chan 0 Pitch 56
+- Stepx7: CC Chan 0 Pitch 58
+</p>
+
+<p class="level2">
+To set the step of the gridplayer in step 6, you will send:
+</p>
+
+<p class="level2">
+-if the x7 factor is already in 0,  CC Chan 0 Pitch 56 Vel 6
+</p>
+
+<p class="level2">
+-if the x7 factor was previously used:   CC Chan 0 Pitch 58 Vel 0 <strong> then</strong> CC Chan 0 Pitch 56 Vel 6
+</p>
+
+<p class="level2">
+When WhiteCat receives a step order, it will take x7 factor:
+</p>
+
+<p class="level2">
+desired step= Velocity of Step Unit + (Velocity of x7 factor * 7)
+</p>
+
+<p class="level2">
+You can change the factor, without affecting the step, until a new step is called.
+</p>
+
+<p class="level2">
+Let&#039;s say you want to load step 458:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> calculation of Stepx7: 458/7= 65 something</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Step Unit= 458- (65*7) = 3</div>
+</li>
+</ul>
+
+<p class="level2">
+So we send the 2 following notes
+</p>
+
+<p class="level2">
+CC Chan 0 <strong>Pitch 58 Vel 65</strong> (the x7 factor) then CC Chan 0 <strong>Pitch 56 Vel 3</strong> (the units)
+</p>
+<!-- EDIT24 SECTION "Midi Assignment, Grid specific" [12699-15001] -->
+<h2 class="sectionedit25"><a name="including_gridplayer_inside_a_memory_in_the_cuelist" id="including_gridplayer_inside_a_memory_in_the_cuelist">Including GridPlayer inside a memory in the CueList</a></h2>
+
+<p class="level2">
+You can launch with <a href="banger_eng.html" class="wikilink1" title="Banger_eng">Banger</a>. GridPlayer 1 is accessible from the CueList, see page down.
+</p>
+<!-- EDIT25 SECTION "Including GridPlayer inside a memory in the CueList" [15002-15169] -->
+<h1 class="sectionedit26"><a name="gridplayer_1_embedded_in_cuelista_double_cuelist" id="gridplayer_1_embedded_in_cuelista_double_cuelist">GridPlayer 1 embedded in CueList : a double CueList</a></h1>
+
+<p class="level1">
+The 4 GridPlayers are usable with Bangers in the CueList, allowing you to create complex effects with a single GO.
+</p>
+
+<p class="level1">
+GridPlayers are like 4 parallel CueLists . 
+To ease manipulation of a GridPlayer in a more conventional way, you can call GridPlayer 1 inside the CueList window. You will have GO/GO BACK/JUMP/Quick navigation (W/X–Z/X on Eng keyboard) and accelermeter available.
+</p>
+
+<p class="level1">
+When GridPlayer 1 is embedded in the CueList, it continues to deliver its calculations inside the fader. Its output is still in the Fader Buffer(channels in orange). 
+</p>
+
+<p class="level1">
+The double CueList only works on GO (no manual cross-fade of the GridPlayer 1 for the moment).
+</p>
+
+<p class="level1">
+To activate this special mode, go in CueList window [F9] and click [GPL1] box, near the [LINK] and [BANGER] boxes.
+The CueList window will extend itself on the right, enabling general manipulations of a GridPlayer, but without the matrix.
+</p>
+
+<p class="level1">
+<img src="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpg" alt="cuelist_extended.jpg" />
+</p>
+<!-- EDIT26 SECTION "GridPlayer 1 embedded in CueList : a double CueList" [15170-16150] -->
+<h3 class="sectionedit27"><a name="method" id="method">Method</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> As dot memories do not exist in Grids structure, be sure to skip steps to provide free steps for future use.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> If you want to use it very simply, like doing some channel times effects, set GridPlayer 1 in  <strong>StopMode</strong>.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> If you prefer to create slaves and various linked light movements, use the macros <strong>StopPlay in the macros</strong>, and to keep free steps between events.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Embedding inside the CueList is calling Steps of the<strong>loaded Grid</strong> in GridPlayer 1. So when you are encoding you can only call steps and not <strong>grid numbers</strong>. You would use the macro GOTO to go to other grids. </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> If you are working on multiple grids, use Banger and GridPlayer function Stop&amp;Load, to recall the correct Grid number when you are navigating inside CueList. It is very important if you are doing grid jumps with GOTO or you will become confused.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Sending a Go will trigger the play only if the step called in the memory preset is different from the step in GridPlayer 1. This to avoid loop effects.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> If you have midi control, using a fader as a master of your GridPlayer 1 will be very nice …</div>
+</li>
+</ul>
+<!-- EDIT27 SECTION "Method" [16151-17275] -->
+<h3 class="sectionedit28"><a name="assign_a_grid_step_to_a_memory" id="assign_a_grid_step_to_a_memory">Assign a Grid Step to a memory</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Type the Step Number and click the memory area corresponding to GridPlayer 1</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="sequenciel_pas_gpl1.jpeg" class="media" title="sequenciel_pas_gpl1.jpg" alt="sequenciel_pas_gpl1.jpg" />
+</p>
+<!-- EDIT28 SECTION "Assign a Grid Step to a memory" [17276-17427] -->
+<h3 class="sectionedit29"><a name="slaving_gridplayer1_s_accelerometer_from_cuelist_s_accelerometer" id="slaving_gridplayer1_s_accelerometer_from_cuelist_s_accelerometer">Slaving GridPlayer1&#039;s accelerometer from CueList&#039;s accelerometer</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Click  [Speed is CueList] to slave GridPlayer1&#039;s accelerometer to CueList&#039;s accelerometer. This command is also assignable in midi.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="sequenciel_speediscuelist.jpeg" class="media" title="sequenciel_speediscuelist.jpg" alt="sequenciel_speediscuelist.jpg" />
+</p>
+<!-- EDIT29 SECTION "Slaving GridPlayer1's accelerometer from CueList's accelerometer" [17428-17676] -->
+<h3 class="sectionedit30"><a name="examples" id="examples">Examples</a></h3>
+
+<p class="level3">
+<strong>A Go sending a cross-fade to another memory and a sequence of cross-fades in the GridPlayer 1 (with stop)</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt1.jpeg" class="media" title="gridpl1_synopt1.jpg" alt="gridpl1_synopt1.jpg" />
+</p>
+
+<p class="level3">
+<strong>A Go sending cross-fade with a loop until next cross-fade</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt2.jpeg" class="media" title="gridpl1_synopt2.jpg" alt="gridpl1_synopt2.jpg" />
+</p>
+
+<p class="level3">
+<strong>A Go sending cross-fade and loop, CueList is used normally, in parallel GridPlayer 1 is running all alone, until next step that will get it out of the loop</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt3.jpeg" class="media" title="gridpl1_synopt3.jpg" alt="gridpl1_synopt3.jpg" />
+</p>
+
+<p class="level3">
+<strong>A Go sending a cross-fade and a loop, CueList is used normlly and GridPlayer 1 runs in parallel, until next step that will send it to another step. Bangers are there to stop GOTO mode and looping, and to change the grid number with a Load&amp;Play or Stop&amp;Load</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt4.jpeg" class="media" title="gridpl1_synopt4.jpg" alt="gridpl1_synopt4.jpg" />
+</p>
+<!-- EDIT30 SECTION "Examples" [17677-] --></div>
+</body>
+</html>

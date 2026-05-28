@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>tracking_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-03-12T01:29:19+0100"/>
+<meta name="keywords" content="tracking_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="tracking_eng.html"/>
+<link rel="contents" href="tracking_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="tracking_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="tracking_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=tracking_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"tracking_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#video_tracking_aka_air-lighting">Video Tracking aka Air-Lighting</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#main_concepts">Main concepts</a></div></li>
+<li class="level2"><div class="li"><a href="#understanding">Understanding:</a></div></li>
+<li class="level2"><div class="li"><a href="#equipment">Equipment:</a></div></li>
+<li class="level2"><div class="li"><a href="#video_tracking">Video Tracking</a></div></li>
+<li class="level2"><div class="li"><a href="#assigning_output_of_the_video_tracking_module_to_a_dock">Assigning output of the video tracking module to a dock</a></div></li>
+<li class="level2"><div class="li"><a href="#image_calibration_and_calculation_modes">Image calibration and calculation modes</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#calculation_modenone_or_suppr">Calculation mode: NONE or SUPPR</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#none">NONE</a></div></li>
+<li class="level3"><div class="li"><a href="#suppr">SUPPR</a></div></li>
+<li class="level3"><div class="li"><a href="#images_settings">Images Settings</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#none_how_to">NONE how to</a></div></li>
+<li class="level4"><div class="li"><a href="#suppr_how_to">SUPPR how to</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#presets_and_rois">PRESETS and ROIs</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#presets">PRESETS</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#why_so_many_video_presets">Why so many video presets?</a></div></li>
+<li class="level4"><div class="li"><a href="#clear_a_video_preset">Clear a video preset</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#roi">ROI</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#channels_assignment_to_a_roi">Channels Assignment to a ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#editing_the_size_of_a_roi">Editing the size of a ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#editing_the_position_of_a_roi">Editing the position of a ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#clear_a_roi">Clear a ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#to_view_channels_assigned_to_a_roi">To view channels assigned to a ROI</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#damping_by_decay">Damping by DECAY</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#midi_assignment">Midi assignment</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="video_tracking_aka_air-lighting" id="video_tracking_aka_air-lighting">Video Tracking aka Air-Lighting</a></h1>
+
+<p class="level1">
+Please note that in order to use this feature it needs to be turned on in the General Tab of the configuration menu BEFORE WHITE CAT IS started.
+</p>
+<!-- EDIT1 SECTION "Video Tracking aka Air-Lighting" [1-192] -->
+<h2 class="sectionedit2"><a name="main_concepts" id="main_concepts">Main concepts</a></h2>
+
+<p class="level2">
+The Tracking module enables you to change the intensity of your lights based on the signal from a simple webcam.
+White Cat receives the video stream from your webcam (WDM drivers only).
+</p>
+
+<p class="level2">
+The image from this webcam is analyzed in real time and passed through different filters to obtain the information that can be translated to lighting levels for channels.
+</p>
+
+<p class="level2">
+This process is done on different ROIs (Regions Of Interest) that can be user defined in the image.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="video_roi.jpeg" class="mediacenter" title="video_roi.jpg" alt="video_roi.jpg" /></div>
+</p>
+
+<p class="level2">
+There are 6 presets, each one containing 12 ROIs.
+</p>
+
+<p class="level2">
+Each ROI is editable in terms of placement and size in the image, and you can assign different channels to each ROI. .  
+</p>
+
+<p class="level2">
+Each ROI may be activated/desactivated.
+</p>
+
+<p class="level2">
+Overall, you can have 12&times;6 independent channel assignments.
+</p>
+
+<p class="level2">
+6 presets enables you to change spotlights and configurations easily in a concert situation.
+</p>
+<!-- EDIT2 SECTION "Main concepts" [193-1067] -->
+<h2 class="sectionedit3"><a name="understanding" id="understanding">Understanding:</a></h2>
+
+<p class="level2">
+The calculation of a lighting level inside a ROI is based on this ratio: Number of pixels in the ROI divided by number of white pixels founded in the ROI.
+</p>
+
+<p class="level2">
+Working with video tracking requires some special conditions:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> a dark environment where ambiant lighting won&#039;t interfere</div>
+</li>
+<li class="level1"><div class="li"> a small lighting source near your webcam to light the area right in front of the lens of the camera</div>
+</li>
+</ul>
+
+<p class="level2">
+For the moment,  White Cat auto-connects to the first WDM camera driver found.
+To configure the camera, close White Cat and launch /utils/VIDCAP.exe.
+</p>
+
+<p class="level2">
+In VIDCAP, select OPTIONS &gt; VIDEO Format and select a maximum resolution of 352&times;258 or your CPU will be seriously slowed down.
+Apply and quit VIDCAP.
+</p>
+
+<p class="level2">
+In White Cat, even though your camera may be a color camera, you will see the video stream in black and white.
+</p>
+<!-- EDIT3 SECTION "Understanding:" [1068-1892] -->
+<h2 class="sectionedit4"><a name="equipment" id="equipment">Equipment:</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> USB lamp (cheap one 9 euros)</div>
+</li>
+<li class="level1"><div class="li"> webcam (cheap one 9 euros) or a PS3eye camera that is perfect because of its high frame rate (up to 100 fps about 40 euros)</div>
+</li>
+<li class="level1"><div class="li"> if you have a built-in camera, deactivate it</div>
+</li>
+<li class="level1"><div class="li"> connect and launch White Cat</div>
+</li>
+<li class="level1"><div class="li"> Here is a little DIY project in a box, that is easy to tape on the table, and with a Lee132 for the lighting source, it will prevent your eyes getting tired:</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="assembl_camera.jpeg" class="mediacenter" title="assembl_camera.jpg" alt="assembl_camera.jpg" /></div>
+</p>
+<!-- EDIT4 SECTION "Equipment:" [1893-2349] -->
+<h2 class="sectionedit5"><a name="video_tracking" id="video_tracking">Video Tracking</a></h2>
+
+<p class="level2">
+To access Video Tracking, click [TRACK.] or press [F8].
+</p>
+
+<p class="level2">
+<img src="click_videotracking.jpeg" class="media" title="click_videotracking.jpg" alt="click_videotracking.jpg" />
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="video_window.jpeg" class="mediacenter" title="video_window.jpg" alt="video_window.jpg" /></div>
+</p>
+
+<p class="level2">
+Video tracking consists of 8 different parts (from top to bottom):
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> refresh rate (fps). Generally on a simple, cheap webcam this will be around 15 fps.  On the PS3eyes you can reach 100fps.</div>
+</li>
+<li class="level1"><div class="li"> image printing zone, showing ROIs and levels outputted from them</div>
+</li>
+<li class="level1"><div class="li"> Image menu</div>
+</li>
+<li class="level1"><div class="li"> ROI selection tab</div>
+</li>
+<li class="level1"><div class="li"> ROI edition menu</div>
+</li>
+<li class="level1"><div class="li"> speed of levels restitution</div>
+</li>
+<li class="level1"><div class="li"> the 6 video presets</div>
+</li>
+<li class="level1"><div class="li"> affectation to a dock</div>
+</li>
+</ol>
+
+<p class="level2">
+<strong>To see channels controlled by the webcam on stage</strong>, it needs, <strong>as every dynamic content</strong>:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> to be stored inside a dock</div>
+</li>
+<li class="level1"><div class="li"> the dock must be selected</div>
+</li>
+<li class="level1"><div class="li"> the fader must be activated</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "Video Tracking" [2350-3081] -->
+<h2 class="sectionedit6"><a name="assigning_output_of_the_video_tracking_module_to_a_dock" id="assigning_output_of_the_video_tracking_module_to_a_dock">Assigning output of the video tracking module to a dock</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Click [AFFECT TO DOCK] </div>
+</li>
+<li class="level1"><div class="li"> Click the dock oval</div>
+</li>
+<li class="level1"><div class="li"> bring up the fader</div>
+</li>
+</ul>
+
+<p class="level2">
+! Be aware, unlike trichromy, there is only ONE output from video tracking.  Video presets are just pre-selections of different channel routing.
+</p>
+<!-- EDIT6 SECTION "Assigning output of the video tracking module to a dock" [3082-3370] -->
+<h2 class="sectionedit7"><a name="image_calibration_and_calculation_modes" id="image_calibration_and_calculation_modes">Image calibration and calculation modes</a></h2>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="video_modes.jpeg" class="mediacenter" title="video_modes.jpg" alt="video_modes.jpg" /></div>
+</p>
+<!-- EDIT7 SECTION "Image calibration and calculation modes" [3371-3445] -->
+<h4 class="sectionedit8"><a name="calculation_modenone_or_suppr" id="calculation_modenone_or_suppr">Calculation mode: NONE or SUPPR</a></h4>
+
+<p class="level4">
+Toggle it from [NONE] to [SUPPR]
+</p>
+<!-- EDIT8 SECTION "Calculation mode: NONE or SUPPR" [3446-3520] -->
+<h3 class="sectionedit9"><a name="none" id="none">NONE</a></h3>
+
+<p class="level3">
+You can make the background disappear by adjusting the THRESHOLD.
+This technique uses less computer resources. 
+Unlike [SUPPR], where the image is subtracted from a referenced snapshot (background subtraction technique). 
+</p>
+
+<p class="level3">
+NONE is affected by the adjustment of the THRESHOLD in [IMAGE FILTERS]
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_roi.jpeg" class="mediacenter" title="video_roi.jpg" alt="video_roi.jpg" /></div>
+</p>
+<!-- EDIT9 SECTION "NONE" [3521-3851] -->
+<h3 class="sectionedit10"><a name="suppr" id="suppr">SUPPR</a></h3>
+
+<p class="level3">
+If you are in a difficult environment where it is too bright (white ceiling, control room too brightly lit by audience lighting), you can use SUPPR mode.
+SUPPR enables you to take a reference image in the picture and subtract it from the video stream.
+</p>
+
+<p class="level3">
+To use SUPPR:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click [SNAP] to record in RAM a background reference image (this has to be done each time you open White Cat)</div>
+</li>
+<li class="level1"><div class="li"> use THRESHOLD and DIV.FACTOR in [IMAGE FILTERS] to adjust the result</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_suppr.jpeg" class="mediacenter" title="video_suppr.jpg" alt="video_suppr.jpg" /></div>
+</p>
+<!-- EDIT10 SECTION "SUPPR" [3852-4345] -->
+<h3 class="sectionedit11"><a name="images_settings" id="images_settings">Images Settings</a></h3>
+
+<p class="level3">
+General settings:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [FLIP] to flip the image vertically</div>
+</li>
+<li class="level1"><div class="li"> [THRESHOLD] to calibrate a Threshold high-pass filter</div>
+</li>
+<li class="level1"><div class="li"> [EROD] to nibble undesired pixels (when too much noise)</div>
+</li>
+<li class="level1"><div class="li"> [BLUR] to blur the image in 3&times;3, and clean up the noise of the image (little white pixels)</div>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Images Settings" [4346-4645] -->
+<h4 class="sectionedit12"><a name="none_how_to" id="none_how_to">NONE how to</a></h4>
+
+<p class="level4">
+This is the recommended method.
+You can regulate the high-pass filter with THRESHOLD, until the background is completely black and keep your hand visible and white with the lamp near the lens.
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_settingssimple.jpeg" class="mediacenter" title="video_settingssimple.jpg" alt="video_settingssimple.jpg" /></div>
+</p>
+<!-- EDIT12 SECTION "NONE how to" [4646-4892] -->
+<h4 class="sectionedit13"><a name="suppr_how_to" id="suppr_how_to">SUPPR how to</a></h4>
+
+<p class="level4">
+After you have made a [SNAP] without your hand, with just the background, adjust the threshold and div. factor.
+Note that ROI levels are printed below. Those levels are in the 0-255 range (dmx).
+</p>
+
+<p class="level4">
+A good calibration is based on 3 things: lighting of the hand/threshold/div-factor.
+</p>
+
+<p class="level4">
+You need a ratio of 255, when the hand is covering a ROI, and 0 when it is not in the ROI.
+</p>
+
+<p class="level4">
+DIV.Factor: the OpenCV operation behind this is DIV (dividing).
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_settingsdiv.jpeg" class="mediacenter" title="video_settingsdiv.jpg" alt="video_settingsdiv.jpg" /></div>
+</p>
+<!-- EDIT13 SECTION "SUPPR how to" [4893-5381] -->
+<h2 class="sectionedit14"><a name="presets_and_rois" id="presets_and_rois">PRESETS and ROIs</a></h2>
+<!-- EDIT14 SECTION "PRESETS and ROIs" [5382-5408] -->
+<h3 class="sectionedit15"><a name="presets" id="presets">PRESETS</a></h3>
+
+<p class="level3">
+There are 6 video presets that you can select with the mouse or with the keyboard:  [A] [Z] [E] [R] [T] [Y].  For those with English keyboards that&#039;s [Q] [W] [E] [R] [T] [Y] for you.
+</p>
+
+<p class="level3">
+Each preset contains 12 ROIs, each one being customizable for each preset (size, position, channels assigned to the ROI).
+</p>
+<!-- EDIT15 SECTION "PRESETS" [5409-5732] -->
+<h4 class="sectionedit16"><a name="why_so_many_video_presets" id="why_so_many_video_presets">Why so many video presets?</a></h4>
+
+<p class="level4">
+To enable different movement types and lighting reactions, imagine:
+</p>
+
+<p class="level4">
+Preset 1: 6 Blinders from stage left to stage right.
+Moving your hand will act laterally on the 6 ROIs. Your ROI placement will match the physical lighting implementation you see from the control room.
+</p>
+
+<p class="level4">
+Preset 2: 8 toplights in a circle with an 8 ROI system placed in the image to match the physical implementation.
+</p>
+
+<p class="level4">
+Preset 3: effect of clouds with PAR 64s, on 12 overlapping ROIs 
+</p>
+
+<p class="level4">
+… etc …
+</p>
+<!-- EDIT16 SECTION "Why so many video presets?" [5733-6231] -->
+<h4 class="sectionedit17"><a name="clear_a_video_preset" id="clear_a_video_preset">Clear a video preset</a></h4>
+
+<p class="level4">
+Use the [CLEAR] button in the video window. 
+</p>
+
+<p class="level4">
+Click Preset: all its ROI, size, position and channel assignments will be cleared.
+</p>
+<!-- EDIT17 SECTION "Clear a video preset" [6232-6389] -->
+<h3 class="sectionedit18"><a name="roi" id="roi">ROI</a></h3>
+
+<p class="level3">
+Please note that each  ROI, has a little number that shows its ID.
+</p>
+
+<p class="level3">
+Each ROI may be toggled on/off with the mouse or with the keyboard:
+</p>
+
+<p class="level3">
+[Q] [S] [D] [F] [G] [H]  (on an English keyboard that is: [A] [S] [D] [F] [G] [H]) 
+</p>
+
+<p class="level3">
+and
+</p>
+
+<p class="level3">
+[W] [X] [C] [V] [B] [N]  (on an English keyboard that is: [Z] [X] [C] [V] [B] [N]) 
+</p>
+
+<p class="level3">
+When a ROI is ON, its outputted levels are activated.
+</p>
+<!-- EDIT18 SECTION "ROI" [6390-6770] -->
+<h4 class="sectionedit19"><a name="channels_assignment_to_a_roi" id="channels_assignment_to_a_roi">Channels Assignment to a ROI</a></h4>
+
+<p class="level4">
+<strong>You assign only a selection of channels in a ROI (not levels).
+Levels come from the calculations of video tracking.</strong>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> select channel(s) (they don&#039;t need to be lit)</div>
+</li>
+<li class="level1"><div class="li"> click [STORE] or press [F1] </div>
+</li>
+<li class="level1"><div class="li"> click ROI to assign those channels</div>
+</li>
+</ul>
+
+<p class="level4">
+! Be aware: the channel ROI assignments are specific to each Video Preset . Each preset contains 12 ROI, and there is no relationship from one preset to another.
+</p>
+
+<p class="level4">
+To modify:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> select the channel desired </div>
+</li>
+<li class="level1"><div class="li"> click [MODIFY] or press [F2]</div>
+</li>
+<li class="level1"><div class="li"> click the ROI</div>
+</li>
+</ul>
+
+<p class="level4">
+If the selected channel is already in the ROI it will be removed. If it is not yet present, it will be added to the ROI assignment.
+</p>
+<!-- EDIT19 SECTION "Channels Assignment to a ROI" [6771-7441] -->
+<h4 class="sectionedit20"><a name="editing_the_size_of_a_roi" id="editing_the_size_of_a_roi">Editing the size of a ROI</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Click [SIZE]</div>
+</li>
+<li class="level1"><div class="li"> Click the ROI to edit it</div>
+</li>
+<li class="level1"><div class="li"> with the mouse drag around the ROI to edit its size</div>
+</li>
+<li class="level1"><div class="li"> click [SIZE] again to get out of the Size edit mode</div>
+</li>
+</ul>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_roiediting.jpeg" class="mediacenter" title="video_roiediting.jpg" alt="video_roiediting.jpg" /></div>
+</p>
+<!-- EDIT20 SECTION "Editing the size of a ROI" [7442-7662] -->
+<h4 class="sectionedit21"><a name="editing_the_position_of_a_roi" id="editing_the_position_of_a_roi">Editing the position of a ROI</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Click [MOVE]</div>
+</li>
+<li class="level1"><div class="li"> Click the ROI to edit it</div>
+</li>
+<li class="level1"><div class="li"> with the mouse drag around the ROI to edit its position</div>
+</li>
+<li class="level1"><div class="li"> click [MOVE] again to get out of the Position edit mode</div>
+</li>
+</ul>
+<!-- EDIT21 SECTION "Editing the position of a ROI" [7663-7867] -->
+<h4 class="sectionedit22"><a name="clear_a_roi" id="clear_a_roi">Clear a ROI</a></h4>
+
+<p class="level4">
+Use the [CLEAR] button in the tracking video window. 
+Click the ROI: size, position and channel assignments will be cleared.
+</p>
+<!-- EDIT22 SECTION "Clear a ROI" [7868-8012] -->
+<h4 class="sectionedit23"><a name="to_view_channels_assigned_to_a_roi" id="to_view_channels_assigned_to_a_roi">To view channels assigned to a ROI</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li">  Set [VIEW] ON </div>
+</li>
+<li class="level1"><div class="li">  When you roll the mouse over the ROI channels, they will appear in Channel space.</div>
+</li>
+</ul>
+<!-- EDIT23 SECTION "To view channels assigned to a ROI" [8013-8162] -->
+<h3 class="sectionedit24"><a name="damping_by_decay" id="damping_by_decay">Damping by DECAY</a></h3>
+
+<p class="level3">
+Decay enables you to dampen in time and intensity the ROI reaction.
+</p>
+
+<p class="level3">
+One of the principal problems in managing control by video image analysis is the method of fading away the values received.
+</p>
+
+<p class="level3">
+Decay enables you to adjust on a time basis <strong> last value received </strong> from the OI analysis process.
+</p>
+
+<p class="level3">
+When set to 0, nothing will occur.  When moved, there is a pause.
+</p>
+
+<p class="level3">
+When set to 127, the reaction will be immediately transmitted (raw reaction).
+</p>
+
+<p class="level3">
+Set to 108, you will see a smoothing effect to the movement, you can ever so slightly touch the ROIs and see the levels gently reaching the last value received.  
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_decay.jpeg" class="mediacenter" title="video_decay.jpg" alt="video_decay.jpg" /></div>
+</p>
+<!-- EDIT24 SECTION "Damping by DECAY" [8163-8817] -->
+<h4 class="sectionedit25"><a name="midi_assignment" id="midi_assignment">Midi assignment</a></h4>
+
+<p class="level4">
+Decay is controlable in midi  ( see <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng">midi configuration </a>).
+</p>
+
+<p class="level4">
+Motorized midi control surfaces can send back its level.
+</p>
+
+<p class="level4">
+ROI selection and preset selection are also midi assignable.
+</p>
+<!-- EDIT25 SECTION "Midi assignment" [8818-] --></div>
+</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>save</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-25T17:28:48+0200"/>
+<meta name="keywords" content="save"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="save.html"/>
+<link rel="contents" href="save.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="save.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="save.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=save"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"save","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#la_fenetre_savesauvegardes_classiques_et_imports_exports">La fenêtre Save: sauvegardes classiques et imports exports</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#acceder_au_menu_save">Accéder au menu Save</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#concepts_de_base">Concepts de base</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#sauvegardes_binaires">Sauvegardes Binaires</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#sauvegardes_classiques">Sauvegardes classiques</a></div></li>
+<li class="level4"><div class="li"><a href="#imports_de_conduites_schwartzpeter">Imports de conduites schwartzpeter</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#sauvegardes_en_mode_texte">Sauvegardes en mode texte</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#ascii">ASCII</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#sauvegarder-charger_un_spectacle_binaire">Sauvegarder-Charger un spectacle / BINAIRE</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#sauvegardes_rapides">Sauvegardes rapides</a></div></li>
+<li class="level2"><div class="li"><a href="#sauvegarde_classique_simple">Sauvegarde classique / simple</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#sauvegarder_sous_un_nouveau_nom">Sauvegarder sous un nouveau nom</a></div></li>
+<li class="level3"><div class="li"><a href="#sauvegarder_sous_un_nom_deja_existant">Sauvegarder sous un nom dejà existant</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#charger_une_sauvegarde_existante">Charger une sauvegarde existante</a></div></li>
+<li class="level2"><div class="li"><a href="#sauvegarde_binaire_en_mode_selectif">Sauvegarde binaire en mode Sélectif</a></div></li>
+<li class="level2"><div class="li"><a href="#chargement_binaire_en_mode_selectif">Chargement binaire en mode Sélectif</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#creation_de_layouts">Création de Layouts</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#presets_personnalisables_du_mode_selectif">Presets personnalisables du mode Sélectif</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#enregistrer_une_selection">Enregistrer une sélection</a></div></li>
+<li class="level3"><div class="li"><a href="#appeler_une_selection">Appeler une sélection</a></div></li>
+<li class="level3"><div class="li"><a href="#effacer_une_selection">Effacer une sélection</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#resetnouveau_spectacle_vierge">RESET: Nouveau Spectacle vierge</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#sauvegarder_charger_import_export">Sauvegarder/Charger / IMPORT EXPORT</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#les_sous_dossiers_d_import-export">Les sous dossiers d&#039;Import-Export</a></div></li>
+<li class="level2"><div class="li"><a href="#les_formats_pris_en_charge">Les formats pris en charge</a></div></li>
+<li class="level2"><div class="li"><a href="#exemple_sauvegarde_ascii">Exemple Sauvegarde Ascii</a></div></li>
+<li class="level2"><div class="li"><a href="#exemple_chargement_ascii">Exemple Chargement Ascii</a></div></li>
+<li class="level2"><div class="li"><a href="#exemple_sauvegarde_pdf">Exemple Sauvegarde PDF</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="la_fenetre_savesauvegardes_classiques_et_imports_exports" id="la_fenetre_savesauvegardes_classiques_et_imports_exports">La fenêtre Save: sauvegardes classiques et imports exports</a></h1>
+<!-- EDIT1 SECTION "La fenêtre Save: sauvegardes classiques et imports exports" [1-76] -->
+<h4 class="sectionedit2"><a name="acceder_au_menu_save" id="acceder_au_menu_save">Accéder au menu Save</a></h4>
+
+<p class="level4">
+Pour sauvegarder une copie ou charger un spectacle, clicker l&#039;icône [Save].
+</p>
+
+<p class="level4">
+<img src="save_open.jpeg" class="media" title="save_open.jpg" alt="save_open.jpg" />
+</p>
+
+<p class="level4">
+La fenêtre Save s&#039;ouvre en défaut sur le le menu de sauvegarde binaire classique.
+</p>
+
+<p class="level4">
+Si vous désirez passer en mode import export clicker [BINARY] pour changer de mode .
+</p>
+
+<p class="level4">
+<img src="save_window.jpeg" class="media" title="save_window.jpg" alt="save_window.jpg" />
+</p>
+<!-- EDIT2 SECTION "Accéder au menu Save" [77-396] -->
+<h1 class="sectionedit3"><a name="concepts_de_base" id="concepts_de_base">Concepts de base</a></h1>
+
+<p class="level1">
+Il y a deux types de données permettant des sauvegardes chargements de spectacles:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> les données binaires, qui sont un archivage du spectacle dans un format propriétaire à White Cat.</div>
+</li>
+<li class="level1"><div class="li"> les données en mode texte, qui sont un archivage en norme Ascii ou Texte. On peut accéder à ces données par l&#039;intermédiaire du note pad ou de tout autre logiciel d&#039;édition de fichiers textes (word, wordpad, open office).</div>
+</li>
+</ul>
+
+<p class="level1">
+Il y a plusieurs type d&#039;export:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> l&#039;export en ascii</div>
+</li>
+<li class="level1"><div class="li"> l&#039;export sous forme de pdf pour archive et tournée</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Concepts de base" [397-965] -->
+<h3 class="sectionedit4"><a name="sauvegardes_binaires" id="sauvegardes_binaires">Sauvegardes Binaires</a></h3>
+<!-- EDIT4 SECTION "Sauvegardes Binaires" [966-995] -->
+<h4 class="sectionedit5"><a name="sauvegardes_classiques" id="sauvegardes_classiques">Sauvegardes classiques</a></h4>
+
+<p class="level4">
+Les spectacles sont sauvés dans le dossier SAVES de White Cat.
+</p>
+
+<p class="level4">
+A chaque ouverture, le spectacle chargé est <strong>last_save</strong>.
+Il est contenu dans le dossier /saves/last_save/.
+<strong>Last_save est donc la sauvegarde de travail</strong>.
+</p>
+
+<p class="level4">
+Lorsque vous enregistrez une mémoire, changez le patch, etc… ces modifications sont faites en mémoire vive.
+</p>
+
+<p class="level4">
+En faisant [Ctrl-S] ( sauvegarde rapide ) ou en quittant White Cat, les données sont alors écrites dans la sauvegarde de travail: last_save.
+</p>
+
+<p class="level4">
+En utilisant le menu [SAVE], vous ne faites qu&#039;enregistrer dans un <strong>autre</strong> dossier dont vous spécifiez le nom le spectacle chargé en mémoire vive ( donc last_save).
+</p>
+
+<p class="level4">
+Les actions de sauvegarde sont donc juste un <strong>back-up</strong>, où l&#039;on sauve un exemplaire de la conduite sous un autre nom.
+</p>
+
+<p class="level4">
+Il est conseillé de sauver manuellement sous un autre nom votre spectacle, lorsque de grandes étapes ont été franchies ( patch, encodage mémoires, affinage des mémoires fait pendant la représentation, etc…).
+</p>
+
+<p class="level4">
+Lorsque l&#039;on quitte classiquement White Cat, une sauvegarde est faite dans last_save, donc dans la sauvegarde de travail. <strong>Le contenu du back-up n&#039;est absolument pas touché.</strong>
+</p>
+
+<p class="level4">
+On peut choisir de charger ce back-up en binaire, soit de manière complète, soit de manière partielle ( ne recharger que le patch, ou que les commandes midi, ou que les mémoires, etc…).
+</p>
+<!-- EDIT5 SECTION "Sauvegardes classiques" [996-2392] -->
+<h4 class="sectionedit6"><a name="imports_de_conduites_schwartzpeter" id="imports_de_conduites_schwartzpeter">Imports de conduites schwartzpeter</a></h4>
+
+<p class="level4">
+On peut importer le contenu d&#039;une conduite binaire venant de schwartzpeter.
+</p>
+
+<p class="level4">
+Pour ce, placer le dossier de la sauvegarde schwartzpeter voulue  dans WhiteCat/import_export/:
+</p>
+
+<p class="level4">
+- par ex le dossier EURYDICE present dans schwartzpeter/saves/
+</p>
+
+<p class="level4">
+- vous aurez donc le dossier whitecat/import_export/EURYDICE/
+</p>
+
+<p class="level4">
+L&#039;import d&#039;une conduite schwartzpeter est extrêmement basique et permet du coup l&#039;import de <strong>toutes les versions</strong> de schwartzpeter.
+</p>
+
+<p class="level4">
+En important une conduite schwartzpeter vous importez:
+</p>
+
+<p class="level4">
+-les mémoires
+</p>
+
+<p class="level4">
+-les autogo
+</p>
+
+<p class="level4">
+-le descriptif mémoires
+</p>
+
+<p class="level4">
+-les temps
+</p>
+
+<p class="level4">
+-le patch
+</p>
+
+<p class="level4">
+-le contenu des shadow subs ( pas les shadow groups !) qui est reporté sur les faders avec les niveaux correspondant.
+</p>
+<!-- EDIT6 SECTION "Imports de conduites schwartzpeter" [2393-3126] -->
+<h3 class="sectionedit7"><a name="sauvegardes_en_mode_texte" id="sauvegardes_en_mode_texte">Sauvegardes en mode texte</a></h3>
+
+<p class="level3">
+Il s&#039;agit d&#039;export ou d&#039;import de données. A ce titre, ces fichiers sont sauvés ou lus depuis le dossier <strong>import_export</strong>.
+Pour importer un fichier ou récupérer un export, aller dans le dossier WhiteCat/import_export/.
+</p>
+<!-- EDIT7 SECTION "Sauvegardes en mode texte" [3127-3386] -->
+<h4 class="sectionedit8"><a name="ascii" id="ascii">ASCII</a></h4>
+
+<p class="level4">
+White Cat sauve et charge des spectacles en <abbr title="American Standard Code for Information Interchange">ASCII</abbr>.
+Le protocole <abbr title="American Standard Code for Information Interchange">ASCII</abbr> est une norme qui permet à des machines différentes d&#039;échanger les données des spectacles entre marques différentes.
+</p>
+
+<p class="level4">
+Au chargement d&#039;un import <abbr title="American Standard Code for Information Interchange">ASCII</abbr> l&#039;ensemble du spectacle en mémoire ( last_save) sera effacé.
+</p>
+
+<p class="level4">
+Sont lus:
+</p>
+
+<p class="level4">
+<strong>-les mémoires</strong>
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0">CUE 1.0</td><td class="col1">La mémoire</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">TEXT DESCRIPTIF MEMOIRE 1</td><td class="col1">le descriptif</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">UP 1.0</td><td class="col1">le temps de montée de cette mémoire</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">DOWN 5.0</td><td class="col1">le temps de descente</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">$$WAIT 0 </td><td class="col1">White Cat considère en autogo cette mémoire sur un temps supérieur à 0</td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">CHAN 7/H52 10/H61 35/H4C 100/HAE</td><td class="col1">Les circuits avec leurs niveaux en hexadécimal.</td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [3719-4032] -->
+<p class="level4">
+Il est possible que sur certains exports ascii, la console génère une information des niveaux des circuits avec la syntaxe suivante: 7@H52 ou 7=H52. Auquel cas, utiliser la fonction de remplacement du note-pad, et remplacer @H par /H.
+</p>
+
+<p class="level4">
+la syntaxe /H est utilisée par AVAB et ADB. Choix est donc fait dans White Cat de rester sur un protocole d&#039;importation <abbr title="American Standard Code for Information Interchange">ASCII</abbr> limité à cette syntaxe.
+</p>
+
+<p class="level4">
+<strong>-le patch électronique sans les courbes</strong>
+</p>
+<div class="table sectionedit10"><table class="inline">
+	<tr class="row0">
+		<td class="col0">PATCH 1 6&lt;1/HFF 21&lt;2/HFF </td><td class="col1">Le patch de l&#039;univers 1, gradateur 1 affecté au circut 6 à 100%, gradateur 2 affecté au circuit 21 à 100%</td>
+	</tr>
+</table></div>
+<!-- EDIT10 TABLE [4473-4610] -->
+<p class="level4">
+Chez certains constructeurs, notamment RVE, la syntaxe pour le patch est 1&lt;1@Hff au lieu de 1&lt;1/Hff. Utiliser le note-pad comme vu plus haut.
+</p>
+
+<p class="level4">
+<strong>-les subs contenant des circuits</strong>
+</p>
+<div class="table sectionedit11"><table class="inline">
+	<tr class="row0">
+		<td class="col0">SUB 1</td><td class="col1"> Le Sub 1</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">TEXT le descriptif du sub</td><td class="col1">Le texte</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">UP 5</td><td class="col1">le temps de montée du sub</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">DOWN 5</td><td class="col1">le temps de descente du sub</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">CHAN 17/HFF 18/HFF 19/HFF 20/HFF</td><td class="col1">les circuits contenus</td>
+	</tr>
+</table></div>
+<!-- EDIT11 TABLE [4793-4975] -->
+<p class="level4">
+White Cat reçoit les SUBS jusqu&#039;au Sub 288 ( 48 faders par 6 docs).
+Le Sub 49 sera donc placé en Fader 1, Dock 2.
+Le Sub 96 en Fader 48, Dock 2.
+Le Sub 97 en Fader 1, Dock 3
+etc…
+</p>
+
+<p class="level4">
+AVAB semble utiliser la syntaxe GROUP en place de SUB, permettant de charger des mémoires. Cependant le temps n&#039;est pas inclus.
+Pour l&#039;instant, la syntaxe GROUP n&#039;est pas prise en charge.
+</p>
+<!-- EDIT8 SECTION "ASCII" [3387-5351] -->
+<h1 class="sectionedit12"><a name="sauvegarder-charger_un_spectacle_binaire" id="sauvegarder-charger_un_spectacle_binaire">Sauvegarder-Charger un spectacle / BINAIRE</a></h1>
+<!-- EDIT12 SECTION "Sauvegarder-Charger un spectacle / BINAIRE" [5352-5410] -->
+<h2 class="sectionedit13"><a name="sauvegardes_rapides" id="sauvegardes_rapides">Sauvegardes rapides</a></h2>
+
+<p class="level2">
+Vous pouvez sauver en sauvegarde rapide dans le dossier last_save via un [CTRL][S].
+</p>
+
+<p class="level2">
+Lorsque vous quittez WhiteCat une sauvegarde automatique est faite:
+</p>
+
+<p class="level2">
+- si vous clickez l&#039;icône [QUIT] 
+</p>
+
+<p class="level2">
+-ou utilisez le raccourci clavier [CTRL][F12].
+</p>
+
+<p class="level2">
+Si vous voulez quitter SANS sauvegarder dans last_save, utilisez le raccourci clavier [SHIFT][F12].
+</p>
+<!-- EDIT13 SECTION "Sauvegardes rapides" [5411-5783] -->
+<h2 class="sectionedit14"><a name="sauvegarde_classique_simple" id="sauvegarde_classique_simple">Sauvegarde classique / simple</a></h2>
+
+<p class="level2">
+Assurez vous que [GLOBAL] est bien affiché. S&#039;il ne l&#039;est pas, votre spectacle ne sera pas chargé ou sauvegardé de manière complète.
+Toutes les cases cochées permettent aussi de vérifier que la sauvegarde se fera bien sur tous les types de données.
+</p>
+<!-- EDIT14 SECTION "Sauvegarde classique / simple" [5784-6082] -->
+<h3 class="sectionedit15"><a name="sauvegarder_sous_un_nouveau_nom" id="sauvegarder_sous_un_nouveau_nom">Sauvegarder sous un nouveau nom</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Appeler la fenêtre NAME par la touche [F5].</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Donnez un nom à votre spectacle. Attention, privilégiez l&#039;absence d&#039;espaces, et surtout évitez les points et autres ponctuations</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="nommerclassique1.jpeg" class="mediacenter" title="nommerclassique1.jpg" alt="nommerclassique1.jpg" /></div>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Puis clickez la fenêtre du nom de fichier</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="nommerclassique2.jpeg" class="mediacenter" title="nommerclassique2.jpg" alt="nommerclassique2.jpg" /></div>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker [SAVE]</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> la fenêtre de retours d&#039;infos sur les sauvegardes apparait si il y a eu un souci, listant les fichiers concernés et le statut de l&#039;action (sauvegarde ou chargement OK ou pas). Le / les fichiers posant souci apparaissent sur fond rouge.</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="saveload_report.jpeg" class="mediacenter" title="saveload_report.jpg" alt="saveload_report.jpg" /></div>
+</p>
+<!-- EDIT15 SECTION "Sauvegarder sous un nouveau nom" [6083-6706] -->
+<h3 class="sectionedit16"><a name="sauvegarder_sous_un_nom_deja_existant" id="sauvegarder_sous_un_nom_deja_existant">Sauvegarder sous un nom dejà existant</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker le dossier existant</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker [SAVE]</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="save_nomexsitant.jpeg" class="mediacenter" title="save_nomexsitant.jpg" alt="save_nomexsitant.jpg" /></div>
+</p>
+<!-- EDIT16 SECTION "Sauvegarder sous un nom dejà existant" [6707-6837] -->
+<h2 class="sectionedit17"><a name="charger_une_sauvegarde_existante" id="charger_une_sauvegarde_existante">Charger une sauvegarde existante</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> clicker le nom du dossier désiré ou procéder comme décrit dans la section précédente</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> clicker [LOAD]</div>
+</li>
+</ul>
+<!-- EDIT17 SECTION "Charger une sauvegarde existante" [6838-6999] -->
+<h2 class="sectionedit18"><a name="sauvegarde_binaire_en_mode_selectif" id="sauvegarde_binaire_en_mode_selectif">Sauvegarde binaire en mode Sélectif</a></h2>
+
+<p class="level2">
+Il est possible de sauver ou charger de manière sélective un spectacle ( ne prendre ou sauver que les mémoires, ou le patch, ou la configuration midi, etc…).
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> désenclencher [GLOBAL] en clickant dessus, ce qui met le mode CHOICE affiché et déselectionne tous les fichiers. Vous pouvez aussi vous mettre en mode [CHOICE] en retirant de la sélection des paquets de données.</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_choice.jpeg" class="mediacenter" title="save_choice.jpg" alt="save_choice.jpg" /></div>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> sélectionner qui sauver:</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Memories: les mémoires contenus, textes et annotations, les mémoires détruites par wizard ou [SHIFT]-[DEL]</div>
+</li>
+<li class="level2"><div class="li"> Mem.times: les temps des mémoires</div>
+</li>
+<li class="level2"><div class="li"> Mem.Links: les links affectés aux mémoires</div>
+</li>
+<li class="level2"><div class="li"> Mem.Bangers: les affectations de bangers aux mémoires</div>
+</li>
+<li class="level2"><div class="li"> Mem.Man.Ratio: le ratio manuel affecté à la mémoire ( crossfade souris)</div>
+</li>
+<li class="level2"><div class="li"> Chan.List: le descriptif circuits de [LIST]</div>
+</li>
+<li class="level2"><div class="li"> Chan.DirectCH: l&#039;affectation direct Channel aux faders</div>
+</li>
+<li class="level2"><div class="li"> Chan.Freeze: les circuits gelés et leurs niveaux</div>
+</li>
+<li class="level2"><div class="li"> Patch.Circuits: les affectations des gradas aux circuits</div>
+</li>
+<li class="level2"><div class="li"> Patch.LTP/HTP: l&#039;affectation en HTP ou LTP des circuits</div>
+</li>
+<li class="level2"><div class="li"> Patch.Curves: l&#039;affectation des courbes aux gradateurs </div>
+</li>
+<li class="level2"><div class="li"> Banger: les contenus des bangers et tout l&#039;encodage</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Faders.Content: le contenu des docks ainsi que les affectations de contenus dynamiques aux docks</div>
+</li>
+<li class="level2"><div class="li"> Faders.LFO/Times: les états des LFOs et les affectations de temps aux docks</div>
+</li>
+<li class="level2"><div class="li"> Fader.Curves: les courbes affectées aux faders</div>
+</li>
+<li class="level2"><div class="li"> Midi.Affectation: les affections des signaux midi aux commandes</div>
+</li>
+<li class="level2"><div class="li"> Minif.Prsts/Lcks: les presets de sélection des minifaders et les locks presets</div>
+</li>
+<li class="level2"><div class="li"> Chasers</div>
+</li>
+<li class="level2"><div class="li"> Midi.Affectations: les affectations de signal midi aux commandes</div>
+</li>
+<li class="level2"><div class="li"> Midi.Cheat: la grille de transformation des signaux midi</div>
+</li>
+<li class="level2"><div class="li"> Trichromy: la trichromie (circuits et affectations aux docks</div>
+</li>
+<li class="level2"><div class="li"> Tracking: le vidéo-tracking (circuits, ROI et presets)</div>
+</li>
+<li class="level2"><div class="li"> Arduino</div>
+</li>
+<li class="level2"><div class="li"> Audio.conf: le répertoir audio utilisé</div>
+</li>
+<li class="level2"><div class="li"> iCat</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Windows: les fenêtres ouvertes, les positions de fenêtres</div>
+</li>
+<li class="level2"><div class="li"> ColorProfile: le profile couleur de WhiteCat</div>
+</li>
+<li class="level2"><div class="li"> Keyboard.conf: le mapping clavier</div>
+</li>
+<li class="level2"><div class="li"> Indexes: les indexes de déclenchement à l&#039;allumage ( démarrage caméra, arduino, etc)</div>
+</li>
+<li class="level2"><div class="li"> Mover</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> sélectionner le spectacle</div>
+</li>
+<li class="level1"><div class="li"> clicker [SAVE]</div>
+</li>
+</ul>
+<!-- EDIT18 SECTION "Sauvegarde binaire en mode Sélectif" [7000-9322] -->
+<h2 class="sectionedit19"><a name="chargement_binaire_en_mode_selectif" id="chargement_binaire_en_mode_selectif">Chargement binaire en mode Sélectif</a></h2>
+
+<p class="level2">
+Le chargement binaire sélectif est certainement celui que vous allez utiliser le plus, pour chercher:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> une configuration de télécommande iCAT</div>
+</li>
+<li class="level1"><div class="li"> votre affectation midi</div>
+</li>
+<li class="level1"><div class="li"> une configuration arduino</div>
+</li>
+<li class="level1"><div class="li"> un pré enregistrement de vos faders</div>
+</li>
+</ul>
+
+<p class="level2">
+  etc…
+</p>
+
+<p class="level2">
+Pour celà,
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> procéder comme décrit plus haut, en cochant/décochant les parties à charger</div>
+</li>
+<li class="level1"><div class="li"> clicker [LOAD]</div>
+</li>
+</ul>
+<!-- EDIT19 SECTION "Chargement binaire en mode Sélectif" [9323-9744] -->
+<h3 class="sectionedit20"><a name="creation_de_layouts" id="creation_de_layouts">Création de Layouts</a></h3>
+
+<p class="level3">
+Grâce à ces sauvegardes sélectives, vous pouvez sauver uniquement des fragments séparés:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Layout Midi ( BCF2000, iCONTROL , …)</div>
+</li>
+<li class="level1"><div class="li"> Layout iCAT ( iPOD/PHONE, iPAD )</div>
+</li>
+</ul>
+
+<p class="level3">
+que vous pourrez charger à la volée, fonction de vos besoins.
+</p>
+
+<p class="level3">
+Les dossiers sont moins lourds.
+</p>
+
+<p class="level3">
+La convention à utiliser pour vos sauvegardes est de nommer le fichier LAYOUT suivi d&#039;un descriptif simple.
+</p>
+
+<p class="level3">
+Dans le cas de presets midi faisant appel à une affectation précise, mettre dans le dossier du layout le fichier de l&#039;éditeur utilisé pour configurer votre périphérique midi.
+</p>
+<!-- EDIT20 SECTION "Création de Layouts" [9745-10343] -->
+<h2 class="sectionedit21"><a name="presets_personnalisables_du_mode_selectif" id="presets_personnalisables_du_mode_selectif">Presets personnalisables du mode Sélectif</a></h2>
+
+<p class="level2">
+En mode Binaire, vous disposez de 4 presets personnalisables, où enregistrer une combinaison à votre choix.
+Ces presets vous permettront d&#039;aller chercher rapidement dans un autre spectacle une sélection de fichiers: 
+</p>
+
+<p class="level2">
+par exemple:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> les assignations midi et configuration télécommandes arduino et iCAT</div>
+</li>
+<li class="level1"><div class="li"> les gridplayers et les chasers dans un spectacle</div>
+</li>
+<li class="level1"><div class="li"> le patch</div>
+</li>
+<li class="level1"><div class="li"> le spectacle sans le patch</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="save_personnal_presets.jpeg" class="media" title="save_personnal_presets.jpg" alt="save_personnal_presets.jpg" />
+</p>
+<!-- EDIT21 SECTION "Presets personnalisables du mode Sélectif" [10344-10838] -->
+<h3 class="sectionedit22"><a name="enregistrer_une_selection" id="enregistrer_une_selection">Enregistrer une sélection</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionnez la sélection des parties du spectacle </div>
+</li>
+<li class="level1"><div class="li"> Clickez [STORE] ou faites [F1]</div>
+</li>
+<li class="level1"><div class="li"> Clickez le preset coloré de votre choix</div>
+</li>
+</ul>
+<!-- EDIT22 SECTION "Enregistrer une sélection" [10839-11015] -->
+<h3 class="sectionedit23"><a name="appeler_une_selection" id="appeler_une_selection">Appeler une sélection</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Clickez le preset coloré de votre choix</div>
+</li>
+</ul>
+<!-- EDIT23 SECTION "Appeler une sélection" [11016-11095] -->
+<h3 class="sectionedit24"><a name="effacer_une_selection" id="effacer_une_selection">Effacer une sélection</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Clickez [CLEAR] ou faites [F4]</div>
+</li>
+<li class="level1"><div class="li"> Clickez le preset coloré de votre choix</div>
+</li>
+</ul>
+<!-- EDIT24 SECTION "Effacer une sélection" [11096-11210] -->
+<h2 class="sectionedit25"><a name="resetnouveau_spectacle_vierge" id="resetnouveau_spectacle_vierge">RESET: Nouveau Spectacle vierge</a></h2>
+
+<p class="level2">
+On peut remettre à plat:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> l&#039;ensemble ( rester en mode [GLOBAL] ) du spectacle en mémoire vive.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> ou partie ( se mettre en mode [CHOICE] et choisir qui remettre à zéro: faders / mémoires / patch, etc….) du spectacle en mémoire vive.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Clicker [RESET]</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>Ceci n&#039;affectera absolument pas les spectacles enregistrés sur le disque dur.</strong>
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_reset.jpeg" class="mediacenter" title="save_reset.jpg" alt="save_reset.jpg" /></div>
+</p>
+<!-- EDIT25 SECTION "RESET: Nouveau Spectacle vierge" [11211-11633] -->
+<h1 class="sectionedit26"><a name="sauvegarder_charger_import_export" id="sauvegarder_charger_import_export">Sauvegarder/Charger / IMPORT EXPORT</a></h1>
+
+<p class="level1">
+Clicker [BINARY] pour passer la fenêtre [SAVE] en mode [IMP-EXPORT].
+</p>
+
+<p class="level1">
+<img src="save_importexport.jpeg" class="media" title="save_importexport.jpg" alt="save_importexport.jpg" />
+</p>
+
+<p class="level1">
+Le répertoire import_export est situé à coté du répertoire save, dans le dossier white_cat.
+</p>
+<!-- EDIT26 SECTION "Sauvegarder/Charger / IMPORT EXPORT" [11634-11882] -->
+<h2 class="sectionedit27"><a name="les_sous_dossiers_d_import-export" id="les_sous_dossiers_d_import-export">Les sous dossiers d&#039;Import-Export</a></h2>
+
+<p class="level2">
+Il y a 4 sous dossiers dans ce répertoire import-export:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> un dossier <abbr title="American Standard Code for Information Interchange">ASCII</abbr></div>
+</li>
+<li class="level1"><div class="li"> un dossier SCHWZ</div>
+</li>
+<li class="level1"><div class="li"> un dossier PDF</div>
+</li>
+<li class="level1"><div class="li"> un dossier PLOT</div>
+</li>
+</ul>
+
+<p class="level2">
+Ces dossiers permettent de trier les données utilisées dans l&#039;import et l&#039;export:
+</p>
+
+<p class="level2">
+Vous poserez donc les conduites <abbr title="American Standard Code for Information Interchange">ASCII</abbr> à importer dans le dossier <abbr title="American Standard Code for Information Interchange">ASCII</abbr>, et WhiteCat génèrera dans ce dossier ses exports <abbr title="American Standard Code for Information Interchange">ASCII</abbr>.
+</p>
+
+<p class="level2">
+Si vous désirez charge un spectacle Schwartzpeter, vous le poserez dans le dossier SCWHZ
+</p>
+
+<p class="level2">
+PDF reçoit les exports PDF, et PLOT les images issues de l&#039;export image du plan lumière.
+</p>
+
+<p class="level2">
+Vous pouvez réenrouler le répertoire en clickant la première case : ..
+</p>
+<!-- EDIT27 SECTION "Les sous dossiers d'Import-Export" [11883-12546] -->
+<h2 class="sectionedit28"><a name="les_formats_pris_en_charge" id="les_formats_pris_en_charge">Les formats pris en charge</a></h2>
+
+<p class="level2">
+Les opérations en import export dépendent du type de données:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <abbr title="American Standard Code for Information Interchange">ASCII</abbr>: save et load</div>
+</li>
+<li class="level1"><div class="li"> Schwartzpeter: load uniquement</div>
+</li>
+<li class="level1"><div class="li"> Pdf: save uniquement</div>
+</li>
+</ul>
+
+<p class="level2">
+Tout autre fichier déposé dans le dossier import export ne sera pas listé.
+</p>
+
+<p class="level2">
+Les 3 types de données pour:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> les fichiers <abbr title="American Standard Code for Information Interchange">ASCII</abbr>: extension .asc, .txt ou .alq</div>
+</li>
+<li class="level1"><div class="li"> les fichiers PDF: extension .pdf</div>
+</li>
+<li class="level1"><div class="li"> les dossiers Schwartzpeter: pas d&#039;extension</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> pour le chargement, le choix se fait entre différents fichiers en clickant sur le spectacle. </div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> pour la sauvegarde:</div>
+<ol class="level2">
+<li class="level2"><div class="li"> clicker [NAME] ou taper [F5] pour appeler la fenêtre d&#039;entrée de texte</div>
+</li>
+<li class="level2"><div class="li"> tapez le nom, puis rajoutez l&#039;extension pour définir le type de format</div>
+</li>
+<li class="level2"><div class="li"> clickez la boite ou rentrer le nom du spectacle.</div>
+</li>
+</ol>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_exportok.jpeg" class="mediacenter" title="save_exportok.jpg" alt="save_exportok.jpg" /></div>
+</p>
+<!-- EDIT28 SECTION "Les formats pris en charge" [12547-13363] -->
+<h2 class="sectionedit29"><a name="exemple_sauvegarde_ascii" id="exemple_sauvegarde_ascii">Exemple Sauvegarde Ascii</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Clicker le répertoire <abbr title="American Standard Code for Information Interchange">ASCII</abbr>, ou si vous ne sélectionnez pas de répertoire, l&#039;extension que vous tapez ( .ASC ou .PDF) du fichier détermine automatiquement le bon répertoire.**</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="save_ascii.jpeg" class="media" title="save_ascii.jpg" alt="save_ascii.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Appelez le mode [NAME] par [F5]</div>
+</li>
+<li class="level1"><div class="li"> Tapez le nom de votre export, avec l&#039;extension .ASC</div>
+</li>
+<li class="level1"><div class="li"> Chargez dans la case de nom</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> ou, si cet export existe déjà, et que vosu désirez l&#039;écrase, clickez le dans le dossier .ASC</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Une confirmation vous indique dans la cse du nom à donner que le fichier est bien de type ASC</div>
+</li>
+<li class="level1"><div class="li"> Clickez [SAVE]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Hors WhiteCat, naviguez jusqu&#039;au dossier white_cat/import_export/ascii/ et copiez collez sur une clé usb le fichier <abbr title="American Standard Code for Information Interchange">ASCII</abbr> exporté</div>
+</li>
+</ul>
+<!-- EDIT29 SECTION "Exemple Sauvegarde Ascii" [13364-14090] -->
+<h2 class="sectionedit30"><a name="exemple_chargement_ascii" id="exemple_chargement_ascii">Exemple Chargement Ascii</a></h2>
+
+<p class="level2">
+Hors WhiteCat:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> posez votre sauvegarde <abbr title="American Standard Code for Information Interchange">ASCII</abbr> issue d&#039;une console dans le dossier white_cat/import_export/ascii/</div>
+</li>
+</ul>
+
+<p class="level2">
+Puis dans WhiteCat:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Clickez le dossier <abbr title="American Standard Code for Information Interchange">ASCII</abbr></div>
+</li>
+<li class="level1"><div class="li"> Sélectionnez le fichier <abbr title="American Standard Code for Information Interchange">ASCII</abbr> à importer</div>
+</li>
+<li class="level1"><div class="li"> Clickez [LOAD]</div>
+</li>
+</ul>
+<!-- EDIT30 SECTION "Exemple Chargement Ascii" [14091-14360] -->
+<h2 class="sectionedit31"><a name="exemple_sauvegarde_pdf" id="exemple_sauvegarde_pdf">Exemple Sauvegarde PDF</a></h2>
+
+<p class="level2">
+L&#039;export PDF permet d&#039;exporter une conduite complète de votre spectacle. C&#039;est le document de référence à archiver, notamment sur les spectacles complexes.
+</p>
+
+<p class="level2">
+<img src="export_pdf_mems.jpeg" class="media" title="export_pdf_mems.jpg" alt="export_pdf_mems.jpg" />
+</p>
+
+<p class="level2">
+<img src="export_pdf_grid.jpeg" class="media" title="export_pdf_grid.jpg" alt="export_pdf_grid.jpg" />
+</p>
+
+<p class="level2">
+Lorsque l&#039;extension entrée correspond à un pdf, un menu sélectif s&#039;affiche, permettant de définir quels éléments vous allez exporter dans le PDF.
+Cette liste des information est sauvée dans chaque spectacle. Ell vous permet par spectacle de définir un archivage personnalisé ( utilisation arduino ou pas, export midi ou pas, vue du patch, etc…).
+</p>
+
+<p class="level2">
+<img src="save_export_pdf_selectif.jpeg" class="media" title="save_export_pdf_selectif.jpg" alt="save_export_pdf_selectif.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Appelez [NAME] par [F5]</div>
+</li>
+<li class="level1"><div class="li"> Tapez le nom de votre fichier avec l&#039;extension .PDF</div>
+</li>
+<li class="level1"><div class="li"> Clickez la case de nom à affecter</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Si vous désirez écraser un fichier PDF existant, clickez le dossier PDF, sélectionnez le fichier PDF à écraser</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Une confirmation vous indique dans la cse du nom à donner que le fichier est bien de type ASC</div>
+</li>
+<li class="level1"><div class="li"> Sélectionnez les informations à exporter</div>
+</li>
+<li class="level1"><div class="li"> Clickez [SAVE]</div>
+</li>
+</ul>
+<!-- EDIT31 SECTION "Exemple Sauvegarde PDF" [14361-] --></div>
+</body>
+</html>

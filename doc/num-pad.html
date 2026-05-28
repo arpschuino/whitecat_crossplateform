@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>num-pad</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-05T14:44:38+0200"/>
+<meta name="keywords" content="num-pad"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="num-pad.html"/>
+<link rel="contents" href="num-pad.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="num-pad.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="num-pad.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=num-pad"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"num-pad","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#acces_au_num-pad">Accès au Num-Pad</a></div></li>
+<li class="level1"><div class="li"><a href="#utilisation_du_num-pad">Utilisation du Num-Pad</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#fonction_pave_numerique">Fonction pavé numérique</a></div></li>
+<li class="level2"><div class="li"><a href="#la_roue_de_niveau">La roue de niveau</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#le_mode_absolu_pour_encodeur_d_uc-33_et_autres_avec_butee_physique">Le mode Absolu pour encodeur d&#039;UC-33 et autres, avec butée physique</a></div></li>
+<li class="level4"><div class="li"><a href="#le_mode_relatif_pour_encodeur_de_bcf_bcr_et_autres_sans_butee_physique">Le mode relatif pour encodeur de BCF/BCR et autres, sans butée physique</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#affectation_midi">Affectation Midi</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#interfaces_tablettes_et_telephones">Interfaces tablettes et téléphones:</a></div></li>
+<li class="level4"><div class="li"><a href="#affectation_midi_de_la_roue_de_niveau">Affectation MIDI de la roue de niveau</a></div></li>
+<li class="level4"><div class="li"><a href="#midiout">MidiOut</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="acces_au_num-pad" id="acces_au_num-pad">Accès au Num-Pad</a></h1>
+
+<p class="level1">
+Le Num-Pad est accessible:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> à la souris en clickant [Num-Pad]</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="click_numpad.jpeg" class="media" title="click_numpad.jpg" alt="click_numpad.jpg" />
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> au clavier en tapant la touche [P]</div>
+</li>
+</ul>
+<!-- EDIT1 SECTION "Accès au Num-Pad" [1-169] -->
+<h1 class="sectionedit2"><a name="utilisation_du_num-pad" id="utilisation_du_num-pad">Utilisation du Num-Pad</a></h1>
+<!-- EDIT2 SECTION "Utilisation du Num-Pad" [170-208] -->
+<h2 class="sectionedit3"><a name="fonction_pave_numerique" id="fonction_pave_numerique">Fonction pavé numérique</a></h2>
+
+<p class="level2">
+Le Num-Pad est prévu pour la saisie des circuits avec écran tactile, ou via la souris.
+Il reproduit en gros un clavier numérique.
+</p>
+
+<p class="level2">
+<img src="num-pad2.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> [UP] et [DOWN] sont les équivalents de la molette: niveau + ou niveau -, de 1% par pas quand en mode pourcentage, ou de 1 pas dmx quand en mode 255.</div>
+</li>
+<li class="level1"><div class="li"> [AT] est l&#039;équivalent du [ENTER]</div>
+</li>
+<li class="level1"><div class="li"> [+] et [-] permettent l&#039;ajout ou le retrait de la sélection de la chaine tapée. </div>
+</li>
+<li class="level1"><div class="li"> Le [.] permet d&#039;entrer des numéros de mémoires en . ( 1.5 100.9 etc) ou des temps ( voir <a href="time.html" class="wikilink1" title="Time">La fenêtre Time</a>)</div>
+</li>
+<li class="level1"><div class="li"> [ALL] sélectionne tous les circuits allumés, équivalent du [Y]. </div>
+</li>
+<li class="level1"><div class="li"> INV] sélectionne tous les circuits allumés mais non sélectionnés, équivalent du [U].</div>
+</li>
+<li class="level1"><div class="li"> [TO] Sélection chainée, équivalent de [tab]</div>
+</li>
+<li class="level1"><div class="li"> [COPY] copie les niveaux des circuits sélectionnés, sur scène ou en préset (mode blind). Equivalent de [ctrl-C]  </div>
+</li>
+<li class="level1"><div class="li"> [PASTE] “colle” les niveaux mémorisés, sur scène ou en préset (mode blind). Equivalent de [ctrl-V]</div>
+</li>
+<li class="level1"><div class="li"> [CHeck -] [CHeck +] permet de se déplacer cut à Full dans les circuits</div>
+</li>
+<li class="level1"><div class="li"> [At FULL] et [AT ZERO]</div>
+</li>
+</ul>
+
+<p class="level2">
+Voir les actions de sélection d&#039;un circuit dans <a href="espace_circuits.html" class="wikilink1" title="Espace circuits">L&#039;espace Circuits</a>
+</p>
+
+<p class="level2">
+La chaine de carcatères tapée via le Num-Pad s&#039;affiche dans la fenêtre de retours d&#039;infos.
+</p>
+
+<p class="level2">
+<img src="retour_circuits.jpeg" class="media" title="retour_circuits.jpg" alt="retour_circuits.jpg" />
+</p>
+<!-- EDIT3 SECTION "Fonction pavé numérique" [209-1561] -->
+<h2 class="sectionedit4"><a name="la_roue_de_niveau" id="la_roue_de_niveau">La roue de niveau</a></h2>
+
+<p class="level2">
+<img src="numpad_wheelrelatif.jpeg" class="media" title="numpad_wheelrelatif.jpg" alt="numpad_wheelrelatif.jpg" />
+</p>
+
+<p class="level2">
+<strong>Cette roue sert essentiellement à déporter en commande Midi un encodeur rotatif, comme ceux la BCF ou de l&#039;UC-33. </strong>
+</p>
+
+<p class="level2">
+Cet encodeur manipulera les niveaux des circuits sélectionnés sur scène ou en Blind. 
+</p>
+
+<p class="level2">
+Il comporte deux modes, pour le midi:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> le mode [A] comme Absolu</div>
+</li>
+<li class="level1"><div class="li"> le mode [R] comme Relatif</div>
+</li>
+</ul>
+
+<p class="level2">
+Ce choix de mode se fait en clickant la case [A] pour la passer en [R].
+</p>
+
+<p class="level2">
+On peut se servir éventuellement  de cette mollette avec la souris, uniquement en mode absolu. 
+</p>
+<!-- EDIT4 SECTION "La roue de niveau" [1562-2102] -->
+<h4 class="sectionedit5"><a name="le_mode_absolu_pour_encodeur_d_uc-33_et_autres_avec_butee_physique" id="le_mode_absolu_pour_encodeur_d_uc-33_et_autres_avec_butee_physique">Le mode Absolu pour encodeur d&#039;UC-33 et autres, avec butée physique</a></h4>
+
+<p class="level4">
+Un potentiomètre a une butée minima, et une butée maxima. 
+En midi, 0 et 127. Cette butée est <strong>physique</strong>. 
+</p>
+
+<p class="level4">
+<img src="numpad_encodeurabsolute.jpeg" class="media" title="numpad_encodeurabsolute.jpg" alt="numpad_encodeurabsolute.jpg" />
+</p>
+
+<p class="level4">
+Si votre périphérique midi comporte ce genre de rotatifs, ou un fader normal, vous ne pourrez travailler qu&#039;en mode absolu.
+</p>
+
+<p class="level4">
+<strong>Les circuits sélectionnés recevront donc le niveau du rotatif converti en pourcentages.</strong>
+</p>
+
+<p class="level4">
+Ce niveau écrasera le niveau précédemment attribué.
+</p>
+
+<p class="level4">
+Prendre la main sur un circuit à 70% et toucher le rotatif légèrement mettra les circuits sélectionnés au niveau de celui-ci.
+</p>
+
+<p class="level4">
+Ici les circuits sont mis à 92/100 ( la conversion de 118/127 en pourcentage ):
+</p>
+
+<p class="level4">
+<img src="numpad_wheelabsolute.jpeg" class="media" title="numpad_wheelabsolute.jpg" alt="numpad_wheelabsolute.jpg" />
+</p>
+<!-- EDIT5 SECTION "Le mode Absolu pour encodeur d'UC-33 et autres, avec butée physique" [2103-2853] -->
+<h4 class="sectionedit6"><a name="le_mode_relatif_pour_encodeur_de_bcf_bcr_et_autres_sans_butee_physique" id="le_mode_relatif_pour_encodeur_de_bcf_bcr_et_autres_sans_butee_physique">Le mode relatif pour encodeur de BCF/BCR et autres, sans butée physique</a></h4>
+
+<p class="level4">
+Certains rotatifs sont en effet sur une vis sans fin. 
+</p>
+
+<p class="level4">
+<img src="numpad_encodeurrelatif.jpeg" class="media" title="numpad_encodeurrelatif.jpg" alt="numpad_encodeurrelatif.jpg" />
+</p>
+
+<p class="level4">
+Ils délivrent un signal qui peut être paramétré dans le périphérique
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> soit en mode absolu: 0 à 127 en passant par toutes les variations</div>
+</li>
+<li class="level1"><div class="li"> soit en mode relatif: à chaque tour d&#039;encodeur vers la gauche il enverra en alternance 127 puis 126, et à chaque tour à droite 1 puis 2. </div>
+</li>
+</ul>
+
+<p class="level4">
+Ce sans passer par les valeurs intermédiaires.
+</p>
+
+<p class="level4">
+Le comportement du rotatif en mode Absolu ou Relatif se fait <strong>dans</strong> le périphérique midi.
+</p>
+
+<p class="level4">
+Pour programmer l&#039;encodeur d&#039;une BCF2000 en comportement Relatif ( manipulations sur la Behringer ) :
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> Maintenez [EDIT] appuyé et bougez le rotatif </div>
+</li>
+<li class="level1"><div class="li"> L&#039;écran affiche le numéro d&#039;encodeur ( E   1 ) si le premier</div>
+</li>
+<li class="level1"><div class="li"> Relachez [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Bougez le rotatif correspondant au [MODE] et choissisez [REL1]</div>
+</li>
+<li class="level1"><div class="li"> Faites attention à ne pas manipuler les autres encodeurs, qui permettent de paramétrer la réaction de ce rotatif ainsi sélectionné.</div>
+</li>
+<li class="level1"><div class="li"> Ré-appuyez [EDIT] pour sortir du mode d&#039;édition.</div>
+</li>
+<li class="level1"><div class="li"> Enfin, si le comportement est correct, appuyez 2 fois sur [STORE] pour enregistrer dans la mémoire de la Behringer cette programmation.</div>
+</li>
+</ol>
+
+<p class="level4">
+Dans WhiteCat, on mettra la roue en mode Relatif: 
+</p>
+
+<p class="level4">
+Tout circuit sélectionné sera donc ajouté ou retranché de manière souple d&#039;un pas dmx si vous êtes en mode 0-255, ou d&#039;1% si vous êtes en mode pourcentage.
+</p>
+
+<p class="level4">
+Prendre la main sur un circuit à 11% et toucher le rotatif vers la gauche baissera de 1% les circuits sélectionnés:
+</p>
+
+<p class="level4">
+<img src="numpad_wheelrelatif.jpeg" class="media" title="numpad_wheelrelatif.jpg" alt="numpad_wheelrelatif.jpg" />
+</p>
+<!-- EDIT6 SECTION "Le mode relatif pour encodeur de BCF/BCR et autres, sans butée physique" [2854-4477] -->
+<h3 class="sectionedit7"><a name="affectation_midi" id="affectation_midi">Affectation Midi</a></h3>
+
+<p class="level3">
+Certains périphériques midi peuvent avoir des pavés numériques émettant des signaux midi, comme l&#039;UC-33.
+</p>
+
+<p class="level3">
+<img src="touches_uc33.jpeg" class="media" title="touches_uc33.jpg" alt="touches_uc33.jpg" />
+</p>
+
+<p class="level3">
+Le NumPad est donc complètement affectable en midi. 
+</p>
+
+<p class="level3">
+<img src="numpad_midi_affect.jpeg" class="media" title="numpad_midi_affect.jpg" alt="numpad_midi_affect.jpg" />
+</p>
+<!-- EDIT7 SECTION "Affectation Midi" [4478-4721] -->
+<h4 class="sectionedit8"><a name="interfaces_tablettes_et_telephones" id="interfaces_tablettes_et_telephones">Interfaces tablettes et téléphones:</a></h4>
+
+<p class="level4">
+Pour les iPhone/Pod et iPad, voir <a href="icat.html" class="wikilink1" title="iCat">iCat pour iPod/iPhone/iPad, basée sur le logiciel Fantastick</a>.
+</p>
+
+<p class="level4">
+Si vous ne voulez pas utiliser Fantastick sous iOS, ou que vous êtes sous Android, vous pouvez utiliser des logiciels tiers émettant du midi pour créer une télécommande: <a href="http://charlie-roberts.com/Control/" class="urlextern" title="http://charlie-roberts.com/Control/"  rel="nofollow">Control</a> de Charlie Roberts, <a href="http://hexler.net/software/touchosc" class="urlextern" title="http://hexler.net/software/touchosc"  rel="nofollow">OSC Touch</a> sont quelques exemples très utilisés.
+</p>
+
+<p class="level4">
+Vous pouvez utiliser <a href="banger.html" class="wikilink1" title="Banger">Banger</a> pour émuler le clavier. Chacun des 127 bangers est affectable à une note midi.
+</p>
+<!-- EDIT8 SECTION "Interfaces tablettes et téléphones:" [4722-5329] -->
+<h4 class="sectionedit9"><a name="affectation_midi_de_la_roue_de_niveau" id="affectation_midi_de_la_roue_de_niveau">Affectation MIDI de la roue de niveau</a></h4>
+
+<p class="level4">
+Pour que la roue puisse répondre au signal midi du rotatif:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> sélectionnez [MIDI CFG]</div>
+</li>
+<li class="level1"><div class="li"> vérifiez que votre périphérique midi est bien branché dans WhiteCat et que vous recevez un signal </div>
+</li>
+<li class="level1"><div class="li"> clickez l&#039;affectaion Solo dans [Faders Config.]</div>
+</li>
+<li class="level1"><div class="li"> bougez le rotatif sur votre périphérique</div>
+</li>
+<li class="level1"><div class="li"> clickez la roue dans WhiteCat</div>
+</li>
+<li class="level1"><div class="li"> sortez du mode [MIDI CFG] pour reprendre la main sur la sélection des circuits</div>
+</li>
+</ol>
+
+<p class="level4">
+<img src="numpad_wheelmidi.jpeg" class="media" title="numpad_wheelmidi.jpg" alt="numpad_wheelmidi.jpg" />
+</p>
+<!-- EDIT9 SECTION "Affectation MIDI de la roue de niveau" [5330-5818] -->
+<h4 class="sectionedit10"><a name="midiout" id="midiout">MidiOut</a></h4>
+
+<p class="level4">
+La petite pastille permet d&#039;enclencher le MidiOut correspondant à la roue de niveau.
+</p>
+
+<p class="level4">
+<img src="numpad_wheel_midiout.jpeg" class="media" title="numpad_wheel_midiout.jpg" alt="numpad_wheel_midiout.jpg" />
+</p>
+
+<p class="level4">
+Lire <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a>.
+</p>
+<!-- EDIT10 SECTION "MidiOut" [5819-] --></div>
+</body>
+</html>

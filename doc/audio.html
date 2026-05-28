@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>AudioPlayers — WhiteCat</title>
+  <meta name="date" content="2026-04-29"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="audio_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc" style="width:300px">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+  <li class="level1"><div class="li"><a href="#audioplayers">AudioPlayers</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#definition">Définition</a></div></li>
+      <li class="level2"><div class="li"><a href="#ouverture">Ouvrir la fenêtre</a></div></li>
+      <li class="level2"><div class="li"><a href="#gestion_dossier">Gestion du dossier audio</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#creer_dossier">Créer un dossier audio</a></div></li>
+          <li class="level3"><div class="li"><a href="#choisir_dossier">Choisir le dossier actif</a></div></li>
+          <li class="level3"><div class="li"><a href="#rescan">Rafraîchir la liste</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#liste_fichiers">La liste des fichiers</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#navigation_liste">Navigation dans la liste</a></div></li>
+          <li class="level3"><div class="li"><a href="#affecter_fichier">Affecter un fichier à un lecteur</a></div></li>
+          <li class="level3"><div class="li"><a href="#vider_lecteur">Vider un lecteur</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#constitution_lecteur">Constitution d'un lecteur</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#partie_gauche">Partie gauche — commandes de base</a></div></li>
+          <li class="level3"><div class="li"><a href="#partie_droite">Partie droite — mode CUE</a></div></li>
+          <li class="level3"><div class="li"><a href="#potentiometres">Potentiomètres Volume / Pan / Pitch</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#boucle_cue">Boucle et CUE</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#boucle_simple">Boucle simple</a></div></li>
+          <li class="level3"><div class="li"><a href="#mode_cue">Mode CUE</a></div></li>
+          <li class="level3"><div class="li"><a href="#cue_sans_boucle">CUE en lecture normale (sans boucle)</a></div></li>
+          <li class="level3"><div class="li"><a href="#cue_par_player">CUE par lecteur</a></div></li>
+          <li class="level3"><div class="li"><a href="#definir_cue">Définir les points CUE</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#autoload_autopause">AutoLoad et AutoPause</a></div></li>
+      <li class="level2"><div class="li"><a href="#volume_pan_pitch">Volume, Pan, Pitch</a></div></li>
+      <li class="level2"><div class="li"><a href="#affect_dock">Affecter à un fader général</a></div></li>
+      <li class="level2"><div class="li"><a href="#ram_ogg_flac">OGG / FLAC — allocation RAM</a></div></li>
+      <li class="level2"><div class="li"><a href="#midi">Affectation MIDI</a></div></li>
+    </ul>
+  </li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="audioplayers" id="audioplayers">AudioPlayers</a></h1>
+
+<h2 class="sectionedit2"><a name="definition" id="definition">Définition</a></h2>
+
+<p class="level2">
+WhiteCat intègre jusqu'à <strong>4 lecteurs audio internes</strong>, pilotables à la souris, en MIDI ou via le Banger.
+</p>
+
+<p class="level2">
+Formats pris en charge : <strong>.wav, .mp3, .ogg, .flac</strong>.
+</p>
+
+<p class="level2">
+La sortie audio utilise votre carte son système (sortie stéréo unique). Pour une diffusion multi-canal, utilisez un logiciel audio dédié en parallèle.
+</p>
+
+<p class="level2">
+Un dossier audio peut contenir jusqu'à <strong>126 fichiers</strong>. Les fichiers sont listés dans l'ordre alphabétique — numérotez-les pour contrôler l'ordre de passage.
+</p>
+
+<p class="level2">
+<img src="audio_window.png" class="media" title="audio_window.jpg" alt="audio_window.jpg" />
+</p>
+
+<h2 class="sectionedit3"><a name="ouverture" id="ouverture">Ouvrir la fenêtre</a></h2>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Cliquer <strong>AudioPlayers</strong> dans le menu, ou taper <strong>[CTRL+A]</strong>.</div></li>
+</ul>
+
+<p class="level2">
+<img src="clic_audioplayers.png" class="media" title="click_audioplayers.jpg" alt="click_audioplayers.jpg" />
+</p>
+
+<h2 class="sectionedit4"><a name="gestion_dossier" id="gestion_dossier">Gestion du dossier audio</a></h2>
+
+<h3 class="sectionedit5"><a name="creer_dossier" id="creer_dossier">Créer un dossier audio</a></h3>
+
+<p class="level3">
+Depuis l'explorateur Windows, créez un sous-dossier dans <code>white_cat/audio/</code>.
+Nommez-le (ex : <code>MonSpectacle</code>).
+Copiez vos fichiers audio dans ce dossier.
+</p>
+
+
+<pre class="code">  white_cat/
+            audio/
+                  MonSpectacle/
+                  Repetition/
+                  Demo/</pre>
+
+<p class="level3">
+Le nom du dossier actif est sauvegardé avec le show.
+</p>
+
+<h3 class="sectionedit6"><a name="choisir_dossier" id="choisir_dossier">Choisir le dossier actif</a></h3>
+
+<p class="level3">
+En haut à droite de la fenêtre AudioPlayers se trouve la <strong>liste déroulante des dossiers</strong>.
+</p>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Cliquer le bouton <strong>▼</strong> (ou la zone de nom) pour ouvrir le menu déroulant.</div></li>
+  <li class="level1"><div class="li">Sélectionner le dossier voulu dans la liste.</div></li>
+  <li class="level1"><div class="li">La liste des fichiers se met à jour automatiquement.</div></li>
+  <li class="level1"><div class="li">La molette de la souris fait défiler la liste déroulante quand elle est ouverte.</div></li>
+</ul>
+
+<p class="level3">
+<img src="audio_edit_rep.png" class="media" title="audio_edit_rep.jpg" alt="audio_edit_rep.jpg" />
+</p>
+
+<h3 class="sectionedit7"><a name="rescan" id="rescan">Rafraîchir la liste</a></h3>
+
+<p class="level3">
+Si vous ajoutez des fichiers dans le dossier pendant une session, cliquer <strong>[rescan]</strong> pour mettre la liste à jour sans relancer WhiteCat.
+</p>
+
+<h2 class="sectionedit8"><a name="liste_fichiers" id="liste_fichiers">La liste des fichiers</a></h2>
+
+<p class="level2">
+La colonne de droite affiche les fichiers du dossier audio actif, numérotés dans l'ordre alphabétique.
+</p>
+
+<h3 class="sectionedit9"><a name="navigation_liste" id="navigation_liste">Navigation dans la liste</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Quand la liste dépasse la zone d'affichage, une <strong>scrollbar</strong> apparaît à droite.</div></li>
+  <li class="level1"><div class="li">Faire défiler avec la scrollbar (cliquer les flèches ou faire glisser le curseur), ou avec la <strong>molette de la souris</strong> en survolant la liste.</div></li>
+  <li class="level1"><div class="li">En mode <strong>AutoLoad</strong>, la liste défile automatiquement pour garder le morceau en cours visible (en 2ème position).</div></li>
+</ul>
+
+<h3 class="sectionedit10"><a name="affecter_fichier" id="affecter_fichier">Affecter un fichier à un lecteur</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Cliquer un fichier dans la liste — il s'affiche en surbrillance.</div></li>
+  <li class="level1"><div class="li">Cliquer ensuite la case du lecteur cible pour le charger.</div></li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_loadfile.png" class="mediacenter" title="audio_loadfile.jpg" alt="audio_loadfile.jpg" /></div>
+</p>
+
+<p class="level3">
+Les numéros de fichiers (1, 2, 3…) sont les identifiants utilisés dans le Banger. Ils correspondent à la position alphabétique dans le dossier.
+</p>
+
+<p class="level3">
+<strong>Conseil :</strong> nommez vos fichiers avec un préfixe numérique pour contrôler leur ordre :<br/>
+<code>01_ouverture.wav</code> &nbsp; <code>02_scene1.mp3</code> &nbsp; <code>03_finale.flac</code>
+</p>
+
+<h3 class="sectionedit11"><a name="vider_lecteur" id="vider_lecteur">Vider un lecteur</a></h3>
+
+<p class="level3">
+Le dernier élément de la liste est un <strong>champ vide</strong>. Le sélectionner puis cliquer un lecteur efface le fichier affecté à ce lecteur.
+</p>
+
+<h2 class="sectionedit12"><a name="constitution_lecteur" id="constitution_lecteur">Constitution d'un lecteur</a></h2>
+
+<p class="level2">
+Les commandes d'un lecteur ne sont actives que si un fichier y est chargé.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_play.png" class="mediacenter" title="audio_play.jpg" alt="audio_play.jpg" /></div>
+</p>
+
+<h3 class="sectionedit13"><a name="partie_gauche" id="partie_gauche">Partie gauche — commandes de base</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>Nom du fichier chargé</strong> et barre de progression (seekbar cliquable)</div></li>
+  <li class="level1"><div class="li"><strong>Play / Pause</strong> — déclenche ou met en pause la lecture</div></li>
+  <li class="level1"><div class="li"><strong>Stop / Retour au début</strong> — arrête et repositionne à 0:00 (ou au point CUE IN si le mode CUE est actif)</div></li>
+  <li class="level1"><div class="li"><strong>Loop</strong> — met la lecture en boucle continue</div></li>
+  <li class="level1"><div class="li"><strong>◀◀ / ▶▶</strong> — retour ou avance rapide</div></li>
+  <li class="level1"><div class="li"><strong>Prev / Next</strong> — charge le fichier précédent ou suivant dans la liste</div></li>
+  <li class="level1"><div class="li"><strong>AutoLoad</strong> — charge automatiquement le fichier suivant en fin de lecture</div></li>
+  <li class="level1"><div class="li"><strong>AutoPause</strong> — arrête le lecteur en fin de fichier (combiné avec AutoLoad : enchaînement avec pause entre les morceaux)</div></li>
+</ul>
+
+<h3 class="sectionedit14"><a name="partie_droite" id="partie_droite">Partie droite — mode CUE</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>Point IN</strong> — position de début de la zone CUE (affichée en secondes)</div></li>
+  <li class="level1"><div class="li"><strong>Point OUT</strong> — position de fin de la zone CUE</div></li>
+  <li class="level1"><div class="li"><strong>Bouton CUE</strong> — active/désactive le mode CUE pour ce lecteur</div></li>
+  <li class="level1"><div class="li"><strong>SeekCue</strong> — repositionne au point CUE IN</div></li>
+</ul>
+
+<h3 class="sectionedit15"><a name="potentiometres" id="potentiometres">Potentiomètres Volume / Pan / Pitch</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>Volume</strong> — fader vertical, couleur bleue (identique aux faders généraux en mode volume). Valeur 0–127 pour le Banger.</div></li>
+  <li class="level1"><div class="li"><strong>Pan</strong> — fader horizontal. 0 = gauche, 64 = centre, 127 = droite.</div></li>
+  <li class="level1"><div class="li"><strong>Pitch</strong> — fader horizontal. 0–63 = ralenti, 64 = normal, 65–127 = accéléré.</div></li>
+</ul>
+
+<p class="level3">
+Ces niveaux sont affichés en nombre à virgule, et en valeur 0–127 <strong>pour l'encodage sous Banger</strong>.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_volume.png" class="mediacenter" title="audio_volume.jpg" alt="audio_volume.jpg" /></div>
+</p>
+
+<h2 class="sectionedit16"><a name="boucle_cue" id="boucle_cue">Boucle et CUE</a></h2>
+
+<h3 class="sectionedit17"><a name="boucle_simple" id="boucle_simple">Boucle simple</a></h3>
+
+<p class="level3">
+Activer le bouton <strong>Loop</strong> : la lecture repart au début à la fin du fichier (ou au point CUE IN si le mode CUE est actif).
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_loop.png" class="mediacenter" title="audio_loop.jpg" alt="audio_loop.jpg" /></div>
+</p>
+
+<h3 class="sectionedit18"><a name="mode_cue" id="mode_cue">Mode CUE</a></h3>
+
+<p class="level3">
+Le mode CUE définit une <strong>zone de lecture délimitée</strong> par un point IN et un point OUT dans le fichier audio.
+</p>
+
+<p class="level3">
+<strong>Loop + CUE actifs :</strong> la lecture boucle entre le point IN et le point OUT avec un crossfade transparent.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_cue.png" class="mediacenter" title="audio_cue.jpg" alt="audio_cue.jpg" /></div>
+</p>
+
+<h3 class="sectionedit19"><a name="cue_sans_boucle" id="cue_sans_boucle">CUE en lecture normale (sans boucle)</a></h3>
+
+<p class="level3">
+Le mode CUE fonctionne aussi <strong>sans boucle</strong> :
+</p>
+
+<ul class="level3">
+  <li class="level1"><div class="li">La lecture <strong>s'arrête au point OUT</strong> et le lecteur se repositionne au point IN.</div></li>
+  <li class="level1"><div class="li">Si <strong>AutoLoad</strong> est actif, le fichier suivant est chargé et démarre à son propre point CUE IN.</div></li>
+  <li class="level1"><div class="li">Cela permet d'utiliser les CUE comme des points de reprise précis dans une conduite séquentielle.</div></li>
+</ul>
+
+<h3 class="sectionedit20"><a name="cue_par_player" id="cue_par_player">CUE par lecteur</a></h3>
+
+<p class="level3">
+Chaque fichier possède <strong>4 jeux de points CUE indépendants</strong>, un par lecteur. Un même fichier peut ainsi avoir un point d'entrée différent selon le lecteur sur lequel il est joué.
+</p>
+
+<p class="level3">
+Les positions CUE sont sauvegardées automatiquement avec le show.
+</p>
+
+<h3 class="sectionedit21"><a name="definir_cue" id="definir_cue">Définir les points CUE</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Activer le mode <strong>[EDIT]</strong>.</div></li>
+  <li class="level1"><div class="li">Lire le fichier et naviguer (Play, avance/retour rapide, Pitch, seekbar).</div></li>
+  <li class="level1"><div class="li">Cliquer <strong>[IN]</strong> ou <strong>[OUT]</strong> au moment voulu pour poser le point.</div></li>
+  <li class="level1"><div class="li">Les valeurs en secondes s'affichent sous la seekbar.</div></li>
+  <li class="level1"><div class="li">Si le point IN dépasse le point OUT (ou inversement), le deuxième point est automatiquement recalé.</div></li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_edit.png" class="mediacenter" title="audio_edit.jpg" alt="audio_edit.jpg" /></div>
+</p>
+
+<h2 class="sectionedit22"><a name="autoload_autopause" id="autoload_autopause">AutoLoad et AutoPause</a></h2>
+
+<p class="level2">
+WhiteCat ne dispose pas de playlist au sens strict, mais le mode <strong>AutoLoad</strong> permet un enchaînement automatique des fichiers.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li"><strong>AutoLoad</strong> seul : à la fin d'un fichier (ou au point CUE OUT si le mode CUE est actif), le fichier suivant est chargé et lu immédiatement.</div></li>
+  <li class="level1"><div class="li"><strong>AutoPause</strong> seul : le lecteur s'arrête en fin de fichier (le fichier reste chargé, prêt pour un nouveau Play).</div></li>
+  <li class="level1"><div class="li"><strong>AutoLoad + AutoPause</strong> : le fichier suivant est chargé mais la lecture ne démarre pas — l'opérateur déclenche manuellement chaque morceau.</div></li>
+</ul>
+
+<p class="level2">
+En mode AutoLoad, chaque fichier chargé démarre à son <strong>point CUE IN</strong> si le mode CUE est actif. La liste des fichiers défile automatiquement pour toujours garder le morceau en cours visible.
+</p>
+
+<p class="level2">
+Quand le dernier fichier du dossier est atteint, le lecteur s'arrête (le champ vide en fin de liste est sélectionné).
+</p>
+
+<p class="level2">
+<img src="audio_autocue.png" class="media" title="audio_autocue.jpg" alt="audio_autocue.jpg" />
+</p>
+
+<p class="level2">
+<em>Astuce : pour organiser plusieurs enchaînements dans un même dossier, préfixez vos fichiers par lecteur :<br/>
+<code>A_01_intro.wav</code> &nbsp; <code>A_02_scene.mp3</code> &nbsp; <code>B_01_musique.flac</code></em>
+</p>
+
+<h2 class="sectionedit23"><a name="volume_pan_pitch" id="volume_pan_pitch">MidiSendOut de Volume / Pan / Pitch</a></h2>
+
+<p class="level2">
+En enclenchant la pastille <strong>MidiSendOut</strong>, vous pouvez réémettre vers l'extérieur le signal affecté au Volume, au Pan et au Pitch.
+<strong>Cette pastille groupe le renvoi de ces 3 commandes</strong>.
+</p>
+
+<p class="level2">
+Cette fonction permet sur certains périphériques motorisés (BCF, X-Touch...) ou à encodeurs rotatifs (BCR, Midi Fighter...) de mettre à jour le matériel physique lors de manipulations à la souris ou via Banger.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_midisendout.png" class="mediacenter" title="audio_midisendout.jpg" alt="audio_midisendout.jpg" /></div>
+</p>
+
+<h2 class="sectionedit24"><a name="affect_dock" id="affect_dock">Affecter à un fader général</a></h2>
+
+<p class="level2">
+La section <strong>[Affect to dock]</strong> en bas de la fenêtre permet d'affecter le Volume, le Pan ou le Pitch d'un lecteur à un fader de l'espace faders.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Choisir le type (Volume / Pan / Pitch) et le numéro de lecteur.</div></li>
+  <li class="level1"><div class="li">Cliquer <strong>[Affect to dock]</strong>.</div></li>
+  <li class="level1"><div class="li">Cliquer sur un dock d'un fader.</div></li>
+  <li class="level1"><div class="li">Le fader se colore en bleu (couleur volume) pour indiquer l'affectation active.</div></li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_affect_to_dock.png" class="mediacenter" title="audio_midisendout" alt="audio_midisendout" /></div>
+</p>
+<h2 class="sectionedit26"><a name="ram_ogg_flac" id="ram_ogg_flac">OGG / FLAC — allocation RAM</a></h2>
+
+<p class="level2">
+Les fichiers <strong>.ogg</strong> et <strong>.flac</strong> sont chargés <strong>intégralement en RAM</strong> au moment du chargement dans un lecteur. Ce mécanisme garantit une lecture fluide, sans saut ni latence de décodage, même en mode CUE ou boucle.
+</p>
+
+<p class="level2">
+Les fichiers <strong>.wav</strong> et <strong>.mp3</strong> ne sont pas concernés : ils utilisent leurs propres mécanismes de chargement.
+</p>
+
+<p class="level2">
+Si un fichier OGG ou FLAC dépasse la limite configurée, il est lu en mode dégradé — la lecture reste possible mais peut présenter des irrégularités (repositionnement moins précis, légère latence au démarrage).
+</p>
+
+<h3><a name="reglage_ram" id="reglage_ram">Régler la limite RAM</a></h3>
+
+<p class="level2">
+Le réglage est accessible dans <strong>CFG → Core config</strong>, champ <strong>RAM OGG/FLAC</strong>.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Plage : <strong>50 à 2048 MB</strong></div></li>
+  <li class="level1"><div class="li">Valeur par défaut : <strong>300 MB</strong></div></li>
+  <li class="level1"><div class="li">Saisir la valeur dans le champ, puis cliquer dessus pour valider.</div></li>
+</ul>
+
+<p class="level2">
+Dans la plupart des situations, les 300MB de RAM sont amplement suffisants.
+</p>
+
+<p class="level2">
+<img src="audio_ram_allocation.png" class="media" title="audio_midibutton_affect" alt="audio_midibutton_affect" />
+</p>
+
+<p class="level2">
+Le tableau ci-dessous donne un ordre de grandeur de la RAM occupée selon la durée et le format (valeurs approximatives) :
+</p>
+
+<div class="table sectionedit27">
+<table class="inline">
+  <thead>
+    <tr>
+      <th>Durée</th>
+      <th>OGG ~128 kbps</th>
+      <th>OGG ~256 kbps</th>
+      <th>FLAC stéréo 44,1 kHz 16 bit</th>
+      <th>FLAC stéréo 96 kHz 24 bit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1 min</td><td>~1 MB</td><td>~2 MB</td><td>~6 MB</td><td>~18 MB</td></tr>
+    <tr><td>5 min</td><td>~5 MB</td><td>~10 MB</td><td>~29 MB</td><td>~88 MB</td></tr>
+    <tr><td>10 min</td><td>~9 MB</td><td>~19 MB</td><td>~59 MB</td><td>~176 MB</td></tr>
+    <tr><td>30 min</td><td>~28 MB</td><td>~56 MB</td><td><strong>~176 MB</strong></td><td style="color:#c06060"><strong>~528 MB ⚠</strong></td></tr>
+    <tr><td>1 heure</td><td>~57 MB</td><td>~113 MB</td><td style="color:#c06060"><strong>~352 MB ⚠</strong></td><td style="color:#c06060"><strong>~1056 MB ⚠</strong></td></tr>
+    <tr><td>2 heures</td><td>~113 MB</td><td>~225 MB</td><td style="color:#c06060"><strong>~704 MB ⚠</strong></td><td style="color:#c06060"><strong>~2112 MB ⚠</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="level2">
+⚠ = dépasse la limite par défaut de 300 MB → lecture en mode dégradé. Augmenter la limite RAM si nécessaire.
+</p>
+
+<p class="level2">
+<strong>Conseils :</strong> augmenter la limite si vos fichiers OGG/FLAC sont volumineux et que la machine dispose de suffisamment de RAM. Réduire sur les configurations à faible mémoire.
+</p>
+
+<h2 class="sectionedit25"><a name="midi" id="midi">Affectation MIDI</a></h2>
+
+<p class="level2">
+Toutes les commandes des lecteurs sont assignables en MIDI : Play, Stop, Loop, CUE on/off, SetIN, SetOUT, SeekToCueIN, Volume, Pan, Pitch, Prev, Next, AutoLoad, AutoPause.
+</p>
+
+<p class="level2">
+<strong>Attention :</strong> les commandes audio ne peuvent pas être attribuées en série (MIDI Aff. X2 ou plus). L'affectation est en mode <strong>SOLO</strong> uniquement.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Enclencher le mode <strong>[MIDI Aff. X1]</strong>.</div></li>
+  <li class="level1"><div class="li">Envoyer un signal MIDI (Note On/Off ou Control Change).</div></li>
+  <li class="level1"><div class="li">Cliquer la commande cible.</div></li>
+</ul>
+
+<p class="level2">
+<img src="audio_midibutton_affect.png" class="media" title="audio_midibutton_affect.jpg" alt="audio_midibutton_affect.jpg" />
+</p>
+
+<p class="level2">
+Pour plus de détails : <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a>
+</p>
+
+</div>
+</body>
+</html>

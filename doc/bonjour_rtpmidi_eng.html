@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>bonjour_rtpmidi_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-12T19:09:09+0200"/>
+<meta name="keywords" content="bonjour_rtpmidi_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="bonjour_rtpmidi_eng.html"/>
+<link rel="contents" href="bonjour_rtpmidi_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="bonjour_rtpmidi_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="bonjour_rtpmidi_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=bonjour_rtpmidi_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"bonjour_rtpmidi_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#receiving_coremidi_over_a_network">Receiving CoreMidi over a Network</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#installing_in_windows">Installing In Windows</a></div></li>
+<li class="level3"><div class="li"><a href="#settings">Settings</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="receiving_coremidi_over_a_network" id="receiving_coremidi_over_a_network">Receiving CoreMidi over a Network</a></h1>
+
+<p class="level1">
+IPhones, iPods and iPads use CORE Midi. This is a midi signal sent on wifi.
+Many midi applications are available at the AppStore that can send midi, opening an impressive range of possible controllers.
+</p>
+
+<p class="level1">
+Control and TouchOSC in particular, present in Android ….
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="http://itunes.apple.com/us/app/control-osc-+-midi/id413224747?mt=8" class="urlextern" title="http://itunes.apple.com/us/app/control-osc-+-midi/id413224747?mt=8"  rel="nofollow">Control</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://itunes.apple.com/us/app/touchosc/id288120394?mt=8" class="urlextern" title="http://itunes.apple.com/us/app/touchosc/id288120394?mt=8"  rel="nofollow">TouchOSC</a></div>
+</li>
+</ul>
+
+<p class="level1">
+To receive the Midi protocol issued from CORE Midi, you will have to install Bonjour and rtpMIDI, which are both free software programs.
+</p>
+
+<p class="level1">
+Bonjour allows you to network machines without using IP addressing: the machine and its name are displayed on a small network, you accept and voila.
+</p>
+
+<p class="level1">
+As simple as Hello …
+</p>
+
+<p class="level1">
+However, the structure of Bonjour needs a specific driver, and this is where we will use rtpMIDI, as it will rip the received signal on a midi port that it will create.
+</p>
+
+<p class="level1">
+rtpMIDI launches itself at windows startup, once you have it installed.
+rtpMIDI is extremely easy to use, robust and reliable.
+</p>
+
+<p class="level1">
+<img src="rtp.jpeg" class="media" title="rtp.jpg" alt="rtp.jpg" />
+</p>
+<!-- EDIT1 SECTION "Receiving CoreMidi over a Network" [1-1092] -->
+<h3 class="sectionedit2"><a name="installing_in_windows" id="installing_in_windows">Installing In Windows</a></h3>
+
+<p class="level3">
+Download:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Bonjour  <a href="http://www.google.fr/url?sa=t&amp;rct=j&amp;q=telecharger%20bonjour%20windows&amp;source=web&amp;cd=1&amp;ved=0CFgQFjAA&amp;url=http%3A%2F%2Fwww.01net.com%2Ftelecharger%2Fwindows%2FUtilitaire%2Freseau%2Ffiches%2F103085.html&amp;ei=ErLxT_uJHtH_8QPsyKH_DA&amp;usg=AFQjCNHJMCS3sxNjITryE5wQ9QQrdoRwpw" class="urlextern" title="http://www.google.fr/url?sa=t&amp;rct=j&amp;q=telecharger%20bonjour%20windows&amp;source=web&amp;cd=1&amp;ved=0CFgQFjAA&amp;url=http%3A%2F%2Fwww.01net.com%2Ftelecharger%2Fwindows%2FUtilitaire%2Freseau%2Ffiches%2F103085.html&amp;ei=ErLxT_uJHtH_8QPsyKH_DA&amp;usg=AFQjCNHJMCS3sxNjITryE5wQ9QQrdoRwpw"  rel="nofollow">Bonjour</a> </div>
+</li>
+<li class="level1"><div class="li"> Plus the Driver <a href="http://www.tobias-erichsen.de/rtpMIDI.html" class="urlextern" title="http://www.tobias-erichsen.de/rtpMIDI.html"  rel="nofollow">RTPMidi</a> développé par Tobias Erichsen </div>
+</li>
+<li class="level1"><div class="li"> Install Bonjour, restart Windows</div>
+</li>
+<li class="level1"><div class="li"> install RTPmidi, restart Windows</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Installing In Windows" [1093-1609] -->
+<h3 class="sectionedit3"><a name="settings" id="settings">Settings</a></h3>
+
+<p class="level3">
+We will use the simplest method to set up a session.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Start RTPmidi.</div>
+</li>
+<li class="level1"><div class="li"> Create a new session by clicking the small [+]</div>
+</li>
+<li class="level1"><div class="li"> By default this new session is referred to by the name of your machine</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi1.jpeg" class="media" title="rtpmidi1.jpg" alt="rtpmidi1.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Confirm the opening of the session by clicking the box in front of the connection that you created</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi2.jpeg" class="media" title="rtpmidi2.jpg" alt="rtpmidi2.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> With your iPhone/IPad, start a free application, type <a href="http://itunes.apple.com/tw/app/midi-knob/id467573203?mt=8" class="urlextern" title="http://itunes.apple.com/tw/app/midi-knob/id467573203?mt=8"  rel="nofollow">Knob</a> </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> After a few seconds, you will see the name appear on your device. This capture by my iPod is called iCAT.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Select the device, click [Connect].</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi3.jpeg" class="media" title="rtpmidi3.jpg" alt="rtpmidi3.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> The device is added to a list of participants in the session</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi4.jpeg" class="media" title="rtpmidi4.jpg" alt="rtpmidi4.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> It is through this menu on the right that you can add or remove participants of Bonjour from your session, allowing you to work with multiple devices and software.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi_wcat.jpeg" class="media" title="rtpmidi_wcat.jpg" alt="rtpmidi_wcat.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> To remove a device, click it to make it[Deconnect]</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Settings" [1610-] --></div>
+</body>
+</html>

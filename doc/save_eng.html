@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>save_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-08-28T02:41:38+0200"/>
+<meta name="keywords" content="save_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="save_eng.html"/>
+<link rel="contents" href="save_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="save_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="save_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=save_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"save_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#savebinary_saving_and_export_import">Save: binary saving, and export/import</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#binary_saving">Binary saving</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#classic_save">Classic save</a></div></li>
+<li class="level4"><div class="li"><a href="#importing_a_schwartzpeter_show">Importing a Schwartzpeter show</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#text_saving">Text saving</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#ascii">ASCII</a></div></li>
+<li class="level4"><div class="li"><a href="#pdf">PDF</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#saving_a_show_loading_a_show_classical_binary_operation">Saving a show, loading a show / Classical binary operation</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#quick_saves">Quick saves</a></div></li>
+<li class="level2"><div class="li"><a href="#using_save_menu">Using Save menu</a></div></li>
+<li class="level2"><div class="li"><a href="#binary_saving_classical">BINARY SAVING CLASSICAL</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#save_under_other_name">Save under other name</a></div></li>
+<li class="level3"><div class="li"><a href="#save_on_an_already_existing_name">Save on an already existing name</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#loading_an_existing_backup">Loading an existing backup</a></div></li>
+<li class="level2"><div class="li"><a href="#binary_saving_advanced">BINARY SAVING / ADVANCED</a></div></li>
+<li class="level2"><div class="li"><a href="#binary_loading_advanced">Binary loading/advanced</a></div></li>
+<li class="level2"><div class="li"><a href="#reseta_new_virgin_show">RESET: A new virgin show</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#import_export">IMPORT EXPORT</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#selection_of_the_type_of_data_to_import_export">Selection of the type of data to import/export</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="savebinary_saving_and_export_import" id="savebinary_saving_and_export_import">Save: binary saving, and export/import</a></h1>
+<pre class="code">!There are major changes in the save window in 0.8.2.2 version</pre>
+
+<p class="level1">
+There are 2 types of data saving:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> binary saving which is in White Cat Data Format.</div>
+</li>
+<li class="level1"><div class="li"> import/export as text formatted files.</div>
+</li>
+</ul>
+
+<p class="level1">
+There is also pdf export, to use paper sheets of your show for touring or physical back-up.
+</p>
+<!-- EDIT1 SECTION "Save: binary saving, and export/import" [1-345] -->
+<h3 class="sectionedit2"><a name="binary_saving" id="binary_saving">Binary saving</a></h3>
+<!-- EDIT2 SECTION "Binary saving" [346-368] -->
+<h4 class="sectionedit3"><a name="classic_save" id="classic_save">Classic save</a></h4>
+
+<p class="level4">
+Shows are saved in White_cat/saves/ folder.
+</p>
+
+<p class="level4">
+On each opening White Cat loads the show recorded in <strong>last_save</strong>.
+The show location is /saves/last_save/.
+</p>
+
+<p class="level4">
+<strong>Last_save is the working session</strong>.
+</p>
+
+<p class="level4">
+When you record a memory, use the patch, … all modifications are done in patch.
+</p>
+
+<p class="level4">
+By pressing [Ctrl-S] (quick save) or when quitting White Cat, data will be saved in the working session folder: last_save.
+</p>
+
+<p class="level4">
+When you use [SAVE], you are just pointing to a new folder to save to or load from.
+</p>
+
+<p class="level4">
+The save action is just doing a <strong>back-up</strong>, where you save your show to another name.
+</p>
+
+<p class="level4">
+When you have made major changes to your show (patch, memories recording, fine tuned memories during rehearsal, etc…) it is recommended that you save a back up version of your show. 
+</p>
+
+<p class="level4">
+When you quit White Cat, an automatic save is done in the working session folder: last_save. <strong>Back-up  content is not touched at all.</strong>
+</p>
+
+<p class="level4">
+You can save or load this binary back-up in a complete manner (all files) or a partial one (loading only the patch, or midi attributions, or memories, etc…).
+</p>
+<!-- EDIT3 SECTION "Classic save" [369-1449] -->
+<h4 class="sectionedit4"><a name="importing_a_schwartzpeter_show" id="importing_a_schwartzpeter_show">Importing a Schwartzpeter show</a></h4>
+
+<p class="level4">
+You can import a binary show in Schwartzpeter&#039;s file format in its entirety.
+</p>
+
+<p class="level4">
+To do this copy/paste the Schwartzpeter&#039;s show folder in WhiteCat/import_export/:
+</p>
+
+<p class="level4">
+ * for example the folder called CARMEN in Schwartzpeter/saves/
+</p>
+
+<p class="level4">
+ * will be Whitecat/import_export/CARMEN/
+</p>
+
+<p class="level4">
+A Schwartzpeter import is very simple and you should be able to load all shows from 0.7.x versions onward. When importing you load the following contents:
+memories, autogo&#039;s, memory descriptions, times, patches, shadow subs reported to faders.  Because of the way the chasers in White Cat are encoded, your Schwartzpeter chasers will not be imported.
+</p>
+<!-- EDIT4 SECTION "Importing a Schwartzpeter show" [1450-2108] -->
+<h3 class="sectionedit5"><a name="text_saving" id="text_saving">Text saving</a></h3>
+
+<p class="level3">
+You can import or export data. Files will be saved or loaded from the <strong>import_export</strong> folder.
+To import a file, or get the export you have made, go to WhiteCat/import_export/.
+</p>
+<!-- EDIT5 SECTION "Text saving" [2109-2308] -->
+<h4 class="sectionedit6"><a name="ascii" id="ascii">ASCII</a></h4>
+
+<p class="level4">
+White Cat saves and loads <abbr title="American Standard Code for Information Interchange">ASCII</abbr> shows.
+<abbr title="American Standard Code for Information Interchange">ASCII</abbr> is a protocol which enables you to exchange shows between different lighting boards.
+</p>
+
+<p class="level4">
+When importing <abbr title="American Standard Code for Information Interchange">ASCII</abbr>, the entire show in RAM will be cleared.
+</p>
+
+<p class="level4">
+The following are read:
+</p>
+
+<p class="level4">
+<strong>memories</strong>
+</p>
+<div class="table sectionedit7"><table class="inline">
+	<tr class="row0">
+		<td class="col0">CUE 1.0</td><td class="col1">Memory</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">TEXT DESCRIPTION MEMORY 1</td><td class="col1">description</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">UP 1.0</td><td class="col1">Fade IN time</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">DOWN 5.0</td><td class="col1">Fade OUT time</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">$$WAIT 0 </td><td class="col1">White Cat considers as link when time is &gt; 0</td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">CHAN 7/H52 10/H61 35/H4C 100/HAE </td><td class="col1">Channels in hexadecimal.</td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [2554-2775] -->
+<p class="level4">
+It is possible that on certain <abbr title="American Standard Code for Information Interchange">ASCII</abbr> exports, control boards generate channel levels with the following syntax: 7@H52 or 7=H52. In this case, just replace using Notepad “@H” with “/H” using the replacement tool.
+</p>
+
+<p class="level4">
+/H syntax is used by AVAB and ADB.  The choice has been made in White Cat to stay with one <abbr title="American Standard Code for Information Interchange">ASCII</abbr> protocol only.
+</p>
+
+<p class="level4">
+<strong>electronic patch without curves</strong>
+</p>
+<div class="table sectionedit8"><table class="inline">
+	<tr class="row0">
+		<td class="col0">PATCH 1 6&lt;1/HFF 21&lt;2/HFF </td><td class="col1">Patch of Universe 1, dimmer 1 assigned to channel 6 , max 100%, dimmer 2 to channel 21 max 100%</td>
+	</tr>
+</table></div>
+<!-- EDIT8 TABLE [3141-3264] -->
+<p class="level4">
+With certain manufacturers, like RVE, syntax for the patch is 1&lt;1@Hff instead of 1&lt;1/Hff. Use Notepad to replace @ with /.
+</p>
+
+<p class="level4">
+<strong>subs containing channels</strong>
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0">SUB 1</td><td class="col1"> Sub 1</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">TEXT description</td><td class="col1">text description</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">UP 5</td><td class="col1">Fade IN</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">DOWN 5</td><td class="col1">Fade OUT</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">CHAN 17/HFF 18/HFF 19/HFF 20/HFF</td><td class="col1">channel contained</td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [3420-3556] -->
+<p class="level4">
+White Cat receives SUBs up to Sub 288 (48 faders x 6 docks).
+Sub 49 will be stored in Fader 1, Dock 2.
+Sub 96 in Fader 48, Dock 2.
+Sub 97 in Fader 1, Dock 3
+etc…
+</p>
+
+<p class="level4">
+AVAB seems to use  GROUP instead of SUB, enabling memory load. But Time seems not to be included.
+For now GROUP will not be read.
+</p>
+<!-- EDIT6 SECTION "ASCII" [2309-3853] -->
+<h4 class="sectionedit10"><a name="pdf" id="pdf">PDF</a></h4>
+
+<p class="level4">
+You can just <strong>export</strong> pdf files. They contains your complete show, with all its attributes, in a fully featured PDF file, to archive or to use while touring.
+</p>
+<!-- EDIT10 SECTION "PDF" [3854-4025] -->
+<h1 class="sectionedit11"><a name="saving_a_show_loading_a_show_classical_binary_operation" id="saving_a_show_loading_a_show_classical_binary_operation">Saving a show, loading a show / Classical binary operation</a></h1>
+<!-- EDIT11 SECTION "Saving a show, loading a show / Classical binary operation" [4026-4100] -->
+<h2 class="sectionedit12"><a name="quick_saves" id="quick_saves">Quick saves</a></h2>
+
+<p class="level2">
+You can save your show quickly as last_save by pressing [CTRL][S].
+</p>
+
+<p class="level2">
+When you quit White Cat, an automatic save is done under last_save:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> click [QUIT] </div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> type [CTRL][F12].</div>
+</li>
+</ul>
+
+<p class="level2">
+If you want to quit without saving in last_save, hit [SHIFT][F12].
+</p>
+<!-- EDIT12 SECTION "Quick saves" [4101-4372] -->
+<h2 class="sectionedit13"><a name="using_save_menu" id="using_save_menu">Using Save menu</a></h2>
+
+<p class="level2">
+To save or load a show under another name, click [Save].
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_open.jpeg" class="mediacenter" title="save_open.jpg" alt="save_open.jpg" /></div>
+</p>
+
+<p class="level2">
+Save window pops up and shows 2 menus:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> left: binary save/load</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> right: import/export</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_window.jpeg" class="mediacenter" title="save_window.jpg" alt="save_window.jpg" /></div>
+</p>
+<!-- EDIT13 SECTION "Using Save menu" [4373-4595] -->
+<h2 class="sectionedit14"><a name="binary_saving_classical" id="binary_saving_classical">BINARY SAVING CLASSICAL</a></h2>
+
+<p class="level2">
+Be sure that [GLOBAL] is checked. If it is not, your show will be saved/loaded in a partial manner.
+</p>
+<!-- EDIT14 SECTION "BINARY SAVING CLASSICAL" [4596-4731] -->
+<h3 class="sectionedit15"><a name="save_under_other_name" id="save_under_other_name">Save under other name</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> click [NAME]or press [F5].</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Type the name of the show. <strong>Please avoid spaces and dots</strong>.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> A correct name will be: <strong>thenameofmyshow</strong>.   <strong> the name of my show </strong>or <strong> my.show </strong> are not valid and may make it hard for White Cat to find your show.</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="nommerclassique1.jpeg" class="mediacenter" title="nommerclassique1.jpg" alt="nommerclassique1.jpg" /></div>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Click the Name space of the show:</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="nommerclassique2.jpeg" class="mediacenter" title="nommerclassique2.jpg" alt="nommerclassique2.jpg" /></div>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click [SAVE]</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Saving Feedback window  will pop up if something went wrong: files concerned will appear in red.</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="saveload_report.jpeg" class="mediacenter" title="saveload_report.jpg" alt="saveload_report.jpg" /></div>
+</p>
+<!-- EDIT15 SECTION "Save under other name" [4732-5267] -->
+<h3 class="sectionedit16"><a name="save_on_an_already_existing_name" id="save_on_an_already_existing_name">Save on an already existing name</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> click name of the folder</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> click [SAVE]</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="save_nomexsitant.jpeg" class="mediacenter" title="save_nomexsitant.jpg" alt="save_nomexsitant.jpg" /></div>
+</p>
+<!-- EDIT16 SECTION "Save on an already existing name" [5268-5388] -->
+<h2 class="sectionedit17"><a name="loading_an_existing_backup" id="loading_an_existing_backup">Loading an existing backup</a></h2>
+
+<p class="level2">
+You don&#039;t need to type its name:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> click the name in the folder</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> click [LOAD]</div>
+</li>
+</ul>
+<!-- EDIT17 SECTION "Loading an existing backup" [5389-5514] -->
+<h2 class="sectionedit18"><a name="binary_saving_advanced" id="binary_saving_advanced">BINARY SAVING / ADVANCED</a></h2>
+
+<p class="level2">
+It is possible to save or load a show in a selective manner (just loading memories, and not a patch, or midi config  etc…).
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> toggle [GLOBAL] to [CHOICE] by clicking with the mouse.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> select what you want to save/load:</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Memories: contents, texts, annotations, destroyed memories indexes thruth wizard and shift-del action</div>
+</li>
+<li class="level2"><div class="li"> Mem.times</div>
+</li>
+<li class="level2"><div class="li"> Mem.Links</div>
+</li>
+<li class="level2"><div class="li"> Mem.Bangers</div>
+</li>
+<li class="level2"><div class="li"> Mem.Man.Ratio: manual ratio recorded inside a memory fro mouse-crossfading</div>
+</li>
+<li class="level2"><div class="li"> Chan.List: [LIST] description</div>
+</li>
+<li class="level2"><div class="li"> Chan.DirectCH: Direct Channel affectation to docks</div>
+</li>
+<li class="level2"><div class="li"> Chan.Freeze</div>
+</li>
+<li class="level2"><div class="li"> Patch.Circuits</div>
+</li>
+<li class="level2"><div class="li"> Patch.LTP/HTP</div>
+</li>
+<li class="level2"><div class="li"> Patch.Curves</div>
+</li>
+<li class="level2"><div class="li"> Banger</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Faders.Content: content of docks included dynamic links</div>
+</li>
+<li class="level2"><div class="li"> Faders.LFO/Times</div>
+</li>
+<li class="level2"><div class="li"> Fader.Curves</div>
+</li>
+<li class="level2"><div class="li"> Midi.Affectation</div>
+</li>
+<li class="level2"><div class="li"> Minif.Prsts/Lcks: minifaders selection presets and lock presets</div>
+</li>
+<li class="level2"><div class="li"> Chasers</div>
+</li>
+<li class="level2"><div class="li"> Midi.Affectations</div>
+</li>
+<li class="level2"><div class="li"> Midi.Cheat</div>
+</li>
+<li class="level2"><div class="li"> Trichromy</div>
+</li>
+<li class="level2"><div class="li"> Tracking</div>
+</li>
+<li class="level2"><div class="li"> Arduino</div>
+</li>
+<li class="level2"><div class="li"> Audio.conf: audio folder</div>
+</li>
+<li class="level2"><div class="li"> iCat</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Windows: opened windows and positions</div>
+</li>
+<li class="level2"><div class="li"> ColorProfile</div>
+</li>
+<li class="level2"><div class="li"> Keyboard.conf: keyboard mapping</div>
+</li>
+<li class="level2"><div class="li"> Indexes</div>
+</li>
+<li class="level2"><div class="li"> Mover</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_choice.jpeg" class="mediacenter" title="save_choice.jpg" alt="save_choice.jpg" /></div>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> select a show (by mouse selection or by typing the name with [F5])</div>
+</li>
+<li class="level1"><div class="li"> click [SAVE]</div>
+</li>
+</ul>
+<!-- EDIT18 SECTION "BINARY SAVING / ADVANCED" [5515-6795] -->
+<h2 class="sectionedit19"><a name="binary_loading_advanced" id="binary_loading_advanced">Binary loading/advanced</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> do as previously shown</div>
+</li>
+<li class="level1"><div class="li"> click [LOAD]</div>
+</li>
+</ul>
+<!-- EDIT19 SECTION "Binary loading/advanced" [6796-6875] -->
+<h2 class="sectionedit20"><a name="reseta_new_virgin_show" id="reseta_new_virgin_show">RESET: A new virgin show</a></h2>
+
+<p class="level2">
+You can reset the show in memory in the following ways:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> all the show in RAM ([GLOBAL]) </div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> part of the show in RAM ([CHOICE] and select what you want to be reset: faders/memories/patch, etc….) </div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Click [RESET]</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>This will never affect the shows recorded on HDD. A reset is only done in RAM.</strong>
+</p>
+
+<p class="level2">
+Here everything except Midi assignment and screen orientation ( Misc.) is selected:
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_reset.jpeg" class="mediacenter" title="save_reset.jpg" alt="save_reset.jpg" /></div>
+</p>
+<!-- EDIT20 SECTION "RESET: A new virgin show" [6876-7328] -->
+<h1 class="sectionedit21"><a name="import_export" id="import_export">IMPORT EXPORT</a></h1>
+<!-- EDIT21 SECTION "IMPORT EXPORT" [7329-7358] -->
+<h2 class="sectionedit22"><a name="selection_of_the_type_of_data_to_import_export" id="selection_of_the_type_of_data_to_import_export">Selection of the type of data to import/export</a></h2>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="save_importexport.jpeg" class="mediacenter" title="save_importexport.jpg" alt="save_importexport.jpg" /></div>
+</p>
+
+<p class="level2">
+There are 3 types of data you can use for import/export, recognized from their extension:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <abbr title="American Standard Code for Information Interchange">ASCII</abbr>: .asc, .txt, .alq</div>
+</li>
+<li class="level1"><div class="li"> PDF: .pdf</div>
+</li>
+<li class="level1"><div class="li"> Schwartzpeter: no extension</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>The export will be done from the show in RAM.</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> choose the show to load or save by clicking in the list of the import_export folder</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> or give it a  new name with [NAME] (or [F5]). Type the extension after the name, depending of the type of data.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> click save or load will depend on the type of data:</div>
+<ul class="level2">
+<li class="level2"><div class="li"> <abbr title="American Standard Code for Information Interchange">ASCII</abbr>: save AND load</div>
+</li>
+<li class="level2"><div class="li"> Schwartzpeter: load only</div>
+</li>
+<li class="level2"><div class="li"> Pdf: save only</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level2">
+ Here the name typed is followed by an .asc extension. 
+<div align="center" style="text-align: center"><img src="save_exportok.jpeg" class="mediacenter" title="save_exportok.jpg" alt="save_exportok.jpg" /></div>
+</p>
+<!-- EDIT22 SECTION "Selection of the type of data to import/export" [7359-] --></div>
+</body>
+</html>

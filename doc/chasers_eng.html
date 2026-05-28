@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>chasers_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-01-15T00:15:22+0100"/>
+<meta name="keywords" content="chasers_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="chasers_eng.html"/>
+<link rel="contents" href="chasers_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="chasers_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="chasers_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=chasers_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"chasers_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#chasers">Chasers</a></div></li>
+<li class="level1"><div class="li"><a href="#chaser_window_presentation">Chaser window presentation</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#calling_chasers_window">Calling Chasers window</a></div></li>
+<li class="level2"><div class="li"><a href="#navigating_editing">Navigating, editing</a></div></li>
+<li class="level2"><div class="li"><a href="#assign_to_a_dock">Assign to a Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#steps_and_timeline">Steps and TimeLine</a></div></li>
+<li class="level2"><div class="li"><a href="#main_commands_of_the_chaser_window">Main commands of the chaser window</a></div></li>
+<li class="level2"><div class="li"><a href="#editing_timeunit_and_time_modes">Editing TimeUnit and Time Modes</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#time_modeststd_tjoin">Time Modes: T.Std T.Join</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#slave">Slave</a></div></li>
+<li class="level2"><div class="li"><a href="#on_screen_information">On screen information</a></div></li>
+<li class="level2"><div class="li"><a href="#tracks">Tracks</a></div></li>
+<li class="level2"><div class="li"><a href="#manipulating_tracks">Manipulating tracks</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#recording_channels_in_a_track">Recording channels in a track</a></div></li>
+<li class="level3"><div class="li"><a href="#assigning_a_memory_to_a_track">Assigning a memory to a track</a></div></li>
+<li class="level3"><div class="li"><a href="#giving_a_description_to_a_track">Giving a description to a track</a></div></li>
+<li class="level3"><div class="li"><a href="#clear_a_track">Clear a track</a></div></li>
+<li class="level3"><div class="li"><a href="#inspection_of_the_content_of_a_track">Inspection of the content of a track</a></div></li>
+<li class="level3"><div class="li"><a href="#manipulation_of_tracks_on_off">Manipulation of tracks ON/OFF</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#all_inv_off">ALL, INV, OFF</a></div></li>
+<li class="level4"><div class="li"><a href="#on_off_tracks_presets">ON/OFF Tracks presets</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#assignment_of_actions_in_a_track">Assignment of actions in a track</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#concrete_example">Concrete example</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#midi_assignment">Midi Assignment</a></div></li>
+<li class="level2"><div class="li"><a href="#launchpad">LaunchPad</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#engage_launchpad_mode">Engage Launchpad mode</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#options_of_the_chaser_window">Options of the chaser window</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="chasers" id="chasers">Chasers</a></h1>
+
+<p class="level1">
+Chasers are very specific to White Cat in the way they work and are handled. This special ergonomy comes from the way we use the chasers, and the global limitation on a traditional lighting control desk. Usually, when you record a chaser on a light board, you record a kind of sequential cue list, consisting of steps that run one after another. Modifying this on the fly during a performance or reordering the steps or actions is generally impossible.
+</p>
+
+<p class="level1">
+Chasers are designed in White Cat to enable manipulation on the fly. They are inspired by music practices and sequencers.
+</p>
+
+<p class="level1">
+As with other dynamics content, a chaser needs to be assigned to a dock to be able to run on stage.
+</p>
+
+<p class="level1">
+The chaser window enables you to work on all of the parameters of a chaser. It is an editing and modifying window in Live for ONE chaser.
+Once a chaser is created, you can have simultaneous chasers running and trigger them from the embedded commands dedicated to chasers in a fader without having to use the chaser window at all.
+</p>
+
+<p class="level1">
+<img src="chaser_window.jpeg" class="media" title="chaser_window.jpg" alt="chaser_window.jpg" />
+</p>
+<!-- EDIT1 SECTION "Chasers" [1-1061] -->
+<h1 class="sectionedit2"><a name="chaser_window_presentation" id="chaser_window_presentation">Chaser window presentation</a></h1>
+<!-- EDIT2 SECTION "Chaser window presentation" [1062-1102] -->
+<h2 class="sectionedit3"><a name="calling_chasers_window" id="calling_chasers_window">Calling Chasers window</a></h2>
+
+<p class="level2">
+Click [Chasers] or press [Shift-C]
+</p>
+
+<p class="level2">
+<img src="click_chasers.jpeg" class="media" title="click_chasers.jpg" alt="click_chasers.jpg" />
+</p>
+<!-- EDIT3 SECTION "Calling Chasers window" [1103-1195] -->
+<h2 class="sectionedit4"><a name="navigating_editing" id="navigating_editing">Navigating, editing</a></h2>
+
+<p class="level2">
+<img src="chaser_general.jpeg" class="media" title="chaser_general.jpg" alt="chaser_general.jpg" />
+</p>
+
+<p class="level2">
+Navigation up and down in the 128 chasers of White Cat:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Use the +/- icons</div>
+</li>
+</ul>
+
+<p class="level2">
+When the [EDIT] button is selected (turned ON), you can:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Name a chaser: [F5], type the name, click the red name area</div>
+</li>
+<li class="level1"><div class="li"> Edit chaser grid</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "Navigating, editing" [1196-1472] -->
+<h2 class="sectionedit5"><a name="assign_to_a_dock" id="assign_to_a_dock">Assign to a Dock</a></h2>
+
+<p class="level2">
+The same chaser may be stored in several docks. However, in terms of controlling its speed with an accelerometer, it is the last fader (where the chase was stored most recently) that is used.
+</p>
+
+<p class="level2">
+The fader that was the last one will be displayed above and to the left of the TimeLine:
+</p>
+
+<p class="level2">
+<img src="chaser_timeline.jpeg" class="media" title="chaser_timeline.jpg" alt="chaser_timeline.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Select assignment mode [AFFECT to DOCK]</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="chaser_affect_to_dock.jpeg" class="media" title="chaser_affect_to_dock.jpg" alt="chaser_affect_to_dock.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> press [F1] or click [STORE]</div>
+</li>
+<li class="level1"><div class="li"> Click the dock to assign this chaser to it</div>
+</li>
+<li class="level1"><div class="li"> Slide the fader up and the chaser will now be outputting to the stage</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="chaser_affcet_to_dock.jpeg" class="media" title="chaser_affcet_to_dock.jpg" alt="chaser_affcet_to_dock.jpg" />
+</p>
+
+<p class="level2">
+When a chaser is assigned to a dock, this dock is selected, and the 3 chaser command buttons appear below the accelerometer: PLAY, SEEK at BEG, LOOP. These commands enable you to operate different chasers with the mouse or by using midi.
+</p>
+
+<p class="level2">
+<img src="chaser_fader_embeded.jpeg" class="media" title="chaser_fader_embeded.jpg" alt="chaser_fader_embeded.jpg" />
+</p>
+
+<p class="level2">
+Embedding a chaser inside a fader allows you to access some commands related to the chaser from the fader:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Play</div>
+</li>
+<li class="level1"><div class="li"> Seek</div>
+</li>
+<li class="level1"><div class="li"> Loop</div>
+</li>
+<li class="level1"><div class="li"> Autolaunch: when fader is pushed up, the chaser is played. When fader is set at 0, the chaser seeks to the beginning, and is stopped.</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "Assign to a Dock" [1473-2616] -->
+<h2 class="sectionedit6"><a name="steps_and_timeline" id="steps_and_timeline">Steps and TimeLine</a></h2>
+
+<p class="level2">
+Each Chaser contains 36 steps.
+</p>
+
+<p class="level2">
+Each Chaser has its own Time Unit corresponding to the duration of a step in the grid: each step may be 1 second, 5 seconds, 0.0001 seconds, 15 seconds, whatever you want, but all steps are of equal length. 
+This is the [TimeUnit]. While this time is the same for all steps of this particular chaser, it may vary from chaser to chaser, as suits your needs.
+</p>
+
+<p class="level2">
+You can activate an operation in each step (Fade In, Stay, Fade Out) of the TimeUnit chosen. 
+</p>
+
+<p class="level2">
+A Chaser is played from the first step to the last step. 
+</p>
+
+<p class="level2">
+Here, in the image, we can see the first step (in orange) being step 3, and the last step (in  red) being step 18.
+</p>
+
+<p class="level2">
+The timeline shows a cursor which represents the current execution position of the chaser in the step grid. 
+</p>
+
+<p class="level2">
+There is only ONE cursor per timeline. 
+</p>
+
+<p class="level2">
+<strong>There is only one speed, for the cursor position for each chaser.</strong>
+</p>
+
+<p class="level2">
+You can move from step to step manually by clicking the grey bar of the Timeline.
+</p>
+
+<p class="level2">
+The beginning step and ending step are adjustable with the mouse.
+</p>
+
+<p class="level2">
+<img src="chaser_timeline.jpeg" class="media" title="chaser_timeline.jpg" alt="chaser_timeline.jpg" />
+</p>
+<!-- EDIT6 SECTION "Steps and TimeLine" [2617-3704] -->
+<h2 class="sectionedit7"><a name="main_commands_of_the_chaser_window" id="main_commands_of_the_chaser_window">Main commands of the chaser window</a></h2>
+
+<p class="level2">
+<img src="chaser_commandes.jpeg" class="media" title="chaser_commandes.jpg" alt="chaser_commandes.jpg" />
+</p>
+
+<p class="level2">
+From left to right:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> PLAY</div>
+</li>
+<li class="level1"><div class="li"> SEEK TO BEGIN STEP (depending on which way the chaser is running: forward or backward) </div>
+</li>
+<li class="level1"><div class="li"> LOOP of the chaser. If loop is set to off, the chaser will be played only once.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Forward running direction</div>
+</li>
+<li class="level1"><div class="li"> Backward running direction</div>
+</li>
+<li class="level1"><div class="li"> Going back and forth </div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> TimeUnit buttons, where times are set in <strong>seconds and tenths of seconds</strong> (syntax .. for minutes is not active)</div>
+</li>
+<li class="level1"><div class="li"> the calculation method for times of the Time Unit: Time Standard or Time Join</div>
+</li>
+<li class="level1"><div class="li"> Slave button, enabling you to enslave the TimeUnit to the accelerometer of the fader in which the chaser is docked, and thus modify the speed that is sent to the stage.</div>
+</li>
+</ul>
+<!-- EDIT7 SECTION "Main commands of the chaser window" [3705-4444] -->
+<h2 class="sectionedit8"><a name="editing_timeunit_and_time_modes" id="editing_timeunit_and_time_modes">Editing TimeUnit and Time Modes</a></h2>
+
+<p class="level2">
+TimeUnit is equal to the time of each step in a chaser.
+</p>
+
+<p class="level2">
+To edit this time:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> set [EDIT] mode to ON</div>
+</li>
+<li class="level1"><div class="li"> type your value in seconds: 1.0 or 5.2 or 0.1 or 40 seconds….</div>
+</li>
+<li class="level1"><div class="li"> click [TimeUnit]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> from version 0.8.2.2 onward: you can assign the tap tempo obtained in the [TIME] window as time unit value. </div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "Editing TimeUnit and Time Modes" [4445-4795] -->
+<h4 class="sectionedit9"><a name="time_modeststd_tjoin" id="time_modeststd_tjoin">Time Modes: T.Std T.Join</a></h4>
+
+<p class="level4">
+This peculiar time calculation is concerned with similar types of operations being or not being continuous.
+</p>
+
+<p class="level4">
+In the chaser module, each step of each track may receive one of the following actions:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Fade In </div>
+</li>
+<li class="level1"><div class="li"> Stay (dwell)</div>
+</li>
+<li class="level1"><div class="li"> Fade Out </div>
+</li>
+</ul>
+
+<p class="level4">
+In the following example, there are 3 contiguous steps assigned to fade in actions, with a TimeUnit of 3 seconds.
+</p>
+
+<p class="level4">
+<img src="chaser_timecase.jpeg" class="media" title="chaser_timecase.jpg" alt="chaser_timecase.jpg" />
+</p>
+
+<p class="level4">
+If you are in the classical (<strong>T.Std</strong>) Time mode, the operation will work as follows:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> fade IN in 3 seconds of the channels stored inside the track</div>
+</li>
+<li class="level1"><div class="li"> cut to zero instantly and again do a fade IN in 3 seconds of those channels</div>
+</li>
+<li class="level1"><div class="li"> cut to zero again instantly and again do a fade IN in 3 seconds of those channels</div>
+</li>
+</ul>
+
+<p class="level4">
+If Time Mode is set to Join (<strong> T.Join</strong>) we have:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> a single fade IN lasting 9 seconds where the channels stored inside the track are brought up</div>
+</li>
+</ul>
+
+<p class="level4">
+<strong>Time Join is calculated only for operations of same type with contiguous timeUnits steps.</strong>
+</p>
+<!-- EDIT9 SECTION "Time Modes: T.Std T.Join" [4796-5772] -->
+<h2 class="sectionedit10"><a name="slave" id="slave">Slave</a></h2>
+
+<p class="level2">
+<img src="chaser_slave.jpeg" class="media" title="chaser_slave.jpg" alt="chaser_slave.jpg" />
+</p>
+
+<p class="level2">
+If [Slave] is engaged, the TimeUnit is assigned to the <strong>acceleromater of the fader to which the chaser was most recently assigned</strong> (this is displayed above the timeline, on the left).
+</p>
+
+<p class="level2">
+When the fader&#039;s accelerometer is completely to left, the time unit is accelerated to its maximum.
+When the fader&#039;s accelerometer is completely to the right, the time unit is at its previously set time, untouched.
+</p>
+
+<p class="level2">
+<strong>This means that you can only speed up a time unit.</strong>
+</p>
+
+<p class="level2">
+<img src="accelerometre.jpeg" class="media" title="accelerometre.jpg" alt="accelerometre.jpg" />
+</p>
+<!-- EDIT10 SECTION "Slave" [5773-6292] -->
+<h2 class="sectionedit11"><a name="on_screen_information" id="on_screen_information">On screen information</a></h2>
+
+<p class="level2">
+At the left of the timeline:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> last fader to which this chaser has been assigned.</div>
+</li>
+<li class="level1"><div class="li"> the current step position of this chaser</div>
+</li>
+<li class="level1"><div class="li"> the progression inside of this step (evolution) expressed from 0.00 to 1.00</div>
+</li>
+<li class="level1"><div class="li"> Speed factor of the TimeUnit as changed by the accelerometer</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="chaser_timeline.jpeg" class="media" title="chaser_timeline.jpg" alt="chaser_timeline.jpg" />
+</p>
+
+<p class="level2">
+For each track you have the TimeJoin feedback, giving you:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> step at the start of the Join</div>
+</li>
+<li class="level1"><div class="li"> step at the end of the Join</div>
+</li>
+<li class="level1"><div class="li"> number of steps remaining for a complete execution of the TimeJoin</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="chaser_timeinfo.jpeg" class="media" title="chaser_timeinfo.jpg" alt="chaser_timeinfo.jpg" />
+</p>
+<!-- EDIT11 SECTION "On screen information" [6293-6850] -->
+<h2 class="sectionedit12"><a name="tracks" id="tracks">Tracks</a></h2>
+
+<p class="level2">
+Each chaser contains 24 tracks. You can assign channels or memories to each track.
+</p>
+
+<p class="level2">
+<strong>Example:</strong>
+</p>
+
+<p class="level2">
+Track 1 will contain channels 25 and 48 at 75% and 54 at Full.
+</p>
+
+<p class="level2">
+Track 2 will contain channels 30 and 31 at 55%.
+</p>
+
+<p class="level2">
+By activating an action on the timeline (Fade In, Stay, Fade Out), you will trigger the lighting of channels assigned to each track, depending of the operation and its progress and proportional brightness of the track.
+</p>
+
+<p class="level2">
+<img src="chaser_tracks.jpeg" class="media" title="chaser_tracks.jpg" alt="chaser_tracks.jpg" />
+</p>
+
+<p class="level2">
+Each track has an ON/OFF: so you can turn off the output of a track.
+</p>
+
+<p class="level2">
+When it is ON, the box is GREEN.
+</p>
+
+<p class="level2">
+<img src="chaser_piste_on.jpeg" class="media" title="chaser_piste_on.jpg" alt="chaser_piste_on.jpg" />
+</p>
+
+<p class="level2">
+You can modify the intensity of the output of each track. The level appears on the right, expressed from 0 to 127.
+You can also send the level of the track in midi to a motorized device (little circle which when activated turns red).
+</p>
+
+<p class="level2">
+<img src="chaser_piste_level.jpeg" class="media" title="chaser_piste_level.jpg" alt="chaser_piste_level.jpg" />
+</p>
+
+<p class="level2">
+MidiMute (local):
+</p>
+
+<p class="level2">
+Version 0.8.2.2 and onward: 
+A second circle (smaller) enables you to mute (turn off) the control assigned to the track, and to manually move your physical fader to match the track level.
+</p>
+
+<p class="level2">
+<img src="chasers_mutelocal.png" class="media" alt="" />
+</p>
+
+<p class="level2">
+The UP and DOWN buttons on the right enable you to navigate up and down through the tracks of a chaser
+</p>
+
+<p class="level2">
+<img src="chaser_track_up_down.jpeg" class="media" title="chaser_track_up_down.jpg" alt="chaser_track_up_down.jpg" />
+</p>
+
+<p class="level2">
+To edit a track, [EDIT] must be set to ON.
+</p>
+<!-- EDIT12 SECTION "Tracks" [6851-8131] -->
+<h2 class="sectionedit13"><a name="manipulating_tracks" id="manipulating_tracks">Manipulating tracks</a></h2>
+<!-- EDIT13 SECTION "Manipulating tracks" [8132-8162] -->
+<h3 class="sectionedit14"><a name="recording_channels_in_a_track" id="recording_channels_in_a_track">Recording channels in a track</a></h3>
+
+<p class="level3">
+You can record one or more channels to a track, at different levels:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> construct your lighting state on stage </div>
+</li>
+<li class="level1"><div class="li"> verify that the feedback string is cleared by pressing ESC (please don&#039;t enter a number or you will assign a memory)</div>
+</li>
+<li class="level1"><div class="li"> press [F1] or click [STORE]</div>
+</li>
+<li class="level1"><div class="li"> click the track number box to assign to</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ul>
+<!-- EDIT14 SECTION "Recording channels in a track" [8163-8525] -->
+<h3 class="sectionedit15"><a name="assigning_a_memory_to_a_track" id="assigning_a_memory_to_a_track">Assigning a memory to a track</a></h3>
+
+<p class="level3">
+You can link a memory to a track. The memory will automatically update if you later modify the cue.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> type the number of the memory</div>
+</li>
+<li class="level1"><div class="li"> press [F1] or click [STORE]</div>
+</li>
+<li class="level1"><div class="li"> click the box of the track that you want to assign to</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ul>
+<!-- EDIT15 SECTION "Assigning a memory to a track" [8526-8802] -->
+<h3 class="sectionedit16"><a name="giving_a_description_to_a_track" id="giving_a_description_to_a_track">Giving a description to a track</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> press [F5] or click [NAME] </div>
+</li>
+<li class="level1"><div class="li"> type the description</div>
+</li>
+<li class="level1"><div class="li"> click the name area of the track to assign to</div>
+</li>
+</ul>
+<!-- EDIT16 SECTION "Giving a description to a track" [8803-8951] -->
+<h3 class="sectionedit17"><a name="clear_a_track" id="clear_a_track">Clear a track</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> press [F5] or click [CLEAR] </div>
+</li>
+<li class="level1"><div class="li"> click the track number that you want to clear</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ul>
+<!-- EDIT17 SECTION "Clear a track" [8952-9070] -->
+<h3 class="sectionedit18"><a name="inspection_of_the_content_of_a_track" id="inspection_of_the_content_of_a_track">Inspection of the content of a track</a></h3>
+
+<p class="level3">
+To find out what is inside a track:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click [VIEW]</div>
+</li>
+<li class="level1"><div class="li"> roll the mouse over the track button</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="view.jpeg" class="media" title="view.jpg" alt="view.jpg" />
+</p>
+
+<p class="level3">
+Channels will be outlined in green, with their levels displayed in Channel space.
+</p>
+
+<p class="level3">
+<img src="inspekt_chaser.jpeg" class="media" title="inspekt_chaser.jpg" alt="inspekt_chaser.jpg" />
+</p>
+<!-- EDIT18 SECTION "Inspection of the content of a track" [9071-9333] -->
+<h3 class="sectionedit19"><a name="manipulation_of_tracks_on_off" id="manipulation_of_tracks_on_off">Manipulation of tracks ON/OFF</a></h3>
+<!-- EDIT19 SECTION "Manipulation of tracks ON/OFF" [9334-9373] -->
+<h4 class="sectionedit20"><a name="all_inv_off" id="all_inv_off">ALL, INV, OFF</a></h4>
+
+<p class="level4">
+You can toggle the ON/OFF state of all tracks
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> ALL sets all tracks to ON </div>
+</li>
+<li class="level1"><div class="li"> INVersion of ON/OFF for all the tracks</div>
+</li>
+<li class="level1"><div class="li"> OFF sets all tracks to OFF</div>
+</li>
+</ul>
+<!-- EDIT20 SECTION "ALL, INV, OFF" [9374-9548] -->
+<h4 class="sectionedit21"><a name="on_off_tracks_presets" id="on_off_tracks_presets">ON/OFF Tracks presets</a></h4>
+
+<p class="level4">
+You can record 4 presets of the 24 tracks ON/OFF states : 
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Set the various tracks to ON</div>
+</li>
+<li class="level1"><div class="li"> Click [STORE] or press [F1]</div>
+</li>
+<li class="level1"><div class="li"> Click on of the 4 preset buttons([P1] [P2] [P3] [P4]) </div>
+</li>
+</ul>
+
+<p class="level4">
+To recall a selection set recorded in one of the 4 presets, click the preset button.
+</p>
+
+<p class="level4">
+To clear the Tracks preset:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Click [CLEAR] or press [F4]</div>
+</li>
+<li class="level1"><div class="li"> Click the preset ([P1] [P2] [P3] [P4]4) you are interested in.</div>
+</li>
+</ul>
+<!-- EDIT21 SECTION "ON/OFF Tracks presets" [9549-9982] -->
+<h2 class="sectionedit22"><a name="assignment_of_actions_in_a_track" id="assignment_of_actions_in_a_track">Assignment of actions in a track</a></h2>
+
+<p class="level2">
+You must be in [EDIT] mode.
+</p>
+
+<p class="level2">
+Select one of the 4 operations possible:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> nothing (black-out, gray color)</div>
+</li>
+<li class="level1"><div class="li"> Fade In (orange color)</div>
+</li>
+<li class="level1"><div class="li"> Stay (dwell, green color)</div>
+</li>
+<li class="level1"><div class="li"> Fade Out ( red color)</div>
+</li>
+</ul>
+
+<p class="level2">
+Then click on the step you want to assign it to.
+</p>
+
+<p class="level2">
+If you click a step containing the same operator, you will turn it gray (black-out).
+</p>
+
+<p class="level2">
+<img src="chaser_grille.jpeg" class="media" title="chaser_grille.jpg" alt="chaser_grille.jpg" />
+</p>
+<!-- EDIT22 SECTION "Assignment of actions in a track" [9983-10376] -->
+<h4 class="sectionedit23"><a name="concrete_example" id="concrete_example">Concrete example</a></h4>
+
+<p class="level4">
+<img src="chaser_piste1.jpeg" class="media" title="chaser_piste1.jpg" alt="chaser_piste1.jpg" />
+</p>
+
+<p class="level4">
+This track contains channel 1 at 50% and 2 at 80%.
+The time Unit is 3 seconds. 
+</p>
+
+<p class="level4">
+The chaser will work as follows between step 3 and step 18 in TimeStandard:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> Step 3 and 7: channels 1 and 2 switch on, stay on for 3 seconds and switch off with a 9 sec wait between steps 3 &amp; 7 where they switch on again, stay for 3 seconds and switch off for 3 seconds (step 8)</div>
+</li>
+<li class="level1"><div class="li"> Step 9: ch 1 and 2 fade in over the course of 3 seconds from 0 to their completed state (1 at 50% and 2 at 80%) </div>
+</li>
+<li class="level1"><div class="li"> Step  10: holds ch 1 and 2 at that level for 3 secs (dwell time is 3)</div>
+</li>
+<li class="level1"><div class="li"> Step  11 to 13: ch 1 and 2 which are already switched on, immediately start fading out over the course of 3 seconds, and then they switch back on and fade out over 3 secs and they do this once more for a total of 3 times. There is then a 6 sec wait (steps 14 &amp; 15).</div>
+</li>
+<li class="level1"><div class="li"> Step  16 to 18: ch 1 and 2 fade in from 0 to their completed state in 3 seconds and then switch off, they do this a total of 3 times</div>
+</li>
+</ol>
+
+<p class="level4">
+In TimeJoin mode:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> Step 3 and 7: ch 1 and 2 work as before having an in-time of 0, a dwell time of 3 and an out-time of 0 with a 9 sec wait between steps 3 and 7</div>
+</li>
+<li class="level1"><div class="li"> Step 9: ch 1 and 2 fade in as before over the course of 3 seconds</div>
+</li>
+<li class="level1"><div class="li"> Step  10: holds ch 1 and 2 for 3 seconds at their high level as before</div>
+</li>
+<li class="level1"><div class="li"> Step  11 to 13: (<strong>new</strong>) ch 1 and 2 fade out from their full state (1 at 50% and 2 at 80%) to zero in 9 seconds</div>
+</li>
+<li class="level1"><div class="li"> Step  16 to 18: (<strong>new</strong>) ch 1 and 2 fade in from 0 to their full state in 9 seconds</div>
+</li>
+</ol>
+
+<p class="level4">
+<strong>Subtlety: If you want 1 and 2 to not fade all the way to zero, you need to record their low state into another track as a STAY operation (Green color).
+</strong>
+</p>
+<!-- EDIT23 SECTION "Concrete example" [10377-12062] -->
+<h2 class="sectionedit24"><a name="midi_assignment" id="midi_assignment">Midi Assignment</a></h2>
+
+<p class="level2">
+Almost <strong>all</strong> chaser commands are assignable in midi:
+On/Off, levels, commands, steps, etc….
+See <a href="tableau_affectation_midi_eng.html" class="wikilink1" title="tableau_affectation_midi_eng">Chart of Midi Assignments</a>.
+If you are not familiar with midi, please read this page: <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng">Midi Configuration and Midi Assignments</a>.
+</p>
+
+<p class="level2">
+If you want to activate steps on the fly, you can do it with the launchpad grid. 
+</p>
+
+<p class="level2">
+You first need to activate Launchpad mode to display the grid inside the Chaser window. 
+</p>
+
+<p class="level2">
+<img src="chaser_launchpad.jpeg" class="media" title="chaser_launchpad.jpg" alt="chaser_launchpad.jpg" />
+</p>
+
+<p class="level2">
+This grid may have up to 8 x 8 buttons.
+</p>
+
+<p class="level2">
+You can define how many lines it has (8 x1, 8 x2, 8&times;5 etc…) in [CFG MENU] &gt; MIDI &gt; Options.
+</p>
+<!-- EDIT24 SECTION "Midi Assignment" [12063-12727] -->
+<h2 class="sectionedit25"><a name="launchpad" id="launchpad">LaunchPad</a></h2>
+
+<p class="level2">
+Launchpad is a midi device with an 8&times;8 backlit matrix and 16 additional backlit buttons. These buttons are triggers that send only ON/OFF messages (no velocity is sent).
+</p>
+
+<p class="level2">
+<img src="mini_launchpad.jpeg" class="media" title="mini_launchpad.jpg" alt="mini_launchpad.jpg" />
+</p>
+
+<p class="level2">
+This matrix is backlit by LEDs.
+There is a two-way communication so that when you press the buttons, an on/off state is sent to White Cat and White Cat sends back a signal that highlights the buttons in a color when they are on and removes the highlighting when they are off.
+</p>
+
+<p class="level2">
+For this Go-Go back option to work, you need to send out midi to the launchpad: [MENU CFG] &gt; MIDI &gt; MIDI DEVICES  and you need also to activate Launchpad back lighting in  &gt; MIDI OPTIONS.
+</p>
+
+<p class="level2">
+If you wish to use this feature with other non-lit devices (like the BCF2000 or UC-33), it is possible and it works.
+</p>
+<!-- EDIT25 SECTION "LaunchPad" [12728-13528] -->
+<h3 class="sectionedit26"><a name="engage_launchpad_mode" id="engage_launchpad_mode">Engage Launchpad mode</a></h3>
+
+<p class="level3">
+Click [Launchpad]:
+<img src="chaser_launchpad.jpeg" class="media" title="chaser_launchpad.jpg" alt="chaser_launchpad.jpg" />
+</p>
+
+<p class="level3">
+The 8&times;8 matrix will show up. 
+</p>
+
+<p class="level3">
+<img src="chaser_launchpad_grid.jpeg" class="media" title="chaser_launchpad_grid.jpg" alt="chaser_launchpad_grid.jpg" />
+</p>
+
+<p class="level3">
+Number of rows is set in  [MENU CFG] &gt; MIDI &gt; OPTIONS.
+</p>
+
+<p class="level3">
+<img src="chaser_launchpad_cfg.jpeg" class="media" title="chaser_launchpad_cfg.jpg" alt="chaser_launchpad_cfg.jpg" />
+</p>
+
+<p class="level3">
+You can move this matrix with the arrows near [Launchpad]. Those arrows are also assignable in midi.
+</p>
+
+<p class="level3">
+With back lighting, the cursor position is only displayed on the first ROW, and in yellow.
+</p>
+
+<p class="level3">
+Color information is sent to the LEDs, enabling you to work on the fly with the Launchpad, without having to look at your computer screen.
+</p>
+<!-- EDIT26 SECTION "Engage Launchpad mode" [13529-14091] -->
+<h2 class="sectionedit27"><a name="options_of_the_chaser_window" id="options_of_the_chaser_window">Options of the chaser window</a></h2>
+
+<p class="level2">
+To summarize this important information:
+</p>
+
+<p class="level2">
+Number of tracks shown is editable in [CFG-MENU]&gt; General.
+</p>
+
+<p class="level2">
+<img src="chaser_cfg.jpeg" class="media" title="chaser_cfg.jpg" alt="chaser_cfg.jpg" />
+</p>
+
+<p class="level2">
+TimeUnit may be set to a decimal value enabling you to set a value with up to 4 decimal place precision. By default, TimeUnit is set to 1 digit after the point. You may want to use 4 digits to have the shortest time for your chasers.
+</p>
+
+<p class="level2">
+Concerning Launchpad:
+</p>
+
+<p class="level2">
+You can define the number of Rows controlled in the chaser in [CFG MENU] &gt; MIDI &gt; OPTIONS
+</p>
+
+<p class="level2">
+<img src="chaser_launchpad_cfg.jpeg" class="media" title="chaser_launchpad_cfg.jpg" alt="chaser_launchpad_cfg.jpg" />
+</p>
+<!-- EDIT27 SECTION "Options of the chaser window" [14092-] --></div>
+</body>
+</html>

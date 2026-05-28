@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>num-pad_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-08-24T00:47:38+0200"/>
+<meta name="keywords" content="num-pad_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="num-pad_eng.html"/>
+<link rel="contents" href="num-pad_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="num-pad_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="num-pad_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=num-pad_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"num-pad_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#access_to_num-pad">Access to Num-Pad</a></div></li>
+<li class="level1"><div class="li"><a href="#using_the_num-pad">Using the Num-Pad</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#virtual_numerical_keyboard">Virtual Numerical keyboard</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#midi_assignment">Midi Assignment</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#level_wheel">Level Wheel</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#absolute_mode_for_an_encoder_like_on_the_uc-33_and_others_with_physical_stop_points_left_and_right">Absolute mode for an encoder like  on the UC-33 and others, with physical stop points left and right</a></div></li>
+<li class="level4"><div class="li"><a href="#relative_mode_for_rotaries_of_the_bcf_bcr_and_others_that_are_endless_rotary_encoders">Relative mode for rotaries of the BCF/BCR and others that are endless rotary encoders</a></div></li>
+<li class="level4"><div class="li"><a href="#midi_assignment_to_the_level_wheel">MIDI assignment to the level wheel</a></div></li>
+<li class="level4"><div class="li"><a href="#midiout">MidiOut</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="access_to_num-pad" id="access_to_num-pad">Access to Num-Pad</a></h1>
+
+<p class="level1">
+To access the Num-Pad:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> mouse: click [Num-Pad]</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="click_numpad.jpeg" class="media" title="click_numpad.jpg" alt="click_numpad.jpg" />
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> keyboard: press [P]</div>
+</li>
+</ul>
+<!-- EDIT1 SECTION "Access to Num-Pad" [1-137] -->
+<h1 class="sectionedit2"><a name="using_the_num-pad" id="using_the_num-pad">Using the Num-Pad</a></h1>
+<!-- EDIT2 SECTION "Using the Num-Pad" [138-171] -->
+<h2 class="sectionedit3"><a name="virtual_numerical_keyboard" id="virtual_numerical_keyboard">Virtual Numerical keyboard</a></h2>
+
+<p class="level2">
+Num-Pad is designed to set channel levels with a touch screen  or with a mouse.
+For the most part it replicates the numeric keypad on the keyboard.
+</p>
+
+<p class="level2">
+<img src="num-pad2.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> [UP] and [DOWN] perform the same function as the mouse wheel, or level + and level -, changing the levels in 1% increments in percent mode, or 1 dmx step in 255 mode.</div>
+</li>
+<li class="level1"><div class="li"> [AT] is equivalent to [ENTER]</div>
+</li>
+<li class="level1"><div class="li"> [+] and [-] adds or subtracts a channel from the selection set. </div>
+</li>
+<li class="level1"><div class="li"> [.] enables you to create point cues (1.5 100.9 etc) or times (see<a href="time_eng.html" class="wikilink1" title="Time_eng">Time window</a>)</div>
+</li>
+<li class="level1"><div class="li"> [ALL] selects all lighting channels, equivalent to pressing [Y]. </div>
+</li>
+<li class="level1"><div class="li"> [INV] selects all lighting channels not selected, equivalent to pressing [U].</div>
+</li>
+<li class="level1"><div class="li"> [TO] enables you to call a series of channels, equivalent to pressing [tab].  Select the first channel, then click [TO] on the <span class="curid"><a href="num-pad_eng.html" class="wikilink1" title="Num-Pad_eng">Num-Pad</a></span>. [TO] will be highlighted.  Now select the last channel of the selection. </div>
+</li>
+<li class="level1"><div class="li"> [COPY] copies all levels from the selected channels, equal to [Cntl-C]  </div>
+</li>
+<li class="level1"><div class="li"> [PASTE] pastes the previously copied channels, equal to [Cntl-V]</div>
+</li>
+</ul>
+
+<p class="level2">
+For further details about selecting a channel, see <a href="espace_circuits_eng.html" class="wikilink1" title="Espace circuits_eng">Channel space</a>
+</p>
+
+<p class="level2">
+The selection set created in the Num-Pad appears in the feedback area of the screen.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="retour_circuits.jpeg" class="mediacenter" title="retour_circuits.jpg" alt="retour_circuits.jpg" /></div>
+</p>
+<!-- EDIT3 SECTION "Virtual Numerical keyboard" [172-1483] -->
+<h3 class="sectionedit4"><a name="midi_assignment" id="midi_assignment">Midi Assignment</a></h3>
+
+<p class="level3">
+Certain midi devices have numeric keys that send midi, such as the Evolution UC-33.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="touches_uc33.jpeg" class="mediacenter" title="touches_uc33.jpg" alt="touches_uc33.jpg" /></div>
+</p>
+
+<p class="level3">
+NumPad is completely assignable in midi. 
+</p>
+
+<p class="level3">
+<img src="numpad_midi_affect.jpeg" class="media" title="numpad_midi_affect.jpg" alt="numpad_midi_affect.jpg" />
+</p>
+
+<p class="level3">
+See <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng"> Midi Configuration and Midi Assignment</a>.
+</p>
+<!-- EDIT4 SECTION "Midi Assignment" [1484-1774] -->
+<h2 class="sectionedit5"><a name="level_wheel" id="level_wheel">Level Wheel</a></h2>
+
+<p class="level2">
+<img src="numpad_wheelrelatif.jpeg" class="media" title="numpad_wheelrelatif.jpg" alt="numpad_wheelrelatif.jpg" />
+</p>
+
+<p class="level2">
+<strong>This wheel is specially created for midi devices, especially those with rotary encoders, like on a BCF or a UC-33. </strong>
+</p>
+
+<p class="level2">
+This wheel sets the channel levels for selected channels both in stage and in Blind. 
+</p>
+
+<p class="level2">
+It has two modes:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> mode [A] for an Absolute level</div>
+</li>
+<li class="level1"><div class="li"> mode [R] for a Relative level</div>
+</li>
+</ul>
+
+<p class="level2">
+To select which mode the wheel is to be set to is done by clicking the wheel mode box, which toggles between [A] and [R].
+</p>
+
+<p class="level2">
+Eventually you will be able to use this wheel with the mouse, but only in Absolute mode. 
+</p>
+<!-- EDIT5 SECTION "Level Wheel" [1775-2338] -->
+<h4 class="sectionedit6"><a name="absolute_mode_for_an_encoder_like_on_the_uc-33_and_others_with_physical_stop_points_left_and_right" id="absolute_mode_for_an_encoder_like_on_the_uc-33_and_others_with_physical_stop_points_left_and_right">Absolute mode for an encoder like  on the UC-33 and others, with physical stop points left and right</a></h4>
+
+<p class="level4">
+A slider, or a rotary knob has by default a start point, and an end point: minimum and maximum. 
+In midi, 0 and 127. This limitation is <strong>physical</strong> for absolute controls. 
+</p>
+
+<p class="level4">
+<img src="numpad_encodeurabsolute.jpeg" class="media" title="numpad_encodeurabsolute.jpg" alt="numpad_encodeurabsolute.jpg" />
+</p>
+
+<p class="level4">
+If your midi device has fixed stop sliders or rotaries, you can only work in Absolute mode.
+</p>
+
+<p class="level4">
+<strong>Channels selected will receive the level of the midi controller converted to a percent.</strong>
+</p>
+
+<p class="level4">
+This level will replace the previous level of the channel(s).
+</p>
+
+<p class="level4">
+Manually set a channel at 70% and by slightly touching your control you will transfer its level directly to the channel.
+</p>
+
+<p class="level4">
+Here the channels are set at 92/100 (118/127 converted to a percent):
+</p>
+
+<p class="level4">
+<img src="numpad_wheelabsolute.jpeg" class="media" title="numpad_wheelabsolute.jpg" alt="numpad_wheelabsolute.jpg" />
+</p>
+<!-- EDIT6 SECTION "Absolute mode for an encoder like  on the UC-33 and others, with physical stop points left and right" [2339-3130] -->
+<h4 class="sectionedit7"><a name="relative_mode_for_rotaries_of_the_bcf_bcr_and_others_that_are_endless_rotary_encoders" id="relative_mode_for_rotaries_of_the_bcf_bcr_and_others_that_are_endless_rotary_encoders">Relative mode for rotaries of the BCF/BCR and others that are endless rotary encoders</a></h4>
+
+<p class="level4">
+Certain devices have these endless controls.
+</p>
+
+<p class="level4">
+<img src="numpad_encodeurrelatif.jpeg" class="media" title="numpad_encodeurrelatif.jpg" alt="numpad_encodeurrelatif.jpg" />
+</p>
+
+<p class="level4">
+They deliver a signal that can be set inside of the midi device
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> in absolute mode: fading is done from 0 to 127 </div>
+</li>
+<li class="level1"><div class="li"> in relative mode: each turn to the left will send alternatively 127 then 126, and each turn to the right 1 then 2 value. </div>
+</li>
+</ul>
+
+<p class="level4">
+This happens instantly without fading.
+</p>
+
+<p class="level4">
+To program a BCF2000 rotary in Relative mode ( <strong>manipulations inside the Behringer device</strong> ) :
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Make sure [EDIT] is held down and move the rotary that you want to edit</div>
+</li>
+<li class="level1"><div class="li"> the screen will show the number of the encoder (E1 if it is the first one)</div>
+</li>
+<li class="level1"><div class="li"> release the [EDIT] button</div>
+</li>
+<li class="level1"><div class="li"> move the rotary controlling [MODE] and choose [REL1]</div>
+</li>
+<li class="level1"><div class="li"> Be sure not to adjust other rotaries because in edit mode they are all accessible to change.</div>
+</li>
+<li class="level1"><div class="li"> Push [EDIT] again to get out of the editing mode.</div>
+</li>
+<li class="level1"><div class="li"> Finally, if your edit is functioning, push [STORE] two times to record inside the Behrinhger.</div>
+</li>
+</ul>
+
+<p class="level4">
+In White Cat, set the level wheel to relative mode: 
+</p>
+
+<p class="level4">
+<strong>Each channel selected will decrease or increase from one step, receiving the relative pulse. Relative mode produces the same effect as using the [UP] and [DOWN] arrow keys</strong>
+</p>
+
+<p class="level4">
+Selecting a channel and setting it at 11% and then moving the rotary to the left will decrease the selected channels in 1% increments:
+</p>
+
+<p class="level4">
+<img src="numpad_wheelrelatif.jpeg" class="media" title="numpad_wheelrelatif.jpg" alt="numpad_wheelrelatif.jpg" />
+</p>
+<!-- EDIT7 SECTION "Relative mode for rotaries of the BCF/BCR and others that are endless rotary encoders" [3131-4579] -->
+<h4 class="sectionedit8"><a name="midi_assignment_to_the_level_wheel" id="midi_assignment_to_the_level_wheel">MIDI assignment to the level wheel</a></h4>
+
+<p class="level4">
+To assign a midi signal to the level wheel:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> select [MIDI CFG] tab inside [MENU CFG]</div>
+</li>
+<li class="level1"><div class="li"> check you are receiving a signal from your device</div>
+</li>
+<li class="level1"><div class="li"> check Solo in [Midi Affectations]</div>
+</li>
+<li class="level1"><div class="li"> move the rotary you are planning to use</div>
+</li>
+<li class="level1"><div class="li"> click level wheel in White Cat (when the mouse is over it, it should be outlined in red)</div>
+</li>
+<li class="level1"><div class="li"> close the [MIDI CFG] </div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="numpad_wheelmidi.jpeg" class="media" title="numpad_wheelmidi.jpg" alt="numpad_wheelmidi.jpg" />
+</p>
+<!-- EDIT8 SECTION "MIDI assignment to the level wheel" [4580-4993] -->
+<h4 class="sectionedit9"><a name="midiout" id="midiout">MidiOut</a></h4>
+
+<p class="level4">
+This small circle enables you to send the level of the wheel to the Midi Out port.
+</p>
+
+<p class="level4">
+<img src="numpad_wheel_midiout.jpeg" class="media" title="numpad_wheel_midiout.jpg" alt="numpad_wheel_midiout.jpg" />
+</p>
+
+<p class="level4">
+See <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng">Midi Configuration and Midi Assignments</a>.
+</p>
+<!-- EDIT9 SECTION "MidiOut" [4994-] --></div>
+</body>
+</html>

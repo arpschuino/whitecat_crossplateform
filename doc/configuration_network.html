@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>configuration_network</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2013-07-06T15:50:26+0200"/>
+<meta name="keywords" content="configuration_network"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="configuration_network.html"/>
+<link rel="contents" href="configuration_network.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="configuration_network.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="configuration_network.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_network"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"configuration_network","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#configuration_du_net-work">Configuration du Net-Work</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#ip_routing">IP ROUTING</a></div></li>
+<li class="level2"><div class="li"><a href="#art-net">Art-Net</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#ports_udp">Ports UDP</a></div></li>
+<li class="level4"><div class="li"><a href="#affectation_a_un_dock_de_l_artnet_in">Affectation à un dock de l&#039;ArtNet In</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#fantastick_icat_builder">Fantastick iCat Builder</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="configuration_du_net-work" id="configuration_du_net-work">Configuration du Net-Work</a></h1>
+
+<p class="level1">
+<img src="network_cfg.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+Version 0.8.3:
+</p>
+
+<p class="level1">
+Un certain nombres d&#039;améliorations significatives ont été apportées à la configuration réseaux.
+</p>
+
+<p class="level1">
+<strong>N&#039;oubliez pas de clicker [SAVE] de façon à enregistrer les paramètres réseaux.</strong>
+</p>
+<!-- EDIT1 SECTION "Configuration du Net-Work" [1-274] -->
+<h2 class="sectionedit2"><a name="ip_routing" id="ip_routing">IP ROUTING</a></h2>
+
+<p class="level2">
+Cette liste permet de voir quels sont les adaptateurs connectés à un réseau.
+</p>
+
+<p class="level2">
+En face de chaque adresse vous pouvez signifier à WhiteCat que cette adresse sert:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> pour la réception art-net</div>
+</li>
+<li class="level1"><div class="li"> pour l&#039;émission art-net</div>
+</li>
+<li class="level1"><div class="li"> pour la communication avec iCat</div>
+</li>
+</ul>
+
+<p class="level2">
+Vous pouvez avoir ces trois types de communication sur des cartes séparées, ou sur la même carte.
+</p>
+<!-- EDIT2 SECTION "IP ROUTING" [275-667] -->
+<h2 class="sectionedit3"><a name="art-net" id="art-net">Art-Net</a></h2>
+
+<p class="level2">
+Attention:
+</p>
+
+<p class="level2">
+Lorsque vous spécifiez dans la configuration DMX une adresse IP, il faut que celle  - ci soit présente sur les cartes réseau de votre machine.
+L&#039;onglet de configuration DMX ne concerne que l&#039;adresse vers laquelle envoyer les données. Elle ne définit pas par quelle carte ces données vont être envoyées. Ce qui est l&#039;IP routing.
+</p>
+
+<p class="level2">
+Vous pouvez vous brancher / débrancher à la volée sur la carte réseau de votre choix ( wifi / RJ45 / adaptateurs PCMCIA-RJ45).
+</p>
+
+<p class="level2">
+Lorsque vous vous connectez à un adaptateur réseau par ce menu, vous pouvez donc recevoir un signal art-net sur depuis cete carte et cette famille IP. 
+</p>
+
+<p class="level2">
+Pour que l&#039;émission art-net fonctionne, il faut donc que l&#039;envoi défini dans la configuration artnet ( DMX CFG ) vers la famille IP ( 192.168.1.50 par ex) soit de la même famille ( 192.168.1.X ).
+</p>
+<!-- EDIT3 SECTION "Art-Net" [668-1525] -->
+<h4 class="sectionedit4"><a name="ports_udp" id="ports_udp">Ports UDP</a></h4>
+
+<p class="level4">
+Par défaut le port UDP Art-Net est le port 6454. 
+Les interfaces DMX et la plus part des logiciels transmettent ou reçoivent leurs infos sur ce port. 
+Par exemple si le port OUT de WhiteCat n&#039;est pas 6454 la ENTTEC ODE ne recevra rien car elle écoute le port spécifié par le protocole art-net (6454).
+</p>
+
+<p class="level4">
+Ce qu&#039;il faut bien comprendre, c&#039;est que sur une machine,<strong> une seule application</strong> peut se brancher sur un port UDP IN, et une seule application peut se brancher sur un port UDP OUT.
+</p>
+
+<p class="level4">
+La main est prise par ces applications. Comme pour un port USB: si vous branchez votre interface dmx, que vous l&#039;utilisez avec WhiteCat, et que vous lancez Schwarztpeter, çà ne peut pas fonctionner. WhiteCat a la main dessus.<strong> Un port IN &gt; une application, un port OUT &gt; une application.
+</strong>
+</p>
+
+<p class="level4">
+Si vous ouvrez un logiciel comme VVVV  avec un node DMX(arnet receiver), puis que vous ouvrez WhiteCat avec le mode serveur enclenché ( réception Art-Net ON), le node de VVVV va disparaitre car WhiteCat prend la main sur le port UDP IN.
+</p>
+
+<p class="level4">
+Cette problématique des ports a été par exemple réglée sur les logiciels CHAMSYS et MagicQ, où l&#039;on peut spécifier sur quel port émettre et sur quel port recevoir, permettant la cohabitation de plusieurs applications art-net sur la même machine. 
+</p>
+<!-- EDIT4 SECTION "Ports UDP" [1526-2830] -->
+<h4 class="sectionedit5"><a name="affectation_a_un_dock_de_l_artnet_in" id="affectation_a_un_dock_de_l_artnet_in">Affectation à un dock de l&#039;ArtNet In</a></h4>
+
+<p class="level4">
+Vous pouvez recevoir jusqu&#039;à 4 univers Art-Net dans White Cat.
+</p>
+
+<p class="level4">
+Ce choix se fait dans les 16 univers du sub 0.
+</p>
+
+<p class="level4">
+Pour affecter un univers Art-Net à un dock:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> taper l&#039;univers ( 0 à 15 )</div>
+</li>
+<li class="level1"><div class="li"> enclencher [Affect to dock]</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock auquel affecter ce contenu dynamique</div>
+</li>
+</ol>
+<ol class="level4">
+<li class="level1"><div class="li"> mettre Art-Net IN en ON. Celà ouvrira le serveur Art-Net sur le port spécifié</div>
+</li>
+</ol>
+
+<p class="level4">
+Quand vous quittez WhiteCat, ce dernier energistre si vous avez enclenché ou pas le serveur, de façon à rappeler son ouverture au démarrage.
+</p>
+<!-- EDIT5 SECTION "Affectation à un dock de l'ArtNet In" [2831-3390] -->
+<h2 class="sectionedit6"><a name="fantastick_icat_builder" id="fantastick_icat_builder">Fantastick iCat Builder</a></h2>
+
+<p class="level2">
+Télécommande iPhone/iPad: vous allez définir ici vers quelle adresse émettre les données vers fantastick, ainsi que les ports UDP à utiliser.
+</p>
+
+<p class="level2">
+Voir: <a href="icat.html" class="wikilink1" title="iCat">Fantastick-iCat</a>
+</p>
+<!-- EDIT6 SECTION "Fantastick iCat Builder" [3391-] --></div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>record_real_time</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-05T15:19:42+0200"/>
+<meta name="keywords" content="record_real_time"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="record_real_time.html"/>
+<link rel="contents" href="record_real_time.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="record_real_time.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="record_real_time.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=record_real_time"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"record_real_time","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#enregistrer_en_temps_reel_vos_manips_en_manuel">Enregistrer en Temps Réel vos manips en manuel</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#principe_de_basel_echantillonnage">Principe de base: l&#039;échantillonnage</a></div></li>
+<li class="level2"><div class="li"><a href="#pas_a_pas">Pas à pas</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#le_banger_d_enregistrement">Le Banger d&#039;enregistrement</a></div></li>
+<li class="level3"><div class="li"><a href="#le_banger_d_arret_d_enregistrement">Le Banger d&#039;arrêt d&#039;enregistrement</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#le_resultat_pour_un_fader">Le résultat pour un Fader</a></div></li>
+<li class="level2"><div class="li"><a href="#aquerir_un_groupe_de_faders">Aquérir un groupe de Faders</a></div></li>
+<li class="level2"><div class="li"><a href="#restitution_de_l_enregistrement">Restitution de l&#039;enregistrement</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="enregistrer_en_temps_reel_vos_manips_en_manuel" id="enregistrer_en_temps_reel_vos_manips_en_manuel">Enregistrer en Temps Réel vos manips en manuel</a></h1>
+
+<p class="level1">
+C&#039;est en donnant une formation à GroupLaps, que je me suis rendu comte que l&#039;on pouvait enregistrer en temps réel toutes les manipulations des faders ou issues des faders, sans avoir besoin d&#039;écrire un module complémentaire. 
+</p>
+
+<p class="level1">
+On peut donc enregistrer ses tracés à main levée avec <a href="draw.html" class="wikilink1" title="Draw">Draw</a>, ou bien les manips avec les masters, la roue de trichromie,le tracking vidéo, etc etc… ce de manière assez rapide et efficace.
+</p>
+
+<p class="level1">
+Pour y arriver, il faut utiliser  les <a href="banger.html" class="wikilink1" title="Banger">Bangers</a> et les <a href="grid.html" class="wikilink1" title="Grid">GridPlayers</a>.
+</p>
+
+<p class="level1">
+Attention, pour les débutants ce How-To pourra paraître un peu complexe, car il fait appel à des fonctionnalités très particulières dans whitecat.
+</p>
+<!-- EDIT1 SECTION "Enregistrer en Temps Réel vos manips en manuel" [1-739] -->
+<h2 class="sectionedit2"><a name="principe_de_basel_echantillonnage" id="principe_de_basel_echantillonnage">Principe de base: l&#039;échantillonnage</a></h2>
+
+<p class="level2">
+Grâce à <a href="banger.html" class="wikilink1" title="Banger">Banger</a>, <strong>on peut récupérer l&#039;état d&#039;un fader et le copier dans un GridPlayer par la fonction SnapFader.</strong>
+</p>
+
+<p class="level2">
+SnapFader nous prendra le niveau issu d&#039;un Fader, quelque soit son contenu ( circuits, mémoire, roue de tricho, gridplayer, ou même un Fader Group qui lui pourra nous servir à récupérer plusieurs Faders si besoin).
+</p>
+
+<p class="level2">
+Grâce à <a href="banger.html" class="wikilink1" title="Banger">Banger</a>, on peut aussi avancer d&#039;un pas de GridPlayer.
+</p>
+
+<p class="level2">
+Il s&#039;agit donc de déclencher Banger de manière répétée en continu, sur un tempo assez rapide.
+</p>
+
+<p class="level2">
+Pour ce, on passera par une macro de circuit qui déclenchera notre banger à une certaine vitesse.
+On utilisera le Gridplayer à la même vitesse pour lire notre manipulation ainsi échantillonnée.
+</p>
+<!-- EDIT2 SECTION "Principe de base: l'échantillonnage" [740-1519] -->
+<h2 class="sectionedit3"><a name="pas_a_pas" id="pas_a_pas">Pas à pas</a></h2>
+
+<p class="level2">
+Nous allons utiliser la fonction LOOP du Banger, qui a été créée pour cette fonction.
+</p>
+
+<p class="level2">
+Nous avons besoin  de deux bangers: 
+</p>
+
+<p class="level2">
+- un bouton de déclenchement de l&#039;échantillonnage
+</p>
+
+<p class="level2">
+- un bouton d&#039;arrêt de l&#039;échantillonage
+</p>
+
+<p class="level2">
+<strong>Il s&#039;agit donc de deux bangers, que nous pourrons déclencher en midi ou à la souris.</strong>
+</p>
+<!-- EDIT3 SECTION "Pas à pas" [1520-1861] -->
+<h3 class="sectionedit4"><a name="le_banger_d_enregistrement" id="le_banger_d_enregistrement">Le Banger d&#039;enregistrement</a></h3>
+
+<p class="level3">
+A chaque Bang, il déclenche la récupération de l&#039;état lumineux issu du Fader 48 et le copie dans le GridPlayer 4.
+</p>
+
+<p class="level3">
+Puis il avance le GridPlayer d&#039;un pas.
+</p>
+
+<p class="level3">
+On enregistre un temps de 0.1 secondes dans le temps de Loop. 
+</p>
+
+<p class="level3">
+Mis ON, ce banger tourne en continu et séquence ce qui sort du Fader 48 tous les 10èmes de secondes.
+</p>
+
+<p class="level3">
+<img src="record_on.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT4 SECTION "Le Banger d'enregistrement" [1862-2247] -->
+<h3 class="sectionedit5"><a name="le_banger_d_arret_d_enregistrement" id="le_banger_d_arret_d_enregistrement">Le Banger d&#039;arrêt d&#039;enregistrement</a></h3>
+
+<p class="level3">
+Il enlève le mode Loop du Banger d&#039;enregistrement 126
+</p>
+
+<p class="level3">
+<img src="record_off.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT5 SECTION "Le Banger d'arrêt d'enregistrement" [2248-2372] -->
+<h2 class="sectionedit6"><a name="le_resultat_pour_un_fader" id="le_resultat_pour_un_fader">Le résultat pour un Fader</a></h2>
+
+<p class="level2">
+Dans votre GridPlayer est capturé tout ce qui sort du Fader 48. 
+</p>
+
+<p class="level2">
+Donc dessiner à main levée un état lumineux avec Draw chargé dans 48, bouger une roue de couleur et jouer un mouvement de désaturation dans 48, ou bien jouer avec le tracking vidéo, c&#039;est possible.
+</p>
+<!-- EDIT6 SECTION "Le résultat pour un Fader" [2373-2684] -->
+<h2 class="sectionedit7"><a name="aquerir_un_groupe_de_faders" id="aquerir_un_groupe_de_faders">Aquérir un groupe de Faders</a></h2>
+
+<p class="level2">
+Il faut utiliser la fonction FaderGroup, voir <a href="minifaders2.html" class="wikilink1" title="minifaders2">la fenêtre des minifaders</a>.
+</p>
+
+<p class="level2">
+Dans le FaderGroup vous pouvez affecter plusieurs faders. Une séquence faite avec 8 faders ( ou plus ) peut être enregistrée dans le GridPlayer.
+</p>
+
+<p class="level2">
+Notre FaderGroup est le Fader 48.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> aller dans la fenêtre minifaders</div>
+</li>
+<li class="level1"><div class="li"> clicker All, décocher 48</div>
+</li>
+<li class="level1"><div class="li"> clicker F-Group en haut</div>
+</li>
+<li class="level1"><div class="li"> clicker la pastille 48 dans la fenêtre mini faders </div>
+</li>
+</ul>
+<!-- EDIT7 SECTION "Aquérir un groupe de Faders" [2685-3155] -->
+<h2 class="sectionedit8"><a name="restitution_de_l_enregistrement" id="restitution_de_l_enregistrement">Restitution de l&#039;enregistrement</a></h2>
+
+<p class="level2">
+Pour une restitution du séquençage à l&#039;identique, il faudra veiller à avoir les mêmes temps entre le LOOP du banger d&#039;enregistrement et la la vitesse du GridPlayer.
+</p>
+
+<p class="level2">
+Vous pourrez corriger et affiner l&#039;enregistrement grâce aux GridPlayers.
+</p>
+
+<p class="level2">
+Pour l&#039;instant, pour une action à l&#039;identique, il faudra appeler:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> la fenêtre des GridPlayers</div>
+</li>
+<li class="level1"><div class="li"> appeler la fenêtre Time [F6]</div>
+</li>
+<li class="level1"><div class="li"> mettre le temps de la fenêtre time à 0.1 secondes, sélectionner IN / OUT</div>
+</li>
+<li class="level1"><div class="li"> mettre le Gridplayer 4 en mode TOSTepMode</div>
+</li>
+<li class="level1"><div class="li"> se mettre sur le gridplayer 4 au pas 1. Mettre to Step à 1023</div>
+</li>
+<li class="level1"><div class="li"> clicker AFFECT du temps sur la case du step</div>
+</li>
+<li class="level1"><div class="li"> tous les temps de la grille dans le gridplayer  4 sont donc désormais à 0.1 secondes pour une lecture à l&#039;identique de votre acquisition</div>
+</li>
+</ul>
+
+<p class="level2">
+Grâce au GridPlayer vous pouvez désormais éditer les pas, les rejouer plus ou moins rapidement, affiner la capture.
+</p>
+<!-- EDIT8 SECTION "Restitution de l'enregistrement" [3156-] --></div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>rebrancher_a_chaud_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-12T02:33:15+0200"/>
+<meta name="keywords" content="rebrancher_a_chaud_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="rebrancher_a_chaud_eng.html"/>
+<link rel="contents" href="rebrancher_a_chaud_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="rebrancher_a_chaud_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="rebrancher_a_chaud_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=rebrancher_a_chaud_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"rebrancher_a_chaud_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<h1 class="sectionedit1"><a name="what_to_do_when_my_dmx_or_midi_skips" id="what_to_do_when_my_dmx_or_midi_skips">What to do when my DMX or Midi Skips</a></h1>
+
+<p class="level1">
+This may come about due to a worn or loose USB cable or human error.
+Unlike Schwartzpeter, you can disconnect/reconnect (hot) your hardware for White Cat without having the system crash.
+You do not need to restart White Cat to reset the connection.
+</p>
+
+<p class="level1">
+Hot plugging your DMX interface:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> Go to the CGF Window</div>
+</li>
+<li class="level1"><div class="li"> Pick the DMX tab</div>
+</li>
+</ol>
+
+<p class="level1">
+<img src="dmx_config_panel.jpeg" class="media" title="dmx_config_panel.jpg" alt="dmx_config_panel.jpg" />
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> Click on ArtNet to disconnect from Enttec Pro.</div>
+</li>
+<li class="level1"><div class="li"> Re-click the Enttec Pro</div>
+</li>
+<li class="level1"><div class="li"> Do not confuse the Enttec Pro with the Enttec Open: the drivers are of the same type but White Cat will freeze (in this case, when the interface is disconnected the freeze stops)</div>
+</li>
+</ol>
+
+<p class="level1">
+If you use the Double DMX outlet (Enttec Pro + ArtNet) to control the video:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> Do not forget to reset the Double DMX to the right of the ArtNet</div>
+</li>
+</ol>
+
+<p class="level1">
+<img src="dmx_artnet_doubledmx.jpeg" class="media" title="dmx_artnet_doubledmx.jpg" alt="dmx_artnet_doubledmx.jpg" />
+</p>
+
+<p class="level1">
+<strong>If this doesn&#039;t Work (Still no green LED):</strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> physically disconnect the DMX interface, reconnect, wait a bit.  And if Windows does not reconnect to it, repeat the operation described at the beginning of this paragraph.</div>
+</li>
+</ul>
+<!-- EDIT1 SECTION "What to do when my DMX or Midi Skips" [1-1075] -->
+<h2 class="sectionedit2"><a name="reconnect_hot_to_your_midi_control_surface" id="reconnect_hot_to_your_midi_control_surface">Reconnect Hot to your Midi Control Surface</a></h2>
+
+<p class="level2">
+Sometimes with Windows, connecting midi can make it jump or skip.  This problem is usually apparent on machines that have not been updated and disappears after the update.  However, tired and worn USB ports can also cause a disconnection.
+</p>
+
+<p class="level2">
+When you move your midi controls, if nothing changes in the feedback, no info type Chan: 0 Pitch: 56 Vel 127,
+If this happens during a performance, do not panic!
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Go to [CFG-Menu] tab&gt; [Midi]&gt; sub-tab [Devices].</div>
+</li>
+</ol>
+
+<p class="level2">
+Midi ports to the left (in orange) are MIDI inputs (signals coming to White Cat).  Ports on the right in red are the midi outputs (White Cat sending to the midi interface).
+</p>
+
+<p class="level2">
+<img src="midi_config_hardware.jpeg" class="media" title="midi_config_hardware.jpg" alt="midi_config_hardware.jpg" />
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> What midi port is selected (some interfaces appear to have several midi ports)</div>
+</li>
+<li class="level1"><div class="li"> Deselect the midi port to your interface</div>
+</li>
+<li class="level1"><div class="li"> Click Re-scan</div>
+</li>
+<li class="level1"><div class="li"> Reselect the port for your midi interface</div>
+</li>
+</ol>
+
+<p class="level2">
+<img src="midi_rescan.jpeg" class="media" title="midi_rescan.jpg" alt="midi_rescan.jpg" />
+</p>
+
+<p class="level2">
+<strong>If it is still not working:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Physically disconnect the interface</div>
+</li>
+<li class="level1"><div class="li"> Wait a second</div>
+</li>
+<li class="level1"><div class="li"> Reconnect the midi interface</div>
+</li>
+<li class="level1"><div class="li"> Repeat the procedure described above</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Reconnect Hot to your Midi Control Surface" [1076-] --></div>
+</body>
+</html>

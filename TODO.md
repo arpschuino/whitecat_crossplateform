@@ -1,5 +1,14 @@
 # WhiteCat — TODO
 
+## ⚠️ À faire avant chaque release
+
+- [ ] **Sync doc/** : copier `whitecatbuild/build/white_cat_for_mingw/doc/` → `doc/` (racine du repo) avant de committer/pusher la release.
+  ```
+  xcopy /E /Y /I whitecatbuild\build\white_cat_for_mingw\doc doc
+  ```
+
+---
+
 ## Bugs / Fonctionnalités incomplètes
 
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes

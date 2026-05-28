@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>echo</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-05T14:57:54+0200"/>
+<meta name="keywords" content="echo"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="echo.html"/>
+<link rel="contents" href="echo.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="echo.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="echo.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=echo"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"echo","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#echo">ECHO</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#presentation_d_echo">Présentation d&#039;Echo</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#echo_presets">Echo Presets</a></div></li>
+<li class="level4"><div class="li"><a href="#tableaux_des_circuits">Tableaux des circuits</a></div></li>
+<li class="level4"><div class="li"><a href="#constantes_d_echo_preset">Constantes d&#039;Echo Preset</a></div></li>
+<li class="level4"><div class="li"><a href="#manipulations_reliees_aux_faders">Manipulations reliées aux Faders</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#edition_des_niveaux_de_circuits">Edition des niveaux de circuits</a></div></li>
+<li class="level2"><div class="li"><a href="#manipulations_faders">Manipulations faders</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#affecter_un_echo_preset_a_un_fader">Affecter un Echo Preset à un Fader</a></div></li>
+<li class="level3"><div class="li"><a href="#echo_fader">ECHO FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#snap_fader">SNAP FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#bounce">BOUNCE</a></div></li>
+<li class="level3"><div class="li"><a href="#snap_kill_and_bounce">SNAP KILL AND BOUNCE</a></div></li>
+<li class="level3"><div class="li"><a href="#recall_fader">RECALL FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#pointer_le_fader_utilise_par_l_echo_preset">Pointer le Fader utilisé par l&#039;Echo Preset</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#echo_presets1">Echo Presets</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#selection_d_un_echo_preset">Sélection d&#039;un écho preset</a></div></li>
+<li class="level3"><div class="li"><a href="#effacement_d_un_echo_preset">Effacement d&#039;un écho preset</a></div></li>
+<li class="level3"><div class="li"><a href="#effacement_des_etats_de_niveaux_ou_de_plancher">Effacement des états de niveaux ou de plancher</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#affectation_midi">Affectation midi</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="echo" id="echo">ECHO</a></h1>
+
+<p class="level1">
+Pour accéder à [ECHO], ouvrir par un click droit [MAIN MENU] et clicker [Echo]:
+</p>
+
+<p class="level1">
+<img src="echo_open.jpeg" class="media" title="echo_open.jpg" alt="echo_open.jpg" />
+</p>
+<!-- EDIT1 SECTION "ECHO" [1-122] -->
+<h2 class="sectionedit2"><a name="presentation_d_echo" id="presentation_d_echo">Présentation d&#039;Echo</a></h2>
+
+<p class="level2">
+[Echo] est un module permettant de faire chuter des niveaux de circuits dans un environnement “réaliste”.
+</p>
+
+<p class="level2">
+Lorsque les circuits touchent le sol, ils vont rebondir fonction des paramètres de gravité, de  masse et d&#039;énergie affectés à l&#039;Echo Preset sélectionné.
+</p>
+
+<p class="level2">
+Dans un rebondissement continu (mode“Echo fader”), l&#039;effet obtenu s&#039;apparente à un Echo lumineux, d&#039;où le nom du module.
+</p>
+
+<p class="level2">
+<img src="echo_main.jpeg" class="media" title="echo_main.jpg" alt="echo_main.jpg" />
+</p>
+<!-- EDIT2 SECTION "Présentation d'Echo" [123-568] -->
+<h4 class="sectionedit3"><a name="echo_presets" id="echo_presets">Echo Presets</a></h4>
+
+<p class="level4">
+Il y a 24 Echo Presets qui peuvent fonctionner en parallèle. Chaque Echo Preset peut être affecté à un Fader.
+</p>
+<!-- EDIT3 SECTION "Echo Presets" [569-705] -->
+<h4 class="sectionedit4"><a name="tableaux_des_circuits" id="tableaux_des_circuits">Tableaux des circuits</a></h4>
+
+<p class="level4">
+Un tableau des 512 circuits est affiché juste en dessous.
+</p>
+
+<p class="level4">
+Les 512 circuits peuvent être manipulés à la souris, ou bien récupérés depuis un Fader.
+</p>
+
+<p class="level4">
+Pour chaque circuit vous pouvez éditer le niveau du circuit, ou son niveau de plancher ( GROUND ), si vous voulez que le niveau de circuit ne tombe pas à zéro.
+</p>
+<!-- EDIT4 SECTION "Tableaux des circuits" [706-1055] -->
+<h4 class="sectionedit5"><a name="constantes_d_echo_preset" id="constantes_d_echo_preset">Constantes d&#039;Echo Preset</a></h4>
+
+<p class="level4">
+En dessous du tableau des circuits, vous pouvez manipuler les constantes de l&#039;Echo Preset : 
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> la gravité</div>
+</li>
+<li class="level1"><div class="li"> la masse des circuits </div>
+</li>
+<li class="level1"><div class="li"> le niveau d&#039;énergie du lancement des circuits </div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "Constantes d'Echo Preset" [1056-1279] -->
+<h4 class="sectionedit6"><a name="manipulations_reliees_aux_faders" id="manipulations_reliees_aux_faders">Manipulations reliées aux Faders</a></h4>
+
+<p class="level4">
+Sur la gauche les manipulations reliées au Fader que pointe l&#039;Echo Preset:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> le mode [ECHO FADER] pour un déclenchement automatique en continu de l&#039;Echo Preset</div>
+</li>
+<li class="level1"><div class="li"> [SNAP FADER] pour récupérer les valeurs issues d&#039;un Fader</div>
+</li>
+<li class="level1"><div class="li"> [BOUNCE] pour déclencher manuellement l&#039;Echo</div>
+</li>
+<li class="level1"><div class="li"> [SNAP KILL AND BOUNCE] pour récupérer les valeurs d&#039;un fader, mettre se Fader à 0 et déclencher le Bounce</div>
+</li>
+</ul>
+
+<p class="level4">
+Le numéro du Fader pointé par Echo est éditable ( Snap Fader ).
+</p>
+
+<p class="level4">
+La sortie de l&#039;Echo Preset est affectable à un dock.
+</p>
+<!-- EDIT6 SECTION "Manipulations reliées aux Faders" [1280-1840] -->
+<h2 class="sectionedit7"><a name="edition_des_niveaux_de_circuits" id="edition_des_niveaux_de_circuits">Edition des niveaux de circuits</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclencher tout d&#039;abord [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Sélectionnez l&#039;Echo Preset de votre choix ( 1 à 24 )</div>
+</li>
+<li class="level1"><div class="li"> Clicker à la souris dans la fenêtre des circuits pour manipuler les niveaux des circuits.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_ch_edit.jpeg" class="media" title="echo_ch_edit.jpg" alt="echo_ch_edit.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Pour éditer le niveau de plancher surlequel rebondit le circuit, clicke [CH.LEVEL] de façon à ce qu&#039;il passe en [CH.GROUND].</div>
+</li>
+<li class="level1"><div class="li"> Clicker à la souris dans la fenêtre des circuits pour manipuler les niveaux de plancher.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_ground_edit.jpeg" class="media" title="echo_ground_edit.jpg" alt="echo_ground_edit.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Si vous désirez vous déplacer dans la fenêtre des circuits, clickez les flèches latérales</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_move_ch.jpeg" class="media" title="echo_move_ch.jpg" alt="echo_move_ch.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> ou tapez votre numéro de circuit, puis clickez la case à droite au dessus de la fenêtre des circuits</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_edit_num_ch.jpeg" class="media" title="echo_edit_num_ch.jpg" alt="echo_edit_num_ch.jpg" />
+</p>
+
+<p class="level2">
+Le survol à la souris permet d&#039;afficher les informations de niveau et de ground, en virgule flottante et en DMX ( % ou 255 ).
+</p>
+<!-- EDIT7 SECTION "Edition des niveaux de circuits" [1841-2738] -->
+<h2 class="sectionedit8"><a name="manipulations_faders" id="manipulations_faders">Manipulations faders</a></h2>
+<!-- EDIT8 SECTION "Manipulations faders" [2739-2772] -->
+<h3 class="sectionedit9"><a name="affecter_un_echo_preset_a_un_fader" id="affecter_un_echo_preset_a_un_fader">Affecter un Echo Preset à un Fader</a></h3>
+
+<p class="level3">
+Pour affecter la sortie de l&#039;Echo Preset, et donc obtenir le résultat sur scène:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionnez l&#039;Echo Preset (1 à 24) à affecter</div>
+</li>
+<li class="level1"><div class="li"> Enclenchez [AFFECT TO DOCK] </div>
+</li>
+<li class="level1"><div class="li"> Clickez le dock du Fader auquel affecter l&#039;Echo Preset</div>
+</li>
+<li class="level1"><div class="li"> Montez ce fader à Full pour voir le résultat</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="echo_affect_to_dock.jpeg" class="media" title="echo_affect_to_dock.jpg" alt="echo_affect_to_dock.jpg" />
+</p>
+<!-- EDIT9 SECTION "Affecter un Echo Preset à un Fader" [2773-3130] -->
+<h3 class="sectionedit10"><a name="echo_fader" id="echo_fader">ECHO FADER</a></h3>
+
+<p class="level3">
+[ECHO FADER] est liaison en continu avec l&#039;état du Fader. Il permet de créer des états lumineux transitoires au sortir d&#039;un chaser ou d&#039;un flash, et de générer un écho lumineux.
+Celà peut donc être un effet additionnel, un écho lumineux, ou bien une opération de soustraction grâce aux FX, etc…
+</p>
+
+<p class="level3">
+Attention, si la descente ou la montée du fader sont plus lente ou aussi lente que l&#039;évolution dans (ECHO] d&#039;un circuit, ce dernier prendra les valeurs du Fader en direct.
+</p>
+
+<p class="level3">
+<img src="echo_echofader.jpeg" class="media" title="echo_echofader.jpg" alt="echo_echofader.jpg" />
+</p>
+<!-- EDIT10 SECTION "ECHO FADER" [3131-3664] -->
+<h3 class="sectionedit11"><a name="snap_fader" id="snap_fader">SNAP FADER</a></h3>
+
+<p class="level3">
+[SNAP FADER] permet de récupérer à la volée les états lumineux issus d&#039;un fader. Il prend en compte le niveau du Fader. Les informations de FX ( soustraction, addition, exclusion ) ne sont pas prises en compte.
+</p>
+<!-- EDIT11 SECTION "SNAP FADER" [3665-3905] -->
+<h3 class="sectionedit12"><a name="bounce" id="bounce">BOUNCE</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Clickez [BOUNCE] pour déclencher manuellement la chute des circuits. Reclickez [BOUNCE] pause le processus.</div>
+</li>
+</ul>
+<!-- EDIT12 SECTION "BOUNCE" [3906-4038] -->
+<h3 class="sectionedit13"><a name="snap_kill_and_bounce" id="snap_kill_and_bounce">SNAP KILL AND BOUNCE</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Utilisez [SNAP KILL AND BOUNCE] pour remplacer un fader par la chute des circuits. Le fader est mis à zéro. Son niveau est précédent est mis en mémoire.</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "SNAP KILL AND BOUNCE" [4039-4233] -->
+<h3 class="sectionedit14"><a name="recall_fader" id="recall_fader">RECALL FADER</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Permet de rappeler CUT le fader mis à zéro précédement dans [SNAP KILL AND BOUNCE]</div>
+</li>
+</ul>
+<!-- EDIT14 SECTION "RECALL FADER" [4234-4349] -->
+<h3 class="sectionedit15"><a name="pointer_le_fader_utilise_par_l_echo_preset" id="pointer_le_fader_utilise_par_l_echo_preset">Pointer le Fader utilisé par l&#039;Echo Preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] doit être enclenché</div>
+</li>
+<li class="level1"><div class="li"> Taper le numéro du fader</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de fader</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="echo_point_fader.jpeg" class="media" title="echo_point_fader.jpg" alt="echo_point_fader.jpg" />
+</p>
+<!-- EDIT15 SECTION "Pointer le Fader utilisé par l'Echo Preset" [4350-4524] -->
+<h2 class="sectionedit16"><a name="echo_presets1" id="echo_presets1">Echo Presets</a></h2>
+
+<p class="level2">
+Chaque Echo Preset comprend 512 circuits et pieds de circuits différents, ainsi que des constantes ( gravité, masse et énergie ) spécifiques.
+</p>
+<!-- EDIT16 SECTION "Echo Presets" [4525-4698] -->
+<h3 class="sectionedit17"><a name="selection_d_un_echo_preset" id="selection_d_un_echo_preset">Sélection d&#039;un écho preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker l&#039;écho preset</div>
+</li>
+</ul>
+<!-- EDIT17 SECTION "Sélection d'un écho preset" [4699-4766] -->
+<h3 class="sectionedit18"><a name="effacement_d_un_echo_preset" id="effacement_d_un_echo_preset">Effacement d&#039;un écho preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker [F4] ou enclencher [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> clicker l&#039;écho preset à effacer.</div>
+</li>
+</ul>
+
+<p class="level3">
+Les niveaux de circuits et les niveaux de plancher seront mis à zéro.
+</p>
+
+<p class="level3">
+Les constantes seront mise par défaut à Gravité 0.50, Masse 1.00 et Energie 0.20.
+</p>
+<!-- EDIT18 SECTION "Effacement d'un écho preset" [4767-5044] -->
+<h3 class="sectionedit19"><a name="effacement_des_etats_de_niveaux_ou_de_plancher" id="effacement_des_etats_de_niveaux_ou_de_plancher">Effacement des états de niveaux ou de plancher</a></h3>
+
+<p class="level3">
+Mettre à zéro les niveaux de circuits d&#039;un Echo Preset:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] doit être ON</div>
+</li>
+<li class="level1"><div class="li"> se mettre en mode [CH.LEVEL]</div>
+</li>
+<li class="level1"><div class="li"> enclencher [CLEAR] ( F4 )</div>
+</li>
+<li class="level1"><div class="li"> clicker [CH.LEVEL]</div>
+</li>
+</ul>
+
+<p class="level3">
+Mettre à zéro les niveaux de pnacher d&#039;un Echo Preset:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] doit être ON</div>
+</li>
+<li class="level1"><div class="li"> se mettre en mode [CH.GROUND]</div>
+</li>
+<li class="level1"><div class="li"> enclencher [CLEAR] ( F4 )</div>
+</li>
+<li class="level1"><div class="li"> clicker [CH.GROUND]</div>
+</li>
+</ul>
+<!-- EDIT19 SECTION "Effacement des états de niveaux ou de plancher" [5045-5446] -->
+<h2 class="sectionedit20"><a name="affectation_midi" id="affectation_midi">Affectation midi</a></h2>
+
+<p class="level2">
+Toutes les commandes, sauf les niveaux de circuits et de plancher sont déclenchables en midi. Voir: <a href="tableau_affectation_midi.html" class="wikilink1" title="tableau_affectation_midi">Synoptique d&#039;affectations midi</a>
+</p>
+<!-- EDIT20 SECTION "Affectation midi" [5447-] --></div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>minifaders</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-04-01T19:45:26+0200"/>
+<meta name="keywords" content="minifaders"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="minifaders.html"/>
+<link rel="contents" href="minifaders.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="minifaders.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="minifaders.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=minifaders"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"minifaders","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#la_fenetre_minifaders">La fenêtre Minifaders</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#presentation_generale">Présentation générale</a></div></li>
+<li class="level2"><div class="li"><a href="#actions_sur_un_minifader">Actions sur un minifader</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#fonctions_d_enregistrement_et_de_manipulation_classiques">Fonctions d&#039;enregistrement et de manipulation classiques</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#selection_de_minifaders">Sélection de minifaders</a></div></li>
+<li class="level2"><div class="li"><a href="#actions_sur_les_minifaders">Actions sur les minifaders</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#commandes_classiques">Commandes classiques</a></div></li>
+<li class="level3"><div class="li"><a href="#lock_presets">Lock Presets</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#enregistrer_un_etat_de_lock">Enregistrer un état de lock</a></div></li>
+<li class="level4"><div class="li"><a href="#vider_un_lock_preset">Vider un lock preset</a></div></li>
+<li class="level4"><div class="li"><a href="#on_off_d_un_lock_preset">On / Off d&#039;un lock preset</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#all_at_zero">All At Zero</a></div></li>
+<li class="level3"><div class="li"><a href="#affecter_les_commandes_en_midi">Affecter les commandes en midi</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="la_fenetre_minifaders" id="la_fenetre_minifaders">La fenêtre Minifaders</a></h1>
+<!-- EDIT1 SECTION "La fenêtre Minifaders" [1-38] -->
+<h2 class="sectionedit2"><a name="presentation_generale" id="presentation_generale">Présentation générale</a></h2>
+
+<p class="level2">
+La fenêtre minifaders est une fenêtre permettant d&#039;avoir une vue synthétique de l&#039;état des 48 faders.
+Les 48 minifaders représentent donc les mêmes faders que l&#039;espace Faders.
+</p>
+
+<p class="level2">
+Pour les utilisateurs de  versions antérieures  (0.7.6 et précédentes): les AllAtZero et les Lock Presets intègrent cette fenêtre. 
+</p>
+
+<p class="level2">
+Pour accéder aux Minifaders, taper [Shift-F10].
+</p>
+
+<p class="level2">
+<img src="minifaders_window.jpeg" class="media" title="minifaders_window.jpg" alt="minifaders_window.jpg" />
+</p>
+
+<p class="level2">
+Un certain nombre d&#039;actions peuvent y être menées, à l&#039;identique de l&#039;espace Faders:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> la manipulation des faders</div>
+</li>
+<li class="level1"><div class="li"> l&#039;assignation midi</div>
+</li>
+<li class="level1"><div class="li"> l&#039;enregistrement des contenus des docks actifs de chaque fader, l&#039;édition du descriptif et des temps du dock actif</div>
+</li>
+</ul>
+
+<p class="level2">
+Le déclenchement d&#039;actions est quant à lui différent. Il faut sélectionner un minifader pour pouvoir déclencher les actions suivantes:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Up/Down/Saw</div>
+</li>
+<li class="level1"><div class="li"> Loops et modes de Loop</div>
+</li>
+<li class="level1"><div class="li"> Flashs</div>
+</li>
+</ul>
+
+<p class="level2">
+Ce système de sélections de faders ouvre sur l&#039;une des autres particularités de minifaders: 
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> les presets de sélection, au nombre de 8.</div>
+</li>
+<li class="level1"><div class="li"> les flèches et commandes de sélection de minifaders</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Présentation générale" [39-1138] -->
+<h2 class="sectionedit3"><a name="actions_sur_un_minifader" id="actions_sur_un_minifader">Actions sur un minifader</a></h2>
+
+<p class="level2">
+<img src="minifader_desc.jpeg" class="media" title="minifader_desc.jpg" alt="minifader_desc.jpg" />
+</p>
+
+<p class="level2">
+Le minifader se présente de la manière suivante:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li">  la case de sélection du minifader pour les presets de sélection de minifaders</div>
+</li>
+<li class="level1"><div class="li">  le fader</div>
+</li>
+<li class="level1"><div class="li">  le niveau du fader</div>
+</li>
+<li class="level1"><div class="li"> (en rouge le niveau de lock si en mode lock)</div>
+</li>
+<li class="level1"><div class="li">  la case de flash, qui affiche le dock actif du fader, et si ce dock est en Loop   </div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="minifaders_selected.jpeg" class="media" title="minifaders_selected.jpg" alt="minifaders_selected.jpg" />
+</p>
+
+<p class="level2">
+Au survol de la case de sélection celle - ci est entourée en orange.
+Lorsqu&#039;un minifader est sélectionné sa case est rouge.
+La position du dernier minifader sélectionné apparait entourée en blanc.
+</p>
+
+<p class="level2">
+Un descriptif s&#039;affiche à la manipulation ou la sélection d&#039;un minifader, montrant le contenu du dock actif.
+Aparaissent notamment les informations de descriptif et de temps.
+</p>
+
+<p class="level2">
+<img src="minifaders_content.jpeg" class="media" title="minifaders_content.jpg" alt="minifaders_content.jpg" />
+</p>
+<!-- EDIT3 SECTION "Actions sur un minifader" [1139-1955] -->
+<h3 class="sectionedit4"><a name="fonctions_d_enregistrement_et_de_manipulation_classiques" id="fonctions_d_enregistrement_et_de_manipulation_classiques">Fonctions d&#039;enregistrement et de manipulation classiques</a></h3>
+
+<p class="level3">
+Comme pour les faders, vous pouvez enregistrer (F1), nettoyer(F4), mofiier (F2), reporter(F3), nommer (F5), donner un temps (F6) et affecter des contenus dynamiques, en clickant sur la case de sélection du minifader .
+</p>
+
+<p class="level3">
+Le dock actif ( utilisé) sera affecté par l&#039;opération.
+</p>
+
+<p class="level3">
+<img src="minfaders_record.jpeg" class="media" title="minfaders_record.jpg" alt="minfaders_record.jpg" />
+</p>
+<!-- EDIT4 SECTION "Fonctions d'enregistrement et de manipulation classiques" [1956-2328] -->
+<h2 class="sectionedit5"><a name="selection_de_minifaders" id="selection_de_minifaders">Sélection de minifaders</a></h2>
+
+<p class="level2">
+<img src="minifaders_selection_action.jpeg" class="media" title="minifaders_selection_action.jpg" alt="minifaders_selection_action.jpg" />
+</p>
+
+<p class="level2">
+Pour sélectionner un minifader, clicker sa case de sélection. 
+Vous pouvez aussi vous déplacer via les flèches [&lt;] [&gt;] et utiliser les touches [Select] [Unselect] pour sélectionner / déselectionner; ou la touche [ALL] pour sélectionner les 48 faders.
+Ces 4 commandes sont affectables en midi.
+</p>
+
+<p class="level2">
+<img src="minifaders_pst.jpeg" class="media" title="minifaders_pst.jpg" alt="minifaders_pst.jpg" />
+</p>
+
+<p class="level2">
+En enclenchant [F1] vous pouvez enregistrer cette sélection dans le preset cliqué de minifaders.
+[F1] [F2] et [F4] fonctionnent avec les presets de minifaders.
+</p>
+
+<p class="level2">
+Ensuite un appel de preset (1 à 8) restitue le seul jeu de minifaders correspondant à ce preset (c&#039;est à dire sans cumul).
+</p>
+<!-- EDIT5 SECTION "Sélection de minifaders" [2329-3019] -->
+<h2 class="sectionedit6"><a name="actions_sur_les_minifaders" id="actions_sur_les_minifaders">Actions sur les minifaders</a></h2>
+<!-- EDIT6 SECTION "Actions sur les minifaders" [3020-3060] -->
+<h3 class="sectionedit7"><a name="commandes_classiques" id="commandes_classiques">Commandes classiques</a></h3>
+
+<p class="level3">
+<img src="minifaders_lfoact.jpeg" class="media" title="minifaders_lfoact.jpg" alt="minifaders_lfoact.jpg" />
+</p>
+
+<p class="level3">
+Lorsque l&#039;on sélectionne un minifader, ou un groupe de minifaders par l&#039;appel d&#039;un des 8 presets, les différentes manipulations suivantes <strong>sur la sélection</strong> sont possibles:
+</p>
+<div class="table sectionedit8"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Flash </td><td class="col1"> Up </td><td class="col2"> All Dock Loop </td><td class="col3"> Prev Dock </td><td class="col4"> Dock - </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Lock </td><td class="col1"> Down </td><td class="col2"> At Zero All </td><td class="col3"> Next Dock </td><td class="col4"> Dock + </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Loop Dock </td><td class="col1"> Saw </td><td class="col2"> Stop Position </td><td class="col3"> Aller-retour </td><td class="col4"> Play du chaser embarqué </td>
+	</tr>
+</table></div>
+<!-- EDIT8 TABLE [3297-3477] -->
+<p class="level3">
+Le All At Zero de ce menu est particulier, son action met tout à zéro dans les faders concernés : le type LFO, le niveau du Fader, la vitesse du LFO, les Loops et les modes spéciaux de LFO.  
+</p>
+<!-- EDIT7 SECTION "Commandes classiques" [3061-3676] -->
+<h3 class="sectionedit9"><a name="lock_presets" id="lock_presets">Lock Presets</a></h3>
+
+<p class="level3">
+<img src="minifaders_lockpreset.jpeg" class="media" title="minifaders_lockpreset.jpg" alt="minifaders_lockpreset.jpg" />
+</p>
+
+<p class="level3">
+Vous pouvez enregistrer dans un Lock Preset l&#039;état de lock des 48 faders.
+</p>
+
+<p class="level3">
+<strong>Cet enregistrement et sa restitution ne prennent pas en compte la sélection des minifaders.</strong>
+</p>
+
+<p class="level3">
+<img src="minifaders_lock.jpeg" class="media" title="minifaders_lock.jpg" alt="minifaders_lock.jpg" />
+</p>
+
+<p class="level3">
+Les états de Lock sont aussi enregistrables dans 8 Lock Preset.
+</p>
+
+<p class="level3">
+On peut rappeler ces prépas d&#039;un simple click, ou via une touche midi.
+</p>
+<!-- EDIT9 SECTION "Lock Presets" [3677-4068] -->
+<h4 class="sectionedit10"><a name="enregistrer_un_etat_de_lock" id="enregistrer_un_etat_de_lock">Enregistrer un état de lock</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Mette en lock les faders désirés</div>
+</li>
+<li class="level1"><div class="li"> Taper [F1] ou clicker [STORE]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le lock preset désiré</div>
+</li>
+</ol>
+<!-- EDIT10 SECTION "Enregistrer un état de lock" [4069-4214] -->
+<h4 class="sectionedit11"><a name="vider_un_lock_preset" id="vider_un_lock_preset">Vider un lock preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Taper [F4] ou clicker [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le lock preset désiré</div>
+</li>
+</ol>
+<!-- EDIT11 SECTION "Vider un lock preset" [4215-4313] -->
+<h4 class="sectionedit12"><a name="on_off_d_un_lock_preset" id="on_off_d_un_lock_preset">On / Off d&#039;un lock preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Clicker le lock preset ou utiliser son raccourci midi</div>
+</li>
+<li class="level1"><div class="li"> Attention, lors d&#039;un appel de Lock Preset, le Master Lock est mis à Full !   Lors de la création de vos Lock Presets, assurez vous donc d&#039;être sur un dock vide.</div>
+</li>
+</ol>
+<!-- EDIT12 SECTION "On / Off d'un lock preset" [4314-4573] -->
+<h3 class="sectionedit13"><a name="all_at_zero" id="all_at_zero">All At Zero</a></h3>
+
+<p class="level3">
+Contrairement à leur première mouture, les fonctions All At Zero affectent désormais uniquement les minifaders sélectionnés.
+</p>
+
+<p class="level3">
+Permet de mettre à zéro de manière sélective les 48 faders.
+</p>
+
+<p class="level3">
+Lors de cette mise à zéro, un snapshot est fait de l&#039;état de ces faders.
+</p>
+
+<p class="level3">
+Ce qui permet de rappeler l&#039;état avant mise à zéro par la commande [RECALL].
+</p>
+
+<p class="level3">
+Cette fonction est prévue pour les concerts. Elle est cut, sans tempo.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [FADERS]</div>
+</li>
+</ul>
+<pre class="code">Les 48 Faders sont mis à zéro.</pre>
+<pre class="code">Si des LFOs sont présents, sans boucle ( Loop), ils seront éteints, considérant que le mouvement est fini ( niveau = 0).</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [SPEED]</div>
+</li>
+</ul>
+<pre class="code">Les 48 accéléromètres sont remis à 64 ( vitesse normale).</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [LOCK]</div>
+</li>
+</ul>
+<pre class="code">Les 48 Faders sont débrayés du Lock.</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [LFO]</div>
+</li>
+</ul>
+<pre class="code">Les LFOs des 48 Faders sont mis à zéro.</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [LOOP]</div>
+</li>
+</ul>
+<pre class="code">Toutes les boucles des 48 Faders sont déselectionnées.</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [ALL]</div>
+</li>
+</ul>
+<pre class="code">Tout en même temps.</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [MIDI OUT]</div>
+</li>
+</ul>
+<pre class="code">Le renvoi midi out des faders est désactivé sur les 48 faders.</pre>
+<ul class="level3">
+<li class="level1"><div class="li"> [RECALL]</div>
+</li>
+</ul>
+<pre class="code">Lors des actions [ALL AT ZERO] décrites ci dessus, une sauvegarde est faite en mémoire vive de l&#039;état de ce que l&#039; on va mettre à zéro.
+On rappelle alors l&#039;état avant mise à zéro.</pre>
+<!-- EDIT13 SECTION "All At Zero" [4574-5786] -->
+<h3 class="sectionedit14"><a name="affecter_les_commandes_en_midi" id="affecter_les_commandes_en_midi">Affecter les commandes en midi</a></h3>
+<ol class="level3">
+<li class="level1"><div class="li"> Clicker [CFG MENU] &gt; Page [MIDI] &gt; [MIDI AFFECTATION]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le mode d&#039;attribution ( solo, x8)</div>
+</li>
+<li class="level1"><div class="li"> Survoler le bouton désiré ( il apparait encadré en rouge )</div>
+</li>
+<li class="level1"><div class="li"> Appuyer sur la touche midi désirée</div>
+</li>
+<li class="level1"><div class="li"> Clicker le bouton à affecter le signal reçu</div>
+</li>
+</ol>
+<!-- EDIT14 SECTION "Affecter les commandes en midi" [5787-] --></div>
+</body>
+</html>

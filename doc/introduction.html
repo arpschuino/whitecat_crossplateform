@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Introduction — WhiteCat</title>
+  <meta name="date" content="2026-04-29"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="introduction_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#white_cat_091">White Cat Béta 0.9.1 arpschuino reborn / Mai 2026</a></div></li>
+<li class="level1"><div class="li"><a href="#les_outils_pour_commencer">Les outils pour commencer</a></div></li>
+<li class="level1"><div class="li"><a href="#description">Description</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#code_et_open_source">Code et Open Source</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#orientation">Orientation</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#documentation">DOCUMENTATION</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#documentation_complete">Documentation Complète</a></div>
+<ul class="toc">
+<li class="level5"><div class="li"><a href="#questions_les_plus_frequentes">Questions les plus fréquentes</a></div></li>
+<li class="level5"><div class="li"><a href="#ordinateur">Ordinateur</a></div></li>
+<li class="level5"><div class="li"><a href="#installation">Installation</a></div></li>
+<li class="level5"><div class="li"><a href="#presentation">Présentation</a></div></li>
+<li class="level5"><div class="li"><a href="#grand_master_et_buffers_dmx">Grand Master et buffers dmx</a></div></li>
+<li class="level5"><div class="li"><a href="#manipuler_des_circuits_et_des_gradas">Manipuler des circuits et des gradas</a></div></li>
+<li class="level5"><div class="li"><a href="#manipuler_des_masters">Manipuler des Masters</a></div></li>
+<li class="level5"><div class="li"><a href="#commandes_transversales">Commandes transversales</a></div></li>
+<li class="level5"><div class="li"><a href="#contenus_dynamiques">Contenus dynamiques</a></div></li>
+<li class="level5"><div class="li"><a href="#les_memoires_et_crossfades">Les Mémoires et crossfades</a></div></li>
+<li class="level5"><div class="li"><a href="#sauvegardes_et_imports_exports">Sauvegardes et imports / exports</a></div></li>
+<li class="level5"><div class="li"><a href="#audio">Audio</a></div></li>
+<li class="level5"><div class="li"><a href="#telecommandes_et_controleurs_d_appoint_par_smartphone">Télécommandes et contrôleurs par smartphone</a></div></li>
+<li class="level5"><div class="li"><a href="#configurations_hardware">Configurations hardware</a></div></li>
+<li class="level5"><div class="li"><a href="#petits_trucs">Petits trucs</a></div></li>
+<li class="level5"><div class="li"><a href="#opensource">OpenSource</a></div></li>
+<li class="level5"><div class="li"><a href="#utiles">Utiles</a></div></li>
+<li class="level5"><div class="li"><a href="#divers">Divers</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<p>
+<a href="logo_petit.id.introduction.jpg.detail.html?id=introduction&media=logo_petit.jpg" class="media" title="logo_petit.jpg"><img src="logo_petit.jpeg" class="mediacenter" title="logo_petit.jpg" alt="logo_petit.jpg" /></a>
+</p>
+
+
+
+<br>
+
+<h1 class="sectionedit2" id="white_cat_091">White Cat Béta 0.9.1 arpschuino reborn / Mai 2026</h1>
+<div class="level1">
+
+<p>
+WhiteCat à été creé et développé par <a href="https://1-0-1.fr/" class="urlextern" title="https://1-0-1.fr/" rel="nofollow">christoph guillermet</a>, éclairagiste et vidéaste, en théâtre et danse contemporains.
+</p>
+
+<p>
+Avec la mise en opensource en juin 2013, Georges Khaznadar, Anton Langhoff et RuiSerge ont permis à White Cat d&#039;évoluer sérieusement.
+</p>
+
+<p>
+Le développement s'est ensuite arrêté pendant de nombreuses années. Pour autant, White cat continuait à fonctionner et gardait de fidèles utilisateurs.
+</p>
+
+<p>
+En 2026, Jacques Bouault (<a href="https://arpschuino.fr/" class="urlextern" title="https://arpschuino.fr/" rel="nofollow">arpschuino.fr</a>) a décider de reprendre le développement. La Première tâche a été de mettre à jour les libraires obsolètes et de faire compiler le programme sur une IDE moderne.
+</p>
+
+<ul>
+<li class="level1"><div class="li"> <a href="developpement.html" class="wikilink1" title="developpement">Etat du développement en cours</a></div>
+</li>
+</ul>
+
+</div>
+
+<h1 class="sectionedit3" id="les_outils_pour_commencer">Les outils pour commencer</h1>
+<div class="level1">
+<ul>
+<li class="level1"><div class="li">Sur le site de Christoph Guillermet, on trouve toujours les tutos vidéo d'époque : <a href="https://1-0-1.fr/logiciel-whitecat/" class="urlextern" title="https://1-0-1.fr/logiciel-whitecat/" rel="nofollow">https://1-0-1.fr/logiciel-whitecat/</a></div>
+</li>
+</ul>
+</div>
+
+<h1 class="sectionedit4" id="description">Description</h1>
+<div class="level1">
+
+<p>
+White Cat est un logiciel dédié à la gestion des lumières en danse, théâtre et concert sous Windows. Les utilisateurs MAC s&#039;en servent avec BootCamp.
+</p>
+
+<p>
+White Cat fonctionne avec plusieurs types d&#039;interfaces Dmx512, que l&#039;on branche sur son ordinateur.
+</p>
+
+<p>
+Les gradateurs sont alors pilotés depuis le PC.
+</p>
+
+<p>
+Le prédécesseur de White Cat, Schwartzpeter, est toujours en diffusion libre, sous licence <abbr title="GNU General Public License">GPL</abbr>. Il n&#039;est plus développé.
+</p>
+
+<p>
+White Cat est libre et gratuit, sous license <abbr title="GNU General Public License">GPL</abbr>.
+</p>
+
+</div>
+
+<h4 class="sectionedit5" id="code_et_open_source">Code et Open Source</h4>
+<div class="level4">
+<ul>
+<li class="level1"><div class="li"> Christoph Guillermet</div>
+</li>
+<li class="level1"><div class="li"> Code additionnel : Anton Langhoff, RuiSerge, Georges Khaznadar.</div>
+</li>
+<li class="level1"><div class="li"> Depuis avril 2026 : Jacques Bouault.</div>
+</li>
+<li class="level1"><div class="li"> Github: <a href="https://github.com/arpschuino/whitecat_crossplateform" class="urlextern" title="https://github.com/arpschuino/whitecat_crossplateform" rel="nofollow">https://github.com/arpschuino/whitecat_crossplateform</a></div>
+</li>
+</ul>
+</div>
+
+<h3 class="sectionedit6" id="orientation">Orientation</h3>
+<div class="level3">
+
+<p>
+Son ergonomie tente d&#039;être la plus simple possible, et d&#039;apporter aux régisseurs comme aux créateurs, un outil confortable, simple, pratique qui réponde à toutes les approches :
+</p>
+
+<p>
+-l&#039;approche en manuel ( masters, tracking vidéo)
+</p>
+
+<p>
+-l&#039;approche en encodage ( séquenciel et automations )
+</p>
+
+<p>
+-l&#039;approche multi-logiciels ( pilotage midi, réception dmx-in ou art-net )
+</p>
+
+</div>
+
+<h1 class="sectionedit7" id="documentation">DOCUMENTATION</h1>
+<p>
+Depuis la reprise du développement (version 0.9), la documentation est reécrite petit à petit. 
+Les pages de la nouvelle doc sont sur fond noir, celle de l'ancienne doc sont sur fond blanc.
+</p>
+
+<h5 id="questions_les_plus_frequentes">Questions les plus fréquentes</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="faq.html" class="wikilink1" title="faq">FAQ des petits problèmes</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="ordinateur">Ordinateur</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="hardware.html" class="wikilink1" title="hardware">Hardware</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="installation">Installation</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="installer_whitecat.html" class="wikilink1" title="installer_whitecat">Installer WhiteCat</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="presentation">Présentation</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="interface.html" class="wikilink1" title="interface">Présentation générale de l&#039;interface</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="grand_master_et_buffers_dmx">Grand Master et buffers dmx</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="grandmaster_et_buffers.html" class="wikilink1" title="grandmaster_et_buffers">Grand Master et buffers dmx</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="manipuler_des_circuits_et_des_gradas">Manipuler des circuits et des gradas</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="presentation_espace_circuits.html" class="wikilink1" title="presentation_espace_circuits">Présentation de l&#039;espace dédié aux circuits</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_circuits.html" class="wikilink1" title="espace_circuits">Manipuler les Circuits</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_circuits_channel_views.html" class="wikilink1" title="espace_circuits_channel_views">Channels Views</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_circuits_patch.html" class="wikilink1" title="espace_circuits_patch">Patch</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="liste.html" class="wikilink1" title="liste">List: Descriptif des circuits et Channel Macros</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="plot.html" class="wikilink1" title="plot">Light Plot: le plan lumière intégré</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="manipuler_des_masters">Manipuler des Masters</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="presentation_des_faders.html" class="wikilink1" title="presentation_des_faders">Présentation des faders</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_faders2.html" class="wikilink1" title="espace_faders2">L&#039;espace Faders</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="minifaders2.html" class="wikilink1" title="minifaders2">La fenêtre des Minifaders</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="fx_modes.html" class="wikilink1" title="fx_modes">FX modes des faders</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="commandes_transversales">Commandes transversales</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="les_grandes_commandes.html" class="wikilink1" title="les_grandes_commandes">Les grandes commandes, principe général</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="name.html" class="wikilink1" title="name">Le mode Name</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="time.html" class="wikilink1" title="time">La fenêtre Time</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="num-pad.html" class="wikilink1" title="num-pad">Le Num-Pad (clavier numérique virtuel)</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="contenus_dynamiques">Contenus dynamiques</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="contenu_dynamique.html" class="wikilink1" title="contenu_dynamique">Définition d&#039;un contenu dynamique</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="chasers.html" class="wikilink1" title="chasers">La fenêtre Chasers</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="trichromie.html" class="wikilink1" title="trichromie">La fenêtre Trichromie/Quadrichromie</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="tracking.html" class="wikilink1" title="tracking">La fenêtre Tracking vidéo</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="grid.html" class="wikilink1" title="grid">La fenêtre GridPlayers</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="draw.html" class="wikilink1" title="draw">La fenêtre Draw</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="echo.html" class="wikilink1" title="echo">La fenêtre Echo</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="dmx-in_et_artnet-in.html" class="wikilink1" title="dmx-in_et_artnet-in">Dmx-IN et Art-Net IN</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="les_memoires_et_crossfades">Les Mémoires et crossfades</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="sequentiel.html" class="wikilink1" title="sequentiel">La fenêtre du Séquentiel (CueList)</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="banger.html" class="wikilink1" title="banger">Banger, le gestionnaire d&#039;évènements</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="wizard.html" class="wikilink1" title="wizard">Wizard, le modificateur de mémoires par lots</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="sauvegardes_et_imports_exports">Sauvegardes et imports / exports</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="save.html" class="wikilink1" title="save">La fenêtre Save</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="audio">Audio</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="audio.html" class="wikilink1" title="audio">La fenêtre AudioPlayers</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="pilotage_audio.html" class="wikilink1" title="pilotage_audio">Pilotage de l&#039;audio</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="telecommandes_et_controleurs_d_appoint_par_smartphone">Télécommandes et contrôleurs d&#039;appoint par smartphone</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="android.html" class="wikilink1" title="android">télécommande clavier sous Android</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="touchosc.html" class="wikilink1" title="touchosc">télécommande TouchOSC pour Androids et iOS</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="configurations_hardware">Configurations hardware</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="menucfg.html" class="wikilink1" title="menucfg">L&#039;accès à la fenêtre de configuration</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_dmx.html" class="wikilink1" title="configuration_dmx">Configuration DMX</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_affectation_midi.html" class="wikilink1" title="configuration_affectation_midi">Configuration Midi et Affectations Midi</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_arduino.html" class="wikilink1" title="configuration_arduino">Configuration Arduino</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_affichage.html" class="wikilink1" title="configuration_affichage">Configuration Affichage</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_network.html" class="wikilink1" title="configuration_network">Configuration Network</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_generale.html" class="wikilink1" title="configuration_generale">Configuration Generale</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="configuration_core.html" class="wikilink1" title="configuration_core">Configuration Core</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="petits_trucs">Petits trucs</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="clean_ports_com.html" class="wikilink1" title="clean_ports_com">Installation: mon enttec pro n&#039;est pas détectée par WhiteCat. Nettoyer les ports COM de windows</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="rebrancher_a_chaud.html" class="wikilink1" title="rebrancher_a_chaud">Que faire en jeu quand mon interface dmx ou midi saute ?</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="opensource">OpenSource</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="le_coin_des_developpeurs.html" class="wikilink1" title="le_coin_des_developpeurs">Le coin des développeurs</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="documentation_doxygen.html" class="wikilink1" title="documentation_doxygen">Commenter son code pour la documentation automatique avec Doxygen</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="recettes_pour_git.html" class="wikilink1" title="recettes_pour_git">Recettes pour Git</a></div>
+</li>
+</ul>
+</div>
+
+<h5 id="utiles">Utiles</h5>
+<div class="level5">
+
+<p>=Logiciel=</p>
+<ul>
+<li class="level1"><div class="li"> <a href="commandes_clavier.html" class="wikilink1" title="commandes_clavier">Récapitulatif commandes clavier</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="tableau_affectation_midi.html" class="wikilink1" title="tableau_affectation_midi">Synoptique d&#039;affectations midi</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="trichromie_correspondances.html" class="wikilink1" title="trichromie_correspondances">Correspondances trichromie</a></div>
+</li>
+</ul>
+
+<p>=How To=</p>
+<ul>
+<li class="level1"><div class="li"> <a href="how_to_manuel.html" class="wikilink1" title="how_to_manuel">Comment travailler en manuel la création de ses mémoires</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="record_real_time.html" class="wikilink1" title="record_real_time">Enregistrer en temps réel des manipulations à la main</a></div>
+</li>
+</ul>
+
+<p>=Hardware=</p>
+<ul>
+<li class="level1"><div class="li"> <a href="aide_hardware_midi.html" class="wikilink1" title="aide_hardware_midi">Surfaces de controle MIDI: comment les configurer</a></div>
+</li>
+</ul>
+
+<p>=Réseaux=</p>
+<ul>
+<li class="level1"><div class="li"> <a href="bonjour_rtpmidi.html" class="wikilink1" title="bonjour_rtpmidi">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="interfacage_artnet.html" class="wikilink1" title="interfacage_artnet">La configuration multi-logiciels en ArtNet</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="liaison_adhoc.html" class="wikilink1" title="liaison_adhoc">Créer une connexion ad-hoc</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="vnc.html" class="wikilink1" title="vnc">utiliser VNC</a></div>
+</li>
+</ul>
+
+</div>
+
+<h5 id="divers">Divers</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li"> <a href="biblio.html" class="wikilink1" title="biblio">les bibliothèques libres sous tendant le projet</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="hall_of_fame.html" class="wikilink1" title="hall_of_fame">Hall of Fame</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="auteur.html" class="wikilink1" title="auteur">christoph</a></div>
+</li>
+</ul>
+</div>
+<br>
+<h6>
+WHITE CAT LIGHTING BOARD — CREATIVE CODING
+</h6>
+<h6>
+
+Marque enregistrée auprès de l&#039;INPI
+</h6>
+
+<h6>
+Logiciel déposé auprès de l&#039;APP, IDDN.FR.001.500011.000.R.P.2009.000.30645
+</h6>
+</div>
+
+</body>
+</html>

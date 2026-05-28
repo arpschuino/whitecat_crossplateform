@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>vnc</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-27T18:11:18+0200"/>
+<meta name="keywords" content="vnc"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="vnc.html"/>
+<link rel="contents" href="vnc.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="vnc.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="vnc.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=vnc"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"vnc","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#etape_1installer_le_controle_vnc_en_local">Etape 1 : installer le contrôle vnc en local.</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#le_serveur">Le serveur</a></div></li>
+<li class="level2"><div class="li"><a href="#le_client">Le client</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#etape_2installer_le_controle_vnc_depuis_internet">Etape 2 : Installer le contrôle vnc depuis internet</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#ip_fixe_ou_ip_dynamique">IP fixe ou IP dynamique.</a></div></li>
+<li class="level2"><div class="li"><a href="#configuration_du_routeur">Configuration du routeur</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h5><a name="par_anton_langhoff" id="par_anton_langhoff">par Anton Langhoff</a></h5>
+
+<p class="level5">
+Salut a tous,
+</p>
+
+<p class="level5">
+Votre PC est dans la cabine de régie et vous voulez le contrôler à distance afin de pouvoir rester à proximité du metteur en scène ou vous voulez pouvoir le dépanner sur internet car votre assistant l&#039;a planté en installant World of worldcraft pendant vos vacances aux Bermudes ?
+Le vnc est fait pour vous, il va vous permettre d&#039;affiché l&#039;écran et de contrôler le clavier et la souris d&#039;un ordinateur cible sur un ordinateur télécommande.
+</p>
+
+<h1 class="sectionedit1"><a name="etape_1installer_le_controle_vnc_en_local" id="etape_1installer_le_controle_vnc_en_local">Etape 1 : installer le contrôle vnc en local.</a></h1>
+
+<p class="level1">
+Télécharger l&#039;application ultra vnc et installer là sur les deux ordinateur : 
+</p>
+
+<p class="level1">
+le serveur que vous contrôlerez et le client qui servira de télécommande. 
+Téléchargeable à l&#039;adresse <a href="http://www.ultravnc.fr/" class="urlextern" title="http://www.ultravnc.fr/"  rel="nofollow">www.ultravnc.fr/</a>
+</p>
+
+<p class="level1">
+Lors de l&#039;installation cocher les case suivante:
+</p>
+
+<p class="level1">
+<img src="install.jpeg" class="media" alt="" /> <img src="setup-add.jpeg" class="media" alt="" /><img src="setup-acl.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+Vous pouvez aussi installer le serveur seul et le client seul. Il s&#039;agira alors de deux fichier .exe ne nécessitant pas d&#039;installation.
+</p>
+<!-- EDIT1 SECTION "Etape 1 : installer le contrôle vnc en local." [496-1017] -->
+<h2 class="sectionedit2"><a name="le_serveur" id="le_serveur">Le serveur</a></h2>
+
+<p class="level2">
+Lorsque vous lancer le serveur sur l&#039;ordinateur que vous voulez télécommander, cette fenêtre s&#039;affiche.
+</p>
+
+<p class="level2">
+<img src="adminprops.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+Par mesure de sécurité, il est conseillé de changer le numéro de port et ne pas le laisser en auto. 
+Par défaut, le port vnc est 5900, indiquer un numéro de port supérieur à 1080 par exemple 5943 et ouvrez ce port dans votre part feu.
+</p>
+
+<p class="level2">
+Si vous n&#039;avez pas installé ultra vnc sans l&#039;installeur, désactivez les case login windows nécessaire et login windows avancé, vous risqueriez d&#039;avoir des problèmes d&#039;installation. Choisissez un mot de passe vnc (chiffre et lettre, petite complexité).
+</p>
+
+<p class="level2">
+Le mode usurpation permet si il est enclenché de limiter les accès aux fichiers. Si ce mode est activé, un utilisateur qui se connecte via UltraVNC et qui arrive sur l&#039;écran de login/password de Windows ne peut pas utiliser le transfert de fichiers.
+Une fois loggué, il ne peut accèder qu&#039;aux répertoires et fichiers auxquels lui donne droit son profil utilisateur Windows.
+Si ce mode est désactivé, les utilisateurs UltraVNC ont un accès total aux fichiers du serveur, même sans être loggués sous Windows.
+</p>
+
+<p class="level2">
+Cochez affiché une fenêtre d&#039;alerte et refuser. Cela permettra de bloquer toute nouvelle connexion qui n&#039;aura pas été autoriser sur le serveur.
+</p>
+
+<p class="level2">
+Il est conseillé aussi d&#039;utiliser un plug-in DSM de cryptage téléchargeable à l&#039;adresse suivante : <a href="http://msrc4plugin.home.comcast.net/~msrc4plugin/aesv2plugin.html" class="urlextern" title="http://msrc4plugin.home.comcast.net/~msrc4plugin/aesv2plugin.html"  rel="nofollow">http://msrc4plugin.home.comcast.net/~msrc4plugin/aesv2plugin.html</a>. 
+</p>
+<!-- EDIT2 SECTION "Le serveur" [1018-2516] -->
+<h2 class="sectionedit3"><a name="le_client" id="le_client">Le client</a></h2>
+
+<p class="level2">
+Sur le machine qui sert de télécommande lancer ultravncviewer et ouvrez sur votre part feu le port (dans notre exemple) 5943.
+</p>
+
+<p class="level2">
+<img src="viewer.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+Vous devez avoir entre les deux machine une connexion ad-hoc ou être sur le même réseaux local.
+Dans serveur vnc entrer l&#039;IP de la machine serveur suivit du numéro de port vnc (ex : 192.168.1.23::5943), puis cliquer sur connexion.
+Après vous avoir demandé votre mot de passe, une fenêtre s&#039;ouvre ou vous pouvez voir l&#039;écran de la machine serveur et le contrôler. Vous pourrez aussi ouvrir une fenêtre de chat vous permettant de communiquer avec l&#039;ordinateur que vous chercher à dépanner.
+</p>
+<!-- EDIT3 SECTION "Le client" [2517-3186] -->
+<h1 class="sectionedit4"><a name="etape_2installer_le_controle_vnc_depuis_internet" id="etape_2installer_le_controle_vnc_depuis_internet">Etape 2 : Installer le contrôle vnc depuis internet</a></h1>
+<!-- EDIT4 SECTION "Etape 2 : Installer le contrôle vnc depuis internet" [3187-3256] -->
+<h2 class="sectionedit5"><a name="ip_fixe_ou_ip_dynamique" id="ip_fixe_ou_ip_dynamique">IP fixe ou IP dynamique.</a></h2>
+
+<p class="level2">
+La différence entre une IP fixe et une IP dynamique dépend de votre fournisseur d&#039;accès à internet.
+Si vous avez une IP fixe (ex: free) pas de problème, il vous suffira de vous souvenir de votre IP. Si vous avez une IP dynamique cela est un peu plus compliqué car votre adresse Ip change continuellement.
+</p>
+
+<p class="level2">
+Dans le cas d&#039;une IP dynamique, rendez vous sur le site <a href="http://www.no-ip.com" class="urlextern" title="http://www.no-ip.com"  rel="nofollow">http://www.no-ip.com</a> et créer un nouveau compte (gratuit) avec un nom de domaine (ex:moianton.no-ip.org) puis installer sur votre ordinateur le dynamique dns update client téléchargeable à l&#039;adresse <a href="http://www.no-ip.com/downloads.php" class="urlextern" title="http://www.no-ip.com/downloads.php"  rel="nofollow">http://www.no-ip.com/downloads.php</a>
+Dorénavant lorsque votre client est lancé et l&#039;ordinateur connecter à internet, il mettra mon adresse IP à jour pour que celle-ci corresponde à moianton.no-ip.org
+</p>
+<!-- EDIT5 SECTION "IP fixe ou IP dynamique." [3257-4069] -->
+<h2 class="sectionedit6"><a name="configuration_du_routeur" id="configuration_du_routeur">Configuration du routeur</a></h2>
+
+<p class="level2">
+Dans les deux cas , IP fixe ou dynamique, vous devrez configurez votre routeur pour qu&#039;il redirige le port 5943 (dans notre exemple) vers votre machine.
+Pour cela ouvrez votre navigateur et entrez l&#039;adresse de votre routeur (ex: <a href="http://192.168.1.1" class="urlextern" title="http://192.168.1.1"  rel="nofollow">http://192.168.1.1</a>). L&#039;adresse du routeur peut se trouvez dans votre connexion réseau/statut/passerelle par défaut. 
+</p>
+
+<p class="level2">
+Une fenêtre s&#039;ouvrira vous demandant votre login ainsi que votre mot de passe du routeur. Lorsque c&#039;est information son rentrée vous accéderez à la page de configuration du routeur.
+</p>
+
+<p class="level2">
+Cherchez dans cette page un fonction qui s&#039;appelle port forwarding.
+Entrez un nom de service (ex: vnc) sélectionnez TCP, entrez comme numéro de port d&#039;entré 5943 et 5943 en port de sortie, puis entrez l&#039;adresse IP de l&#039;ordinateur serveur vnc à contrôler (ex: 192.168.1.12). Le port 5943 de l&#039;accès internet au routeur est dirigé vers le port 1943 de la machine 192.168.1.12
+</p>
+
+<p class="level2">
+Vous pouvez à présent depuis internet avec ultravncwiever vous connecter en entrant dans serveur vnc : moianton.no-ip.org::5943 et cliquer sur connexion.
+Vérifier bien sur que le port 5943 est ouvert dans tout les part feu (deux ordinateurs, routeur), et que sur le serveur ultravnc et le dynamique dns update client sont bien lancé.
+</p>
+
+<h5><a name="pour_les_plus_aventureux_vous_trouverez_d_autre_fonction_non_detailler_ici_comme_la_possibilite_de_faire_par_passer_le_serveur_vnc_en_ssh_connexion_securise_et_crypte_ou_la_configuration_en_ligne_de_commande" id="pour_les_plus_aventureux_vous_trouverez_d_autre_fonction_non_detailler_ici_comme_la_possibilite_de_faire_par_passer_le_serveur_vnc_en_ssh_connexion_securise_et_crypte_ou_la_configuration_en_ligne_de_commande">Pour les plus aventureux vous trouverez d&#039;autre fonction non détailler ici comme la possibilité de faire par passer le serveur vnc en ssh (connexion sécurisé et crypté) ou la configuration en ligne de commande.</a></h5>
+
+<h5><a name="bon_vnc_a_tous_anton_langhoff" id="bon_vnc_a_tous_anton_langhoff">Bon VNC à tous. Anton Langhoff</a></h5>
+<!-- EDIT6 SECTION "Configuration du routeur" [4070-] --></div>
+</body>
+</html>

@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>espace_faders</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-12-01T11:16:54+0100"/>
+<meta name="keywords" content="espace_faders"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="espace_faders.html"/>
+<link rel="contents" href="espace_faders.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="espace_faders.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="espace_faders.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=espace_faders"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"espace_faders","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#interfaces_des_48_faders">Interfaces des 48 Faders</a></div></li>
+<li class="level1"><div class="li"><a href="#navigation_dans_les_48_faders">Navigation dans les 48 Faders</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#deplacement_dans_les_faders">Déplacement dans les faders:</a></div></li>
+<li class="level4"><div class="li"><a href="#affectation_midi_de_l_ascenceur">Affectation midi de l&#039;ascenceur</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#role_du_fader">Rôle du Fader</a></div></li>
+<li class="level1"><div class="li"><a href="#edition_du_fader">Edition du Fader</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#chargement_modification_d_un_etat_lumineux_fixe_dans_un_dock">Chargement, modification d&#039;un état lumineux fixe dans un Dock</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#a_la_volee">A la volée</a></div></li>
+<li class="level3"><div class="li"><a href="#d_une_memoire">D&#039;une mémoire</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#report_d_un_etat_lumineux_dans_un_dock">Report d&#039;un état lumineux dans un Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#nettoyer_un_dock">Nettoyer un Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#donner_un_descriptif_a_un_dock">Donner un descriptif à un Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#nettoyer_un_fader_et_tous_ses_dock">Nettoyer un FADER et tous ses Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#inspecter_le_contenu_d_un_dock">Inspecter le contenu d&#039;un Dock</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#autres_types_de_chargements">Autres types de chargements</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#mode_direct_channel">Mode Direct Channel</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#affectation_d_un_circuit_a_un_dock">Affectation d&#039;un circuit à un dock:</a></div></li>
+<li class="level4"><div class="li"><a href="#comportement_du_fader_mis_en_mode_direct_ch">Comportement du Fader mis en mode [Direct Ch.]:</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#fx_mode_d_un_fader">FX mode d&#039;un fader</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#choix_de_la_restitution_des_niveaux">Choix de la restitution des niveaux</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#lfo">Lfo</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#affecter_un_temps_a_un_dock">Affecter un temps à un Dock</a></div></li>
+<li class="level2"><div class="li"><a href="#utilisation_des_lfo">Utilisation des LFO</a></div></li>
+<li class="level2"><div class="li"><a href="#types_de_lfo">Types de LFO</a></div></li>
+<li class="level2"><div class="li"><a href="#mise_en_boucle_d_un_lfo">Mise en boucle d&#039;un LFO</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#commandes_a_la_volee_de_lfo_et_bouton_de_flash">Commandes à la volée de LFO et bouton de Flash</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#stoppos_d_un_lfo">StopPos d&#039;un LFO</a></div></li>
+<li class="level2"><div class="li"><a href="#sequence_et_mini-chaser_avec_next_dock_et_previous_dock">Séquence et mini-chaser avec NEXT DOCK et PREVIOUS DOCK</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#sequence">SEQUENCE</a></div></li>
+<li class="level4"><div class="li"><a href="#mini-chaser">MINI-CHASER</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#accelerometre">Accéléromètre</a></div></li>
+<li class="level1"><div class="li"><a href="#attribution_d_une_courbe_a_un_fader">Attribution d&#039;une courbe à un fader</a></div></li>
+<li class="level1"><div class="li"><a href="#embarquement_d_un_chaser">Embarquement d&#039;un chaser</a></div></li>
+<li class="level1"><div class="li"><a href="#pilotage_des_faders_audio_par_les_faders_lumiere">Pilotage des faders audio par les Faders Lumière</a></div></li>
+<li class="level1"><div class="li"><a href="#affectation_midi">Affectation MIDI</a></div></li>
+<li class="level1"><div class="li"><a href="#emission_midi">Emission MIDI</a></div></li>
+<li class="level1"><div class="li"><a href="#midi_mute_local">MIDI MUTE (local)</a></div></li>
+<li class="level1"><div class="li"><a href="#raccourci_d_enregistrement_via_midi_touche_midi-do-order_pour_le_live">Raccourci d&#039;enregistrement, via MIDI  , touche midi-do-order pour le live</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#affecter_la_commande_midi_a_midi-do-order">Affecter la commande midi à midi-do-order</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="interfaces_des_48_faders" id="interfaces_des_48_faders">Interfaces des 48 Faders</a></h1>
+
+<p class="level1">
+Il y a deux espaces dédiés aux Faders dans WhiteCat:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> une version étendue, nommée l&#039;Espace Faders</div>
+</li>
+<li class="level1"><div class="li"> une vision synthétique, en fenêtre, nommée Minifaders</div>
+</li>
+</ul>
+
+<p class="level1">
+On accède à la premiere avec la touche [F10] et à la seconde avec [shift-F10].
+</p>
+
+<p class="level1">
+<img src="click_faders.jpeg" class="media" title="click_faders.jpg" alt="click_faders.jpg" />
+</p>
+
+<p class="level1">
+<img src="click_minifaders.jpeg" class="media" title="click_minifaders.jpg" alt="click_minifaders.jpg" />
+</p>
+
+<p class="level1">
+L&#039;espace Faders permet un travail plus précis et pointu que les Minifaders.
+</p>
+
+<p class="level1">
+Les Minifaders intègrent une vision globale, les Locks preset et les commandes All at Zero. Voir: <a href="minifaders.html" class="wikilink1" title="Minifaders">la fenêtre des Minifaders</a>
+</p>
+<!-- EDIT1 SECTION "Interfaces des 48 Faders" [1-558] -->
+<h1 class="sectionedit2"><a name="navigation_dans_les_48_faders" id="navigation_dans_les_48_faders">Navigation dans les 48 Faders</a></h1>
+
+<p class="level1">
+Pour déplacer le bandeau des faders, il faut utiliser l&#039;ascenceur.
+</p>
+
+<p class="level1">
+Celui ci comprend deux zônes:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> la zône gauche est pour controller de manière horizontale l&#039;ascenceur</div>
+</li>
+<li class="level1"><div class="li"> la zône droite est pour controller de manière verticale l&#039;ascenceur</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Navigation dans les 48 Faders" [559-855] -->
+<h4 class="sectionedit3"><a name="deplacement_dans_les_faders" id="deplacement_dans_les_faders">Déplacement dans les faders:</a></h4>
+
+<p class="level4">
+Il suffit, soit de clicker sur le numéro de tranche désirée, soit de déplacer l&#039;ascenceur horizontal.
+</p>
+
+<p class="level4">
+Pour échapper la fenêtre des masters du plan de travail, utiliser l&#039;ascenceur de manière verticale.
+</p>
+
+<p class="level4">
+Escamoter ou faire réapparaitre la zône Faders: clicker [Faders] ou taper [F10].
+</p>
+<!-- EDIT3 SECTION "Déplacement dans les faders:" [856-1187] -->
+<h4 class="sectionedit4"><a name="affectation_midi_de_l_ascenceur" id="affectation_midi_de_l_ascenceur">Affectation midi de l&#039;ascenceur</a></h4>
+
+<p class="level4">
+L&#039;ascenceur horizontal est pilotable en signal control-change, ce qui permet avec un rotatif de se déplacer rapidement sur les 48 faders.
+</p>
+
+<p class="level4">
+<img src="navigation_faders.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT4 SECTION "Affectation midi de l'ascenceur" [1188-1397] -->
+<h1 class="sectionedit5"><a name="role_du_fader" id="role_du_fader">Rôle du Fader</a></h1>
+
+<p class="level1">
+<img src="un_fader.jpeg" class="mediaright" alt="" />
+</p>
+
+<p class="level1">
+Les 48 Faders de White Cat peuvent être appelés aussi des Masters.
+</p>
+
+<p class="level1">
+A la différence des Masters classiques que l&#039;on retrouve dans les consoles de théâtre, les faders de White Cat comprennent 6 docks.
+</p>
+
+<p class="level1">
+C&#039;est dans les docks que l&#039;on stocke:
+</p>
+
+<p class="level1">
+-des états lumineux fixes
+</p>
+
+<p class="level1">
+-des états lumineux dynamiques
+</p>
+
+<p class="level1">
+<strong>Selon le dock sélectionné, la sortie du Fader est différente.</strong>
+</p>
+<pre class="code">Si le dock comprend les circuits 1 et 2, et le dock 2 les circuits 3 et 4, 
+selon le dock choisi la sortie issue du master comprendra les circuits 1 et 2 **ou** 3 et 4.</pre>
+
+<p class="level1">
+Un Fader est constitué:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> d&#039;une tirette permettant de contrôler son intensité, avec un descriptif du dock sélectionné, et un bouton de Lock</div>
+</li>
+<li class="level1"><div class="li"> de 6 docks. Le dock sélectionné apparait en orange.</div>
+</li>
+<li class="level1"><div class="li"> d&#039;un espace LFO ( générateur de mouvements sinusoidaux affectant son intensité) et de commandes de boucles et de flash</div>
+</li>
+<li class="level1"><div class="li"> d&#039;un accéléromètre qui affecte les LFO</div>
+</li>
+</ol>
+<!-- EDIT5 SECTION "Rôle du Fader" [1398-2382] -->
+<h1 class="sectionedit6"><a name="edition_du_fader" id="edition_du_fader">Edition du Fader</a></h1>
+<!-- EDIT6 SECTION "Edition du Fader" [2383-2414] -->
+<h2 class="sectionedit7"><a name="chargement_modification_d_un_etat_lumineux_fixe_dans_un_dock" id="chargement_modification_d_un_etat_lumineux_fixe_dans_un_dock">Chargement, modification d&#039;un état lumineux fixe dans un Dock</a></h2>
+<!-- EDIT7 SECTION "Chargement, modification d'un état lumineux fixe dans un Dock" [2415-2489] -->
+<h3 class="sectionedit8"><a name="a_la_volee" id="a_la_volee">A la volée</a></h3>
+
+<p class="level3">
+<strong>Pour charger dans un dock un état lumineux fixe:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> créer son état lumineux ( voir  <a href="espace_circuits.html" class="wikilink1" title="espace_circuits">L&#039;espace Circuits</a> ), soit sur scène, soit en Blind</div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou taper la touche [F1]</div>
+</li>
+<li class="level1"><div class="li"> puis clicker le dock où enregistrer cet état lumineux</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Modification de l&#039;état lumineux fixe contenu dans un dock:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> sélectionner les circuits, les mettre à l&#039;intensité désirée. </div>
+</li>
+</ul>
+
+<p class="level3">
+  Seuls les circuits sélectionnés seront enregistrés dans ce nouvel état. Les autres circuits ne seront pas modifiés.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker [MODIFY] ou taper la touche [F2]</div>
+</li>
+<li class="level1"><div class="li"> puis clicker le dock à modifier</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Les états lumineux issus des Faders (circuits affichés en orange) ne sont pas pris en compte.</strong>
+</p>
+<!-- EDIT8 SECTION "A la volée" [2490-3225] -->
+<h3 class="sectionedit9"><a name="d_une_memoire" id="d_une_memoire">D&#039;une mémoire</a></h3>
+
+<p class="level3">
+Il est possible d&#039;affecter une mémoire à un dock:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> taper le numéro de mémoire</div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou taper la touche [F1]</div>
+</li>
+<li class="level1"><div class="li"> puis clicker le dock à modifier</div>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="mem_dans_dock.jpeg" class="mediacenter" title="mem_dans_dock.jpg" alt="mem_dans_dock.jpg" /></div>
+</p>
+
+<p class="level3">
+Si la mémoire par la suite est détruite, le dock clignotera.
+</p>
+
+<p class="level3">
+Si la mémoire est modifiée vous n&#039;avez pas à la recharger dans le dock.
+</p>
+
+<p class="level3">
+Le descriptif du dock est relié à celui de la mémoire.
+</p>
+
+<p class="level3">
+<strong>Attention !</strong>
+</p>
+
+<p class="level3">
+Concernant l&#039;édition des mémoires, celle-ci sont accessibles et modifiables depuis <a href="sequentiel.html" class="wikilink1" title="Sequentiel">la fenêtre du Séquentiel</a> ( F9) et l&#039;usage des touches de saisie rapide ( Ctrl-F1 pour ré-enregistrer la mémoire sur scène, SHIFT-F1 pour créer une nouvelle mémoire, etc… voir <a href="commandes_clavier.html" class="wikilink1" title="commandes_clavier">Récapitulatif commandes clavier</a>). 
+</p>
+
+<p class="level3">
+Certains utilisateurs ont mis un peu de temps à comprendre que l&#039;injection de mémoires dans un dock était un l&#039;une des multiples façons de travailler avec les faders. Le travail des mémoires doit être donc envisagé dans son ergonomie depuis la fenêtre du séquenciel.
+</p>
+<!-- EDIT9 SECTION "D'une mémoire" [3226-4284] -->
+<h2 class="sectionedit10"><a name="report_d_un_etat_lumineux_dans_un_dock" id="report_d_un_etat_lumineux_dans_un_dock">Report d&#039;un état lumineux dans un Dock</a></h2>
+
+<p class="level2">
+<strong>[Report] permet de reporter tous les niveaux, issus des faders <em class="u">et</em> du séquenciel, dans le dock sélectionné.</strong>
+</p>
+
+<p class="level2">
+Le fader de ce dernier est mis à full, les autres faders sont mis à zéro.
+</p>
+
+<p class="level2">
+L&#039;intérêt de Report est de pouvoir créer un état lumineux avec différents faders, et de tout reporter dans un seul et unique Fader ( pour faire un noir en concert, par exemple, ou créer ses lumières avec des masters).
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> clicker [Report] ou taper la touche [F3]</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock où faire le report</div>
+</li>
+</ul>
+
+<p class="level2">
+[Report] ne fonctionne que sur scène et pas en Blind.
+</p>
+<!-- EDIT10 SECTION "Report d'un état lumineux dans un Dock" [4285-4902] -->
+<h2 class="sectionedit11"><a name="nettoyer_un_dock" id="nettoyer_un_dock">Nettoyer un Dock</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclencher le mode Clear en clickant [CLEAR] ou en tapant [F4]</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock à remettre à zéro</div>
+</li>
+</ul>
+<pre class="code">!un dock vide apparait avec un petit [-]</pre>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="dock_vide.jpeg" class="mediacenter" title="dock_vide.jpg" alt="dock_vide.jpg" /></div>
+</p>
+<!-- EDIT11 SECTION "Nettoyer un Dock" [4903-5107] -->
+<h2 class="sectionedit12"><a name="donner_un_descriptif_a_un_dock" id="donner_un_descriptif_a_un_dock">Donner un descriptif à un Dock</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> clicker [NAME] ou taper [F5]</div>
+</li>
+<li class="level1"><div class="li"> taper votre texte</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock auquel affecter le descriptif</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="fenetre_name.jpeg" class="mediacenter" title="fenetre_name.jpg" alt="fenetre_name.jpg" /></div>
+</p>
+
+<p class="level2">
+(voir <a href="name.html" class="wikilink1" title="Name">La fenêtre Name</a>)
+</p>
+<!-- EDIT12 SECTION "Donner un descriptif à un Dock" [5108-5315] -->
+<h2 class="sectionedit13"><a name="nettoyer_un_fader_et_tous_ses_dock" id="nettoyer_un_fader_et_tous_ses_dock">Nettoyer un FADER et tous ses Dock</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclencher le mode Clear en clickant [CLEAR] ou en tapant [F4]</div>
+</li>
+<li class="level1"><div class="li"> clicker le fader à remettre à zéro</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "Nettoyer un FADER et tous ses Dock" [5316-5473] -->
+<h2 class="sectionedit14"><a name="inspecter_le_contenu_d_un_dock" id="inspecter_le_contenu_d_un_dock">Inspecter le contenu d&#039;un Dock</a></h2>
+
+<p class="level2">
+Le bouton [VIEW] permet au survol d&#039;un dock d&#039;afficher le contenu de celui-ci. 
+</p>
+
+<p class="level2">
+<img src="view.jpeg" class="media" title="view.jpg" alt="view.jpg" /> <img src="inspektor.jpeg" class="media" title="inspektor.jpg" alt="inspektor.jpg" />
+</p>
+<!-- EDIT14 SECTION "Inspecter le contenu d'un Dock" [5474-5630] -->
+<h1 class="sectionedit15"><a name="autres_types_de_chargements" id="autres_types_de_chargements">Autres types de chargements</a></h1>
+
+<p class="level1">
+On peut charger dans  un dock, outre des circuits et des mémoires:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> un chaser</div>
+</li>
+<li class="level1"><div class="li"> un dock color ( le résultat de la roue de trichromie)</div>
+</li>
+<li class="level1"><div class="li"> le résultat du tracking-vidéo</div>
+</li>
+<li class="level1"><div class="li"> du dmx venant de l&#039;extérieur, en protocole art-net</div>
+</li>
+<li class="level1"><div class="li"> du dmx-in venant d&#039;une carte dmx-in</div>
+</li>
+</ol>
+
+<p class="level1">
+Un Fader peut avoir aussi des comportements très spéciaux:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> pilotage du volume, du panoramique, ou du pitch d&#039;un player audio</div>
+</li>
+<li class="level1"><div class="li"> mode Direct-Channel ( liaison du fader à un circuit sur la conduite)</div>
+</li>
+</ol>
+<!-- EDIT15 SECTION "Autres types de chargements" [5631-6157] -->
+<h3 class="sectionedit16"><a name="mode_direct_channel" id="mode_direct_channel">Mode Direct Channel</a></h3>
+
+<p class="level3">
+Le mode Direct Channel permet au fader ( si le dock sélectionné est en Direct Channel) de piloter un circuit et d&#039;être piloté par celui-ci.
+Ce n&#039;est pas le mode que l&#039;on connait sur les consoles traditionnelles. On affecte au dock un circuit dont il devient maître et esclave. 
+</p>
+
+<p class="level3">
+Ce mode a été créé pour les besoins d&#039;un béta testeur, de façon à répondre à sa problématique avec une BCF2000:
+</p>
+
+<p class="level3">
+<em>“White Cat a le grand avantage d&#039;avoir un retour midi, mais je ne parviens pas à prendre en main un circuit enregistré sur la conduite avec la BCF
+j&#039;aimerai que les faders de la BCF suivent l&#039;évolution de niveaux d&#039;un circuit afin de pouvoir après le transfert monter ou descendre sa valeur et reprendre le prochain transfert comme sur un presto ”</em>
+</p>
+<!-- EDIT16 SECTION "Mode Direct Channel" [6158-6953] -->
+<h4 class="sectionedit17"><a name="affectation_d_un_circuit_a_un_dock" id="affectation_d_un_circuit_a_un_dock">Affectation d&#039;un circuit à un dock:</a></h4>
+
+<p class="level4">
+<img src="faders_direct_chan.jpeg" class="media" title="faders_direct_chan.jpg" alt="faders_direct_chan.jpg" />
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> se mettre en mode [ Direct Ch. ] </div>
+</li>
+<li class="level1"><div class="li"> sélectionner le circuit</div>
+</li>
+<li class="level1"><div class="li"> F1 ou clicker [STORE]</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock où stocker le circuit sélectionné</div>
+</li>
+</ol>
+
+<p class="level4">
+Le mode [ Direct Ch. ] est uniquement pour l&#039;enregistrement, et permet de préciser le type d&#039;action que fait [F1].
+</p>
+
+<p class="level4">
+Ici ce dock met le Fader en relation directe avec le circuit 47:
+</p>
+
+<p class="level4">
+<img src="fader_dc_circuit.jpeg" class="media" title="fader_dc_circuit.jpg" alt="fader_dc_circuit.jpg" />
+</p>
+<!-- EDIT17 SECTION "Affectation d'un circuit à un dock:" [6954-7391] -->
+<h4 class="sectionedit18"><a name="comportement_du_fader_mis_en_mode_direct_ch" id="comportement_du_fader_mis_en_mode_direct_ch">Comportement du Fader mis en mode [Direct Ch.]:</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> le fader prend la valeur du circuit lorsque celui-ci n&#039;est pas manipulé. Celà veut dire qu il prend la valeur du circuit manipulé dans le Buffer Saisie ( sur scène): crossfade, appel niveaux clavier et flèches, molette souris.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> mis en MidiOut, il renvoie à la bcf la valeur pour que tu sois raccord.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> lorsqu&#039;on manipule le fader, par souris, midi ou LFO, la valeur du fader est alors affectée au circuit, sauf si il y a crossfade.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> pour modifier la valeur pendant crossfade: passer par les flèches ou la molette souris en sélectionnant le circuits de figure.</div>
+</li>
+</ul>
+<!-- EDIT18 SECTION "Comportement du Fader mis en mode [Direct Ch.]:" [7392-8031] -->
+<h1 class="sectionedit19"><a name="fx_mode_d_un_fader" id="fx_mode_d_un_fader">FX mode d&#039;un fader</a></h1>
+
+<p class="level1">
+( version 0.8.3 )
+</p>
+
+<p class="level1">
+<img src="faders_fxmodes.jpeg" class="media" title="faders_fxmodes.jpg" alt="faders_fxmodes.jpg" />
+</p>
+<!-- EDIT19 SECTION "FX mode d'un fader" [8032-8110] -->
+<h3 class="sectionedit20"><a name="choix_de_la_restitution_des_niveaux" id="choix_de_la_restitution_des_niveaux">Choix de la restitution des niveaux</a></h3>
+
+<p class="level3">
+Le calcul du rendu d&#039;un fader peut être rendu désormais vers deux espaces:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> le buffer des Faders ( en orange)</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> le buffer du séquenciel ( en bleu)</div>
+</li>
+</ul>
+
+<p class="level3">
+La sélection de l&#039;envoi du contenu du Fader se fait en clickant le petit carré sous le chiffre du Fader.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> En orange le fader restitue ses niveaux dans le buffer des Faders. </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> En bleu dans le buffer du séquenciel, APRES calcul des circuits sur scène et en preset ( donc il influe sur le résultat d&#039;un crossfade).</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="faders_toggle_space_buffer.jpeg" class="media" title="faders_toggle_space_buffer.jpg" alt="faders_toggle_space_buffer.jpg" />
+</p>
+<!-- EDIT20 SECTION "Choix de la restitution des niveaux" [8111-8681] -->
+<h1 class="sectionedit21"><a name="lfo" id="lfo">Lfo</a></h1>
+
+<p class="level1">
+<strong>Les LFO permettent:</strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> de monter à full ou descendre à zéro sur une base de temps un fader</div>
+</li>
+<li class="level1"><div class="li"> de monter/descendre sur <strong>une base de temps</strong> un fader</div>
+</li>
+<li class="level1"><div class="li"> de boucler cette action</div>
+</li>
+<li class="level1"><div class="li"> de linker ces montées/descentes vers le dock précédent ou le dock suivant, et permettre de cette manière soit une mini-séquence, soit un mini-chaser</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>
+Chaque dock est donc timable, et comporte un temps de Delay In, de Delay Out, de In et de Out.</strong>
+</p>
+<!-- EDIT21 SECTION "Lfo" [8682-9145] -->
+<h2 class="sectionedit22"><a name="affecter_un_temps_a_un_dock" id="affecter_un_temps_a_un_dock">Affecter un temps à un Dock</a></h2>
+
+<p class="level2">
+Pour affecter un temps à un Dock, il faut utiliser <a href="time.html" class="wikilink1" title="Time">la fenêtre Time</a>.
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Afficher Time</div>
+</li>
+<li class="level1"><div class="li"> Bouger la roue pour obtenir le temps désiré</div>
+</li>
+<li class="level1"><div class="li"> sélectionner le temps à appliquer: D.In/Out ou In/Out</div>
+</li>
+<li class="level1"><div class="li"> clicker [AFFECT]</div>
+</li>
+<li class="level1"><div class="li"> clicker le dock pour affecter ce temps.</div>
+</li>
+</ol>
+
+<p class="level2">
+Le temps affecté au <strong>dock sélectionné</strong> apparait au dessus de l&#039;accéléromètre. 
+</p>
+
+<p class="level2">
+Ce temps ( Delays et In et Out) s&#039;affiche <strong>avec sa transformation par l&#039;accéléromètre</strong>.
+</p>
+
+<p class="level2">
+<strong>Le temps affiché dans ce dock montre un Delay In de 3 secondes, un IN de 2 secondes, un Delay Out de 3 secondes, un OUT de 5 secondes.</strong>
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="accelerometre.jpeg" class="mediacenter" title="accelerometre.jpg" alt="accelerometre.jpg" /></div>
+</p>
+<!-- EDIT22 SECTION "Affecter un temps à un Dock" [9146-9812] -->
+<h2 class="sectionedit23"><a name="utilisation_des_lfo" id="utilisation_des_lfo">Utilisation des LFO</a></h2>
+
+<p class="level2">
+Les LFO s&#039;utilisent sur un Go, en clickant l&#039;action voulue.
+Si l&#039;action est déjà en cours, re-clicker arrête l&#039;action et laisse le Fader au niveau présent.
+</p>
+<!-- EDIT23 SECTION "Utilisation des LFO" [9813-10005] -->
+<h2 class="sectionedit24"><a name="types_de_lfo" id="types_de_lfo">Types de LFO</a></h2>
+
+<p class="level2">
+<strong>Il y 3 types de LFO:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>UP ( montée)</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>DOWN (descente)</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>SAW (scie: montée-descente)</strong></div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="lfos.jpeg" class="mediacenter" title="lfos.jpg" alt="lfos.jpg" /></div>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>UP:</strong></div>
+</li>
+</ul>
+<pre class="code">Si l&#039;intensité du LFO est inférieure à FULL, il montera à Full sur la base de temps contenue dans le dock, quelque soit sa position de départ.</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>DOWN:</strong></div>
+</li>
+</ul>
+<pre class="code">Si l&#039;intensité du LFO est supérieure à zéro, il descendra sur la base de temps contenue dans le dock, quelque soit sa position de départ.</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>SAW:</strong></div>
+</li>
+</ul>
+<pre class="code">Si l&#039;intensité du LFO est égale est inférieure à FULL, le fader montera puis descendra, sur la base de temps contenue dans le dock.</pre>
+<pre class="code">Si l&#039;intensité du LFO est égale est égale à FULL, le fader descendra, sur la base de temps contenue dans le dock. Le mouvement s&#039;arrêtera.</pre>
+<!-- EDIT24 SECTION "Types de LFO" [10006-10782] -->
+<h2 class="sectionedit25"><a name="mise_en_boucle_d_un_lfo" id="mise_en_boucle_d_un_lfo">Mise en boucle d&#039;un LFO</a></h2>
+
+<p class="level2">
+En face du dock sélectionné, il y a une petite case ronde à cocher.
+</p>
+
+<p class="level2">
+<img src="loop.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+Quand cette case est cochée, le mode <strong>Link</strong> de ce dock est enclenché.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Si le Link de ce dock est coché, le mouvement se répètera sur lui même, permettant une boucle du mouvement choisi ( <strong>UP, DOW, SAW</strong>).</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Si le Link de ce dock n&#039;est pas enclenché, la séquence de mouvement ne se jouera qu&#039;une seule fois.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Si les cases NEXT DOCK  ou PREVIOUS DOCK sont enclenchés, la fin du mouvement mène au prochain dock.</div>
+</li>
+</ul>
+<!-- EDIT25 SECTION "Mise en boucle d'un LFO" [10783-11340] -->
+<h3 class="sectionedit26"><a name="commandes_a_la_volee_de_lfo_et_bouton_de_flash" id="commandes_a_la_volee_de_lfo_et_bouton_de_flash">Commandes à la volée de LFO et bouton de Flash</a></h3>
+
+<p class="level3">
+0.7.6.6
+</p>
+
+<p class="level3">
+<img src="fader_loop_flash.jpeg" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Loop One: Le premier bouton permet d&#039;enclencher/désenclencher le loop sur le dock actif</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Loop All: Le deuxième bouton permet d&#039;enclencher/désenclencher le loop sur tous les docks. Si un dock est en Loop, tous les docks sont mis en Loop Off. Inversement, si tous les docks sont en Loop Off, ils seront en Loop On.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Flash: Ce bouton permet de flasher le fader. Si vous avez un LFO qui tourne en même temps, les calculs continuent de se faire en arrière plan, ce qui permet de retrouver au relâchement du flash l&#039;état du fader comme si il n&#039;y avait rien eu ( important pour le rythme, par ex).</div>
+</li>
+</ul>
+
+<p class="level3">
+Ces commandes sont aussi affectables en midi.
+</p>
+<!-- EDIT26 SECTION "Commandes à la volée de LFO et bouton de Flash" [11341-12096] -->
+<h2 class="sectionedit27"><a name="stoppos_d_un_lfo" id="stoppos_d_un_lfo">StopPos d&#039;un LFO</a></h2>
+
+<p class="level2">
+<img src="faders_stopose.jpeg" class="media" title="faders_stopose.jpg" alt="faders_stopose.jpg" />
+</p>
+
+<p class="level2">
+Vous avez remarqué que les descentes et montées de Faders se font de 0 à Full. 
+</p>
+
+<p class="level2">
+Il est possible pour des encodages précis ( effets channel times ou remote des niveaux son ) d&#039;avoir des positions de fin <em>autres que 0 et Full</em>.
+</p>
+
+<p class="level2">
+Le bouton de StopPosition permet donc de définir une butée lors de l&#039;action LFO sur un fader.
+</p>
+
+<p class="level2">
+<strong>Cette butée bloque le fader à la position d&#039;arrivée sur la base des règles suivantes:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>cette butée n&#039;affecte pas le temps de LFO du fader</strong>. Si on définit une butée à 50%, la moitié du temps de déroulement du LFO, le fader fera sa variation de niveau, l&#039;autre moitié il est bloqué en butée. </div>
+</li>
+<li class="level1"><div class="li"> quand le LFO est en <strong>UP</strong>, la butée est la butée <strong>haute</strong>. Le fader n&#039;ira pas à un niveau plus haut que celui définit par le StopPos.</div>
+</li>
+<li class="level1"><div class="li"> quand le LFO est en <strong>DOWN</strong>, la butée est la butée <strong>basse</strong>. Le fader n&#039;ira pas à un niveau plus bas que le StopPos.</div>
+</li>
+<li class="level1"><div class="li"> quand le LFO est en <strong>SAW</strong>, la butée est <strong>basse</strong>.</div>
+</li>
+<li class="level1"><div class="li"> il n&#039;y a qu&#039; <strong>un seul StopPos par fader</strong>.</div>
+</li>
+</ul>
+
+<h5><a name="definir_un_stoppos" id="definir_un_stoppos">Définir un StopPos</a></h5>
+
+<p class="level5">
+A la main:
+</p>
+<ol class="level5">
+<li class="level1"><div class="li"> s&#039;assurer que la chaine de caractères est vide en faisant [ESC]</div>
+</li>
+<li class="level1"><div class="li"> bouger le fader au niveau voulu</div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou taper [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker [StopPos]</div>
+</li>
+</ol>
+
+<p class="level5">
+En aveugle:
+</p>
+<ol class="level5">
+<li class="level1"><div class="li"> taper la valeur désirée</div>
+</li>
+<li class="level1"><div class="li"> clicker [STORE] ou taper [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker [StopPos]</div>
+</li>
+</ol>
+
+<p class="level5">
+<img src="faders_stopose_affect.jpeg" class="media" alt="" />
+</p>
+
+<h5><a name="activer_desactiver_le_mode_stoppos" id="activer_desactiver_le_mode_stoppos">Activer/Désactiver le mode StopPos</a></h5>
+
+<p class="level5">
+Clicker la case StopPos pour qu&#039;elle soit rouge ( actif) / blanche (inactive). 
+Si le StopPos du fader est enclenché, la valeur apparait en rouge.
+</p>
+
+<p class="level5">
+<img src="faders_stopose_innactif.jpeg" class="media" alt="" /><img src="faders_stopose.jpeg" class="media" alt="" />
+</p>
+
+<h5><a name="vider_le_contenu_du_stoppos" id="vider_le_contenu_du_stoppos">Vider le contenu du StopPos</a></h5>
+
+<p class="level5">
+Pour des questions d&#039;affichage, vous désirez effacer les données de StopPos du Fader.
+</p>
+<ol class="level5">
+<li class="level1"><div class="li"> clicker [CLEAR] ou taper [F4]</div>
+</li>
+<li class="level1"><div class="li"> clicker [StopPos]</div>
+</li>
+</ol>
+<!-- EDIT27 SECTION "StopPos d'un LFO" [12097-13938] -->
+<h2 class="sectionedit28"><a name="sequence_et_mini-chaser_avec_next_dock_et_previous_dock" id="sequence_et_mini-chaser_avec_next_dock_et_previous_dock">Séquence et mini-chaser avec NEXT DOCK et PREVIOUS DOCK</a></h2>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="next_prev.jpeg" class="mediacenter" title="next_prev.jpg" alt="next_prev.jpg" /></div>
+</p>
+
+<p class="level2">
+NEXT DOCK et PREVIOUS DOCK ne fonctionnent que si le Link du Dock actif est enclenché.
+</p>
+
+<p class="level2">
+Le passage des mouvements du Fader s&#039;arrêtera lorsque le Dock du dernier mouvement exécuté aura son Link inactif. 
+</p>
+
+<p class="level2">
+La flèche Haut-bas permet de boucler le mouvement en aller retour: quand on arrive au dock 6 on repart en arrière, quand on arrive au dock 1, on repart en avant.
+</p>
+<!-- EDIT28 SECTION "Séquence et mini-chaser avec NEXT DOCK et PREVIOUS DOCK" [13939-14402] -->
+<h4 class="sectionedit29"><a name="sequence" id="sequence">SEQUENCE</a></h4>
+
+<p class="level4">
+<img src="nextdock.jpeg" class="media" title="nextdock.jpg" alt="nextdock.jpg" />
+</p>
+
+<p class="level4">
+Sur cette image, NEXT DOCK est enclenché.
+</p>
+
+<p class="level4">
+Le Link est enclenché sur les Docks 1, 2, 4, 5 et 6.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Le mouvement SAW est en cours, depuis le premier Dock.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> On passera au deuxième Dock, avec un mouvement SAW, puis au troisième Dock.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li">  Au troisième Dock, le mouvement SAW est effectué.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li">  Le mouvement s&#039;arrête alors, le 3ème Dock n&#039;ayant pas de Link enclenché.</div>
+</li>
+</ul>
+
+<p class="level4">
+Avec cet arrêt nous avons donc <strong>une séquence de mouvements</strong>, qui n&#039;est pas bouclée.
+</p>
+<!-- EDIT29 SECTION "SEQUENCE" [14403-14910] -->
+<h4 class="sectionedit30"><a name="mini-chaser" id="mini-chaser">MINI-CHASER</a></h4>
+
+<p class="level4">
+<strong>Si on désire boucler en continu ces 3 docks, et ainsi créer un mini-chaser:</strong>
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Activer le Link sur le dock 3.</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Vider avec [CLEAR] (touche [F4]) les docks 4, 5 et 6</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Affecter un temps de zéro secondes pour les IN, OUT, Delays IN et OUT aux docks 4, 5, 6.</div>
+</li>
+</ul>
+
+<p class="level4">
+Vous pouvez aussi décider un temps d&#039;attente avant la reprise des 3 premiers Docks, en ajoutant le temps désiré sur un dock vide.
+</p>
+<!-- EDIT30 SECTION "MINI-CHASER" [14911-15339] -->
+<h1 class="sectionedit31"><a name="accelerometre" id="accelerometre">Accéléromètre</a></h1>
+
+<p class="level1">
+<img src="accelerometre.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+L&#039;accéléromètre, permet d&#039;accélerer, ralentir, voir pauser la vitesse enregistrée dans le dock. Ce, en temps réel.
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> La valeur 0 représente la normale.</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> En allant vers la gauche, on ralentit le mouvement ( de -1 à -63).</div>
+</li>
+</ul>
+
+<p class="level1">
+       La valeur -8 représente un moins l&#039;infini, donc la pause.
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> En allant vers la droite, on accélère le mouvement.</div>
+</li>
+</ul>
+<!-- EDIT31 SECTION "Accéléromètre" [15340-15763] -->
+<h1 class="sectionedit32"><a name="attribution_d_une_courbe_a_un_fader" id="attribution_d_une_courbe_a_un_fader">Attribution d&#039;une courbe à un fader</a></h1>
+
+<p class="level1">
+On peut désormais attribuer une des 16 courbes du patch aux faders.
+</p>
+
+<p class="level1">
+Par défaut chaque fader est en courbe 1.
+</p>
+
+<p class="level1">
+La courbe permet:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> d&#039;obtenir des automatisations moins linéaires en lumière: faire “claquer” un LFO, ou mourrir en arrondi ….</div>
+</li>
+<li class="level1"><div class="li"> donner un ressenti moins mécanique d&#039;une transition automatisée</div>
+</li>
+<li class="level1"><div class="li"> de piloter l&#039;audio de manière fine sur les transitions ( fade in / fade out ) où le son <strong>ne se satisfait pas</strong> d&#039;une progression linéaire du signal. C&#039;est d&#039;ailleurs essentiellement pour cette raison que l&#039;insertion des courbes a été faite pour les faders.</div>
+</li>
+</ul>
+
+<p class="level1">
+Affecter une courbe à un fader:
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> Editer la courbe désirée ( de préférence uen autre courbe que la 1) dans le patch (Shift-P)</div>
+</li>
+<li class="level1"><div class="li"> Taper le numéro de courbe ( de 1 à 16 )</div>
+</li>
+<li class="level1"><div class="li"> Taper [F1]</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de courbe du Fader. Cette case est située SOUS l&#039;accéléromètre du fader.</div>
+</li>
+</ol>
+
+<p class="level1">
+<img src="fader_curve.jpeg" class="media" title="fader_curve.jpg" alt="fader_curve.jpg" />
+</p>
+<!-- EDIT32 SECTION "Attribution d'une courbe à un fader" [15764-16715] -->
+<h1 class="sectionedit33"><a name="embarquement_d_un_chaser" id="embarquement_d_un_chaser">Embarquement d&#039;un chaser</a></h1>
+
+<p class="level1">
+Lorsque le dock sélectionné comprend un chaser, les commandes PLAY, SEEK TO BEG, LOOP et AUTOLAUNCH apparaissent sous l&#039;accéléromètre.
+</p>
+
+<p class="level1">
+<img src="chaser_fader_embeded.jpeg" class="media" title="chaser_fader_embeded.jpg" alt="chaser_fader_embeded.jpg" />
+</p>
+
+<p class="level1">
+Autolaunch permet de controler le play du chaser depuis le fader.
+</p>
+
+<p class="level1">
+Lorsque l&#039;autolaunch est enclenché:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> le fader est à 0 et monte: Play du chaser embarqué</div>
+</li>
+<li class="level1"><div class="li"> le fader est mis à 0: Stop du chaser embarqué et Seek en position de début de manière automatique</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="chaser_autolaunch.jpeg" class="media" title="chaser_autolaunch.jpg" alt="chaser_autolaunch.jpg" />
+</p>
+<!-- EDIT33 SECTION "Embarquement d'un chaser" [16716-17221] -->
+<h1 class="sectionedit34"><a name="pilotage_des_faders_audio_par_les_faders_lumiere" id="pilotage_des_faders_audio_par_les_faders_lumiere">Pilotage des faders audio par les Faders Lumière</a></h1>
+
+<p class="level1">
+Il est possible d&#039;assigner à un dock le contrôle d&#039;un des 3 contrôles d&#039;un lecteur audio:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> volume</div>
+</li>
+<li class="level1"><div class="li"> pan</div>
+</li>
+<li class="level1"><div class="li"> pitch</div>
+</li>
+</ul>
+
+<p class="level1">
+Le Fader devient de couleur bleue et bypass les commandes midi affectées au Player, ainsi que Banger.
+</p>
+
+<p class="level1">
+voir <a href="audio.html" class="wikilink1" title="Audio">AudioPlayers</a>
+</p>
+
+<p class="level1">
+<div align="center" style="text-align: center"><img src="fader_affected_audio.jpeg" class="mediacenter" title="fader_affected_audio.jpg" alt="fader_affected_audio.jpg" /></div>
+</p>
+
+<p class="level1">
+Concernant la gestion son, si vous utilisez les faders pour piloter le son en automatisé, pensez à attribuer une courbe non linéaire au fader, de façon à avoir  une courbe ronde pour les entrées et sorties du son. 
+</p>
+<!-- EDIT34 SECTION "Pilotage des faders audio par les Faders Lumière" [17222-17798] -->
+<h1 class="sectionedit35"><a name="affectation_midi" id="affectation_midi">Affectation MIDI</a></h1>
+
+<p class="level1">
+<strong>On peut contrôler en midi:</strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li">  le fader </div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li">  le défilement sec des docks en Dock + / Dock -, en affectant à un bouton le dock 1 et le dock 2.</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li">  l&#039;accéléromètre</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li">  les fonctions lfo:  UP / DOWN / SAW / NEXT DOCK / PREVIOUS DOCK / UPDOWN / STOP POS/ LOOP ONE / LOOP ALL / FLASH</div>
+</li>
+</ul>
+
+<p class="level1">
+Voir: <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a>
+</p>
+<!-- EDIT35 SECTION "Affectation MIDI" [17799-18213] -->
+<h1 class="sectionedit36"><a name="emission_midi" id="emission_midi">Emission MIDI</a></h1>
+
+<p class="level1">
+En enclenchant cette capsule, on renvoie le signal midi affecté au fader vers la sortie midi.
+</p>
+
+<p class="level1">
+<img src="midi_out_fader.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+Celà permet de piloter manuellement un crossfade sur un logiciel vidéo par exemple, ou un niveau son vers un logiciel comme SeqCon, ou de pouvoir travailler en manuel avec tantôt sa BCF2000, tantôt à la souris, sans saute ni problème de rafraichissement…
+</p>
+<!-- EDIT36 SECTION "Emission MIDI" [18214-18630] -->
+<h1 class="sectionedit37"><a name="midi_mute_local" id="midi_mute_local">MIDI MUTE (local)</a></h1>
+
+<p class="level1">
+(versio 0.8.2 )
+</p>
+
+<p class="level1">
+En enclenchant cette capsule, vous mutez l&#039;entrée midi <strong>spécifique</strong> de ce fader, et affichez le niveau midi le pilotant. 
+</p>
+
+<p class="level1">
+Si vous ne possédez pas de surface de controle midi motorisée, cela vous permet de <strong>recaler vos niveaux midi</strong> suite à une action automatisée dans le logiciel (lfos, banger), sans toucher le niveau du fader. Vous évitez ainsi les sautes.
+</p>
+
+<p class="level1">
+<img src="midi_mute_faders.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+En enclenchant Midi MUTE (general) vous activez toutes les pastilles MIDI MUTE (local) du logiciel.
+</p>
+<!-- EDIT37 SECTION "MIDI MUTE (local)" [18631-19182] -->
+<h1 class="sectionedit38"><a name="raccourci_d_enregistrement_via_midi_touche_midi-do-order_pour_le_live" id="raccourci_d_enregistrement_via_midi_touche_midi-do-order_pour_le_live">Raccourci d&#039;enregistrement, via MIDI  , touche midi-do-order pour le live</a></h1>
+
+<p class="level1">
+<div align="center" style="text-align: center"><img src="midi_do_orders.jpeg" class="mediacenter" title="midi_do_orders.jpg" alt="midi_do_orders.jpg" /></div>
+</p>
+
+<p class="level1">
+La touche midi-do-order se présente sous la forme d&#039;un petit carré marqué d&#039;une flèche vers le bas.
+</p>
+
+<p class="level1">
+Si vous travaillez avec une surface de contrôle midi, il est possible de simplifier les manipulations suivantes:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> fonction [F1] [STORE] à un dock</div>
+</li>
+<li class="level1"><div class="li"> fonction [F2] [MODIFY] à un dock</div>
+</li>
+<li class="level1"><div class="li"> fonction [F3] [REPORT] à un dock</div>
+</li>
+<li class="level1"><div class="li"> fonction [F4] [CLEAR] à un dock</div>
+</li>
+<li class="level1"><div class="li"> fonction [F5] [NAME] à un dock</div>
+</li>
+<li class="level1"><div class="li"> Time Affect à un dock ( Affect sélectionné)</div>
+</li>
+</ul>
+
+<p class="level1">
+Appeler en midi cette fonction permet de valider l&#039;opération pour le dock courant du Fader, et remplacer:
+</p>
+
+<p class="level1">
+-touche [F1] pressée - sélection à la souris du dock - confirmation -
+</p>
+
+<p class="level1">
+par 
+</p>
+
+<p class="level1">
+-touche [F1] pressée - sélection et enregistrement du Fader ( dock actif) via la touche midi-do-order
+</p>
+<!-- EDIT38 SECTION "Raccourci d'enregistrement, via MIDI  , touche midi-do-order pour le live" [19183-20048] -->
+<h4 class="sectionedit39"><a name="affecter_la_commande_midi_a_midi-do-order" id="affecter_la_commande_midi_a_midi-do-order">Affecter la commande midi à midi-do-order</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Sélectionner le menu [MIDI_CFG]</div>
+</li>
+<li class="level1"><div class="li"> Choisir la page [BUTTON CONFIG]</div>
+</li>
+<li class="level1"><div class="li"> Choisir le mode ( 1/1 , tranches de 8, les 48 )</div>
+</li>
+<li class="level1"><div class="li"> Appuyer la touche midi désirée</div>
+</li>
+<li class="level1"><div class="li"> Clicker le bouton midi-do-order</div>
+</li>
+</ol>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="midi_do_orders_affect.jpeg" class="mediacenter" title="midi_do_orders_affect.jpg" alt="midi_do_orders_affect.jpg" /></div>
+</p>
+<!-- EDIT39 SECTION "Affecter la commande midi à midi-do-order" [20049-] --></div>
+</body>
+</html>

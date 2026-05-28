@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>draw</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-09T15:03:58+0200"/>
+<meta name="keywords" content="draw"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="draw.html"/>
+<link rel="contents" href="draw.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="draw.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="draw.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=draw"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"draw","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#draw">DRAW</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#appeler_la_fenetre_draw">Appeler la fenêtre Draw</a></div></li>
+<li class="level3"><div class="li"><a href="#presentation_du_module">Présentation du module</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#affecter_une_matrice_a_un_dock">Affecter une matrice à un dock</a></div></li>
+<li class="level2"><div class="li"><a href="#editer_les_proprietes_de_la_matrice">Editer les propriétés de la matrice:</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#taille_de_la_matrice">Taille de la matrice</a></div></li>
+<li class="level3"><div class="li"><a href="#affectations_de_circuits">Affectations de circuits</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#solo">Solo</a></div></li>
+<li class="level4"><div class="li"><a href="#de_maniere_serielle">De manière sérielle:</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#desaffecter">Désaffecter</a></div></li>
+<li class="level3"><div class="li"><a href="#effacer_completement_une_matrice">Effacer complètement une matrice</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#dessiner">Dessiner</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#pinceau_point">Pinceau Point</a></div></li>
+<li class="level3"><div class="li"><a href="#pinceau_gridplayer">Pinceau GridPlayer</a></div></li>
+<li class="level3"><div class="li"><a href="#modes_de_dessin">Modes de dessin</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#controle_sous_ios">Contrôle sous iOS</a></div></li>
+<li class="level2"><div class="li"><a href="#affectations_midi">Affectations midi</a></div></li>
+<li class="level2"><div class="li"><a href="#renvoi_midi_out">Renvoi midi out</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="draw" id="draw">DRAW</a></h1>
+
+<p class="level1">
+en version 0.8.3.1
+</p>
+<!-- EDIT1 SECTION "DRAW" [1-40] -->
+<h3 class="sectionedit2"><a name="appeler_la_fenetre_draw" id="appeler_la_fenetre_draw">Appeler la fenêtre Draw</a></h3>
+
+<p class="level3">
+Pour accéder à [Draw]:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click droit pour afficher la fenêtre [Main Menu]</div>
+</li>
+<li class="level1"><div class="li"> Clicker [Draw]</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="draw_call_window.jpeg" class="media" title="draw_call_window.jpg" alt="draw_call_window.jpg" />
+</p>
+<!-- EDIT2 SECTION "Appeler la fenêtre Draw" [41-202] -->
+<h3 class="sectionedit3"><a name="presentation_du_module" id="presentation_du_module">Présentation du module</a></h3>
+
+<p class="level3">
+[Draw] est dédié au dessin de mouvements lumineux en direct.
+</p>
+
+<p class="level3">
+Il est basé sur le principe d&#039;une matrice, dont vous pouvez spécifier le nombre de colonnes et de lignes.
+</p>
+
+<p class="level3">
+Vous pouvez affecter à chaque case de cette matrice un circuit.
+</p>
+
+<p class="level3">
+En clickant dans la matrice et en déplaçant la souris, vous allez pouvoir “dessiner” un état lumineux.
+</p>
+
+<p class="level3">
+Ce genre de module est utile pour :
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> créer des mouvements lumineux en temps réel, sans passer par un processus d&#039;encodage complexe</div>
+</li>
+<li class="level1"><div class="li"> suivre avec un plafonnier de douches un comédien ou un danseur</div>
+</li>
+<li class="level1"><div class="li"> créer des effets dynamiques ( batteries de découpes, cyclos, murs de leds, murs de projecteurs, batteries de PARS )</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="draw_window.jpeg" class="media" title="draw_window.jpg" alt="draw_window.jpg" />
+</p>
+
+<p class="level3">
+La fenêtre comporte:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Le pinceau à utiliser: un point, ou bien la récupération d&#039;un motif issu d&#039;un GridPlayer</div>
+</li>
+<li class="level1"><div class="li"> Les boutons d&#039;appel d&#039;une des 6 matrices. Chaque matrice peut avoir une taille ( colonnes, lignes) et des affectations de projecteurs différentes.</div>
+</li>
+<li class="level1"><div class="li"> Le bouton de changement de mode de dessin: additif [DRAW], soustractif [ERASE], [SOLO] ou [GHOST], avec affiché le numéro du dernier circuit dessiné.</div>
+</li>
+<li class="level1"><div class="li"> Les 3 réglages affectant l&#039;impact de la souris sur la matrice: [Brush Pressure], le niveau de pression de votre pinceau, [Brush Angle], l&#039;angle de rotation de la forme du pinceau, [Ghost Level], le niveau de dissipation des autres circuits hors de la brosse, en mode [Ghost]</div>
+</li>
+<li class="level1"><div class="li"> 3 boutons allongés permettant: d&#039;effacer le dessin complètement [Erase Drawing], de définir la façon dont vous aller affecter les circuits à la matrice, d&#039;affecter la matrice au dock d&#039;un fader ( [Affect To Dock] ).</div>
+</li>
+<li class="level1"><div class="li"> La définition de la taille de la matrice ( nombre colonnes , nobre lignes )</div>
+</li>
+<li class="level1"><div class="li"> La matrice en elle-même, sur laquelle dessiner.</div>
+</li>
+<li class="level1"><div class="li"> L&#039;assignation midi pour les contrôleurs X-Y midi</div>
+</li>
+<li class="level1"><div class="li"> Le pointage vers le GridPlayer d&#039;où extraire une brosse dynamique, et l&#039;offset de grille à suivre</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Présentation du module" [203-2158] -->
+<h2 class="sectionedit4"><a name="affecter_une_matrice_a_un_dock" id="affecter_une_matrice_a_un_dock">Affecter une matrice à un dock</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclencher [Affect To Dock]</div>
+</li>
+<li class="level1"><div class="li"> Appeler la fenêtre des Faders par [F10]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le dock à affecter</div>
+</li>
+<li class="level1"><div class="li"> Monter le niveau du fader pour rendre [DRAW] sur scène</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="draw_affect_to_dock.jpeg" class="media" title="draw_affect_to_dock.jpg" alt="draw_affect_to_dock.jpg" />
+</p>
+<!-- EDIT4 SECTION "Affecter une matrice à un dock" [2159-2402] -->
+<h2 class="sectionedit5"><a name="editer_les_proprietes_de_la_matrice" id="editer_les_proprietes_de_la_matrice">Editer les propriétés de la matrice:</a></h2>
+<!-- EDIT5 SECTION "Editer les propriétés de la matrice:" [2403-2454] -->
+<h3 class="sectionedit6"><a name="taille_de_la_matrice" id="taille_de_la_matrice">Taille de la matrice</a></h3>
+
+<p class="level3">
+<strong>La résolution maximum de la matrice est de 25&times;20.</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionner la matrice à afficher ( [1], [2], … [6] )</div>
+</li>
+<li class="level1"><div class="li"> Enclencher [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Taper le nombre de colonnes ou de lignes</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case [Col] ou  [Row]</div>
+</li>
+</ul>
+
+<p class="level3">
+Exemples de dispositifs de matrices:
+</p>
+
+<p class="level3">
+<img src="draw_matrice_one_col.jpeg" class="media" title="draw_matrice_one_col.jpg" alt="draw_matrice_one_col.jpg" /> <img src="draw_matrice_one_row.jpeg" class="media" title="draw_matrice_one_row.jpg" alt="draw_matrice_one_row.jpg" />
+</p>
+
+<p class="level3">
+<img src="draw_matrice_little.jpeg" class="media" title="draw_matrice_little.jpg" alt="draw_matrice_little.jpg" /> <img src="draw_matrice_max.jpeg" class="media" title="draw_matrice_max.jpg" alt="draw_matrice_max.jpg" />
+</p>
+<!-- EDIT6 SECTION "Taille de la matrice" [2455-2861] -->
+<h3 class="sectionedit7"><a name="affectations_de_circuits" id="affectations_de_circuits">Affectations de circuits</a></h3>
+
+<p class="level3">
+<strong>Vous ne pouvez attribuer qu&#039;un seul circuit par case.</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] doit être [ON]</div>
+</li>
+<li class="level1"><div class="li"> Sélectionner le mode d&#039;affectation ( par défaut [Rec Ch. Solo] )</div>
+</li>
+<li class="level1"><div class="li"> Enclencher [F1]</div>
+</li>
+<li class="level1"><div class="li"> Taper le numéro de circuit qui commence la série</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de la matrice</div>
+</li>
+</ul>
+
+<p class="level3">
+Les modes d&#039;affectation sont les suivants:
+</p>
+<!-- EDIT7 SECTION "Affectations de circuits" [2862-3208] -->
+<h4 class="sectionedit8"><a name="solo" id="solo">Solo</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> [Rec Ch. Solo]: mode d&#039;affectation circuit par circuit, case par case.</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="draw_aff_solo.jpeg" class="media" title="draw_aff_solo.jpg" alt="draw_aff_solo.jpg" />
+</p>
+<!-- EDIT8 SECTION "Solo" [3209-3319] -->
+<h4 class="sectionedit9"><a name="de_maniere_serielle" id="de_maniere_serielle">De manière sérielle:</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> [Rec Ch.&gt; End Row]: les circuits seront attribués numériquement depuis la case cochée jusqu&#039;à la fin de la ligne</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="draw_aff_row.jpeg" class="media" title="draw_aff_row.jpg" alt="draw_aff_row.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> [Rec Ch.&gt; End Col]: les circuits seront attribués numériquement depuis la case cochée jusqu&#039;à la fin de la colonne</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="draw_aff_col.jpeg" class="media" title="draw_aff_col.jpg" alt="draw_aff_col.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> [Rec Ch.&gt; End Grid]: les circuits seront attribués numériquement depuis la case cochée jusqu&#039;à la fin de la matrice  </div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="draw_aff_grid.jpeg" class="media" title="draw_aff_grid.jpg" alt="draw_aff_grid.jpg" />
+</p>
+<!-- EDIT9 SECTION "De manière sérielle:" [3320-3789] -->
+<h3 class="sectionedit10"><a name="desaffecter" id="desaffecter">Désaffecter</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Enclencher [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Choisir le mode de la désaffectation [Rec Ch. Solo], [Rec Ch.&gt; End Row], etc….</div>
+</li>
+<li class="level1"><div class="li"> Taper [F4]</div>
+</li>
+<li class="level1"><div class="li"> Clicker la case de la matrice</div>
+</li>
+</ul>
+<!-- EDIT10 SECTION "Désaffecter" [3790-3972] -->
+<h3 class="sectionedit11"><a name="effacer_completement_une_matrice" id="effacer_completement_une_matrice">Effacer complètement une matrice</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Enclencher [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Taper [F4]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le preset</div>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Effacer complètement une matrice" [3973-4078] -->
+<h2 class="sectionedit12"><a name="dessiner" id="dessiner">Dessiner</a></h2>
+<!-- EDIT12 SECTION "Dessiner" [4079-4100] -->
+<h3 class="sectionedit13"><a name="pinceau_point" id="pinceau_point">Pinceau Point</a></h3>
+
+<p class="level3">
+L&#039;outil par défaut est le point.
+Son impact représente une case.
+</p>
+<!-- EDIT13 SECTION "Pinceau Point" [4101-4193] -->
+<h3 class="sectionedit14"><a name="pinceau_gridplayer" id="pinceau_gridplayer">Pinceau GridPlayer</a></h3>
+
+<p class="level3">
+Cependant vous pouvez utiliser un GridPlayer pour créer vos propres pinceaux, qu&#039;ils soient des états fixes, ou des animations ( oui oui vous avez bien lu… ).
+Le GridPlayer n&#039;a pas besoin d&#039;être affecté à un Fader.
+</p>
+
+<p class="level3">
+Quittez le mode Point pour passer en [<abbr title="GNU General Public License">GPL</abbr>].
+</p>
+
+<h5><a name="pour_affecter_un_gridplayer_au_preset" id="pour_affecter_un_gridplayer_au_preset">Pour affecter un GridPlayer au Preset:</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> taper le numéro de GridPlayer</div>
+</li>
+<li class="level1"><div class="li"> clickez la case tout en bas à droite.</div>
+</li>
+</ul>
+
+<h5><a name="offset" id="offset">Offset</a></h5>
+<ul class="level5">
+<li class="level1"><div class="li"> L&#039;offset représente le numéro de case ( pas le circuit ! ) dans lequel prendre le centre de l&#039;animation du GridPlayer.</div>
+</li>
+</ul>
+
+<p class="level5">
+C&#039;est par rapport à cet offset que vous allez construire dans le GridPlayer vos brosses animées.
+</p>
+
+<p class="level5">
+La case servant d&#039;offset apparait en vert avec le numéro du DrawPreset dans le GridPlayer.
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> taper le numéro d&#039;offset</div>
+</li>
+<li class="level1"><div class="li"> clicker la case d&#039;offset</div>
+</li>
+</ul>
+
+<p class="level5">
+<img src="draw_offset_gpl.jpeg" class="media" title="draw_offset_gpl.jpg" alt="draw_offset_gpl.jpg" />
+</p>
+
+<h5><a name="utilisation_des_gridplayers" id="utilisation_des_gridplayers">Utilisation des GridPlayers</a></h5>
+
+<p class="level5">
+Grâce à [BANGER] vous pourrez appeler et déclencher le GridPlayer servant de brosse à la volée, vous permettant la création d&#039;effets rapides et instantanés.
+Voir:   * <a href="banger.html" class="wikilink1" title="Banger">Banger, le gestionnaire d&#039;évènements</a>, catégorie GridPlayers.
+</p>
+<!-- EDIT14 SECTION "Pinceau GridPlayer" [4194-5311] -->
+<h3 class="sectionedit15"><a name="modes_de_dessin" id="modes_de_dessin">Modes de dessin</a></h3>
+
+<p class="level3">
+Le mode de dessin permet de définir comment vous allez influer sur le niveau des cases de la matrice.
+</p>
+
+<p class="level3">
+Le niveau de pression ( premier potentiomètre en haut) est modulable, il s&#039;exprime de 0.0 à 1.0 et une traduction en pourcentage ou en dmx est affichée sur le côté.
+</p>
+
+<p class="level3">
+Tant que le click gauche de la souris est appuyé, le niveau des cases survolées par le pinceau va être altéré:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> En mode [DRAW], le niveau est ajouté ( additif) - &gt; Dessin</div>
+</li>
+<li class="level1"><div class="li"> En mode [ERASE], il est retranché ( soustractif) - &gt; Gomme </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> En mode [SOLO], seules les cases touchées par le pinceau vont se voir affecter un niveau - &gt; Effet poursuite</div>
+</li>
+<li class="level1"><div class="li"> En mode [GHOST], toutes les autres cases seront effacées, plus ou moins rapidement fonction du [Ghost Level] - &gt; Effet poursuite avec une rémanence, une trace du parcours</div>
+</li>
+</ul>
+
+<h5><a name="draw_mode" id="draw_mode">Draw Mode</a></h5>
+
+<p class="level5">
+<img src="draw_drawmode.jpeg" class="media" title="draw_drawmode.jpg" alt="draw_drawmode.jpg" />
+</p>
+
+<h5><a name="erase_mode" id="erase_mode">Erase Mode</a></h5>
+
+<p class="level5">
+<img src="draw_erasemode.jpeg" class="media" title="draw_erasemode.jpg" alt="draw_erasemode.jpg" />
+</p>
+
+<h5><a name="solo_mode" id="solo_mode">Solo Mode</a></h5>
+
+<p class="level5">
+<img src="draw_solomode.jpeg" class="media" title="draw_solomode.jpg" alt="draw_solomode.jpg" />
+</p>
+
+<h5><a name="ghost_mode" id="ghost_mode">Ghost Mode</a></h5>
+
+<p class="level5">
+<img src="draw_ghostmode.jpeg" class="media" title="draw_ghostmode.jpg" alt="draw_ghostmode.jpg" />
+</p>
+
+<p class="level5">
+La trace du mouvement s&#039;affiche et disparait tant que le click souris est maintenu, fonction du [Ghost Level].
+</p>
+<!-- EDIT15 SECTION "Modes de dessin" [5312-6417] -->
+<h2 class="sectionedit16"><a name="controle_sous_ios" id="controle_sous_ios">Contrôle sous iOS</a></h2>
+
+<p class="level2">
+Si vous êtes sous iOS (iPAD, iPhone, iPod), Fantastick-iCAT vous permet un pilotage unique et multiple, vous donnant accès à plusieurs matrices simultanément, et à une visualisation identique à celle de Draw.
+Voir: <a href="icat.html" class="wikilink1" title="iCat">iCat pour iPod/iPhone/iPad, basée sur le logiciel Fantastick</a>
+</p>
+
+<p class="level2">
+<img src="draw_icat.jpeg" class="media" title="draw_icat.jpg" alt="draw_icat.jpg" />
+</p>
+<!-- EDIT16 SECTION "Contrôle sous iOS" [6418-6763] -->
+<h2 class="sectionedit17"><a name="affectations_midi" id="affectations_midi">Affectations midi</a></h2>
+
+<p class="level2">
+Toutes les commandes, hormis le pointeur souris sont affectables en midi. Voir <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a>
+</p>
+
+<p class="level2">
+Vous pouvez utiliser ce que l&#039;on appelle un xyPad midi pour piloter la position du curseur. 
+</p>
+
+<p class="level2">
+<img src="draw_midi_affect.png" class="media" alt="" />
+</p>
+
+<p class="level2">
+Ce peut être une surface de contrôle classique, ou bien un téléphone type Android ou iPhone muni d&#039;un logiciel midi proposant le tracing Pad.
+Pour celà affecter le midi X et le midi Y. Si vous utilisez une tablette ou un téléphone, voir:  <a href="bonjour_rtpmidi.html" class="wikilink1" title="bonjour_rtpmidi">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a>
+</p>
+
+<p class="level2">
+Le xyPad de TouchOSC:
+</p>
+
+<p class="level2">
+<img src="touch_osc_xy.jpeg" class="media" title="touch_osc_xy.jpg" alt="touch_osc_xy.jpg" />
+</p>
+
+<p class="level2">
+La proposition de xyPad de iCON:
+</p>
+
+<p class="level2">
+<img src="icon-ipad.jpeg" class="media" title="icon-ipad.jpg" alt="icon-ipad.jpg" />
+</p>
+<!-- EDIT17 SECTION "Affectations midi" [6764-7507] -->
+<h2 class="sectionedit18"><a name="renvoi_midi_out" id="renvoi_midi_out">Renvoi midi out</a></h2>
+
+<p class="level2">
+Cocher la pastille sur le côté des 3 potentiomètres pour renvoyer le niveau midi de chaque potentiomètre.
+</p>
+<!-- EDIT18 SECTION "Renvoi midi out" [7508-] --></div>
+</body>
+</html>

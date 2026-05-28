@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>interfacage_artnet_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-03-17T08:43:11+0100"/>
+<meta name="keywords" content="interfacage_artnet_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="interfacage_artnet_eng.html"/>
+<link rel="contents" href="interfacage_artnet_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="interfacage_artnet_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="interfacage_artnet_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=interfacage_artnet_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"interfacage_artnet_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#configuration_of_multiple_software_in_art-net">Configuration of multiple software in art-net</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#configuration_of_the_ip_address_of_the_network_card_used">Configuration of the IP address of the network card used</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#the_different_scenarios">The different Scenarios</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#software_programs_on_one_machine">2 software programs on one machine</a></div></li>
+<li class="level2"><div class="li"><a href="#separate_machines_merging_to_usb-dmx">2 separate machines, Merging to usb-dmx</a></div></li>
+<li class="level2"><div class="li"><a href="#separate_machines_merging_art-net">2 separate machines, Merging art-net</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="configuration_of_multiple_software_in_art-net" id="configuration_of_multiple_software_in_art-net">Configuration of multiple software in art-net</a></h1>
+
+<p class="level1">
+<strong>Attention, wifi must be disconnected.</strong>
+White Cat connects to the first network card detected. If wifi is connected, the discussion will be on that network.
+</p>
+
+<p class="level1">
+It is possible that during the various stages, especially after an address change in art-net within White Cat, that you will have to restart in order to reconfigure the art-net receiving server.
+</p>
+<!-- EDIT1 SECTION "Configuration of multiple software in art-net" [1-417] -->
+<h2 class="sectionedit2"><a name="configuration_of_the_ip_address_of_the_network_card_used" id="configuration_of_the_ip_address_of_the_network_card_used">Configuration of the IP address of the network card used</a></h2>
+
+<p class="level2">
+You can only connect White Cat if the IP addresses are in the same family.
+</p>
+
+<p class="level2">
+If the network card you use is 192.156.178.5, then sending an art-net signal to 2.255.255.255 will not work.
+</p>
+
+<p class="level2">
+It makes sense then to set your art-net network cards in the address family of 2.x.x.x.
+</p>
+
+<p class="level2">
+Configure the network card by doing the following:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Start Bar “Connections” Show all connections</div>
+</li>
+<li class="level1"><div class="li"> Right click the network card you are using and pick Properties</div>
+</li>
+<li class="level1"><div class="li"> Scroll down and select Internet Protocol (TCP-IP) and pick Properties</div>
+</li>
+<li class="level1"><div class="li"> Choose to specify a fixed IP</div>
+</li>
+<li class="level1"><div class="li"> Give the address a value of your choosing (2.1.1.15 in the example below)and use the subnet mask 255.255.255.0.</div>
+</li>
+<li class="level1"><div class="li"> You don&#039;t need to bother with the <abbr title="Domain Name System">DNS</abbr> (domain name server)</div>
+</li>
+<li class="level1"><div class="li"> click OK.</div>
+</li>
+</ol>
+
+<p class="level2">
+<img src="reseaux_1.jpeg" class="media" title="reseaux_1.jpg" alt="reseaux_1.jpg" />
+<img src="reseaux_2.jpeg" class="media" title="reseaux_2.jpg" alt="reseaux_2.jpg" />
+</p>
+<!-- EDIT2 SECTION "Configuration of the IP address of the network card used" [418-1270] -->
+<h1 class="sectionedit3"><a name="the_different_scenarios" id="the_different_scenarios">The different Scenarios</a></h1>
+<!-- EDIT3 SECTION "The different Scenarios" [1271-1309] -->
+<h2 class="sectionedit4"><a name="software_programs_on_one_machine" id="software_programs_on_one_machine">2 software programs on one machine</a></h2>
+
+<p class="level2">
+<strong>Example: Using art-net in a third party video software (VVVV, Arkaos, Freestyler).</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_interne.jpeg" class="media" title="artnet_interne.jpg" alt="artnet_interne.jpg" />
+</p>
+<div class="table sectionedit5"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Art-Net IP address        </th><th class="col1 leftalign"> state of ethernet card           </th><th class="col2 leftalign"> State in the menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> 127.0.0.1 Unicast   </td><td class="col1 leftalign"> Disabled    </td><td class="col2 leftalign"> Sending data to Usb Dmx / Artnet Receiver Off       </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign">                           </td><td class="col1 leftalign">                 </td><td class="col2"> DoubleDMX option ON </td>
+	</tr>
+</table></div>
+<!-- EDIT5 TABLE [1471-1745] --><ul class="level2">
+<li class="level1"><div class="li"> This method uses a loopback address. No network card should be connected.</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "2 software programs on one machine" [1310-1825] -->
+<h2 class="sectionedit6"><a name="separate_machines_merging_to_usb-dmx" id="separate_machines_merging_to_usb-dmx">2 separate machines, Merging to usb-dmx</a></h2>
+
+<p class="level2">
+<strong>Example: Receiving in art-net of a third party software (VVVV, PureData, Max/NSP) being the manager of the sensors and processing of their values.</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_externe.jpeg" class="media" title="artnet_externe.jpg" alt="artnet_externe.jpg" />
+</p>
+<div class="table sectionedit7"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Art-Net IP Address       </th><th class="col1 leftalign"> State of the éthernet card          </th><th class="col2 leftalign"> State in the menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> network adapter connecting the two computers  </td><td class="col1 leftalign"> Connected     </td><td class="col2 leftalign"> Sending data in Usb Dmx / Art-net Receiver ON       </td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [2057-2292] --><!-- EDIT6 SECTION "2 separate machines, Merging to usb-dmx" [1826-2292] -->
+<h2 class="sectionedit8"><a name="separate_machines_merging_art-net" id="separate_machines_merging_art-net">2 separate machines, Merging art-net</a></h2>
+
+<p class="level2">
+<strong>Example: Receiving in art-net of a third party software (VVVV , PureData, Max/NSP) being the manager of the sensors and processing of their values.</strong>
+</p>
+
+<p class="level2">
+<strong>In this case a hub is needed!</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_total.jpeg" class="media" title="artnet_total.jpg" alt="artnet_total.jpg" />
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> IP Address        </th><th class="col1 leftalign"> State of the éthernet card           </th><th class="col2 leftalign"> State in the menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> Network Card  </td><td class="col1 leftalign"> Connected    </td><td class="col2 leftalign"> Sending data en Art-Net / Art-net Receiver ON       </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [2554-2750] --><ul class="level2">
+<li class="level1"><div class="li"> The IP addresses of the network cards on which you are connected must be of the same IP fanily as the card  dmx art-net : for example, 2.1.1.x</div>
+</li>
+<li class="level1"><div class="li"> The third party software should not transmit on the same universe as White Cat. One would prefer that White Cat be on universe 0, and the other software on universe 1. The dmx network card listens to universe 0. White Cat listens to universe 1.</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "2 separate machines, Merging art-net" [2293-] --></div>
+</body>
+</html>

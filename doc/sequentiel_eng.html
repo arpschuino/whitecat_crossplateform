@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>sequentiel_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-01-31T01:33:21+0100"/>
+<meta name="keywords" content="sequentiel_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="sequentiel_eng.html"/>
+<link rel="contents" href="sequentiel_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="sequentiel_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="sequentiel_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=sequentiel_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"sequentiel_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#cuelist">CueList</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#definition">Definition</a></div></li>
+<li class="level2"><div class="li"><a href="#general_presentation">General presentation</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#basic_manipulations">Basic manipulations</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#creation_of_a_memory">Creation of a memory</a></div></li>
+<li class="level2"><div class="li"><a href="#deleting_a_memory">Deleting a memory</a></div></li>
+<li class="level2"><div class="li"><a href="#over-record_a_memory">Over-record a memory</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#over-recording_a_memory_onstage_or_in_preset">Over-recording a memory onstage or in preset</a></div></li>
+<li class="level3"><div class="li"><a href="#over-recording_to_a_different_memory_not_the_one_in_preset_or_onstage">Over-recording to a different memory, not the one in preset or onstage</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#modifying_only_certain_channels_without_erasing_everything">Modifying only certain channels without erasing everything</a></div></li>
+<li class="level2"><div class="li"><a href="#recording_a_memory_that_combines_the_channels_from_the_cuelist_and_from_the_faders">Recording a memory that combines the channels from the Cuelist and from the Faders</a></div></li>
+<li class="level2"><div class="li"><a href="#copying_quickly_from_one_memory_to_another">Copying quickly from one memory to another</a></div></li>
+<li class="level2"><div class="li"><a href="#quick_navigation_from_memory_to_memory_cut">Quick navigation from memory to memory, CUT</a></div></li>
+<li class="level2"><div class="li"><a href="#gotoquickly_loading_a_specific_memory">GOTO: quickly loading a specific memory</a></div></li>
+<li class="level2"><div class="li"><a href="#time_assignments">Time assignments</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#changing_time_for_a_memory_onstage_or_in_preset">Changing time for a memory onstage or in preset</a></div></li>
+<li class="level3"><div class="li"><a href="#changing_times_for_another_memory_other_than_the_one_in_preset_or_the_one_onstage">Changing times for another memory other than the one in preset or the one onstage</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#giving_a_description_to_a_memory">Giving a description to a memory</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#manual_cross-fade">Manual Cross-fade</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#mouse_manual_cross-fade">Mouse manual cross-fade</a></div></li>
+<li class="level3"><div class="li"><a href="#manual_cross-fade_with_midi_devices">Manual cross-fade with midi devices</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#cross-fade_with_go">Cross-fade with GO</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#go_midi_forcemode">Go Midi ForceMode</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#linking_memories">Linking memories</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#assign_unassign_a_link_to_a_memory">Assign/unassign a link to a memory</a></div></li>
+<li class="level2"><div class="li"><a href="#activating_link_mode">Activating Link mode</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#bangerautomations_and_complex_encoding">Banger: Automations and complex encoding</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#assign_unassign_a_banger_to_a_memory">Assign/unassign a Banger to a memory</a></div></li>
+<li class="level2"><div class="li"><a href="#activating_bang_mode">Activating Bang mode</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#double_cuelist">Double CueList</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="cuelist" id="cuelist">CueList</a></h1>
+
+<p class="level1">
+Accessing to CueList:
+</p>
+
+<p class="level1">
+Click [CueList] or press [F9]
+</p>
+
+<p class="level1">
+<img src="click_cuelist.jpeg" class="media" title="click_cuelist.jpg" alt="click_cuelist.jpg" />
+</p>
+<!-- EDIT1 SECTION "CueList" [1-100] -->
+<h2 class="sectionedit2"><a name="definition" id="definition">Definition</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> it is also called SEQUENCES because here in France we are very used to AVAB terminology</div>
+</li>
+<li class="level1"><div class="li"> SEQUENCES is a memory handler</div>
+</li>
+<li class="level1"><div class="li"> lighting states are recorded inside memories</div>
+</li>
+<li class="level1"><div class="li"> those memories are recordable with a number (mem 1, mem 125, mem 999)</div>
+</li>
+<li class="level1"><div class="li"> they can be set to any number from mem 0 up to mem 999.9</div>
+</li>
+<li class="level1"><div class="li"> their order of appearance in the cue list is sequential, ie in ascending order</div>
+</li>
+<li class="level1"><div class="li"> between each whole numbered memory you have 9 places to insert additional memories, so called “dot memories” or “point cues”: .1 .2 .3 .4 … up to .9</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> each memory is assigned times for cross-fading from one memory to another. </div>
+</li>
+<li class="level1"><div class="li"> this cross-fade may be done in a number of ways:</div>
+<ul class="level2">
+<li class="level2"><div class="li"> by hand, with the mouse or a midi interface with faders</div>
+</li>
+<li class="level2"><div class="li"> by a Go which will launch a cross-fade in a pre-recorded time (speed)</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> this CueList output is parallel to the output of the channels handled by the faders</div>
+</li>
+<li class="level1"><div class="li"> when you are manipulating channels by setting their levels, or when using the arrow keys, in fact you are working on the “onstage memory”.</div>
+</li>
+<li class="level1"><div class="li"> when you are manipulating channels in BLIND mode, you are working on the memory in preset.</div>
+</li>
+<li class="level1"><div class="li"> between the type channels which are controlled by the CueList (blue color) and those controlled by the faders (orange color), the Highest level takes precedence and is the one sent through the patch routing and then to the dmx interface.</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>To access the CueList click [CUELIST] or press [F9] </strong>
+</p>
+<!-- EDIT2 SECTION "Definition" [101-1573] -->
+<h2 class="sectionedit3"><a name="general_presentation" id="general_presentation">General presentation</a></h2>
+
+<p class="level2">
+<img src="sequentiel.jpeg" class="media" title="sequentiel.jpg" alt="sequentiel.jpg" />
+</p>
+
+<p class="level2">
+<strong>1- memories area</strong> (from top to bottom):
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> memory previous to the onstage memory</div>
+</li>
+<li class="level2"><div class="li"> memory presently onstage (blue background), so levels are the current lighting levels</div>
+</li>
+<li class="level2"><div class="li"> memory in preset/blind, waiting for a GO, (red background)</div>
+</li>
+<li class="level2"><div class="li"> the next 6 memories after the preset</div>
+</li>
+</ul>
+
+<p class="level2">
+Those memories are showing, from left to right:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> delay time and cross-fade time</div>
+</li>
+<li class="level2"><div class="li"> number of the memory</div>
+</li>
+<li class="level2"><div class="li"> if the memory is linked or not (an autofollow link is shown by a downward arrow)</div>
+</li>
+<li class="level2"><div class="li"> if any automation is included in the memory (Banger), with the number of its automation</div>
+</li>
+<li class="level2"><div class="li"> description of the memory</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>2- cross-fade area:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> master of the onstage memory (in blue)</div>
+</li>
+<li class="level2"><div class="li"> master of the preset memory (in red)</div>
+</li>
+<li class="level2"><div class="li"> ratio slider for manual mouse cross-fading</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>3- Go area:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> the 3 Go buttons: Go Back, Go, and DoubleGo (aka Jump)</div>
+</li>
+<li class="level2"><div class="li"> cross-fade&#039;s accelerometer</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>4- basic manipulation space: creating/deleting a memory, quick navigation onstage or in preset</strong>
+</p>
+<!-- EDIT3 SECTION "General presentation" [1574-2627] -->
+<h1 class="sectionedit4"><a name="basic_manipulations" id="basic_manipulations">Basic manipulations</a></h1>
+<!-- EDIT4 SECTION "Basic manipulations" [2628-2660] -->
+<h2 class="sectionedit5"><a name="creation_of_a_memory" id="creation_of_a_memory">Creation of a memory</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Set channels on stage or in preset</div>
+</li>
+<li class="level1"><div class="li"> Type the memory number (ex. 27.5)</div>
+</li>
+<li class="level1"><div class="li"> Click [NEW] or press [SHIFT][F1]</div>
+</li>
+</ul>
+
+<p class="level2">
+! Have a look at the feedback string where it shows the Last command.
+</p>
+<!-- EDIT5 SECTION "Creation of a memory" [2661-2883] -->
+<h2 class="sectionedit6"><a name="deleting_a_memory" id="deleting_a_memory">Deleting a memory</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Type the memory number (ex. 27.5)</div>
+</li>
+<li class="level1"><div class="li"> Click[DEL] or press [SHIFT][DEL]</div>
+</li>
+</ul>
+
+<p class="level2">
+From v.0.8.2.2 onward: if any number is typed, being in Blind Mode or not, it will define the mem onstage or mem on preset to be the memory to be deleted.
+</p>
+<!-- EDIT6 SECTION "Deleting a memory" [2884-3148] -->
+<h2 class="sectionedit7"><a name="over-record_a_memory" id="over-record_a_memory">Over-record a memory</a></h2>
+<!-- EDIT7 SECTION "Over-record a memory" [3149-3182] -->
+<h3 class="sectionedit8"><a name="over-recording_a_memory_onstage_or_in_preset" id="over-recording_a_memory_onstage_or_in_preset">Over-recording a memory onstage or in preset</a></h3>
+
+<p class="level3">
+Over-recording replaces every channel.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Modify the lighting state on stage or in preset</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> mouse: </div>
+<ul class="level3">
+<li class="level3"><div class="li"> click [STORE]or press [F1]</div>
+</li>
+<li class="level3"><div class="li"> click the memory number box in the CueList window</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="affect_time_preset.jpeg" class="mediacenter" title="affect_time_preset.jpg" alt="affect_time_preset.jpg" /></div>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> keyboard : </div>
+<ul class="level3">
+<li class="level3"><div class="li"> press [CTRL][F1] to over-record</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level3">
+These adjustments will take effect immediately to the memory on stage or the memory in preset
+</p>
+<!-- EDIT8 SECTION "Over-recording a memory onstage or in preset" [3183-3620] -->
+<h3 class="sectionedit9"><a name="over-recording_to_a_different_memory_not_the_one_in_preset_or_onstage" id="over-recording_to_a_different_memory_not_the_one_in_preset_or_onstage">Over-recording to a different memory, not the one in preset or onstage</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> type the memory number</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> press [SHIFT][F1] to call this memory on the fly.</div>
+</li>
+</ul>
+<!-- EDIT9 SECTION "Over-recording to a different memory, not the one in preset or onstage" [3621-3790] -->
+<h2 class="sectionedit10"><a name="modifying_only_certain_channels_without_erasing_everything" id="modifying_only_certain_channels_without_erasing_everything">Modifying only certain channels without erasing everything</a></h2>
+
+<p class="level2">
+You may need to discreetly change only certain channels without changing the entire global lighting state.
+</p>
+
+<p class="level2">
+For example, during performance, you notice that channel 65 is set 20 points too high in 3 memories.
+</p>
+
+<p class="level2">
+Instead of navigating through the memories to over-record them:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> select the channel and set it to the desired intensity (either from stage or from preset)</div>
+</li>
+<li class="level1"><div class="li"> click [MODIFY] or press [F2]</div>
+</li>
+<li class="level1"><div class="li"> click the memory number box</div>
+</li>
+</ul>
+<!-- EDIT10 SECTION "Modifying only certain channels without erasing everything" [3791-4297] -->
+<h2 class="sectionedit11"><a name="recording_a_memory_that_combines_the_channels_from_the_cuelist_and_from_the_faders" id="recording_a_memory_that_combines_the_channels_from_the_cuelist_and_from_the_faders">Recording a memory that combines the channels from the Cuelist and from the Faders</a></h2>
+
+<p class="level2">
+A memory can also be recorded using only the Fader&#039;s buffer.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> click [REPORT] or press [F3]</div>
+</li>
+<li class="level1"><div class="li"> click the memory number box</div>
+</li>
+</ul>
+
+<p class="level2">
+! In live onstage mode, Faders will be set to 0 after the report of their intensities in the onstage state, but in Blind, they will keep their levels.
+</p>
+
+<p class="level2">
+Short-Cuts are enabled only for stage:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> create a memory from stage and faders output:</div>
+<ol class="level2">
+<li class="level2"><div class="li"> type num of mem to create</div>
+</li>
+<li class="level2"><div class="li"> press [SHIFT][F3]</div>
+</li>
+<li class="level2"><div class="li"> confirm</div>
+</li>
+</ol>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> over record the onstage memory with faders output included:</div>
+<ol class="level2">
+<li class="level2"><div class="li"> press [SHIFT][F3]</div>
+</li>
+<li class="level2"><div class="li"> confirm</div>
+</li>
+</ol>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Recording a memory that combines the channels from the Cuelist and from the Faders" [4298-4946] -->
+<h2 class="sectionedit12"><a name="copying_quickly_from_one_memory_to_another" id="copying_quickly_from_one_memory_to_another">Copying quickly from one memory to another</a></h2>
+
+<p class="level2">
+From version 0.8.2.2 onward, using [CTRL][C] and [CTRL][V]
+</p>
+
+<p class="level2">
+Are copied: channel states, memory description and annotation, times, link, banger assigned to the memory.
+</p>
+
+<p class="level2">
+If the numerical entry contains numbers (here it is 32), those are considered as memory and not channels to copy:
+</p>
+
+<p class="level2">
+<img src="ctrlc_mem.png" class="media" alt="" />
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> type mem number you want to copy (here it was 25)</div>
+</li>
+<li class="level1"><div class="li"> [CTRL][C] (please look at user feedback: Mem.To Copy print the mem number you will copy in)</div>
+</li>
+<li class="level1"><div class="li"> type the memory number to create or replace (32)</div>
+</li>
+<li class="level1"><div class="li"> [CTRL][V]</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ol>
+<!-- EDIT12 SECTION "Copying quickly from one memory to another" [4947-5542] -->
+<h2 class="sectionedit13"><a name="quick_navigation_from_memory_to_memory_cut" id="quick_navigation_from_memory_to_memory_cut">Quick navigation from memory to memory, CUT</a></h2>
+
+<p class="level2">
+Quick navigation enables to you to cycle through the memories (on a zero count) without waiting for the cross-fades to be processed.
+</p>
+
+<p class="level2">
+You can change the memory on stage:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> by mouse with [Stage -] or [Stage +]</div>
+</li>
+<li class="level1"><div class="li"> by keyboard by pressing [CTRL][W] or [CTRL][X] (that&#039;s Ctrl-Z and Ctrl-X for those of you with an English keyboard)</div>
+</li>
+</ul>
+
+<p class="level2">
+By changing the memory onstage, the Cuelist will also be refreshed to display the correct preset memory and following memories.
+</p>
+
+<p class="level2">
+Or you can also do the same thing, without changing onstage state, by changing the preset memory:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> by mouse with [Preset -] or [Preset +]</div>
+</li>
+<li class="level1"><div class="li"> by keyboard by pressing [SHIFT][W] or [SHIFT][X] (that&#039;s SHIFT-Z and SHIFT-X on an English keyboard)</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "Quick navigation from memory to memory, CUT" [5543-6307] -->
+<h2 class="sectionedit14"><a name="gotoquickly_loading_a_specific_memory" id="gotoquickly_loading_a_specific_memory">GOTO: quickly loading a specific memory</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Type your memory number</div>
+</li>
+<li class="level1"><div class="li"> click the onstage memory number box (blue) if you want to load it onstage or the preset box (red) to load in preset</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpg" alt="affect_time_preset.jpg" />
+</p>
+
+<p class="level2">
+You can do this while a cross-fade is happening or while paused.  Go will also refresh the time information, 
+but only for preset changes.
+</p>
+
+<p class="level2">
+Calling memory  0.0 is possible for the preset (0.0 is always a blank memory, so a black-out), but not for onstage.
+</p>
+<!-- EDIT14 SECTION "GOTO: quickly loading a specific memory" [6308-6794] -->
+<h2 class="sectionedit15"><a name="time_assignments" id="time_assignments">Time assignments</a></h2>
+
+<p class="level2">
+Time assignments are always done with the memory in preset.
+<strong>It&#039;s the preset memory, the memory to come, in which are recorded the fade out time of the onstage memory as well as its own fade in time</strong>.
+You need to think Preset.
+</p>
+
+<p class="level2">
+Assigning a time works like this:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> choose the fade in time of this memory</div>
+</li>
+<li class="level1"><div class="li"> choose the fade out time of the memory presently onstage</div>
+</li>
+</ul>
+
+<p class="level2">
+You can assign the times in different ways, depending
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> if you are assigning times to the memory in preset or the memory onstage</div>
+</li>
+<li class="level3"><div class="li"> if you are assigning times to other memories in the CueList</div>
+</li>
+</ul>
+<!-- EDIT15 SECTION "Time assignments" [6795-7397] -->
+<h3 class="sectionedit16"><a name="changing_time_for_a_memory_onstage_or_in_preset" id="changing_time_for_a_memory_onstage_or_in_preset">Changing time for a memory onstage or in preset</a></h3>
+
+<p class="level3">
+<img src="temps_sur_x1x2.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+If you want to assign times:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> to an incoming cross-fade, you will assign times in preset space (red color)</div>
+</li>
+<li class="level2"><div class="li"> to the last completed cross-fade by assigning times to the onstage memory (blue color)</div>
+</li>
+</ul>
+
+<p class="level3">
+You can make these changes in two ways:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> using <a href="time_eng.html" class="wikilink1" title="Time_eng">Time window</a>, set [AFFECT] ON and click the memory number box on the preset or onstage</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="affect_time_preset.jpeg" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> typing your time directly, using the time conventions ( 1..23. for ex.), and directly click the time boxes IN, OUT, or Delay IN/Delay Out of the preset </div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="affcet_time_ch_preset.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT16 SECTION "Changing time for a memory onstage or in preset" [7398-8065] -->
+<h3 class="sectionedit17"><a name="changing_times_for_another_memory_other_than_the_one_in_preset_or_the_one_onstage" id="changing_times_for_another_memory_other_than_the_one_in_preset_or_the_one_onstage">Changing times for another memory other than the one in preset or the one onstage</a></h3>
+
+<p class="level3">
+… it needs to be visible in the Cuelist window:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> use <a href="time_eng.html" class="wikilink1" title="Time_eng">window Time</a>,  set [AFFECT] ON and click the memory number box </div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="affect_time_autres.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT17 SECTION "Changing times for another memory other than the one in preset or the one onstage" [8066-8327] -->
+<h2 class="sectionedit18"><a name="giving_a_description_to_a_memory" id="giving_a_description_to_a_memory">Giving a description to a memory</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li">- Call the <a href="name_eng.html" class="wikilink1" title="Name_eng">Name window</a> either by clicking the onscreen button or pressing [F5]</div>
+</li>
+<li class="level1"><div class="li"> type your description (normal or annotation mode) </div>
+</li>
+<li class="level1"><div class="li"> click the description box of the memory </div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="descr_mems.jpeg" class="media" title="descr_mems.jpg" alt="descr_mems.jpg" />
+</p>
+
+<p class="level2">
+Notice that you have 2 lines of 24 characters each. The second line is editable using [ANN] mode.
+</p>
+
+<p class="level2">
+<img src="desc_annot.jpeg" class="media" title="desc_annot.jpg" alt="desc_annot.jpg" />
+</p>
+<!-- EDIT18 SECTION "Giving a description to a memory" [8328-8711] -->
+<h1 class="sectionedit19"><a name="manual_cross-fade" id="manual_cross-fade">Manual Cross-fade</a></h1>
+
+<p class="level1">
+There are two types of manual cross-fades:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> cross-fading with the mouse</div>
+</li>
+<li class="level2"><div class="li"> corss-fading with midi devices</div>
+</li>
+</ul>
+<!-- EDIT19 SECTION "Manual Cross-fade" [8712-8860] -->
+<h3 class="sectionedit20"><a name="mouse_manual_cross-fade" id="mouse_manual_cross-fade">Mouse manual cross-fade</a></h3>
+
+<p class="level3">
+When the CHAIN icon is ON, moving the preset master up will move down the onstage master, and visa versa, in a linear way.
+</p>
+
+<p class="level3">
+<img src="cross_souris.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+But we are quite accustomed to using our fingers to do a split cross-fade on a traditional lighting board,
+where the preset is beginning to come up, warming the filaments, before bringing down the onstage master.
+It is impossible to “take a lead on the cue” in this way by using only the mouse, which can only move one thing at a time.
+</p>
+
+<p class="level3">
+For this, you can set a <strong>ratio</strong>.
+Ratio (here its value is 1.47),  this enables you to begin going down with the onstage master once this ratio has been reached in the preset (red numbers on the right of the preset master).
+Then the onstage master will fade down proportional to the preset cue coming in.
+</p>
+
+<p class="level3">
+<img src="ratio.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+! This ratio is for manual use only when using the mouse.  It is not taken into account by midi devices or by the Go button. 
+</p>
+
+<p class="level3">
+The ratio is recorded inside the memory that is in preset.
+</p>
+<!-- EDIT20 SECTION "Mouse manual cross-fade" [8861-9891] -->
+<h3 class="sectionedit21"><a name="manual_cross-fade_with_midi_devices" id="manual_cross-fade_with_midi_devices">Manual cross-fade with midi devices</a></h3>
+
+<p class="level3">
+See <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng">Midi Configuration  and Midi Assignments</a>.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> stage and preset masters are both remote controllable in midi.</div>
+</li>
+</ul>
+
+<p class="level3">
+You don&#039;t need to edit special midi curves for them, everything is already set in White Cat. 
+Once the cross-fade is completed in midi, you need to bring your two faders back to the UP position.
+</p>
+
+<p class="level3">
+The Red circles enable the remote control by a motorized midi control surface.
+</p>
+<!-- EDIT21 SECTION "Manual cross-fade with midi devices" [9892-10371] -->
+<h1 class="sectionedit22"><a name="cross-fade_with_go" id="cross-fade_with_go">Cross-fade with GO</a></h1>
+
+<p class="level1">
+<img src="go.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+A Go Cross-fade takes place in the times recorded in preset memory, as adjusted by the accelerometer factor.
+</p>
+
+<p class="level1">
+The Times displayed in preset are directly the result of the modification made by the accelerometer.
+</p>
+
+<p class="level1">
+<strong>If a  delay In or OUT is still not finished, the master will flash in RED.
+</strong>
+</p>
+
+<p class="level1">
+<strong>To do GO</strong>, in the time set:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> mouse: click the center arrow, the GO button.</div>
+</li>
+<li class="level1"><div class="li"> keyboard: hit [SPACE]</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>To PAUSE</strong> the cross-fade, click GO again or re-hit [SPACE].
+</p>
+
+<p class="level1">
+<strong>To GO BACK</strong>:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> mouse: click pointing left arrow, the GO BACK button.</div>
+</li>
+<li class="level1"><div class="li"> keyboard : press [CTRL][SPACE]</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>To do a DOUBLE GO</strong> (jumping from current cross-fade to next one):
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> mouse: click the DOUBLE arrow, the DOUBLE GO button.</div>
+</li>
+<li class="level1"><div class="li"> Keyboard: press [SHIFT][SPACE]</div>
+</li>
+</ul>
+<!-- EDIT22 SECTION "Cross-fade with GO" [10372-11166] -->
+<h4 class="sectionedit23"><a name="go_midi_forcemode" id="go_midi_forcemode">Go Midi ForceMode</a></h4>
+
+<p class="level4">
+ForceMode is only for midi remoting (with Apps like Live for example).
+</p>
+
+<p class="level4">
+If On, and a cross-fade is running,  pressing Midi Key for the Go will not trigger a pause, but a Jump. Only for midi, not concerning keyboard or arduino.
+</p>
+
+<p class="level4">
+When ForceMode is /On Go is outlined in Green color.
+</p>
+
+<p class="level4">
+<img src="go_force_mode.jpeg" class="media" title="go_force_mode.jpg" alt="go_force_mode.jpg" />
+</p>
+<!-- EDIT23 SECTION "Go Midi ForceMode" [11167-11500] -->
+<h1 class="sectionedit24"><a name="linking_memories" id="linking_memories">Linking memories</a></h1>
+
+<p class="level1">
+If the [Link] option is activated  and there is a link between 2 memories:
+<strong>when a cross-fade has just finished, the next cross-fade starts automatically.</strong>
+</p>
+
+<p class="level1">
+If the memory fading in onstage has an embedded link, the next cross-fade will be done automatically.
+</p>
+
+<p class="level1">
+<img src="link.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT24 SECTION "Linking memories" [11501-11809] -->
+<h2 class="sectionedit25"><a name="assign_unassign_a_link_to_a_memory" id="assign_unassign_a_link_to_a_memory">Assign/unassign a link to a memory</a></h2>
+
+<p class="level2">
+Just click the link column in the Sequences window on the correct memory number line. An arrow will appear to signify the link.
+</p>
+<!-- EDIT25 SECTION "Assign/unassign a link to a memory" [11810-11985] -->
+<h2 class="sectionedit26"><a name="activating_link_mode" id="activating_link_mode">Activating Link mode</a></h2>
+
+<p class="level2">
+Click the [Link] box at the top of the Cue List. 
+</p>
+<!-- EDIT26 SECTION "Activating Link mode" [11986-12072] -->
+<h1 class="sectionedit27"><a name="bangerautomations_and_complex_encoding" id="bangerautomations_and_complex_encoding">Banger: Automations and complex encoding</a></h1>
+
+<p class="level1">
+A Banger is a set of 6 events that can be attributed to a Cue.
+Those events are edited in <a href="banger_eng.html" class="wikilink1" title="Banger_eng">Banger Window</a>, with delays to take effect based on the GO time.
+</p>
+
+<p class="level1">
+A Banger enables you to create a channel time effect with Faders, to make an audio player select a file and play it, to send a midi out signal, to activate windows…
+Well, in fact there are many things you can do with the bangers.
+</p>
+<!-- EDIT27 SECTION "Banger: Automations and complex encoding" [12073-12530] -->
+<h2 class="sectionedit28"><a name="assign_unassign_a_banger_to_a_memory" id="assign_unassign_a_banger_to_a_memory">Assign/unassign a Banger to a memory</a></h2>
+
+<p class="level2">
+Type the Banger Number, click in the Banger column of the correct memory in the box that appears. To clear it, just type 0 and click the Bang Box of the memory again. 
+</p>
+<!-- EDIT28 SECTION "Assign/unassign a Banger to a memory" [12531-12748] -->
+<h2 class="sectionedit29"><a name="activating_bang_mode" id="activating_bang_mode">Activating Bang mode</a></h2>
+
+<p class="level2">
+Do not forget to activate the [Bang] box at the top of the Cue List window. 
+</p>
+<!-- EDIT29 SECTION "Activating Bang mode" [12749-12859] -->
+<h1 class="sectionedit30"><a name="double_cuelist" id="double_cuelist">Double CueList</a></h1>
+
+<p class="level1">
+The 4 GridPlayers may be used with Banger inside the CueList, enabling evoluated effects construction launched by GO. 
+</p>
+
+<p class="level1">
+GridPlayers structure is like 4 parallels CueLists. To ease the use of a GridPlayer in your CueList, <strong>you can embed GridPlayer 1</strong> in it. 
+</p>
+
+<p class="level1">
+Only the GridPlayer 1 may be embeded inside the CueList. Other GridPlayers should be used with banger automations, or manually.
+</p>
+
+<p class="level1">
+You will benefit if all the CueList functions: Go Back, Jump, quick navigation (W/X), and also slave the GridPlayer 1&#039;s accelerometer are all controlled by to cross-fade&#039;s accelerometer.
+</p>
+
+<p class="level1">
+GrdiPlayer 1 is a solution to do channel times evoluated effects.
+</p>
+
+<p class="level1">
+Despite GridPlayer 1 is embedded inside the CueList, its output is still assigned to a Fader (channels in orange color)
+</p>
+
+<p class="level1">
+<strong>To activate GridPlayer1 in CueList click [GPL1] box in the CueList window.</strong>
+</p>
+
+<p class="level1">
+The CueList window will be extended, enabling general manipulations of the GridPlayer, without the matrix view.
+</p>
+
+<p class="level1">
+See <a href="grid_eng.html" class="wikilink1" title="Grid_eng">Grid documentation</a> and the section dedicated to double CueList for the manipulations and use.
+</p>
+
+<p class="level1">
+<img src="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpg" alt="cuelist_extended.jpg" />
+</p>
+<!-- EDIT30 SECTION "Double CueList" [12860-] --></div>
+</body>
+</html>

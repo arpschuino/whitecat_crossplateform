@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>vnc_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-13T02:06:58+0200"/>
+<meta name="keywords" content="vnc_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="vnc_eng.html"/>
+<link rel="contents" href="vnc_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="vnc_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="vnc_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=vnc_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"vnc_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#step_1install_vnc_locally">Step 1 : install vnc locally.</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#the_server">The server</a></div></li>
+<li class="level2"><div class="li"><a href="#the_client">The Client</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#step_2install_the_vnc_control_over_the_internet">Step 2: Install the vnc control over the internet</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#ip_fixed_or_dynamic">IP fixed or dynamic</a></div></li>
+<li class="level2"><div class="li"><a href="#configuration_of_the_router">Configuration of the Router</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h5><a name="par_anton_langhoff" id="par_anton_langhoff">par Anton Langhoff</a></h5>
+
+<p class="level5">
+Greetings to all,
+</p>
+
+<p class="level5">
+Your PC is in the control booth and you want to remotely control it in order to stay close to the director or you want to troubleshoot on the internet because your assistant was tasked with installing World of WorldCraft during your vacation in Bermuda. Vnc (Virtual Network Computing) is for you as it will allow you, on a remote computer, to view the screen and control the keyboard and mouse of the target computer.
+</p>
+
+<h1 class="sectionedit1"><a name="step_1install_vnc_locally" id="step_1install_vnc_locally">Step 1 : install vnc locally.</a></h1>
+
+<p class="level1">
+From Ultra vnc download the application and install it on two computers.
+</p>
+
+<p class="level1">
+You control the viewer (client) and the computer in the booth that is remotely controlled is the server. Downloadable at <a href="http://www.ultravnc.fr/" class="urlextern" title="http://www.ultravnc.fr/"  rel="nofollow">www.ultravnc.fr/</a> and it is version 101/102 that is described here.  For English speakers, even though the site is French, you will get the option to pick your language.  Pick English and use the installer.  If you go to the English website, you will be offered slightly different programs.  See note at the end of this article.
+</p>
+
+<p class="level1">
+When installing check the following boxes:
+</p>
+
+<p class="level1">
+<img src="install.jpeg" class="media" alt="" /> <img src="setup-add.jpeg" class="media" alt="" /><img src="setup-acl.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+You can also install the server alone or the client alone. Then you will not need to have two .exe files.  If you want icons on the desktop, you can select that.
+</p>
+<!-- EDIT1 SECTION "Step 1 : install vnc locally." [467-1302] -->
+<h2 class="sectionedit2"><a name="the_server" id="the_server">The server</a></h2>
+
+<p class="level2">
+When you launch the server on the computer you want viewed (the one in the booth), this window appears.
+</p>
+
+<p class="level2">
+<img src="adminprops.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+As a matter of security, it is advisable that you change the port number and not use the default vnc port (5900).  Enter a port number greater than 1080, for example 5943, and be sure to open this port in your firewall.
+If you have not installed ultra vnc with the installer, and if you have disabled the windows login (you don&#039;t have a current password), you may have problems installing. Choose a password vnc (numbers and letters, with a little complexity).
+</p>
+
+<p class="level2">
+Mode “user impersonation” when activated restricts access to files. While this mode is enabled, a user who connects via UltraVNC and happens to see the login/Windows password screen can not use the file transfer. Once logged in, you can only see the directories and files which you are entitled to see as set by the Windows user profile.  If this mode is disabled, users will have full access to UltraVNC server files, even without being logged into Windows.
+</p>
+
+<p class="level2">
+Mark the Display Query window and choose refuse as the default action. This will block any new connection that has not been allowed on the server.  Open the MS Logon Configuration window to see the list of user or group names that exist on this computer.  When you are on the client computer (the one out in the house) you will be asked for your user name; so it needs to be one of the ones you see here.
+</p>
+
+<p class="level2">
+It is also advisable to use a plug-in DSM encryption downloadable at the following address: <a href="http://msrc4plugin.home.comcast.net/" class="urlextern" title="http://msrc4plugin.home.comcast.net/"  rel="nofollow">http://msrc4plugin.home.comcast.net/</a> ~ msrc4plugin/aesv2plugin.html .
+</p>
+<!-- EDIT2 SECTION "The server" [1303-2947] -->
+<h2 class="sectionedit3"><a name="the_client" id="the_client">The Client</a></h2>
+
+<p class="level2">
+On the machine that is in the house start the ultravnc viewer and open that port in your firewall (in our example) 5943.
+</p>
+
+<p class="level2">
+<img src="viewer.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+You must have an ad-hoc connection between the two machines or be on the same local network.  On the vnc client enter the IP of the server machine followed by the vnc port number (ex: 192.168.1.23 :: 5943), then click login. After you have entered your name and password, a window opens where you can see the screen of the server machine and control it. You can also open a chat window that allows you to communicate (send text messages) with the person who is at the other computer.
+</p>
+<!-- EDIT3 SECTION "The Client" [2948-3596] -->
+<h1 class="sectionedit4"><a name="step_2install_the_vnc_control_over_the_internet" id="step_2install_the_vnc_control_over_the_internet">Step 2: Install the vnc control over the internet</a></h1>
+<!-- EDIT4 SECTION "Step 2: Install the vnc control over the internet" [3597-3661] -->
+<h2 class="sectionedit5"><a name="ip_fixed_or_dynamic" id="ip_fixed_or_dynamic">IP fixed or dynamic</a></h2>
+
+<p class="level2">
+Fixed IP or dynamic IP.
+The difference between a fixed IP and dynamic IP depends on your internet service provider. If you have a static IP (eg free) no problem, you just need to remember your IP. If you have a dynamic IP that is a bit more complicated because your Ip address is constantly changing.
+In the case of a dynamic IP, visit the site <a href="http://www.no-ip.com" class="urlextern" title="http://www.no-ip.com"  rel="nofollow">http://www.no-ip.com</a> and create a new account (free) with a domain name (ex: moianton.no-ip.org) and install on your computer the dynamic dns update client downloadable at <a href="http://www.no-ip.com/downloads.php" class="urlextern" title="http://www.no-ip.com/downloads.php"  rel="nofollow">http://www.no-ip.com/downloads.php</a> Now when your client is started and the computer connects to the internet, it will update my IP address that corresponds to moianton.no-ip.org
+</p>
+<!-- EDIT5 SECTION "IP fixed or dynamic" [3662-4390] -->
+<h2 class="sectionedit6"><a name="configuration_of_the_router" id="configuration_of_the_router">Configuration of the Router</a></h2>
+
+<p class="level2">
+In both cases, a fixed or dynamic IP, you must configure your router to redirect port 5943 (in this example) to your machine. To do this, open your browser and enter the address of your router (eg <a href="http://192.168.1.1" class="urlextern" title="http://192.168.1.1"  rel="nofollow">http://192.168.1.1</a> ). The address of the router can be found in your network connection/status/default gateway.
+</p>
+
+<p class="level2">
+A window will open asking for your login and password for the router. When this information is returned you access the configuration page of the router.
+</p>
+
+<p class="level2">
+Search on this page for a feature called port forwarding.  Enter a service name (eg vnc) select TCP, enter the port number of 5943 as both the IN and OUT ports, then enter the IP address of the server computer vnc control (eg 192.168.1.12) . Port 5943 of the router internet access is re-directed to port 1943 of the machine 192.168.1.12
+</p>
+
+<p class="level2">
+You can now connect online with ultravncwiever entering vnc server: moianton.no-ip.org :: 5943 and click connect. Check of course that the port 5943 is open in all firewalls (two computers, router), and be sure that the server of dynamic dns ultravnc and update client are launched.
+</p>
+
+<p class="level2">
+== For the more adventurous, you can find another function not detailed here which is the ability to pass through the server vnc in ssh (secure and encrypted connection) or command line configuration.
+</p>
+
+<h5><a name="good_vnc_to_all_anton_langhoff" id="good_vnc_to_all_anton_langhoff">Good VNC to all. Anton Langhoff</a></h5>
+
+<h5><a name="for_english_speakers" id="for_english_speakers">For English Speakers</a></h5>
+
+<p class="level5">
+There are several other (English only) VNC software programs, and some of them are less complicated and somewhat easier to use.  Check out TightVnc at <a href="http://www.tightvnc.com" class="urlextern" title="http://www.tightvnc.com"  rel="nofollow">www.tightvnc.com</a>.  You don&#039;t need a user name, it automatically creates an exception in your firewall and the over the internet application is a Java applet.  If you go to <a href="http://www.ultraVNC.com" class="urlextern" title="http://www.ultraVNC.com"  rel="nofollow">www.ultraVNC.com</a>, you will be offered ver 2.1 or later (English only) and it has somewhat different screens from those described above.  In order to get exactly what is described above, go the the French website and when you install, you will be able to pick French, English or German as your language of choice.
+</p>
+<!-- EDIT6 SECTION "Configuration of the Router" [4391-] --></div>
+</body>
+</html>

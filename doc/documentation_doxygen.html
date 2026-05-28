@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>documentation_doxygen</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-02-25T19:42:36+0100"/>
+<meta name="keywords" content="documentation_doxygen"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="documentation_doxygen.html"/>
+<link rel="contents" href="documentation_doxygen.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="documentation_doxygen.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="documentation_doxygen.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=documentation_doxygen"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"documentation_doxygen","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#documentation_automatique_avec_doxygen">Documentation automatique avec Doxygen</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#pour_ajouter_des_information_destinee_a_doxygen_il_faut_creer_des_balises">Pour ajouter des information destinée à Doxygen il faut créer des balises.</a></div></li>
+<li class="level3"><div class="li"><a href="#en_tete_de_fichier">En tête de Fichier.</a></div></li>
+<li class="level3"><div class="li"><a href="#fonctions_et_variables">Fonctions et variables</a></div></li>
+<li class="level3"><div class="li"><a href="#un_exemple_serait_peut_etre_plus_parlant">Un exemple serait peut être plus parlant.</a></div></li>
+<li class="level3"><div class="li"><a href="#notes">Notes :</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="documentation_automatique_avec_doxygen" id="documentation_automatique_avec_doxygen">Documentation automatique avec Doxygen</a></h1>
+
+<p class="level1">
+Pour tout les développeurs du projet Whitecat, 
+il a été question avec George Khaznadar de développer automatiquement une documentation de l&#039;<abbr title="Application Programming Interface">API</abbr>. 
+L&#039;outil choisit s&#039;est porter sur Doxygen qui génère une documentation automatiquement pour permettre de s&#039;y retrouver plus facilement dans les diverses fonctions et sources du chat.
+</p>
+
+<p class="level1">
+Cette pratique nécessite néanmoins de la part de tous les développeurs contributeurs de commenter  leur code afin que les commentaires puissent être reconnu par Doxygen.
+Ce bref tutoriel répertorie différentes manières de commenter son code, n&#039;hésiter pas à le compléter ou le corriger en cas d&#039;erreur.
+</p>
+<!-- EDIT1 SECTION "Documentation automatique avec Doxygen" [1-704] -->
+<h3 class="sectionedit2"><a name="pour_ajouter_des_information_destinee_a_doxygen_il_faut_creer_des_balises" id="pour_ajouter_des_information_destinee_a_doxygen_il_faut_creer_des_balises">Pour ajouter des information destinée à Doxygen il faut créer des balises.</a></h3>
+
+<p class="level3">
+
+  - 1
+/*! En C++ au début des infos transmise à Doxygen, 
+/** en C (utiliser de préférence la syntax /*!) .
+</p>
+
+<p class="level3">
+- 2 * avant chaque nouvelle information et pour un retour à la ligne
+</p>
+
+<p class="level3">
+- 3 Une ou plusieurs balise java doc: ex * \brief  (pour ajouter une description)
+</p>
+
+<p class="level3">
+- 4 */ pour fermer les commentaires
+</p>
+
+<p class="level3">
+la balise * \brief ajoute une description
+</p>
+
+<p class="level3">
+la balise * \fn indique le nom de la fonction et sa description
+</p>
+
+<p class="level3">
+la balise * \param est à ajouter pour chacun des paramètres avec son type, son nom et une description
+</p>
+
+<p class="level3">
+la balise * \return permet de donner une description de la valeur retourner
+</p>
+<!-- EDIT2 SECTION "Pour ajouter des information destinée à Doxygen il faut créer des balises." [705-1428] -->
+<h3 class="sectionedit3"><a name="en_tete_de_fichier" id="en_tete_de_fichier">En tête de Fichier.</a></h3>
+
+<p class="level3">
+Ruis-Serge a développer un en tête normalisé. Il serait bien de le rajouter au début de chaque fichier en vérifiant les informations du commentaire Doxygen. J&#039;ai modifier les information de licence et de copyright pour être cohérent avec le dépot gitHub.
+</p>
+<pre class="code">/*-------------------------------------------------------------------------------------------------------------
+                                 |
+          CWWWWWWWW              | Copyright (C) 2013  Christoph Guillermet
+       WWWWWWWWWWWWWWW           | 
+     WWWWWWWWWWWWWWWWWWW         | This file is part of White Cat.
+    WWWWWWWWWWWWWWWWWCWWWW       | 
+   WWWWWWWWWWWWWWWWW tWWWWW      | White Cat is free software: you can redistribute it and/or modify
+  WWWW   WWWWWWWWWW  tWWWWWW     | it under the terms of the GNU General License as published by
+ WWWWWt              tWWWWWWa    | the Free Software Foundation, either version 2 of the License, or
+ WWWWWW               WWWWWWW    | (at your option) any later version.
+WWWWWWWW              WWWWWWW    | 
+WWWWWWWW               WWWWWWW   | White Cat is distributed in the hope that it will be useful,
+WWWWWWW               WWWWWWWW   | but WITHOUT ANY WARRANTY; without even the implied warranty of
+WWWWWWW      CWWW    W WWWWWWW   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+WWWWWWW            aW  WWWWWWW   | GNU Lesser General Public License for more details.
+WWWWWWWW           C  WWWWWWWW   | 
+ WWWWWWWW            CWWWWWWW    | You should have received a copy of the GNU General Public License
+ WWWWWWWWW          WWWWWWWWW    | along with White Cat.  If not, see &lt;http://www.gnu.org/licenses/&gt;. 
+  WWWWWWWWWWC    CWWWWWWWWWW     |   
+   WWWWWWWWWWWWWWWWWWWWWWWW      | 
+    WWWWWWWWWWWWWWWWWWWWWW       |    
+      WWWWWWWWWWWWWWWWWWa        |     
+        WWWWWWWWWWWWWWW          |     
+           WWWWWWWWt             |
+                                 |
+---------------------------------------------------------------------------------------------------------------*/
+/**
+
+ \file {nom du fichier.extension}
+ \brief {description courte} 
+ \author {liste des auteurs}
+ \version {numero de version du fichier}
+ \date {date description}
+ 
+ White Cat {- categorie} {- sous categorie {- sous categorie}}
+ Description détaillée
+ 
+ **/
+ </pre>
+<!-- EDIT3 SECTION "En tête de Fichier." [1429-3765] -->
+<h3 class="sectionedit4"><a name="fonctions_et_variables" id="fonctions_et_variables">Fonctions et variables</a></h3>
+
+<p class="level3">
+Avant chaque déclaration de fonction indiqué une description en commentaire.
+</p>
+<pre class="code">/**
+* \brief read an audio file from a particular time
+* \param const char* file complet path of the file. must be an audio file(mp3, wave,aiff)
+* \param long startTime start of the audio file in millisecond
+* \return the number of the file in the playlist -1 if an error
+*
+*/
+int play(const char* file, long startTime)
+{
+//fonction play
+}</pre>
+
+<p class="level3">
+Avant chaque déclaration de variable une brève description
+</p>
+<pre class="code">/** nombre de players audio */
+int nbPlayer;</pre>
+<!-- EDIT4 SECTION "Fonctions et variables" [3766-4356] -->
+<h3 class="sectionedit5"><a name="un_exemple_serait_peut_etre_plus_parlant" id="un_exemple_serait_peut_etre_plus_parlant">Un exemple serait peut être plus parlant.</a></h3>
+
+<p class="level3">
+Tout les commentaire précéder de // ne sont pas des commentaires destiner à la documentation par doxygen mais seulement à une meilleur compréhension du code. 
+</p>
+
+<p class="level3">
+En C :
+</p>
+<pre class="code">//pour chaque fichier coder en C (.c ou.cpp)
+//au début du fichier
+/*-------------------------------------------------------------------------------------------------------------
+                                 |
+          CWWWWWWWW              | Copyright (C) 2013  Christoph Guillermet
+       WWWWWWWWWWWWWWW           | 
+     WWWWWWWWWWWWWWWWWWW         | This file is part of White Cat.
+    WWWWWWWWWWWWWWWWWCWWWW       | 
+   WWWWWWWWWWWWWWWWW tWWWWW      | White Cat is free software: you can redistribute it and/or modify
+  WWWW   WWWWWWWWWW  tWWWWWW     | it under the terms of the GNU General License as published by
+ WWWWWt              tWWWWWWa    | the Free Software Foundation, either version 2 of the License, or
+ WWWWWW               WWWWWWW    | (at your option) any later version.
+WWWWWWWW              WWWWWWW    | 
+WWWWWWWW               WWWWWWW   | White Cat is distributed in the hope that it will be useful,
+WWWWWWW               WWWWWWWW   | but WITHOUT ANY WARRANTY; without even the implied warranty of
+WWWWWWW      CWWW    W WWWWWWW   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+WWWWWWW            aW  WWWWWWW   | GNU Lesser General Public License for more details.
+WWWWWWWW           C  WWWWWWWW   | 
+ WWWWWWWW            CWWWWWWW    | You should have received a copy of the GNU General Public License
+ WWWWWWWWW          WWWWWWWWW    | along with White Cat.  If not, see &lt;http://www.gnu.org/licenses/&gt;. 
+  WWWWWWWWWWC    CWWWWWWWWWW     |   
+   WWWWWWWWWWWWWWWWWWWWWWWW      | 
+    WWWWWWWWWWWWWWWWWWWWWW       |    
+      WWWWWWWWWWWWWWWWWWa        |     
+        WWWWWWWWWWWWWWW          |     
+           WWWWWWWWt             |
+                                 |
+---------------------------------------------------------------------------------------------------------------*/
+
+/** 
+* \file audioplayer.cpp
+* \brief Whitecat 0.8.5 modification des audio players en intégrant la librairie Juce. 
+* \author Christophe Guillermait modified by Anton Langhoff
+* \version 0.2
+* \date 23/01/2014
+*
+* 
+*/
+
+# include audioplayer.h
+
+//déclaration de la première fonction, meme chose pour toutes les fonction
+/**
+* \fn int play(const char* file, long startTime)
+* \brief permet de lire un fichier audio depuis un moment donner
+* \param const char* file chemin du fichier complet. doit être un fichier audio(mp3, wave,aiff)
+* \param long startTime départ de la lecture du fichier en milliseconde
+* \return le numéro du fichier dans la playlist ou -1 si il y a eu une erreur de lecture
+*
+*/
+int play(const char* file, long startTime)
+{
+//fonction play
+}
+</pre>
+
+<p class="level3">
+En C++ en début de tout fichier.h ::
+</p>
+<pre class="code">
+//pour un fichier en c++ commenter le code avec Doxygen uniquement dans le fichier.h
+// mais ajouter quand même les lignes suivante au début de chaque fichier y compris les //fichier .cpp pour les
+infos relative au fichier lui même.
+/*-------------------------------------------------------------------------------------------------------------
+                                 |
+          CWWWWWWWW              | Copyright (C) 2013  Christoph Guillermet
+       WWWWWWWWWWWWWWW           | 
+     WWWWWWWWWWWWWWWWWWW         | This file is part of White Cat.
+    WWWWWWWWWWWWWWWWWCWWWW       | 
+   WWWWWWWWWWWWWWWWW tWWWWW      | White Cat is free software: you can redistribute it and/or modify
+  WWWW   WWWWWWWWWW  tWWWWWW     | it under the terms of the GNU Lesser General License as published by
+ WWWWWt              tWWWWWWa    | the Free Software Foundation, either version 2 of the License, or
+ WWWWWW               WWWWWWW    | (at your option) any later version.
+WWWWWWWW              WWWWWWW    | 
+WWWWWWWW               WWWWWWW   | White Cat is distributed in the hope that it will be useful,
+WWWWWWW               WWWWWWWW   | but WITHOUT ANY WARRANTY; without even the implied warranty of
+WWWWWWW      CWWW    W WWWWWWW   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+WWWWWWW            aW  WWWWWWW   | GNU Lesser General Public License for more details.
+WWWWWWWW           C  WWWWWWWW   | 
+ WWWWWWWW            CWWWWWWW    | You should have received a copy of the GNU General Public License
+ WWWWWWWWW          WWWWWWWWW    | along with White Cat.  If not, see &lt;http://www.gnu.org/licenses/&gt;. 
+  WWWWWWWWWWC    CWWWWWWWWWW     |   
+   WWWWWWWWWWWWWWWWWWWWWWWW      | 
+    WWWWWWWWWWWWWWWWWWWWWW       |    
+      WWWWWWWWWWWWWWWWWWa        |     
+        WWWWWWWWWWWWWWW          |     
+           WWWWWWWWt             |
+                                 |
+---------------------------------------------------------------------------------------------------------------*/
+
+/*!
+* \file audioplayer.h
+* \brief Whitecat 0.8.5 modification des audio players en intégrant la librairie Juce. 
+* \author Christophe Guillermait modified by Anton Langhoff
+* \version 0.2
+* \date 23/01/2014
+*
+*/
+
+//permet de declarer une nouvelle classe
+/*! \class AudioPlayer
+* \brief crée un player audio multidiffusion
+*
+*/
+
+class AudioPlayer
+{
+
+/*! \brief contructeur d&#039;un player audio multipiste
+*  \param nbOut permet de définir le nombres de sortie utilisées par le player, par default le player est stéréo 
+*
+*/
+AudioPlayer(int nbOut=2);
+
+//pareil pour le destructeur
+/*! \brief destructeur du player audio multipiste
+*
+*/
+~AudioPlayer() ;
+
+//déclaration de la première fonction
+
+/*!
+* \fn int play(const char* file, long startTime)
+* \brief permet de lire un fichier audio depuis un moment donner
+* \param const char* file chemin du fichier complet. doit être un fichier audio(mp3, wave,aiff)
+* \param long startTime départ de la lecture du fichier en milliseconde
+* \return le numéro du fichier dans la playlist ou -1 si il y a eu une erreur de lecture
+*
+*/
+void int play(const char* file, long startTime);
+
+protected:
+const char* currentFile;
+
+}
+</pre>
+
+<p class="level3">
+Un tuto plus complet est disponible à cette adresse : <a href="http://franckh.developpez.com/tutoriels/outils/doxygen/" class="urlextern" title="http://franckh.developpez.com/tutoriels/outils/doxygen/"  rel="nofollow">http://franckh.developpez.com/tutoriels/outils/doxygen/</a>
+</p>
+<!-- EDIT5 SECTION "Un exemple serait peut être plus parlant." [4357-10555] -->
+<h3 class="sectionedit6"><a name="notes" id="notes">Notes :</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Ne commenter jamais les autres lignes du code avec plus de 2 // (ex:////) sinon Doxygen pourrait voir ces commentaires comme une partie de la documentation.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Parfois sur les sources de Whitecat, lorsque que le commentaire se trouve avant une fonction, il faut retirer la balise \fn pour que la fonction soit prise en compte dans la documentation. Si le commentaire est avant la fonction, Doxygen saura qu&#039;il s&#039;applique à cette fonction.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> N&#039;écrivez jamais d&#039;accent ou de caractère spéciaux dans les commentaires, Doxygen est par défaut en UTF-8.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Vérifier toujours avec Doxywizard après des modifications qu&#039;elle ont bien été prises en compte et qu&#039;elle sont bien documentés.</div>
+</li>
+</ul>
+
+<p class="level3">
+Merci à tous.
+</p>
+<!-- EDIT6 SECTION "Notes :" [10556-] --></div>
+</body>
+</html>

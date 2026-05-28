@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>trichromie_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-01-15T00:35:06+0100"/>
+<meta name="keywords" content="trichromie_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="trichromie_eng.html"/>
+<link rel="contents" href="trichromie_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="trichromie_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="trichromie_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=trichromie_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"trichromie_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#trichromy_quadrichromy_window">Trichromy / Quadrichromy window</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#calling_trichromy_window">Calling Trichromy window</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#how_to_use_the_trichromy_windowstep_by_step">How to use the Trichromy window: Step by step</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#assignment_of_a_color-preset_to_a_fader">Assignment of a color-preset to a Fader</a></div></li>
+<li class="level3"><div class="li"><a href="#assignment_of_channels_to_a_color-preset">Assignment of channels to a color-preset</a></div></li>
+<li class="level3"><div class="li"><a href="#using_hue_ring_and_sat_val_triangle">Using Hue ring and Sat/Val triangle</a></div></li>
+<li class="level3"><div class="li"><a href="#midi_assignment_and_midi_loop_back">Midi assignment and midi loop back</a></div></li>
+<li class="level3"><div class="li"><a href="#visualization_of_the_color_independent_of_the_trichromy_window">Visualization of the color independent of the Trichromy window</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="trichromy_quadrichromy_window" id="trichromy_quadrichromy_window">Trichromy / Quadrichromy window</a></h1>
+
+<p class="level1">
+This window enables you to work with additive color mixing on various channels:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> in trichromy, using channels for Red, Green, Blue</div>
+</li>
+<li class="level1"><div class="li"> in quadrichromy, adding a channel for Yellow</div>
+</li>
+</ul>
+
+<p class="level1">
+This module is based on red LEE 106, green LEE 124, blue LEE 119, and yellow LEE 102.
+In terms of number of spotlights, you&#039;ll need twice as many blue because transmission is so low.
+</p>
+
+<p class="level1">
+<img src="trichro.jpeg" class="media" title="trichro.jpg" alt="trichro.jpg" />
+</p>
+
+<p class="level1">
+The Trichromy window is composed as follows (from top to bottom):
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> a mode selector switching between trichromy/quadrichromy</div>
+</li>
+<li class="level1"><div class="li"> a hue ring</div>
+</li>
+<li class="level1"><div class="li"> a triangle for saturation and value of the color (sat/val triangle)</div>
+</li>
+<li class="level1"><div class="li"> 4 docks in which will be stored the channels dedicated to the colors (R G B Y). Levels outputted from the sat/val triangle are shown there.</div>
+</li>
+<li class="level1"><div class="li"> 8 color-presets, enabling you to have 8 trichromy systems working simultaneously. In each of those 8 presets is printed the number of the fader and the dock to which they are assigned.</div>
+</li>
+<li class="level1"><div class="li"> an affectation button to assign the output of a color preset to a dock</div>
+</li>
+</ol>
+<!-- EDIT1 SECTION "Trichromy / Quadrichromy window" [1-1056] -->
+<h2 class="sectionedit2"><a name="calling_trichromy_window" id="calling_trichromy_window">Calling Trichromy window</a></h2>
+
+<p class="level2">
+Click [Trichro] or press [F7]
+</p>
+
+<p class="level2">
+<img src="click_trichro.jpeg" class="media" title="click_trichro.jpg" alt="click_trichro.jpg" />
+</p>
+<!-- EDIT2 SECTION "Calling Trichromy window" [1057-1147] -->
+<h1 class="sectionedit3"><a name="how_to_use_the_trichromy_windowstep_by_step" id="how_to_use_the_trichromy_windowstep_by_step">How to use the Trichromy window: Step by step</a></h1>
+<!-- EDIT3 SECTION "How to use the Trichromy window: Step by step" [1148-1208] -->
+<h3 class="sectionedit4"><a name="assignment_of_a_color-preset_to_a_fader" id="assignment_of_a_color-preset_to_a_fader">Assignment of a color-preset to a Fader</a></h3>
+<ol class="level3">
+<li class="level1"><div class="li"> <strong>select first the color-preset you wish to work with</strong> </div>
+</li>
+<li class="level1"><div class="li"> click the mode in which this preset should work (RGB or RGBY) [TRICHROMY]</div>
+</li>
+<li class="level1"><div class="li"> click [AFFECT TO DOCK]</div>
+</li>
+<li class="level1"><div class="li"> <strong>click dock oval to assign this color-preset to it</strong>.</div>
+</li>
+</ol>
+
+<p class="level3">
+! Be aware that a dock that contains a color-preset is unlinked ( a clear or something else is recorded in place of ) it will appear in flashing color.
+</p>
+<!-- EDIT4 SECTION "Assignment of a color-preset to a Fader" [1209-1637] -->
+<h3 class="sectionedit5"><a name="assignment_of_channels_to_a_color-preset" id="assignment_of_channels_to_a_color-preset">Assignment of channels to a color-preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> <strong>select channels to assign as Red</strong></div>
+</li>
+<li class="level1"><div class="li"> click [STORE] or press [F1]</div>
+</li>
+<li class="level1"><div class="li"> click the RED button to assign them</div>
+</li>
+<li class="level1"><div class="li"> confirm</div>
+</li>
+</ul>
+
+<p class="level3">
+Repeat these operations for Green and Blue .
+</p>
+
+<p class="level3">
+! Use [MODIFY] to add or remove a channel from a color assignment: if the channel selected is already assigned inside, it will be removed.  If it is not present, it will be added.
+</p>
+<!-- EDIT5 SECTION "Assignment of channels to a color-preset" [1638-2041] -->
+<h3 class="sectionedit6"><a name="using_hue_ring_and_sat_val_triangle" id="using_hue_ring_and_sat_val_triangle">Using Hue ring and Sat/Val triangle</a></h3>
+
+<p class="level3">
+Moving around the hue wheel, you change the color inside the val/sat triangle.
+</p>
+
+<p class="level3">
+RGBY levels are taken from the sat/val triangle and sent to the chosen color-preset. 
+</p>
+
+<p class="level3">
+The logical progression of this module is HUE TINT → SATURATION/VALUE → SPOTLIGHTS.
+</p>
+
+<p class="level3">
+You can, through using the sat/val triangle, work in deep tints, as well as pastels very easily.
+</p>
+<!-- EDIT6 SECTION "Using Hue ring and Sat/Val triangle" [2042-2440] -->
+<h3 class="sectionedit7"><a name="midi_assignment_and_midi_loop_back" id="midi_assignment_and_midi_loop_back">Midi assignment and midi loop back</a></h3>
+
+<p class="level3">
+The Hue wheel is assignable in midi.
+</p>
+
+<p class="level3">
+Click the circle to enable midi-out of its value to be sent to a midi device (rotary knob).
+</p>
+
+<p class="level3">
+<img src="trichro_midi.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+For more information about midi and how to assign, see <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng"> Midi Configuration and Midi Assignment</a>
+</p>
+<!-- EDIT7 SECTION "Midi assignment and midi loop back" [2441-2776] -->
+<h3 class="sectionedit8"><a name="visualization_of_the_color_independent_of_the_trichromy_window" id="visualization_of_the_color_independent_of_the_trichromy_window">Visualization of the color independent of the Trichromy window</a></h3>
+
+<p class="level3">
+In the text feedback section of the screen (line 1) there are two rectangles that display the color of the active dock and the saturation and intensity of the active dock.  
+</p>
+
+<p class="level3">
+Also, the dock number of the active dock is displayed.
+</p>
+
+<p class="level3">
+<img src="retour_infos_822.png" class="media" alt="" />
+</p>
+<!-- EDIT8 SECTION "Visualization of the color independent of the Trichromy window" [2777-] --></div>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>tableau_affectation_midi</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2013-07-06T16:08:38+0200"/>
+<meta name="keywords" content="tableau_affectation_midi"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="tableau_affectation_midi.html"/>
+<link rel="contents" href="tableau_affectation_midi.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="tableau_affectation_midi.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="tableau_affectation_midi.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=tableau_affectation_midi"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"tableau_affectation_midi","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#synoptique_d_affectations_midi">Synoptique d&#039;affectations MIDI</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#grand_master">Grand Master</a></div></li>
+<li class="level2"><div class="li"><a href="#midimute_global">MidiMute [Global]</a></div></li>
+<li class="level2"><div class="li"><a href="#commandes">Commandes</a></div></li>
+<li class="level2"><div class="li"><a href="#midi">Midi</a></div></li>
+<li class="level2"><div class="li"><a href="#faders">Faders</a></div></li>
+<li class="level2"><div class="li"><a href="#sequentiel">Séquentiel</a></div></li>
+<li class="level2"><div class="li"><a href="#chaser">Chaser</a></div></li>
+<li class="level2"><div class="li"><a href="#banger">Banger</a></div></li>
+<li class="level2"><div class="li"><a href="#time">Time</a></div></li>
+<li class="level2"><div class="li"><a href="#trichromie">Trichromie</a></div></li>
+<li class="level2"><div class="li"><a href="#audioplayers">AudioPlayers</a></div></li>
+<li class="level2"><div class="li"><a href="#tracking_video">Tracking Vidéo</a></div></li>
+<li class="level2"><div class="li"><a href="#numpad">NumPad</a></div></li>
+<li class="level2"><div class="li"><a href="#time1">Time</a></div></li>
+<li class="level2"><div class="li"><a href="#icat">iCat</a></div></li>
+<li class="level2"><div class="li"><a href="#grid">Grid</a></div></li>
+<li class="level2"><div class="li"><a href="#draw">Draw</a></div></li>
+<li class="level2"><div class="li"><a href="#lightplot">LightPlot</a></div></li>
+<li class="level2"><div class="li"><a href="#bounce">Bounce</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="synoptique_d_affectations_midi" id="synoptique_d_affectations_midi">Synoptique d&#039;affectations MIDI</a></h1>
+
+<p class="level1">
+Jusqu&#039;à la version 0.7.6.6 le type de signal ( Key-On, Key-Off , Ctrl-Change) et depuis quelle page d affectation midi ( Faders / Button ) ont une incidence sur l&#039;affectation.
+A partir de la version 0.7.6.6 tout signal ( Note, Key-On, Key-Off, Ctrl-Change) peut être affecté à toute commande, depuis une unique page. 
+</p>
+
+<p class="level1">
+La lecture de l&#039;ordre se fait désormais sur la base des identifiants  Channel Midi et Pitch. Seule la touche Flash a un comportement nécessitant un signal de type Key-On impérativement.
+</p>
+
+<p class="level1">
+Ce synoptique présente désormais les commandes physiques recommandées aux actions assignables en midi dans White Cat.
+Est affiché en premier le type de commande physique recommandée: si est écrit Rotatif ou Potentiomètre, le type de controleur physique idéal est le rotatif.
+</p>
+
+<p class="level1">
+En version 0.8.2.2 l&#039;autodésafectation ne lit plus le type et se concentre uniquement sur les identifiants Channel et Pitch .
+</p>
+<!-- EDIT1 SECTION "Synoptique d'affectations MIDI" [1-969] -->
+<h2 class="sectionedit2"><a name="grand_master" id="grand_master">Grand Master</a></h2>
+<div class="table sectionedit3"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Potentiomètre du GM</td><td class="col1">Potentiomètre ou Rotatif</td>
+	</tr>
+</table></div>
+<!-- EDIT3 TABLE [995-1043] --><!-- EDIT2 SECTION "Grand Master" [970-1044] -->
+<h2 class="sectionedit4"><a name="midimute_global" id="midimute_global">MidiMute [Global]</a></h2>
+<div class="table sectionedit5"><table class="inline">
+	<tr class="row0">
+		<td class="col0">MidiMute [Global]</td><td class="col1">Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT5 TABLE [1075-1101] --><!-- EDIT4 SECTION "MidiMute [Global]" [1045-1102] -->
+<h2 class="sectionedit6"><a name="commandes" id="commandes">Commandes</a></h2>
+<div class="table sectionedit7"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Grandes commandes (REC MODIFY REPORT CLEAR)   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Appel des fenêtres (Séquenciel, Banger, Wizard, …)   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Appel des modes (View, Freeze, Exclude, …)   </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [1125-1313] --><!-- EDIT6 SECTION "Commandes" [1103-1315] -->
+<h2 class="sectionedit8"><a name="midi" id="midi">Midi</a></h2>
+
+<p class="level2">
+Sous le tableau récapitulatif des bangers et dans la fenêtre minifaders
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Midi Mute Global </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign">MidiOut sur faders ( renvoi des infos)  </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [1409-1489] --><!-- EDIT8 SECTION "Midi" [1316-1490] -->
+<h2 class="sectionedit10"><a name="faders" id="faders">Faders</a></h2>
+<div class="table sectionedit11"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Ascenseur horizontal de l&#039;espace fader</td><td class="col1"> Rotatif ou Potentiomètre </td>
+	</tr>
+</table></div>
+<!-- EDIT11 TABLE [1510-1578] --><div class="table sectionedit12"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Potentiomètre du Fader   </td><td class="col1"> Potentiomètre, Rotatif ou touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Fx Mode </td><td class="col1"> Touche , Rotatif ou potentiomètre </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Dock + / Dock - du Fader   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0 leftalign"> Lock   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Up / Down / Saw </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Prev. Dock / Next Dock / Cycle Step / SopPos </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0 leftalign"> Loop One / Loop All   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0 leftalign"> Flash   </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Embeded Chaser Play/Seek/Loop/Autolaunch </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> LFO accéléromètre</td><td class="col1"> Rotatif ou Potentiomètre </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> Affectation F1 F2 F3 F4 au fader [v] </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT12 TABLE [1580-2053] --><div class="table sectionedit13"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> All at zero et RECALL </td><td class="col1"> Touche</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Lock Presets </td><td class="col1">Touche</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> MiniFaders: sélections, préselection et actions </td><td class="col1"> Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT13 TABLE [2055-2174] --><!-- EDIT10 SECTION "Faders" [1491-2175] -->
+<h2 class="sectionedit14"><a name="sequentiel" id="sequentiel">Séquentiel</a></h2>
+<div class="table sectionedit15"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Potentiomètres Stage/Preset   </td><td class="col1"> Potentiomètre </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Go / Go Back / Double Go  </td><td class="col1">Touche</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Crossfade accéléromètre </td><td class="col1"> Rotatif ou Potentiomètre</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Stage + / Stage - / Preset + / Preset - </td><td class="col1"> Touche</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Create New Mem / Delete Mem / Goto </td><td class="col1"> Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT15 TABLE [2200-2445] --><div class="table sectionedit16"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Visualisation du GridPlayer1 dans la fenêtre CueList </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Asservissement de la vitesse de l&#039;accéléromètre du GridPlayer 1 à l&#039;accéléromètre du crossfade</td><td class="col1"></td>
+	</tr>
+</table></div>
+<!-- EDIT16 TABLE [2447-2625] --><!-- EDIT14 SECTION "Séquentiel" [2176-2626] -->
+<h2 class="sectionedit17"><a name="chaser" id="chaser">Chaser</a></h2>
+<div class="table sectionedit18"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Navigation dans les chasers / View Track Up Down / Launchpad Position + - </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Play / Seek / Loop / Forward / Bacward / Aller Retour </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Sélection All INV OFF / P1 P2 P3 P4 </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Opérateurs FadeIn / Stay / FadeOut </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Mode temps T.Std T.Join </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Pas de début, Pas de fin, position Curseur </td><td class="col1"> Rotatif, potentiomètre </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> ON/OFF tracks </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> Niveau des tracks </td><td class="col1"> Potentiomètre, rotatif </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Edition des cases à la volée sur fonction Launchpad </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT18 TABLE [2646-3151] --><!-- EDIT17 SECTION "Chaser" [2627-3152] -->
+<h2 class="sectionedit19"><a name="banger" id="banger">Banger</a></h2>
+<div class="table sectionedit20"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Bang It, navigation +/- banger  </td><td class="col1">Touche</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> les 6 bangs solos  </td><td class="col1">Touche</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> les 127 racccourcis des bangers en solo  </td><td class="col1">Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT20 TABLE [3172-3296] --><!-- EDIT19 SECTION "Banger" [3153-3297] -->
+<h2 class="sectionedit21"><a name="time" id="time">Time</a></h2>
+<div class="table sectionedit22"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Roue  </td><td class="col1">Rotatif Potentiomètre</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Touches de temps IN OUT D.IN D.OUT  </td><td class="col1">Touches</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Tap Record / Tap Send / Tap Tempo  </td><td class="col1">Touches</td>
+	</tr>
+</table></div>
+<!-- EDIT22 TABLE [3315-3442] --><!-- EDIT21 SECTION "Time" [3298-3444] -->
+<h2 class="sectionedit23"><a name="trichromie" id="trichromie">Trichromie</a></h2>
+<div class="table sectionedit24"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Roue de couleur</td><td class="col1">Potentiomètre ou Rotatif</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Sélection du dock color actif</td><td class="col1"> Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT24 TABLE [3468-3552] --><!-- EDIT23 SECTION "Trichromie" [3445-3554] -->
+<h2 class="sectionedit25"><a name="audioplayers" id="audioplayers">AudioPlayers</a></h2>
+<div class="table sectionedit26"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Volume, pitch, panoramique</td><td class="col1">Potentiomètre ou Rotatif</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Play, Seek, Loop, SeekEnd, Backward,Forward, Prev. Next Track, Track. Num Load, AutoLoad, AutoPause</td><td class="col1"> Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT26 TABLE [3580-3744] --><!-- EDIT25 SECTION "AudioPlayers" [3555-3745] -->
+<h2 class="sectionedit27"><a name="tracking_video" id="tracking_video">Tracking Vidéo</a></h2>
+<div class="table sectionedit28"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Decay   </td><td class="col1 leftalign"> Potentiomètre ou Rotatif     </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Selection dock colors   </td><td class="col1 leftalign"> Touche     </td>
+	</tr>
+</table></div>
+<!-- EDIT28 TABLE [3774-3858] --><!-- EDIT27 SECTION "Tracking Vidéo" [3746-3859] -->
+<h2 class="sectionedit29"><a name="numpad" id="numpad">NumPad</a></h2>
+<div class="table sectionedit30"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Roue de niveau</td><td class="col1">Rotatif ou Potentiomètre</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Touches 0-9 +- Enter Up Down C.(esc)  All Inv To</td><td class="col1">Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT30 TABLE [3879-3979] --><!-- EDIT29 SECTION "NumPad" [3860-3980] -->
+<h2 class="sectionedit31"><a name="time1" id="time1">Time</a></h2>
+<div class="table sectionedit32"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Roue de temps</td><td class="col1">Rotatif ou Potentiomètre</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Touches Chrono Play-reset / Switch temps / DIn DOut In Out / Affect</td><td class="col1">Touche</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Commandes Tap Tempo </td><td class="col1">Touche</td>
+	</tr>
+</table></div>
+<!-- EDIT32 TABLE [3998-4146] --><!-- EDIT31 SECTION "Time" [3981-4147] -->
+<h2 class="sectionedit33"><a name="icat" id="icat">iCat</a></h2>
+<div class="table sectionedit34"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Page 1 à 8 </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Page - / Page + </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Refresh page </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Orientation Page </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT34 TABLE [4165-4270] --><!-- EDIT33 SECTION "iCat" [4148-4272] -->
+<h2 class="sectionedit35"><a name="grid" id="grid">Grid</a></h2>
+
+<p class="level2">
+Pour chacun des 4 GridPlayers:
+</p>
+<div class="table sectionedit36"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Sélection - ou + de la Grille chargée </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Appel par la vélocité de la grille chargée </td><td class="col1"> Touche ou CC </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Sélection - ou + du Step chargé </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Appel par la vélocité du step chargé Stepx7 </td><td class="col1"> Touche ou CC </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">Appel par la vélocité du step chargé Step</td><td class="col1"> Touche ou CC </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">Play, Seek, Autostop, Slave </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0">Accéléromètre </td><td class="col1"> Control Change </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0">GotoMode On / SeekPosMode On / StopPlayMode On </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0">GridPlayer 1: Speed is CueList </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT36 TABLE [4322-4789] --><!-- EDIT35 SECTION "Grid" [4273-4790] -->
+<h2 class="sectionedit37"><a name="draw" id="draw">Draw</a></h2>
+<div class="table sectionedit38"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Sélection du pinceau </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Sélection de la matrice </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Sélection du mode de dessin </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Pression, Angle, Taille, Ghost </td><td class="col1"> Control Change </td>
+	</tr>
+</table></div>
+<!-- EDIT38 TABLE [4809-4971] --><!-- EDIT37 SECTION "Draw" [4791-4972] -->
+<h2 class="sectionedit39"><a name="lightplot" id="lightplot">LightPlot</a></h2>
+<div class="table sectionedit40"><table class="inline">
+	<tr class="row0">
+		<td class="col0">L&#039;affichage des 4 Layers </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Le Layer mode ( affichage solo ou à plusieurs calques) </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT40 TABLE [4996-5100] --><div class="table sectionedit41"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Affichage des niveaux </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Affichage des niveaux venus des faders </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Liste UP (symboles et shapes) </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Liste DOWN (symboles et shapes) </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">Potentiomètre de la Liste (symboles et shapes) </td><td class="col1"> CC </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0 leftalign">Liste ADD TO PLOT (symboles et shapes)  </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0">Potentiomètre de rotation (symboles et shapes) </td><td class="col1"> CC </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0">DUB (symboles et shapes) </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0">Delete (symboles et shapes) </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0">SendTo (symboles) Grp/Ungr (shapes) </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT41 TABLE [5102-5561] --><div class="table sectionedit42"><table class="inline">
+	<tr class="row0">
+		<td class="col0">On/Off d&#039;édition des relatifs xy ( CH, Name, Gels, Dims, Notes) </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT42 TABLE [5563-5639] --><div class="table sectionedit43"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Appel des 8 Presets de mise en forme des attributs </td><td class="col1"> Touche </td>
+	</tr>
+</table></div>
+<!-- EDIT43 TABLE [5641-5703] --><!-- EDIT39 SECTION "LightPlot" [4973-5704] -->
+<h2 class="sectionedit44"><a name="bounce" id="bounce">Bounce</a></h2>
+<div class="table sectionedit45"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Sélection de l&#039;un des 24 Echo Presets </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Mode édition Channel Level/Ground </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Channel View Plus / Moins </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Echo Mode, Snap Fader, Bounce, Snap Kill And Bounce, Recall </td><td class="col1"> Touche </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">Gravité, Masse et Energie </td><td class="col1"> Potentiomètre ou rotatif </td>
+	</tr>
+</table></div>
+<!-- EDIT45 TABLE [5725-5990] --><!-- EDIT44 SECTION "Bounce" [5705-] --></div>
+</body>
+</html>

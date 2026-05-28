@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>grid</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-10-17T11:20:53+0200"/>
+<meta name="keywords" content="grid"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="grid.html"/>
+<link rel="contents" href="grid.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="grid.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="grid.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=grid"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"grid","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#les_gridplayers">Les GridPlayers</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#concepts_de_base">Concepts de base</a></div></li>
+<li class="level2"><div class="li"><a href="#description">Description</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#la_barre_de_configuration">La barre de configuration</a></div></li>
+<li class="level1"><div class="li"><a href="#le_volet_view">Le volet View</a></div></li>
+<li class="level1"><div class="li"><a href="#les_grid_players">Les Grid Players</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#commandes">Commandes</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#presentation">Présentation</a></div></li>
+<li class="level4"><div class="li"><a href="#manipulations">Manipulations</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#la_matrice">La Matrice</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#edition_de_la_matrice_a_la_souris">Edition de la matrice à la souris</a></div></li>
+<li class="level3"><div class="li"><a href="#edition_de_la_matrice_par_f1_f2_f3">Edition de la matrice par [F1][F2][F3]</a></div></li>
+<li class="level3"><div class="li"><a href="#nettoyer_le_pas">Nettoyer le pas</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#zone_d_edition_des_proprietes">Zône d&#039;édition des propriétés</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#visualisation_du_transfert">Visualisation du transfert</a></div></li>
+<li class="level3"><div class="li"><a href="#l_accelerometre">L&#039;accéléromètre</a></div></li>
+<li class="level3"><div class="li"><a href="#step_macros">Step Macros</a></div></li>
+<li class="level3"><div class="li"><a href="#les_options">Les options</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#affect_to_dock">Affect to dock</a></div></li>
+<li class="level4"><div class="li"><a href="#tostep_mode">ToStep Mode</a></div></li>
+<li class="level4"><div class="li"><a href="#copyto">CopyTo</a></div></li>
+<li class="level4"><div class="li"><a href="#insert">Insert</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#snapfader">SnapFader</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#enchasser_les_declenchements_de_grid_dans_une_memoire">Enchasser les déclenchements de Grid dans une mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_midi_specifique_a_grid">Affectation midi, spécifique à Grid</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#gridplayer_1_dans_la_cuelistdouble_sequenciel">GridPlayer 1 dans la CueList : double séquenciel</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#methode">Méthode</a></div></li>
+<li class="level3"><div class="li"><a href="#affecter_un_pas_a_une_memoire">Affecter un pas à une mémoire</a></div></li>
+<li class="level3"><div class="li"><a href="#asservir_l_accelerometre_du_gridplayer1">Asservir l&#039;accéléromètre du GridPlayer1</a></div></li>
+<li class="level3"><div class="li"><a href="#exemples">Exemples</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="les_gridplayers" id="les_gridplayers">Les GridPlayers</a></h1>
+
+<p class="level1">
+Pour ouvrir le module 
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> clicker [GRID PL.]</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="grid_open.jpeg" class="media" title="grid_open.jpg" alt="grid_open.jpg" />
+</p>
+<!-- EDIT1 SECTION "Les GridPlayers" [1-99] -->
+<h2 class="sectionedit2"><a name="concepts_de_base" id="concepts_de_base">Concepts de base</a></h2>
+
+<p class="level2">
+Grid est un module permettant d&#039;encoder des effets complexes de manière visuelle, à l&#039;instar des séquenceurs en musique.
+</p>
+
+<p class="level2">
+Grid permet l&#039;édition de chemins, trajets et évènements lumineux de manière visuelle. 
+</p>
+
+<p class="level2">
+On pourrait aisément qualifier Grid de quadruple séquenciel, puisqu&#039;il comprend 4 Grid Players indépendants, pouvant recevoir chacun l&#039;une des 127 Grilles. 
+</p>
+
+<p class="level2">
+Chaque grille comprend 1023 pas.
+</p>
+
+<p class="level2">
+Chaque pas a un temps IN et un temps OUT définissables et spécifiques, ainsi qu&#039;un temps de Delay In et Out.
+</p>
+
+<p class="level2">
+Maintenir le pas une certaine durée( équivalent d&#039;un Wait), se fait par l&#039;attribution d&#039;un même temps de Delay In et de Delay Out.
+</p>
+
+<p class="level2">
+Chaque Grid Player reçoit donc une grille, et lit celle ci, en faisant un crossfade d&#039;un pas vers l&#039;autre. C&#039;est depuis un Grid Player que vous pouvez éditer la grille qu&#039;il contient.
+</p>
+
+<p class="level2">
+Chaque Grid Player doit être chargé dans un fader, pour que les calculs soient envoyés au DMX. 
+</p>
+<!-- EDIT2 SECTION "Concepts de base" [100-1074] -->
+<h2 class="sectionedit3"><a name="description" id="description">Description</a></h2>
+
+<p class="level2">
+<img src="grid_main.jpeg" class="media" title="grid_main.jpg" alt="grid_main.jpg" />
+</p>
+
+<p class="level2">
+La fenêtre Grid comprend plusieurs sections:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> La barre de configuration de la fenêtre Grid</div>
+</li>
+<li class="level1"><div class="li"> Un volet view pour examiner une grille rapidement</div>
+</li>
+<li class="level1"><div class="li"> 4 Grids Players</div>
+</li>
+<li class="level1"><div class="li"> comportant chacun une matrice d&#039;édition</div>
+</li>
+<li class="level1"><div class="li"> ainsi qu&#039;une zone principale d&#039;édition des propriétés du pas</div>
+</li>
+<li class="level1"><div class="li"> et une zone d&#039;édition spéciale pour les modes et l&#039;affectation à un dock</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Description" [1075-1483] -->
+<h1 class="sectionedit4"><a name="la_barre_de_configuration" id="la_barre_de_configuration">La barre de configuration</a></h1>
+
+<p class="level1">
+<img src="grid_barredeconf.jpeg" class="media" title="grid_barredeconf.jpg" alt="grid_barredeconf.jpg" />
+</p>
+
+<p class="level1">
+La barre de configuration concerne la configuration de la matrice des circuits manipulés par Grid. 
+</p>
+
+<p class="level1">
+Pour éditer Begin Chan / Col. et Rows vous devez être en mode [EDIT].
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Begin Chan: le circuit commençant la série ( 1ère case à gauche).Les numéro de circuits de la matrice sont lus de la gauche vers la droite, par lignes. Au survol de la matrice s&#039;affiche le numéro de circuit. Ici le circuit 3 à 25%.</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="grid_matrice_num_circuit.jpeg" class="media" title="grid_matrice_num_circuit.jpg" alt="grid_matrice_num_circuit.jpg" />
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Col: le nombre de colonnes de la matrice, max 24</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Rows: le nombre de lignes de la matrice, max 24</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Edit: doit être enclenché pour toute modification dans l&#039;édition d&#039;une grille</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> View: affiche l&#039;onglet View</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> Gridplayers: 4 cases permettent de sélectionner quels GridPlayers afficher. A noter que ces dernier sont actifs même si non affichés.</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "La barre de configuration" [1484-2370] -->
+<h1 class="sectionedit5"><a name="le_volet_view" id="le_volet_view">Le volet View</a></h1>
+
+<p class="level1">
+Le volet View est purement informatif et permet de naviguer dans les 128 grilles et 1024 pas rapidement <strong>sans passer par un GridPlayer</strong>.
+</p>
+
+<p class="level1">
+View permet une lecture synthétique, en aveugle d&#039;une grille complète. Les gotos ne sont pas pris en compte dans l&#039;affichage de VIEW.
+</p>
+
+<p class="level1">
+Il est enclenchable par l&#039;icone [VIEW].
+</p>
+
+<p class="level1">
+Pour sélectionner la grille à afficher dans View:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> taper au clavier le numéro de grille ( de 1 à 127)</div>
+</li>
+<li class="level1"><div class="li"> clicker la case de grille</div>
+</li>
+</ul>
+
+<p class="level1">
+Pour sélectionner le pas à afficher dans View:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> taper au clavier le numéro de pas ( de 1 à 1023)</div>
+</li>
+<li class="level1"><div class="li"> clicker la case de pas</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="grid_view.jpeg" class="media" title="grid_view.jpg" alt="grid_view.jpg" />
+</p>
+<!-- EDIT5 SECTION "Le volet View" [2371-3011] -->
+<h1 class="sectionedit6"><a name="les_grid_players" id="les_grid_players">Les Grid Players</a></h1>
+
+<p class="level1">
+<img src="grid_gridplayer.png" class="media" alt="" />
+</p>
+
+<p class="level1">
+Un Grid Player lit donc la grille qui lui est chargée.
+</p>
+
+<p class="level1">
+Chaque pas comprend:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> l&#039;enregistrement des états de la matrice ( les circuits)</div>
+</li>
+<li class="level1"><div class="li"> un temps IN / OUT , delay In / delay Out spécifique </div>
+</li>
+<li class="level1"><div class="li"> des macros par pas</div>
+</li>
+</ul>
+
+<p class="level1">
+Ce sont ces trois informations qui sont lues lors du défilement du pas.
+</p>
+<!-- EDIT6 SECTION "Les Grid Players" [3012-3362] -->
+<h2 class="sectionedit7"><a name="commandes" id="commandes">Commandes</a></h2>
+
+<p class="level2">
+<img src="grid_gridplayer_commandes.jpeg" class="media" title="grid_gridplayer_commandes.jpg" alt="grid_gridplayer_commandes.jpg" />
+</p>
+<!-- EDIT7 SECTION "Commandes" [3363-3419] -->
+<h4 class="sectionedit8"><a name="presentation" id="presentation">Présentation</a></h4>
+
+<p class="level4">
+De gauche à droite:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> La case de sélection de la grille à charger dans le GridPlayer</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Le nom de la grille. Appeler la fenêtre [NAME] [F5], tapez le nom, clickez la barre rouge</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Un navigateur à la souris dans les 127 grilles proposées</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Le numéro de pas sur scène, avec navigation dans les pas ( petites flèches à gauche et à droite du numéro de pas)</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Play/Pause de la lecture du Grid Player</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Seek: retour à un pas de départ. Un petit chiffre indique ce pas, il peut être déterminé dans les Macros de Step</div>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Un bouton d&#039;autostop: quand ce mode est enclenché, la lecture se fait pas après pas: un pas est lu, la lecture s&#039;arrête. Le prochain doit lancé avec le bouton Play.</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "Présentation" [3420-4160] -->
+<h4 class="sectionedit9"><a name="manipulations" id="manipulations">Manipulations</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Charger une grille dans le GridPlayer:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> tapez le numéro de grille à charger</div>
+</li>
+<li class="level2"><div class="li"> Clicker la case de grille    </div>
+</li>
+<li class="level2"><div class="li"> ou utiliser + - en navigation</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Se placer sur un pas dans GridPlayer:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> tapez le numéro de pas à charger</div>
+</li>
+<li class="level2"><div class="li"> Clicker la case de pas</div>
+</li>
+<li class="level2"><div class="li"> ou utiliser les flèches triangulaires en navigation</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Affecter un temps à un pas:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> Appeler [TIME] ou taper [F6]</div>
+</li>
+<li class="level2"><div class="li"> Tourner la roue sur Min / Sec ou 1/10eme de sec</div>
+</li>
+<li class="level2"><div class="li"> Sélection IN / OUT, DIN / DOUT</div>
+</li>
+<li class="level2"><div class="li"> Mettre la fenêtre Time en mode TIME AFFECT</div>
+</li>
+<li class="level2"><div class="li"> Clicker le pas</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+    <img src="fenetre_time.jpeg" class="media" title="fenetre_time.jpg" alt="fenetre_time.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Effacer un pas:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> clicker [CLEAR] ou taper [F4]</div>
+</li>
+<li class="level2"><div class="li"> clicker le numéro de pas</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Effacer une grille:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> clicker [CLEAR] ou taper [F4]</div>
+</li>
+<li class="level2"><div class="li"> clicker le numéro de grille</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level4">
+<li class="level1"><div class="li"> Pour effacer ou affecter un temps sur un ensemble de pas:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> Placer le pas du GridPlayer sur le premier pas de la série à modifier</div>
+</li>
+<li class="level2"><div class="li"> clicker la case ToStep Mode. </div>
+</li>
+<li class="level2"><div class="li"> taper un numéro de pas</div>
+</li>
+<li class="level2"><div class="li"> clicker la case de pas ToStep pour définir le dernier pas de la série à modifier</div>
+</li>
+<li class="level2"><div class="li"> choisissez [CLEAR] ou [TIME] comme précédement expliqué et clickez la case du pas actif pour commettre l&#039;opération sur tous les pas choisis</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+Ici les pas 9 à 25 de la grille 1 seront concernés par l&#039;opération à effectuer:
+</p>
+
+<p class="level4">
+<img src="grid_tostepmode.png" class="media" alt="" />
+</p>
+<!-- EDIT9 SECTION "Manipulations" [4161-5515] -->
+<h2 class="sectionedit10"><a name="la_matrice" id="la_matrice">La Matrice</a></h2>
+
+<p class="level2">
+<img src="grid_matrice_num_circuit.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Quand une case apparait en orange le circuit est à Full</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> En vert, le circuit est à un niveau inférieur à 100%</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Les petites cases rouges dans le coin gauche de chaque case circuit indiquent que le circuit était allumé dans le  pas précédent de cette grille.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Les petites cases blanches dans le coin droit de chaque case circuit indiquent la présence d&#039;un circuit allumé dans le pas à venir, que ce soit le pas suivant de la grille actuelle ou le pas issu d&#039;un Goto vers une autre grille et/ou un autre pas.</div>
+</li>
+</ul>
+<!-- EDIT10 SECTION "La Matrice" [5516-6107] -->
+<h3 class="sectionedit11"><a name="edition_de_la_matrice_a_la_souris" id="edition_de_la_matrice_a_la_souris">Edition de la matrice à la souris</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour encoder un circuit dans le pas actif:</div>
+<ul class="level3">
+<li class="level2"><div class="li"> clicker sur sa case correspondant dans la matrice. Le circuit est mis à Full.</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour encoder un circuit à un niveau précis:</div>
+<ul class="level3">
+<li class="level2"><div class="li"> taper le niveau</div>
+</li>
+<li class="level2"><div class="li"> clicker sur la case du circuit dans la matrice</div>
+</li>
+<li class="level2"><div class="li"> le circuit apparait en vert et son niveau apparat au survol de la case.</div>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour effacer un circuit du pas actif:</div>
+<ul class="level3">
+<li class="level2"><div class="li"> re clicker le circuit allumé</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Edition de la matrice à la souris" [6108-6567] -->
+<h3 class="sectionedit12"><a name="edition_de_la_matrice_par_f1_f2_f3" id="edition_de_la_matrice_par_f1_f2_f3">Edition de la matrice par [F1][F2][F3]</a></h3>
+
+<p class="level3">
+Il est possible de reporter dans un pas les intensités issues du séquenciel ou du buffer des Faders:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Enregistrer dans le pas l&#039;état des circuits sur scène ou en Blind: Enclencher [F1], clicker la case de pas</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Recopier une mémoire dans le pas: Enclencher [F1], taper le numéro de mémoire, clicker le pas.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Modifier des intensités: Enclencher [F2], sélectionner les circuits, les mettre aux bonnes intensités, clicker la case de pas. F2 retires le circuit du séquenciel pour l&#039;attribuer au pas du GridPlayer.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Reporter le mix du buffer Fader et du séquenciel: Enclencher [F3], clicker la case de pas</div>
+</li>
+</ul>
+<!-- EDIT12 SECTION "Edition de la matrice par [F1][F2][F3]" [6568-7252] -->
+<h3 class="sectionedit13"><a name="nettoyer_le_pas" id="nettoyer_le_pas">Nettoyer le pas</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Enclencher [F4], clicker la case de pas</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "Nettoyer le pas" [7253-7330] -->
+<h2 class="sectionedit14"><a name="zone_d_edition_des_proprietes" id="zone_d_edition_des_proprietes">Zône d&#039;édition des propriétés</a></h2>
+
+<p class="level2">
+<img src="grid_gridplayer_mainstep.jpeg" class="media" title="grid_gridplayer_mainstep.jpg" alt="grid_gridplayer_mainstep.jpg" />
+</p>
+<!-- EDIT14 SECTION "Zône d'édition des propriétés" [7331-7411] -->
+<h3 class="sectionedit15"><a name="visualisation_du_transfert" id="visualisation_du_transfert">Visualisation du transfert</a></h3>
+
+<p class="level3">
+En haut de cette zône on visualise:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> l&#039;état du transfert en cours: le pas sur scène en bleu clair, le pas en preset en rose clair.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> le temps enregistré dans le pas sur scène, en blanc, assujetti à l&#039;accéléromètre, qui est le temps du dernier transfert fait</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> le temps du transfert à venir <strong>en rouge</strong>, assujetti à l&#039;accéléromètre</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> le pas suivant, en preset, affichant le numéro de grille de pas </div>
+</li>
+</ul>
+
+<h5><a name="principe_d_encodage_des_temps" id="principe_d_encodage_des_temps">Principe d&#039;encodage des temps</a></h5>
+
+<p class="level5">
+<img src="grid_temps.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+Lorsque vous enregistrez un temps dans un pas, vous enregistrez:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> en combien de temps de ce pas rentre</div>
+</li>
+<li class="level1"><div class="li"> en combien de temps le pas précédent sort</div>
+</li>
+<li class="level1"><div class="li"> le temps de delay en entrée et en sortie du pas</div>
+</li>
+</ul>
+
+<p class="level5">
+Donc lorsque vous rentrez des temps, vous rentrez les temps concernant le pas sur scène, donc le transfert déjà fait. Pas celui à venir !
+</p>
+<!-- EDIT15 SECTION "Visualisation du transfert" [7412-8286] -->
+<h3 class="sectionedit16"><a name="l_accelerometre" id="l_accelerometre">L&#039;accéléromètre</a></h3>
+
+<p class="level3">
+L&#039;accéléromètre permet d&#039;affecter la vitesse relative de chaque pas. 
+Valeur 64: la vitesse est normale. Vers la gauche on ralentit. Vers la droite on accélère.
+</p>
+
+<p class="level3">
+Si [Slave] est enclenché:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> le niveau du Grid Player ressort dans un Fader</div>
+</li>
+<li class="level1"><div class="li"> chaque fader a un accéléromètre</div>
+</li>
+<li class="level1"><div class="li"> la valeur de l&#039;accéléromètre du Grid Player peut être piloté par celle du fader</div>
+</li>
+</ul>
+<!-- EDIT16 SECTION "L'accéléromètre" [8287-8688] -->
+<h3 class="sectionedit17"><a name="step_macros" id="step_macros">Step Macros</a></h3>
+
+<p class="level3">
+Il y a 4 type macros, qui sont enclenchables ou débrayables dans le Grid Player. 
+</p>
+
+<p class="level3">
+<strong>Ces 4 macros vous permettent de circuler entre les grilles dans un même Grid Player (Goto), avec un effet de boucle, ou une sortie de boucle au bout de tant de pas (Count) de circuler dans la même grille à la volée ( Seek) ou de définir des points d&#039;arrêt de la lecture ( StopPlay) .</strong>
+</p>
+
+<p class="level3">
+L&#039;idée de ces macros étant de permettre la construction de phrases lumineuses facilement insérables, appelables, dans l&#039;écriture d&#039;un effet lumineux, d&#039;une installation lumière complexe, ou d&#039;un concert.
+</p>
+
+<h5><a name="goto" id="goto">Goto:</a></h5>
+
+<p class="level5">
+C&#039;est la destination en preset. Si le mode Goto du Grid Player est activé ( petite case rouge devant Goto ), lorsqu&#039;un pas arive sur scène, et que le Goto a une valeur de Grid &gt; à 0 et une valeur de step &gt; à 0, le Grid Player charge en preset le pas et la grille indiqués par le Goto.
+</p>
+
+<p class="level5">
+Si le mode Goto est Off, ou que le pas contient un Goto vers Grid 0 ou Step 0, la lecture se fait normalement.
+</p>
+
+<p class="level5">
+Celà permet de passer d&#039;une grille à l&#039;autre et de créer des combinaisons de mouvements lumineux très souples.
+</p>
+
+<p class="level5">
+<img src="grid_goto_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="count" id="count">Count:</a></h5>
+
+<p class="level5">
+S&#039;applique au GoTo, et ne fonctionne que:
+</p>
+<ul class="level5">
+<li class="level1"><div class="li"> si le mode GoTo est ON</div>
+</li>
+<li class="level1"><div class="li"> si le GoTo est différent de 0/0</div>
+</li>
+</ul>
+
+<p class="level5">
+On compte le nombre de Goto faits. 
+Au bout du nombre de Goto définis par count, la lecture ne prendra plus en compte le GoTo et se continue sur le step d&#039;après.
+</p>
+
+<p class="level5">
+Sur cette image, le step 18 renvoie en Goto vers Grid 1 Step 1.
+Nous sommes au 6eme GoTo fait par ce step ( done: 6).
+Au bout de 13 GoTo ( donc retour en Grid 1 Step 1), la lecture ne prendra plus en compte le Goto et continuera vers le step 19.
+</p>
+
+<p class="level5">
+<img src="grid_count_done.jpeg" class="media" title="grid_count_done.jpg" alt="grid_count_done.jpg" />
+</p>
+
+<p class="level5">
+Celà permet de passer de boucler un nombre précis de fois un même mouvement lumineux, puis de continuer le mouvement lumineux.
+</p>
+
+<p class="level5">
+<img src="grid_count_schema.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+Vous pouvez bien sûr imbriquer plusieurs Count dans le déroulement d&#039;une boucle:
+</p>
+
+<p class="level5">
+<img src="grid_count_multiple_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="seekstep" id="seekstep">SeekStep:</a></h5>
+
+<p class="level5">
+Noter que le point de Seek rédéfini apparait au dessus de la touche de Seek. La redéfinition du Seek point se fait pour le Grid Player.
+</p>
+
+<p class="level5">
+<img src="grid_seek_info.png" class="media" alt="" />
+</p>
+
+<p class="level5">
+Si le mode SeekStep est activé  ( petite case rouge devant SeekStep ), permet de redéfinir le pas pris en compte pour la commande Seek ( retour en arrière sur le Grid).
+</p>
+
+<p class="level5">
+Cette commande Seek est déclenchable manuellement, et fait le passage au pas CUT. Seek renvoie uniquement vers un pas dans la grille active.
+</p>
+
+<p class="level5">
+Celà permet de créer des points différents de Seek en lecture d&#039;une même grille ( live ).
+</p>
+
+<p class="level5">
+<img src="grid_seek_schema.png" class="media" alt="" />
+</p>
+
+<h5><a name="stopplay" id="stopplay">StopPlay:</a></h5>
+
+<p class="level5">
+Quand le mode StopPlay du Grid Player est actif ( petite case rouge), la lecture s&#039;arrête à l&#039;arrivée sur scène du pas comprenant le StopPlay ON.
+</p>
+
+<p class="level5">
+Pour relancer la lecture reclicker Play.
+</p>
+
+<p class="level5">
+<img src="grid_stopplay_schema.png" class="media" alt="" />
+</p>
+<!-- EDIT17 SECTION "Step Macros" [8689-11545] -->
+<h3 class="sectionedit18"><a name="les_options" id="les_options">Les options</a></h3>
+
+<p class="level3">
+<img src="grid_gridplayer_misc.jpeg" class="media" title="grid_gridplayer_misc.jpg" alt="grid_gridplayer_misc.jpg" />
+</p>
+<!-- EDIT18 SECTION "Les options" [11546-11598] -->
+<h4 class="sectionedit19"><a name="affect_to_dock" id="affect_to_dock">Affect to dock</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Enclencher Affect to dock</div>
+</li>
+<li class="level1"><div class="li"> Appelez la fenêtre des faders [F10] ou des minifaders  [Shift-F10] </div>
+</li>
+<li class="level1"><div class="li"> Taper [F1] pour se mettre en mode [STORE]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le dock dans le panneau des faders </div>
+</li>
+<li class="level1"><div class="li"> ou si c&#039;est les minifaders le sélecteur de faders</div>
+</li>
+<li class="level1"><div class="li"> confirmer</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="grid_affect_fader.png" class="media" alt="" /> <img src="grid_affect_minifader.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+<strong>Les sorties des 4 Grid Players sont donc contrôlables séparément par un fader, une fois l&#039;affectation faite.</strong>
+</p>
+
+<p class="level4">
+<img src="grid_faders_charges.png" class="media" alt="" />
+</p>
+<!-- EDIT19 SECTION "Affect to dock" [11599-12098] -->
+<h4 class="sectionedit20"><a name="tostep_mode" id="tostep_mode">ToStep Mode</a></h4>
+
+<p class="level4">
+ToStep Mode permet de définir une ensemble de pas, surlesquels mener une opération.
+</p>
+
+<p class="level4">
+Quand il est enclenché, le pas actif dans le Grid Player est le premier pas de la série, le step en fade de ToStep Mode devient le dernier pas de la série.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> Pour effacer ou affecter un temps sur un ensemble de pas:</div>
+<ul class="level4">
+<li class="level2"><div class="li"> Placer le pas du GridPlayer sur le premier pas de la série à modifier</div>
+</li>
+<li class="level2"><div class="li"> clicker la case ToStep Mode. </div>
+</li>
+<li class="level2"><div class="li"> taper un numéro de pas</div>
+</li>
+<li class="level2"><div class="li"> clicker la case de pas ToStep pour définir le dernier pas de la série à modifier</div>
+</li>
+<li class="level2"><div class="li"> choisissez [CLEAR] ou [TIME] comme précédement expliqué et clickez la case du pas actif pour commettre l&#039;opération sur tous les pas choisis</div>
+</li>
+</ul>
+</li>
+</ul>
+
+<p class="level4">
+Ici les pas 9 à 25 de la grille 1 seront concernés par l&#039;opération à effectuer:
+</p>
+
+<p class="level4">
+<img src="grid_tostepmode.png" class="media" alt="" />
+</p>
+
+<p class="level4">
+ToStep Mode peut s&#039;utiliser avec Copy To.
+</p>
+<!-- EDIT20 SECTION "ToStep Mode" [12099-12967] -->
+<h4 class="sectionedit21"><a name="copyto" id="copyto">CopyTo</a></h4>
+
+<p class="level4">
+Attention, CopyTo est un bouton d&#039;action, qui permet de copier dans un pas le pas actuel, ou de copier une série de pas vers un autre pas.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> taper le numéro de grille vers lequel copier</div>
+</li>
+<li class="level1"><div class="li"> clicker la première case de Grid</div>
+</li>
+<li class="level1"><div class="li"> taper le numéro de pas vers lequel copier</div>
+</li>
+<li class="level1"><div class="li"> clicker la case Step</div>
+</li>
+<li class="level1"><div class="li"> si ToStep mode est OFF: vous copiez le pas actuel dans le GridPlayer vers la grille et le pas spécifiés sous CopyTo</div>
+</li>
+<li class="level1"><div class="li"> si ToStep mode est ON: vous copiez du pas actuel dans le GridPlayer jusqu&#039;au pas StepTo à partir du pas spécifié dans CopyTo</div>
+</li>
+<li class="level1"><div class="li"> clicker CopyTo et confirmer pour que la recopie se fasse.</div>
+</li>
+</ul>
+
+<p class="level4">
+La recopie concerne les états de circuits, les temps, les macros.
+</p>
+
+<p class="level4">
+<strong>
+Dans l&#039;exemple ci dessous les pas de la grille 1, à partir du pas 5 jusqu&#039;au pas 25 vont être copiés vers la grille 2 à partir du pas 25 ( donc jusqu&#039;au pas 46).
+</strong>
+</p>
+
+<p class="level4">
+<img src="grid_copyto.png" class="media" alt="" />
+</p>
+<!-- EDIT21 SECTION "CopyTo" [12968-13865] -->
+<h4 class="sectionedit22"><a name="insert" id="insert">Insert</a></h4>
+
+<p class="level4">
+Permet d&#039;insérer N pas vides à partir du pas sur lequel vous êtes positionné.
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> se positionner sur le pas à partir duquel insérer les pas vierges</div>
+</li>
+<li class="level1"><div class="li"> taper le nombre de pas et le charger dans la boite située <strong>sous</strong> [INSERT]. La case de Grille montrée dans [CopyTo] ne sert pas.</div>
+</li>
+<li class="level1"><div class="li"> clicker [INSERT]</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="grid_insert.jpeg" class="media" title="grid_insert.jpg" alt="grid_insert.jpg" />
+</p>
+<!-- EDIT22 SECTION "Insert" [13866-14215] -->
+<h3 class="sectionedit23"><a name="snapfader" id="snapfader">SnapFader</a></h3>
+
+<p class="level3">
+v. 0.8.3.1
+</p>
+
+<p class="level3">
+<img src="gpl_snapfader.jpeg" class="media" title="gpl_snapfader.jpg" alt="gpl_snapfader.jpg" />
+</p>
+
+<p class="level3">
+Vous pouvez aussi enregistrer les états issus d&#039;un fader directement dans la grille, qu&#039;ils soient des contenus fixes ou dynamiques.
+Vous pouvez ainsi utiliser <a href="draw.html" class="wikilink1" title="Draw">Draw</a> pour créer un état lumineux rapidement.
+</p>
+
+<p class="level3">
+Pour attribuer quel fader prendre:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> enclencher [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> taper le numéro du Fader</div>
+</li>
+<li class="level1"><div class="li"> enclencher [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la case [Snap Fader]</div>
+</li>
+</ul>
+
+<p class="level3">
+Pour récupérer les niveaux <strong>issus</strong> du fader, clicker la case [Snap Fader].
+</p>
+<!-- EDIT23 SECTION "SnapFader" [14216-14711] -->
+<h2 class="sectionedit24"><a name="enchasser_les_declenchements_de_grid_dans_une_memoire" id="enchasser_les_declenchements_de_grid_dans_une_memoire">Enchasser les déclenchements de Grid dans une mémoire</a></h2>
+
+<p class="level2">
+Pour enchasser dans une mémoire les actions sur les GridPlayers, ou pour les déclencher manuellement d&#039;un coup, voir <a href="banger.html" class="wikilink1" title="Banger">Banger, le gestionnaire d&#039;évènements</a>
+</p>
+<!-- EDIT24 SECTION "Enchasser les déclenchements de Grid dans une mémoire" [14712-14949] -->
+<h2 class="sectionedit25"><a name="affectation_midi_specifique_a_grid" id="affectation_midi_specifique_a_grid">Affectation midi, spécifique à Grid</a></h2>
+
+<p class="level2">
+Comme toute commande dans WhiteCat, les commandes de Grid sont pilotables en midi. Voir: <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a> et le <a href="tableau_affectation_midi.html" class="wikilink1" title="tableau_affectation_midi">Synoptique d&#039;affectations midi</a>
+</p>
+
+<p class="level2">
+Cependant il y a une petite subtilité sur deux commandes, celles des appels de grilles et de pas. 
+</p>
+
+<p class="level2">
+Grid est développé pour le projet KeyFrames. 
+Dans ce projet WhiteCat reçoit du midi d&#039;une autre application pour la piloter, utilisant une TimeLine ( Max pour être plus précis).
+</p>
+
+<p class="level2">
+Les Gridplayers vont avoir leurs contenus qui vont changer, fonction de la musique et de ses états, et la structure de Banger ne sera pas suffisante, à priori.
+</p>
+
+<p class="level2">
+On peut donc  affecter un identifiant midi<strong> au numéro de grid à charger</strong> dans un gridplayer, et <strong>au numéro de step à charger</strong> dans un gridplayer.
+</p>
+
+<p class="level2">
+Si on affecte un signal Key On Chan 0 Pitch 58 à la grille à charger, la vélocité va être prise en compte pour charger la grille ( par ex Vel 56 on charge la grille 56).
+</p>
+
+<p class="level2">
+Concernant les pas, comme il y a 1023 pas et que le midi ne comprend que 127 pas, il y a double assignation midi:
+</p>
+
+<p class="level2">
+Lorsque l&#039;on affecte à la fenêtre de pas, on parle de l&#039;unité:
+</p>
+
+<p class="level2">
+<img src="grid_assignation_midi_127.jpeg" class="media" title="grid_assignation_midi_127.jpg" alt="grid_assignation_midi_127.jpg" />
+</p>
+
+<p class="level2">
+Une deuxième petite case est affectable, qui permet d&#039;affecter l&#039;assignation de multiplication x7:
+</p>
+
+<p class="level2">
+<img src="grid_assignation_midi_x127.jpeg" class="media" title="grid_assignation_midi_x127.jpg" alt="grid_assignation_midi_x127.jpg" />
+</p>
+
+<p class="level2">
+Ainsi, si WhiteCat est piloté par un ProTools, un CuBase, ou tout logiciel émettant du midi avec encodage des envois, on va affecter deux commandes midi, par ex:
+</p>
+
+<p class="level2">
+-Assignation midi du Step : CC Chan 0 Pitch 56
+-Assignation midi du Stepx7: CC Chan 0 Pitch 58
+</p>
+
+<p class="level2">
+Pour positionner le step du gridplayer en position 6, on fera l&#039;envoi suivant:
+</p>
+
+<p class="level2">
+-si le x7 est en coefficient  0 ( celà se vérifie en survolant à la souris):
+</p>
+
+<p class="level2">
+On émet CC Chan 0 Pitch 56 Vel 6
+</p>
+
+<p class="level2">
+-si le x7 a été utilisé précédemment:
+</p>
+
+<p class="level2">
+On émet  CC Chan 0 Pitch 58 Vel 0 (on remet le coefficient à 0)<strong> puis</strong> CC Chan 0 Pitch 56 Vel 6
+</p>
+
+<p class="level2">
+Lorsque WhiteCat reçoit l&#039;info de Step, il prend en compte l&#039;état du multiplicateur Stepx7:
+</p>
+
+<p class="level2">
+le pas voulu= Vélocité du Step + (Vélocité du Stepx7 * 7))
+</p>
+
+<p class="level2">
+Vous pouvez donc changer le multiplicateur, sans affecter le step, jusqu&#039;à l&#039;appel du step.
+</p>
+
+<p class="level2">
+Par ex, on veut aller au pas 458:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> calcul de la valeur du Stepx7: 458/7= 65 quelque chose</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> l&#039;unité du Step= 458- (65*7) = 3</div>
+</li>
+</ul>
+
+<p class="level2">
+Donc un envoi des deux notes suivantes:
+</p>
+
+<p class="level2">
+CC Chan 0 <strong>Pitch 58 Vel 65</strong> ( on a placé le multiplicateur) puis CC Chan 0 <strong>Pitch 56 Vel 3</strong>
+</p>
+<!-- EDIT25 SECTION "Affectation midi, spécifique à Grid" [14950-17496] -->
+<h1 class="sectionedit26"><a name="gridplayer_1_dans_la_cuelistdouble_sequenciel" id="gridplayer_1_dans_la_cuelistdouble_sequenciel">GridPlayer 1 dans la CueList : double séquenciel</a></h1>
+
+<p class="level1">
+Les 4 GridPlayers peuvent être utilisés via Banger dans la CueList, permettant la construction d&#039;effets déclenchables au GO. 
+</p>
+
+<p class="level1">
+La structure des GridPlayers équivaut à des séquenciels parallèles. De façon à rendre aisée la manipulation d&#039;un GridPlayer en conduite, on peut enchasser le GridPlayer 1 dans la CueList. Vous bénéficierez des fonctions de Go Back, de Jump, de navigation rapide ( W/X), ainsi que de l&#039;asservissement de l&#039;accéléromètre.
+</p>
+
+<p class="level1">
+Même s&#039;il est enchassé dans le séquenciel, le GridPlayer1 continue d&#039;être affecté à un Fader. La sortie du GridPlayer1 se fait donc dans le buffer des faders ( circuits en orange). 
+</p>
+
+<p class="level1">
+Le double séquenciel via GridPlayer ne fonctionne qu&#039;au GO ( pas d&#039;utilisation souris ou midi pour passer manuellement les effets - pour l&#039;instant - ).
+</p>
+
+<p class="level1">
+Pour activer le GridPlayer1 dans la CueList clicker la case [GPL1] dans le séquenciel. La fenêtre de ce dernier s&#039;étend permettant d&#039;accéder aux fonctions de manipulation générale d&#039;un GridPlayer, hors matrice.
+</p>
+
+<p class="level1">
+<img src="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpg" alt="cuelist_extended.jpg" />
+</p>
+<!-- EDIT26 SECTION "GridPlayer 1 dans la CueList : double séquenciel" [17497-18614] -->
+<h3 class="sectionedit27"><a name="methode" id="methode">Méthode</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Comme les mémoires point n&#039;existent pas dans les GridPlayers, gardez vous de la marge entre les plages d&#039;effets complexes.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Si votre usage du GridPlayer1 est de créer quelques effets simples de type Channel Time, préférez le <strong>StopMode</strong>.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Si au contraire vous désirez axer votre travail avec des salves de passages lumières plus complexes et dessinées, préférez travailler en éditant les <strong>StopPlay dans les macros</strong>, et garder des pas de libres entre les différents éléments.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> L&#039;enchassement dans le séquenciel appelle les pas <strong>de la grille chargée</strong> dans le GridPlayer 1. Cet encodage ne concerne absolument <strong>pas les numéros de grilles</strong>. Faites donc attention aux macros en GOTO vers d&#039;autres grilles. </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> L&#039;envoi du go déclenche le play uniquement si le numéro du pas appelé en preset dans le séquenciel est différent du pas dans le Gridplayer 1</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Utilisez des bangers avec la fonction Stop&amp;Load, de façon à recaller le numéro de grille lorsque vous naviguez dans le séquenciel ( répétitions, mises). C&#039;est important si vous avez des sauts de grilles en GOTO.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Si vous êtes équipés en midi, utiliser le fader comme master de votre double séquenciel se révèlera pratique…</div>
+</li>
+</ul>
+<!-- EDIT27 SECTION "Méthode" [18615-19875] -->
+<h3 class="sectionedit28"><a name="affecter_un_pas_a_une_memoire" id="affecter_un_pas_a_une_memoire">Affecter un pas à une mémoire</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Taper le numéro de pas et clicker la zone de la mémoire correspondant au GridPlayer 1</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="sequenciel_pas_gpl1.jpeg" class="media" title="sequenciel_pas_gpl1.jpg" alt="sequenciel_pas_gpl1.jpg" />
+</p>
+<!-- EDIT28 SECTION "Affecter un pas à une mémoire" [19876-20039] -->
+<h3 class="sectionedit29"><a name="asservir_l_accelerometre_du_gridplayer1" id="asservir_l_accelerometre_du_gridplayer1">Asservir l&#039;accéléromètre du GridPlayer1</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Clicker le bouton [Speed is CueList] pour asservir l&#039;accéléromètre du GridPlayer1 à celui du séquenciel. Cette commande est affectable en midi.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="sequenciel_speediscuelist.jpeg" class="media" title="sequenciel_speediscuelist.jpg" alt="sequenciel_speediscuelist.jpg" />
+</p>
+<!-- EDIT29 SECTION "Asservir l'accéléromètre du GridPlayer1" [20040-20283] -->
+<h3 class="sectionedit30"><a name="exemples" id="exemples">Exemples</a></h3>
+
+<p class="level3">
+<strong>Un Go envoit un transfert plus un salve de transfert ( et arrêt)</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt1.jpeg" class="media" title="gridpl1_synopt1.jpg" alt="gridpl1_synopt1.jpg" />
+</p>
+
+<p class="level3">
+<strong>Un Go envoit un transfert et une boucle se lance jusqu&#039;au prochain transfert</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt2.jpeg" class="media" title="gridpl1_synopt2.jpg" alt="gridpl1_synopt2.jpg" />
+</p>
+
+<p class="level3">
+<strong>Un Go envoit un transfert et une boucle, vous utilisez le séquenciel normalement jusq&#039;au prochain pas qui arrêtera la boucle et enverra vers autre chose</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt3.jpeg" class="media" title="gridpl1_synopt3.jpg" alt="gridpl1_synopt3.jpg" />
+</p>
+
+<p class="level3">
+<strong>Un Go envoit un transfert et une boucle, vous utilisez le séquenciel normalement jusq&#039;au prochain pas qui arrêtera la boucle et enverra vers autre chose, avec des bangers pour arrêter le mode GOTO et la mise en boucle, ainsi que le recallage sur un autre grille via Load&amp;Play ou Stop&amp;Load</strong>
+</p>
+
+<p class="level3">
+<img src="gridpl1_synopt4.jpeg" class="media" title="gridpl1_synopt4.jpg" alt="gridpl1_synopt4.jpg" />
+</p>
+<!-- EDIT30 SECTION "Exemples" [20284-] --></div>
+</body>
+</html>

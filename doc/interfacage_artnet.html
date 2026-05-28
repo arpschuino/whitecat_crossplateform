@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>interfacage_artnet</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2010-05-28T09:07:32+0200"/>
+<meta name="keywords" content="interfacage_artnet"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="interfacage_artnet.html"/>
+<link rel="contents" href="interfacage_artnet.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="interfacage_artnet.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="interfacage_artnet.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=interfacage_artnet"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"interfacage_artnet","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#configuration_multi-logiciels_en_art-net">Configuration multi-logiciels en art-net</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#configuration_de_l_adresse_ip_des_cartes_reseaux_utilisees">Configuration de l&#039;adresse IP des cartes réseaux utilisées</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#les_differents_cas_de_figure">Les différents cas de figure</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#logiciels_sur_meme_une_machine">2 logiciels sur même une machine</a></div></li>
+<li class="level2"><div class="li"><a href="#machines_separees_merging_vers_usb-dmx">2 machines séparées, Merging vers usb-dmx</a></div></li>
+<li class="level2"><div class="li"><a href="#machines_separees_merging_art-net">2 machines séparées, Merging art-net</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="configuration_multi-logiciels_en_art-net" id="configuration_multi-logiciels_en_art-net">Configuration multi-logiciels en art-net</a></h1>
+
+<p class="level1">
+<strong>Attention, le wifi doit être déconnecté.</strong>
+WhiteCat se connecte en effet à la première carte réseau discutante détectée. Si le wifi est connecté, la discussion se fait sur son réseau.
+</p>
+
+<p class="level1">
+Il est possible que lors des différentes étapes, notamment un changement d&#039;adresse art-net dans whitecat vous soyez obligé de rédémarrer celui-ci de façon à re-configuer le serveur de réception artnet.
+</p>
+<!-- EDIT1 SECTION "Configuration multi-logiciels en art-net" [1-464] -->
+<h2 class="sectionedit2"><a name="configuration_de_l_adresse_ip_des_cartes_reseaux_utilisees" id="configuration_de_l_adresse_ip_des_cartes_reseaux_utilisees">Configuration de l&#039;adresse IP des cartes réseaux utilisées</a></h2>
+
+<p class="level2">
+Vous pouvez connecter WhiteCat uniquement si les adresses IP correspondent.
+</p>
+
+<p class="level2">
+Si la carte réseau que vous utilisez est en adresse 192.156.178.5, envoyer un signal art-net vers 2.255.255.255 ne fonctionnera pas.
+</p>
+
+<p class="level2">
+Il faut donc paramétrer vos cartes réseau. Concernant le protocole artnet, on préfèrera une adresse dans la famille des 2.x.x.x.
+</p>
+
+<p class="level2">
+Paramétrer sa carte réseau:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Barre Démarrer » Connexions » Afficher toutes les connexions</div>
+</li>
+<li class="level1"><div class="li"> Clicker droit la carte réseau désirée » propriétés</div>
+</li>
+<li class="level1"><div class="li"> Descendez dans la liste et sélectionnez Protocole Internet (TCP-IP) » Propriétés</div>
+</li>
+<li class="level1"><div class="li"> Choisissez: spécifier une adresse IP </div>
+</li>
+<li class="level1"><div class="li"> Donnez à l&#039;adresse la valeur de votre choix</div>
+</li>
+<li class="level1"><div class="li"> Ce n&#039;est pas la peine de préciser la <abbr title="Domain Name System">DNS</abbr></div>
+</li>
+<li class="level1"><div class="li"> clicker OK.</div>
+</li>
+</ol>
+
+<p class="level2">
+<img src="reseaux_1.jpeg" class="media" title="reseaux_1.jpg" alt="reseaux_1.jpg" />
+<img src="reseaux_2.jpeg" class="media" title="reseaux_2.jpg" alt="reseaux_2.jpg" />
+</p>
+<!-- EDIT2 SECTION "Configuration de l'adresse IP des cartes réseaux utilisées" [465-1327] -->
+<h1 class="sectionedit3"><a name="les_differents_cas_de_figure" id="les_differents_cas_de_figure">Les différents cas de figure</a></h1>
+<!-- EDIT3 SECTION "Les différents cas de figure" [1328-1372] -->
+<h2 class="sectionedit4"><a name="logiciels_sur_meme_une_machine" id="logiciels_sur_meme_une_machine">2 logiciels sur même une machine</a></h2>
+
+<p class="level2">
+<strong>Exemple: Pilotage en art-net d&#039;un logiciel vidéo tiers ( VVVV , Arkaos, Freestyler ).</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_interne.jpeg" class="media" title="artnet_interne.jpg" alt="artnet_interne.jpg" />
+</p>
+<div class="table sectionedit5"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Adresse IP ArtNet        </th><th class="col1 leftalign"> Etat de la carte réseau éthernet           </th><th class="col2 leftalign"> Etat dans les menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> 127.0.0.1 Envoi Unicast   </td><td class="col1 leftalign"> Déconnectée     </td><td class="col2 leftalign"> Envoi de data en Usb Dmx / Artnet Receiver Off       </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign">                           </td><td class="col1 leftalign">                 </td><td class="col2"> DoubleDMX activé </td>
+	</tr>
+</table></div>
+<!-- EDIT5 TABLE [1537-1834] --><ul class="level2">
+<li class="level1"><div class="li"> Cette méthode utilise la méthode d&#039;adresse de boucle. Aucune carte réseau ne doit être connectée.</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "2 logiciels sur même une machine" [1373-1943] -->
+<h2 class="sectionedit6"><a name="machines_separees_merging_vers_usb-dmx" id="machines_separees_merging_vers_usb-dmx">2 machines séparées, Merging vers usb-dmx</a></h2>
+
+<p class="level2">
+<strong>Exemple: Réception en art-net d&#039;un logiciel tiers ( VVVV , PureData, Max/NSP ) gérant des capteurs et le traitement de leurs valeurs.</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_externe.jpeg" class="media" title="artnet_externe.jpg" alt="artnet_externe.jpg" />
+</p>
+<div class="table sectionedit7"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Adresse IP ArtNet        </th><th class="col1 leftalign"> Etat de la carte réseau éthernet           </th><th class="col2 leftalign"> Etat dans les menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> de la carte réseau reliant les deux ordis  </td><td class="col1 leftalign"> Connectée     </td><td class="col2 leftalign"> Envoi de data en Usb Dmx / Artnet Receiver ON       </td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [2168-2411] --><!-- EDIT6 SECTION "2 machines séparées, Merging vers usb-dmx" [1944-2411] -->
+<h2 class="sectionedit8"><a name="machines_separees_merging_art-net" id="machines_separees_merging_art-net">2 machines séparées, Merging art-net</a></h2>
+
+<p class="level2">
+<strong>Exemple: Réception en art-net d&#039;un logiciel tiers ( VVVV , PureData, Max/NSP ) gérant des capteurs et le traitement de leurs valeurs.</strong>
+</p>
+
+<p class="level2">
+<strong>Dans ce cas là un hub est nécessaire !</strong>
+</p>
+
+<p class="level2">
+<img src="artnet_total.jpeg" class="media" title="artnet_total.jpg" alt="artnet_total.jpg" />
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign"> Adresse IP         </th><th class="col1 leftalign"> Etat de la carte réseau éthernet           </th><th class="col2 leftalign"> Etat dans les menus                            </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0 leftalign"> Carte Réseau  </td><td class="col1 leftalign"> Connectée     </td><td class="col2 leftalign"> Envoi de data en Art-Net / Artnet Receiver ON       </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [2674-2882] --><ul class="level2">
+<li class="level1"><div class="li"> Les adresses IP des cartes réseaux sur lequelles vous êtes branchés doivent être de la même famille , ainsi que la carte dmx artnet : par ex. 2.1.1.x</div>
+</li>
+<li class="level1"><div class="li"> Le logiciel tiers n&#039;émet pas sur le même univers que WhiteCat. On préfèrera WhiteCat émettant vers l&#039;univers 0, et le logiciel tiers vers l&#039;Univers 1. La carte dmx écoute l&#039;univers 0. WhiteCat écoute l&#039;univers 1.</div>
+</li>
+</ul>
+<!-- EDIT8 SECTION "2 machines séparées, Merging art-net" [2412-] --></div>
+</body>
+</html>

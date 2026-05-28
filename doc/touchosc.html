@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>touchosc</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-05T13:28:01+0200"/>
+<meta name="keywords" content="touchosc"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="touchosc.html"/>
+<link rel="contents" href="touchosc.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="touchosc.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="touchosc.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=touchosc"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"touchosc","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#touchosc">TouchOSC</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#layouts_phone">Layouts Phone</a></div></li>
+<li class="level3"><div class="li"><a href="#mettre_en_reseau_touchosc_et_votre_pc">Mettre en réseau TouchOSC et votre PC</a></div></li>
+<li class="level3"><div class="li"><a href="#charger_un_layout">Charger un Layout</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="touchosc" id="touchosc">TouchOSC</a></h1>
+
+<p class="level1">
+par christoph
+</p>
+
+<p class="level1">
+En version 0.8.6, WhiteCat est fourni avec un layout pour TouchOSC, pour téléphones et tablettes. Ce Layout a été affecté à la sauvegarde LAYOUT TELECO PHONES.
+Les affectations midi sont déjà faites.
+TouchOSC est un petit programme pour iOS et Android, payant, qui permet de piloter soit en OSC, soit en midi des applications.
+</p>
+
+<p class="level1">
+Pour l&#039;instant je n&#039;ai pas réussi à rafraichir les données depuis WhiteCat vers TouchOSC. iCAT reste résolument le bon outil à utiliser avec WhiteCat.
+Cependant, vous pourrez utiliser TouchOSC comme télécommande ou contrôleur d&#039;appoint. 
+</p>
+
+<p class="level1">
+Pour mettre en réseau TouchOSC et WhiteCat, vous risquez de devoir installer RTP Midi ( cf   * <a href="bonjour_rtpmidi.html" class="wikilink1" title="bonjour_rtpmidi">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a> ). 
+</p>
+
+<p class="level1">
+Vous pouvez télécharger <a href="http://hexler.net/software/touchosc" class="urlextern" title="http://hexler.net/software/touchosc"  rel="nofollow">sur le site de TouchOSC</a> deux utilitaires: 
+</p>
+<ol class="level1">
+<li class="level1"><div class="li"> TouchOSC éditor, qui permet de dessiner des Layouts personnalisé</div>
+</li>
+<li class="level1"><div class="li"> TouchOsc Bridge, qui permet de recevoir sur votre carte wifi les données émises par TouchOSC, et y connecter WhiteCat.</div>
+</li>
+</ol>
+
+<p class="level1">
+Il est possible que vous deviez utiliser RTP midi comme passerelle pour envoyer les layouts depuis TouchOSC editor vers votre téléphonne/tablette.
+</p>
+<!-- EDIT1 SECTION "TouchOSC" [1-1270] -->
+<h3 class="sectionedit2"><a name="layouts_phone" id="layouts_phone">Layouts Phone</a></h3>
+
+<p class="level3">
+<img src="touchosc_remote.jpeg" class="media" alt="" /><img src="touchosc_faders.jpeg" class="media" alt="" /><img src="touchosc_bangers.jpeg" class="media" alt="" /><img src="touchosc_draw.jpeg" class="media" alt="" /><img src="touchosc_audio.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT2 SECTION "Layouts Phone" [1271-1420] -->
+<h3 class="sectionedit3"><a name="mettre_en_reseau_touchosc_et_votre_pc" id="mettre_en_reseau_touchosc_et_votre_pc">Mettre en réseau TouchOSC et votre PC</a></h3>
+
+<p class="level3">
+Une fois installés RTPMIDI (qui me sert à faire communiquer l&#039;éditeur et TouchOSC) et TOUCHOSC BRIDGE (pour la communication en jeu entre TouchOSC et WhiteCat):
+</p>
+
+<p class="level3">
+créez un réseau ad hoc entre votre ordi et votre téléphone / tablette. Il faudra préciser des adresses IP fixes dans le même univers. Pour moi mon PC est 2.1.1.1 et mon téléphone 2.1.1.2.
+</p>
+
+<p class="level3">
+Voir  <a href="liaison_adhoc.html" class="wikilink1" title="liaison_adhoc">Créer une connexion ad-hoc</a>
+</p>
+<!-- EDIT3 SECTION "Mettre en réseau TouchOSC et votre PC" [1421-1886] -->
+<h3 class="sectionedit4"><a name="charger_un_layout" id="charger_un_layout">Charger un Layout</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Ouvrir TouchOSC editor, charger le layout présent dans le dossier whitecat/ressources/touchosc/</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> enclencher SYNC</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="touchosc_sync.jpeg" class="media" title="touchosc_sync.jpg" alt="touchosc_sync.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> dans TouchOSC sur le téléphone ou la tablette: enclencher le CoreMidi et donner l&#039;adresse IP de la carte wifi de l&#039;ordi Whitecat ( il aura fallu la mettre en fixe et de préférence créer un réseau ad hoc)</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="img_0405.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+<img src="img_0408.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Puis sur la tablette, clicker ADD</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="img_0406.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> le serveur RTP MIDI va s&#039;afficher si vos ordis sont correctement configurés, ici la session s&#039;appelle Christoph-PC.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="img_0407.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+Vous venez de transferer le layout de votre ordi à votre téléphone/tablette.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Puis lancer TouchOSC Bridge sur votre ordi</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Puis lancer WhiteCat</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Dans le CFG Menu, connectez vous à TouchOSC Bridge</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="bridge.jpeg" class="media" title="bridge.jpg" alt="bridge.jpg" />
+</p>
+<!-- EDIT4 SECTION "Charger un Layout" [1887-] --></div>
+</body>
+</html>

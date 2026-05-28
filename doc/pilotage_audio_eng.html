@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>pilotage_audio_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-02-12T22:25:58+0100"/>
+<meta name="keywords" content="pilotage_audio_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="pilotage_audio_eng.html"/>
+<link rel="contents" href="pilotage_audio_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="pilotage_audio_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="pilotage_audio_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=pilotage_audio_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"pilotage_audio_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#remoting_audio">Remoting audio</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#using_channel_macros">Using Channel Macros</a></div></li>
+<li class="level3"><div class="li"><a href="#using_a_banger">Using a Banger</a></div></li>
+<li class="level3"><div class="li"><a href="#controlling_audio_sliders_with_faders">Controlling audio sliders with Faders</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="remoting_audio" id="remoting_audio">Remoting audio</a></h2>
+
+<p class="level2">
+There are several ways to remotely control audio players.
+</p>
+<!-- EDIT1 SECTION "Remoting audio" [1-85] -->
+<h3 class="sectionedit2"><a name="using_channel_macros" id="using_channel_macros">Using Channel Macros</a></h3>
+
+<p class="level3">
+It is possible by using only two channels to fully remotely control an audio player.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> load a file in an audio player</div>
+</li>
+<li class="level1"><div class="li"> setting stop play seek and loop</div>
+</li>
+<li class="level1"><div class="li"> following volume, pan, pitch depending on channel intensity</div>
+</li>
+</ul>
+
+<p class="level3">
+This approach enables you to work equally well from CueList or Faders space.
+</p>
+
+<p class="level3">
+See   * <a href="liste_eng.html" class="wikilink1" title="Liste_eng">Channel description, Channel macros</a>
+</p>
+
+<p class="level3">
+<img src="channel_macro_circ2.jpeg" class="media" title="channel_macro_circ2.jpg" alt="channel_macro_circ2.jpg" />
+</p>
+<!-- EDIT2 SECTION "Using Channel Macros" [86-505] -->
+<h3 class="sectionedit3"><a name="using_a_banger" id="using_a_banger">Using a Banger</a></h3>
+
+<p class="level3">
+Main functions are controllable from a banger, enabling you to automate your show:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> selecting and loading a file inside a player</div>
+</li>
+<li class="level1"><div class="li"> play/pause, seek, loop, seek to CueIn, Cue Mode</div>
+</li>
+<li class="level1"><div class="li"> setting Volume, Pan or a precise pitch</div>
+</li>
+</ul>
+
+<p class="level3">
+Creation of audio cross-fades is done using the Faders LFO function in the special audio mode (see Faders category in Banger).
+</p>
+
+<p class="level3">
+Don&#039;t forget that:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> you can embed a banger inside a memory, trigering the banger on GO</div>
+</li>
+<li class="level1"><div class="li"> bangers may be also triggered manually, as a simple push button box.</div>
+</li>
+</ul>
+
+<p class="level3">
+See <a href="banger_eng.html" class="wikilink1" title="Banger_eng">Banger</a>, audio players category.
+</p>
+<!-- EDIT3 SECTION "Using a Banger" [506-1108] -->
+<h3 class="sectionedit4"><a name="controlling_audio_sliders_with_faders" id="controlling_audio_sliders_with_faders">Controlling audio sliders with Faders</a></h3>
+
+<p class="level3">
+There are two ways to do this:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> using a channel recorded inside the fader, and having an audio macro</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li">  assigning to a dock the control of the Volume, Pan or Pitch of an audio player:</div>
+</li>
+</ul>
+<ol class="level3">
+<li class="level1"><div class="li"> Click [AFFECT TO DOCK]</div>
+</li>
+<li class="level1"><div class="li"> Select the control to use</div>
+</li>
+<li class="level1"><div class="li"> Click dock to receive this control</div>
+</li>
+</ol>
+
+<p class="level3">
+<strong>! When the selected dock is remotely controlling audio,  Banger/ Audio Category or the mouse will not have any effect.</strong>
+</p>
+
+<p class="level3">
+With this method, you have the fading benefits of a fader (speed, duration, LFO, StopPos).
+</p>
+
+<p class="level3">
+<strong>StopPos</strong> will help you record precise ending points for the cross-fade. Those levels are expressed from 0 to 100 or 0 to 255 (it is the Fader which is recorded ).
+</p>
+
+<p class="level3">
+<img src="audio_affect_to_dock.jpeg" class="media" title="audio_affect_to_dock.jpg" alt="audio_affect_to_dock.jpg" />   <img src="fader_affected_audio.jpeg" class="media" title="fader_affected_audio.jpg" alt="fader_affected_audio.jpg" /> <img src="fader_courbe_audio.jpeg" class="media" title="fader_courbe_audio.jpg" alt="fader_courbe_audio.jpg" />
+</p>
+
+<p class="level3">
+<img src="faders_stopose_banger.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+Here a curve assigned to a fader appears flat. It enables you to fade up and fade out your sound very smoothly.
+</p>
+<!-- EDIT4 SECTION "Controlling audio sliders with Faders" [1109-] --></div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>wizard</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-04-14T09:08:31+0200"/>
+<meta name="keywords" content="wizard"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="wizard.html"/>
+<link rel="contents" href="wizard.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="wizard.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="wizard.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=wizard"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"wizard","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#wizard_le_modificateur_de_memoires_par_lot">Wizard, le modificateur de mémoires par lot</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#acceder_a_wizard">Accéder à Wizard:</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#a_quoi_sert_wizard">A quoi sert Wizard:</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#important">Important</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#wizard_mem">WIZARD MEM</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#important1">Important</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#wizard_ch">WIZARD CH</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#detecter_les_circuits_non_utilisees_par_les_memoires">Détecter les circuits non utilisées par les mémoires</a></div></li>
+<li class="level4"><div class="li"><a href="#fonctionnements_specifiques_de_replace_swap">Fonctionnements spécifiques de Replace/Swap</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="wizard_le_modificateur_de_memoires_par_lot" id="wizard_le_modificateur_de_memoires_par_lot">Wizard, le modificateur de mémoires par lot</a></h1>
+<!-- EDIT1 SECTION "Wizard, le modificateur de mémoires par lot" [1-60] -->
+<h3 class="sectionedit2"><a name="acceder_a_wizard" id="acceder_a_wizard">Accéder à Wizard:</a></h3>
+
+<p class="level3">
+Clicker [Wizard]
+</p>
+
+<p class="level3">
+<img src="click_wizard.jpeg" class="media" title="click_wizard.jpg" alt="click_wizard.jpg" />
+</p>
+
+<p class="level3">
+Wizard permet de manipuler des blocs et tranches de mémoires sur l&#039;ensemble de la conduite.
+</p>
+
+<p class="level3">
+Wizard comprend deux modes:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> <strong>Wizard Mem</strong> qui manipule les mémoires</div>
+</li>
+<li class="level1"><div class="li"> <strong>Wizard Ch</strong> qui manipule les circuits</div>
+</li>
+</ol>
+<!-- EDIT2 SECTION "Accéder à Wizard:" [61-342] -->
+<h4 class="sectionedit3"><a name="a_quoi_sert_wizard" id="a_quoi_sert_wizard">A quoi sert Wizard:</a></h4>
+
+<p class="level4">
+Wizard permet de travailler sur un ensemble de mémoires, d&#039;un click.
+</p>
+
+<p class="level4">
+Wizard CH:
+-On peut par exemple être amené en tournée à avoir ses faces à 5m plutôt qu&#039;à 10m de distance. On devra alors modifier sur toute sa conduite les circuits de sa face, en les baissant de 20 %. Wizard permet de faire cette modification sur toute la conduite, ou partie, sans avoir à ressaisir manuellement chaque mémoire.
+-On peut désirer rajouter un circuit  d&#039;éclairemente coulisses, allumé à 60% sur toute sa conduite, sans passer  par Freeze.
+-En création , le magnifique ordre logique du premier plan est devenu un champ de bataille: les contres sont mélangés aux latéraux et à des ponctuels. On a rajouté des circuits dans tous les sens. Les fonctions Swap et replace permettent de manipuler et échanger les numéros de circuits, pour vous permettre un réordonnancement logique.
+</p>
+
+<p class="level4">
+Wizard MEM:
+-En création on a rajouté beaucoup de mémoires point ( .6 .7 .8 ), on a besoin d&#039;insérer des mémoires en plus à un endroit, ou de réarranger l&#039;ordre numérique de la mémoire.
+-La restauration de mémoires détruites (sorties du séquentiel) est possible.
+</p>
+
+<p class="level4">
+La bascule de Wizard Ch à Wizard Mem se fait en clickant la case Wizard Mem / Wizard Ch.
+</p>
+
+<p class="level4">
+Wizard fonctionne de deux manières:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> sur l&#039;ensemble de la conduite ( On ALL the memories)</div>
+</li>
+<li class="level1"><div class="li"> d&#039;une mémoire donnée ( From Mem) à une mémoire donnée, incluse ( To Mem) </div>
+</li>
+</ol>
+
+<p class="level4">
+Une fois le mode d&#039;action et les paramètres entrés, pour effectuer l&#039;action de traitement par lots il faut clicker <strong>[DO IT !]</strong>
+</p>
+<!-- EDIT3 SECTION "A quoi sert Wizard:" [343-1933] -->
+<h3 class="sectionedit4"><a name="important" id="important">Important</a></h3>
+
+<p class="level3">
+Les changements effectués sont faits dans le spectacle chargé en mémoire vive.
+</p>
+
+<p class="level3">
+En cas d&#039;erreur ou d&#039;oubli:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker *Reload from disk*, qui rechargera le spectacle depuis le disque dur. </div>
+</li>
+<li class="level1"><div class="li"> ou alors, en cas de panique, quitter sans sauver <strong>[SHIFT-F12]</strong></div>
+</li>
+</ul>
+
+<p class="level3">
+Bien sûr, si vous avez sauvé sur disque le spectacle <strong> après </strong> les modifications, celles-ci ne seront pas récupérables.
+</p>
+
+<p class="level3">
+Il est donc recommandé, avant d&#039;utiliser wizard, de s&#039;enregistrer une copie à part, via SAVE, sous un autre nom: monbackup15juin, par ex.
+</p>
+
+<p class="level3">
+L&#039;action de Wizard se faisant sur le spectacle en mémoire vive,  les modifications au final ne concernent que le dossier last_save.
+</p>
+<!-- EDIT4 SECTION "Important" [1934-2620] -->
+<h2 class="sectionedit5"><a name="wizard_mem" id="wizard_mem">WIZARD MEM</a></h2>
+
+<p class="level2">
+<img src="wizard_mem.jpeg" class="media" title="wizard_mem.jpg" alt="wizard_mem.jpg" />
+</p>
+<div class="table sectionedit6"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> <strong>Mode Wizard</strong> </td><td class="col1"> <strong>Description</strong> </td><td class="col2"> <strong>Entrée complémentaire</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Rebuild numerical Order            </td><td class="col1 leftalign"> Permet de ré-arranger l&#039;ordre numérique des mémoires          </td><td class="col2 leftalign"> Par mémoires-point / unités / dizaines    </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Insert Memories            </td><td class="col1 leftalign"> Pour insérer des mémoires depuis la position choisie          </td><td class="col2 leftalign"> Le nombre de mémoires à insérer                  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0 leftalign"> Delete Memories            </td><td class="col1 leftalign"> Pour sortir du séquenciel les mémoires            </td><td class="col2 leftalign">                      </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0 leftalign"> Move Memories            </td><td class="col1 leftalign"> Pour déplacer un ensemble de mémoires            </td><td class="col2 leftalign"> A l&#039;endroit précisé   (Move To)              </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0 leftalign"> Inspekt a deleted Memory            </td><td class="col1 leftalign"> Permet d&#039;afficher le contenu d&#039;une mémoire qui a été sortie du séquenciel           </td><td class="col2 leftalign"> La mémoire à inspecter                  </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0 leftalign"> Restore deleted Memories            </td><td class="col1 leftalign"> Permet de faire réapparaitre dans la conduite des mémoires sorties du séquenciel           </td><td class="col2 leftalign">                      </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0 leftalign"> Reset to default Time            </td><td class="col1 leftalign"> Met les mémoires sur la base de temps oar défaut, définie dans general CFG           </td><td class="col2 leftalign">                      </td>
+	</tr>
+</table></div>
+<!-- EDIT6 TABLE [2666-3758] --><!-- EDIT5 SECTION "WIZARD MEM" [2621-3759] -->
+<h3 class="sectionedit7"><a name="important1" id="important1">Important</a></h3>
+
+<p class="level3">
+La destruction d&#039;une mémoire est en fait une évacuation hors du séquenciel de celle-ci.
+Cette mémoire peut donc être ré-injectée, seulement et seulement si aucune manipulation autre ( insert de mémoire, déplacement de mémoire à sa place, enregistrement d&#039;une autre mémoire à sa place.
+</p>
+<!-- EDIT7 SECTION "Important" [3760-4078] -->
+<h2 class="sectionedit8"><a name="wizard_ch" id="wizard_ch">WIZARD CH</a></h2>
+
+<p class="level2">
+<img src="wizard_ch.jpeg" class="media" title="wizard_ch.jpg" alt="wizard_ch.jpg" />
+</p>
+
+<p class="level2">
+Wizard Ch ne manipule pas les mémoires, mais les circuits dans les mémoires.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Une première fenêtre affiche les circuits sélectionnés</strong> ( Selected channels) que l&#039;on y a chargé.</div>
+</li>
+</ul>
+
+<p class="level2">
+Charger les circuits à modifier:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> sélectionner à la souris ou au clavier dans l&#039;espace circuits les circuits à manipuler</div>
+</li>
+<li class="level1"><div class="li"> clicker Dock ou taper [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la case des circuits à manipuler</div>
+</li>
+</ol>
+
+<p class="level2">
+Le + et le - de cette case permettent de naviguer dans l&#039;affichage si il y a beaucoup de circuits sélectionnés.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>on sélectionne l&#039;opération à mener: Set At / Added from / Reduced from</strong></div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Une case valeur permet de dire quelle valeur va être utilisée par l&#039;opération choisie</strong></div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Dans le cas de Replace, une deuxième fenêtre affiche les circuits à remplacer</strong></div>
+</li>
+</ul>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> <strong>Mode Wizard</strong> </td><td class="col1"> <strong>Description</strong> </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Set At            </td><td class="col1 leftalign"> Met les circuits sélectionnés  à la valeur voulue          </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> Added from           </td><td class="col1 leftalign"> Ajoute aux circuits sélectionnés (quand supérieurs à 0 dans la conduite)  la valeur voulue          </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0 leftalign"> Reduced from           </td><td class="col1 leftalign"> Retire aux circuits sélectionnés (quand supérieurs à 0 dans la conduite)  la valeur voulue          </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0 leftalign"> Replace           </td><td class="col1 leftalign"> Permet de donner la valeur des circuits choisis aux circuits de remplacement sélectionnés         </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0 leftalign"> Swap          </td><td class="col1 leftalign"> Permet d&#039;échanger les valeurs des circuits choisis avec les valeurs des circuits de remplacement          </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [4904-5560] --><!-- EDIT8 SECTION "WIZARD CH" [4079-5561] -->
+<h4 class="sectionedit10"><a name="detecter_les_circuits_non_utilisees_par_les_memoires" id="detecter_les_circuits_non_utilisees_par_les_memoires">Détecter les circuits non utilisées par les mémoires</a></h4>
+
+<p class="level4">
+En nettoyage de conduite ou en création, vous pouvez repérer grâce au Wizard CH. quels sont les circuits qui ne sont pas enregistrés dans les mémoires.
+</p>
+
+<p class="level4">
+Clicker <strong>Select unused channels</strong>.
+</p>
+
+<p class="level4">
+Tous les circuits non utilisés seront sélectionnés.
+</p>
+
+<p class="level4">
+<img src="wizard_ch_unused.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT10 SECTION "Détecter les circuits non utilisées par les mémoires" [5562-5903] -->
+<h4 class="sectionedit11"><a name="fonctionnements_specifiques_de_replace_swap" id="fonctionnements_specifiques_de_replace_swap">Fonctionnements spécifiques de Replace/Swap</a></h4>
+
+<p class="level4">
+La boite des circuits de remplacement s&#039;édite de la même manière que les circuits à sélectionner:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> sélectionner à la souris ou au clavier dans l&#039;espace circuits les circuits à manipuler</div>
+</li>
+<li class="level1"><div class="li"> clicker Dock ou taper [F1]</div>
+</li>
+<li class="level1"><div class="li"> clicker la case des circuits à remplacer</div>
+</li>
+</ol>
+
+<h5><a name="ex_et_particularites_de_replace" id="ex_et_particularites_de_replace">Ex et particularités de Replace:</a></h5>
+
+<p class="level5">
+Circuits sélectionnés: 1/100
+Circuits à remplacer: 5/20
+Résultat: 1/0 5/100
+</p>
+
+<p class="level5">
+Circuits sélectionnés: 1/100 2/75 8/50
+Circuits à remplacer: 5/20 10/0 25/30
+Résultat: 5/100 10/75 25/50
+</p>
+
+<p class="level5">
+Circuits sélectionnés: 1/100 2/75 3/10
+Circuits à remplacer: 5/20 10/0 25/30 26/30 27/75 35/100
+Résultat: 5/100 10/75 25/10 26/10 27/10 35/10
+</p>
+
+<h5><a name="ex_et_particularite_de_swap" id="ex_et_particularite_de_swap">Ex et particularité de Swap:</a></h5>
+
+<p class="level5">
+Swap fonctionne <strong>de circuit à circuit</strong>.
+Le nombre de circuits pris en compte en boîte IN et en boîte OUT doit être le même.
+</p>
+
+<p class="level5">
+Circuits sélectionnés: 1/100
+Circuits à remplacer: 5/20
+Résultat: 1/20 5/100
+</p>
+
+<p class="level5">
+Circuits sélectionnés: 1/100 2/75 3/10
+Circuits à remplacer: 5/20 10/0 25/30 26/30 27/75 35/100
+Résultat: 1/20 2/0 3/30 5/100 10/75 25/10  le reste est inchangé: 26/30 27/75 35/100
+</p>
+<!-- EDIT11 SECTION "Fonctionnements spécifiques de Replace/Swap" [5904-] --></div>
+</body>
+</html>

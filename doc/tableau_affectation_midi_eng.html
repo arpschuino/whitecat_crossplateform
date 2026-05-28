@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>tableau_affectation_midi_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2013-07-06T16:09:34+0200"/>
+<meta name="keywords" content="tableau_affectation_midi_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="tableau_affectation_midi_eng.html"/>
+<link rel="contents" href="tableau_affectation_midi_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="tableau_affectation_midi_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="tableau_affectation_midi_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=tableau_affectation_midi_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"tableau_affectation_midi_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#midi_table_of_assignments">MIDI table of assignments</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#grandmaster">GrandMaster</a></div></li>
+<li class="level2"><div class="li"><a href="#commands">Commands</a></div></li>
+<li class="level2"><div class="li"><a href="#midi">Midi</a></div></li>
+<li class="level2"><div class="li"><a href="#faders">Faders</a></div></li>
+<li class="level2"><div class="li"><a href="#cuelist">CueList</a></div></li>
+<li class="level2"><div class="li"><a href="#chaser">Chaser</a></div></li>
+<li class="level2"><div class="li"><a href="#banger">Banger</a></div></li>
+<li class="level2"><div class="li"><a href="#time">Time</a></div></li>
+<li class="level2"><div class="li"><a href="#trichromy">Trichromy</a></div></li>
+<li class="level2"><div class="li"><a href="#audioplayers">AudioPlayers</a></div></li>
+<li class="level2"><div class="li"><a href="#videotracking">VideoTracking</a></div></li>
+<li class="level2"><div class="li"><a href="#numpad">NumPad</a></div></li>
+<li class="level2"><div class="li"><a href="#icat">iCat</a></div></li>
+<li class="level2"><div class="li"><a href="#grid">Grid</a></div></li>
+<li class="level2"><div class="li"><a href="#draw">Draw</a></div></li>
+<li class="level2"><div class="li"><a href="#lightplot">LightPlot</a></div></li>
+<li class="level2"><div class="li"><a href="#echo">Echo</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="midi_table_of_assignments" id="midi_table_of_assignments">MIDI table of assignments</a></h1>
+
+<p class="level1">
+Up until version 0.7.6.6 the type of midi signal (Key-On, Key-Off or Ctrl-Change) and from which midi page it was assigned (Faders / Button) was the system in use.
+From version 0.7.6.6 onward every signal type (Note, Key-On, Key-Off, Ctrl-Change) may be assigned to any command, from only one page: the midi assignment page. 
+</p>
+
+<p class="level1">
+Comparing command ID&#039;s is now done only on Midi Channel and Pitch. Only the Flash Key needs to have a signal type of Key-On.
+</p>
+
+<p class="level1">
+This table presents all commands that can be controlled from midi in White Cat.
+In physical commands, the recommended one appears first: if it is a knob rather a slider, Knob will be written first, then Slider.
+</p>
+
+<p class="level1">
+From version 0.8.2.2 onward, auto de-assginment no longer reads the type and focuses only on channel IDs and Pitch.
+</p>
+<!-- EDIT1 SECTION "MIDI table of assignments" [1-821] -->
+<h2 class="sectionedit2"><a name="grandmaster" id="grandmaster">GrandMaster</a></h2>
+<div class="table sectionedit3"><table class="inline">
+	<tr class="row0">
+		<td class="col0">GrandMaster</td><td class="col1">Slider or Knob</td>
+	</tr>
+</table></div>
+<!-- EDIT3 TABLE [846-874] --><!-- EDIT2 SECTION "GrandMaster" [822-875] -->
+<h2 class="sectionedit4"><a name="commands" id="commands">Commands</a></h2>
+<div class="table sectionedit5"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign">Main commands (Modify, Report, Clear   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign">Call Windows  (CueList, Banger, Wizard   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign">Call Modes (View, Freeze, Exclude   </td><td class="col1"> Key </td>
+	</tr>
+</table></div>
+<!-- EDIT5 TABLE [897-1039] --><!-- EDIT4 SECTION "Commands" [876-1040] -->
+<h2 class="sectionedit6"><a name="midi" id="midi">Midi</a></h2>
+<div class="table sectionedit7"><table class="inline">
+	<tr class="row0">
+		<td class="col0">MiniMute (Global)</td><td class="col1">Key</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">MiniOut on faders (ref info)</td><td class="col1">Key</td>
+	</tr>
+</table></div>
+<!-- EDIT7 TABLE [1058-1116] --><!-- EDIT6 SECTION "Midi" [1041-1117] -->
+<h2 class="sectionedit8"><a name="faders" id="faders">Faders</a></h2>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Horizontal Fader Space handle</td><td class="col1"> Knob or Slider </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Slider   </td><td class="col1"> Slider, Knob or Key </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> FX mode  </td><td class="col1"> Key or Knob </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0 leftalign"> Dock + / Dock -   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0 leftalign"> Lock   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Up / Down / Saw </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> Prev. Dock / Next Dock / Cycle Step / StopPos </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0 leftalign"> Loop One / Loop All   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0 leftalign"> Flash   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0 leftalign"> Embeded Chaser Play/Seek/Loop/Autolaunch   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> LFO speed</td><td class="col1"> Knob or Slider </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> Assignment F1 F2 F3 F4 to fader [v] </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> All at zero and RECALL </td><td class="col1"> Key</td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> Lock Presets </td><td class="col1">Key</td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> MiniFaders: selecting, preselections, actions </td><td class="col1"> Key</td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [1137-1661] --><!-- EDIT8 SECTION "Faders" [1118-1662] -->
+<h2 class="sectionedit10"><a name="cuelist" id="cuelist">CueList</a></h2>
+<div class="table sectionedit11"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Sliders Stage/Preset   </td><td class="col1"> Slider </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Go / Go Back / Double Go  </td><td class="col1">Key</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Cross-fade accelerometer </td><td class="col1"> Knob or Slider</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Stage + / Stage - / Preset + / Preset - </td><td class="col1"> Key</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Create New Mem / Delete Mem / Goto </td><td class="col1"> Key</td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Showing the GridPlayer 1 in Cue-List window </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0 leftalign"> Assigning GridPlayer in CueList window   </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> GridPlayer 1 slaved to Crossfade Accelerometr Slider</td><td class="col1"> Key</td>
+	</tr>
+</table></div>
+<!-- EDIT11 TABLE [1683-2056] --><!-- EDIT10 SECTION "CueList" [1663-2057] -->
+<h2 class="sectionedit12"><a name="chaser" id="chaser">Chaser</a></h2>
+<div class="table sectionedit13"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Navigating in chaser list / View Track Up Down / Launchpad Position + - </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> Play / Seek / Loop / Forward / Bacward / Go Back </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Selection All INV OFF / P1 P2 P3 P4 </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Operators FadeIn / Stay / FadeOut </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> TimeMode T.Std T.Join </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Set Begin step, Set End step,  Cursor position on timeline </td><td class="col1"> Knob, Slider </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> ON/OFF tracks </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> Tracks levels </td><td class="col1"> Slider, Knob </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Editing steps on the fly with launchpad </td><td class="col1"> Key </td>
+	</tr>
+</table></div>
+<!-- EDIT13 TABLE [2077-2524] --><!-- EDIT12 SECTION "Chaser" [2058-2525] -->
+<h2 class="sectionedit14"><a name="banger" id="banger">Banger</a></h2>
+<div class="table sectionedit15"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Bang It, navigation +/- banger  </td><td class="col1">Key</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> 6 bangs solos  </td><td class="col1">Key</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0 leftalign"> the 127 solo shortcuts of bangers  </td><td class="col1">Key</td>
+	</tr>
+</table></div>
+<!-- EDIT15 TABLE [2545-2650] --><!-- EDIT14 SECTION "Banger" [2526-2651] -->
+<h2 class="sectionedit16"><a name="time" id="time">Time</a></h2>
+<div class="table sectionedit17"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Wheel  </td><td class="col1">Knob</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Time buttons IN OUT D-IN D-OUT  </td><td class="col1">Keys</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Tap Record / Tap Send / Tap Tempo </td><td class="col1">Keys</td>
+	</tr>
+</table></div>
+<!-- EDIT17 TABLE [2669-2768] --><!-- EDIT16 SECTION "Time" [2652-2769] -->
+<h2 class="sectionedit18"><a name="trichromy" id="trichromy">Trichromy</a></h2>
+<div class="table sectionedit19"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Color wheel</td><td class="col1">Slider or Knob</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Selection of active dock color</td><td class="col1"> Key</td>
+	</tr>
+</table></div>
+<!-- EDIT19 TABLE [2792-2858] --><!-- EDIT18 SECTION "Trichromy" [2770-2861] -->
+<h2 class="sectionedit20"><a name="audioplayers" id="audioplayers">AudioPlayers</a></h2>
+<div class="table sectionedit21"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Volume, pitch, pan</td><td class="col1">Slider or Knob</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Play, Seek, Loop, SeekEnd, Backward,Forward, Prev. track, Next Track, Track. Num Load, AutoLoad, AutoPause</td><td class="col1"> Key</td>
+	</tr>
+</table></div>
+<!-- EDIT21 TABLE [2887-3036] --><!-- EDIT20 SECTION "AudioPlayers" [2862-3037] -->
+<h2 class="sectionedit22"><a name="videotracking" id="videotracking">VideoTracking</a></h2>
+<div class="table sectionedit23"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign"> Decay   </td><td class="col1 leftalign"> Slider or Knob     </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign"> Selection dock colors   </td><td class="col1 leftalign"> Key     </td>
+	</tr>
+</table></div>
+<!-- EDIT23 TABLE [3065-3135] --><!-- EDIT22 SECTION "VideoTracking" [3038-3136] -->
+<h2 class="sectionedit24"><a name="numpad" id="numpad">NumPad</a></h2>
+<div class="table sectionedit25"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Level wheel</td><td class="col1">Knob or Slider</td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Keys 0-9 +- Enter Up Down C.(esc)  All Inv </td><td class="col1">Key</td>
+	</tr>
+</table></div>
+<!-- EDIT25 TABLE [3156-3234] --><!-- EDIT24 SECTION "NumPad" [3137-3235] -->
+<h2 class="sectionedit26"><a name="icat" id="icat">iCat</a></h2>
+<div class="table sectionedit27"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Page 1 to 8 </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Page - / Page + </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Refresh page </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Page Orientation </td><td class="col1"> Key </td>
+	</tr>
+</table></div>
+<!-- EDIT27 TABLE [3253-3346] --><!-- EDIT26 SECTION "iCat" [3236-3347] -->
+<h2 class="sectionedit28"><a name="grid" id="grid">Grid</a></h2>
+
+<p class="level2">
+For each of the 4 GridPlayers:
+</p>
+<div class="table sectionedit29"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Select -  + the loaded Grid </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Call by Velocity the Grid to load </td><td class="col1 rightalign">  Key or CC </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> - or + Step </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Call by Velocity Step to load: Stepx7 </td><td class="col1 rightalign">  Key or CC </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">Call by Velocity Step to load: Unit</td><td class="col1 rightalign">  Key or CC </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">Play, Seek, Autostop, Slave </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0">Accelerometer </td><td class="col1"> Control Change </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0">GotoMode On / SeekPosMode On / StopPlayMode On </td><td class="col1 centeralign">  Key   </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0">GridPlayer 1: Speed is CueList </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+</table></div>
+<!-- EDIT29 TABLE [3396-3787] --><!-- EDIT28 SECTION "Grid" [3348-3788] -->
+<h2 class="sectionedit30"><a name="draw" id="draw">Draw</a></h2>
+<div class="table sectionedit31"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Select Brush </td><td class="col1"> Key </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Select Preset </td><td class="col1 rightalign">  Key </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Select Drawing Mode </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Pressure,Angle,Ghost </td><td class="col1 rightalign">  CC </td>
+	</tr>
+</table></div>
+<!-- EDIT31 TABLE [3806-3912] --><!-- EDIT30 SECTION "Draw" [3789-3913] -->
+<h2 class="sectionedit32"><a name="lightplot" id="lightplot">LightPlot</a></h2>
+<div class="table sectionedit33"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Display of 4 Layers </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Solo Display or Multiple layers</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Level Display </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Display levels from faders </td><td class="col1 centeralign">  Key   </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">UP list (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0">DOWN list (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0">Potentiometer list (sym &amp; shapes)</td><td class="col1"> Control Change </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0">DUPE (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0">Delete (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0">Send to (sym) Grp/Ungrp (shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0">On/Off editing on xy (Ch,Name,Gels,Dims,Notes </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0">UP list (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0">DOWN list (sym &amp; shapes)</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0">Call 8 presets of formatting</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+</table></div>
+<!-- EDIT33 TABLE [3936-4462] --><!-- EDIT32 SECTION "LightPlot" [3914-4463] -->
+<h2 class="sectionedit34"><a name="echo" id="echo">Echo</a></h2>
+<div class="table sectionedit35"><table class="inline">
+	<tr class="row0">
+		<td class="col0">Select one of 24 presets </td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0">Ch level edit mode/low</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0">Ch level over/under</td><td class="col1 centeralign">  Key  </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0">Echo mode, Snap Fader, Bounce,Bounce &amp; kill Snap,Recall </td><td class="col1 centeralign">  Key   </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0">Gravity, Mass,Energy</td><td class="col1 leftalign"> Slider or Knob  </td>
+	</tr>
+</table></div>
+<!-- EDIT35 TABLE [4482-4689] --><!-- EDIT34 SECTION "Echo" [4464-] --></div>
+</body>
+</html>

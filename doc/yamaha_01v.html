@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>yamaha_01v</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-05-13T12:52:14+0200"/>
+<meta name="keywords" content="yamaha_01v"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="yamaha_01v.html"/>
+<link rel="contents" href="yamaha_01v.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="yamaha_01v.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="yamaha_01v.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=yamaha_01v"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"yamaha_01v","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#connexion_physique">Connexion Physique</a></div></li>
+<li class="level2"><div class="li"><a href="#connexion_numerique">Connexion numérique</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#sens_table_white_cat">Sens Table =&gt; White Cat</a></div></li>
+<li class="level3"><div class="li"><a href="#sens_white_cat_table_de_mixage">Sens White Cat =&gt; Table de mixage</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#remarques">Remarques</a></div></li>
+<li class="level2"><div class="li"><a href="#utilisation">Utilisation</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<p class="level0">
+Table de mixage numérique Yamaha 01V , MIDI et White Cat
+</p>
+
+<h2 class="sectionedit1"><a name="connexion_physique" id="connexion_physique">Connexion Physique</a></h2>
+
+<p class="level2">
+Un adaptateur USB 2.0 MIDI IN (DIN couleur blanche) et MIDI OUT (DIN couleur noire) 
+Modèle utilisé : midilink-mini de Miditech acheté chez Thomann.de
+</p>
+
+<p class="level2">
+Coté 01V il y a 3 socles DIN femelle 5 broches / 180° marquées Thru (à gaffer), IN, OUT (marqué d&#039;un trait de Tipp-ex blanc) 
+Thru est inutilisée, MIDI IN du cordon est mis dans le socle MIDI OUT, MIDI OUT du cordon est mis dans le socle MIDI IN.
+</p>
+
+<p class="level2">
+Coté USB de l&#039;adaptateur, connecter à une prise USB de PC (ou de Macintoch) 
+Longueur de cet adaptateur 1,8 m. 
+La prise USB assure l&#039;alimentation de l&#039;adaptateur. 
+</p>
+<!-- EDIT1 SECTION "Connexion Physique" [60-668] -->
+<h2 class="sectionedit2"><a name="connexion_numerique" id="connexion_numerique">Connexion numérique</a></h2>
+
+<p class="level2">
+Seuls les signaux de 16 canaux MIDI, et non 32 canaux, sont transmis par l&#039;adaptateur précité.
+</p>
+
+<p class="level2">
+Coté PC c&#039;est Plug and Play avec W8 Pro. Et sujet à caution sous W Vista ainsi que sous W7.
+</p>
+<!-- EDIT2 SECTION "Connexion numérique" [669-895] -->
+<h3 class="sectionedit3"><a name="sens_table_white_cat" id="sens_table_white_cat">Sens Table =&gt; White Cat</a></h3>
+
+<h5><a name="generer_des_signaux_midi_par_la_table_de_mixage" id="generer_des_signaux_midi_par_la_table_de_mixage">Générer des signaux MIDI par la table de mixage</a></h5>
+
+<p class="level5">
+Dans les menus de cette table : Appuyer sur la touche MIDI, 
+onglet “Midi1” paramétrer : contrôle change ON, Tx channel 1, Port MIDI 
+onglet “Midi3” paramétrer : initialise, 
+onglet “Midi5” paramétrer : contrôle local.
+</p>
+
+<h5><a name="accueillir_les_signaux_midi_parvenus_dans_white_cat" id="accueillir_les_signaux_midi_parvenus_dans_white_cat">Accueillir les signaux MIDI parvenus dans white cat</a></h5>
+
+<p class="level5">
+Paramétrer White Cat Dans Config / config MIDI / 1er onglet MIDI DEVICE : 
+Cliquer [rescan] pour rendre visible la source « usb2.0 midi», 
+Côté MIDI IN [F1] clic de sélection de « usb2.0 midi » 
+Côté MIDI OUT [F1] clic de sélection de « usb2.0 » et sauver la configuration. 
+Enregistrement AltGr F12 ou SAUVE avec nommage, sortie de white cat puis rechargement. 
+Côté USB déconnexion, reconnexion. (je ne suis pas sur que cela soit indispensable)
+</p>
+
+<h5><a name="controle" id="controle">Contrôle</a></h5>
+
+<p class="level5">
+Manipuler le premier fader de la table de mixage, observer l&#039;affichage de valeurs de signaux MIDI IN (dans la configuration par défaut c&#039;est affiché en blanc)
+</p>
+
+<p class="level5">
+En leur absence vérifier que tout est alimenté, connecté, que le témoin de l’adaptateur est allumé, enfin que la fonction de blocage du MIDI par white cat est inactive. Autrement dit la case “Mute Midi-IN !” dans Menu/CFG-Menu/midi cfg/OPTIONS-RESETS/ doit être décochée. (comme son alias : Midimute dans le menu en bandeau supérieur.)
+</p>
+
+<h5><a name="affectation_dans_white_cat" id="affectation_dans_white_cat">Affectation dans White Cat</a></h5>
+
+<p class="level5">
+Ceci obtenu, affecter au moins un signal MIDI issu de la table fader (ou touche), au fader (ou touche) de White Cat, en suivant les instructions affectation MIDI.
+</p>
+<!-- EDIT3 SECTION "Sens Table => White Cat" [896-2473] -->
+<h3 class="sectionedit4"><a name="sens_white_cat_table_de_mixage" id="sens_white_cat_table_de_mixage">Sens White Cat =&gt; Table de mixage</a></h3>
+
+<h5><a name="emission_de_signaux_midi_depuis_white_cat" id="emission_de_signaux_midi_depuis_white_cat">Émission de signaux MIDI depuis White Cat</a></h5>
+
+<p class="level5">
+Le MIDI out doit être actif : la grosse pastille au pied du fader doit être rouge.
+</p>
+
+<h5><a name="accueil_des_signaux_par_la_table_de_mixage" id="accueil_des_signaux_par_la_table_de_mixage">Accueil des signaux par la table de mixage</a></h5>
+
+<p class="level5">
+Décoder les signaux reçus par la table de mixage
+</p>
+
+<p class="level5">
+Dans les menus de cette table : Touche MIDI, 
+onglet “Midi1” paramétrer: contrôle change ON, Rx channel 1 
+onglet “Midi3” Ctrl CHG. paramétrer: (par exemple si ce n&#039;est pas obtenu par “initialise” ) 
+0 Rien 
+1 à 12 Fader Channel CH 1 à 12 
+13 Fader Channel CH 13-14 
+14 Fader Channel CH 15-16
+</p>
+
+<h5><a name="controle1" id="controle1">Contrôle</a></h5>
+
+<p class="level5">
+Manipuler le fader 1 de White Cat sur toute sa course. 
+L&#039;utilisation de la fonction White Cat fader saw en boucle assure l’émission continue de signaux MIDI. 
+MIDI en blanc sur fond noir doit apparaitre dans l&#039;afficheur de la table de mixage (quelque soit le mode).
+La valeur des signaux reçus est affichable en mode Remote onglet Remote3 dans la zone DATA.
+Au besoin relancer le fader 1 de White Cat.
+Le fader de la table numérique devrait suivre. 
+Manipuler le fader 1 de la table numérique, le fader de white Cat devrait suivre.
+</p>
+<!-- EDIT4 SECTION "Sens White Cat => Table de mixage" [2474-3625] -->
+<h2 class="sectionedit5"><a name="remarques" id="remarques">Remarques</a></h2>
+
+<p class="level2">
+Des fonctions de configuration de la table de mixage sont pilotable en MIDI. 
+Par exemple un paramétrage de la table -une scène- présent en banque, peut être appelé et chargé. 
+Ceci par un ordre ProgramChange avec RX ON. Or les ordres ProgramChange ne sont pas gérés par White Cat. 
+Toute méthode de contournement est la bienvenue !
+</p>
+
+<p class="level2">
+Des ordres MIDI destinés à des lecteurs/ enregistreurs audio numériques sont paramétrables dans la table de mixage.  
+</p>
+
+<p class="level2">
+La table de mixage peut être utilisée comme télécommande (= unidirectionnelle). 
+Pour ce Touche Remote, onglet Remote3 c&#039;est à dire “User definied” avec des valeurs en Hexadécimal pour les 114 paramètres disponibles.
+</p>
+<!-- EDIT5 SECTION "Remarques" [3626-4339] -->
+<h2 class="sectionedit6"><a name="utilisation" id="utilisation">Utilisation</a></h2>
+
+<p class="level2">
+A vous, professionnels de vous exprimer ! et de le faire savoir.
+</p>
+<!-- EDIT6 SECTION "Utilisation" [4340-] --></div>
+</body>
+</html>

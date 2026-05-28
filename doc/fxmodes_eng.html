@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>fxmodes_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-01-19T22:37:22+0100"/>
+<meta name="keywords" content="fxmodes_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="fxmodes_eng.html"/>
+<link rel="contents" href="fxmodes_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="fxmodes_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="fxmodes_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=fxmodes_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"fxmodes_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#fx_on_faders">FX on Faders</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#buffer_faders_in">Buffer Faders, in</a></div></li>
+<li class="level3"><div class="li"><a href="#using_fx_modes">Using FX modes</a></div></li>
+<li class="level3"><div class="li"><a href="#assigning_to_the_cuelist_buffer">Assigning to the CueList Buffer</a></div></li>
+<li class="level3"><div class="li"><a href="#creating_fader_groups_with_the_off_mode">Creating Fader Groups, with the Off mode</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="fx_on_faders" id="fx_on_faders">FX on Faders</a></h2>
+<!-- EDIT1 SECTION "FX on Faders" [2-26] -->
+<h3 class="sectionedit2"><a name="buffer_faders_in" id="buffer_faders_in">Buffer Faders, in</a></h3>
+
+<p class="level3">
+Prior to version 0.8.2.7 faders were only used in HTP mode: Highest level coming from a fader was taking precedence.
+</p>
+
+<p class="level3">
+The level of each fader is read, from <strong>fader 1 thru fader 48</strong> and this is compared to the buffer where the result of this operation is stored.
+</p>
+
+<p class="level3">
+If a channel output by a fader is at a higher level than the General Buffer of Faders, this channel will be stored in the General Buffer of Faders at this higher value.
+</p>
+
+<p class="level3">
+<strong>Example:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Fader 1 contains channels 1/20 and 30/full. Fader 1 is set at 50%.</div>
+</li>
+</ul>
+
+<p class="level3">
+After reading the state of Fader 1, the General Buffer of Faders will store 1/10 and 30/50.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Fader 2 contains 2/50 and fader 2 is at full.</div>
+</li>
+</ul>
+
+<p class="level3">
+After reading the state of fader 2 (and previously fader 1) the General Buffer of Faders will contain 1/10 2/50 and 30/50.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Fader 3 contains channel 1/full and is at 90%.</div>
+</li>
+</ul>
+
+<p class="level3">
+After reading the states of faders 1 and 2 and 3, the General Buffer of Faders will contain  1/90 2/50 and 30/50.
+</p>
+
+<p class="level3">
+This calculation, fader by fader, is done until fader 48.
+</p>
+
+<p class="level3">
+<img src="synopt_buffer.jpeg" class="media" title="synopt_buffer.jpg" alt="synopt_buffer.jpg" />
+</p>
+
+<p class="level3">
+This  (Highest takes precedence) means that the biggest value is the one that is output.
+</p>
+<!-- EDIT2 SECTION "Buffer Faders, in" [27-1188] -->
+<h3 class="sectionedit3"><a name="using_fx_modes" id="using_fx_modes">Using FX modes</a></h3>
+
+<p class="level3">
+Concerning FX, and having in mind this operation of comparison, fader by fader, visualize faders as layers.
+</p>
+
+<p class="level3">
+Fader 1 is under all the others, and fader 48 is on the top. The last fader to be compared and having influence on the General Buffer of Faders will be 48.
+</p>
+
+<p class="level3">
+Despite doing this comparison, you can choose different modes to alter the General Buffer of Faders when a fader is read. Those modes are based on simple calculations such as subtracting, adding, and excluding.
+</p>
+
+<p class="level3">
+FX restitution modes for a fader are based on the logic of video composition, or the logic of CAD drawing software using layers because the same logic is underneath them all.
+</p>
+
+<p class="level3">
+To change the reaction mode of an FX and switch from mode to mode, you can click the FX rectangle:
+</p>
+
+<p class="level3">
+<img src="faders_fx_choice.jpeg" class="media" title="faders_fx_choice.jpg" alt="faders_fx_choice.jpg" />
+</p>
+
+<p class="level3">
+When a channel is output by a fader at a level greater than zero, it will act on the General Buffer of Faders as follow:
+</p>
+<div class="table sectionedit4"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Mode </td><td class="col1"> Color </td><td class="col2"> Calculation </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0 leftalign">  </td><td class="col1"> Orange </td><td class="col2"> Normal mode, Highest level. Ex. F1 puts chan 4/60 and F2 puts 4/20 so output is 4/60 assuming both faders are run up all the way</td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Off </td><td class="col1"> Black </td><td class="col2"> Output is not stored in the General Buffer of Faders, but will be used for the Faders groups (see below) Ex. F1 puts 4/60 and F2 (4/20 but set to off) has no effect.  Output remains 60.</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Subtract </td><td class="col1"> Red </td><td class="col2"> Output is subtracted from the General Buffer of Faders.  With F1 putting 4/60, then F2 (4/20 set to subtract) will make the output 40 when F2 is run up all the way</td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Add </td><td class="col1"> White </td><td class="col2"> Output is added to the General Buffer of Faders.  With F1 putting 4/60, then F2 (4/20 set to add) will make the output 80 when F2 is run up all the way </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Screen </td><td class="col1"> White Blue </td><td class="col2"> An average value is taken from the Output of the fader and the General Buffer of Faders state. Then it is divided by 2 and this is used as the output value.  With F1 putting 4/60, then F2 (4/20 set to screen) will make the output 40 when F2 is run up all the way</td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> Exclusion </td><td class="col1"> Dark Blue </td><td class="col2"> The lower value is subtracted from the higher value: If the General Buffer of Faders is higher than the fader output, the fader will be subtracted from the General Buffer of Faders. With F1 putting 4/60, then F2 (4/20 set to exclude) will work the same as subtract and will make the output 40 when F2 is run up all the way</td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> </td><td class="col1"> Dark Blue </td><td class="col2"> If the General Buffer of Faders is less than the fader output, then it will be subtracted from the fader output. With F1 putting 4/05, then F2 (4/20 set to exclude) will subtract 05 from 20 which will make the output 15 when F2 is run up all the way</td>
+	</tr>
+</table></div>
+<!-- EDIT4 TABLE [2119-3755] -->
+<p class="level3">
+<strong>Practical Cases:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Concert: instead of bringing down a fader that contains your backlights and bringing up a fader containing a chaser on your backlights, just use the chaser fader in subtract or exclude mode.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Touring: easily modifying levels with some faders, manually without using the wizard (the result of a fader working upon the CueList buffer will display in channel space showing the modified output)</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Performing: manually impacting CueList output quickly.</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Using FX modes" [1189-4240] -->
+<h3 class="sectionedit5"><a name="assigning_to_the_cuelist_buffer" id="assigning_to_the_cuelist_buffer">Assigning to the CueList Buffer</a></h3>
+
+<p class="level3">
+This fader special FX mode may be output directly to the CueList space (instead of working in Fader Space). The CueList space is the result from the cross-faders (onstage mem + preset mem).
+</p>
+
+<p class="level3">
+Just toggle the little square beside the FX mode, it will become blue, showing you its assignment to the CueList space.
+</p>
+
+<p class="level3">
+<img src="faderfx_sur_seq.png" class="media" alt="" />
+</p>
+<!-- EDIT5 SECTION "Assigning to the CueList Buffer" [4241-4620] -->
+<h3 class="sectionedit6"><a name="creating_fader_groups_with_the_off_mode" id="creating_fader_groups_with_the_off_mode">Creating Fader Groups, with the Off mode</a></h3>
+
+<p class="level3">
+You can create a Fader Group (Fgroup) by setting the fader to Off .
+</p>
+
+<p class="level3">
+An Fgroup is a fader that contains HTP calculations from a group of different faders.
+</p>
+
+<p class="level3">
+Fgroups are recorded to docks and are dynamic containers.
+</p>
+
+<p class="level3">
+Fgroups work like sound subgroups, <strong>only in HTP</strong>, no special FX mode is available. 
+</p>
+
+<p class="level3">
+To create an Fgroup:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> select in the minifaders windows the faders to assign to the Fgroup.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_selection.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click [Fgroup] mode to On</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click [STORE] ([F1])</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Assigning An FGroup to a dock:</strong>
+</p>
+
+<p class="level3">
+In minifaders window: 
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> click fader number to assign it to the Fgroup</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_creation.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+In faders space:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Click the dock to record an FGroup in the dock selected</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_faders_view.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+In minifaders window, when mousing over a fader, you can see the content of an Fgroup.
+</p>
+
+<p class="level3">
+<img src="fgroup_survol.png" class="media" alt="" />
+</p>
+<!-- EDIT6 SECTION "Creating Fader Groups, with the Off mode" [4621-] --></div>
+</body>
+</html>

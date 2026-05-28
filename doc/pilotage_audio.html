@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>pilotage_audio</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-12-22T08:36:28+0100"/>
+<meta name="keywords" content="pilotage_audio"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="pilotage_audio.html"/>
+<link rel="contents" href="pilotage_audio.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="pilotage_audio.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="pilotage_audio.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=pilotage_audio"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"pilotage_audio","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#pilotage_de_l_audio">Pilotage de l&#039;audio</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#utilisation_des_channels_macros">Utilisation des Channels Macros</a></div></li>
+<li class="level3"><div class="li"><a href="#utilisation_de_banger">Utilisation de Banger</a></div></li>
+<li class="level3"><div class="li"><a href="#controle_des_volumes_pitch_et_pan_par_faders_lumiere">Contrôle des volumes, pitch et pan par Faders Lumière</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="pilotage_de_l_audio" id="pilotage_de_l_audio">Pilotage de l&#039;audio</a></h2>
+
+<p class="level2">
+Il existe plusieurs façon de manipuler l&#039;audio.
+</p>
+<!-- EDIT1 SECTION "Pilotage de l'audio" [1-81] -->
+<h3 class="sectionedit2"><a name="utilisation_des_channels_macros" id="utilisation_des_channels_macros">Utilisation des Channels Macros</a></h3>
+
+<p class="level3">
+Il est possible par l&#039;utilisation de seulement deux circuits de piloter complètement un lecteur audio.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> appel et chargement de fichier dans un lecteur</div>
+</li>
+<li class="level1"><div class="li"> mise en play/pause, retour au début, mode Loop</div>
+</li>
+<li class="level1"><div class="li"> suivi du volme, du pitch et du pan fonction de  l&#039;intensité du circuit</div>
+</li>
+</ul>
+
+<p class="level3">
+Cette approche permet de travailler de manière éqale avec les lecteurs audio en encodage ou en live .
+</p>
+
+<p class="level3">
+Voir <a href="liste.html" class="wikilink1" title="Liste">List: Descriptif des circuits et Channel Macros</a>
+</p>
+
+<p class="level3">
+<img src="channel_macro_circ2.jpeg" class="media" title="channel_macro_circ2.jpg" alt="channel_macro_circ2.jpg" />
+</p>
+<!-- EDIT2 SECTION "Utilisation des Channels Macros" [82-608] -->
+<h3 class="sectionedit3"><a name="utilisation_de_banger" id="utilisation_de_banger">Utilisation de Banger</a></h3>
+
+<p class="level3">
+La plus part des fonctions sont déclenchables depuis Banger, permettant ainsi d&#039;automatiser la conduite:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> appel et chargement de fichier dans un lecteur</div>
+</li>
+<li class="level1"><div class="li"> mise en play/pause, retour au début, mode Loop, retour au point de CueIn, mode Cue</div>
+</li>
+<li class="level1"><div class="li"> mise à un niveau sonore, un pan ou un pitch précis</div>
+</li>
+</ul>
+
+<p class="level3">
+La création de crossfades audio automatisés peut se faire en utilisant l&#039;asservisement des Faders, et donc les fonctions Faders dans Banger.
+</p>
+
+<p class="level3">
+N&#039;oubliez pas que:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> vous pouvez affecter un banger dans une mémoire, le déclenchant lors du corssfade</div>
+</li>
+<li class="level1"><div class="li"> Banger peut aussi s&#039;utiliser en manuel, comme une boîte à boutons, notament pour des envois en rafale ou du live</div>
+</li>
+</ul>
+
+<p class="level3">
+Voir <a href="banger.html" class="wikilink1" title="Banger">Banger</a>, catégorie audioplayers.
+</p>
+<!-- EDIT3 SECTION "Utilisation de Banger" [609-1367] -->
+<h3 class="sectionedit4"><a name="controle_des_volumes_pitch_et_pan_par_faders_lumiere" id="controle_des_volumes_pitch_et_pan_par_faders_lumiere">Contrôle des volumes, pitch et pan par Faders Lumière</a></h3>
+
+<p class="level3">
+Il y a deux approches:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Enregistrer un circuit ayant une macro de volume dans un fader</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> ou utiliser un Fader dédié à l&#039;audio en affectant à un dock le contrôle soit du Volume, soit du Pan, soit du Pitch d&#039;un lecteur audio</div>
+</li>
+</ul>
+<ol class="level3">
+<li class="level1"><div class="li"> Clicker [AFFECT TO DOCK]</div>
+</li>
+<li class="level1"><div class="li"> Sélectionner le contrôle à exercer</div>
+</li>
+<li class="level1"><div class="li"> Clicker le dock auquel l&#039;affecter</div>
+</li>
+</ol>
+
+<p class="level3">
+<strong>! Quand le dock sélectionné pilote l&#039;audio, Banger/ catégorie Audio et la souris n&#039;ont plus la main sur ce contrôle.</strong>
+</p>
+
+<p class="level3">
+Vous bénéficiez ainsi des fonctionnalités de Fade d&#039;un fader ( vitesse, durée modulable, LFO, StopPos ).
+</p>
+
+<p class="level3">
+<strong>StopPos</strong> permettra d&#039;encoder précisément les niveaux d&#039;arrivée désirés, et donc d&#039;avoir une conduite ad-hoc. Ces niveaux sont exprimés de 0 à 100 ou de 0 à 255 ( c&#039;est le fader qui est encodé).
+</p>
+
+<p class="level3">
+<img src="audio_affect_to_dock.jpeg" class="media" title="audio_affect_to_dock.jpg" alt="audio_affect_to_dock.jpg" />   <img src="fader_affected_audio.jpeg" class="media" title="fader_affected_audio.jpg" alt="fader_affected_audio.jpg" /> <img src="fader_courbe_audio.jpeg" class="media" title="fader_courbe_audio.jpg" alt="fader_courbe_audio.jpg" />
+</p>
+
+<p class="level3">
+<img src="faders_stopose_banger.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+La courbe ci dessus lisse en fait la dynamique du fader, et permet donc d&#039;avoir une entrée / sortie du son plus douce, moins rapide.
+</p>
+<!-- EDIT4 SECTION "Contrôle des volumes, pitch et pan par Faders Lumière" [1368-] --></div>
+</body>
+</html>

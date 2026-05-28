@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Développement — WhiteCat</title>
+  <meta name="date" content="2026-05-15"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="developpement_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+  <li class="level1"><div class="li"><a href="#etat_developpement">État de développement</a></div></li>
+  <li class="level1"><div class="li"><a href="#version_091">Version 0.9.1</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#v091_audio">Audio</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_midi">MIDI</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_dmx_circuits">Circuits DMX</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_performance">Performance</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_affichage">Corrections affichage</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_banger">Banger</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_architecture">Architecture technique</a></div></li>
+    </ul>
+  </li>
+  <li class="level1"><div class="li"><a href="#version_090">Version 0.9.0 — Jacques Bouault (2026)</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#v090_libs">Mise à jour des bibliothèques</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_audio">Audio</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_midi">MIDI</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_dmx_circuits">Circuits DMX</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_dmx_multi">DMX — Multi-interfaces</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_nettoyage">Nettoyage</a></div></li>
+      <li class="level2"><div class="li"><a href="#v090_technique">Technique</a></div></li>
+    </ul>
+  </li>
+  <li class="level1"><div class="li"><a href="#migration_sdl2">État de la migration SDL2</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#fenetres_actives">Fenêtres actives</a></div></li>
+      <li class="level2"><div class="li"><a href="#fenetres_retirees">Fonctionnalités définitivement retirées</a></div></li>
+    </ul>
+  </li>
+  <li class="level1"><div class="li"><a href="#bugs_09">Bugs connus — Version 0.9</a></div></li>
+  <li class="level1"><div class="li"><a href="#bugs_anciens">Bugs connus — Versions précédentes</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#bug_audio_players">AUDIO PLAYERS</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_light_plot">LIGHT PLOT</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_import_ascii">IMPORT ASCII</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_wizard">WIZARD</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_sequenciel">SÉQUENCIEL</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_arduino">ARDUINO</a></div></li>
+      <li class="level2"><div class="li"><a href="#bug_artnet">ART-NET</a></div></li>
+    </ul>
+  </li>
+  <li class="level1"><div class="li"><a href="#a_faire">À faire / En projet</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#drivers_enttec">DRIVERS ENTTEC</a></div></li>
+    </ul>
+  </li>
+  <li class="level1"><div class="li"><a href="#historique">Historique des versions</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#v086">0.8.6, 6 mai 2014</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0841">0.8.4.1, 11 octobre 2013</a></div></li>
+      <li class="level2"><div class="li"><a href="#v084">0.8.4, 21 juillet 2013</a></div></li>
+      <li class="level2"><div class="li"><a href="#v083">0.8.3, 28 juillet 2012</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0827">0.8.2.7, 24 décembre 2011</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0822">0.8.2.2, 25 août 2011</a></div></li>
+      <li class="level2"><div class="li"><a href="#v081jul">0.8.1, 13 juillet 2011</a></div></li>
+      <li class="level2"><div class="li"><a href="#v082mar">0.8.2, 02 mars 2011</a></div></li>
+      <li class="level2"><div class="li"><a href="#v081jan">0.8.1, 15 janvier 2011</a></div></li>
+      <li class="level2"><div class="li"><a href="#v08nov">0.8, 14 novembre 2010</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0765">0.7.6.5, 4 septembre 2010</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0764">0.7.6.4</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0763">0.7.6.3</a></div></li>
+      <li class="level2"><div class="li"><a href="#v0762">0.7.6.2</a></div></li>
+      <li class="level2"><div class="li"><a href="#v076">0.7.6</a></div></li>
+      <li class="level2"><div class="li"><a href="#v075">0.7.5</a></div></li>
+      <li class="level2"><div class="li"><a href="#v074">0.7.4</a></div></li>
+      <li class="level2"><div class="li"><a href="#v073">0.7.3</a></div></li>
+      <li class="level2"><div class="li"><a href="#v072">0.7.2</a></div></li>
+    </ul>
+  </li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="etat_developpement" id="etat_developpement">État de développement</a></h1>
+
+<p class="level1">
+WhiteCat a été créé et développé par <a href="https://1-0-1.fr/" class="urlextern" rel="nofollow">Christoph Guillermet</a> de 2009 à 2014.
+Après plusieurs années d'inactivité, <a href="https://arpschuino.fr/" class="urlextern" rel="nofollow">Jacques Bouault (arpschuino.fr)</a> a repris le développement en 2026.
+</p>
+
+<p class="level1">
+La première priorité a été de moderniser la base technique : remplacement des bibliothèques obsolètes (Allegro, OpenLayer, Audiere, MidiShare) par SDL2 et RtMidi, et passage à GCC 5.1.0.
+WhiteCat compile et fonctionne à nouveau sur une machine moderne.
+</p>
+
+<p class="level1">
+Le développement fonctionnel reprend progressivement. Cette page liste les changements de la version 0.9.x, l'état de la migration, et les bugs connus.
+</p>
+
+<h1 class="sectionedit2"><a name="version_091" id="version_091">Version 0.9.1</a></h1>
+
+<h2 class="sectionedit3"><a name="v091_audio" id="v091_audio">Audio</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Chargement OGG/FLAC sans glitch</strong> : charger un fichier OGG ou FLAC ne coupe plus brièvement le son des autres players en cours de lecture. Les fichiers sont chargés en RAM puis décodés de façon incrémentale dans le callback audio, sans jamais bloquer le thread principal.</div></li>
+<li class="level1"><div class="li"><strong>Limite RAM configurable</strong> (défaut : 300 MB, réglable de 50 à 2048 MB dans <em>CFG menu → core cfg → Audio RAM OGG/FLAC</em>). Au-delà de cette limite, l'ancien comportement s'applique (glitch possible au chargement).</div></li>
+<li class="level1"><div class="li"><strong>Lecture MP3</strong> : les fichiers MP3 de toute taille sont désormais lus correctement (streaming frame-by-frame). Auparavant, la lecture s'arrêtait après une fraction de seconde.</div></li>
+<li class="level1"><div class="li"><strong>Durée des fichiers audio</strong> : la durée totale affichée est maintenant correcte pour tous les formats (MP3 CBR/VBR, WAV, OGG…).</div></li>
+<li class="level1"><div class="li"><strong>Barre de défilement clicable</strong> : ajout d'une seekbar clicable directement pour se repositionner dans le fichier.</div></li>
+<li class="level1"><div class="li"><strong>Cues In/Out en mode non-loop</strong> : les points de cue In et Out sont désormais utilisables en mode lecture simple (non bouclé).</div></li>
+<li class="level1"><div class="li"><strong>Double clic sur Pan et Pitch</strong> : un double clic sur le fader de pan ou de pitch le remet au centre.</div></li>
+<li class="level1"><div class="li"><strong>Sélection du dossier audio</strong> : le dossier source est maintenant sélectionnable à la souris via un menu déroulant avec ascenseur.</div></li>
+</ul>
+
+<h2 class="sectionedit6"><a name="v091_performance" id="v091_performance">Performance</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Réduction CPU — ticker intelligent</strong> : consommation processeur nettement réduite grâce à un mode idle adaptatif et un cap à trois niveaux : <strong>60 fps</strong> pendant les interactions (500 ms après le dernier événement souris/clavier), <strong>25 fps</strong> pendant les animations automatiques (LFO, chasers, crossfades, dampers de faders), et <strong>mode quasi-idle</strong> (100 ms) dès qu'aucune animation n'est active. Mesures constatées : CPU 0,4–0,8 % au repos, CPU 7–8 % pendant des LFOs actifs.</div></li>
+</ul>
+
+<h2 class="sectionedit7"><a name="v091_affichage" id="v091_affichage">Corrections affichage</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Trait MIDI pastille</strong> : la ligne reliant les faders à leur pastille de retour MIDI s'arrête maintenant exactement sur le bord du cercle. Corrigé sur : faders, grand master, crossfaders X1/X2 dans la cue list.</div></li>
+<li class="level1"><div class="li"><strong>Épaisseur cercles</strong> : les boutons Go/GoBack/DoubleGo s'affichent avec une bordure 2 px correcte.</div></li>
+<li class="level1"><div class="li"><strong>Graduation cue list</strong> : suppression des graduations parasites affichées à côté des crossfaders X1/X2.</div></li>
+<li class="level1"><div class="li"><strong>Bloc debug</strong> : suppression de l'affichage debug permanent visible dans l'interface principale.</div></li>
+</ul>
+
+<h2 class="sectionedit8"><a name="v091_banger" id="v091_banger">Banger</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Flash des 6 ronds lors de l'activation</strong> : les 6 cercles de la fenêtre banger flashent maintenant en rouge (comme le bouton "bang it") lorsqu'ils sont actifs. Deux corrections : affichage (couleur rouge pulsée au lieu de la couleur de survol statique) et interaction (un clic direct sur un rond déclenche maintenant le flash visuel).</div></li>
+<li class="level1"><div class="li"><strong>Validation des valeurs (val1/val2)</strong> : chaque type de banger contrôle désormais les bornes des valeurs saisies (fader 1–48, canal MIDI 0–15, audio player 1–4, fichier audio 0–126, chaser 1–128…) et affiche un popup WCat en cas de dépassement. Les valeurs corrompues existantes dans les fichiers show sont automatiquement sanitisées au chargement.</div></li>
+</ul>
+
+<h2 class="sectionedit_arch"><a name="v091_architecture" id="v091_architecture">Architecture technique</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Découpage en unités de traduction indépendantes (Phase 4)</strong> : les fichiers C++ inclus via <code>#include</code> dans <code>MAIN.cpp</code> sont extraits comme TUs compilés séparément. Fichiers extraits lors de cette phase : <code>faders_core.cpp</code>, <code>arduino_core.cpp</code>, <code>arduino_visu.cpp</code>, <code>CFG_config_panel.cpp</code>, <code>midi_functions.cpp</code>, <code>banger_core.cpp</code>. Temps de build complet réduit à 25 s (contre 70 s avant).</div></li>
+<li class="level1"><div class="li"><strong>Correction rendu texte dans les TUs séparés</strong> : après extraction en TUs, le texte disparaissait dans toutes les fenêtres sauf la principale. Cause : <code>wc_cache</code> et <code>wc_cache_mutex</code> étaient déclarés <code>static</code> dans <code>graphics_backend.h</code>, créant un symbole distinct par TU. Corrigé via le patron <code>WC_SKIP_GLOBALS</code> (définition unique dans <code>MAIN.cpp</code>, <code>extern</code> dans tous les autres TUs) et ajout de <code>graphics_backend.h</code> comme dépendance du PCH dans le Makefile.</div></li>
+</ul>
+
+<h1 class="sectionedit9"><a name="version_090" id="version_090">Version 0.9.0 — Jacques Bouault (avril 2026)</a></h1>
+
+<h2 class="sectionedit10"><a name="v090_libs" id="v090_libs">Mise à jour des bibliothèques</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Migration graphique</strong> : remplacement d'Allegro + OpenLayer par SDL2.</div></li>
+<li class="level1"><div class="li"><strong>Migration audio</strong> : remplacement d'Audiere par SDL2_mixer + minimp3. Formats supportés : WAV, MP3, OGG, FLAC.</div></li>
+<li class="level1"><div class="li"><strong>Migration MIDI</strong> : remplacement de MidiShare (obsolète) par RtMidi.</div></li>
+</ul>
+
+<h2 class="sectionedit11"><a name="v090_audio" id="v090_audio">Audio</a></h2>
+<ul class="level2">
+  <li class="level1"><div class="li"><strong>Lecture ogg et flac</strong> : En plus de mp3 et wav, les fichiers ogg et flac peuvent désormais être lu.</div></li>
+<li class="level1"><div class="li"><strong>Affichage des temps en h:mm:ss</strong> : la position, la durée totale, les points In/Out s'affichent maintenant au format heures:minutes:secondes.</div></li>
+<li class="level1"><div class="li"><strong>Courbe de volume logarithmique</strong> : le fader de volume suit une courbe en v³ (loi cubique), plus adaptée à la perception sonore humaine.</div></li>
+</ul>
+
+<h2 class="sectionedit12"><a name="v090_midi" id="v090_midi">MIDI</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Stabilité MIDI</strong> : les décrochages et déconnexions aléatoires présents avec l'ancienne bibliothèque (MidiShare) sont résolus.</div></li>
+<li class="level1"><div class="li"><strong>Hotplug MIDI</strong> : branchement/débranchement d'interfaces MIDI à chaud, sans redémarrage.</div></li>
+</ul>
+
+<h2 class="sectionedit13"><a name="v090_dmx_circuits" id="v090_dmx_circuits">Circuits DMX</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Molette véloce</strong> : plus la molette tourne vite, plus le niveau change rapidement (courbe quadratique, sans inertie).</div></li>
+</ul>
+
+<h2 class="sectionedit14"><a name="v090_dmx_multi" id="v090_dmx_multi">DMX — Multi-interfaces</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Sélection multiple</strong> : plusieurs interfaces DMX peuvent être actives simultanément (ArtNet, Enttec Open, Enttec Pro, Sunlite). L'ancien bouton "Double DMX" est supprimé ; chaque interface est un toggle indépendant.</div></li>
+<li class="level1"><div class="li"><strong>DMX King UltraDMX2 Pro</strong> : corrigé — l'interface était détectée mais aucun DMX ne sortait.</div></li>
+<li class="level1"><div class="li"><strong>Enttec Pro</strong> : détection étendue aux drivers CDC génériques (en plus de FTDI).</div></li>
+</ul>
+
+<h2 class="sectionedit15"><a name="v090_nettoyage" id="v090_nettoyage">Nettoyage — fichiers obsolètes supprimés</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Sources C++</strong> : <code>plot.cpp</code>, <code>generate_strings_arrays.cpp</code>, <code>dmx_enttec_pro_FTDI.cpp</code>, <code>help_2.cpp</code>, <code>WhiteCat_private.h</code>, <code>debug_informations.h</code>, <code>midi_affectation_table.h</code>, <code>enttec_pro_dmxin.exe</code>.</div></li>
+<li class="level1"><div class="li"><strong>Anciennes bibliothèques</strong> : sources et binaires Allegro 4.4.2, OpenLayer 2.1, Audiere 1.9.4, MidiShare 1.91 supprimés de <code>whitecatlib/</code>.</div></li>
+<li class="level1"><div class="li"><strong>DLL obsolètes</strong> : <code>alleg44.dll</code>, <code>audiere.dll</code>, <code>libopenlayer.dll</code>, <code>mshare32.dll</code>, <code>msMMSystem.dll</code>. Log parasite <code>msMMSystem.log</code> (65 Mo) supprimé.</div></li>
+</ul>
+
+<h2 class="sectionedit16"><a name="v090_technique" id="v090_technique">Technique (sans impact visible direct)</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li">Compilation avec GCC 5.1.0 (MinGW portable dans <code>tools/</code>).</div></li>
+<li class="level1"><div class="li">Build 100 % portable par chemin relatif (<code>build.bat</code>).</div></li>
+<li class="level1"><div class="li">Intégration VSCode (build Ctrl+Shift+B, debug F5).</div></li>
+<li class="level1"><div class="li">Les fichiers modifiés portent la signature <em>Jacques Bouault - arpschuino.fr - 2026</em> dans leur en-tête.</div></li>
+<li class="level1"><div class="li">Reformatage clang-format (4 espaces, style LLVM, col. 120) sur les fichiers modifiés.</div></li>
+</ul>
+
+<h1 class="sectionedit13"><a name="migration_sdl2" id="migration_sdl2">État de la migration SDL2</a></h1>
+
+
+<h2 class="sectionedit14"><a name="fenetres_actives" id="fenetres_actives">Fenêtres actives</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li">Espace circuits (channels, patch, list)</div></li>
+<li class="level1"><div class="li">Espace faders</div></li>
+<li class="level1"><div class="li">Séquenciel (cue list)</div></li>
+<li class="level1"><div class="li">Banger</div></li>
+<li class="level1"><div class="li">Chasers</div></li>
+<li class="level1"><div class="li">Trichromie</div></li>
+<li class="level1"><div class="li">GridPlayers</div></li>
+<li class="level1"><div class="li">AudioPlayers</div></li>
+<li class="level1"><div class="li">Minifaders</div></li>
+<li class="level1"><div class="li">CFG menu (configuration)</div></li>
+<li class="level1"><div class="li">Echo window</div></li>
+<li class="level1"><div class="li">Video Tracking</div></li>
+<li class="level1"><div class="li">Draw</div></li>
+<li class="level1"><div class="li">Light Plot</div></li>
+<li class="level1"><div class="li">Audio Wave (fenêtre waveform)</div></li>
+</ul>
+
+<h2 class="sectionedit15"><a name="fenetres_retirees" id="fenetres_retirees">Fonctionnalités définitivement retirées</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Mover</strong> (asservis)</div></li>
+<li class="level1"><div class="li"><strong>Ma Fenêtre</strong> (My Window)</div></li>
+<li class="level1"><div class="li"><strong>iCat</strong></div></li>
+</ul>
+
+
+
+<h1 class="sectionedit16"><a name="bugs_09" id="bugs_09">Bugs connus — Version 0.9</a></h1>
+
+
+
+<h2 class="sectionedit18"><a name="bug09_artnet" id="bug09_artnet">Art-Net</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>ArtPoll</strong> (recherche de nodes Art-Net sur le réseau) : statut non vérifié depuis la migration SDL2. Des dysfonctionnements sont possibles.</div></li>
+</ul>
+
+<h1 class="sectionedit19"><a name="bugs_anciens" id="bugs_anciens">Bugs connus — Versions précédentes</a></h1>
+
+<p class="level1">
+Cette liste date de la version 0.8.6 (Christoph Guillermet, 2014). Certains bugs peuvent avoir été résolus ou modifiés par la migration SDL2.
+</p>
+
+<h2 class="sectionedit20"><a name="bug_audio_players" id="bug_audio_players">AUDIO PLAYERS</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Comportements bizarres sur les boucles et cue</strong> : les petits fichiers audio peuvent avoir des comportements bizarres en mode boucle ou cue + boucle si dans le répertoire son vous avez un fichier qui n'est pas en 44100 Hz ET que vous utilisez le mode pre-load.</div></li>
+</ul>
+
+<h2 class="sectionedit21"><a name="bug_light_plot" id="bug_light_plot">LIGHT PLOT</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Nom du plan avec espace</strong> : met un bazar dans la lecture des données de plot (problème de scanf).</div></li>
+<li class="level1"><div class="li"><strong>Patch en direct depuis le plan</strong> : il y a un problème entre manipulations circuits et symboles qui peut poser problème sur un patch total depuis le plan. En appoint, pas de souci.</div></li>
+</ul>
+
+<h2 class="sectionedit22"><a name="bug_import_ascii" id="bug_import_ascii">IMPORT ASCII</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Temps des mémoires en minutes</strong> : apparaissent comme secondes.</div></li>
+<li class="level1"><div class="li"><strong>ASCII sur Congo v6</strong> : enchaînements automatiques des mémoires décalés.</div></li>
+<li class="level1"><div class="li"><strong>ASCII Avab VLC Safari</strong> : ne prend pas l'export WCAT en ASCII.</div></li>
+</ul>
+
+<h2 class="sectionedit23"><a name="bug_wizard" id="bug_wizard">WIZARD</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Insert de mémoires</strong> : fait disparaître la FROM MEMORY.</div></li>
+</ul>
+
+<h2 class="sectionedit24"><a name="bug_sequenciel" id="bug_sequenciel">SÉQUENCIEL</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Le ratio manuel</strong> enclenché empêche le Go, le clic souris ou la barre d'espace.</div></li>
+<li class="level1"><div class="li"><strong>Temps négatifs</strong> affichés pour certains crossfades (n'affecte pas l'exécution, c'est un problème d'affichage).</div></li>
+</ul>
+
+<h2 class="sectionedit25"><a name="bug_arduino" id="bug_arduino">ARDUINO</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li">Revoir tout le système de communication pour le rendre plus fluide.</div></li>
+</ul>
+
+<h2 class="sectionedit26"><a name="bug_artnet" id="bug_artnet">ART-NET</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>ArtPoll</strong> (recherche de nodes Art-Net sur le réseau) ne fonctionnait plus en 0.8.6.</div></li>
+</ul>
+
+<h1 class="sectionedit27"><a name="a_faire" id="a_faire">À FAIRE / EN PROJET</a></h1>
+
+<ul class="level1">
+<li class="level1"><div class="li">Mover, pour les asservis</div></li>
+<li class="level1"><div class="li">Channel times</div></li>
+<li class="level1"><div class="li">Wizard : inclure les faders, mais aussi les contenus dynamiques dans les fonctions de circuits</div></li>
+<li class="level1"><div class="li">Fonction pick up (aller chercher un chaser précis, un fader précis, une config midi dans un autre spectacle)</div></li>
+<li class="level1"><div class="li">Passer à 1024 circuits</div></li>
+<li class="level1"><div class="li">Ajouter le 16 bits pour les crossfades</div></li>
+<li class="level1"><div class="li">Mapping clavier personnalisable</div></li>
+<li class="level1"><div class="li">Un mappeur midi universel avec presets intégrés</div></li>
+<li class="level1"><div class="li">Timeline</div></li>
+</ul>
+
+<h2 class="sectionedit28"><a name="drivers_enttec" id="drivers_enttec">DRIVERS ENTTEC</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Porter les drivers FTDI</strong> pour une communication plus rapide.</div></li>
+<li class="level1"><div class="li"><strong>CFG : assigner des numéros de port COM à la main</strong>, et pas en automatique (notamment par rapport à l'Enttec Pro MK2).</div></li>
+</ul>
+
+<h1 class="sectionedit29"><a name="historique" id="historique">Historique des versions</a></h1>
+
+<h2 class="sectionedit30"><a name="v086" id="v086">0.8.6, 6 mai 2014</a></h2>
+
+<p class="level2">0.8.6 Spring Power</p>
+
+<h3>Améliorations</h3>
+<p class="level3">Performances :</p>
+<ul class="level3">
+<li class="level1"><div class="li">WhiteCat tourne désormais sur des ultra-portables et petites machines, grâce aux efforts d'Anton, Ruiserge et Georges.</div></li>
+</ul>
+<p class="level3">Sauvegardes et layouts :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Une même sauvegarde nommée "WhiteCat Téléco Phone" permet d'avoir un set configuré pour iCat et TouchOSC, avec la plupart des fonctions nécessaires pour un concert.</div></li>
+<li class="level1"><div class="li">Création de 2 layouts (un pour téléphone, un pour tablette) pour TouchOSC, dans le dossier Ressources/touchOsc/.</div></li>
+</ul>
+<p class="level3">Audio :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Lissage en Audio des arrêts de lecteurs, disparition des crêtes de son.</div></li>
+</ul>
+<p class="level3">Banger :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Ajout de fonctions Loop pour un enregistrement en direct des manipulations en manuel. Vous pouvez enregistrer en live DRAW et tout mouvement de faders.</div></li>
+</ul>
+<p class="level3">Open source :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Le github vous attend, si vous voulez nous aider à faire passer WhiteCat dans le monde Linux et Mac ! <a href="https://github.com/ChristophGuillermet/whitecat_crossplateform" class="urlextern" rel="nofollow">Github WhiteCat</a></div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Plot comptage projecteurs.</div></li>
+<li class="level1"><div class="li">Gestionnaire de fenêtre.</div></li>
+<li class="level1"><div class="li">En commande midi Next/Prev file ne fait plus planter WhiteCat.</div></li>
+<li class="level1"><div class="li">Draw.</div></li>
+</ul>
+
+<h2 class="sectionedit31"><a name="v0841" id="v0841">0.8.4.1, 11 octobre 2013</a></h2>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">CFG NETWORK : si le serveur ou le client artnet n'était pas ON, faisait planter WhiteCat au rescan (problème des adresses IP n'apparaissant pas).</div></li>
+<li class="level1"><div class="li">Bug audio nettoyé sur crachotements. On est revenu sur une courbe linéaire.</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Proc. visuelles séquenciel.</div></li>
+</ul>
+
+<h2 class="sectionedit32"><a name="v084" id="v084">0.8.4, 21 juillet 2013</a></h2>
+
+<p class="level2">1ère release 14 juillet. WHITE CAT passe en <strong>OPEN SOURCE</strong> et le <strong>système des licences disparaît</strong> ! Le chat blanc reste et restera gratuit !</p>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">DRAW</div></li>
+<li class="level1"><div class="li">ECHO</div></li>
+</ul>
+
+<h3>Modifications</h3>
+<p class="level3">LICENSE :</p>
+<ul class="level3">
+<li class="level1"><div class="li">WHITE CAT passe en OPEN SOURCE et le système des licences disparaît.</div></li>
+</ul>
+<p class="level3">MAINLOOP et ART-NET IN :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Amélioration de la réception ART-NET, disparition du paramètre MAIN LOOP. La réception art-net in est désormais parfaite.</div></li>
+</ul>
+<p class="level3">MIDI PRESET :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Avec la sauvegarde/chargement sélectifs, plus besoin du dossier midi presets, cette option est retirée.</div></li>
+</ul>
+<p class="level3">DMX :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Retrait des interfaces DMX Velleman et DMX512USB de Vinc's. L'arduino permet désormais de se faire des interfaces DMX économiques, soit en Art-Net, soit considérées comme des ENTTEC OPEN. Seules sont gardées les ENTTEC et la SUNLITE.</div></li>
+</ul>
+<p class="level3">BANGER :</p>
+<ul class="level3">
+<li class="level1"><div class="li">Ajout d'une fonction pour recopier un banger vers un autre.</div></li>
+<li class="level1"><div class="li">Ajout catégories DRAW, ECHO.</div></li>
+<li class="level1"><div class="li">Catégorie Windows : réorganisation des ordres de fenêtres. Si vous utilisez cette fonction dans une conduite de version précédente, il faudra revoir votre encodage.</div></li>
+<li class="level1"><div class="li">Catégorie Sequences : fonction GO (SET MEM in PRESET + GO), Set Blind (OnStage Val2=0 / Blind Val2=1).</div></li>
+<li class="level1"><div class="li">Ajout de l'effacement d'un banger par F4.</div></li>
+<li class="level1"><div class="li">GridPlayers : Snap fader, next Step, previous step.</div></li>
+<li class="level1"><div class="li">Faders : Set Fader as DCHan / Set Channel at Full / Set Channel At 0.</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Fenêtre de confirmation : message plus gros.</div></li>
+<li class="level1"><div class="li">iCAT : orientation horizontale inversable. Texte des faders plus gros.</div></li>
+<li class="level1"><div class="li">GridPlayers : rajout d'une fonction snap fader pour enregistrer dans un step la sortie active d'un fader.</div></li>
+<li class="level1"><div class="li">LightPlot : à l'édition du numéro de circuit d'un symbole, le circuit est sélectionné. Fenêtre moins haute.</div></li>
+<li class="level1"><div class="li">Affichage deux écrans : la hauteur de la barre des menus ne bloque plus les manipulations souris sur le deuxième écran.</div></li>
+<li class="level1"><div class="li">AUDIO : amélioration de l'algorithme du niveau sonore, boutons Next/Previous Track, mode Autoload et Autopause.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">NETWORK CFG : mise à plat de l'initialisation des cartes réseaux.</div></li>
+<li class="level1"><div class="li">AFFICHAGE MENU SAVE : sur certaines machines, appeler SAVE faisait planter WCAT.</div></li>
+<li class="level1"><div class="li">CLICK SOURIS sur FADERS et Tirettes SÉQUENCIEL : au lâché de souris le fader ou le séquenciel est désélectionné.</div></li>
+<li class="level1"><div class="li">FADERS : nettoyage d'un dock — les niveaux rendus restaient quand on faisait une autre affectation dynamique.</div></li>
+<li class="level1"><div class="li">Channels : déselection d'un circuit à la souris ou au clavier.</div></li>
+<li class="level1"><div class="li">SYSTÈME FENÊTRES : disparition des fenêtres suite à un bang ou une action souris.</div></li>
+<li class="level1"><div class="li">TRICHRO : l'enregistrement ou la modification de circuits dans un dock color nécessite d'avoir F1/F2 ou F3 enclenchés.</div></li>
+<li class="level1"><div class="li">SÉQUENCIEL : la mémoire 0.0 reste désormais présente.</div></li>
+<li class="level1"><div class="li">WIZARD : récupération des mémoires détruites par wizard.</div></li>
+<li class="level1"><div class="li">Channel View : au chargement les 16 channel views s'affichent toutes.</div></li>
+<li class="level1"><div class="li">GRIDPLAYERS : debug de l'algo de crossfade quand un circuit est présent dans le pas sur scène et le pas en preset.</div></li>
+<li class="level1"><div class="li">CHASERS : en slave, comportement accéléromètre : droite = accélération, gauche = ralentissement.</div></li>
+<li class="level1"><div class="li">AUDIOPLAYER : bug sur le seek player2 via banger.</div></li>
+</ul>
+
+<h2 class="sectionedit33"><a name="v083" id="v083">0.8.3, 28 juillet 2012</a></h2>
+
+<p class="level2">alias Community Release</p>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">LightPlot : un éditeur de plans lumières intégré à WhiteCat.</div></li>
+<li class="level1"><div class="li">16 vues personnalisables de circuits pour organiser son espace de travail.</div></li>
+<li class="level1"><div class="li">Changements profonds dans l'ergonomie générale des appels de fenêtres et menus.</div></li>
+<li class="level1"><div class="li">Rajout d'un mode EXPERT pour éviter les confirmations (CFG MENU &gt; onglet General).</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Réseaux : refonte du système des protocoles réseaux. La télécommande iPhone/iPad peut coexister avec l'art-net.</div></li>
+<li class="level1"><div class="li">Core : passage des procédures DMX et calculs à la précision du centième de seconde (voir CFG MENU &gt; CORE).</div></li>
+<li class="level1"><div class="li">Ergonomie : refonte du système des fenêtres. Disparition de la fenêtre NAME. Ajout d'une barre principale en haut de l'écran. Création d'une fenêtre MENUS (clic droit).</div></li>
+<li class="level1"><div class="li">Circuits et patch : channel view poignée affectable en midi. Patch : saisie simplifiée.</div></li>
+<li class="level1"><div class="li">Séquenciel : nombre de mémoires affichées éditable. Touche GOTO. Possibilité d'exclure des mémoires sans les détruire. Bouclage des mémoires.</div></li>
+<li class="level1"><div class="li">iCAT : extension à 48 sliders. Rajout d'une catégorie boutons BANGER. Portage des play/seek/Loop sur audio, chasers et gridplayers.</div></li>
+<li class="level1"><div class="li">Banger : Set Macro ON/OFF, gestion arduino, rajout minifaders et GridPlayers, Re-emit ALL Out, etc.</div></li>
+<li class="level1"><div class="li">Arduino : Anton Langhoff rejoint le projet. Sketchs WhiteKitten pour paramétrer l'arduino à la volée depuis WhiteCat.</div></li>
+<li class="level1"><div class="li">MIDI : pastille midi out sur speed des LFOs, option midi thruth revue.</div></li>
+<li class="level1"><div class="li">Chasers : rafraichissement midi au changement de chaser. Autolaunch.</div></li>
+<li class="level1"><div class="li">Channel macros : catégorie Fader level, Follow Inv.</div></li>
+<li class="level1"><div class="li">Sauvegardes : réorganisation dossier import_export. 4 presets personnalisables.</div></li>
+<li class="level1"><div class="li">Export PDF : sélectif en 14 chapitres. Vue par circuits du patch ajoutée.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Banger : gos en rafale provoquaient un délai dans le banger stay-on. Molette souris sur banger.</div></li>
+<li class="level1"><div class="li">Désaffectation midi : type de signal non pris en compte.</div></li>
+<li class="level1"><div class="li">Bug plantage patch sur sélection de gradateurs supérieurs à l'adresse 512.</div></li>
+<li class="level1"><div class="li">Chasers : vitesses asservies séparées. Curseur hors timeline réglé.</div></li>
+<li class="level1"><div class="li">Gridplayers : prise en compte de l'offset begin channel au chargement d'une mémoire.</div></li>
+<li class="level1"><div class="li">Procédure d'affichage des temps relatifs aux docks créait une fuite de mémoire.</div></li>
+<li class="level1"><div class="li">Debug chrono au centième et affectations temps.</div></li>
+<li class="level1"><div class="li">Nombreux autres correctifs (séquenciel, wizard, iCat, grid, freeze, audio, export PDF, etc.).</div></li>
+</ul>
+
+<h2 class="sectionedit34"><a name="v0827" id="v0827">0.8.2.7, 24 décembre 2011</a></h2>
+
+<p class="level2">alias Xmas Release</p>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Module GridPlayers, développé pour le projet KeyFrames (Thomas Veyssière, Groupe Laps). 4 GridPlayers, représentant 4 séquenciels additionnels de 1024 pas.</div></li>
+<li class="level1"><div class="li">GridPlayer 1 dans le séquenciel : un double séquenciel intégré pour séparer conduite lumière et vidéo.</div></li>
+<li class="level1"><div class="li">Tablier iCAT étendu à l'iPad.</div></li>
+<li class="level1"><div class="li">FX modes pour chaque fader : le niveau issu d'un fader peut être retranché, additionné, etc. du résultat global.</div></li>
+<li class="level1"><div class="li">FGroups : groupes de faders, comme en son.</div></li>
+<li class="level1"><div class="li">Channel Macros dans la fenêtre List.</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">MIDI : affectation midi de chacun des 127 bangers. Auto-demute et lfo auto mute. Catégorie midi cheat : Pad to Trigger.</div></li>
+<li class="level1"><div class="li">FADERS : direct Chan x12. Mode HiPass. Players Embeded dans les faders.</div></li>
+<li class="level1"><div class="li">CUE LIST : ForceMode pour le Midi (un 2e Go en cours de Go enclenche un Jump, pas une pause).</div></li>
+<li class="level1"><div class="li">CORE : rajout d'un core config pour limiter calculs et affichages sur petites machines.</div></li>
+<li class="level1"><div class="li">TRICHRO : mode d'affectation à la volée. Mode Paste direct dans le séquenciel.</div></li>
+<li class="level1"><div class="li">CIRCUITS : survol à la souris avec click maintenu pour sélection/déselection. Exclusion du grand master. Channel macros.</div></li>
+<li class="level1"><div class="li">BANGER : molette souris pour se déplacer en édition dans les familles et actions.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Banger : départ banger 73 au démarrage. Toggle mode midi cheat. Flash fader bloqué. Gos en rafale.</div></li>
+<li class="level1"><div class="li">Désaffectation midi : type de signal non pris en compte.</div></li>
+<li class="level1"><div class="li">Freeze : le grand master n'était pas échappé par freeze.</div></li>
+<li class="level1"><div class="li">Grid : changement d'offset de grille à la volée.</div></li>
+<li class="level1"><div class="li">iCat CFG : bug affectation IP souris.</div></li>
+<li class="level1"><div class="li">Sauvegarde : Ctrl-S posait souci. Bug copy mem à deux chiffres.</div></li>
+<li class="level1"><div class="li">Wizard : add/reduce bug de valeur quand le résultat était inférieur à 0 ou supérieur à 100.</div></li>
+<li class="level1"><div class="li">Export PDF : catégorie audio player dans banger.</div></li>
+</ul>
+
+<h2 class="sectionedit35"><a name="v0822" id="v0822">0.8.2.2, 25 août 2011</a></h2>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Système Mute Midi (global/local) : repositionner les potentiomètres des surfaces de contrôle non motorisées sans affecter les niveaux.</div></li>
+<li class="level1"><div class="li">iCat pour iPod et iPhone.</div></li>
+<li class="level1"><div class="li">Banger : catégorie iCat, chrono, SetChannel, Banger, MidiMute.</div></li>
+<li class="level1"><div class="li">Tap tempo dans fenêtre Time, reportable comme time unit de chaser.</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Rajout annotation et link dans l'export pdf.</div></li>
+<li class="level1"><div class="li">Ctrl-F3 : ré-enregistrement d'une mémoire sur scène avec les faders.</div></li>
+<li class="level1"><div class="li">Ctrl-C / Ctrl-V : copier/coller rapidement une mémoire. Ctrl-G : affecter aux circuits sélectionnés la valeur d'une autre mémoire.</div></li>
+<li class="level1"><div class="li">Minifaders : affichage amélioré du dock actif et des presets.</div></li>
+<li class="level1"><div class="li">Trichro : les calculs sont possibles fenêtre fermée.</div></li>
+<li class="level1"><div class="li">Chaser embeded : fonction Autolaunch ajoutée aux faders.</div></li>
+<li class="level1"><div class="li">Export PDF : complétion des catégories Banger.</div></li>
+<li class="level1"><div class="li">Rajout d'un fichier de sauvegarde pour les options on start (arduino/iCat) dans /user.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Move/close d'une fenêtre interagissait avec les autres move/close.</div></li>
+<li class="level1"><div class="li">Baudrate arduino ok désormais au-dessus de 9600.</div></li>
+<li class="level1"><div class="li">Remise à zéro des chasers lors d'un seek.</div></li>
+<li class="level1"><div class="li">Clear midi et auto-désaffectation nettoyés.</div></li>
+<li class="level1"><div class="li">Banger catégorie audio : setPitch/setPan/positions CueIN OUT.</div></li>
+<li class="level1"><div class="li">Minifaders : click Select. Affichage stop pos.</div></li>
+<li class="level1"><div class="li">Launchpad : allègement des procédures.</div></li>
+</ul>
+
+<h2 class="sectionedit36"><a name="v081jul" id="v081jul">0.8.1, 13 juillet 2011</a></h2>
+
+<p class="level2">Module iCat. Cette version est une alpha release sans debug.</p>
+
+<h2 class="sectionedit37"><a name="v082mar" id="v082mar">0.8.2, 02 mars 2011</a></h2>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Fenêtre chasers !</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">FADERS : direct Chan — allers-retours du descriptif Dock ↔ projecteur dans LIST. Un seul MasterLock (le 1er fader à Full en Lock en partant de la gauche).</div></li>
+<li class="level1"><div class="li">MIDI : extension des affectations midi, tableaux doublent de taille (2048 entrées).</div></li>
+<li class="level1"><div class="li">ARDUINO : Arduino UNO intégrée. Le dossier ressources/arduino/ comprend des scripts pour la 2009 et pour l'UNO.</div></li>
+<li class="level1"><div class="li">NAME : fonction autoclose. Mode annotation pour les mémoires.</div></li>
+<li class="level1"><div class="li">BANGER : Chasers et Minifaders.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">FADERS : comportement de saw au démarrage. Fonction modify/type color. Position barre des faders récupérée au démarrage.</div></li>
+<li class="level1"><div class="li">BANGER : Set At niveaux. SetFader en DC n'écrivait pas dans le séquenciel.</div></li>
+<li class="level1"><div class="li">PATCH : écran noir sur les Shift-Tab/Shift-Enter laissés appuyés.</div></li>
+<li class="level1"><div class="li">LIST : affichage limité aux 512 circuits.</div></li>
+<li class="level1"><div class="li">MINIFADERS : RECALL sur ALL AT ZERO ne fonctionnait pas.</div></li>
+</ul>
+
+<h2 class="sectionedit38"><a name="v081jan" id="v081jan">0.8.1, 15 janvier 2011</a></h2>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">MIDI : affinage des procédures de trichage midi. Ajout d'une visualisation du signal original + résultat triché.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">BANGER : départs intempestifs. Limitation du nombre de bangers de 1 à 127. Init au démarrage réglée (bug déclenchement banger 73 au démarrage).</div></li>
+<li class="level1"><div class="li">SÉQUENCIEL : delay dans un crossfade par un départ en link n'était pas actif.</div></li>
+<li class="level1"><div class="li">FADERS : Direct CH ne montait pas au-dessus de 254 circuits. Flash en Direct CH. Fader locké applique sa valeur au Direct CH. Niveaux faders "fantômes" nettoyés.</div></li>
+<li class="level1"><div class="li">AUDIO : contrôle du pitch par un fader. Fichiers audio limités à 127 dans un dossier.</div></li>
+<li class="level1"><div class="li">MIDI : récupération de l'affectation midi du numpad et des grandes commandes.</div></li>
+<li class="level1"><div class="li">DIVERS : level flèche moins va jusqu'à 0 complet en mode %. Export PDF Patch. Bug ARTNET conf.</div></li>
+</ul>
+
+<h2 class="sectionedit39"><a name="v08nov" id="v08nov">0.8, 14 novembre 2010</a></h2>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Arduino (2009 et précédentes).</div></li>
+<li class="level1"><div class="li">Feedback lumineux pour Launchpad.</div></li>
+<li class="level1"><div class="li">Fenêtre minifaders (Shift-F10).</div></li>
+</ul>
+
+<h3>Améliorations</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Simplification des affectations midi.</div></li>
+<li class="level1"><div class="li">Ajout d'un Flash, Loop/Unloop et LoopAll/UnloopAll.</div></li>
+<li class="level1"><div class="li">Banger : rajout d'un Load and Play Audio en une seule opération (Val1 = lecteur, Val2 = fichier).</div></li>
+<li class="level1"><div class="li">Mise en fenêtre des minifaders et report des AllAtZero et Lock Preset.</div></li>
+</ul>
+
+<h3>Debug</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Système fenêtres et clicks transperçants.</div></li>
+<li class="level1"><div class="li">Bug des désaffectations midi réglé.</div></li>
+<li class="level1"><div class="li">Sauvegarde temporaire enlevée (problème d'instabilité).</div></li>
+<li class="level1"><div class="li">Banger : départs multiples et temps, banger 1 au démarrage.</div></li>
+<li class="level1"><div class="li">Export PDF : temps stockés dans docks étaient inversés IN/OUT.</div></li>
+</ul>
+
+<h2 class="sectionedit40"><a name="v0765" id="v0765">0.7.6.5, 4 septembre 2010</a></h2>
+
+<p class="level2">Correctif majeur (bug des sauvegardes).</p>
+
+<h3>Nouveautés</h3>
+<ul class="level3">
+<li class="level1"><div class="li">Multicore : affectation à un Core de WhiteCat.</div></li>
+<li class="level1"><div class="li">Améliorations des options Network pour Art-Net.</div></li>
+<li class="level1"><div class="li">Automatisation d'une sauvegarde temporaire (dossier tmp) toutes les x minutes.</div></li>
+</ul>
+<p class="level2">Debug : export ASCII ok, debug des sauvegardes et fin des dossiers de 0 Ko.</p>
+
+<h2 class="sectionedit41"><a name="v0764" id="v0764">0.7.6.4</a></h2>
+
+<p class="level2">Première mise en ligne août 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Minifaders (vue générale) et flash.</div></li>
+<li class="level1"><div class="li">Direct-channel mode pour les faders.</div></li>
+<li class="level1"><div class="li">Les courbes sont aussi affectables aux faders, et assignables via banger.</div></li>
+<li class="level1"><div class="li">Automatisation d'une sauvegarde temporaire.</div></li>
+<li class="level1"><div class="li">Interface pour les 127 Bangers : déclenchement manuel à la souris, goback en recliquant.</div></li>
+<li class="level1"><div class="li">Création d'un fichier de sauvegarde des paramètres généraux dans /user.</div></li>
+<li class="level1"><div class="li">Blocage possible du grand master dans le setup général.</div></li>
+<li class="level1"><div class="li">Audio : option preload dans CFG menu.</div></li>
+<li class="level1"><div class="li">Banger : debug du Bang it manuel. Système de fenêtres et espace faders terminé.</div></li>
+<li class="level1"><div class="li">SAVE : bug sauvegardes avec fichiers à 0 Ko corrigé.</div></li>
+<li class="level1"><div class="li">EXPORT ASCII : erreur de frappe en 0.7.6.3 corrigée.</div></li>
+</ul>
+
+<h2 class="sectionedit42"><a name="v0763" id="v0763">0.7.6.3</a></h2>
+
+<p class="level2">Première mise en ligne juillet 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Wizard menu : manipulation des mémoires et circuits par lots.</div></li>
+<li class="level1"><div class="li">Ajout d'un menu CFG pour divers paramètres (vision dmx/%, circuits clignotants, levels up/down, temps par défaut).</div></li>
+<li class="level1"><div class="li">Fenêtre audio : nombre de lecteurs (1/2/3 ou 4) paramétrable.</div></li>
+<li class="level1"><div class="li">Rajout de l'affectation midi des commandes du séquenciel.</div></li>
+<li class="level1"><div class="li">Séquenciel : rafraichissement réglé sur Ctrl-W/X et leurs équivalents souris en cours de crossfade.</div></li>
+</ul>
+
+<h2 class="sectionedit43"><a name="v0762" id="v0762">0.7.6.2</a></h2>
+
+<p class="level2">Première mise en ligne juin 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Export PDF. L'export texte n'existe plus.</div></li>
+<li class="level1"><div class="li">Import ASCII : séquenciel rafraichi à l'import / inversions de temps réglées.</div></li>
+<li class="level1"><div class="li">Visibilité ascenseur faders.</div></li>
+</ul>
+
+<h2 class="sectionedit44"><a name="v076" id="v076">0.7.6</a></h2>
+
+<p class="level2">Première mise en ligne 30 mai 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">AudioPlayers : 4 lecteurs audio intégrés, pilotables en midi, incorporables dans des mémoires via banger.</div></li>
+<li class="level1"><div class="li">Création d'une fenêtre unique bougeable pour les CFG (DMX CFG / DMX-IN / MIDI CFG / NETWORK CFG / ARTNET &gt; DOCK).</div></li>
+<li class="level1"><div class="li">Shift-F3 : création de mémoires en Report des faders (master + stage), uniquement onstage.</div></li>
+<li class="level1"><div class="li">Remote des boutons en midi (Bang it, navigation +/-, bangers solos).</div></li>
+<li class="level1"><div class="li">Rajout d'une roue de niveau en mode relatif ou absolu pour pilotage midi.</div></li>
+<li class="level1"><div class="li">Option DoubleDMX pour les interfaces en USB.</div></li>
+<li class="level1"><div class="li">Dans /user le fichier config_dmx permet de spécifier le taux de rafraichissement.</div></li>
+<li class="level1"><div class="li">Système de fenêtres amélioré (chevauchements et clicks transperçants). PGDOWN pour naviguer dans les fenêtres.</div></li>
+</ul>
+
+<h2 class="sectionedit45"><a name="v075" id="v075">0.7.5</a></h2>
+
+<p class="level2">Première mise en ligne 29 mars 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Banger.</div></li>
+<li class="level1"><div class="li">Portage des interfaces DMX : Sunlite 8C in+out / USB-DMX512Online.net.</div></li>
+<li class="level1"><div class="li">Ajout d'un grand master, pilotable en midi.</div></li>
+<li class="level1"><div class="li">Patch : simplification du patch à la souris / Check dimmers.</div></li>
+<li class="level1"><div class="li">Poignée de contrôle de l'espace faders : 2 zones (traction horizontale à gauche, verticale à droite).</div></li>
+<li class="level1"><div class="li">Le clignotement des circuits est en off par défaut (activer avec [view on change]).</div></li>
+</ul>
+
+<h2 class="sectionedit46"><a name="v074" id="v074">0.7.4</a></h2>
+
+<p class="level2">Première mise en ligne 2 février 2010.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Optimisation de 80 % du code pour les petites machines.</div></li>
+<li class="level1"><div class="li">Saisie intelligente (le plus désélectionne quand un niveau a été attribué).</div></li>
+<li class="level1"><div class="li">Debug import conduite ASCII dans le cas de circuits &gt; 512 qui écrasait les courbes.</div></li>
+<li class="level1"><div class="li">MidiIN mute (keyboard Ctrl-F11).</div></li>
+</ul>
+
+<h2 class="sectionedit47"><a name="v073" id="v073">0.7.3</a></h2>
+
+<p class="level2">Première mise en ligne 29 décembre 2009.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Locks preset.</div></li>
+<li class="level1"><div class="li">Pilotage des affectations faders midi-do-orders.</div></li>
+<li class="level1"><div class="li">Affectation F1 F2 F3 F4 et Time sur le panneau de raccourci des faders.</div></li>
+<li class="level1"><div class="li">Fin de débogage du séquenciel à la souris.</div></li>
+</ul>
+
+<h2 class="sectionedit48"><a name="v072" id="v072">0.7.2</a></h2>
+
+<p class="level2">Première mise en ligne 21 décembre 2009. Debug version 25 décembre.</p>
+<ul class="level2">
+<li class="level1"><div class="li">Lock depuis Behringer : rafraichissement valeurs.</div></li>
+<li class="level1"><div class="li">Séquenciel souris : rafraichissement mémoire après crossfade.</div></li>
+<li class="level1"><div class="li">Élargissement de la zone sensible de la souris pour le Xfade.</div></li>
+<li class="level1"><div class="li">Affectation midi de la roue de couleur.</div></li>
+</ul>
+
+</div>
+</body>
+</html>

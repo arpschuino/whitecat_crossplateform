@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>clean_ports_com_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-12T01:38:51+0200"/>
+<meta name="keywords" content="clean_ports_com_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="clean_ports_com_eng.html"/>
+<link rel="contents" href="clean_ports_com_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="clean_ports_com_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="clean_ports_com_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=clean_ports_com_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"clean_ports_com_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#cleaning_the_com_ports_in_windows">Cleaning the Com Ports in Windows</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#replace_the_assignment_of_the_device">Replace the Assignment of the Device:</a></div></li>
+<li class="level3"><div class="li"><a href="#cleaning_the_ports_used">Cleaning the Ports Used</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="cleaning_the_com_ports_in_windows" id="cleaning_the_com_ports_in_windows">Cleaning the Com Ports in Windows</a></h2>
+
+<p class="level2">
+On a machine that often uses different hardware peripherals, sometimes there are problems with the automatic assignment of Com Ports.
+</p>
+
+<p class="level2">
+We&#039;re talking about the detection of hardware that uses serial communication like: 
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> DMX interfaces based on chipset FTDII (Enttec Pro/Open/Vinc&#039;s USB-DMX512.Online.net) </div>
+</li>
+<li class="level1"><div class="li"> Arduino ( 2009 and before)</div>
+</li>
+<li class="level1"><div class="li"> Other peripherals using using serial communication</div>
+</li>
+</ol>
+
+<p class="level2">
+Windows will assign a fixed COM port.
+</p>
+
+<p class="level2">
+The numbering of these COM ports starts at 3 (included), 1 and 2 are reserved for the modem.
+The problem is that if we exceed the limit of 10 com ports, which is a real limit for some software like White Cat or some hardware like Jeenode, then the device will no longer be accessible.
+</p>
+
+<p class="level2">
+Arduino IDE under COM ports will appear, while only the arduino is connected. These COM ports are assigned permanently so it can be traces from some previous installation.
+</p>
+
+<p class="level2">
+There are a couple of ways to deal with this.
+</p>
+<!-- EDIT1 SECTION "Cleaning the Com Ports in Windows" [1-989] -->
+<h3 class="sectionedit2"><a name="replace_the_assignment_of_the_device" id="replace_the_assignment_of_the_device">Replace the Assignment of the Device:</a></h3>
+
+<p class="level3">
+This is the solution to use in an emergency:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Go to the Device Manager, right-click on My Computer &gt; Properties &gt; Hardware &gt; Device Manager</div>
+</li>
+<li class="level1"><div class="li"> Select the Com Port category, right-click &gt; Properties:</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_propr.jpeg" class="mediacenter" title="port_com_propr.jpg" alt="port_com_propr.jpg" /></div>
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Go to the Port Setting tab</div>
+</li>
+<li class="level1"><div class="li"> Click Advanced</div>
+</li>
+<li class="level1"><div class="li"> Select a different Com port from the list that has not been assigned yet and whose number is below 10.</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_change.jpeg" class="mediacenter" title="port_com_change.jpg" alt="port_com_change.jpg" /></div>
+</p>
+
+<p class="level3">
+Note that in this screenshot, I have used 3 ports, 4 and 5 are assigned to other devices that are not plugged into the machine (DMX card and UNO).  They are listed as being in use even though they are not connected: this is the problem with the allocation of fixed windows.
+</p>
+<!-- EDIT2 SECTION "Replace the Assignment of the Device:" [990-1731] -->
+<h3 class="sectionedit3"><a name="cleaning_the_ports_used" id="cleaning_the_ports_used">Cleaning the Ports Used</a></h3>
+
+<p class="level3">
+In the Device Manager window, click on the View menu and pick “Show hidden devices”
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_caches.jpeg" class="mediacenter" title="port_com_caches.jpg" alt="port_com_caches.jpg" /></div>
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Click each device in the section and delete the COM PORT (from 3 onward). When you have internet access, you may need to reinstall the latest driver.</div>
+</li>
+<li class="level1"><div class="li"> Restart Windows</div>
+</li>
+<li class="level1"><div class="li"> Connect your interface box, which will now receive a new com port (3) or something else near the beginning of the list.</div>
+</li>
+</ol>
+
+<p class="level3">
+For XP, follow this procedure for displaying the hidden devices: <a href="http://support.microsoft.com/kb/315539" class="urlextern" title="http://support.microsoft.com/kb/315539"  rel="nofollow">http://support.microsoft.com/kb/315539</a>
+</p>
+<!-- EDIT3 SECTION "Cleaning the Ports Used" [1732-] --></div>
+</body>
+</html>

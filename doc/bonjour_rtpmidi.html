@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>bonjour_rtpmidi</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-27T18:09:08+0200"/>
+<meta name="keywords" content="bonjour_rtpmidi"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="bonjour_rtpmidi.html"/>
+<link rel="contents" href="bonjour_rtpmidi.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="bonjour_rtpmidi.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="bonjour_rtpmidi.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=bonjour_rtpmidi"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"bonjour_rtpmidi","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#recevoir_le_midi_d_un_appareil_emettant_en_core-midi_sur_le_reseau">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#installation_windows">Installation Windows</a></div></li>
+<li class="level3"><div class="li"><a href="#parametrage">Paramétrage</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="recevoir_le_midi_d_un_appareil_emettant_en_core-midi_sur_le_reseau" id="recevoir_le_midi_d_un_appareil_emettant_en_core-midi_sur_le_reseau">Recevoir le midi d&#039;un appareil émettant en CORE-midi sur le réseau</a></h1>
+
+<p class="level1">
+Les iPhones, iPod et iPad utilisent CORE-midi. C&#039;est le Midi émis sur le wifi.
+</p>
+
+<p class="level1">
+De nombreuses applications midi sont accessibles sur l&#039;AppStore et permettent d&#039;émettre du Midi, ouvrant une palette de controleurs impressionnante.
+</p>
+
+<p class="level1">
+Notamment Control et TouchOSC, présents sous Android…. 
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="http://itunes.apple.com/us/app/control-osc-+-midi/id413224747?mt=8" class="urlextern" title="http://itunes.apple.com/us/app/control-osc-+-midi/id413224747?mt=8"  rel="nofollow">Control</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://itunes.apple.com/us/app/touchosc/id288120394?mt=8" class="urlextern" title="http://itunes.apple.com/us/app/touchosc/id288120394?mt=8"  rel="nofollow">TouchOSC</a></div>
+</li>
+</ul>
+
+<p class="level1">
+Pour pouvoir recevoir du Midi émis en protocole CORE-Midi, il va falloir installer Bonjour et rtpMIDI, qui sont tous les deux des logiciels libres.
+</p>
+
+<p class="level1">
+Bonjour permet de mettre en réseau des machines sans passer par l&#039;adressage IP: la machine et son petit nom s&#039;affichent sur le réseau, vous l&#039;acceptez et voilà. 
+</p>
+
+<p class="level1">
+Simple comme Bonjour…
+</p>
+
+<p class="level1">
+Cependant la structure Bonjour demande un driver spécifique, et c&#039;est là où nous allons utiliser rtpMIDI, puisqu&#039;il va ripper le signal reçu sur un port midi qu&#039;il va créer.
+</p>
+
+<p class="level1">
+rtpMIDI se lance tout seul au démarrage de windows, une fois que vous l&#039;avez installé.
+</p>
+
+<p class="level1">
+rtpMIDI est extrêmement simple à utiliser, robuste, et fiable.
+</p>
+
+<p class="level1">
+<img src="rtp.jpeg" class="media" title="rtp.jpg" alt="rtp.jpg" />
+</p>
+<!-- EDIT1 SECTION "Recevoir le midi d'un appareil émettant en CORE-midi sur le réseau" [1-1227] -->
+<h3 class="sectionedit2"><a name="installation_windows" id="installation_windows">Installation Windows</a></h3>
+
+<p class="level3">
+Télécharger:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> le service  <a href="http://www.google.fr/url?sa=t&amp;rct=j&amp;q=telecharger%20bonjour%20windows&amp;source=web&amp;cd=1&amp;ved=0CFgQFjAA&amp;url=http%3A%2F%2Fwww.01net.com%2Ftelecharger%2Fwindows%2FUtilitaire%2Freseau%2Ffiches%2F103085.html&amp;ei=ErLxT_uJHtH_8QPsyKH_DA&amp;usg=AFQjCNHJMCS3sxNjITryE5wQ9QQrdoRwpw" class="urlextern" title="http://www.google.fr/url?sa=t&amp;rct=j&amp;q=telecharger%20bonjour%20windows&amp;source=web&amp;cd=1&amp;ved=0CFgQFjAA&amp;url=http%3A%2F%2Fwww.01net.com%2Ftelecharger%2Fwindows%2FUtilitaire%2Freseau%2Ffiches%2F103085.html&amp;ei=ErLxT_uJHtH_8QPsyKH_DA&amp;usg=AFQjCNHJMCS3sxNjITryE5wQ9QQrdoRwpw"  rel="nofollow">Bonjour</a> </div>
+</li>
+<li class="level1"><div class="li"> puis le driver <a href="http://www.tobias-erichsen.de/rtpMIDI.html" class="urlextern" title="http://www.tobias-erichsen.de/rtpMIDI.html"  rel="nofollow">RTPMidi</a> développé par Tobias Erichsen </div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Installez Bonjour, redémarrez Windows</div>
+</li>
+<li class="level1"><div class="li"> installez RTPmidi, redémarrez Windows</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Installation Windows" [1228-1764] -->
+<h3 class="sectionedit3"><a name="parametrage" id="parametrage">Paramétrage</a></h3>
+
+<p class="level3">
+Nous allons utiliser la solution la plus simple pour paramétrer une session.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Lancez RTPmidi.</div>
+</li>
+<li class="level1"><div class="li"> Créez une nouvelle session, en clickant le petit [+]</div>
+</li>
+<li class="level1"><div class="li"> Par défaut cette nouvelle session se nomme du nom de votre machine</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi1.jpeg" class="media" title="rtpmidi1.jpg" alt="rtpmidi1.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Validez l&#039;ouverture de la session en clickant la case en face de la connexion que vous avez créé</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi2.jpeg" class="media" title="rtpmidi2.jpg" alt="rtpmidi2.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Avec votre iPhone/Pad, lancez une application gratuite, type <a href="http://itunes.apple.com/tw/app/midi-knob/id467573203?mt=8" class="urlextern" title="http://itunes.apple.com/tw/app/midi-knob/id467573203?mt=8"  rel="nofollow">Knob</a></div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Au bout de quelques secondes, vous allez voir apparaitre le nom de votre appareil. Sur cette capture mon iPod se nomme iCAT.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> Sélectionnez l&#039;appareil, clickez [Connect].</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi3.jpeg" class="media" title="rtpmidi3.jpg" alt="rtpmidi3.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> L&#039;appareil est ajouté dans la liste des participants à la session</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi4.jpeg" class="media" title="rtpmidi4.jpg" alt="rtpmidi4.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> C&#039;est par ce menu sur la droite que vous pouvez ajouter, enlever des participants à votre session bonjour, vous permettant de travailler avec plusieurs appareils et logiciels.</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="rtpmidi_wcat.jpeg" class="media" title="rtpmidi_wcat.jpg" alt="rtpmidi_wcat.jpg" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Pour retirer un appareil de la cession, clickez le et faites [Deconnect]</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Paramétrage" [1765-] --></div>
+</body>
+</html>

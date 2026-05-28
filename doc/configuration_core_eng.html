@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Core Configuration — WhiteCat</title>
+  <meta name="date" content="2026-04-29"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="configuration_core.html">🇫🇷 Français</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table of Contents</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#core_configuration">Core Configuration</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#max_calculations">Max. Calculations</a></div></li>
+<li class="level3"><div class="li"><a href="#do_calculations">Do Calculations</a></div></li>
+<li class="level3"><div class="li"><a href="#fps_rate">FPS rate</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#dmx_rate">DMX rate</a></div></li>
+</ul></li>
+<li class="level3"><div class="li"><a href="#audio">Audio</a></div></li>
+
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="core_configuration" id="core_configuration">Core Configuration</a></h1>
+
+<p class="level1">
+WhiteCat is much more than just a cuelist, and the background calculations are substantial, even for lighting:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> 1 cuelist buffer of 512 channels</div>
+</li>
+<li class="level1"><div class="li"> 48 * 7 buffers of 512 channels for faders</div>
+</li>
+<li class="level1"><div class="li"> 1 buffer of 512 channels for video tracking</div>
+</li>
+<li class="level1"><div class="li"> 8 buffers of 512 channels for trichromy</div>
+</li>
+<li class="level1"><div class="li"> 128 * 24 buffers of 512 channels for chasers</div>
+</li>
+<li class="level1"><div class="li"> 4 buffers of 512 channels for grid players</div>
+</li>
+<li class="level1"><div class="li"> 4 macros per channel</div>
+</li>
+</ul>
+
+<p class="level1">
+The Core Configuration window allows you to lighten the calculations for low-end machines.
+</p>
+
+<p class="level1">
+You can customize the general options, or simply disable calculations by turning off selected buffers:
+</p>
+
+<p class="level1">
+<img src="cfg_core.png" class="media" title="cfg_core.jpg" alt="cfg_core.jpg" />
+</p>
+<!-- EDIT1 SECTION "Core Configuration" [1-807] -->
+<h3 class="sectionedit2"><a name="max_calculations" id="max_calculations">Max. Calculations</a></h3>
+
+<p class="level3">
+When enabled, defines the maximum number of:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Faders (48)</div>
+</li>
+<li class="level1"><div class="li"> Docks per fader (6)</div>
+</li>
+<li class="level1"><div class="li"> Chasers (127)</div>
+</li>
+<li class="level1"><div class="li"> Tracks per chaser (24)</div>
+</li>
+<li class="level1"><div class="li"> GridPlayers (4)</div>
+</li>
+<li class="level1"><div class="li"> Bangers (127)</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Max. Calculations" [808-1009] -->
+<h3 class="sectionedit3"><a name="do_calculations" id="do_calculations">Do Calculations</a></h3>
+
+<p class="level3">
+Enable or disable calculations for:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> faders</div>
+</li>
+<li class="level1"><div class="li"> cuelist</div>
+</li>
+<li class="level1"><div class="li"> bangers</div>
+</li>
+<li class="level1"><div class="li"> trichromy</div>
+</li>
+<li class="level1"><div class="li"> video tracking</div>
+</li>
+<li class="level1"><div class="li"> chasers</div>
+</li>
+<li class="level1"><div class="li"> gridplayers</div>
+</li>
+<li class="level1"><div class="li"> channel macros</div>
+</li>
+</ul>
+
+<p class="level3">
+Set to Off, the buffer calculations and all functions derived from that family (LFO, crossfade, chaser time, etc.) are removed from the render.
+</p>
+
+<p class="level3">
+All these options are saved in the /user folder, file config_core.txt.
+</p>
+
+<p class="level3">
+Be aware: disabling CueList locks faders in direct channel mode.
+</p>
+<!-- EDIT3 SECTION "Do Calculations" [1010-1535] -->
+<h3 class="sectionedit4"><a name="fps_rate" id="fps_rate">FPS rate</a></h3>
+
+<p class="level3">
+FPS stands for Frames Per Second: the number of times an action is performed per second.
+</p>
+
+<p class="level3">
+In this column you can modify:
+</p>
+<!-- EDIT4 SECTION "FPS rate" [1536-1704] -->
+<h4 class="sectionedit5"><a name="dmx_rate" id="dmx_rate">DMX rate</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> The FPS of DMX output: you can set it from 1/50th to 1/100th of a second (minimum 1/40th for a "smooth" signal). Why 1/100th? Synchronisation needs and hardware considerations (LEDs).</div>
+</li>
+<li class="level1"><div class="li"> The FPS of DMX IN: from 1/25th to 1/50th.</div>
+</li>
+</ul>
+
+<h3 class="sectionedit6"><a name="audio" id="audio">Audio</a></h3>
+
+<p class="level3">
+ .ogg and .flac files are fully loaded into RAM when added to a player.
+ This mechanism guarantees smooth playback, with no skips or decoding latency, even in CUE or loop mode.
+ .wav and .mp3 files are not affected: they use their own loading mechanisms.
+</p>
+<p class="level3"></p>
+
+If an OGG or FLAC file exceeds the configured limit, it is played in degraded mode — playback is still possible but may show irregularities (less precise repositioning, slight startup latency).
+</p>
+
+<p class="level3">
+In this column you can modify:
+</p>
+<!-- EDIT4 SECTION "FPS rate" [1536-1704] -->
+<h4 class="sectionedit7"><a name="flac_ogg_ram" id="flac_ogg_ram">RAM ogg/flac</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Range: 50 to 2048 MB</div>
+</li>
+<li class="level1"><div class="li"> Default value: 300 MB</div>
+</li>
+<li class="level1"><div class="li"> Enter the value in the field, then click it to confirm.</div>
+</li>
+</ul>
+<p class="level3"></p>In most situations, 300 MB of RAM is more than sufficient. </p>
+<p class="level2">
+<img src="audio_ram_allocation.png" class="media" title="audio_midibutton_affect" alt="audio_midibutton_affect" />
+</p>
+<p class="level2">
+The table below gives an approximate estimate of RAM usage depending on duration and format:
+</p>
+
+<div class="table sectionedit27">
+<table class="inline">
+  <thead>
+    <tr>
+      <th>Duration</th>
+      <th>OGG ~128 kbps</th>
+      <th>OGG ~256 kbps</th>
+      <th>FLAC stereo 44.1 kHz 16 bit</th>
+      <th>FLAC stereo 96 kHz 24 bit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1 min</td><td>~1 MB</td><td>~2 MB</td><td>~6 MB</td><td>~18 MB</td></tr>
+    <tr><td>5 min</td><td>~5 MB</td><td>~10 MB</td><td>~29 MB</td><td>~88 MB</td></tr>
+    <tr><td>10 min</td><td>~9 MB</td><td>~19 MB</td><td>~59 MB</td><td>~176 MB</td></tr>
+    <tr><td>30 min</td><td>~28 MB</td><td>~56 MB</td><td><strong>~176 MB</strong></td><td style="color:#c06060"><strong>~528 MB ⚠</strong></td></tr>
+    <tr><td>1 hour</td><td>~57 MB</td><td>~113 MB</td><td style="color:#c06060"><strong>~352 MB ⚠</strong></td><td style="color:#c06060"><strong>~1056 MB ⚠</strong></td></tr>
+    <tr><td>2 hours</td><td>~113 MB</td><td>~225 MB</td><td style="color:#c06060"><strong>~704 MB ⚠</strong></td><td style="color:#c06060"><strong>~2112 MB ⚠</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="level2">
+⚠ = exceeds the default 300 MB limit → playback in degraded mode. Increase the RAM limit if needed.
+</p>
+
+<p class="level2">
+<strong>Tips:</strong> increase the limit if your OGG/FLAC files are large and the machine has enough RAM. Reduce it on low-memory configurations.
+</p>
+
+
+
+
+</body>
+</html>

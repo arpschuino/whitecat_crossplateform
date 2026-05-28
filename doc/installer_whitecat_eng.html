@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Installing WhiteCat</title>
+  <meta name="date" content="2026-05-17"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="installer_whitecat.html">🇫🇷 Version française</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table of contents</h3>
+<div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#installing_whitecat">Installing WhiteCat</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#download_format">Download format</a></div></li>
+<li class="level3"><div class="li"><a href="#install">Install</a></div></li>
+<li class="level3"><div class="li"><a href="#firewalls">Firewall</a></div></li>
+<li class="level3"><div class="li"><a href="#launch">Launching WhiteCat</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#drivers_dmx_midi">Installing DMX and MIDI drivers</a></div></li>
+<li class="level2"><div class="li"><a href="#sleep">Sleep / hibernate</a></div></li>
+<li class="level2"><div class="li"><a href="#performance">Performance</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1" id="installing_whitecat">Installing WhiteCat</h2>
+<div class="level2">
+
+<h3 class="sectionedit2" id="download_format">Download format</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li">WhiteCat is distributed as a <strong>.zip</strong> archive, downloaded from <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">GitHub</a>.</div></li>
+<li class="level1"><div class="li">There is no installer.</div></li>
+<li class="level1"><div class="li">This makes it easy to keep multiple versions side by side — useful when shows were created with different versions.</div></li>
+<li class="level1"><div class="li">The WhiteCat folder can also run directly from a USB stick.</div></li>
+</ul>
+</div>
+
+<h3 class="sectionedit3" id="install">Install</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li">Extract the archive <strong>directly under the root of a hard drive</strong> (C:/ or D:/).</div></li>
+<li class="level1"><div class="li">Avoid paths that contain <em>accented characters or spaces</em>.</div></li>
+<li class="level1"><div class="li">Do not run WhiteCat directly from inside the compressed archive — Windows lets you browse a .zip without extracting it. First sign of this mistake: the program displays <code>Can't load fonts/doom.ttf</code> and stops.</div></li>
+</ul>
+
+<p>To extract: right-click the archive &gt; <strong>Extract All</strong> &gt; choose a location under C:/ or D:/.</p>
+</div>
+
+<h3 class="sectionedit4" id="firewalls">Firewall</h3>
+<div class="level3">
+
+<p>
+You must <strong>allow WhiteCat through the Windows firewall</strong> (and through any third-party antivirus or firewall installed on the machine).
+</p>
+
+<p>
+WhiteCat opens network ports to send and receive DMX over ethernet (ArtNet protocol).
+The firewall may flag this and block startup.
+</p>
+
+<ul>
+<li class="level1"><div class="li">On first launch, a Windows prompt will ask whether to allow WhiteCat network access. Click <strong>Allow access</strong> and check <em>Private networks</em>.</div></li>
+<li class="level1"><div class="li">If WhiteCat gets stuck at startup without this prompt appearing, check your firewall rules manually and add an exception for the WhiteCat executable.</div></li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit5" id="launch">Launching WhiteCat</h3>
+<div class="level3">
+
+<p>Double-click <code>Whitecat_Crossplatform.exe</code> in the extracted folder.</p>
+
+<p>To create a desktop shortcut:</p>
+<ul>
+<li class="level1"><div class="li">Right-click the executable &gt; <strong>Create shortcut</strong></div></li>
+<li class="level1"><div class="li">Drag the shortcut to the desktop or taskbar</div></li>
+</ul>
+
+</div>
+</div>
+
+<h2 class="sectionedit6" id="drivers_dmx_midi">Installing DMX and MIDI drivers</h2>
+<div class="level2">
+
+<p>
+To send DMX through a USB interface, its driver must be installed on the computer.
+See <a href="configuration_dmx.html" class="wikilink1" title="Configuration DMX">DMX Configuration</a> for the list of supported interfaces.
+</p>
+
+<p>
+Most MIDI interfaces are recognised automatically by Windows with no manual installation.
+For less common devices, install the driver provided by the manufacturer — always download the <em>most recent version</em> from the manufacturer's website.
+</p>
+
+<p><strong>General tips for driver installation:</strong></p>
+<ul>
+<li class="level1"><div class="li">Do installations at home, calmly, with an internet connection.</div></li>
+<li class="level1"><div class="li">Run installers with administrator rights (right-click &gt; <em>Run as administrator</em>).</div></li>
+<li class="level1"><div class="li">After installation, <strong>restart the computer</strong>.</div></li>
+<li class="level1"><div class="li">If you go on international tour, keep the manufacturer's installer on a USB stick.</div></li>
+</ul>
+
+<p>
+You can check that your devices are correctly installed via the <strong>Device Manager</strong>:
+right-click the Start menu &gt; <em>Device Manager</em>.
+A faulty device appears with a yellow warning triangle.
+</p>
+
+</div>
+
+<h2 class="sectionedit7" id="sleep">Sleep / hibernate</h2>
+<div class="level2">
+
+<p>
+Since version 0.9.x, WhiteCat appears to handle sleep better than before.
+As a precaution, it is still recommended to <strong>disable sleep</strong> during a show.
+</p>
+
+<ul>
+<li class="level1"><div class="li">Control Panel &gt; Power Options &gt; Change plan settings &gt; set <strong>Never</strong> for sleep, both on battery AND on mains power.</div></li>
+<li class="level1"><div class="li">Never close the laptop lid while WhiteCat is running.</div></li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit8" id="performance">Performance</h2>
+<div class="level2">
+
+<p>
+Since version 0.9.x, WhiteCat uses a <strong>smart ticker</strong> with three levels:
+</p>
+
+<ul>
+<li class="level1"><div class="li"><strong>60 fps</strong> while the user is interacting (mouse, keyboard)</div></li>
+<li class="level1"><div class="li"><strong>25 fps</strong> during automatic animations (LFO, chasers, crossfades, dampers)</div></li>
+<li class="level1"><div class="li"><strong>Near-idle mode</strong> (100 ms) when no animation is active</div></li>
+</ul>
+
+<p>
+CPU usage is significantly lower than in previous versions.
+</p>
+
+<p>
+If you still experience slowdowns:
+</p>
+<ul>
+<li class="level1"><div class="li">Turn off Wi-Fi during the show.</div></li>
+<li class="level1"><div class="li">Disable real-time antivirus scanning.</div></li>
+<li class="level1"><div class="li">Disable automatic Windows updates.</div></li>
+</ul>
+
+</div>
+
+</div>
+</body>
+</html>

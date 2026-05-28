@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>configuration_dmx_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2013-09-03T02:15:32+0200"/>
+<meta name="keywords" content="configuration_dmx_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="configuration_dmx_eng.html"/>
+<link rel="contents" href="configuration_dmx_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="configuration_dmx_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="configuration_dmx_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_dmx_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"configuration_dmx_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#dmx_configuration">DMX Configuration</a></div></li>
+<li class="level1"><div class="li"><a href="#installing_dmx_device_and_drivers">Installing DMX device and drivers</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#enttec_ode">Enttec ODE</a></div></li>
+<li class="level2"><div class="li"><a href="#enttec_open">Enttec OPEN</a></div></li>
+<li class="level2"><div class="li"><a href="#enttec_pro">Enttec PRO</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#importantenttec_open_pro">Important: Enttec Open &amp; Pro</a></div></li>
+<li class="level4"><div class="li"><a href="#l_enttec_pro_mk2">L&#039;Enttec PRO MK2</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#sunlite_siudi-8c">SUNLITE SIUDI-8C</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#dmx_configuration_menu">DMX configuration Menu</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#art-net">ART-NET</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#doubledmx">DoubleDMX</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#enttec_pro1">ENTTEC PRO</a></div></li>
+<li class="level2"><div class="li"><a href="#sunlite_suidi_8c_and_previous">SUNLITE SUIDI 8C and previous</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#dmx-in_how_does_it_work">Dmx-IN how does it work ?</a></div></li>
+<li class="level1"><div class="li"><a href="#a_point_about_dmx_devices">A point about dmx devices</a></div></li>
+<li class="level1"><div class="li"><a href="#dmx_interfaces_arduino_and_elbow_grease">DMX Interfaces, arduino and elbow grease</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="dmx_configuration" id="dmx_configuration">DMX Configuration</a></h1>
+
+<p class="level1">
+In the actual beta release, the following DMX interfaces are supported:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> Art-Net protocol: ( ethernet )</div>
+<ol class="level1">
+<li class="level2"><div class="li"> <a href="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70305&amp;show=description&amp;name=ode" class="urlextern" title="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70305&amp;show=description&amp;name=ode"  rel="nofollow">ENTTEC ODE</a> </div>
+</li>
+<li class="level2"><div class="li"> <a href="http://www.kissbox.nl/products_new.html" class="urlextern" title="http://www.kissbox.nl/products_new.html"  rel="nofollow">Kiss-Box</a></div>
+</li>
+<li class="level2"><div class="li"> and of course other “art-net compliant devices”</div>
+</li>
+</ol>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70303&amp;show=description&amp;name=opendmxusb" class="urlextern" title="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70303&amp;show=description&amp;name=opendmxusb"  rel="nofollow">ENTTEC OPEN DMX</a> ( usb)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70304&amp;show=description&amp;name=dmxusbpro" class="urlextern" title="http://www.enttec.com/index.php?main_menu=Products&amp;pn=70304&amp;show=description&amp;name=dmxusbpro"  rel="nofollow">ENTTEC PRO</a> ( usb)et <a href="http://www.enttec.com/?main_menu=Products&amp;pn=70314" class="urlextern" title="http://www.enttec.com/?main_menu=Products&amp;pn=70314"  rel="nofollow">ENTTEC PRO MK2</a> (usb)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="http://www.nicolaudie.com/" class="urlextern" title="http://www.nicolaudie.com/"  rel="nofollow">Sunlite SIUDI 8C and previous ( 5C-6C)</a> ( usb)</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>From version 0.7.6 onward, if you want to simultaneously send data with your usb-dmx dongle plus art-net, it is possible by activating the DoubleDmx option.
+From version 0.8.4, Very Slow Velleman and discontinueted USBDMX512ONLINE.NET devices are no longer more supported. 
+</strong>
+</p>
+<!-- EDIT1 SECTION "DMX Configuration" [1-1052] -->
+<h1 class="sectionedit2"><a name="installing_dmx_device_and_drivers" id="installing_dmx_device_and_drivers">Installing DMX device and drivers</a></h1>
+
+<p class="level1">
+To communicate between  White Cat and your usb based DMX device, you need to have installed the drivers of the device on your computer.
+</p>
+
+<p class="level1">
+It is recommended, once the drivers are installed, that you reboot your computer.
+</p>
+
+<p class="level1">
+It is possible that you may encounter on Vista or Windows 7 troubles installing the drivers, such as:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> installers blocked for security reasons</div>
+</li>
+<li class="level1"><div class="li"> access to the internet denied for your installation or update</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>Information is given here “as is”, and we are not trying to resolve troubles you may have connecting to the internet, to update your drivers or to free your windows from aggressive firewalls. Dealing with Windows is up to you.</strong>
+</p>
+<!-- EDIT2 SECTION "Installing DMX device and drivers" [1053-1767] -->
+<h2 class="sectionedit3"><a name="enttec_ode" id="enttec_ode">Enttec ODE</a></h2>
+
+<p class="level2">
+This device is ethernet based.  There is no need to install drivers, except if you need to add an ethernet card to your computer.  It will come with a default IP address (like 192.168.0.1) and will send (rather than receive) on one of 16 subnets and on one of sixteen universes on that subnet (usually subnet 0, universe 0).  It will also come with a utility program to change these defaults if you so desire.
+</p>
+
+<p class="level2">
+This device is plugged in using a cable with an RJ45 connector.
+This cable may be plugged from the device directly to your computer, or thru a <abbr title="Local Area Network">LAN</abbr> Hub RJ45, or a  Wifi router with an RJ45 connection.
+</p>
+
+<p class="level2">
+To communicate with it, you will need to have a network adapter set to the same IP address family as your DMX interface box. You may set the parameters of your ethernet adapter manually, or use the Enttec&#039;s NMU manager that will help you assign the same ethernet family IP address as your network adapter.
+</p>
+
+<p class="level2">
+Generally in Art-Net protocol, we would prefer to use the IP addresses in range of 2.255.255. But nothing is wrong if you want to use the 192.168.1.X family address (I have done a lot of shows with 2 or 3 computers in the network all being based on 192.168.1.x family).
+</p>
+
+<p class="level2">
+<strong>The manual way to set your network adapter is done from Windows:</strong>
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> go to the Windows Control panel </div>
+</li>
+<li class="level1"><div class="li"> click  [Network connections and internet] &gt; [network connections]</div>
+</li>
+<li class="level1"><div class="li"> selection the desired socket adapter then right click &gt; properties</div>
+</li>
+<li class="level1"><div class="li"> select in the list TCP-IP &gt; click properties</div>
+</li>
+<li class="level1"><div class="li"> choose if you want to set the address in a permanent way, or use the auto-detect method </div>
+</li>
+<li class="level1"><div class="li"> to specify the address permanently: set the IP: 2.255.255.1 for example / set the subnet mask to 255.255.255.0 / default gateway to 2.255.255.1 / <abbr title="Domain Name System">DNS</abbr> to nothing</div>
+</li>
+<li class="level1"><div class="li"> click apply and quit this dialog box.</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Enttec ODE" [1768-3579] -->
+<h2 class="sectionedit4"><a name="enttec_open" id="enttec_open">Enttec OPEN</a></h2>
+
+<p class="level2">
+ You will need to install the driver to be connected to internet. The installer will download the latest version of the FTDII driver.
+</p>
+
+<p class="level2">
+ It is possible to avoid it also, by using the driver furnished in White Cat drivers/folder. This is an old driver, which works nicely in XP, provided in case an emergency installation is required.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> connect the Enttec OPEN</div>
+</li>
+<li class="level1"><div class="li"> a dialog window will appear to search for the driver</div>
+</li>
+<li class="level1"><div class="li"> select “search manually for the driver” and point to the folder: WhiteCat/Drivers/Enttec Open/</div>
+</li>
+<li class="level1"><div class="li"> normally you should do this 2 times</div>
+</li>
+<li class="level1"><div class="li"> reboot your computer</div>
+</li>
+</ul>
+<!-- EDIT4 SECTION "Enttec OPEN" [3580-4191] -->
+<h2 class="sectionedit5"><a name="enttec_pro" id="enttec_pro">Enttec PRO</a></h2>
+
+<p class="level2">
+With Enttec PRO you can download and install automatically the driver, or use the installer furnished by ENTTEC. White Cat uses the <strong>VCOM</strong> one, and not the FTDI2XX installer. The communication will not be done with it but with VCOM. The VCOM installer is also donwloadable from Enttec&#039;s site.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> open  WhiteCat/Drivers/EnttecPro/</div>
+</li>
+<li class="level1"><div class="li"> launch Pro_VCOM_Setup.exe</div>
+</li>
+<li class="level1"><div class="li"> plug in Enttec PRO</div>
+</li>
+<li class="level1"><div class="li"> a window will pop up</div>
+</li>
+<li class="level1"><div class="li"> select “search manually for the driver” point to this folder: C:/VCOM/</div>
+</li>
+<li class="level1"><div class="li"> normally you should point to it TWICE.</div>
+</li>
+<li class="level1"><div class="li"> reboot computer</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "Enttec PRO" [4192-4765] -->
+<h4 class="sectionedit6"><a name="importantenttec_open_pro" id="importantenttec_open_pro">Important: Enttec Open &amp; Pro</a></h4>
+
+<p class="level4">
+On certain computers plugging into usb ports other than the one used for installation will ask you to point again to the correct directory.
+</p>
+
+<p class="level4">
+Some USB ports do not deliver enough power to power the electrical interface.  We can solve this problem through a USB HUB <strong> </strong>. It will prevent plugging too many accessories on the hub (keyboard, mouse, joystick etc …). If this problem is detected during the driver installation, the installation procedure may be performed ONCE instead of twice.
+</p>
+<!-- EDIT6 SECTION "Important: Enttec Open & Pro" [4766-5296] -->
+<h4 class="sectionedit7"><a name="l_enttec_pro_mk2" id="l_enttec_pro_mk2">L&#039;Enttec PRO MK2</a></h4>
+
+<p class="level4">
+ For restitution of one DMX universe that works like Enttec PRO. These are the same drivers.
+  + However, it will be necessary for any installation on a single machine, absolutely ENABLE <strong> </strong> VIRTUAL COM PORT (VCP).
+  +
+  + Once installed the drivers, it will:
+  + Go to Control Panel
+  + Open Device Manager
+  + Select USB SERIAL PORT in Universal Serial Bus Controller
+  + Right-click on it and ask for properties
+  + Go to the Advanced tab
+  + Check load VCP
+  + Click Ok
+  +
+  + <a href="Http://www.enttec.com/tutorials/pro_mk2/ComPort/index.htm" class="urlextern" title="Http://www.enttec.com/tutorials/pro_mk2/ComPort/index.htm"  rel="nofollow">Vidéo Enttec</a>
+  +
+  + At the moment only the restitution DMX is carried out in White
+Cat.
+  +
+  + By August 2013, the DMX IN function and the second DMX universe will be accessible.
+</p>
+<!-- EDIT7 SECTION "L'Enttec PRO MK2" [5297-6065] -->
+<h2 class="sectionedit8"><a name="sunlite_siudi-8c" id="sunlite_siudi-8c">SUNLITE SIUDI-8C</a></h2>
+
+<p class="level2">
+White Cat Sunlite integration is done on the  Sunlite Suite 2 (February 2010) driver.
+</p>
+
+<p class="level2">
+Normally those drivers and dll&#039;s are retro compatible to devices 5C and 6C.
+</p>
+
+<p class="level2">
+In case of troubles, please see the Nicolaudie team.
+</p>
+
+<p class="level2">
+ jkkk
+</p>
+<!-- EDIT8 SECTION "SUNLITE SIUDI-8C" [6066-6317] -->
+<h1 class="sectionedit9"><a name="dmx_configuration_menu" id="dmx_configuration_menu">DMX configuration Menu</a></h1>
+
+<p class="level1">
+<img src="dmx_config_panel.jpeg" class="mediaright" title="dmx_config_panel.jpg" alt="dmx_config_panel.jpg" />
+</p>
+
+<p class="level1">
+Click [DMX CFG].
+</p>
+
+<p class="level1">
+<strong>The choice of the device will be done by clicking on its name on the left side .</strong>
+</p>
+
+<p class="level1">
+When you select a device, you close the previous device selected, and ask White Cat to open communication with the new device. Unlike Schwartzpeter, you can replug a device on the fly, and reconnect it from inside White Cat. 
+</p>
+
+<p class="level1">
+Up on the right you can see the DMX refreshment rate (50 x sec) and the dmx IN refreshment rate (30 fps).
+</p>
+
+<p class="level1">
+On the bottom of the window, in red, you have the device feedback.
+</p>
+
+<p class="level1">
+<strong>By clicking [Save] on the right bottom corner, you will record as the default the dmx device you want, for the next opening of White Cat. Saving this parameter is not part of the General show saving. It has to be done separately.</strong>
+</p>
+
+<p class="level1">
+Each device has its own specs, so actions on them are different.
+</p>
+<!-- EDIT9 SECTION "DMX configuration Menu" [6318-7191] -->
+<h2 class="sectionedit10"><a name="art-net" id="art-net">ART-NET</a></h2>
+
+<p class="level2">
+DMX data is sent over the ethernet network.
+</p>
+
+<p class="level2">
+<img src="dmx_artnet.jpeg" class="media" title="dmx_artnet.jpg" alt="dmx_artnet.jpg" />
+</p>
+
+<p class="level2">
+You can edit:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> DMX universe you are sending</div>
+</li>
+</ul>
+
+<p class="level2">
+    Click dmx universe box, type Universe number, click again
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> IP adress to send to  (in general 2.255.255.255 ). </div>
+</li>
+</ul>
+
+<p class="level2">
+    Click IP box, type IP, click again
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> type of sending: </div>
+<ol class="level2">
+<li class="level2"><div class="li"> broadcast (all computers in IP range 2.1.1.*, from 0 to 254 will receive data )</div>
+</li>
+<li class="level2"><div class="li"> unicast (for only one computer, aka 2.1.1.3)</div>
+</li>
+</ol>
+</li>
+</ul>
+
+<p class="level2">
+If you click [ART-POLL] you will send on the network a query for art-net compliant devices and programs. They should reply to it  and give you their addresses.
+</p>
+<!-- EDIT10 SECTION "ART-NET" [7192-7802] -->
+<h3 class="sectionedit11"><a name="doubledmx" id="doubledmx">DoubleDMX</a></h3>
+
+<p class="level3">
+(0.7.6)
+</p>
+
+<p class="level3">
+DoubleDmx allows you to work simultaneously with a USB DMX , and send art-net data on the network, to other software that is art-net compliant (especially in video with VVVV or Arkaos).
+</p>
+
+<p class="level3">
+<img src="dmx_artnet_doubledmx.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+To set Art-Net:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> select Art-Net </div>
+</li>
+<li class="level1"><div class="li"> if you want to send art-net data to the same computer, choose IP <strong>127.0.0.1</strong>, Unicast and deactivate in  [Network CFG] art-net reception. </div>
+</li>
+</ul>
+
+<p class="level3">
+Be aware: on Vista and Windows 7, <strong>127.0.0.1 will not work* (IPv4). You will need to enter </strong>…1<strong> or </strong>..1.<strong> ( config IPv6) in Broadcast to access the virtual Host port.
+
+If you are on a closed network, you may also send to  </strong>255.255.255.255** and so access all IPs without searching the right address.
+</p>
+
+<p class="level3">
+To trigger DoubleDmx:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> keep your USB DMX device selected</div>
+</li>
+<li class="level1"><div class="li"> click DoubleDmx</div>
+</li>
+<li class="level1"><div class="li"> click [Save CFG] to save the DoubleDMX behaviour</div>
+</li>
+</ol>
+<!-- EDIT11 SECTION "DoubleDMX" [7803-8680] -->
+<h2 class="sectionedit12"><a name="enttec_pro1" id="enttec_pro1">ENTTEC PRO</a></h2>
+
+<p class="level2">
+You may have 2 enttec PRO&#039;s plugged on your computer. 
+</p>
+
+<p class="level2">
+First device detected by windows will be the DMX OUT.
+</p>
+
+<p class="level2">
+Second device will be DMX IN.
+</p>
+
+<p class="level2">
+<img src="dmx_enttecproin.jpeg" class="media" title="dmx_enttecproin.jpg" alt="dmx_enttecproin.jpg" />
+</p>
+
+<p class="level2">
+It is recommended that you plug your devices one after one, slowly, after the computer is well started.
+</p>
+
+<p class="level2">
+The DMX-IN will be assigned to the dock of a fader.
+</p>
+
+<p class="level2">
+You can also work with different usb devices,  Pro being dedicated to receive external DMX.
+</p>
+<!-- EDIT12 SECTION "ENTTEC PRO" [8681-9125] -->
+<h2 class="sectionedit13"><a name="sunlite_suidi_8c_and_previous" id="sunlite_suidi_8c_and_previous">SUNLITE SUIDI 8C and previous</a></h2>
+
+<p class="level2">
+This device is able to receive and transmit DMX at same time. It is in its category the best performer and the fastest, with its triple buffer entry system.
+A good toy, expensive, but very nice.
+</p>
+
+<p class="level2">
+To activate DMX-IN, click [DMX-IN OFF] &gt;   [DMX-IN ON].
+</p>
+
+<p class="level2">
+<img src="dmx_siudi_in.jpeg" class="media" title="dmx_siudi_in.jpg" alt="dmx_siudi_in.jpg" />
+</p>
+
+<p class="level2">
+Click [Dmx In&gt;Dock] to be in DMX In assignment mode. Click the dock of a fader.
+</p>
+
+<p class="level2">
+Retro-compatibility of drivers should normally let you use previous DASHARD devices such as: SIUDI 5, 6 and 7 (dashard2006.dll).
+</p>
+
+<p class="level2">
+When a SIUDI device is chosen,  White Cat displays its firmware version, serial number and which interface it is (ie 5C, 6C, or 8C).
+</p>
+<!-- EDIT13 SECTION "SUNLITE SUIDI 8C and previous" [9126-9789] -->
+<h1 class="sectionedit14"><a name="dmx-in_how_does_it_work" id="dmx-in_how_does_it_work">Dmx-IN how does it work ?</a></h1>
+
+<p class="level1">
+Dmx device selected in dmxIN receives a signal.
+This one is buffered in a specific buffer.
+</p>
+
+<p class="level1">
+You have to attribute this buffer to the dock of a fader, to send on stage the received channels.
+</p>
+
+<p class="level1">
+<div align="center" style="text-align: center"><img src="dmx_in_to_fader.jpeg" class="mediacenter" title="dmx_in_to_fader.jpg" alt="dmx_in_to_fader.jpg" /></div>
+</p>
+
+<p class="level1">
+Goal :
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> using a manual board inside White Cat: creation with faders&#039; memories, playing live, let access to other to data easily , etc…</div>
+</li>
+<li class="level1"><div class="li"> merge output of another board and specific features of White Cat. </div>
+</li>
+</ul>
+<!-- EDIT14 SECTION "Dmx-IN how does it work ?" [9790-10264] -->
+<h1 class="sectionedit15"><a name="a_point_about_dmx_devices" id="a_point_about_dmx_devices">A point about dmx devices</a></h1>
+
+<p class="level1">
+For just sending a good data signal, I would strongly recommend the Enttec Pro.
+</p>
+
+<p class="level1">
+For a simultaneous DMX In/Out: SIUDI 8C from Sunlite is really great. 2 Enttec Pro&#039;s, one for In, the other for Out, seems to work well also, but I need to optimize my code.
+</p>
+
+<p class="level1">
+For multi-software work  (video on ARKAOS or VVVV ), Art-Net is really great and much faster than classical DMX. Enttec&#039;s ODE has a good price/performances ratio.
+</p>
+
+<p class="level1">
+And finally, Enttec Open is of course suitable. Many users are just starting to control lights with a PC and want to try it out with these low-cost interface. Its  not opto-isolated and will not protect your computer from an electrical surge (coming generally from the dimmers thru the grounding cable). 
+For restitution of one DMX universe works like Enttec PRO. These are the same drivers.
+</p>
+<!-- EDIT15 SECTION "A point about dmx devices" [10265-11118] -->
+<h1 class="sectionedit16"><a name="dmx_interfaces_arduino_and_elbow_grease" id="dmx_interfaces_arduino_and_elbow_grease">DMX Interfaces, arduino and elbow grease</a></h1>
+
+<p class="level1">
+With a little patience and very little money, you can make your Open Enttec: just a “Arduino 2009” or “nano” (between 20 and 35 euros) and a MAX485 (5.5 euro) to transmit DMX.
+For even smaller budgets, buying a TTL serial interface (4 to 15 euros) to program the Arduino and using FTDII driver also allows transmission of DMX. The MAX485 is added to the symmetrical signal.
+It works just worry about small dmx systems.
+</p>
+
+<p class="level1">
+When you turn around much, I recommended when even being on Enttec Pro pretty indestructible …
+</p>
+<!-- EDIT16 SECTION "DMX Interfaces, arduino and elbow grease" [11119-] --></div>
+</body>
+</html>

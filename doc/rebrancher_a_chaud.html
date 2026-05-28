@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>rebrancher_a_chaud</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-12-04T09:30:08+0100"/>
+<meta name="keywords" content="rebrancher_a_chaud"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="rebrancher_a_chaud.html"/>
+<link rel="contents" href="rebrancher_a_chaud.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="rebrancher_a_chaud.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="rebrancher_a_chaud.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=rebrancher_a_chaud"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"rebrancher_a_chaud","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#que_faire_en_jeu_quand_mon_interface_dmx_ou_midi_saute">Que faire en jeu quand mon interface dmx ou midi saute ?</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#rebrancher_a_chaud_votre_interface_dmx">Rebrancher à chaud votre interface DMX</a></div></li>
+<li class="level2"><div class="li"><a href="#rebrancher_a_chaud_votre_interface_midi">Rebrancher à chaud votre interface Midi</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="que_faire_en_jeu_quand_mon_interface_dmx_ou_midi_saute" id="que_faire_en_jeu_quand_mon_interface_dmx_ou_midi_saute">Que faire en jeu quand mon interface dmx ou midi saute ?</a></h1>
+
+<p class="level1">
+Ce cas de figure peut arriver en jeu, pour cause de câble USB fatigué ou mal branché, ou une erreur humaine. 
+</p>
+
+<p class="level1">
+Contrairement à Schwartzpeter, vous pouvez débrancher / rebrancher à chaud votre hardware sans crash pour WhiteCat.
+</p>
+
+<p class="level1">
+Vous n&#039;avez pas besoin de redémarrer le chat blanc pour réinitialiser la connexion.
+</p>
+<!-- EDIT1 SECTION "Que faire en jeu quand mon interface dmx ou midi saute ?" [1-394] -->
+<h2 class="sectionedit2"><a name="rebrancher_a_chaud_votre_interface_dmx" id="rebrancher_a_chaud_votre_interface_dmx">Rebrancher à chaud votre interface DMX</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Aller dans la fenêtre CFG-Menu</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionner l&#039;onglet DMX</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="dmx_config_panel.jpeg" class="media" title="dmx_config_panel.jpg" alt="dmx_config_panel.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Clicker Art-Net pour sortir de l&#039;écoute de l&#039;Enttec Pro.</div>
+</li>
+<li class="level1"><div class="li"> Reclicker Enttec-Pro </div>
+</li>
+<li class="level1"><div class="li"> Enttec-Pro: ne pas confondre avec l&#039;Open: les drivers sont du même type mais WhiteCat freezera ( en ce cas redébranchez l&#039;interface le freeze s&#039;arrêtera)</div>
+</li>
+</ul>
+
+<p class="level2">
+<strong>Si vous utilisez la double sortie ( enttec + art net) pour piloter de la vidéo:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Ne pas oublier de réenclencher Double DMX à droite de artnet</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="dmx_artnet_doubledmx.jpeg" class="media" title="dmx_artnet_doubledmx.jpg" alt="dmx_artnet_doubledmx.jpg" />
+</p>
+
+<p class="level2">
+<strong>Si celà ne fonctionne pas ( toujours pas de LED verte):</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> débrancher physiquement l&#039;interface DMX, la rebrancher, attendre un peu ( windows ne se reconnecte à elle) et répéter la manipulation décirte au début de ce paragraphe.</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Rebrancher à chaud votre interface DMX" [395-1217] -->
+<h2 class="sectionedit3"><a name="rebrancher_a_chaud_votre_interface_midi" id="rebrancher_a_chaud_votre_interface_midi">Rebrancher à chaud votre interface Midi</a></h2>
+
+<p class="level2">
+Parfois avec windows, la connexion midi peut sauter, ce problème est généralement apparent sur les machines non mises à jour. Et disparait après mise à jour. Cepedant une fatigue des ports USB peut provoquer aussi une déconnexion.
+</p>
+
+<p class="level2">
+Lorsque vous bougez vos controles midi, rien ne change dans le retour d&#039;information, pas d&#039;info type  Chan: 0 Pitch: 56 Vel 127
+</p>
+
+<p class="level2">
+Si celà se produit en jeu, pas de panique !
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Aller dans [CFG-Menu] &gt; onglet [Midi] &gt; sous-onglet [Devices].</div>
+</li>
+</ul>
+
+<p class="level2">
+Les ports midi à gauche ( en orange) sont les entrées midi ( signal ext vers WhiteCat), les ports à droite en rouge sont les sorties midi ( WhiteCat vers interface midi).
+</p>
+
+<p class="level2">
+<img src="midi_config_hardware.jpeg" class="media" title="midi_config_hardware.jpg" alt="midi_config_hardware.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Noter quel port midi est sélectionné ( certaines interfaces midi font apparaitre plusieurs ports midi)</div>
+</li>
+<li class="level1"><div class="li"> Déselectionner le port midi de votre interface</div>
+</li>
+<li class="level1"><div class="li"> Clicker Re-scan</div>
+</li>
+<li class="level1"><div class="li"> Resélectionner le port midi de votre interface</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="midi_rescan.jpeg" class="media" title="midi_rescan.jpg" alt="midi_rescan.jpg" />
+</p>
+
+<p class="level2">
+<strong>Si celà ne fonctionne toujours pas:</strong>
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Débrancher physiquement l&#039;interface</div>
+</li>
+<li class="level1"><div class="li"> Attendre une seconde</div>
+</li>
+<li class="level1"><div class="li"> Rebranchez l&#039;interface midi</div>
+</li>
+<li class="level1"><div class="li"> Recommencer la procédure décrite ci dessus</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "Rebrancher à chaud votre interface Midi" [1218-] --></div>
+</body>
+</html>

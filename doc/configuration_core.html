@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Configuration Core — WhiteCat</title>
+  <meta name="date" content="2026-04-29"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="configuration_core_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#configuration_core">Configuration Core</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#max_calculations">Max. Calculations</a></div></li>
+<li class="level3"><div class="li"><a href="#do_calculations">Do Calculations</a></div></li>
+<li class="level3"><div class="li"><a href="#fps_rate">FPS rate</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#dmx_rate">DMX rate</a></div></li>
+</ul></li>
+<li class="level3"><div class="li"><a href="#audio">Audio</a></div></li>
+
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="configuration_core" id="configuration_core">Configuration Core</a></h1>
+
+<p class="level1">
+WhiteCat n&#039;est pas seulement un séquenciel, et les calculs en arrière plan sont conséquents, même pour de la lumière:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> 1 buffer séquenciel de 512 circuits</div>
+</li>
+<li class="level1"><div class="li"> 48 * 7 buffers de 512 circuits pour les faders</div>
+</li>
+<li class="level1"><div class="li"> 1 buffer de 512 circuits pour le tracking video</div>
+</li>
+<li class="level1"><div class="li"> 8 buffers de 512 circuits pour la trichromie</div>
+</li>
+<li class="level1"><div class="li"> 128 * 24 buffers de 512 circuits pour les chasers</div>
+</li>
+<li class="level1"><div class="li"> 4 buffers de 512 circuits pour les grid players</div>
+</li>
+<li class="level1"><div class="li"> 4 macros par circuit</div>
+</li>
+</ul>
+
+<p class="level1">
+La fenêtre de configuration du coeur de WhiteCat permet donc d&#039;alléger les procédures pour les petites machines.
+</p>
+
+<p class="level1">
+Vous pouvez donc customiser les options générales, ou tout simplement ne pas exécuter en mettant off le calcul des buffers sélectionnables:
+</p>
+
+<p class="level1">
+<img src="cfg_core.png" class="media" title="cfg_core.jpg" alt="cfg_core.jpg" />
+</p>
+<!-- EDIT1 SECTION "Configuration Core" [1-807] -->
+<h3 class="sectionedit2"><a name="max_calculations" id="max_calculations">Max. Calculations</a></h3>
+
+<p class="level3">
+Si On, définit le nombre maximum de:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Faders (48)</div>
+</li>
+<li class="level1"><div class="li"> Docks par fader (6)</div>
+</li>
+<li class="level1"><div class="li"> Chasers (127)</div>
+</li>
+<li class="level1"><div class="li"> Pistes par chaser (24)</div>
+</li>
+<li class="level1"><div class="li"> GridPlayers (4)</div>
+</li>
+<li class="level1"><div class="li"> Bangers (127)</div>
+</li>
+</ul>
+<!-- EDIT2 SECTION "Max. Calculations" [808-1009] -->
+<h3 class="sectionedit3"><a name="do_calculations" id="do_calculations">Do Calculations</a></h3>
+
+<p class="level3">
+Enclenche ou désenclenche le calcul pour:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> les faders</div>
+</li>
+<li class="level1"><div class="li"> la cuelist ( séquenciel)</div>
+</li>
+<li class="level1"><div class="li"> les bangers</div>
+</li>
+<li class="level1"><div class="li"> la trichromie</div>
+</li>
+<li class="level1"><div class="li"> le tracking video</div>
+</li>
+<li class="level1"><div class="li"> les chasers</div>
+</li>
+<li class="level1"><div class="li"> les gridplayers</div>
+</li>
+<li class="level1"><div class="li"> les channels macros</div>
+</li>
+</ul>
+
+<p class="level3">
+Mis en off, le calcul des buffers et les fonctions découlant de cette famille ( LFO, crossfade, chaser time, etc…) sont retirées du rendu.
+</p>
+
+<p class="level3">
+Toutes ces options sont sauvées dans le dossier /user fichier config_core.txt.
+</p>
+
+<p class="level3">
+Attention, désactiver CueList bloque les faders en direct channel.
+</p>
+<!-- EDIT3 SECTION "Do Calculations" [1010-1535] -->
+<h3 class="sectionedit4"><a name="fps_rate" id="fps_rate">FPS rate</a></h3>
+
+<p class="level3">
+FPS est la contraction de Frame Per Second: le nombre de fois qu&#039;une action est faite par secondes.
+</p>
+
+<p class="level3">
+Dans cette colonne vous pourrez donc modifier:
+</p>
+<!-- EDIT4 SECTION "FPS rate" [1536-1704] -->
+<h4 class="sectionedit5"><a name="dmx_rate" id="dmx_rate">DMX rate</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> le FPS de l&#039;émission DMX: vous pouvez donc passer du 50ème au 100ème de secondes ( minima 40ème pour signal “fluide”). Pourquoi le 100ème ? des questions de synchro, des questions de matériaux ( LEDS).</div>
+</li>
+<li class="level1"><div class="li"> le FPS du DMX IN: du 25ème au 50ème.</div>
+</li>
+</ul>
+
+<h3 class="sectionedit6"><a name="audio" id="audio">Audio</a></h3>
+
+<p class="level3">
+ Les fichiers .ogg et .flac sont chargés intégralement en RAM au moment du chargement dans un lecteur. 
+ Ce mécanisme garantit une lecture fluide, sans saut ni latence de décodage, même en mode CUE ou boucle. 
+ Les fichiers .wav et .mp3 ne sont pas concernés : ils utilisent leurs propres mécanismes de chargement.
+</p>
+<p class="level3"></p>
+
+Si un fichier OGG ou FLAC dépasse la limite configurée, il est lu en mode dégradé — la lecture reste possible mais peut présenter des irrégularités (repositionnement moins précis, légère latence au démarrage). 
+</p>
+
+<p class="level3">
+Dans cette colonne vous pourrez donc modifier:
+</p>
+<!-- EDIT4 SECTION "FPS rate" [1536-1704] -->
+<h4 class="sectionedit7"><a name="flac_ogg_ram" id="flac_ogg_ram">RAM ogg/flac</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> Plage : 50 à 2048 MB</div>
+</li>
+<li class="level1"><div class="li"> Valeur par défaut : 300 MB</div>
+</li>
+<li class="level1"><div class="li"> Saisir la valeur dans le champ, puis cliquer dessus pour valider.</div>  
+</li>
+</ul>
+<p class="level3"></p>Dans la plupart des situations, les 300MB de RAM sont amplement suffisants. </p>
+<p class="level2">
+<img src="audio_ram_allocation.png" class="media" title="audio_midibutton_affect" alt="audio_midibutton_affect" />
+</p>
+<p class="level2">
+Le tableau ci-dessous donne un ordre de grandeur de la RAM occupée selon la durée et le format (valeurs approximatives) :
+</p>
+
+<div class="table sectionedit27">
+<table class="inline">
+  <thead>
+    <tr>
+      <th>Durée</th>
+      <th>OGG ~128 kbps</th>
+      <th>OGG ~256 kbps</th>
+      <th>FLAC stéréo 44,1 kHz 16 bit</th>
+      <th>FLAC stéréo 96 kHz 24 bit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1 min</td><td>~1 MB</td><td>~2 MB</td><td>~6 MB</td><td>~18 MB</td></tr>
+    <tr><td>5 min</td><td>~5 MB</td><td>~10 MB</td><td>~29 MB</td><td>~88 MB</td></tr>
+    <tr><td>10 min</td><td>~9 MB</td><td>~19 MB</td><td>~59 MB</td><td>~176 MB</td></tr>
+    <tr><td>30 min</td><td>~28 MB</td><td>~56 MB</td><td><strong>~176 MB</strong></td><td style="color:#c06060"><strong>~528 MB ⚠</strong></td></tr>
+    <tr><td>1 heure</td><td>~57 MB</td><td>~113 MB</td><td style="color:#c06060"><strong>~352 MB ⚠</strong></td><td style="color:#c06060"><strong>~1056 MB ⚠</strong></td></tr>
+    <tr><td>2 heures</td><td>~113 MB</td><td>~225 MB</td><td style="color:#c06060"><strong>~704 MB ⚠</strong></td><td style="color:#c06060"><strong>~2112 MB ⚠</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="level2">
+⚠ = dépasse la limite par défaut de 300 MB → lecture en mode dégradé. Augmenter la limite RAM si nécessaire.
+</p>
+
+<p class="level2">
+<strong>Conseils :</strong> augmenter la limite si vos fichiers OGG/FLAC sont volumineux et que la machine dispose de suffisamment de RAM. Réduire sur les configurations à faible mémoire.
+</p>
+
+
+
+
+</body>
+</html>

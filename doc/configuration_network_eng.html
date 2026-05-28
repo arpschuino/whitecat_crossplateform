@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>configuration_network_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2013-07-06T15:53:40+0200"/>
+<meta name="keywords" content="configuration_network_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="configuration_network_eng.html"/>
+<link rel="contents" href="configuration_network_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="configuration_network_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="configuration_network_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_network_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"configuration_network_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#network_configuration">NetWork configuration</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#ip_routing">IP ROUTING</a></div></li>
+<li class="level3"><div class="li"><a href="#artnet">ArtNet</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#udp_ports">UDP ports</a></div></li>
+<li class="level4"><div class="li"><a href="#assignment_to_the_dock_artnet_in">Assignment to the dock ArtNet In</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#fantastick_icat_builder">Fantastick iCat Builder</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="network_configuration" id="network_configuration">NetWork configuration</a></h1>
+
+<p class="level1">
+<img src="network_cfg.jpeg" class="media" alt="" />
+</p>
+
+<p class="level1">
+Version 0.8.3:
+A significant number of improvements were made to the network configuration tab.
+</p>
+
+<p class="level1">
+<strong>Do not forget to click [SAVE CFG] in order to save the network settings.</strong>
+</p>
+<!-- EDIT1 SECTION "NetWork configuration" [1-237] -->
+<h3 class="sectionedit2"><a name="ip_routing" id="ip_routing">IP ROUTING</a></h3>
+
+<p class="level3">
+This list allows you to see which adapters are connected to a network.
+To the left of each is the IP address that White Cat can use:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li">	to receive Artnet</div>
+</li>
+<li class="level2"><div class="li">	to send Artnet</div>
+</li>
+<li class="level2"><div class="li">	for communication with iCat</div>
+</li>
+</ul>
+
+<p class="level3">
+You can have three types of communication on separate cards or on the same card.
+</p>
+<!-- EDIT2 SECTION "IP ROUTING" [238-550] -->
+<h3 class="sectionedit3"><a name="artnet" id="artnet">ArtNet</a></h3>
+
+<p class="level3">
+As already mentioned in the DMX configuration section, you will have already entered the IP address of your Enttec Ode or other Artnet interface box and the subnet and universe that it transmits on (usually 0-0).
+</p>
+
+<p class="level3">
+Warning:
+So be sure that you have a network adapter set to that IP family on your machine. The DMX Configuration tab indicates where to send the data (ie the IP of the Ode or other Artnet interface box). It does not define by what route the data will be sent. That is the IP routing, which is on the Network tab as shown above.
+</p>
+
+<p class="level3">
+You can connect/disconnect the fly to the network adapter of your choice (WiFi/RJ45 and PCMCIA/USB).
+When you connect to a network adapter on this menu, you can receive an Artnet signal from this IP card and from this IP family.
+</p>
+
+<p class="level3">
+For the Artnet program to work, it is necessary that the Artnet IP defined in the configuration (CFG DMX) be in the same IP family as the one White Cat is logged onto (eg if the Artnet signal is sent to 192.168.1.50, then you should be connected to a network adapter with an IP of 192.168.1.X).
+</p>
+<!-- EDIT3 SECTION "ArtNet" [551-1633] -->
+<h4 class="sectionedit4"><a name="udp_ports" id="udp_ports">UDP ports</a></h4>
+
+<p class="level4">
+Default UDP port is ArtNet port 6454. DMX interfaces, and most of their software transmit or receive information through this port. For example, if the OUT port for White Cat is not 6454, then the ENTTEC ODE will receive nothing as it listens to the port (6454) specified by the Artnet protocol.
+</p>
+
+<p class="level4">
+What you need to understand is that on one machine, <strong>only one application</strong> can connect to a UDP port IN and only one application can connect to a UDP port OUT.
+</p>
+
+<p class="level4">
+Control is taken by these applications.  As with a USB port, if you connect your dmx interface that you use with White Cat, and you try to start Schwarztpeter, it will not work. White Cat has taken control. A port IN&gt; one application, OUT port&gt; one application.
+</p>
+
+<p class="level4">
+If you open a software program like VVVV with a DMX node (Arnet receiver) and then you open White Cat with server mode enabled (ON receiving Art-Net), the VVVV node will disappear because White Cat takes over the UDP port IN.
+</p>
+
+<p class="level4">
+This problem with ports was resolved on the ChamSys MagicQ software by letting you specify on what port to transmit and what port to receive, thus allowing the coexistence of several Artnet applications on the same machine (ie 6454 to send and 6453 to receive).
+</p>
+<!-- EDIT4 SECTION "UDP ports" [1634-2861] -->
+<h4 class="sectionedit5"><a name="assignment_to_the_dock_artnet_in" id="assignment_to_the_dock_artnet_in">Assignment to the dock ArtNet In</a></h4>
+
+<p class="level4">
+You can receive up to 4 universes of ArtNet in White Cat.
+This choice is made from the sixteen universes of subnet 0 numbered 0-15.
+To assign an ArtNet universe to a dock:
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> type the number of the universe (0-15)</div>
+</li>
+<li class="level1"><div class="li"> click [Affect to dock]</div>
+</li>
+<li class="level1"><div class="li"> click the dock to which you want to assign this dynamic content</div>
+</li>
+<li class="level1"><div class="li"> set ArtNet IN to ON. This will open the ArtNet server on the specified port</div>
+</li>
+</ol>
+
+<p class="level4">
+When you quit White Cat, the most recent configuration is saved, so that it is re-opened at startup.
+</p>
+<!-- EDIT5 SECTION "Assignment to the dock ArtNet In" [2862-3392] -->
+<h3 class="sectionedit6"><a name="fantastick_icat_builder" id="fantastick_icat_builder">Fantastick iCat Builder</a></h3>
+
+<p class="level3">
+Remote iPhone/iPad: here you define what address to send the data to fantastick and which UDP ports to use.
+See Fantastick-iCat
+</p>
+<!-- EDIT6 SECTION "Fantastick iCat Builder" [3393-] --></div>
+</body>
+</html>

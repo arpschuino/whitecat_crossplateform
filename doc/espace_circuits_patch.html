@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>espace_circuits_patch</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-08T09:25:25+0200"/>
+<meta name="keywords" content="espace_circuits_patch"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="espace_circuits_patch.html"/>
+<link rel="contents" href="espace_circuits_patch.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="espace_circuits_patch.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="espace_circuits_patch.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=espace_circuits_patch"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"espace_circuits_patch","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#le_patch">Le Patch</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#pour_acceder_au_patch">Pour accéder au Patch</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#utilite_du_patch">Utilité du Patch</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#convention_d_affichage">Convention d&#039;affichage</a></div></li>
+<li class="level2"><div class="li"><a href="#retour_d_infos">Retour d&#039;infos</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#affectation_d_un_ou_plusieurs_gradateurs_a_un_circuit">Affectation d&#039;un ou plusieurs gradateurs à un circuit</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#selection_de_gradateurs_dimmers">Sélection de gradateurs (dimmers)</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_d_un_circuit_a_un_gradateur">Affectation d&#039;un circuit à un gradateur</a></div></li>
+<li class="level2"><div class="li"><a href="#desaffectation">Désaffectation</a></div></li>
+<li class="level2"><div class="li"><a href="#patcher_droit">Patcher droit</a></div></li>
+<li class="level2"><div class="li"><a href="#check_channel">Check Channel</a></div></li>
+<li class="level2"><div class="li"><a href="#patcher_avec_les_gradas_affiches_sous_les_circuits">Patcher avec les gradas affichés sous les circuits</a></div></li>
+<li class="level2"><div class="li"><a href="#patcher_depuis_le_plan_lumiere">Patcher depuis le plan lumière</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#affecter_une_courbe_curves">Affecter une courbe (Curves)</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#fonctionnement_de_l_edition_de_courbes">Fonctionnement de l&#039;édition de courbes:</a></div></li>
+<li class="level2"><div class="li"><a href="#creation_d_une_courbe">Création d&#039;une courbe:</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_d_une_courbe_a_un_gradateur">Affectation d&#039;une courbe à un gradateur:</a></div></li>
+<li class="level2"><div class="li"><a href="#charger_un_preset_de_courbe_dans_une_des_16_courbes_personnelles">Charger un preset de courbe dans une des 16 courbes personnelles</a></div></li>
+<li class="level2"><div class="li"><a href="#remettre_en_lineaire_toutes_les_courbes_de_son_patch_sans_toucher_a_l_affectation_des_gradateurs">Remettre en linéaire toutes les courbes de son patch sans toucher à l&#039;affectation des gradateurs</a></div></li>
+<li class="level2"><div class="li"><a href="#tester_sa_courbe_et_l_affiner">Tester sa courbe et l&#039;affiner</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#checks">CHECKS</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#checker_les_gradateurs">Checker les gradateurs</a></div></li>
+<li class="level2"><div class="li"><a href="#checker_les_circuits_attribues">Checker les circuits attribués</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="le_patch" id="le_patch">Le Patch</a></h1>
+<!-- EDIT1 SECTION "Le Patch" [1-23] -->
+<h4 class="sectionedit2"><a name="pour_acceder_au_patch" id="pour_acceder_au_patch">Pour accéder au Patch</a></h4>
+<ul class="level4">
+<li class="level1"><div class="li"> à la souris clicker [PATCH]</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="click_patch.jpeg" class="media" title="click_patch.jpg" alt="click_patch.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> au clavier taper [SHIFT][P]</div>
+</li>
+</ul>
+
+<p class="level4">
+<img src="patch_seul.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT2 SECTION "Pour accéder au Patch" [24-163] -->
+<h3 class="sectionedit3"><a name="utilite_du_patch" id="utilite_du_patch">Utilité du Patch</a></h3>
+
+<p class="level3">
+Le patch électronique permet:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> de piloter depuis un circuit un ou plusieurs gradateurs</div>
+</li>
+<li class="level1"><div class="li"> ce pilotage, ce <strong>re-routage</strong> des signaux permet d&#039;avoir une logique personnelle dans la numérotation de ses circuits et de son plan de feux: le circuit 1 sera toujours les contres en 201, qui seront dans tel théâtre branchés au gradateur 60 ou dans tel autre aux gradateurs 24 et 77. Plutôt que de devoir appeler dans sa conduite à chaque fois des numéros qui ne sont pas les vôtres et varient fonction des câblages de la salle, une fois fait le patch, pour allumer vos contres en 201, vous utiliserez votre numéro de circuit à vous, le 1.</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>C&#039;est l&#039;affectation de gradateurs à un circuit.</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> de régler des problèmes de réponses lumineuses. Ces problèmes peuvent être de plusieurs natures: </div>
+<ol class="level3">
+<li class="level2"><div class="li">la lampe du projecteur met plus de temps à briller et s&#039;allume d&#039;un coup à 25%( problématique du PAR)</div>
+</li>
+<li class="level2"><div class="li">les gradateurs du théâtre qui vous acceuille sont très vieux, ce sont des analogiques avec des triacs bien fatigués et des hystéris bien différentes. Leurs réponses électrique par rapport à un même signal reçu sont extrêmement différentes d&#039;un gradateur à l&#039;autre. Vous êtes contraint à mettre une partie de votre face à 80 % alors que l&#039;autre est à 50% et une autre à 65%, pour obtenir un même résultat lumineux, une intensité similaire.</div>
+</li>
+<li class="level2"><div class="li">les caméras en télé sont plus sensibles aux fluctuations d&#039;intensité dans la zône des 50 à 70 %. On préfèrera donc changer la courbe de réponse, la tricher( courbe TV, dite “Square”).</div>
+</li>
+<li class="level2"><div class="li">certains gradateurs n&#039;ont pas de courbes intégrées </div>
+</li>
+</ol>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> de tricher (en faisant extrêment attention ) certaines problématiques:</div>
+<ol class="level3">
+<li class="level2"><div class="li">des PARS en 110v sans bretelle de dérivation, que vous briderez en courbe à 50% pour éviter que la lampe n&#039;explose ( attention aux erreurs qui peuvent être lourdes de conséquences pour les gens autour de l&#039;appareil!)</div>
+</li>
+<li class="level2"><div class="li">un shutter vidéo en dmx monté à l&#039;envers, où il vous faut délivrer 0 à 100% et 100 à 0%</div>
+</li>
+<li class="level2"><div class="li">la mise en place d&#039;une fonction relais en on-off pour un allumage de sodium, etc etc…</div>
+</li>
+</ol>
+</li>
+</ul>
+
+<p class="level3">
+<strong>C&#039;est l&#039;utilisation de courbes.</strong>
+</p>
+<!-- EDIT3 SECTION "Utilité du Patch" [164-2370] -->
+<h2 class="sectionedit4"><a name="convention_d_affichage" id="convention_d_affichage">Convention d&#039;affichage</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> en premier le chiffre du gradateur piloté</div>
+</li>
+<li class="level1"><div class="li"> en dessous le chiffre du circuit qui le pilote</div>
+</li>
+<li class="level1"><div class="li"> en dernier la courbe affectée à ce gradateur</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="convention_patch.jpeg" class="media" title="convention_patch.jpg" alt="convention_patch.jpg" />
+</p>
+<!-- EDIT4 SECTION "Convention d'affichage" [2371-2586] -->
+<h2 class="sectionedit5"><a name="retour_d_infos" id="retour_d_infos">Retour d&#039;infos</a></h2>
+
+<p class="level2">
+On notera dans la fenêtre de retour d&#039;infos:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> last ch selected:  le dernier circuit sélectionné, qui sera donc celui auquel on affectera les gradateurs sélectionnés</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> La chaine de dimmers au fur à mesure qu&#039;elle est saisie, avec les manipultaions de sélection et d&#039;affectation, est affichée sous last ch.</div>
+</li>
+</ul>
+
+<p class="level2">
+    Ici le Dimmer 12 et le dimmer 56 ont été affecté au channel 45
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="retour_patch.jpeg" class="mediacenter" title="retour_patch.jpg" alt="retour_patch.jpg" /></div>
+</p>
+<!-- EDIT5 SECTION "Retour d'infos" [2587-3033] -->
+<h1 class="sectionedit6"><a name="affectation_d_un_ou_plusieurs_gradateurs_a_un_circuit" id="affectation_d_un_ou_plusieurs_gradateurs_a_un_circuit">Affectation d&#039;un ou plusieurs gradateurs à un circuit</a></h1>
+<!-- EDIT6 SECTION "Affectation d'un ou plusieurs gradateurs à un circuit" [3034-3103] -->
+<h2 class="sectionedit7"><a name="selection_de_gradateurs_dimmers" id="selection_de_gradateurs_dimmers">Sélection de gradateurs (dimmers)</a></h2>
+
+<p class="level2">
+La sélection des gradateurs se fait sur le même principe que celle des circuits:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> à la souris:</div>
+</li>
+</ul>
+<pre class="code">          En sélectionnant ou désélectionnant les gradateurs d&#039;un click, et en naviguant via un ascenceur vertical dans les 512 gradateurs.
+          Et clickant les fonctions du patch :
+          [unselect] pour déselectionner tous les gradateurs sélectionnés 
+          [all] pour sélectionner tous les gradateurs (de 1 à 512)</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> au clavier, saisie simple:</div>
+</li>
+</ul>
+<pre class="code">          Ex: Grada 5 en circuit 3:  [3][+] [5][SHIFT][ENTER]</pre>
+<pre class="code">          La touche d&#039;attribution de niveau devient avec SHIFT une attribution de grada.</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> au clavier, saisie complexe:  en utilisant exactement les mêmes raccourcis claviers <strong>doublés de la touche [SHIFT]</strong></div>
+</li>
+</ul>
+<pre class="code">          Au clavier, on sélectionnera les gradateurs ( dimmers) 4 et 6 en tapant [4][SHIFT][+] [6][SHIFT][+]
+          On pourra tout sélectionner en faisant [SHIFT][Y]
+          On pourra tout déselectionner en tapant [SHIFT][ESC]
+          Faire une sélection de gradateurs chainée en utilisant [SHIFT][TAB]: [12][SHIFT][+][18][SHIFT][TAB]
+          Déselectionner un gradateur avec [SHIFT][-].</pre>
+<pre class="code">          [SHIFT][ENTER] pour attribuer les gradateurs sélectionnés au dernier circuit sélectionné.</pre>
+<!-- EDIT7 SECTION "Sélection de gradateurs (dimmers)" [3104-4434] -->
+<h2 class="sectionedit8"><a name="affectation_d_un_circuit_a_un_gradateur" id="affectation_d_un_circuit_a_un_gradateur">Affectation d&#039;un circuit à un gradateur</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> à la souris: </div>
+</li>
+</ul>
+<pre class="code">     clicker le circuit désiré dans la zône circuit.
+     puis clicker [AFFECT]
+     puis clicker le gradateur auquel affecter ce circuit
+     reclicker [AFFECT] puis un autre gradateur pour en rajouter un
+     ne pas oublier de faire [ESC] pour déselectionner le circuit </pre>
+<ul class="level2">
+<li class="level1"><div class="li"> au clavier:</div>
+</li>
+</ul>
+<pre class="code">     sélectionner le circuit à affecter.
+     Puis l&#039;affecter en tapant [SHIFT][ENTER].
+     Dans le cas d&#039;un patch sérieux, avec feuille de patch et une grande série d&#039;affectation, une affectation clavier se fera ainsi:
+     sélection des gradateurs à affecter: [3][SHIFT][+][4][SHIFT][+]
+     sélection du circuit: [25][+]
+     affectation: [SHIFT][ENTER]</pre>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="patch_affect.jpeg" class="mediacenter" title="patch_affect.jpg" alt="patch_affect.jpg" /></div>
+</p>
+<!-- EDIT8 SECTION "Affectation d'un circuit à un gradateur" [4435-5216] -->
+<h2 class="sectionedit9"><a name="desaffectation" id="desaffectation">Désaffectation</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> à la souris: </div>
+</li>
+</ul>
+<pre class="code">     clicker le gradateur désiré
+     puis clicker [CLEAR]</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> au clavier:</div>
+</li>
+</ul>
+<pre class="code">     sélectionner le/les gradateurs
+     taper [SHIFT][o] </pre>
+<!-- EDIT9 SECTION "Désaffectation" [5217-5412] -->
+<h2 class="sectionedit10"><a name="patcher_droit" id="patcher_droit">Patcher droit</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> à la souris: </div>
+</li>
+</ul>
+<pre class="code">     clicker le gradateur désiré.
+     puis clicker [DEFAULT]</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> au clavier:</div>
+</li>
+</ul>
+<pre class="code">     sélectionner le/les gradateurs
+     taper [SHIFT][I] </pre>
+<pre class="code">   ! où on en déduit que mettre tout son patch droit équivaut à faire [SHIFT][Y][SHIFT][I]
+   ! où on en déduit que pour effacer tout le patch et tout désaffecter il faut faire [SHIFT][Y][SHIFT][O] </pre>
+<!-- EDIT10 SECTION "Patcher droit" [5413-5821] -->
+<h2 class="sectionedit11"><a name="check_channel" id="check_channel">Check Channel</a></h2>
+
+<p class="level2">
+Les touches [GAUCHE] et [DROITE] permettent de sélectionner le circuit précédent, ou le circuit suivant.
+</p>
+
+<p class="level2">
+[CTRL][GAUCHE] ou [CTRL][DROITE] envoient le circuit à Full.
+</p>
+
+<p class="level2">
+<strong>Si la fenêtre de Patch est ouverte, les gradateurs affectés à ce circuit seront sélectionnés.</strong>
+</p>
+<!-- EDIT11 SECTION "Check Channel" [5822-6125] -->
+<h2 class="sectionedit12"><a name="patcher_avec_les_gradas_affiches_sous_les_circuits" id="patcher_avec_les_gradas_affiches_sous_les_circuits">Patcher avec les gradas affichés sous les circuits</a></h2>
+
+<p class="level2">
+Le mode [SHOW 1ST DIMMER] permet d&#039;afficher dans l&#039;espace circuits les 4 premiers gradas affectés à un circuit.
+Au dessus de 4 gradas affectés à un circuit un petit [+] s&#039;affiche.
+</p>
+
+<p class="level2">
+Pour l&#039;enclencher clicker [SHOW 1ST DIMMER].
+</p>
+
+<p class="level2">
+Cette option est notamment fort utile avec [LightPlot].
+</p>
+
+<p class="level2">
+<img src="patch_show1stdim.jpeg" class="media" title="patch_show1stdim.jpg" alt="patch_show1stdim.jpg" />
+</p>
+<!-- EDIT12 SECTION "Patcher avec les gradas affichés sous les circuits" [6126-6505] -->
+<h2 class="sectionedit13"><a name="patcher_depuis_le_plan_lumiere" id="patcher_depuis_le_plan_lumiere">Patcher depuis le plan lumière</a></h2>
+
+<p class="level2">
+Le mode [LINK LIGHTPLOT] permet de patcher et dépatcher depuis le plan lumière, et de prendre en considération les changements faits dans le patch.
+</p>
+
+<p class="level2">
+Pour l&#039;enclencher clicker [LINK LIGHTPLOT].
+</p>
+
+<p class="level2">
+Voir: <a href="plot.html" class="wikilink1" title="Plot">Light Plot: le plan lumière intégré</a>
+</p>
+
+<p class="level2">
+<img src="patch_lightplot.jpeg" class="media" title="patch_lightplot.jpg" alt="patch_lightplot.jpg" />
+</p>
+<!-- EDIT13 SECTION "Patcher depuis le plan lumière" [6506-6828] -->
+<h1 class="sectionedit14"><a name="affecter_une_courbe_curves" id="affecter_une_courbe_curves">Affecter une courbe (Curves)</a></h1>
+
+<p class="level1">
+Une courbe est donc un trichage du signal, faite de manière purement logicielle, de façon à compenser l&#039;émission linéaire d&#039;un niveau, à l&#039;arrondir, le brider, ou l&#039;incurver…
+</p>
+
+<p class="level1">
+<strong>On accède à l&#039;éditeur de courbes en clickant [Curve]</strong>
+</p>
+
+<p class="level1">
+<img src="curves.jpeg" class="media" alt="" />
+</p>
+<!-- EDIT14 SECTION "Affecter une courbe (Curves)" [6829-7133] -->
+<h2 class="sectionedit15"><a name="fonctionnement_de_l_edition_de_courbes" id="fonctionnement_de_l_edition_de_courbes">Fonctionnement de l&#039;édition de courbes:</a></h2>
+
+<p class="level2">
+<strong>La courbe du signal est ainsi représentée:</strong>
+</p>
+
+<p class="level2">
+<strong>-en blanc le niveau du signal issu des circuits</strong>
+</p>
+
+<p class="level2">
+<strong>-en rouge le niveau du signal triché, en sortie Dmx</strong>
+</p>
+
+<p class="level2">
+Il y a 5 points de contrôle que l&#039;on peut déplacer sur la grille. 
+</p>
+
+<p class="level2">
+Ces contrôles peuvent être déplacés. La courbe les reliant peut être modifiée selon une courbe de béziers dont le facteur est modulable sur l&#039;ensemble de la courbe ( tirette rouge sous le tableau).
+</p>
+
+<p class="level2">
+Il y a 16 courbes d&#039;enregistrables dans White Cat.
+La courbe 1 est la courbe par défaut affectée à chacun des dimmers. Vous ferez attention à l&#039;éditer que si vraiment désiré.
+</p>
+<!-- EDIT15 SECTION "Fonctionnement de l'édition de courbes:" [7134-7805] -->
+<h2 class="sectionedit16"><a name="creation_d_une_courbe" id="creation_d_une_courbe">Création d&#039;une courbe:</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionnez une des 16 courbes de votre choix en clickant dessus sur l&#039;une des docks de 1 à 16.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclenchez le mode Edit en clickant sur [EDIT]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Editez la courbe comme désiré, en clickant au dessus d&#039;un des 5 points de contrôle, ou sur l&#039;axe vertical passant par ce point de contrôle.</div>
+</li>
+</ul>
+<!-- EDIT16 SECTION "Création d'une courbe:" [7806-8146] -->
+<h2 class="sectionedit17"><a name="affectation_d_une_courbe_a_un_gradateur" id="affectation_d_une_courbe_a_un_gradateur">Affectation d&#039;une courbe à un gradateur:</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionner les gradateurs auquels affecter la courbe sélectionnée ( sur l&#039;image il s&#039;agit de la courbe n°2)</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Clickez [Affect to dimmer]. Les gradateurs se sont vus affectés la courbe 2.</div>
+</li>
+</ul>
+<!-- EDIT17 SECTION "Affectation d'une courbe à un gradateur:" [8147-8402] -->
+<h2 class="sectionedit18"><a name="charger_un_preset_de_courbe_dans_une_des_16_courbes_personnelles" id="charger_un_preset_de_courbe_dans_une_des_16_courbes_personnelles">Charger un preset de courbe dans une des 16 courbes personnelles</a></h2>
+
+<p class="level2">
+Dans le cas d&#039;un besoin de nettoyage de courbe, on peut charger un modèle de courbe.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclenchez le mode Edit en clickant sur [EDIT]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionner par un click de souris l&#039;un des 4 modèles de courbes chargeables:</div>
+</li>
+</ul>
+<pre class="code">[linear] pour la courbe droite
+[square] pour la courbe télé
+[preheat] pour une courbe préchauffant le filament des PARS
+[fluo] pour une courbe dédiée aux fluorescents graduables</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> Clickez la courbe à laquelle affecter ce preset.</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> La courbe est désormais chargée avec la base désirée, que vous pouvez désormais modifier à volonté.</div>
+</li>
+</ul>
+<!-- EDIT18 SECTION "Charger un preset de courbe dans une des 16 courbes personnelles" [8403-9063] -->
+<h2 class="sectionedit19"><a name="remettre_en_lineaire_toutes_les_courbes_de_son_patch_sans_toucher_a_l_affectation_des_gradateurs" id="remettre_en_lineaire_toutes_les_courbes_de_son_patch_sans_toucher_a_l_affectation_des_gradateurs">Remettre en linéaire toutes les courbes de son patch sans toucher à l&#039;affectation des gradateurs</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionner par un click de souris le modèle  [linear]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Clicker la courbe par défaut de votre choix (par ex la courbe 1)</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Sélectionner tous les gradateurs par un [SHIFT][Y]</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Clicker [Affect to dimmer].</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> Terminer par une déselection de tous les gradateurs: [SHIFT][ESC]</div>
+</li>
+</ul>
+<!-- EDIT19 SECTION "Remettre en linéaire toutes les courbes de son patch sans toucher à l'affectation des gradateurs" [9064-9476] -->
+<h2 class="sectionedit20"><a name="tester_sa_courbe_et_l_affiner" id="tester_sa_courbe_et_l_affiner">Tester sa courbe et l&#039;affiner</a></h2>
+
+<p class="level2">
+Il faut charger le circuit qui pilote le gradateur pour lequel on édite la courbe, dans un Master. 
+</p>
+<ol class="level2">
+<li class="level1"><div class="li">Sélectionner le circuit voulu à full</div>
+</li>
+<li class="level1"><div class="li">clicker [STORE] ou taper [F1]</div>
+</li>
+<li class="level1"><div class="li">clicker le dock du master choisit</div>
+</li>
+<li class="level1"><div class="li">monter le niveau du master en question</div>
+</li>
+<li class="level1"><div class="li">travailler votre courbe</div>
+</li>
+</ol>
+
+<p class="level2">
+Voir en profondeur: la section <a href="espace_faders.html" class="wikilink1" title="Espace Faders">L&#039;espace Faders</a> pour charger une sélection de circuits à un niveau donné dans un master.
+</p>
+<!-- EDIT20 SECTION "Tester sa courbe et l'affiner" [9477-9947] -->
+<h1 class="sectionedit21"><a name="checks" id="checks">CHECKS</a></h1>
+<!-- EDIT21 SECTION "CHECKS" [9948-9969] -->
+<h2 class="sectionedit22"><a name="checker_les_gradateurs" id="checker_les_gradateurs">Checker les gradateurs</a></h2>
+
+<p class="level2">
+0.7.5
+Le check gradateurs se fait en clickant <strong>[Check Dimmers]</strong>
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Sélectionnez à la souris un gradateur</div>
+</li>
+<li class="level1"><div class="li"> Utilisez le clavier: <strong>[SHIFT][LEFT]</strong> ou <strong>[SHIFT][RIGHT]</strong> pour naviguer dans les gradateurs et les envoyer, en by-passant ainsi le patch et les envois de data pour le gradateur séléctionné.</div>
+</li>
+</ol>
+
+<p class="level2">
+L&#039;envoi se fait par défaut à 75% de façon à préserver les lampes de 5kw et de 2kw. Ce niveau peut être modifié depuis la fenêtre de <a href="configuration_generale.html" class="wikilink1" title="configuration_generale">configuration générale</a>.
+</p>
+
+<p class="level2">
+Vous ne voyez rien sur l&#039;écran: le signal est by-passé directement dans le buffer dmx envoyé à l&#039;interface.
+</p>
+
+<p class="level2">
+<img src="patch_check_dimmers.jpeg" class="media" title="patch_check_dimmers.jpg" alt="patch_check_dimmers.jpg" />
+</p>
+<!-- EDIT22 SECTION "Checker les gradateurs" [9970-10652] -->
+<h2 class="sectionedit23"><a name="checker_les_circuits_attribues" id="checker_les_circuits_attribues">Checker les circuits attribués</a></h2>
+
+<p class="level2">
+Pour tester les circuits et voir si ils sont bien patchés, clicker le premier circuit à tester, dans l&#039;espace circuits.
+</p>
+
+<p class="level2">
+Puis avec les flèches, faire <strong> [CTRL][LEFT]</strong> ou <strong>[CTRL][RIGHT]</strong> au clavier.
+</p>
+
+<p class="level2">
+Vous vous déplacez ainsi dans les circuits en faisant briller à 100% chaque circuit (Ce niveau peut être modifié depuis la fenêtre de <a href="configuration_generale.html" class="wikilink1" title="configuration_generale">configuration générale</a>). Cette procédure, dite CHECK CHANNEL, peut être aussi utile pour vérifier avant le début d&#039;un spectacle qu&#039;aucune lampe n&#039;est morte lors des répétitions ou de la représentation de la veille.
+</p>
+<!-- EDIT23 SECTION "Checker les circuits attribués" [10653-] --></div>
+</body>
+</html>

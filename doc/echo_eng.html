@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>echo_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-10-27T21:06:08+0200"/>
+<meta name="keywords" content="echo_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="echo_eng.html"/>
+<link rel="contents" href="echo_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="echo_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="echo_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=echo_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"echo_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#echo">Echo</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#introducing_echo">Introducing Echo</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#echo_presets">Echo Presets</a></div></li>
+<li class="level4"><div class="li"><a href="#table_of_channels">Table of channels</a></div></li>
+<li class="level4"><div class="li"><a href="#echo_preset_constants">Echo preset constants</a></div></li>
+<li class="level4"><div class="li"><a href="#manipulations_connected_with_faders">Manipulations connected with Faders</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#editing_channel_levels">Editing channel levels</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#working_with_faders">Working with faders</a></div></li>
+<li class="level3"><div class="li"><a href="#echo_fader">ECHO FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#snap_fader">SNAP FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#bounce">BOUNCE</a></div></li>
+<li class="level3"><div class="li"><a href="#snap_and_kill_bounce">SNAP AND KILL BOUNCE</a></div></li>
+<li class="level3"><div class="li"><a href="#recall_fader">RECALL FADER</a></div></li>
+<li class="level3"><div class="li"><a href="#fader_used_by_the_echo_preset">Fader used by the Echo Preset</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#echo_presets1">Echo Presets</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#selecting_an_echo_preset">Selecting an Echo preset</a></div></li>
+<li class="level3"><div class="li"><a href="#erasing_a_preset_echo">Erasing a preset echo</a></div></li>
+<li class="level3"><div class="li"><a href="#erasing_high_or_low_levels">Erasing high or low levels</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#midi_assignment">Midi Assignment</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="echo" id="echo">Echo</a></h1>
+
+<p class="level1">
+Right click to get to the [MAIN MENU] and click [Echo]:
+</p>
+
+<p class="level1">
+<img src="echo_open.jpeg" class="media" title="echo_open.jpg" alt="echo_open.jpg" />
+</p>
+<!-- EDIT1 SECTION "Echo" [1-96] -->
+<h2 class="sectionedit2"><a name="introducing_echo" id="introducing_echo">Introducing Echo</a></h2>
+
+<p class="level2">
+[Echo] is a module to bring down levels of circuits in a “realistic” manner.
+</p>
+
+<p class="level2">
+When channels touch zero, they will bounce with the parameters of gravity, mass and energy as assigned in the Echo preset.
+</p>
+
+<p class="level2">
+A rebound in continuous mode (Echo fader) is like a light echoing, hence the name of the module.
+</p>
+
+<p class="level2">
+<img src="echo_main.jpeg" class="media" title="echo_main.jpg" alt="echo_main.jpg" />
+</p>
+<!-- EDIT2 SECTION "Introducing Echo" [97-445] -->
+<h4 class="sectionedit3"><a name="echo_presets" id="echo_presets">Echo Presets</a></h4>
+
+<p class="level4">
+There are 24 presets that Echo can run at the same time. Each preset can be assigned to a fader.
+</p>
+<!-- EDIT3 SECTION "Echo Presets" [446-565] -->
+<h4 class="sectionedit4"><a name="table_of_channels" id="table_of_channels">Table of channels</a></h4>
+
+<p class="level4">
+The array of 512 channels is displayed below.
+</p>
+
+<p class="level4">
+The 512 channels can be manipulated with the mouse, or the values can be retrieved from a fader.
+</p>
+
+<p class="level4">
+For each channel you can edit the high level, or a low level if you do not want the channel to go all the way to zero.
+</p>
+<!-- EDIT4 SECTION "Table of channels" [566-857] -->
+<h4 class="sectionedit5"><a name="echo_preset_constants" id="echo_preset_constants">Echo preset constants</a></h4>
+
+<p class="level4">
+Below the table of channels, you can manipulate the constants of the Echo Preset:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> gravity</div>
+</li>
+<li class="level1"><div class="li"> mass</div>
+</li>
+<li class="level1"><div class="li"> the energy level of the channels</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "Echo preset constants" [858-1030] -->
+<h4 class="sectionedit6"><a name="manipulations_connected_with_faders" id="manipulations_connected_with_faders">Manipulations connected with Faders</a></h4>
+
+<p class="level4">
+On the left are the various ways the fader can play the Echo Preset:
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> [FADER ECHO] to trigger automatic and continuous Preset Echoes</div>
+</li>
+<li class="level1"><div class="li"> [SNAP FADER] to retrieve values from a fader</div>
+</li>
+<li class="level1"><div class="li"> [BOUNCE] key to manually trigger the Echo</div>
+</li>
+<li class="level1"><div class="li"> [SNAP AND KILL BOUNCE] to retrieve values from a fader, then set that fader to 0 and trigger the Bounce</div>
+</li>
+</ul>
+
+<p class="level4">
+The Number of the fader assigned to the Echo is editable (Snap Fader).
+</p>
+
+<p class="level4">
+The output of an Echo preset is assigned to a dock.
+</p>
+<!-- EDIT6 SECTION "Manipulations connected with Faders" [1031-1541] -->
+<h2 class="sectionedit7"><a name="editing_channel_levels" id="editing_channel_levels">Editing channel levels</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> First click [EDIT]</div>
+</li>
+<li class="level1"><div class="li"> Select the Preset Echo of your choice (1 to 24)</div>
+</li>
+<li class="level1"><div class="li"> Drag with the mouse in the channels window to manipulate the levels of channels.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_ch_edit.jpeg" class="media" title="echo_ch_edit.jpg" alt="echo_ch_edit.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> To edit the low level of the bounces of the channel, click [CH.LEVEL] to make it toggle to [CH.GROUND].</div>
+</li>
+<li class="level1"><div class="li"> Drag with the mouse in the channels window to set the low levels.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_ground_edit.jpeg" class="media" title="echo_ground_edit.jpg" alt="echo_ground_edit.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> If you want to move among the 512 channels, use the side arrows in the Table of channels.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_move_ch.jpeg" class="media" title="echo_move_ch.jpg" alt="echo_move_ch.jpg" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> or type your channel number, and then Click the box to the right above the channels table.</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="echo_edit_num_ch.jpeg" class="media" title="echo_edit_num_ch.jpg" alt="echo_edit_num_ch.jpg" />
+</p>
+
+<p class="level2">
+Hovering over this with the mouse will display the information about the high and low level, floating point and DMX (or 255%).
+</p>
+<!-- EDIT7 SECTION "Editing channel levels" [1542-2335] -->
+<h3 class="sectionedit8"><a name="working_with_faders" id="working_with_faders">Working with faders</a></h3>
+
+<p class="level3">
+<strong>Assign an Echo preset to fader</strong>
+</p>
+
+<p class="level3">
+To assign the preset output to a fader, and thus obtain the result on stage:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Select the Echo Preset (1-24) to assign</div>
+</li>
+<li class="level1"><div class="li"> Click [AFFECT TO DOCK]</div>
+</li>
+<li class="level1"><div class="li"> Click the fader dock where you want to assign the Echo Preset </div>
+</li>
+<li class="level1"><div class="li"> Run up this fader to see the full results</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="echo_affect_to_dock.jpeg" class="media" title="echo_affect_to_dock.jpg" alt="echo_affect_to_dock.jpg" />
+</p>
+<!-- EDIT8 SECTION "Working with faders" [2336-2695] -->
+<h3 class="sectionedit9"><a name="echo_fader" id="echo_fader">ECHO FADER</a></h3>
+
+<p class="level3">
+[ECHO FADER] creates a continuous link with the state of the Fader. It creates light transient states out of a chaser or a flash, and generate a light echo. This may be an additional effect, a light echo, or a subtraction operation thanks to FX modes, etc. …
+</p>
+
+<p class="level3">
+Be careful, if the descent or ascent of the fader is slower or as slow as the evolution (ECHO] of a channel, it will fade values directly.
+</p>
+
+<p class="level3">
+<img src="echo_echofader.jpeg" class="media" title="echo_echofader.jpg" alt="echo_echofader.jpg" />
+</p>
+<!-- EDIT9 SECTION "ECHO FADER" [2696-3143] -->
+<h3 class="sectionedit10"><a name="snap_fader" id="snap_fader">SNAP FADER</a></h3>
+
+<p class="level3">
+[SNAP FADER] to retrieve on the fly the lighting state from a fader. It takes into account the level of the fader. Information about the FX modes (subtraction, addition, exclusion) are not taken into account.
+</p>
+<!-- EDIT10 SECTION "SNAP FADER" [3144-3375] -->
+<h3 class="sectionedit11"><a name="bounce" id="bounce">BOUNCE</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Click the [BOUNCE] key to manually trigger the fade down of the channels. Reclick [BOUNCE] to stop the process.</div>
+</li>
+</ul>
+<!-- EDIT11 SECTION "BOUNCE" [3376-3508] -->
+<h3 class="sectionedit12"><a name="snap_and_kill_bounce" id="snap_and_kill_bounce">SNAP AND KILL BOUNCE</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Use [SNAP AND KILL BOUNCE] to replace a fader by fading down the channels. The fader is set to zero. Its high level is stored.</div>
+</li>
+</ul>
+<!-- EDIT12 SECTION "SNAP AND KILL BOUNCE" [3509-3670] -->
+<h3 class="sectionedit13"><a name="recall_fader" id="recall_fader">RECALL FADER</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> This can recall the fader set to zero previously in [SNAP AND KILL BOUNCE]</div>
+</li>
+</ul>
+<!-- EDIT13 SECTION "RECALL FADER" [3671-3772] -->
+<h3 class="sectionedit14"><a name="fader_used_by_the_echo_preset" id="fader_used_by_the_echo_preset">Fader used by the Echo Preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] must be activated</div>
+</li>
+<li class="level1"><div class="li"> Enter the number of the fader</div>
+</li>
+<li class="level1"><div class="li"> Click the fader box</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="echo_point_fader.jpeg" class="media" title="echo_point_fader.jpg" alt="echo_point_fader.jpg" />
+</p>
+<!-- EDIT14 SECTION "Fader used by the Echo Preset" [3773-3925] -->
+<h2 class="sectionedit15"><a name="echo_presets1" id="echo_presets1">Echo Presets</a></h2>
+
+<p class="level2">
+Each Echo preset stores the values of the 512 channels, as well as the 3 constants (gravity, mass and energy)
+</p>
+<!-- EDIT15 SECTION "Echo Presets" [3926-4063] -->
+<h3 class="sectionedit16"><a name="selecting_an_echo_preset" id="selecting_an_echo_preset">Selecting an Echo preset</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Click the number that you want</div>
+</li>
+</ul>
+<!-- EDIT16 SECTION "Selecting an Echo preset" [4064-4133] -->
+<h3 class="sectionedit17"><a name="erasing_a_preset_echo" id="erasing_a_preset_echo">Erasing a preset echo</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li"> Press [F4] or click [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> Click the echo preset to erase.</div>
+</li>
+</ul>
+
+<p class="level3">
+Channel high levels and low levels will be set to zero.
+Constants are set by default to 0.50 Gravity, Mass and Energy 1.00 0.20.
+</p>
+<!-- EDIT17 SECTION "Erasing a preset echo" [4134-4363] -->
+<h3 class="sectionedit18"><a name="erasing_high_or_low_levels" id="erasing_high_or_low_levels">Erasing high or low levels</a></h3>
+
+<p class="level3">
+To reset the channel levels of an Echo Preset:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] must be ON</div>
+</li>
+<li class="level1"><div class="li"> click [CH.LEVEL]</div>
+</li>
+<li class="level1"><div class="li"> activate [CLEAR] (F4)</div>
+</li>
+<li class="level1"><div class="li"> click [CH.LEVEL]</div>
+</li>
+</ul>
+
+<p class="level3">
+Zero the low levels of an Echo Preset:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [EDIT] must be ON</div>
+</li>
+<li class="level1"><div class="li"> click [CH.GROUND]</div>
+</li>
+<li class="level1"><div class="li"> activate [CLEAR] (F4)</div>
+</li>
+<li class="level1"><div class="li"> click [CH.GROUND]</div>
+</li>
+</ul>
+<!-- EDIT18 SECTION "Erasing high or low levels" [4364-4670] -->
+<h2 class="sectionedit19"><a name="midi_assignment" id="midi_assignment">Midi Assignment</a></h2>
+
+<p class="level2">
+All commands except the channel levels, high and low, can be triggered by midi. See: <a href="doku.php?id=tableau_affectation_midi-eng&amp;DokuWiki=a1f1e41b426ff124cadbb9481adebe82" class="wikilink2" title="tableau_affectation_midi-eng" rel="nofollow">Chart of Midi Assignments</a>
+</p>
+<!-- EDIT19 SECTION "Midi Assignment" [4671-] --></div>
+</body>
+</html>

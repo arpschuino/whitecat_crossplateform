@@ -36,13 +36,9 @@
 
 ## Documentation
 
-The user documentation (HTML) is included in the repository:
+The user documentation (HTML) is included in the repository in the [`doc/`](doc/) folder.
 
-```
-whitecatbuild/build/white_cat_for_mingw/doc/
-```
-
-Open [`whitecatbuild/build/white_cat_for_mingw/doc/liste.html`](whitecatbuild/build/white_cat_for_mingw/doc/liste.html) locally in a browser to browse all pages (French/English).
+Open [`doc/liste.html`](doc/liste.html) locally in a browser to browse all pages (French/English).
 
 ---
 

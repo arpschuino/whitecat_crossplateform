@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>fx_modes</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-12-20T00:04:24+0100"/>
+<meta name="keywords" content="fx_modes"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="fx_modes.html"/>
+<link rel="contents" href="fx_modes.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="fx_modes.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="fx_modes.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=fx_modes"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"fx_modes","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#les_differents_modes_fx_de_restitution">Les différents modes FX de restitution</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#dans_le_buffer_faders_le_htp_de_base">Dans le Buffer Faders, le HTP de base</a></div></li>
+<li class="level3"><div class="li"><a href="#en_fx_mode">En FX mode</a></div></li>
+<li class="level3"><div class="li"><a href="#dans_le_buffer_issu_du_sequenciel">Dans le Buffer issu du séquenciel</a></div></li>
+<li class="level3"><div class="li"><a href="#creation_de_groupes_par_le_mode_off">Création de groupes par le mode Off</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="les_differents_modes_fx_de_restitution" id="les_differents_modes_fx_de_restitution">Les différents modes FX de restitution</a></h2>
+<!-- EDIT1 SECTION "Les différents modes FX de restitution" [1-53] -->
+<h3 class="sectionedit2"><a name="dans_le_buffer_faders_le_htp_de_base" id="dans_le_buffer_faders_le_htp_de_base">Dans le Buffer Faders, le HTP de base</a></h3>
+
+<p class="level3">
+Jusqu&#039;à présent, les faders ont été envisagés en mode HTP: le plus haut niveau prend le pas dans la restitution du Buffer des Faders. 
+</p>
+
+<p class="level3">
+Chaque Fader est lu, <strong>du fader 1 au fader 48</strong>, et comparé à l&#039;état du Buffer des Faders Général. 
+</p>
+
+<p class="level3">
+Si un circuit issu d&#039;un Fader est supérieur au niveau du Buffer des Faders Général, ce circuit prend la valeur issue de ce fader.
+</p>
+
+<p class="level3">
+<strong>L&#039;action est faite sur le résultat issu de l&#039;action du fader  sur le buffer fader général.</strong>
+</p>
+
+<p class="level3">
+<strong>Exemple:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Le fader 1 contient les circuits 1/20 et 30 à Full. Il est mis à 50%.</div>
+</li>
+</ul>
+
+<p class="level3">
+Le Buffer des Faders, après lecture du Fader 1 contiendra 1/10 et 30/50.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Le fader 2 contient le circuit 2 à 50% et le fader est à Full.</div>
+</li>
+</ul>
+
+<p class="level3">
+Le Buffer des Faders, après lecture du Fader 1 et 2 contiendra 1/10 2/50 et 30/50.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Le fader 3 contient le circuit 1 à Full et est à 90%.</div>
+</li>
+</ul>
+
+<p class="level3">
+Le Buffer des Faders, après lecture du Fader 1, 2 et 3 contiendra 1/90 2/50 et 30/50.
+</p>
+
+<p class="level3">
+Ce jusqu&#039;au Fader 48.
+</p>
+
+<p class="level3">
+<img src="synopt_buffer.jpeg" class="media" title="synopt_buffer.jpg" alt="synopt_buffer.jpg" />
+</p>
+
+<p class="level3">
+Ceci est le mode HTP ( Highest takes preeminence) : la plus grande valeur est gardée.
+</p>
+<!-- EDIT2 SECTION "Dans le Buffer Faders, le HTP de base" [54-1191] -->
+<h3 class="sectionedit3"><a name="en_fx_mode" id="en_fx_mode">En FX mode</a></h3>
+
+<p class="level3">
+Concernant les FX, il faut  imaginer les faders comme des calques.
+</p>
+
+<p class="level3">
+Le fader 1 est tout en dessous. Le fader 48 est tout au dessus, et le 48 est donc le dernier à avoir une incidence.
+</p>
+
+<p class="level3">
+Au lieu de faire une vérification en HTP, on choisira des modes de calculs en soustraction, addition, exclusion.
+</p>
+
+<p class="level3">
+Les Fx de restitution sont basés sur les principes de compositing en vidéo ou de gestion des calques pour les logiciels de dessin.
+</p>
+
+<p class="level3">
+On change le mode d&#039;action du Fader en clickant sur la case d&#039;FX.
+</p>
+
+<p class="level3">
+<img src="faders_fx_choice.jpeg" class="media" title="faders_fx_choice.jpg" alt="faders_fx_choice.jpg" />
+</p>
+
+<p class="level3">
+Quand un circuit est contenu dans le fader, et que son état rendu est supérieur à 0, il va se comporter de la manière suivante:
+</p>
+<div class="table sectionedit4"><table class="inline">
+	<tr class="row0">
+		<td class="col0"> Mode </td><td class="col1"> Couleur du mode </td><td class="col2"> Calcul </td>
+	</tr>
+	<tr class="row1">
+		<td class="col0"> HTP </td><td class="col1"> Orange </td><td class="col2"> C&#039;est le mode normal. Le plus haut niveau l&#039;emporte </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Off </td><td class="col1"> Noir </td><td class="col2"> Le rendu est retiré des calculs des buffer Faders pour être injecté dans un autre fader </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Substract </td><td class="col1"> Rouge </td><td class="col2"> Le rendu est soustrait de l&#039;état du buffer Faders </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Add </td><td class="col1"> Blanc </td><td class="col2"> Le rendu est ajouté à l&#039;état du buffer Faders </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Screen </td><td class="col1"> Blanc Bleu </td><td class="col2"> On prend la moyenne de l&#039;état dans le  buffer Faders et lee Fader concerné. On divise par deux cette moyenne et on a l&#039;ajoute au Buffer Faders</td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> Exclusion </td><td class="col1"> Bleu foncé </td><td class="col2"> Si le buffer Faders est supérieur au rendu du Fader, le rendu du Fader est retranché au buffer. </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> </td><td class="col1"> </td><td class="col2"> Si le buffer Fader est inférieur au rendu du Fader, il est retranché du rendu du Fader </td>
+	</tr>
+</table></div>
+<!-- EDIT4 TABLE [1877-2628] -->
+<p class="level3">
+<strong>Applications pratiques:</strong>
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> en concert: plutot que de baisser son fader contenant ses contres pour monter un fader contenant un chaser sur ces mêmes circuits, on mettra le fader du chaser en mode Substract ou Exclusion pour creuser les valeurs des contres.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> en tournée: corriger à la baisse ou à la hausse ses faces ou ses contres fonctions des hauteurs, sans passer par wizard</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> en spectacle: impacter le contenu du séquenciel en jeu, de manière manuelle et souple. ( voir ci dessous)</div>
+</li>
+</ul>
+<!-- EDIT3 SECTION "En FX mode" [1192-3136] -->
+<h3 class="sectionedit5"><a name="dans_le_buffer_issu_du_sequenciel" id="dans_le_buffer_issu_du_sequenciel">Dans le Buffer issu du séquenciel</a></h3>
+
+<p class="level3">
+L&#039;impact des faders peut être exécuté dans le buffer du séquenciel ( issu du calcul du crossfade).
+</p>
+
+<p class="level3">
+Enclencher la pastille carrée: elle est alors bleue, indiquant que le calcul des FX est reporté dans le séquenciel.
+</p>
+
+<p class="level3">
+<img src="faderfx_sur_seq.png" class="media" alt="" />
+</p>
+<!-- EDIT5 SECTION "Dans le Buffer issu du séquenciel" [3137-3431] -->
+<h3 class="sectionedit6"><a name="creation_de_groupes_par_le_mode_off" id="creation_de_groupes_par_le_mode_off">Création de groupes par le mode Off</a></h3>
+
+<p class="level3">
+Vous pouvez créer des Faders Group ( Fgroup) via la mise en Off d&#039;un fader.
+</p>
+
+<p class="level3">
+Un Fgroup est un fader qui contient la résultante de faders qui y ont été affectés.
+</p>
+
+<p class="level3">
+Les Fgroups fonctionnent comme des sous groupes en son, <strong>uniquement en HTP</strong>. 
+</p>
+
+<p class="level3">
+Pour créer un Fgroup:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> sélectionner dans la fenêtre minifaders les faders à affecter à un groupe</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_selection.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker [Fgroup]</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup.png" class="media" alt="" />
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> enclencher [F1]</div>
+</li>
+</ul>
+
+<p class="level3">
+<strong>Affecter à un dock:</strong>
+</p>
+
+<p class="level3">
+en fenêtre minifaders: 
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> clicker le numéro de fader pour lui affecter un Fgroup</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_creation.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+en fenêtre faders:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> Clicker le dock pour affecter le FGroup au dock désiré</div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="fgroup_faders_view.png" class="media" alt="" />
+</p>
+
+<p class="level3">
+Dans la fenêtre minifaders, vous pouvez voir au survol le contenu d&#039;un Fgroup.
+</p>
+
+<p class="level3">
+<img src="fgroup_survol.png" class="media" alt="" />
+</p>
+<!-- EDIT6 SECTION "Création de groupes par le mode Off" [3432-] --></div>
+</body>
+</html>

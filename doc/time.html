@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>time</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-02-07T15:27:01+0100"/>
+<meta name="keywords" content="time"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="time.html"/>
+<link rel="contents" href="time.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="time.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="time.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=time"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"time","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#fenetre_time">Fenêtre Time</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#convention_d_affichage_et_syntaxe_des_temps">Convention d&#039;affichage et syntaxe des temps</a></div></li>
+<li class="level2"><div class="li"><a href="#definir_un_temps">Définir un temps</a></div></li>
+<li class="level2"><div class="li"><a href="#affecter_le_temps">Affecter le temps</a></div></li>
+<li class="level2"><div class="li"><a href="#taptempo">TapTempo</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="fenetre_time" id="fenetre_time">Fenêtre Time</a></h1>
+
+<p class="level1">
+La fenêtre Time permet d&#039;affecter un temps aux contenus qui utilisent les temps.
+</p>
+
+<p class="level1">
+Time permet d&#039;affecter à une mémoire, un dock et son Lfo, ou un pas de chaser:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> un temps d&#039;attente avant la montée: le Delay In</div>
+</li>
+<li class="level1"><div class="li"> un temps de montée: le temps In</div>
+</li>
+<li class="level1"><div class="li"> un temps d&#039;attente avant la descente: le Delay Out</div>
+</li>
+<li class="level1"><div class="li"> un temps de descente: le temps de Out</div>
+</li>
+</ul>
+
+<p class="level1">
+Pour accéder à la fenêtre Time, clicker [TIME] ou taper [F6]
+</p>
+
+<p class="level1">
+<img src="click_time.jpeg" class="media" title="click_time.jpg" alt="click_time.jpg" />
+</p>
+<!-- EDIT1 SECTION "Fenêtre Time" [1-465] -->
+<h2 class="sectionedit2"><a name="convention_d_affichage_et_syntaxe_des_temps" id="convention_d_affichage_et_syntaxe_des_temps">Convention d&#039;affichage et syntaxe des temps</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Deux points</strong> suivant un chiffre définissent ce dernier comme étant une <strong>minute</strong>.</div>
+</li>
+<li class="level1"><div class="li"> <strong>Un point</strong> suivant un chiffre définit ce dernier comme étant une <strong>seconde</strong>.</div>
+</li>
+<li class="level1"><div class="li"> Le chiffre suivant ce point exprime le <strong>dixième</strong>.</div>
+</li>
+</ul>
+
+<p class="level2">
+Exemple: <strong>3..50.0</strong> veut dire 3 minutes 50 secondes
+</p>
+
+<p class="level2">
+Cette syntaxe permet de taper dans certains cas les temps au clavier.
+</p>
+<!-- EDIT2 SECTION "Convention d'affichage et syntaxe des temps" [466-881] -->
+<h2 class="sectionedit3"><a name="definir_un_temps" id="definir_un_temps">Définir un temps</a></h2>
+
+<p class="level2">
+<img src="fenetre_time.jpeg" class="media" alt="" />
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>A la souris:</strong></div>
+</li>
+</ul>
+<ol class="level2">
+<li class="level1"><div class="li"> clicker [SEC] / [1/100e] ou [MIN] pour basculer la bague de manipulation en mode Seconde, Centième de seconde ou Minute.</div>
+</li>
+<li class="level1"><div class="li"> manipuler le curseur rouge et le glisser le long de la bague jusqu&#039;à obtenir la valeur désirée</div>
+</li>
+</ol>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Au clavier:</strong></div>
+</li>
+</ul>
+<ol class="level2">
+<li class="level1"><div class="li">taper au clavier le temps désiré, exemples:</div>
+</li>
+</ol>
+<ul class="level2">
+<li class="level3"><div class="li"><strong>1..0.</strong> pour une minute</div>
+</li>
+<li class="level3"><div class="li"><strong>5.</strong> pour 5 secondes</div>
+</li>
+<li class="level3"><div class="li"><strong>1.5</strong> pour une seconde 5 centièmes</div>
+</li>
+<li class="level3"><div class="li"><strong>2.20</strong> pour deux secondes 20 centièmes</div>
+</li>
+</ul>
+<ol class="level2">
+<li class="level3"><div class="li">taper [CONTROL][ENTER] pour entrer le temps dans la fenêtre Time</div>
+</li>
+</ol>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Au chrono:</strong></div>
+</li>
+</ul>
+<ol class="level2">
+<li class="level1"><div class="li"> clicker le grand cercle [CHRONO] pour lancer ou pauser le chronomètre</div>
+</li>
+<li class="level1"><div class="li"> utiliser le petit cercle [clear] pour remettre à zéro le chronomètre</div>
+</li>
+</ol>
+<!-- EDIT3 SECTION "Définir un temps" [882-1666] -->
+<h2 class="sectionedit4"><a name="affecter_le_temps" id="affecter_le_temps">Affecter le temps</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>Sélectionner le(s) temps auquel(s) affecter cette valeur</strong></div>
+<ul class="level2">
+<li class="level2"><div class="li"> à la souris: en clickant [IN][OUT] [D.IN] ou [D.OUT]</div>
+</li>
+<li class="level2"><div class="li"> au clavier en tapant </div>
+<ul class="level2">
+<li class="level4"><div class="li">la touche [K] pour le In</div>
+</li>
+<li class="level4"><div class="li">la touche [J] pour le Out</div>
+</li>
+<li class="level4"><div class="li">la touche [L] pour le In <strong>et</strong> le Out</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][K] pour le Delay In</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][J] pour le Delay Out</div>
+</li>
+<li class="level4"><div class="li">[SHIFT][L] pour le Delay In <strong>et</strong> le Delay Out</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> <strong>clicker [AFFECT]</strong></div>
+</li>
+<li class="level1"><div class="li"> <strong>clicker le receveur (le dock, la mémoire du séquenciel, le pas du chaser) pour affecter ce temps</strong></div>
+</li>
+</ul>
+
+<p class="level2">
+Version 0.8.2.8 et supérieures: uen façon simplifiée d&#039;entrer ses temps
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Taper le temps</div>
+</li>
+<li class="level1"><div class="li"> En sélectionnant les touches [J] [K] ou [L] vous affectez directement le temps en IN / OUT de la mémoire en preset</div>
+</li>
+<li class="level1"><div class="li"> [SHIFT] affecte les temps de delay</div>
+</li>
+</ul>
+
+<p class="level2">
+<img src="temps_dans_sequenciel.jpeg" class="media" alt="" />
+</p>
+
+<p class="level2">
+<strong>! En affectant un IN par exemple, vous n&#039;écrasez pas les données OUT D.IN ou D.OUT. 
+</strong>
+</p>
+<!-- EDIT4 SECTION "Affecter le temps" [1667-2618] -->
+<h2 class="sectionedit5"><a name="taptempo" id="taptempo">TapTempo</a></h2>
+
+<p class="level2">
+version 0.8.2.2
+</p>
+
+<p class="level2">
+<img src="time_tap_tempo.jpeg" class="media" title="time_tap_tempo.jpg" alt="time_tap_tempo.jpg" />
+</p>
+
+<p class="level2">
+TapTempo permet sur un cycle variant de 1 à 12 entrées de définir le temps moyen d&#039;un beat que vous frapper à la souris ou via un bouton midi.
+Tap Tempo est exprimé en secondes.
+Ce temps est reportable vers le Time Unit d&#039;un chaser.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Enclenchez l&#039;enregistrement ( il s&#039;agit plus d&#039;un allumage du mode que d&#039;un réel enregistrement ): boite [R]</div>
+</li>
+<li class="level1"><div class="li"> Clickez [Tempo]</div>
+</li>
+</ul>
+
+<p class="level2">
+Une fois que le résultat correspond au rythme que vous cherchez:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> pour envoyer le temps au chaser sélectionné dans la fenêtre chaser, clickez simplement [S]</div>
+</li>
+<li class="level1"><div class="li"> pour envoyer le temps à n&#039;importequel chaser, tapez le numéro du chaser puis clickez [S]</div>
+</li>
+</ul>
+<!-- EDIT5 SECTION "TapTempo" [2619-] --></div>
+</body>
+</html>

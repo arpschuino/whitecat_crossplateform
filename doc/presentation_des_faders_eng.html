@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>presentation_des_faders_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-09-09T15:30:13+0200"/>
+<meta name="keywords" content="presentation_des_faders_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="presentation_des_faders_eng.html"/>
+<link rel="contents" href="presentation_des_faders_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="presentation_des_faders_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="presentation_des_faders_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=presentation_des_faders_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"presentation_des_faders_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<h1 class="sectionedit1"><a name="role_du_fader" id="role_du_fader">Rôle du Fader</a></h1>
+
+<p class="level1">
+Les 48 Faders de White Cat sont un peu plus que des Masters.
+</p>
+
+<p class="level1">
+A la différence des Masters classiques que l&#039;on retrouve dans les consoles de théâtre, les faders de White Cat comprennent 6 docks.
+</p>
+
+<p class="level1">
+Chaque dock peut contenir:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> des états lumineux fixes (masters classiques)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> des états lumineux dynamiques issus de WhiteCat ( chasers, trichromie, tracking video, grid )</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> des états lumineux dynamiques issus d&#039;un DMX externe (dmx-in, art-net-in)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> le niveau d&#039;un circuit  (direct channel)</div>
+</li>
+</ul>
+<ul class="level1">
+<li class="level1"><div class="li"> les commandes de l&#039;audio (audio player)</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>Selon le dock sélectionné, le rendu du Fader est différent. 
+
+Il dépend de ce qui est chargé dans le dock. 
+
+Quand on change de dock, on change ce qui est rendu par le fader.</strong>
+</p>
+
+<p class="level1">
+Les sorties des 48 faders sont mergées en HTP dans un buffer dédiés aux faders, distinct du buffer du séquenciel. Les circuits issus du buffer Faders sont affichés en orange.
+</p>
+
+<p class="level1">
+<img src="faders_synthetique.png" class="media" alt="" />
+</p>
+
+<p class="level1">
+Chaque fader peut être contrôlé:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"><strong>manuellement</strong> à la souris ou via un contrôleur midi</div>
+</li>
+<li class="level1"><div class="li">chaque fader peut être <strong>timé</strong> par les LFO (recevoir un temps de montée, de descente et des delays in/out)</div>
+</li>
+<li class="level1"><div class="li"><strong>ou être automatisé</strong> en interne par le module Banger, ou bien en midi par un logiciel externe</div>
+</li>
+</ul>
+
+<p class="level1">
+D&#039;autres entrées permettent de piloter les faders:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> une carte Arduino</div>
+</li>
+<li class="level1"><div class="li"><strong>la télécommande iCat </strong> pour iPhone/iPod</div>
+</li>
+</ul>
+<!-- EDIT1 SECTION "Rôle du Fader" [1-1428] -->
+<h3 class="sectionedit2"><a name="il_y_a_deux_espaces_dedies_aux_faders_dans_whitecat" id="il_y_a_deux_espaces_dedies_aux_faders_dans_whitecat">Il y a deux espaces dédiés aux Faders dans WhiteCat:</a></h3>
+<ul class="level3">
+<li class="level1"><div class="li">une version étendue, nommée <a href="espace_faders2.html" class="wikilink1" title="Espace Faders2">l&#039;espace Faders</a>    </div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="espace_fader.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+On y accède avec la touche [F10] ou en cliquant [Faders]
+</p>
+
+<p class="level3">
+<img src="click_faders.jpeg" class="media" title="click_faders.jpg" alt="click_faders.jpg" />
+</p>
+
+<p class="level3">
+L&#039;espace Faders permet un travail plus précis et pointu que les Minifaders.
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> une vision synthétique, en fenêtre, <a href="minifaders2.html" class="wikilink1" title="Minifaders2">la fenêtre des Minifaders</a></div>
+</li>
+</ul>
+
+<p class="level3">
+<img src="minifaders_window.jpeg" class="media" alt="" />
+</p>
+
+<p class="level3">
+On y accède avec la combinaison de touches [shift] [F10] ou en cliquant [MiniFaders] 
+</p>
+
+<p class="level3">
+<img src="click_minifaders.jpeg" class="media" title="click_minifaders.jpg" alt="click_minifaders.jpg" />
+</p>
+
+<p class="level3">
+Les Minifaders intègrent une vision globale, les Locks preset et les commandes All at Zero. 
+</p>
+<!-- EDIT2 SECTION "Il y a deux espaces dédiés aux Faders dans WhiteCat:" [1429-] --></div>
+</body>
+</html>

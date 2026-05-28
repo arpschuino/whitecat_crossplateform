@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Installer WhiteCat</title>
+  <meta name="date" content="2026-05-17"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="installer_whitecat_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#installer_whitecat">Installer WhiteCat</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#format_fichier">Format du fichier téléchargé</a></div></li>
+<li class="level3"><div class="li"><a href="#installer">Installer</a></div></li>
+<li class="level3"><div class="li"><a href="#firewalls">Gestion des firewalls</a></div></li>
+<li class="level3"><div class="li"><a href="#lancer">Lancer WhiteCat</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#drivers_dmx_midi">Installer les drivers DMX et MIDI</a></div></li>
+<li class="level2"><div class="li"><a href="#mises_en_veille">Mises en veille</a></div></li>
+<li class="level2"><div class="li"><a href="#optimisation">Optimisation des ressources</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1" id="installer_whitecat">Installer WhiteCat</h2>
+<div class="level2">
+
+<h3 class="sectionedit2" id="format_fichier">Format du fichier téléchargé</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li">WhiteCat est téléchargé sous forme d'archive <strong>.zip</strong> depuis <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">GitHub</a>.</div></li>
+<li class="level1"><div class="li">Il n'y a pas de programme d'installation.</div></li>
+<li class="level1"><div class="li">Cela permet de garder plusieurs versions coexistantes sur le même ordinateur — utile quand des spectacles ont été créés avec des versions différentes.</div></li>
+<li class="level1"><div class="li">Le dossier WhiteCat peut aussi fonctionner depuis une clé USB.</div></li>
+</ul>
+</div>
+
+<h3 class="sectionedit3" id="installer">Installer</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li">Dézippez l'archive <strong>directement sous la racine d'un disque dur</strong> (C:/ ou D:/).</div></li>
+<li class="level1"><div class="li">Évitez les dossiers dont le chemin contient des <em>accents ou des espaces</em>.</div></li>
+<li class="level1"><div class="li">Ne lancez pas WhiteCat directement depuis l'archive compressée — Windows permet de naviguer dans un .zip sans l'extraire. Premier indice : le programme affiche <code>Can't load fonts/doom.ttf</code> et s'arrête.</div></li>
+</ul>
+
+<p>Pour extraire : clic droit sur l'archive &gt; <strong>Extraire tout</strong> &gt; choisir un emplacement sous C:/ ou D:/.</p>
+</div>
+
+<h3 class="sectionedit4" id="firewalls">Gestion des firewalls</h3>
+<div class="level3">
+
+<p>
+Il faut <strong>autoriser WhiteCat auprès du firewall Windows</strong> (et de tout antivirus ou firewall tiers installé sur la machine).
+</p>
+
+<p>
+WhiteCat ouvre des ports réseau pour recevoir et émettre du DMX en ethernet (protocole ArtNet).
+Le pare-feu peut trouver cela suspect et bloquer le démarrage.
+</p>
+
+<ul>
+<li class="level1"><div class="li">Au premier lancement, une fenêtre Windows demande si vous souhaitez autoriser WhiteCat à accéder au réseau. Répondre <strong>Oui</strong> (ou <em>Autoriser l'accès</em>) et cocher <em>Réseaux privés</em>.</div></li>
+<li class="level1"><div class="li">Si WhiteCat reste bloqué au démarrage sans cette fenêtre, vérifiez les règles du firewall manuellement et ajoutez une exception pour l'exécutable WhiteCat.</div></li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit5" id="lancer">Lancer WhiteCat</h3>
+<div class="level3">
+
+<p>Double-cliquez sur <code>Whitecat_Crossplatform.exe</code> dans le dossier extrait.</p>
+
+<p>Pour créer un raccourci sur le bureau :</p>
+<ul>
+<li class="level1"><div class="li">Clic droit sur l'exécutable &gt; <strong>Créer un raccourci</strong></div></li>
+<li class="level1"><div class="li">Glisser ce raccourci sur le bureau ou dans la barre des tâches</div></li>
+</ul>
+
+</div>
+</div>
+
+<h2 class="sectionedit6" id="drivers_dmx_midi">Installer les drivers DMX et MIDI</h2>
+<div class="level2">
+
+<p>
+Pour émettre du DMX avec une interface USB, le driver de cette interface doit être installé sur l'ordinateur.
+Voir <a href="configuration_dmx.html" class="wikilink1" title="Configuration DMX">Configuration DMX</a> pour la liste des interfaces supportées.
+</p>
+
+<p>
+La plupart des interfaces MIDI sont reconnues automatiquement par Windows sans installation manuelle.
+Pour certains périphériques peu communs, installez le driver fourni par le fabricant — toujours en télécharger la <em>version la plus récente</em> sur le site du fabricant.
+</p>
+
+<p><strong>Conseils généraux pour l'installation des drivers :</strong></p>
+<ul>
+<li class="level1"><div class="li">Faites les installations chez vous, calmement, connecté à internet.</div></li>
+<li class="level1"><div class="li">Lancez les installateurs avec des droits d'administrateur (clic droit &gt; <em>Exécuter en tant qu'administrateur</em>).</div></li>
+<li class="level1"><div class="li">Après installation, <strong>redémarrez l'ordinateur</strong>.</div></li>
+<li class="level1"><div class="li">Si vous partez en tournée internationale, gardez l'installateur du fabricant sur une clé USB.</div></li>
+</ul>
+
+<p>
+Vous pouvez vérifier que vos périphériques sont correctement installés via le <strong>Gestionnaire de périphériques</strong> :
+clic droit sur le menu Démarrer &gt; <em>Gestionnaire de périphériques</em>.
+Un périphérique défaillant apparaît avec un triangle d'avertissement jaune.
+</p>
+
+</div>
+
+<h2 class="sectionedit7" id="mises_en_veille">Mises en veille</h2>
+<div class="level2">
+
+<p>
+Depuis la version 0.9.x, WhiteCat semble mieux supporter les mises en veille qu'auparavant.
+Par précaution, il est tout de même recommandé de <strong>désactiver la mise en veille</strong> pendant un spectacle.
+</p>
+
+<ul>
+<li class="level1"><div class="li">Panneau de configuration &gt; Options d'alimentation &gt; modifier les paramètres du mode &gt; mettre <strong>Jamais</strong> pour la mise en veille, sur batterie ET sur secteur.</div></li>
+<li class="level1"><div class="li">Ne refermez jamais le capot de l'ordinateur avec WhiteCat allumé.</div></li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit8" id="optimisation">Optimisation des ressources</h2>
+<div class="level2">
+
+<p>
+Depuis la version 0.9.x, WhiteCat intègre un <strong>ticker intelligent</strong> à trois niveaux :
+</p>
+
+<ul>
+<li class="level1"><div class="li"><strong>60 fps</strong> tant que l'utilisateur interagit (souris, clavier)</div></li>
+<li class="level1"><div class="li"><strong>25 fps</strong> pendant les animations automatiques (LFO, chasers, crossfades, dampers)</div></li>
+<li class="level1"><div class="li"><strong>Mode quasi-idle</strong> (100 ms) dès qu'aucune animation n'est active</div></li>
+</ul>
+
+<p>
+La consommation CPU est nettement réduite par rapport aux versions précédentes.
+</p>
+
+<p>
+Si vous observez tout de même des ralentissements :
+</p>
+<ul>
+<li class="level1"><div class="li">Coupez le Wi-Fi pendant le spectacle.</div></li>
+<li class="level1"><div class="li">Désactivez les analyses antivirus en temps réel.</div></li>
+<li class="level1"><div class="li">Désactivez les mises à jour automatiques Windows.</div></li>
+</ul>
+
+</div>
+
+</div>
+</body>
+</html>

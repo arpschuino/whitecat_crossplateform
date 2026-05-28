@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>AudioPlayers — WhiteCat</title>
+  <meta name="date" content="2026-04-30"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="audio.html">🇫🇷 Français</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc" style="width:300px">
+<h3 class="toggle">Table of contents</h3>
+<div>
+<ul class="toc">
+  <li class="level1"><div class="li"><a href="#audioplayers">AudioPlayers</a></div>
+    <ul class="toc">
+      <li class="level2"><div class="li"><a href="#definition">Definition</a></div></li>
+      <li class="level2"><div class="li"><a href="#ouverture">Open the window</a></div></li>
+      <li class="level2"><div class="li"><a href="#gestion_dossier">Audio folder management</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#creer_dossier">Create an audio folder</a></div></li>
+          <li class="level3"><div class="li"><a href="#choisir_dossier">Select the active folder</a></div></li>
+          <li class="level3"><div class="li"><a href="#rescan">Refresh the list</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#liste_fichiers">The file list</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#navigation_liste">Navigating the list</a></div></li>
+          <li class="level3"><div class="li"><a href="#affecter_fichier">Assign a file to a player</a></div></li>
+          <li class="level3"><div class="li"><a href="#vider_lecteur">Clear a player</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#constitution_lecteur">Player layout</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#partie_gauche">Left section — basic controls</a></div></li>
+          <li class="level3"><div class="li"><a href="#partie_droite">Right section — CUE mode</a></div></li>
+          <li class="level3"><div class="li"><a href="#potentiometres">Volume / Pan / Pitch knobs</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#boucle_cue">Loop and CUE</a></div>
+        <ul class="toc">
+          <li class="level3"><div class="li"><a href="#boucle_simple">Simple loop</a></div></li>
+          <li class="level3"><div class="li"><a href="#mode_cue">CUE mode</a></div></li>
+          <li class="level3"><div class="li"><a href="#cue_sans_boucle">CUE in normal playback (no loop)</a></div></li>
+          <li class="level3"><div class="li"><a href="#cue_par_player">CUE per player</a></div></li>
+          <li class="level3"><div class="li"><a href="#definir_cue">Setting CUE points</a></div></li>
+        </ul>
+      </li>
+      <li class="level2"><div class="li"><a href="#autoload_autopause">AutoLoad and AutoPause</a></div></li>
+      <li class="level2"><div class="li"><a href="#volume_pan_pitch">Volume, Pan, Pitch — MidiSendOut</a></div></li>
+      <li class="level2"><div class="li"><a href="#affect_dock">Assign to a general fader</a></div></li>
+      <li class="level2"><div class="li"><a href="#ram_ogg_flac">OGG / FLAC — RAM allocation</a></div></li>
+      <li class="level2"><div class="li"><a href="#midi">MIDI Assignment</a></div></li>
+    </ul>
+  </li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="audioplayers" id="audioplayers">AudioPlayers</a></h1>
+
+<h2 class="sectionedit2"><a name="definition" id="definition">Definition</a></h2>
+
+<p class="level2">
+WhiteCat includes up to <strong>4 internal audio players</strong>, controllable via mouse, MIDI, or the Banger.
+</p>
+
+<p class="level2">
+Supported formats: <strong>.wav, .mp3, .ogg, .flac</strong>.
+</p>
+
+<p class="level2">
+Audio output uses your system sound card (single stereo output). For multi-channel playback, use a dedicated audio application alongside WhiteCat.
+</p>
+
+<p class="level2">
+An audio folder can contain up to <strong>126 files</strong>. Files are listed in alphabetical order — number them to control playback order.
+</p>
+
+<p class="level2">
+<img src="audio_window.png" class="media" title="audio_window" alt="audio_window" />
+</p>
+
+<h2 class="sectionedit3"><a name="ouverture" id="ouverture">Open the window</a></h2>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Click <strong>AudioPlayers</strong> in the menu, or press <strong>[CTRL+A]</strong>.</div></li>
+</ul>
+
+<p class="level2">
+<img src="clic_audioplayers.png" class="media" title="click_audioplayers" alt="click_audioplayers" />
+</p>
+
+<h2 class="sectionedit4"><a name="gestion_dossier" id="gestion_dossier">Audio folder management</a></h2>
+
+<h3 class="sectionedit5"><a name="creer_dossier" id="creer_dossier">Create an audio folder</a></h3>
+
+<p class="level3">
+From Windows Explorer, create a subfolder inside <code>white_cat/audio/</code>.
+Name it (e.g. <code>MyShow</code>).
+Copy your audio files into that folder.
+</p>
+
+
+
+<pre class="code">  white_cat/
+            audio/
+                  MyShow/
+                  Rehearsal/
+                  Demo/</pre>
+
+<p class="level3">
+The active folder name is saved with the show.
+</p>
+
+<h3 class="sectionedit6"><a name="choisir_dossier" id="choisir_dossier">Select the active folder</a></h3>
+
+<p class="level3">
+At the top right of the AudioPlayers window is the <strong>folder drop-down list</strong>.
+</p>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Click the <strong>▼</strong> button (or the folder name area) to open the drop-down.</div></li>
+  <li class="level1"><div class="li">Select the desired folder from the list.</div></li>
+  <li class="level1"><div class="li">The file list updates automatically.</div></li>
+  <li class="level1"><div class="li">The mouse wheel scrolls the drop-down when it is open.</div></li>
+</ul>
+
+<p class="level3">
+<img src="audio_edit_rep.png" class="media" title="audio_edit_rep" alt="audio_edit_rep" />
+</p>
+
+<h3 class="sectionedit7"><a name="rescan" id="rescan">Refresh the list</a></h3>
+
+<p class="level3">
+If you add files to the folder during a session, click <strong>[rescan]</strong> to update the list without restarting WhiteCat.
+</p>
+
+<h2 class="sectionedit8"><a name="liste_fichiers" id="liste_fichiers">The file list</a></h2>
+
+<p class="level2">
+The right column shows the files in the active audio folder, numbered in alphabetical order.
+</p>
+
+<h3 class="sectionedit9"><a name="navigation_liste" id="navigation_liste">Navigating the list</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">When the list overflows the display area, a <strong>scrollbar</strong> appears on the right.</div></li>
+  <li class="level1"><div class="li">Scroll using the scrollbar (click the arrows or drag the thumb), or with the <strong>mouse wheel</strong> while hovering over the list.</div></li>
+  <li class="level1"><div class="li">In <strong>AutoLoad</strong> mode, the list scrolls automatically to keep the current track visible (at the 2nd position).</div></li>
+</ul>
+
+<h3 class="sectionedit10"><a name="affecter_fichier" id="affecter_fichier">Assign a file to a player</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Click a file in the list — it is highlighted.</div></li>
+  <li class="level1"><div class="li">Then click the target player slot to load it.</div></li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_loadfile.png" class="mediacenter" title="audio_loadfile" alt="audio_loadfile" /></div>
+</p>
+
+<p class="level3">
+File numbers (1, 2, 3…) are the identifiers used in the Banger. They correspond to the alphabetical position in the folder.
+</p>
+
+<p class="level3">
+<strong>Tip:</strong> prefix your filenames with numbers to control their order:<br/>
+<code>01_opening.wav</code> &nbsp; <code>02_scene1.mp3</code> &nbsp; <code>03_finale.flac</code>
+</p>
+
+<h3 class="sectionedit11"><a name="vider_lecteur" id="vider_lecteur">Clear a player</a></h3>
+
+<p class="level3">
+The last item in the list is an <strong>empty slot</strong>. Selecting it then clicking a player unloads the file assigned to that player.
+</p>
+
+<h2 class="sectionedit12"><a name="constitution_lecteur" id="constitution_lecteur">Player layout</a></h2>
+
+<p class="level2">
+A player's controls are only active when a file is loaded.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_play.png" class="mediacenter" title="audio_play" alt="audio_play" /></div>
+</p>
+
+<h3 class="sectionedit13"><a name="partie_gauche" id="partie_gauche">Left section — basic controls</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>Loaded file name</strong> and progress bar (clickable seekbar)</div></li>
+  <li class="level1"><div class="li"><strong>Play / Pause</strong> — starts or pauses playback</div></li>
+  <li class="level1"><div class="li"><strong>Stop / Return to start</strong> — stops and repositions to 0:00 (or to CUE IN if CUE mode is active)</div></li>
+  <li class="level1"><div class="li"><strong>Loop</strong> — enables continuous looping</div></li>
+  <li class="level1"><div class="li"><strong>◀◀ / ▶▶</strong> — rewind or fast forward</div></li>
+  <li class="level1"><div class="li"><strong>Prev / Next</strong> — loads the previous or next file in the list</div></li>
+  <li class="level1"><div class="li"><strong>AutoLoad</strong> — automatically loads the next file at the end of playback</div></li>
+  <li class="level1"><div class="li"><strong>AutoPause</strong> — stops the player at the end of the file (combined with AutoLoad: sequential playback with a pause between tracks)</div></li>
+</ul>
+
+<h3 class="sectionedit14"><a name="partie_droite" id="partie_droite">Right section — CUE mode</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>IN point</strong> — start position of the CUE zone (displayed in seconds)</div></li>
+  <li class="level1"><div class="li"><strong>OUT point</strong> — end position of the CUE zone</div></li>
+  <li class="level1"><div class="li"><strong>CUE button</strong> — enables/disables CUE mode for this player</div></li>
+  <li class="level1"><div class="li"><strong>SeekCue</strong> — jumps to the CUE IN point</div></li>
+</ul>
+
+<h3 class="sectionedit15"><a name="potentiometres" id="potentiometres">Volume / Pan / Pitch knobs</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li"><strong>Volume</strong> — vertical fader, blue colour (same as general faders in volume mode). Value 0–127 for the Banger.</div></li>
+  <li class="level1"><div class="li"><strong>Pan</strong> — horizontal fader. 0 = left, 64 = centre, 127 = right.</div></li>
+  <li class="level1"><div class="li"><strong>Pitch</strong> — horizontal fader. 0–63 = slower, 64 = normal, 65–127 = faster.</div></li>
+</ul>
+
+<p class="level3">
+These levels are shown as decimal values, and as 0–127 values <strong>for Banger encoding</strong>.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_volume.png" class="mediacenter" title="audio_volume" alt="audio_volume" /></div>
+</p>
+
+<h2 class="sectionedit16"><a name="boucle_cue" id="boucle_cue">Loop and CUE</a></h2>
+
+<h3 class="sectionedit17"><a name="boucle_simple" id="boucle_simple">Simple loop</a></h3>
+
+<p class="level3">
+Activate the <strong>Loop</strong> button: playback restarts from the beginning when the file ends (or from CUE IN if CUE mode is active).
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_loop.png" class="mediacenter" title="audio_loop" alt="audio_loop" /></div>
+</p>
+
+<h3 class="sectionedit18"><a name="mode_cue" id="mode_cue">CUE mode</a></h3>
+
+<p class="level3">
+CUE mode defines a <strong>bounded playback zone</strong> between an IN point and an OUT point within the audio file.
+</p>
+
+<p class="level3">
+<strong>Loop + CUE active:</strong> playback loops seamlessly between the IN and OUT points with a transparent crossfade.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_cue.png" class="mediacenter" title="audio_cue" alt="audio_cue" /></div>
+</p>
+
+<h3 class="sectionedit19"><a name="cue_sans_boucle" id="cue_sans_boucle">CUE in normal playback (no loop)</a></h3>
+
+<p class="level3">
+CUE mode also works <strong>without looping</strong>:
+</p>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Playback <strong>stops at the OUT point</strong> and the player repositions to the IN point.</div></li>
+  <li class="level1"><div class="li">If <strong>AutoLoad</strong> is active, the next file is loaded and starts at its own CUE IN point.</div></li>
+  <li class="level1"><div class="li">This allows CUE points to be used as precise cue-to-cue markers in a sequential show.</div></li>
+</ul>
+
+<h3 class="sectionedit20"><a name="cue_par_player" id="cue_par_player">CUE per player</a></h3>
+
+<p class="level3">
+Each file has <strong>4 independent CUE point sets</strong>, one per player. The same file can therefore have a different entry point depending on which player it is played on.
+</p>
+
+<p class="level3">
+CUE positions are saved automatically with the show.
+</p>
+
+<h3 class="sectionedit21"><a name="definir_cue" id="definir_cue">Setting CUE points</a></h3>
+
+<ul class="level3">
+  <li class="level1"><div class="li">Enable <strong>[EDIT]</strong> mode.</div></li>
+  <li class="level1"><div class="li">Play the file and navigate (Play, fast forward/rewind, Pitch, seekbar).</div></li>
+  <li class="level1"><div class="li">Click <strong>[IN]</strong> or <strong>[OUT]</strong> at the desired moment to set the point.</div></li>
+  <li class="level1"><div class="li">Values in seconds are shown below the seekbar.</div></li>
+  <li class="level1"><div class="li">If the IN point exceeds the OUT point (or vice versa), the second point is automatically adjusted.</div></li>
+</ul>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="audio_edit.png" class="mediacenter" title="audio_edit" alt="audio_edit" /></div>
+</p>
+
+<h2 class="sectionedit22"><a name="autoload_autopause" id="autoload_autopause">AutoLoad and AutoPause</a></h2>
+
+<p class="level2">
+WhiteCat does not have a playlist in the strict sense, but <strong>AutoLoad</strong> mode enables automatic track sequencing.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li"><strong>AutoLoad</strong> only: at the end of a file (or at CUE OUT if CUE mode is active), the next file is loaded and starts playing immediately.</div></li>
+  <li class="level1"><div class="li"><strong>AutoPause</strong> only: the player stops at the end of the file (the file remains loaded, ready for a new Play).</div></li>
+  <li class="level1"><div class="li"><strong>AutoLoad + AutoPause</strong>: the next file is loaded but playback does not start — the operator triggers each track manually.</div></li>
+</ul>
+
+<p class="level2">
+In AutoLoad mode, each loaded file starts at its <strong>CUE IN point</strong> if CUE mode is active. The file list scrolls automatically to keep the current track visible.
+</p>
+
+<p class="level2">
+When the last file in the folder is reached, the player stops (the empty slot at the end of the list is selected).
+</p>
+
+<p class="level2">
+<img src="audio_autocue.png" class="media" title="audio_autocue" alt="audio_autocue" />
+</p>
+
+<p class="level2">
+<em>Tip: to organise several sequences within the same folder, prefix your files by player:<br/>
+<code>A_01_intro.wav</code> &nbsp; <code>A_02_scene.mp3</code> &nbsp; <code>B_01_music.flac</code></em>
+</p>
+
+<h2 class="sectionedit23"><a name="volume_pan_pitch" id="volume_pan_pitch">Volume, Pan, Pitch — MidiSendOut</a></h2>
+
+<p class="level2">
+By activating the <strong>MidiSendOut</strong> indicator, you can re-send the Volume, Pan, and Pitch signals outward.
+<strong>This indicator groups the re-send of all 3 controls together</strong>.
+</p>
+
+<p class="level2">
+This feature allows motorised devices (BCF, X-Touch…) or rotary encoder controllers (BCR, Midi Fighter…) to update their physical state when values are changed via mouse or Banger.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_midisendout.png" class="mediacenter" title="audio_midisendout" alt="audio_midisendout" /></div>
+</p>
+
+<h2 class="sectionedit24"><a name="affect_dock" id="affect_dock">Assign to a general fader</a></h2>
+
+<p class="level2">
+The <strong>[Affect to dock]</strong> section at the bottom of the window lets you assign the Volume, Pan, or Pitch of a player to a fader in the fader space.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Choose the type (Volume / Pan / Pitch) and the player number.</div></li>
+  <li class="level1"><div class="li">Click <strong>[Affect to dock]</strong>.</div></li>
+  <li class="level1"><div class="li">Click on a fader dock.</div></li>
+  <li class="level1"><div class="li">The fader turns blue (volume colour) to indicate the active assignment.</div></li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="audio_affect_to_dock.png" class="mediacenter" title="audio_midisendout" alt="audio_midisendout" /></div>
+</p>
+
+<h2 class="sectionedit26"><a name="ram_ogg_flac" id="ram_ogg_flac">OGG / FLAC — RAM allocation</a></h2>
+
+<p class="level2">
+<strong>.ogg</strong> and <strong>.flac</strong> files are loaded <strong>entirely into RAM</strong> when assigned to a player. This ensures smooth, skip-free playback with no decoding latency, even in CUE or loop mode.
+</p>
+
+<p class="level2">
+<strong>.wav</strong> and <strong>.mp3</strong> files are not affected: they use their own loading mechanisms.
+</p>
+
+<p class="level2">
+If an OGG or FLAC file exceeds the configured limit, it is played in degraded mode — playback remains possible but may show irregularities (less precise seeking, slight startup latency).
+</p>
+
+<h3><a name="reglage_ram" id="reglage_ram">Setting the RAM limit</a></h3>
+
+<p class="level2">
+The setting is accessible in <strong>CFG → Core config</strong>, field <strong>RAM OGG/FLAC</strong>.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Range: <strong>50 to 2048 MB</strong></div></li>
+  <li class="level1"><div class="li">Default value: <strong>300 MB</strong></div></li>
+  <li class="level1"><div class="li">Type the value in the field, then click it to confirm.</div></li>
+</ul>
+
+<p class="level2">
+In most situations, the default 300 MB is more than sufficient.
+</p>
+
+<p class="level2">
+<img src="audio_ram_allocation.png" class="media" title="audio_midibutton_affect" alt="audio_midibutton_affect" />
+</p>
+
+<p class="level2">
+The table below gives an approximate idea of RAM usage by duration and format:
+</p>
+
+<div class="table sectionedit27">
+<table class="inline">
+  <thead>
+    <tr>
+      <th>Duration</th>
+      <th>OGG ~128 kbps</th>
+      <th>OGG ~256 kbps</th>
+      <th>FLAC stereo 44.1 kHz 16 bit</th>
+      <th>FLAC stereo 96 kHz 24 bit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1 min</td><td>~1 MB</td><td>~2 MB</td><td>~6 MB</td><td>~18 MB</td></tr>
+    <tr><td>5 min</td><td>~5 MB</td><td>~10 MB</td><td>~29 MB</td><td>~88 MB</td></tr>
+    <tr><td>10 min</td><td>~9 MB</td><td>~19 MB</td><td>~59 MB</td><td>~176 MB</td></tr>
+    <tr><td>30 min</td><td>~28 MB</td><td>~56 MB</td><td><strong>~176 MB</strong></td><td style="color:#c06060"><strong>~528 MB ⚠</strong></td></tr>
+    <tr><td>1 hour</td><td>~57 MB</td><td>~113 MB</td><td style="color:#c06060"><strong>~352 MB ⚠</strong></td><td style="color:#c06060"><strong>~1056 MB ⚠</strong></td></tr>
+    <tr><td>2 hours</td><td>~113 MB</td><td>~225 MB</td><td style="color:#c06060"><strong>~704 MB ⚠</strong></td><td style="color:#c06060"><strong>~2112 MB ⚠</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="level2">
+⚠ = exceeds the default 300 MB limit → degraded mode playback. Increase the RAM limit if needed.
+</p>
+
+<p class="level2">
+<strong>Tips:</strong> increase the limit if your OGG/FLAC files are large and the machine has sufficient RAM. Decrease it on low-memory configurations.
+</p>
+
+<h2 class="sectionedit25"><a name="midi" id="midi">MIDI Assignment</a></h2>
+
+<p class="level2">
+All player controls can be assigned to MIDI: Play, Stop, Loop, CUE on/off, SetIN, SetOUT, SeekToCueIN, Volume, Pan, Pitch, Prev, Next, AutoLoad, AutoPause.
+</p>
+
+<p class="level2">
+<strong>Note:</strong> audio commands cannot be assigned in series (MIDI Aff. X2 or more). Assignment is in <strong>SOLO</strong> mode only.
+</p>
+
+<ul class="level2">
+  <li class="level1"><div class="li">Enable <strong>[MIDI Aff. X1]</strong> mode.</div></li>
+  <li class="level1"><div class="li">Send a MIDI signal (Note On/Off or Control Change).</div></li>
+  <li class="level1"><div class="li">Click the target control.</div></li>
+</ul>
+
+<p class="level2">
+<img src="audio_midibutton_affect.png" class="media" title="audio_midibutton_affect" alt="audio_midibutton_affect" />
+</p>
+
+<p class="level2">
+For more details: <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="MIDI Configuration and Assignments">MIDI Configuration and Assignments</a>
+</p>
+
+</div>
+</body>
+</html>

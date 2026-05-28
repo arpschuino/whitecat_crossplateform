@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>atzero_et_vision_globale</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2010-05-28T09:00:42+0200"/>
+<meta name="keywords" content="atzero_et_vision_globale"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="atzero_et_vision_globale.html"/>
+<link rel="contents" href="atzero_et_vision_globale.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="atzero_et_vision_globale.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="atzero_et_vision_globale.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=atzero_et_vision_globale"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"atzero_et_vision_globale","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#fonctions_all_at_zero_lock_presets_et_vision_globale_des_faders">Fonctions All at Zero, Lock Presets et Vision Globale des Faders</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#all_at_zero">ALL AT ZERO</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#presentation">Présentation</a></div></li>
+<li class="level4"><div class="li"><a href="#affecter_les_commandes_en_midi">Affecter les commandes en midi</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#lock_presets">LOCK PRESETS</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#enregistrer_un_etat_de_lock">Enregistrer un état de lock</a></div></li>
+<li class="level4"><div class="li"><a href="#vider_un_lock_preset">Vider un lock preset</a></div></li>
+<li class="level4"><div class="li"><a href="#on_off_d_un_lock_preset">On / Off d&#039;un lock preset</a></div></li>
+<li class="level4"><div class="li"><a href="#affecter_une_commande_midi_a_un_lock_preset">Affecter une commande midi à un lock preset</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#vision_globale">VISION GLOBALE</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="fonctions_all_at_zero_lock_presets_et_vision_globale_des_faders" id="fonctions_all_at_zero_lock_presets_et_vision_globale_des_faders">Fonctions All at Zero, Lock Presets et Vision Globale des Faders</a></h1>
+
+<p class="level1">
+Sur les côtés des faders ( avant le Fader 1 et après le Fader 48), vous avez accès à des commandes rapides:
+</p>
+<!-- EDIT1 SECTION "Fonctions All at Zero, Lock Presets et Vision Globale des Faders" [1-194] -->
+<h3 class="sectionedit2"><a name="all_at_zero" id="all_at_zero">ALL AT ZERO</a></h3>
+
+<p class="level3">
+Permet de mettre à zéro de manière sélective les 48 faders.
+</p>
+
+<p class="level3">
+Lors de cette mise à zéro, un snapshot est fait de l&#039;état de ces faders.
+</p>
+
+<p class="level3">
+Ce qui permet de rappeler l&#039;état avant mise à zéro par la commande [RECALL].
+</p>
+
+<p class="level3">
+Cette fonction est prévue pour les concerts. Elle est cut, sans tempo.
+</p>
+<!-- EDIT2 SECTION "ALL AT ZERO" [195-511] -->
+<h4 class="sectionedit3"><a name="presentation" id="presentation">Présentation</a></h4>
+
+<p class="level4">
+<img src="faders_allatzero.jpeg" class="media" title="faders_allatzero.jpg" alt="faders_allatzero.jpg" />
+</p>
+<ul class="level4">
+<li class="level1"><div class="li"> [FADERS]</div>
+</li>
+</ul>
+<pre class="code">Les 48 Faders sont mis à zéro.</pre>
+<pre class="code">Si des LFOs sont présents, sans boucle ( Loop), ils seront éteints, considérant que le mouvement est fini ( niveau = 0).</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [SPEED]</div>
+</li>
+</ul>
+<pre class="code">Les 48 accéléromètres sont remis à 64 ( vitesse normale).</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [LOCK]</div>
+</li>
+</ul>
+<pre class="code">Les 48 Faders sont débrayés du Lock.</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [LFO]</div>
+</li>
+</ul>
+<pre class="code">Les LFOs des 48 Faders sont mis à zéro.</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [LOOP]</div>
+</li>
+</ul>
+<pre class="code">Toutes les boucles des 48 Faders sont déselectionnées.</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [ALL]</div>
+</li>
+</ul>
+<pre class="code">Tout en même temps.</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [MIDI OUT]</div>
+</li>
+</ul>
+<pre class="code">Le renvoi midi out des faders est désactivé sur les 48 faders.</pre>
+<ul class="level4">
+<li class="level1"><div class="li"> [RECALL]</div>
+</li>
+</ul>
+<pre class="code">Lors des actions [ALL AT ZERO] décrites ci dessus, une sauvegarde est faite en mémoire vive de l&#039;état de ce que l&#039; on va mettre à zéro.
+On rappelle alors l&#039;état avant mise à zéro.</pre>
+<!-- EDIT3 SECTION "Présentation" [512-1321] -->
+<h4 class="sectionedit4"><a name="affecter_les_commandes_en_midi" id="affecter_les_commandes_en_midi">Affecter les commandes en midi</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Clicker [MIDI CFG]</div>
+</li>
+<li class="level1"><div class="li"> Sélectionner la page [BUTTONS CONFIG]</div>
+</li>
+<li class="level1"><div class="li"> Clicker Attribute en solo </div>
+</li>
+<li class="level1"><div class="li"> Survoler le bouton désiré ( il apparait encadré en rouge )</div>
+</li>
+<li class="level1"><div class="li"> Appuyer sur la touche clavier désiré</div>
+</li>
+<li class="level1"><div class="li"> Clicker le bouton à affecter</div>
+</li>
+</ol>
+<pre class="code">! Attention, concernant la commande [RECALL] avec une BCF 2000, vous aurez besoin d&#039;activer la transformation Key_ON Vel 0 = Key_Off dans  dans Preset / Options ( [ Midi CFG ])</pre>
+<!-- EDIT4 SECTION "Affecter les commandes en midi" [1322-1780] -->
+<h3 class="sectionedit5"><a name="lock_presets" id="lock_presets">LOCK PRESETS</a></h3>
+
+<p class="level3">
+Les états de Lock sont aussi enregistrables dans 8 Lock Preset.
+</p>
+
+<p class="level3">
+On peut rappeler ces prépas d&#039;un simple click, ou via une touche midi.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="lock_presets.jpeg" class="mediacenter" title="lock_presets.jpg" alt="lock_presets.jpg" /></div>
+</p>
+<!-- EDIT5 SECTION "LOCK PRESETS" [1781-1965] -->
+<h4 class="sectionedit6"><a name="enregistrer_un_etat_de_lock" id="enregistrer_un_etat_de_lock">Enregistrer un état de lock</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Mette en lock les faders désirés</div>
+</li>
+<li class="level1"><div class="li"> Taper [F1] ou clicker [STORE]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le lock preset désiré</div>
+</li>
+</ol>
+<!-- EDIT6 SECTION "Enregistrer un état de lock" [1966-2111] -->
+<h4 class="sectionedit7"><a name="vider_un_lock_preset" id="vider_un_lock_preset">Vider un lock preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Taper [F4] ou clicker [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le lock preset désiré</div>
+</li>
+</ol>
+<!-- EDIT7 SECTION "Vider un lock preset" [2112-2210] -->
+<h4 class="sectionedit8"><a name="on_off_d_un_lock_preset" id="on_off_d_un_lock_preset">On / Off d&#039;un lock preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Clicker le lock preset ou utiliser son raccourci midi</div>
+</li>
+<li class="level1"><div class="li"> Attention, lors d&#039;un appel de Lock Preset, le Master Lock est mis à Full !   Lors de la création de vos Lock Presets, assurez vous donc d&#039;être sur un dock vide.</div>
+</li>
+</ol>
+<!-- EDIT8 SECTION "On / Off d'un lock preset" [2211-2470] -->
+<h4 class="sectionedit9"><a name="affecter_une_commande_midi_a_un_lock_preset" id="affecter_une_commande_midi_a_un_lock_preset">Affecter une commande midi à un lock preset</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Sélectionner le menu [MIDI_CFG]</div>
+</li>
+<li class="level1"><div class="li"> Choisir la page [BUTTON CONFIG]</div>
+</li>
+<li class="level1"><div class="li"> Choisir le mode ( 1/1 , tranches de 8, les 48 )</div>
+</li>
+<li class="level1"><div class="li"> Appuyer la touche midi désirée</div>
+</li>
+<li class="level1"><div class="li"> Clicker le lock preset désiré</div>
+</li>
+</ol>
+<!-- EDIT9 SECTION "Affecter une commande midi à un lock preset" [2471-2722] -->
+<h3 class="sectionedit10"><a name="vision_globale" id="vision_globale">VISION GLOBALE</a></h3>
+
+<p class="level3">
+Sur les côtés un petit panneau présentant l&#039;état de sortie des 48 faders permet :
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> au survol de la souris d&#039;afficher le dock sélectionné de ce fader, le type de données ( mémoire stockée, circuit, trichromie, art-net ….) , ainsi que le descriptif texte de ce dock.</div>
+</li>
+</ul>
+<ul class="level3">
+<li class="level1"><div class="li"> lorsque vous clickez dessus, la page se déplace au fader appelé.</div>
+</li>
+</ul>
+
+<p class="level3">
+Ce panneau peut servir aussi de zône d&#039;action rapide, évitant les menus de confirmations, lorsque:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [F1] ou [STORE]</div>
+</li>
+<li class="level1"><div class="li"> [F2] ou [MODIFY]</div>
+</li>
+<li class="level1"><div class="li"> [F3] ou [REPORT]</div>
+</li>
+<li class="level1"><div class="li"> [F4] ou [CLEAR]</div>
+</li>
+<li class="level1"><div class="li"> la fenêtre TIME et [AFFECT] enclenché</div>
+</li>
+</ul>
+
+<p class="level3">
+…. clicker la case du fader affectera l&#039;action choisi sur le dock actif du fader.
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="faders_viewall.jpeg" class="mediacenter" title="faders_viewall.jpg" alt="faders_viewall.jpg" /></div>
+</p>
+<!-- EDIT10 SECTION "VISION GLOBALE" [2723-] --></div>
+</body>
+</html>

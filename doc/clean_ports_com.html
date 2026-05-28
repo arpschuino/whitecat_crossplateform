@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>clean_ports_com</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2011-08-21T22:17:25+0200"/>
+<meta name="keywords" content="clean_ports_com"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="clean_ports_com.html"/>
+<link rel="contents" href="clean_ports_com.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="clean_ports_com.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="clean_ports_com.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=clean_ports_com"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"clean_ports_com","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#nettoyer_les_ports_com_de_windows">Nettoyer les ports COM de windows</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#echanger_l_affectation_du_peripherique">Echanger l&#039;affectation du périphérique:</a></div></li>
+<li class="level3"><div class="li"><a href="#nettoyer_les_ports_utilises">Nettoyer les ports utilisés</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 class="sectionedit1"><a name="nettoyer_les_ports_com_de_windows" id="nettoyer_les_ports_com_de_windows">Nettoyer les ports COM de windows</a></h2>
+
+<p class="level2">
+Sur une machine souvent utilisée avec différents hardwares, il arrive que l&#039;attribution automatique des ports COM pose souci.
+</p>
+
+<p class="level2">
+En effet, à détection d&#039;un nouveau hardware de type série : 
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> carte DMX sur chipset FTDII ( Enttec Pro / Open / Vinc&#039;s USB-DMX512.Online.net) </div>
+</li>
+<li class="level1"><div class="li"> Arduino ( 2009 et précédentes)</div>
+</li>
+<li class="level1"><div class="li"> ou tout autre périphériphérique simulant la liaison série</div>
+</li>
+</ol>
+
+<p class="level2">
+Windows va attribuer un PORT COM fixe.
+</p>
+
+<p class="level2">
+La numérotation de ces ports COM commence à 3 ( compris) , le 1 et le 2 étant réservés notamment au modem.
+</p>
+
+<p class="level2">
+Le problème c&#039;est que bien souvent on dépasse la limite de 10, qui est une vraie limite pour certains logiciels dont WhiteCat, ou alors des limites pour certains hardware ( type Jeenode). Du coup le périphérique n&#039;est plus accessible.
+</p>
+
+<p class="level2">
+Sous IDE arduino des ports COM vont apparaitre, alors que seule l&#039;arduino est branchée. Ces ports COM étant attribués de manière fixe il peut donc rester des traces.
+</p>
+
+<p class="level2">
+Il y a plusieurs manières d&#039;opérer.
+</p>
+<!-- EDIT1 SECTION "Nettoyer les ports COM de windows" [1-1033] -->
+<h3 class="sectionedit2"><a name="echanger_l_affectation_du_peripherique" id="echanger_l_affectation_du_peripherique">Echanger l&#039;affectation du périphérique:</a></h3>
+
+<p class="level3">
+C&#039;est cette solution que l&#039;on prendra dans l&#039;urgence:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Aller dans le gestionnaire de périphériques;click droit sur Poste de travail &gt; propriétés &gt; gestionnaire de périphériques </div>
+</li>
+<li class="level1"><div class="li"> Sélectionner dans la catégories PORTS COM le périphérique &gt;click droit propriétés</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_propr.jpeg" class="mediacenter" title="port_com_propr.jpg" alt="port_com_propr.jpg" /></div>
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Onglet Paramètres du port</div>
+</li>
+<li class="level1"><div class="li"> Clicker Avancé</div>
+</li>
+<li class="level1"><div class="li"> Sélectionnez dans la liste un autre port COM non attribué, en dessous de 10</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_change.jpeg" class="mediacenter" title="port_com_change.jpg" alt="port_com_change.jpg" /></div>
+</p>
+
+<p class="level3">
+Notez qu&#039;ici dans cette capture, j&#039;ai 3 ports utilisés, 4 et 5 sont attribués à d&#039;autres matériels non branchés sur la machine( carte DMX et UNO ). Ils apparaissent en cours d&#039;utilisation, alors qu&#039;ils ne sont pas branchés: c&#039;est l&#039;attribution fixe de windows.
+</p>
+<!-- EDIT2 SECTION "Echanger l'affectation du périphérique:" [1034-1825] -->
+<h3 class="sectionedit3"><a name="nettoyer_les_ports_utilises" id="nettoyer_les_ports_utilises">Nettoyer les ports utilisés</a></h3>
+
+<p class="level3">
+Sélectionnez l&#039;affichage des périphérique cachés ( attribués mais pas branchés):
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="port_com_caches.jpeg" class="mediacenter" title="port_com_caches.jpg" alt="port_com_caches.jpg" /></div>
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> Clickez chaque périphérique dans la rubrique PORT COM et supprimez le (  partir de 3), voir désinstallez le si vous avez accès à internet pour réinstaller plus tard le driver.</div>
+</li>
+<li class="level1"><div class="li"> Redémarrez windows</div>
+</li>
+<li class="level1"><div class="li"> Branchez votre interface, qui se verra attribuer un nouveau port com situé en début de liste ( 3 ) ou en plus petite place libre dans cette liste.</div>
+</li>
+</ol>
+
+<p class="level3">
+Pour XP, suivre ici la procédure pour que les périphériques cachés apparaissent bien: <a href="http://support.microsoft.com/kb/315539" class="urlextern" title="http://support.microsoft.com/kb/315539"  rel="nofollow">http://support.microsoft.com/kb/315539</a>
+</p>
+<!-- EDIT3 SECTION "Nettoyer les ports utilisés" [1826-] --></div>
+</body>
+</html>

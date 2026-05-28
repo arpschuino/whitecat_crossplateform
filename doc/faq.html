@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>FAQ — WhiteCat</title>
+  <meta name="date" content="2026-05-17"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="faq_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#installation">Installation</a></div></li>
+<li class="level2"><div class="li"><a href="#mac_linux">Mac / Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#utilisation">Utilisation de WhiteCat</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1">FAQ — White Cat</h1>
+
+<h2 class="sectionedit2" id="installation">INSTALLATION</h2>
+<div class="level2">
+
+<p>
+Certaines manipulations de base dans WhiteCat vous posent souci ?
+Ce module complémentaire va sans doute vous aider. Il se veut très simple et direct.
+Vous y trouverez quelques réponses aux questions classiques et récurrentes qui se posent en premier lieu, avant d'être un familier du « Chat ».
+</p>
+
+<p>
+<strong>Où trouver la dernière mise à jour de WhiteCat ?</strong><br>
+Depuis avril 2026, elle se trouve sur le GitHub d'arpschuino :<br>
+<a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">https://github.com/arpschuino/whitecat_crossplateform/releases</a>
+</p>
+
+<p>
+<strong>Où placer la dernière pre-release de WhiteCat ?</strong><br>
+Vous pouvez garder autant de versions de WhiteCat que vous voulez.
+Pensez juste à être bien ordonné et logique dans vos dossiers.
+Nommez-les « sansespaces » de préférence, voire sous le même nom que la pre-release en question (avec une date, c'est encore mieux).
+Lorsque les versions s'empilent, cette petite discipline de travail peut vous aider à vous y retrouver !<br>
+Important : collez le dossier directement sous la racine (dans C:).
+D'une manière générale, WhiteCat n'aime pas les espaces dans les noms de dossiers et de fichiers.
+</p>
+
+<p>
+<strong>Comment transférer et retrouver mes spectacles dans une nouvelle version ?</strong><br>
+C'est simple, tout se fait par copier/coller.
+Copiez ce que vous souhaitez conserver dans les dossiers <code>audio</code>, <code>import_export</code>, <code>plans</code>, <code>save</code>, <code>user</code>…
+</p>
+
+<p>
+<strong>Je lance WhiteCat et il affiche "couldn't load fonts/doom.ttf"</strong><br>
+Vous essayez de lancer WhiteCat directement depuis l'archive. Il faut d'abord l'extraire, puis le lancer depuis le dossier où il a été extrait (dans C:).
+</p>
+
+<p>
+<strong>Je lance WhiteCat et le programme reste bloqué et ne démarre pas</strong><br>
+WhiteCat possède un serveur interne pour recevoir les signaux ArtNet.
+Ce serveur est initialisé au démarrage et peut être bloqué par le pare-feu Windows ou par votre logiciel de sécurité.
+Il faut donc y autoriser WhiteCat, ou les désactiver.<br>
+Postez sur le <a href="https://forum.arpschuino.fr/" class="urlextern" rel="nofollow">forum</a> si le problème persiste.
+</p>
+
+</div>
+
+<h2 class="sectionedit3" id="mac_linux">JE SUIS SOUS MAC / LINUX</h2>
+<div class="level2">
+
+<ul>
+<li class="level1"><div class="li">Pour l'instant (0.9.x), WhiteCat ne fonctionne que sous Windows.</div></li>
+</ul>
+
+<p>
+WhiteCat n'est pas encore cross-platform.
+Depuis le reborn de 2026, nous en prenons le chemin : la plupart des bibliothèques non cross-platform ont été remplacées.
+L'objectif est d'y parvenir en 2027.
+</p>
+
+</div>
+
+<h2 class="sectionedit4" id="utilisation">UTILISATION DE WHITECAT</h2>
+<div class="level2">
+
+<h5 id="circuit_full">Lorsque j'envoie un circuit à full, il est affiché à 32 %</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">Le séquenciel [F9] n'est pas à Full sur scène.</div></li>
+</ul>
+</div>
+
+<h5 id="fleches_molette">Lorsque j'essaie de manipuler un circuit avec les flèches ou la molette, rien ne se produit</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">Vérifier dans le séquenciel que le master scène n'est pas à 0.</div></li>
+<li class="level1"><div class="li">Vérifier que vous n'êtes pas en [Blind], donc en train d'agir sur la mémoire en preset.</div></li>
+<li class="level1"><div class="li">Sinon, vérifier dans le menu CFG, onglet General, que le Default Step Level n'est pas 0. Ce problème peut survenir au chargement d'une conduite antérieure à la version 0.7.6.2.</div></li>
+</ul>
+</div>
+
+<h5 id="faders_memoires">J'utilise les faders et je ne comprends pas comment visualiser les mémoires</h5>
+<div class="level5">
+<ul>
+<li class="level1"><div class="li">Le cœur de WhiteCat c'est le séquenciel, où les mémoires sont enregistrées.
+C'est en naviguant dans le séquenciel que vous pouvez simplement les éditer.</div></li>
+</ul>
+</div>
+
+<h5 id="banger">Je lance un Banger et rien ne se passe</h5>
+<div class="level5">
+<p>Vérifier dans [CFG Menu] &gt; Core que l'onglet Banger est ON.</p>
+</div>
+
+<h5 id="midi_circuits">Où est l'assignation MIDI pour les circuits ?</h5>
+<div class="level5">
+<p>
+Il n'y a pas d'autre manière que d'utiliser la structure des faders en mode Direct Channel.
+Il faudra donc assigner un circuit à un dock, puis assigner le MIDI au Fader.
+</p>
+</div>
+
+</div>
+
+</div>
+</body>
+</html>

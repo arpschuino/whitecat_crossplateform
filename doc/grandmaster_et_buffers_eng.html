@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>grandmaster_et_buffers_eng</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-01-19T00:48:19+0100"/>
+<meta name="keywords" content="grandmaster_et_buffers_eng"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="grandmaster_et_buffers_eng.html"/>
+<link rel="contents" href="grandmaster_et_buffers_eng.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="grandmaster_et_buffers_eng.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="grandmaster_et_buffers_eng.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=grandmaster_et_buffers_eng"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"grandmaster_et_buffers_eng","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#grand_master_and_dmx_buffers_in_white_cat">Grand Master and dmx buffers in White Cat</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#grand_master">Grand Master</a></div></li>
+<li class="level2"><div class="li"><a href="#midi_assignment_of_the_grand_master">Midi Assignment of the Grand Master</a></div></li>
+<li class="level2"><div class="li"><a href="#dmx_buffers">DMX Buffers</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="grand_master_and_dmx_buffers_in_white_cat" id="grand_master_and_dmx_buffers_in_white_cat">Grand Master and dmx buffers in White Cat</a></h1>
+<!-- EDIT1 SECTION "Grand Master and dmx buffers in White Cat" [1-58] -->
+<h2 class="sectionedit2"><a name="grand_master" id="grand_master">Grand Master</a></h2>
+
+<p class="level2">
+Grand Master is a fader that affects all channel levels sent to the dmx card.
+</p>
+
+<p class="level2">
+Its location in the workspace is at the top right of the screen, and for notebooks limited to a 1024&times;600 resolution, it is located in Fader space, before the 1st fader and also after the 48th fader.
+</p>
+
+<p class="level2">
+From version 0.7.6.4 onward, the Grand Master is lockable (On or off).
+</p>
+
+<p class="level2">
+This is especially for work with VVVV in art-net, as certain channels are used as preset positions. The preset system will not work if the Grand Master is not at full:
+channel 61, remote-controlling which file needs to be played, will never select the correct file if the dmx value is not correct (because it has been changed by the position of the Grand Master).
+</p>
+
+<p class="level2">
+To Lock/Unlock the Grand Master, check/uncheck the On/Off in [CFG Menu] &gt; General  
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="grandmaster.jpeg" class="mediacenter" title="grandmaster.jpg" alt="grandmaster.jpg" /></div>
+</p>
+<!-- EDIT2 SECTION "Grand Master" [59-907] -->
+<h2 class="sectionedit3"><a name="midi_assignment_of_the_grand_master" id="midi_assignment_of_the_grand_master">Midi Assignment of the Grand Master</a></h2>
+
+<p class="level2">
+Grand Master is remote-controllable in midi:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> click [CFG Menu]</div>
+</li>
+<li class="level1"><div class="li"> Select [Midi] &gt; [Midi Affectation]</div>
+</li>
+<li class="level1"><div class="li"> select [Affect solo]</div>
+</li>
+<li class="level1"><div class="li"> move your midi fader</div>
+</li>
+<li class="level1"><div class="li"> click the Grand Master</div>
+</li>
+</ul>
+
+<p class="level2">
+For more information about midi devices and principles: <a href="configuration_affectation_midi_eng.html" class="wikilink1" title="Configuration Affectation Midi_eng"> Midi Configuration and Midi Assignments </a>
+</p>
+
+<p class="level2">
+By clicking on the hanging circle, you will enable a midi out signal specifying the level of the Grand Master (for operating motorized midi devices).
+</p>
+<!-- EDIT3 SECTION "Midi Assignment of the Grand Master" [908-1434] -->
+<h2 class="sectionedit4"><a name="dmx_buffers" id="dmx_buffers">DMX Buffers</a></h2>
+
+<p class="level2">
+Moving the Grand Master slider will not change the output levels displayed in Channel space, but it will change the raw DMX signal sent to the interface.
+</p>
+
+<p class="level2">
+This Raw DMX is the result of combining
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> Buffer coming from CueList (channels levels printed in blue)</div>
+</li>
+<li class="level1"><div class="li"> Buffer coming from Faders (channels levels printed in orange)</div>
+</li>
+</ol>
+
+<p class="level2">
+They are merged using the HTP protocol (Highest Takes Precedence): where the highest level found is taken.
+</p>
+
+<p class="level2">
+Then the signal goes through the patch routing, where it is affected by curves.
+</p>
+
+<p class="level2">
+Then the final result is mastered by the Grand Master.
+</p>
+
+<p class="level2">
+<img src="grandmaster_buffers.jpeg" class="media" title="grandmaster_buffers.jpg" alt="grandmaster_buffers.jpg" />
+</p>
+<!-- EDIT4 SECTION "DMX Buffers" [1435-] --></div>
+</body>
+</html>

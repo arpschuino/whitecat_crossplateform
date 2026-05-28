@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>tracking</title>
+<meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2012-07-15T22:02:34+0200"/>
+<meta name="keywords" content="tracking"/>
+<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
+<link rel="start" href="tracking.html"/>
+<link rel="contents" href="tracking.html" title="Plan du site"/>
+<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
+<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
+<link rel="alternate" type="text/html" title="HTML brut" href="tracking.html"/>
+<link rel="alternate" type="text/plain" title="Wiki balise" href="tracking.html"/>
+<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=tracking"/>
+<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
+<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"tracking","namespace":""};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+</head>
+<body>
+<div class="dokuwiki export">
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#tracking_video_ou_air-lighting">Tracking Vidéo ou Air-Lighting</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#concepts_de_base">Concepts de base</a></div></li>
+<li class="level2"><div class="li"><a href="#comprendre">Comprendre:</a></div></li>
+<li class="level2"><div class="li"><a href="#equipement">Equipement:</a></div></li>
+<li class="level2"><div class="li"><a href="#tracking_video">Tracking Vidéo</a></div></li>
+<li class="level2"><div class="li"><a href="#affecter_la_sortie_de_la_fenetre_de_tracking_video_a_un_dock">Affecter la sortie de la fenêtre de tracking vidéo à un dock</a></div></li>
+<li class="level2"><div class="li"><a href="#parametrage_et_modes_de_calcul_de_l_image">Paramétrage et modes de calcul de l&#039;image</a></div>
+<ul class="toc">
+<li class="clear">
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#modes_de_calculnone_ou_suppr">Modes de calcul: NONE ou SUPPR</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#none">NONE</a></div></li>
+<li class="level3"><div class="li"><a href="#suppr">SUPPR.</a></div></li>
+<li class="level3"><div class="li"><a href="#images_settings">Images Settings</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#mode_none">MODE NONE</a></div></li>
+<li class="level4"><div class="li"><a href="#mode_suppr">MODE SUPPR.</a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="#presets_et_rois">PRESETS et ROIs</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#preset">PRESET</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#plusieurs_presets_pourquoi">Plusieurs Presets, pourquoi ?</a></div></li>
+<li class="level4"><div class="li"><a href="#nettoyer_un_preset">Nettoyer un preset</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#roi">ROI</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#affectation_de_circuits">Affectation de circuits</a></div></li>
+<li class="level4"><div class="li"><a href="#reglages_de_la_taille_de_la_roi">Réglages de la taille de la ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#reglages_de_la_position_de_la_roi">Réglages de la position de la ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#nettoyer_une_roi">Nettoyer une ROI</a></div></li>
+<li class="level4"><div class="li"><a href="#voir_les_circuits_affectes_a_une_roi">Voir les circuits affectés à une ROI</a></div></li>
+</ul>
+</li>
+<li class="level3"><div class="li"><a href="#amortissement_par_le_decay">Amortissement par le DECAY</a></div>
+<ul class="toc">
+<li class="level4"><div class="li"><a href="#affectation_midi">affectation midi</a></div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="tracking_video_ou_air-lighting" id="tracking_video_ou_air-lighting">Tracking Vidéo ou Air-Lighting</a></h1>
+
+<p class="level1">
+Pour accéder à la fenêtre de Tracking Vidéo:
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> clicker [TRACK.] ou taper [F8]</div>
+</li>
+</ul>
+
+<p class="level1">
+<img src="click_videotracking.jpeg" class="media" title="click_videotracking.jpg" alt="click_videotracking.jpg" />
+</p>
+<!-- EDIT1 SECTION "Tracking Vidéo ou Air-Lighting" [1-163] -->
+<h2 class="sectionedit2"><a name="concepts_de_base" id="concepts_de_base">Concepts de base</a></h2>
+
+<p class="level2">
+Le module de tracking vidéo permet d&#039;avoir une relation sensitive à la lumière via une simple webcam. 
+</p>
+
+<p class="level2">
+White Cat récupère le flux d&#039;une webcam ( drivers WDM).
+</p>
+
+<p class="level2">
+L&#039;image de cette webcam est analysée en temps réel et passe par différents filtres, de façon à sortir une information convertible en niveaux lumineux.
+</p>
+
+<p class="level2">
+Ce processus se fait sur différentes ROI ( Region Of Interrest), des zônes d&#039;intérêt que l&#039;on peut définir dans l&#039;image.
+</p>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="video_roi.jpeg" class="mediacenter" title="video_roi.jpg" alt="video_roi.jpg" /></div>
+</p>
+
+<p class="level2">
+Il y a 6 preset, comprenant chacun 12 ROI.
+</p>
+
+<p class="level2">
+Chaque ROI est éditable dans l&#039;aire de l&#039;image vidéo, et à chaque ROI on peut affecter des circuits différents.  
+</p>
+
+<p class="level2">
+Chaque ROI peut être activée, désactivée.
+</p>
+
+<p class="level2">
+Au total on peut donc avoir 12&times;6 affectations de circuits différentes et indépendantes.
+</p>
+
+<p class="level2">
+6 presets permettent d&#039;appeler en concert des configurations différentes très rapidement.
+</p>
+<!-- EDIT2 SECTION "Concepts de base" [164-1056] -->
+<h2 class="sectionedit3"><a name="comprendre" id="comprendre">Comprendre:</a></h2>
+
+<p class="level2">
+Le calcul du niveau lumineux issu d&#039;une ROI est basé sur le ratio Nbre total de pixels de la ROI / décompte du nombre de pixels blancs trouvés dans la ROI.
+</p>
+
+<p class="level2">
+Travailler avec le tracking vidéo impose:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> un environnement obscur, que la lumière manipulée n&#039;affecte pas</div>
+</li>
+<li class="level1"><div class="li"> une petite source lumineuse à côté de la webcam pour éclairer vers le haut</div>
+</li>
+</ul>
+
+<p class="level2">
+Pour l&#039;instant WhiteCat se connecte automatiquement à la première caméra en WDM trouvée.
+Pour configurer celle-ci, éteindre WhiteCat et lancer VIDCAP.exe.
+</p>
+
+<p class="level2">
+Dans VIDCAP, Sélectionnez OPTIONS &gt; VIDEO Format et préférez une résolution maxima de 352&times;258, où votre processeur va être très très vite ralenti.
+Faites appliquer et quittez VIDCAP.
+</p>
+
+<p class="level2">
+Dans WhiteCat, même si votre caméra est une caméra couleur, on récupère un flux en noir et blanc.
+</p>
+<!-- EDIT3 SECTION "Comprendre:" [1057-1893] -->
+<h2 class="sectionedit4"><a name="equipement" id="equipement">Equipement:</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"> lampe USB ( type Boulanger à 9 euros)</div>
+</li>
+<li class="level1"><div class="li"> web cam ( type Boulanger à 9 euros)</div>
+</li>
+<li class="level1"><div class="li"> si vous avez une caméra intégrée dans votre portable, la désactiver</div>
+</li>
+<li class="level1"><div class="li"> lancer white cat pour la détection de la webcam</div>
+</li>
+</ul>
+<ul class="level2">
+<li class="level1"><div class="li"> ici un assemblage dans un boitier, un peu plus pratique à poser, ainsi qu&#039;un gélatinage en Lee132 de la source lumineuse:</div>
+</li>
+</ul>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="assembl_camera.jpeg" class="mediacenter" title="assembl_camera.jpg" alt="assembl_camera.jpg" /></div>
+</p>
+<!-- EDIT4 SECTION "Equipement:" [1894-2288] -->
+<h2 class="sectionedit5"><a name="tracking_video" id="tracking_video">Tracking Vidéo</a></h2>
+
+<p class="level2">
+<img src="video_window.jpeg" class="media" title="video_window.jpg" alt="video_window.jpg" />
+</p>
+
+<p class="level2">
+La fenêtre de tracking Vidéo comporte plusieurs parties:
+</p>
+<ol class="level2">
+<li class="level1"><div class="li"> le taux de rafraichissement des images ( fps). Généralement sur des simples webcam, on est à 15 images secondes</div>
+</li>
+<li class="level1"><div class="li"> la zône d&#039;affichage de l&#039;image, comportant l&#039;affichage des ROI, ainsi que les niveaux issus des ROI</div>
+</li>
+<li class="level1"><div class="li"> les menus de paramétrages généraux</div>
+</li>
+<li class="level1"><div class="li"> les sélections de ROI</div>
+</li>
+<li class="level1"><div class="li"> les menus d&#039;éditions des ROI</div>
+</li>
+<li class="level1"><div class="li"> la vitesse de restitutions des niveaux</div>
+</li>
+<li class="level1"><div class="li"> les 6 presets</div>
+</li>
+<li class="level1"><div class="li"> l&#039;affectation aux docks</div>
+</li>
+</ol>
+
+<p class="level2">
+L&#039;impact sur les circuits se fait uniquement si le tracking vidéo a été affecté à un Dock, et que ce Fader est actif.
+</p>
+<!-- EDIT5 SECTION "Tracking Vidéo" [2289-2939] -->
+<h2 class="sectionedit6"><a name="affecter_la_sortie_de_la_fenetre_de_tracking_video_a_un_dock" id="affecter_la_sortie_de_la_fenetre_de_tracking_video_a_un_dock">Affecter la sortie de la fenêtre de tracking vidéo à un dock</a></h2>
+<ol class="level2">
+<li class="level1"><div class="li"> Cliquer [AFFECT TO DOCK] et clicker sur le dock de votre choix.</div>
+</li>
+<li class="level1"><div class="li"> Monter le niveau de ce dernier.</div>
+</li>
+</ol>
+<pre class="code">Attention, contrairement à la trichromie, il n&#039;y a qu&#039;une seule sortie possible du module de tracking vidéo.</pre>
+<!-- EDIT6 SECTION "Affecter la sortie de la fenêtre de tracking vidéo à un dock" [2940-3233] -->
+<h2 class="sectionedit7"><a name="parametrage_et_modes_de_calcul_de_l_image" id="parametrage_et_modes_de_calcul_de_l_image">Paramétrage et modes de calcul de l&#039;image</a></h2>
+
+<p class="level2">
+<div align="center" style="text-align: center"><img src="video_modes.jpeg" class="mediacenter" title="video_modes.jpg" alt="video_modes.jpg" /></div>
+</p>
+<!-- EDIT7 SECTION "Paramétrage et modes de calcul de l'image" [3234-3311] -->
+<h4 class="sectionedit8"><a name="modes_de_calculnone_ou_suppr" id="modes_de_calculnone_ou_suppr">Modes de calcul: NONE ou SUPPR</a></h4>
+
+<p class="level4">
+Pour alterner les modes clicker sur [NONE] ou [SUPPR.]
+</p>
+<!-- EDIT8 SECTION "Modes de calcul: NONE ou SUPPR" [3312-3407] -->
+<h3 class="sectionedit9"><a name="none" id="none">NONE</a></h3>
+
+<p class="level3">
+On fait disparaitre le fond par le THRESHOLD.
+Cette technique est la moins gourmande en ressource. 
+Contrairement à [SUPPR.], où l&#039;on soustrait la vidéo capturée à une image de référence ( background subsatraction ). 
+</p>
+
+<p class="level3">
+Le paramétrage de NONE se fait par:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> le réglage du THRESHOLD dans [IMAGE FILTERS]</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_roi.jpeg" class="mediacenter" title="video_roi.jpg" alt="video_roi.jpg" /></div>
+</p>
+<!-- EDIT9 SECTION "NONE" [3408-3757] -->
+<h3 class="sectionedit10"><a name="suppr" id="suppr">SUPPR.</a></h3>
+
+<p class="level3">
+Dans le cas d&#039;environnements trop clairs ( plafonds blancs, régie recevant beaucoup de lumière car petite salle ), on peut passer en mode SUPPR.
+Le paramétrage de SUPPR. se fera par:
+</p>
+<ol class="level3">
+<li class="level1"><div class="li"> un click sur SNAP, qui enregistre en mémoire l&#039;image de fond à soustraire de la vidéo capturée</div>
+</li>
+<li class="level1"><div class="li"> le réglage du THRESHOLD et du DIV.FACTOR dans [IMAGE FILTERS]</div>
+</li>
+</ol>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_suppr.jpeg" class="mediacenter" title="video_suppr.jpg" alt="video_suppr.jpg" /></div>
+</p>
+<!-- EDIT10 SECTION "SUPPR." [3758-4154] -->
+<h3 class="sectionedit11"><a name="images_settings" id="images_settings">Images Settings</a></h3>
+
+<p class="level3">
+Pins générales:
+</p>
+<ul class="level3">
+<li class="level1"><div class="li"> [FLIP] retourne l&#039;image haut/bas</div>
+</li>
+<li class="level1"><div class="li"> [THRESHOLD] enclenche le calcul de Threhsold ( seuils)</div>
+</li>
+<li class="level1"><div class="li"> [EROD] permet de “grignoter” les pixels indésirables </div>
+</li>
+<li class="level1"><div class="li"> [BLUR] fait un flou et permet de “nettoyer” le bruit ( petits pixels ambiants )</div>
+</li>
+</ul>
+<!-- EDIT11 SECTION "Images Settings" [4155-4440] -->
+<h4 class="sectionedit12"><a name="mode_none" id="mode_none">MODE NONE</a></h4>
+
+<p class="level4">
+Mode recommandé.
+Vous pouvez régler le threshold, jusqu&#039;à rendre noir le fond, et garder lumineuse la main ( via une petite source lumineuse)
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_settingssimple.jpeg" class="mediacenter" title="video_settingssimple.jpg" alt="video_settingssimple.jpg" /></div>
+</p>
+<!-- EDIT12 SECTION "MODE NONE" [4441-4637] -->
+<h4 class="sectionedit13"><a name="mode_suppr" id="mode_suppr">MODE SUPPR.</a></h4>
+
+<p class="level4">
+Après avoir fait un [SNAP] sans main, juste le fond, ajuster le threshold ainsi que le div. factor.
+Notez les niveaux issus des ROI affichés en dessous. Ces niveaux sont en base 255.
+</p>
+
+<p class="level4">
+Un bon paramétrage se fait sur les 3 plans: niveaux / threshold / div-facteur.
+</p>
+
+<p class="level4">
+Il faut obtenir un ratio de 255 quand la main couvre toute la ROI, et de 0 quand elle ne couvre rien.
+</p>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_settingsdiv.jpeg" class="mediacenter" title="video_settingsdiv.jpg" alt="video_settingsdiv.jpg" /></div>
+</p>
+<!-- EDIT13 SECTION "MODE SUPPR." [4638-5056] -->
+<h2 class="sectionedit14"><a name="presets_et_rois" id="presets_et_rois">PRESETS et ROIs</a></h2>
+<!-- EDIT14 SECTION "PRESETS et ROIs" [5057-5082] -->
+<h3 class="sectionedit15"><a name="preset" id="preset">PRESET</a></h3>
+
+<p class="level3">
+Il y a donc 6 presets dans lesquels naviguer, soit à la souris, 
+</p>
+
+<p class="level3">
+soit par les touches [A] [Z] [E] [R] [T] [Y].
+</p>
+
+<p class="level3">
+Chaque preset comporte 12 ROI, paramétrables spécifiquement à ce preset ( taille, position, circuits controlés).
+</p>
+<!-- EDIT15 SECTION "PRESET" [5083-5330] -->
+<h4 class="sectionedit16"><a name="plusieurs_presets_pourquoi" id="plusieurs_presets_pourquoi">Plusieurs Presets, pourquoi ?</a></h4>
+
+<p class="level4">
+Pour permettre différentes ergonomies de mouvement:
+</p>
+
+<p class="level4">
+Ainsi on peut avoir un dispositif de Blinders de jardin à cour dans le preset 1, où le mouvement de la main se fera latéralement sur 6 ROI.
+</p>
+
+<p class="level4">
+Dans le preset 2, un système de 8 douches placées en cercle, avec une disposition des 8 ROI préfigurant cette implantation.
+</p>
+
+<p class="level4">
+Dans le preset 3, des effets de nuages aux PARS 64, sur un jeu de 12 ROI, se chevauchant. 
+</p>
+
+<p class="level4">
+… etc …
+</p>
+<!-- EDIT16 SECTION "Plusieurs Presets, pourquoi ?" [5331-5797] -->
+<h4 class="sectionedit17"><a name="nettoyer_un_preset" id="nettoyer_un_preset">Nettoyer un preset</a></h4>
+
+<p class="level4">
+Utiliser le bouton [CLEAR] de la fenêtre vidéo. 
+Puis clicker le Preset désiré: sur toutes ses ROI, les informations de taille, de position, ainsi que l&#039;affectation des circuits seront nettoyées.
+</p>
+<!-- EDIT17 SECTION "Nettoyer un preset" [5798-6025] -->
+<h3 class="sectionedit18"><a name="roi" id="roi">ROI</a></h3>
+
+<p class="level3">
+Noter que dans chaque ROI, il y a un petit chiffre donnant son identité.
+</p>
+
+<p class="level3">
+Chaque ROI peut être appelée à la souris ou par le clavier avec les touches:
+</p>
+
+<p class="level3">
+[Q] [S] [D] [F] [G] [H]
+</p>
+
+<p class="level3">
+ou
+</p>
+
+<p class="level3">
+[W] [X] [C] [V] [B] [N]
+</p>
+
+<p class="level3">
+Lorsqu&#039;une ROI est active, les niveaux de sa sortie sont activés.
+</p>
+<!-- EDIT18 SECTION "ROI" [6026-6316] -->
+<h4 class="sectionedit19"><a name="affectation_de_circuits" id="affectation_de_circuits">Affectation de circuits</a></h4>
+
+<p class="level4">
+<strong>On affecte une sélection de circuits dans une ROI.
+Les niveaux de ces circuits sont issus du calcul du tracking vidéo.</strong>
+</p>
+<ol class="level4">
+<li class="level1"><div class="li"> sélectionner le ou les circuits voulus</div>
+</li>
+<li class="level1"><div class="li"> taper [F1] ou clicker [STORE]</div>
+</li>
+<li class="level1"><div class="li"> clicker la ROI désirée</div>
+</li>
+</ol>
+<pre class="code">Attention ! l&#039;affectation est faite uniquement dans le Preset choisi. Chaque Preset à 12 ROI, qui n&#039;ont aucunes relations entre elles.</pre>
+<pre class="code">Pour modifier, sélectionner le ou les circuits voulus et utiliser [F2].
+Si un circuit existe dans la ROI il sera retiré. Si il n&#039;existe pas il sera rajouté.</pre>
+<!-- EDIT19 SECTION "Affectation de circuits" [6317-6885] -->
+<h4 class="sectionedit20"><a name="reglages_de_la_taille_de_la_roi" id="reglages_de_la_taille_de_la_roi">Réglages de la taille de la ROI</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Clicker [SIZE]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le numéro de ROI à éditer</div>
+</li>
+<li class="level1"><div class="li"> avec la souris, clicker dans l&#039;image pour agrandir ou réduire votre ROI</div>
+</li>
+<li class="level1"><div class="li"> reclicker [SIZE] pour ressortir du mode d&#039;édition de la taille</div>
+</li>
+</ol>
+
+<p class="level4">
+<div align="center" style="text-align: center"><img src="video_roiediting.jpeg" class="mediacenter" title="video_roiediting.jpg" alt="video_roiediting.jpg" /></div>
+</p>
+<!-- EDIT20 SECTION "Réglages de la taille de la ROI" [6886-7159] -->
+<h4 class="sectionedit21"><a name="reglages_de_la_position_de_la_roi" id="reglages_de_la_position_de_la_roi">Réglages de la position de la ROI</a></h4>
+<ol class="level4">
+<li class="level1"><div class="li"> Clicker [MOVE]</div>
+</li>
+<li class="level1"><div class="li"> Clicker le numéro de ROI à éditer</div>
+</li>
+<li class="level1"><div class="li"> avec la souris, clicker dans l&#039;image pour agrandir ou réduire votre ROI</div>
+</li>
+<li class="level1"><div class="li"> reclicker [MOVE] pour ressortir du mode d&#039;édition de la taille</div>
+</li>
+</ol>
+<!-- EDIT21 SECTION "Réglages de la position de la ROI" [7160-7408] -->
+<h4 class="sectionedit22"><a name="nettoyer_une_roi" id="nettoyer_une_roi">Nettoyer une ROI</a></h4>
+
+<p class="level4">
+Utiliser le bouton [CLEAR] de la fenêtre vidéo. 
+Puis clicker la ROI désirée: les informations de taille, de position, ainsi que l&#039;affectation des circuits seront nettoyées.
+</p>
+<!-- EDIT22 SECTION "Nettoyer une ROI" [7409-7612] -->
+<h4 class="sectionedit23"><a name="voir_les_circuits_affectes_a_une_roi" id="voir_les_circuits_affectes_a_une_roi">Voir les circuits affectés à une ROI</a></h4>
+
+<p class="level4">
+Enclencher le mode [VIEW] et survoler la ROI à inspecter.
+</p>
+
+<p class="level4">
+<img src="view.jpeg" class="media" title="view.jpg" alt="view.jpg" />
+</p>
+<!-- EDIT23 SECTION "Voir les circuits affectés à une ROI" [7613-7732] -->
+<h3 class="sectionedit24"><a name="amortissement_par_le_decay" id="amortissement_par_le_decay">Amortissement par le DECAY</a></h3>
+
+<p class="level3">
+Le decay permet d&#039;amortir dans le temps et l&#039;intensité la réaction des ROI.
+</p>
+
+<p class="level3">
+L&#039;un des principaux problèmes de gestion du contrôle par image vidéo analysée est l&#039;amortissement des valeurs reçues.
+</p>
+
+<p class="level3">
+Le decay permet donc de rejoindre sur une base de temps <strong>la dernière valeur reçue</strong>.
+</p>
+
+<p class="level3">
+Mis à 0 rien se produira, le mouvement est figé à moins l&#039;infini.
+</p>
+
+<p class="level3">
+Mis à 127, la réaction sera immédiate et brute.
+</p>
+
+<p class="level3">
+A 108, on constate déjà un amortissement du mouvement et on peut venir frapper en petites touches les ROI, se retirer et voir les niveaux doucement rejoirndre la dernière valeur reçue.  
+</p>
+
+<p class="level3">
+<div align="center" style="text-align: center"><img src="video_decay.jpeg" class="mediacenter" title="video_decay.jpg" alt="video_decay.jpg" /></div>
+</p>
+<!-- EDIT24 SECTION "Amortissement par le DECAY" [7733-8398] -->
+<h4 class="sectionedit25"><a name="affectation_midi" id="affectation_midi">affectation midi</a></h4>
+
+<p class="level4">
+Le decay est pilotable par un signal Ctrl-Change  ( voir <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">configuration midi</a>).
+</p>
+
+<p class="level4">
+Il peut aussi ré-émettre du midi vers le contrôleur qui lui a été assigné en clickant son petit cercle.
+</p>
+<!-- EDIT25 SECTION "affectation midi" [8399-] --></div>
+</body>
+</html>
