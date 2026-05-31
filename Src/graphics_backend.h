@@ -1220,8 +1220,10 @@ static void wc_handle_event(const SDL_Event &e) {
             key_shifts |= KB_CAPSLOCK_FLAG;
         if (mod & KMOD_NUM)
             key_shifts |= KB_NUMLOCK_FLAG;
-        if (mod & KMOD_SCROLL)
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+        if (mod & KMOD_SCROLL) // KMOD_SCROLL ajouté en SDL 2.0.18 (absent sur Ubuntu 20.04 / SDL 2.0.10)
             key_shifts |= KB_SCRLOCK_FLAG;
+#endif
 
         int scancode = (int)e.key.keysym.scancode;
         int ascii = 0;
