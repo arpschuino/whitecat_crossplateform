@@ -447,6 +447,8 @@ void my_callback(int flags) {
         audio_folder_scroll_dragging = 0;
         audio_filelist_scroll_dragging = 0;
         midi_changesignal_scroll_dragging = 0;
+        save_import_scroll_dragging = 0;
+        save_binary_scroll_dragging = 0;
         for (int i = 0; i < 4; i++) audio_seekbar_dragging[i] = 0;
         for (int i = 0; i < 4; i++) audio_pan_dragging[i] = 0;
         for (int i = 0; i < 4; i++) audio_pitch_dragging[i] = 0;
@@ -1202,6 +1204,7 @@ int main(int /*argc*/, char ** /*argv*/) {
                     wc_win_dirty = true;
                 }
                 if (wc_dirty) {
+                    Merger(); // bufferSequenciel frais avant dessin (Merger() tourne en thread séparé)
                     main_actions_on_screen();
                     wc_dirty = false;
                 }

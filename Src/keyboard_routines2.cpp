@@ -149,7 +149,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
         if (index_confirm_name_active) {
             int k = chi >> 8;
-            bool allow_key = (k == KEY_ESC || k == KEY_BACKSPACE || k == KEY_F1 ||
+            bool allow_key = (k == KEY_ESC || k == KEY_BACKSPACE || k == KEY_F1 || k == KEY_F3 ||
                               k == KEY_ENTER || k == KEY_ENTER_PAD ||
                               k == KEY_LEFT || k == KEY_RIGHT);
             if (!allow_key) continue;
@@ -219,7 +219,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_F1://dock mode
-            if (index_ask_confirm)
+            if (index_ask_confirm && index_do_report_on_faders==0)
             {
                 operations_confirmation();
                 reset_index_actions();
@@ -313,6 +313,16 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_F3:
+            if (index_ask_confirm && index_do_report_on_faders==1)
+            {
+                operations_confirmation();
+                reset_index_actions();
+                reset_indexs_confirmation();
+                substract_a_window(W_ASKCONFIRM);
+                window_focus_id=previous_window_focus_id;
+                add_a_window(window_focus_id);
+                break;
+            }
             if (key_shifts & KB_CTRL_FLAG  || index_false_control==1)
             {
                 index_do_dock=0;

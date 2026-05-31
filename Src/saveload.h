@@ -54,6 +54,7 @@ extern bool index_please_do_not_save;
 extern int index_export_choice;
 extern char list_import_files[128][72];
 extern int line_import;
+extern int nbre_import_files; // total fichiers import (pour ascenseur)
 extern int importfile_selected; // num de ligne selectionné
 extern char importfile_name[72];
 extern bool enable_export; // pour les choix schwz / pdf / txt / ascii
@@ -61,5 +62,13 @@ extern bool enable_import;
 ////BINARIES
 extern char list_save_files[128][72];
 extern int line_save;
+extern int nbre_save_files; // total dossiers save (pour ascenseur)
 extern int savefile_selected; // num de ligne selectionné
 extern char savefile_name[72];
+// état drag ascenseurs fenêtre save
+extern bool save_import_scroll_dragging;
+extern int  save_import_scroll_drag_start_y;
+extern int  save_import_scroll_drag_start_scroll;
+extern bool save_binary_scroll_dragging;
+extern int  save_binary_scroll_drag_start_y;
+extern int  save_binary_scroll_drag_start_scroll;

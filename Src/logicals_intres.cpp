@@ -920,6 +920,10 @@ int operations_confirmation()
    else if(index_do_report_on_faders==1)
    {
    DoReport(fader_selected_for_record,dock_selected_for_record);
+   if (confirm_name_buf[0] != '\0') {
+       strncpy(DockName[fader_selected_for_record][dock_selected_for_record], confirm_name_buf, 49);
+       DockName[fader_selected_for_record][dock_selected_for_record][49] = '\0';
+   }
    }
 
    else if(index_do_affect_color_on_faders==1)
@@ -1576,7 +1580,7 @@ int fenetre_confirm()
  entetes_confirmation();
 
  bool _show_name_field = (index_do_create_mem == 1 || index_do_create_mem_plus_faders == 1 ||
-                          index_do_record_on_faders == 1);
+                          index_do_record_on_faders == 1 || index_do_report_on_faders == 1);
  int confirm_h  = _show_name_field ? 145 : 100;
  int btn_y      = _show_name_field ? YConfirm + 103 : YConfirm + 60;
 

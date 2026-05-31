@@ -88,6 +88,7 @@ int scan_savesfolder()
         closedir(dir);
     }
 #endif
+    nbre_save_files = nbre_de_shows;
     sprintf(rep,"%s" WC_DIRSEP, mondirectory);
     chdir(rep);
     return(0);
@@ -134,9 +135,108 @@ void scan_importfolder(const char* subdir)
         closedir(dir);
     }
 #endif
+    nbre_import_files = nrbe_de_fichiers;
     sprintf(rep,"%s" WC_DIRSEP, mondirectory);
     chdir(rep);
 }
+
+//////////////////ASCENSEUR FENETRE SAVE (remplace ronds +/-)/////////////////////
+// Rendu d'un ascenseur vertical : fond + flèche haut + flèche bas + thumb.
+static void save_scrollbar_draw(int bx, int by, int bar_h, int line_pos, int total, int visible, bool dragging)
+{
+    if (total <= visible) return; // rien à défiler → pas d'ascenseur
+    const int bar_w = 14;
+    int max_scroll = total - visible; if (max_scroll < 0) max_scroll = 0;
+    Rect Bar(Vec2D(bx, by), Vec2D(bar_w, bar_h));
+    Bar.SetRoundness(3);
+    Bar.Draw(Rgba(0, 0, 0));
+    // flèche haut
+    Rect ArrowUp(Vec2D(bx + 1, by), Vec2D(bar_w - 2, bar_w));
+    ArrowUp.SetRoundness(2);
+    ArrowUp.Draw(line_pos > 0 ? CouleurGrisAnthracite : CouleurFond);
+    petitpetitchiffre.Print("^", bx + 4, by + 10);
+    // flèche bas
+    Rect ArrowDown(Vec2D(bx + 1, by + bar_h - bar_w), Vec2D(bar_w - 2, bar_w));
+    ArrowDown.SetRoundness(2);
+    ArrowDown.Draw(line_pos < max_scroll ? CouleurGrisAnthracite : CouleurFond);
+    petitpetitchiffre.Print("v", bx + 4, by + bar_h - bar_w + 10);
+    // thumb
+    int track_h = bar_h - 2 * bar_w;
+    int thumb_h = (total > 0) ? (track_h * visible / total) : track_h;
+    if (thumb_h < 10) thumb_h = 10;
+    if (thumb_h > track_h) thumb_h = track_h;
+    int thumb_y = by + bar_w + (max_scroll > 0 ? line_pos * (track_h - thumb_h) / max_scroll : 0);
+    if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+    if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+    Rect Thumb(Vec2D(bx + 2, thumb_y), Vec2D(bar_w - 4, thumb_h));
+    Thumb.SetRoundness(3);
+    Thumb.Draw(dragging ? CouleurGrisAnthracite : CouleurGrisAnthracite.WithAlpha(0.7));
+}
+
+// Logique clic/drag d'un ascenseur. line_pos/dragging/start_* passés par pointeur.
+static void save_scrollbar_logic(int bx, int by, int bar_h, int* line_pos, int total, int visible,
+                                 bool* dragging, int* drag_start_y, int* drag_start_scroll)
+{
+    if (total <= visible) { *line_pos = 0; return; } // rien à défiler
+    const int bar_w = 14;
+    int max_scroll = total - visible; if (max_scroll < 0) max_scroll = 0;
+    int track_h = bar_h - 2 * bar_w;
+    int thumb_h = (total > 0) ? (track_h * visible / total) : track_h;
+    if (thumb_h < 10) thumb_h = 10;
+    if (thumb_h > track_h) thumb_h = track_h;
+
+    if (*dragging) {
+        int delta = mouse_y - *drag_start_y;
+        int travel = track_h - thumb_h;
+        if (travel > 0) {
+            int new_scroll = *drag_start_scroll + delta * max_scroll / travel;
+            if (new_scroll < 0) new_scroll = 0;
+            if (new_scroll > max_scroll) new_scroll = max_scroll;
+            *line_pos = new_scroll;
+        }
+    } else if (window_focus_id == W_SAVE && mouse_button == 1 && mouse_released == 0) {
+        int thumb_y = by + bar_w + (max_scroll > 0 ? *line_pos * (track_h - thumb_h) / max_scroll : 0);
+        if (thumb_y < by + bar_w) thumb_y = by + bar_w;
+        if (thumb_y + thumb_h > by + bar_h - bar_w) thumb_y = by + bar_h - bar_w - thumb_h;
+        // flèche haut
+        if (mouse_x > bx && mouse_x < bx + bar_w && mouse_y > by && mouse_y < by + bar_w) {
+            if (*line_pos > 0) (*line_pos)--;
+            mouse_released = 1;
+        }
+        // flèche bas
+        else if (mouse_x > bx && mouse_x < bx + bar_w && mouse_y > by + bar_h - bar_w && mouse_y < by + bar_h) {
+            if (*line_pos < max_scroll) (*line_pos)++;
+            mouse_released = 1;
+        }
+        // début drag thumb
+        else if (mouse_x > bx && mouse_x < bx + bar_w && mouse_y > thumb_y && mouse_y < thumb_y + thumb_h) {
+            *dragging = 1;
+            *drag_start_y = mouse_y;
+            *drag_start_scroll = *line_pos;
+        }
+    }
+}
+
+// Molette souris sur la zone liste : fait défiler line_pos. last_z = position molette précédente.
+static void save_scrollbar_wheel(int area_x, int area_y, int area_w, int area_h,
+                                 int* line_pos, int total, int visible, int* last_z)
+{
+    int max_scroll = total - visible; if (max_scroll < 0) max_scroll = 0;
+    if (window_focus_id == W_SAVE &&
+        mouse_x >= area_x && mouse_x <= area_x + area_w &&
+        mouse_y >= area_y && mouse_y <= area_y + area_h)
+    {
+        int wdelta = mouse_z - *last_z;
+        if (wdelta != 0) {
+            *line_pos -= wdelta;
+            if (*line_pos < 0) *line_pos = 0;
+            if (*line_pos > max_scroll) *line_pos = max_scroll;
+        }
+    }
+    *last_z = mouse_z;
+}
+static int save_import_last_scroll_z = 0;
+static int save_binary_last_scroll_z = 0;
 
 
 int choose_personnal_preset_binary_save_load(int xs,int ys)
@@ -306,7 +406,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 {
 OverFile.DrawOutline(CouleurLigne);
 }
-petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+185+(y*20));
+petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+188+(y*20));
 
  //fin des 8 lignes
 }
@@ -341,26 +441,9 @@ petitchiffre.Print("Ascii: .asc .txt or .alq",xrep+250,yrep+185 );
 petitchiffre.Print("PDF: .pdf",xrep+250,yrep+200 );
 petitpetitchiffre.Print("Schwarzpeter: no extension",xrep+250,yrep+215 );
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
-Circle LineUp(Vec2D(xrep+220,yrep+200),12);
-LineUp.Draw(CouleurFond);
-Circle LineDown(Vec2D(xrep+220,yrep+310),12);
-LineDown.Draw(CouleurFond);
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-LineUp.Draw(CouleurSurvol);
-}
-else if(window_focus_id==W_SAVE && mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-LineDown.Draw(CouleurSurvol);
-}
-}
-petitchiffre.Print("-",xrep+216,yrep+205);
-petitchiffre.Print("+",xrep+216,yrep+315);
-LineUp.DrawOutline(CouleurLigne);
-LineDown.DrawOutline(CouleurLigne);
+//////////////////ASCENSEUR IMPORT/////////////////////
+save_scrollbar_draw(xrep+228, yrep+176, 162, line_import, nbre_import_files, 8, save_import_scroll_dragging);
+save_scrollbar_wheel(xrep, yrep+155, 245, 185, &line_import, nbre_import_files, 8, &save_import_last_scroll_z);
 
 
 /////////////////////////////SAVE LOAD && CONDITIONS////////////////////////////////
@@ -463,29 +546,9 @@ mouse_released=1;
 
 
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
-
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-
-if(mouse_button==1)
-{
-if(line_import>0){line_import--;}
-mouse_released=1;
-}
-}
-else if(window_focus_id==W_SAVE && mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-
-if(mouse_button==1)
-{
-if(line_import<127){line_import++;}
-mouse_released=1;
-}
-}
-}
+//////////////////ASCENSEUR IMPORT/////////////////////
+save_scrollbar_logic(xrep+228, yrep+176, 162, &line_import, nbre_import_files, 8,
+                     &save_import_scroll_dragging, &save_import_scroll_drag_start_y, &save_import_scroll_drag_start_scroll);
 
 
 
@@ -563,7 +626,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 {
 OverFile.DrawOutline(CouleurLigne);
 }
-petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+185+(y*20));
+petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+188+(y*20));
 
  //fin des 8 lignes
 }
@@ -598,26 +661,9 @@ petitchiffre.Print("Ascii: .asc .txt or .alq",xrep+250,yrep+185 );
 petitchiffre.Print("PDF: .pdf",xrep+250,yrep+200 );
 petitpetitchiffre.Print("Schwarzpeter: no extension",xrep+250,yrep+215 );
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
-Circle LineUp(Vec2D(xrep+220,yrep+200),12);
-LineUp.Draw(CouleurFond);
-Circle LineDown(Vec2D(xrep+220,yrep+310),12);
-LineDown.Draw(CouleurFond);
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-LineUp.Draw(CouleurSurvol);
-}
-else if(window_focus_id==W_SAVE && mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-LineDown.Draw(CouleurSurvol);
-}
-}
-petitchiffre.Print("-",xrep+216,yrep+205);
-petitchiffre.Print("+",xrep+216,yrep+315);
-LineUp.DrawOutline(CouleurLigne);
-LineDown.DrawOutline(CouleurLigne);
+//////////////////ASCENSEUR IMPORT/////////////////////
+save_scrollbar_draw(xrep+228, yrep+176, 162, line_import, nbre_import_files, 8, save_import_scroll_dragging);
+save_scrollbar_wheel(xrep, yrep+155, 245, 185, &line_import, nbre_import_files, 8, &save_import_last_scroll_z);
 
 
 /////////////////////////////SAVE LOAD && CONDITIONS////////////////////////////////
@@ -718,29 +764,9 @@ mouse_released=1;
 
 
 
-//////////////////UP DOWN LINE IMPORT/////////////////////
-
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-
-if(mouse_button==1)
-{
-if(line_import>0){line_import--;}
-mouse_released=1;
-}
-}
-else if(window_focus_id==W_SAVE && mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-
-if(mouse_button==1)
-{
-if(line_import<127){line_import++;}
-mouse_released=1;
-}
-}
-}
+//////////////////ASCENSEUR IMPORT/////////////////////
+save_scrollbar_logic(xrep+228, yrep+176, 162, &line_import, nbre_import_files, 8,
+                     &save_import_scroll_dragging, &save_import_scroll_drag_start_y, &save_import_scroll_drag_start_scroll);
 
 ////////////////////////////////////////////////////////////////////////////////
 if(enable_export==1)
@@ -802,7 +828,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 OverFile.DrawOutline(CouleurLigne);
 }
 
-petitpetitchiffre.Print(list_save_files[line_save+y],xrep+10,yrep+185+(y*20));
+petitpetitchiffre.Print(list_save_files[line_save+y],xrep+10,yrep+188+(y*20));
 }
 //nom du spectacle
 Rect FrameSelected(Vec2D(xrep+5,yrep+347),Vec2D(240,30));
@@ -815,26 +841,9 @@ FrameSelected.DrawOutline(CouleurLigne);
 FrameSelected.SetLineWidth(epaisseur_ligne_fader);
 FrameSelected.DrawOutline(CouleurLigne.WithAlpha(alpha_blinker));
 petitchiffre.Print(savefile_name,xrep+10,yrep+365);
-//////////////////UP DOWN LINE save/////////////////////
-Circle LineUp(Vec2D(xrep+220,yrep+200),12);
-LineUp.Draw(CouleurFond);
-Circle LineDown(Vec2D(xrep+220,yrep+310),12);
-LineDown.Draw(CouleurFond);
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-LineUp.Draw(CouleurSurvol);
-}
-else if(mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-LineDown.Draw(CouleurSurvol);
-}
-}
-petitchiffre.Print("-",xrep+216,yrep+205);
-petitchiffre.Print("+",xrep+216,yrep+315);
-LineUp.DrawOutline(CouleurLigne);
-LineDown.DrawOutline(CouleurLigne);
+//////////////////ASCENSEUR SAVE/////////////////////
+save_scrollbar_draw(xrep+228, yrep+176, 162, line_save, nbre_save_files, 8, save_binary_scroll_dragging);
+save_scrollbar_wheel(xrep, yrep+155, 245, 185, &line_save, nbre_save_files, 8, &save_binary_last_scroll_z);
 ///////////////////////////////////////////////////////////////////////////////
 Rect SaveB(Vec2D(xrep+40,yrep+390),Vec2D(70,30));
 SaveB.SetRoundness(7.5);
@@ -913,29 +922,9 @@ mouse_released=1;
 }
 }
 
-if(window_focus_id==W_SAVE && mouse_x>xrep+208 && mouse_x<xrep+232)
-{
-if(mouse_y>yrep+188 && mouse_y<yrep+212)
-{
-
-if(mouse_button==1)
-{
-
-if(line_save>0){line_save--;}
-mouse_released=1;
-}
-}
-else if(mouse_y>yrep+298 && mouse_y<yrep+322)
-{
-
-if(mouse_button==1)
-{
-
-if(line_save<127){line_save++;}
-mouse_released=1;
-}
-}
-}
+//////////////////ASCENSEUR SAVE/////////////////////
+save_scrollbar_logic(xrep+228, yrep+176, 162, &line_save, nbre_save_files, 8,
+                     &save_binary_scroll_dragging, &save_binary_scroll_drag_start_y, &save_binary_scroll_drag_start_scroll);
 ///////////////////////////////////////////////////////////////////////////////
 //save button
 if(window_focus_id==W_SAVE && mouse_x>xrep+40 && mouse_x<xrep+110 && mouse_y>yrep+390 && mouse_y<yrep+420)
@@ -984,97 +973,37 @@ mouse_released=1;
 }
 
 
+// Liste des éléments sauvegardables (label + index réel dans le tableau de flags).
+struct WcSaveItem { const char* label; int idx; };
+
+// PDF : 16 éléments réels (MOVER, iCAT PRESETS et slots "-" retirés).
+static const WcSaveItem g_pdf_col1[] = {
+  {"MEMORIES",0},{"CHANNEL VIEW",1},{"CHANNELS from Plot and List",2},{"PATCH: per CHANNELS view",3},
+  {"PATCH: per DIMMERS view",4},{"BANGER",5},{"AUDIO LIST OF FILES",6},{"FADERS",7},
+  {"CHASERS",8},{"TRICHROMY",9},{"VIDEOTRACKING",10},{"GRIDPLAYERS",11}
+};
+static const WcSaveItem g_pdf_col2[] = {
+  {"ECHO",13},{"DRAW",14},{"ARDUINO",21},{"MIDI AFFECTATIONS",22}
+};
+static const int g_pdf_col1_n = 12;
+static const int g_pdf_col2_n = 4;
+
 int selecteur_PDF_save_solo_global(int xrep, int yrep)
 {
-
-char string_title_sav_spec[48];
-for(int u=0;u<12;u++)
+// colonne 1
+for(int u=0;u<g_pdf_col1_n;u++)
 {
-//ligne 1
 Rect SavePin(Vec2D(xrep,yrep+(u*15)),Vec2D(10,10));
-if(specify_who_to_save_PDF[u]==1){SavePin.Draw(CouleurFader); }
-
-switch (u)
-{
-case 0:
-sprintf(string_title_sav_spec,"MEMORIES");
-break;
-case 1:
-sprintf(string_title_sav_spec,"CHANNEL VIEW");
-break;
-case 2:
-sprintf(string_title_sav_spec,"CHANNELS from Plot and List");
-break;
-case 3:
-sprintf(string_title_sav_spec,"PATCH: per CHANNELS view");
-break;
-case 4:
-sprintf(string_title_sav_spec,"PATCH: per DIMMERS view");
-break;
-case 5:
-sprintf(string_title_sav_spec,"BANGER");
-break;
-case 6:
-sprintf(string_title_sav_spec,"AUDIO LIST OF FILES");
-break;
-case 7:
-sprintf(string_title_sav_spec,"FADERS");
-break;
-case 8:
-sprintf(string_title_sav_spec,"CHASERS");
-break;
-case 9:
-sprintf(string_title_sav_spec,"TRICHROMY");
-break;
-case 10:
-sprintf(string_title_sav_spec,"VIDEOTRACKING");
-break;
-case 11:
-sprintf(string_title_sav_spec,"GRIDPLAYERS");
-break;
-
-
-default:
-break;
-}
-petitpetitchiffre.Print(string_title_sav_spec,xrep+20,yrep+(u*15)+10);
-
+if(specify_who_to_save_PDF[g_pdf_col1[u].idx]==1){SavePin.Draw(CouleurFader); }
+petitpetitchiffre.Print(g_pdf_col1[u].label,xrep+20,yrep+(u*15)+10);
 SavePin.DrawOutline(CouleurLigne);
 }
-
-
-for(int u=0;u<12;u++)
+// colonne 2
+for(int u=0;u<g_pdf_col2_n;u++)
 {
-//ligne 2
 Rect SavePin(Vec2D(xrep+190,yrep+(u*15)),Vec2D(10,10));
-if(specify_who_to_save_PDF[u+12]==1){SavePin.Draw(CouleurFader); }
-
-switch (u)
-{
-case 0:
-sprintf(string_title_sav_spec,"MOVER");
-break;
-case 1:
-sprintf(string_title_sav_spec,"ECHO");
-break;
-case 2:
-sprintf(string_title_sav_spec,"DRAW");
-break;
-case 9:
-sprintf(string_title_sav_spec,"ARDUINO");
-break;
-case 10:
-sprintf(string_title_sav_spec,"MIDI AFFECTATIONS");
-break;
-case 11:
-sprintf(string_title_sav_spec,"iCAT PRESETS");
-break;
-default:
-sprintf(string_title_sav_spec,"-");
-break;
-}
-petitpetitchiffre.Print(string_title_sav_spec,xrep+210,yrep+(u*15)+10);
-
+if(specify_who_to_save_PDF[g_pdf_col2[u].idx]==1){SavePin.Draw(CouleurFader); }
+petitpetitchiffre.Print(g_pdf_col2[u].label,xrep+210,yrep+(u*15)+10);
 SavePin.DrawOutline(CouleurLigne);
 }
 
@@ -1085,30 +1014,29 @@ SavePin.DrawOutline(CouleurLigne);
 
 int do_logical_selecteur_PDF_save_solo_global(int xrep, int yrep)
 {
-
-for(int u=0;u<12;u++)
+// colonne 1
+for(int u=0;u<g_pdf_col1_n;u++)
 {
-//ligne 1
-
-if(window_focus_id==W_SAVE && mouse_x>xrep && mouse_x<xrep+10 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+10)
+if(window_focus_id==W_SAVE && mouse_x>xrep && mouse_x<xrep+180 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+15)
 {
 if(mouse_button==1 && mouse_released==0)
 {
-specify_who_to_save_PDF[u]=toggle(specify_who_to_save_PDF[u]);
+specify_who_to_save_PDF[g_pdf_col1[u].idx]=toggle(specify_who_to_save_PDF[g_pdf_col1[u].idx]);
 mouse_released=1;
 }
 }
-
-//ligne 2
-if(window_focus_id==W_SAVE && mouse_x>xrep+190 && mouse_x<xrep+200 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+10)
+}
+// colonne 2
+for(int u=0;u<g_pdf_col2_n;u++)
+{
+if(window_focus_id==W_SAVE && mouse_x>xrep+190 && mouse_x<xrep+340 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+15)
 {
 if(mouse_button==1 && mouse_released==0)
 {
-specify_who_to_save_PDF[u+12]=toggle(specify_who_to_save_PDF[u+12]);
+specify_who_to_save_PDF[g_pdf_col2[u].idx]=toggle(specify_who_to_save_PDF[g_pdf_col2[u].idx]);
 mouse_released=1;
 }
 }
-
 }
 
  return(0);
@@ -1116,6 +1044,25 @@ mouse_released=1;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+// BINARY : 33 éléments en 3 colonnes de 11 (iCAT/MOVER/slot vide retirés, sans trou).
+static const WcSaveItem g_bin_col1[] = {
+  {"MEMORIES",0},{"Mem.Times",1},{"Mem.Links",2},{"Mem.Bangers",3},{"Mem.Man.Ratio",4},
+  {"Ch.List&Views",5},{"Ch.DirectCH",6},{"Ch.Freeze/Excl.",7},{"Patch.Circuits",8},
+  {"Patch.LTP/HTP",9},{"Patch.Curves",10}
+};
+static const WcSaveItem g_bin_col2[] = {
+  {"BANGER",11},{"FADERS.Content",12},{"Faders.LFO/Times",13},{"Faders.Curves",14},
+  {"MINIF.Prsts/Lcks",15},{"CHASERS",16},{"MIDI.Affectation",17},{"Midi.Cheat",18},
+  {"TRICHROMY",19},{"VIDEO-TRACKING",20},{"ARDUINO",21}
+};
+static const WcSaveItem g_bin_col3[] = {
+  {"AUDIO.Conf",22},{"Windows",24},{"ColorProfile",25},{"Keyboard.conf",26},{"Indexes",27},
+  {"GRID",29},{"GridPl1.CueList",30},{"Light Plot",31},{"DRAW",32},{"ECHO",33},{"Save Presets",35}
+};
+static const int g_bin_col1_n = 11;
+static const int g_bin_col2_n = 11;
+static const int g_bin_col3_n = 11;
+
 int selecteur_binary_save_solo_global(int xrep, int yrep)
 {
 Rect SwitchGlobal(Vec2D(xrep+170,yrep-35),Vec2D(70,20));
@@ -1139,160 +1086,29 @@ petitchiffre.Print("GLOBAL",xrep+180,yrep-20);
 SwitchGlobal.DrawOutline(CouleurLigne);
 
 
-char string_title_sav_spec[48];
-for(int u=0;u<12;u++)
+// colonne 1
+for(int u=0;u<g_bin_col1_n;u++)
 {
-//ligne 1
 Rect SavePin(Vec2D(xrep,yrep+(u*15)),Vec2D(10,10));
-if(specify_who_to_save_load[u]==1){SavePin.Draw(CouleurFader); }
-
-switch (u)
-{
-case 0:
-sprintf(string_title_sav_spec,"MEMORIES");
-break;
-case 1:
-sprintf(string_title_sav_spec,"Mem.Times");
-break;
-case 2:
-sprintf(string_title_sav_spec,"Mem.Links");
-break;
-case 3:
-sprintf(string_title_sav_spec,"Mem.Bangers");
-break;
-case 4:
-sprintf(string_title_sav_spec,"Mem.Man.Ratio");
-break;
-case 5:
-sprintf(string_title_sav_spec,"Ch.List&Views");
-break;
-case 6:
-sprintf(string_title_sav_spec,"Ch.DirectCH");
-break;
-case 7:
-sprintf(string_title_sav_spec,"Ch.Freeze/Excl.");
-break;
-case 8:
-sprintf(string_title_sav_spec,"Patch.Circuits");
-break;
-case 9:
-sprintf(string_title_sav_spec,"Patch.LTP/HTP");
-break;
-case 10:
-sprintf(string_title_sav_spec,"Patch.Curves");
-break;
-case 11:
-sprintf(string_title_sav_spec,"BANGER");
-break;
-}
-petitpetitchiffre.Print(string_title_sav_spec,xrep+20,yrep+(u*15)+10);
-
-
+if(specify_who_to_save_load[g_bin_col1[u].idx]==1){SavePin.Draw(CouleurFader); }
+petitpetitchiffre.Print(g_bin_col1[u].label,xrep+20,yrep+(u*15)+10);
 SavePin.DrawOutline(CouleurLigne);
-
-//ligne 2
-
+}
+// colonne 2
+for(int u=0;u<g_bin_col2_n;u++)
+{
 Rect SavePinSnd(Vec2D(xrep+110,yrep+(u*15)),Vec2D(10,10));
-
-if(specify_who_to_save_load[u+12]==1){SavePinSnd.Draw(CouleurFader); }
-
-switch (u)
-{
-case 0:
-sprintf(string_title_sav_spec,"FADERS.Content");
-break;
-case 1:
-sprintf(string_title_sav_spec,"Faders.LFO/Times");
-break;
-case 2:
-sprintf(string_title_sav_spec,"Faders.Curves");
-break;
-case 3:
-sprintf(string_title_sav_spec,"MINIF.Prsts/Lcks");
-break;
-case 4:
-sprintf(string_title_sav_spec,"CHASERS");
-break;
-case 5:
-sprintf(string_title_sav_spec,"MIDI.Affectation");
-break;
-case 6:
-sprintf(string_title_sav_spec,"Midi.Cheat");
-break;
-case 7:
-sprintf(string_title_sav_spec,"TRICHROMY");
-break;
-case 8:
-sprintf(string_title_sav_spec,"VIDEO-TRACKING");
-break;
-case 9:
-sprintf(string_title_sav_spec,"ARDUINO");
-break;
-case 10:
-sprintf(string_title_sav_spec,"AUDIO.Conf");
-break;
-case 11:
-sprintf(string_title_sav_spec,"iCAT");
-break;
-}
-petitpetitchiffre.Print(string_title_sav_spec,xrep+130,yrep+(u*15)+10);
-
+if(specify_who_to_save_load[g_bin_col2[u].idx]==1){SavePinSnd.Draw(CouleurFader); }
+petitpetitchiffre.Print(g_bin_col2[u].label,xrep+130,yrep+(u*15)+10);
 SavePinSnd.DrawOutline(CouleurLigne);
-
-
-
-
-
-//ligne 3
-
-Rect SavePinThrd(Vec2D(xrep+240,yrep+(u*15)),Vec2D(10,10));
-
-if(specify_who_to_save_load[u+24]==1){SavePinThrd.Draw(CouleurFader); }
-
-switch (u)
-{
-case 0:
-sprintf(string_title_sav_spec,"Windows");
-break;
-case 1:
-sprintf(string_title_sav_spec,"ColorProfile");
-break;
-case 2:
-sprintf(string_title_sav_spec,"Keyboard.conf");
-break;
-case 3:
-sprintf(string_title_sav_spec,"Indexes");
-break;
-case 4:
-sprintf(string_title_sav_spec,"MOVER");
-break;
-case 5:
-sprintf(string_title_sav_spec,"GRID");
-break;
-case 6:
-sprintf(string_title_sav_spec,"GridPl1.CueList");
-break;
-case 7:
-sprintf(string_title_sav_spec,"Light Plot");
-break;
-case 8:
-sprintf(string_title_sav_spec,"DRAW");
-break;
-case 9:
-sprintf(string_title_sav_spec,"ECHO");
-break;
-case 10:
-sprintf(string_title_sav_spec,"-");
-break;
-case 11:
-sprintf(string_title_sav_spec,"Save Presets");
-break;
 }
-petitpetitchiffre.Print(string_title_sav_spec,xrep+260,yrep+(u*15)+10);
-
-
+// colonne 3
+for(int u=0;u<g_bin_col3_n;u++)
+{
+Rect SavePinThrd(Vec2D(xrep+240,yrep+(u*15)),Vec2D(10,10));
+if(specify_who_to_save_load[g_bin_col3[u].idx]==1){SavePinThrd.Draw(CouleurFader); }
+petitpetitchiffre.Print(g_bin_col3[u].label,xrep+260,yrep+(u*15)+10);
 SavePinThrd.DrawOutline(CouleurLigne);
-
 }
 
  return(0);
@@ -1321,51 +1137,44 @@ mouse_released=1;
 }
 
 
-for(int u=0;u<12;u++)
+// colonne 1
+for(int u=0;u<g_bin_col1_n;u++)
 {
-//ligne1
 if(window_focus_id==W_SAVE && mouse_x>xrep && mouse_x<xrep+50 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+15)
 {
-{
 if(mouse_button==1 && mouse_released==0)
 {
 index_save_global_is=0;
-specify_who_to_save_load[u]=toggle(specify_who_to_save_load[u]);
+specify_who_to_save_load[g_bin_col1[u].idx]=toggle(specify_who_to_save_load[g_bin_col1[u].idx]);
 mouse_released=1;
 }
 }
 }
-
-
-//ligne 2
-
-if(window_focus_id==W_SAVE && mouse_x>xrep+110 && mouse_x<xrep+120 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+10)
+// colonne 2
+for(int u=0;u<g_bin_col2_n;u++)
 {
+if(window_focus_id==W_SAVE && mouse_x>xrep+110 && mouse_x<xrep+160 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+15)
 {
 if(mouse_button==1 && mouse_released==0)
 {
 index_save_global_is=0;
-specify_who_to_save_load[u+12]=toggle(specify_who_to_save_load[u+12]);
+specify_who_to_save_load[g_bin_col2[u].idx]=toggle(specify_who_to_save_load[g_bin_col2[u].idx]);
 mouse_released=1;
 }
 }
 }
-
-
-//ligne 3
-
-if(window_focus_id==W_SAVE && mouse_x>xrep+240 && mouse_x<xrep+250 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+10)
+// colonne 3
+for(int u=0;u<g_bin_col3_n;u++)
 {
+if(window_focus_id==W_SAVE && mouse_x>xrep+240 && mouse_x<xrep+290 && mouse_y>yrep+(u*15) && mouse_y<yrep+(u*15)+15)
 {
 if(mouse_button==1 && mouse_released==0)
 {
 index_save_global_is=0;
-specify_who_to_save_load[u+24]=toggle(specify_who_to_save_load[u+24]);
+specify_who_to_save_load[g_bin_col3[u].idx]=toggle(specify_who_to_save_load[g_bin_col3[u].idx]);
 mouse_released=1;
 }
 }
-}
-
 }
 
  return(0);
