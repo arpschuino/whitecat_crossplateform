@@ -186,6 +186,45 @@ return(0);
 
 
 
+// Table partagée des 21 entrées de la fenêtre MENUS (4 colonnes de 4 + 1 de 5).
+// idcmd = action (toggle fenêtre), fixe par entrée ; la position x/y est purement visuelle.
+struct MenuItem { const char* name; const char* sc; int idmidi; int idcmd; };
+// Ordre demandé : 4 colonnes de 4 + 1 colonne de 5 (remplissage colonne par colonne).
+static const MenuItem g_menu_items[21] = {
+  // colonne 1
+  {"CUELIST","F9",751,0},{"TIME","F6",748,1},{"WIZARD","",1329,3},{"SAVE","",1330,4},
+  // colonne 2
+  {"PATCH","Shift-P",1331,10},{"LIST","",1332,11},{"GRID PL.","",1340,24},{"DRAW","",1659,35},
+  // colonne 3
+  {"FADERS","F10",752,20},{"MiniFaders","Shift-F10",1336,21},{"CHASERS","Shift-C",1337,23},{"Track.Vid.","F8",750,30},
+  // colonne 4
+  {"BANGER","F11",753,2},{"N-Pad","P",1338,41},{"AUDIO PL.","Ctrl-A",756,33},{"ECHO","",1662,32},
+  // colonne 5
+  {"CFG-Menu","Shift-F11",755,40},{"NAME","F5",747,34},{"Trichromy","F7",749,22},{"LIGHT PLOT","",1594,12},{"QUIT","Ctrl-F12",757,43}
+};
+static const int g_menu_col_x[5] = {10,80,150,220,290};
+static const int g_menu_col_n[5] = {4,4,4,4,5};
+static inline bool g_menu_state(int i){
+  switch(i){
+    // colonne 1
+    case 0:return index_window_sequentiel; case 1:return index_time; case 2:return index_show_wizard_window;
+    case 3:return index_menu_save;
+    // colonne 2
+    case 4:return index_patch_window; case 5:return index_list_projecteurs; case 6:return index_grider_window;
+    case 7:return index_draw_window;
+    // colonne 3
+    case 8:return index_show_faders; case 9:return index_show_minifaders; case 10:return index_window_chasers;
+    case 11:return index_video_window;
+    // colonne 4
+    case 12:return index_show_banger_window; case 13:return index_visual_pad; case 14:return index_show_audio_window;
+    case 15:return index_show_echo_window;
+    // colonne 5
+    case 16:return index_show_config_window; case 17:return index_type; case 18:return index_trichro_window;
+    case 19:return index_plot_window; case 20:return index_do_quit_with_save;
+  }
+  return false;
+}
+
 int do_logical_Menus( int xmenu, int ymenu)
 {
 if(window_focus_id==W_MAINMENU)
@@ -198,216 +237,14 @@ mouse_released=1;
 }
 
 
-int IDmidi=0; int IDcommand=0;
-char nom_commande[24];
-char raccourci_commande[24];
-bool stae=0;
-for(int cl=0;cl<5;cl++)
+int midx=0;
+for(int c=0;c<5;c++)
 {
-switch(cl)
+for(int r=0;r<g_menu_col_n[c];r++)
 {
-case 0://sequenciel window
-IDmidi=751;
-IDcommand=cl;
-sprintf(nom_commande,"CueList");
-sprintf(raccourci_commande,"F9");
-stae=index_window_sequentiel;
-break;
-case 1://time
-IDmidi=748;
-IDcommand=cl;
-sprintf(nom_commande,"Time");
-sprintf(raccourci_commande,"F6");
-stae=index_time;
-break;
-case 2://banger
-IDmidi=753;
-IDcommand=cl;
-sprintf(nom_commande,"Banger");
-sprintf(raccourci_commande,"F11");
-stae=index_show_banger_window;
-break;
-case 3://wizard
-IDmidi=1329;
-IDcommand=cl;
-sprintf(nom_commande,"Wizard");
-sprintf(raccourci_commande,"-");
-stae= index_show_wizard_window;
-break;
-case 4://save
-IDmidi=1330;
-IDcommand=cl;
-strcpy(nom_commande,"Save");
-strcpy(raccourci_commande,"");
-stae=index_menu_save;
-break;
-default:
-break;
+command_button_logical(xmenu+g_menu_col_x[c],ymenu+50+(r*25),g_menu_state(midx),g_menu_items[midx].name,g_menu_items[midx].sc,g_menu_items[midx].idmidi,g_menu_items[midx].idcmd);
+midx++;
 }
- command_button_logical(xmenu+10,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-
-
-//2ème colonne Circuit relatif
-for(int cl=0;cl<3;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=1331;
-IDcommand=cl+10;
-sprintf(nom_commande,"Patch");
-sprintf(raccourci_commande,"Shift-P");
-stae=index_patch_window;
-break;
-case 1:
-IDmidi=1332;
-IDcommand=cl+10;
-strcpy(nom_commande,"List");
-strcpy(raccourci_commande,"");
-stae=index_list_projecteurs;
-break;
-case 2:
-IDmidi=1594;
-IDcommand=cl+10;
-strcpy(nom_commande,"Light Plot");
-strcpy(raccourci_commande,"");
-stae=index_plot_window;
-break;
-default:
-break;
-}
-command_button_logical(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);
-}
-
-
-//3ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=752;
-IDcommand=cl+20;
-sprintf(nom_commande,"Faders");
-sprintf(raccourci_commande,"F10");
-stae=index_show_faders;
-break;
-case 1:
-IDmidi=1336;
-IDcommand=cl+20;
-sprintf(nom_commande,"MiniFaders");
-sprintf(raccourci_commande,"Shift-F10");
-stae=index_show_minifaders;
-break;
-case 2:
-IDmidi=749;
-IDcommand=cl+20;
-sprintf(nom_commande,"Trichromy");
-sprintf(raccourci_commande,"F7");
-stae=index_trichro_window;
-break;
-case 3:
-IDmidi=1337;
-IDcommand=cl+20;
-sprintf(nom_commande,"Chasers");
-sprintf(raccourci_commande,"Shift-C");
-stae=index_window_chasers;
-break;
-case 4:
-IDmidi=1340;
-IDcommand=cl+20;
-strcpy(nom_commande,"GridPl.");
-strcpy(raccourci_commande,"");
-stae=index_grider_window;
-break;
-default:
-break;
-}
-command_button_logical(xmenu+150,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-
-
-//4ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=750;
-IDcommand=30; // case 30: tracking
-sprintf(nom_commande,"Track.Vid.");
-sprintf(raccourci_commande,"F8");
-stae=index_video_window;
-break;
-case 1:
-IDmidi=1662;
-IDcommand=32; // case 32: echo (case 31 supprimé)
-strcpy(nom_commande,"ECHO");
-strcpy(raccourci_commande,"");
-stae=index_show_echo_window;
-break;
-case 2:
-IDmidi=756;
-IDcommand=33; // case 33: audioplayers
-sprintf(nom_commande,"AudioPl.");
-sprintf(raccourci_commande,"Ctrl-A");
-stae=index_show_audio_window;
-break;
-case 3:
-IDmidi=747;
-IDcommand=34; // case 34: name
-sprintf(nom_commande,"Name");
-sprintf(raccourci_commande,"F5");
-stae=index_type;
-break;
-case 4:
-IDmidi=1659;
-IDcommand=35; // case 35: draw
-strcpy(nom_commande,"Draw");
-strcpy(raccourci_commande,"");
-stae=index_draw_window;
-break;
-default:
-break;
-}
-command_button_logical(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-
-
-//5ème colonne grands blocs
-for(int cl=0;cl<3;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=755;
-IDcommand=cl+40;
-sprintf(nom_commande,"CFG-Menu");
-sprintf(raccourci_commande,"Shift-F11");
-stae=index_show_config_window;
-break;
-case 1:
-IDmidi=1338;
-IDcommand=cl+40;
-sprintf(nom_commande,"N-Pad");
-sprintf(raccourci_commande,"P");
-stae=index_visual_pad;
-break;
-case 2:
-IDmidi=757;
-IDcommand=43;
-sprintf(nom_commande,"QUIT");
-sprintf(raccourci_commande,"CTRL-F12");
-stae=index_do_quit_with_save;
-break;
-default:
-break;
-}
-command_button_logical(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi,IDcommand);
 }
 //fin condition focus + souris
 }
@@ -441,211 +278,14 @@ petitchiffre.Print("XX",xmenu+337, ymenu+20);
 
 
 
-int IDmidi=0;
-//02/043/2014 unused var int IDcommand=0;
-char nom_commande[24];
-char raccourci_commande[24];
-bool stae=0;
-
-
-
-
-//1ere colonne Sequenciel relatif
-for(int cl=0;cl<5;cl++)
+int midx=0;
+for(int c=0;c<5;c++)
 {
-switch(cl)
+for(int r=0;r<g_menu_col_n[c];r++)
 {
-case 0://sequenciel window
-IDmidi=751;
-//02/03/2014 unused var IDcommand=cl+10;
-sprintf(nom_commande,"CUELIST");
-sprintf(raccourci_commande,"F9");
-stae=index_window_sequentiel;
-break;
-case 1://time
-IDmidi=748;
-//02/03/2014 unused var IDcommand=cl+10;
-sprintf(nom_commande,"TIME");
-sprintf(raccourci_commande,"F6");
-stae=index_time;
-break;
-case 2://banger
-IDmidi=753;
-//02/03/2014 unused var IDcommand=cl+10;
-sprintf(nom_commande,"BANGER");
-sprintf(raccourci_commande,"F11");
-stae=index_show_banger_window;
-break;
-case 3://wizard
-IDmidi=1329;
-//02/03/2014 unused var IDcommand=cl+10;
-strcpy(nom_commande,"WIZARD");
-strcpy(raccourci_commande,"");
-stae= index_show_wizard_window;
-break;
-case 4://save
-IDmidi=1330;
-//02/03/2014 unused var IDcommand=cl+10;
-strcpy(nom_commande,"SAVE");
-strcpy(raccourci_commande,"");
-stae=index_menu_save;
-break;
-default:
-break;
+command_button_view(xmenu+g_menu_col_x[c],ymenu+50+(r*25),g_menu_state(midx),g_menu_items[midx].name,g_menu_items[midx].sc,g_menu_items[midx].idmidi);
+midx++;
 }
-command_button_view(xmenu+10,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-//2ème colonne Circuit relatif
-for(int cl=0;cl<3;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=1331;
-sprintf(nom_commande,"PATCH");
-sprintf(raccourci_commande,"Shift-P");
-stae=index_patch_window;
-break;
-case 1:
-IDmidi=1332;
-strcpy(nom_commande,"LIST");
-strcpy(raccourci_commande,"");
-stae=index_list_projecteurs;
-break;
-case 2:
-IDmidi=1594;
-strcpy(nom_commande,"LIGHT PLOT");
-strcpy(raccourci_commande,"");
-stae=index_plot_window;
-break;
-default:
-break;
-}
-command_button_view(xmenu+80,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);
-}
-
-
-//3ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=752;
-//02/043/2014 unused var IDcommand=cl+20;
-sprintf(nom_commande,"FADERS");
-sprintf(raccourci_commande,"F10");
-stae=index_show_faders;
-break;
-case 1:
-IDmidi=1336;
-//02/03/2014 unused var IDcommand=cl+20;
-sprintf(nom_commande,"MiniFaders");
-sprintf(raccourci_commande,"Shift-F10");
-stae=index_show_minifaders;
-break;
-case 2:
-IDmidi=749;
-//02/03/2014 unused var IDcommand=cl+20;
-sprintf(nom_commande,"Trichromy");
-sprintf(raccourci_commande,"F7");
-stae=index_trichro_window;
-break;
-case 3:
-IDmidi=1337;
-//02/03/2014 unused var IDcommand=cl+20;
-sprintf(nom_commande,"CHASERS");
-sprintf(raccourci_commande,"Shift-C");
-stae=index_window_chasers;
-break;
-case 4:
-IDmidi=1340;
-//02/03/2014 unused var IDcommand=cl+30;
-strcpy(nom_commande,"GRID PL.");
-strcpy(raccourci_commande,"");
-stae=index_grider_window;
-break;
-default:
-break;
-}
-command_button_view(xmenu+150,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-
-//4ème colonne grands blocs
-for(int cl=0;cl<5;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=750;
-//02/043/2014 unused var IDcommand=cl+20;
-sprintf(nom_commande,"Track.Vid.");
-sprintf(raccourci_commande,"F8");
-stae=index_video_window;
-break;
-case 1:
-IDmidi=1662;
-//02/03/2014 unused var IDcommand=cl+30;
-strcpy(nom_commande,"ECHO");
-strcpy(raccourci_commande,"");
-stae=index_show_echo_window;
-break;
-case 2:
-IDmidi=756;
-//02/03/2014 unused var IDcommand=cl+30;
-sprintf(nom_commande,"AUDIO PL.");
-sprintf(raccourci_commande,"Ctrl-A");
-stae=index_show_audio_window;
-break;
-case 3:
-IDmidi=747;
-//02/03/2014 unused var IDcommand=cl+30;
-sprintf(nom_commande,"NAME");
-sprintf(raccourci_commande,"F5");
-stae=index_type;
-break;
-case 4:
-IDmidi=1659;
-//02/03/2014 unused var IDcommand=cl+30;
-strcpy(nom_commande,"DRAW");
-strcpy(raccourci_commande,"");
-stae=index_draw_window;
-break;
-default:
-break;
-}
-command_button_view(xmenu+220,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);// int x, inty ,bool state, char *textedesc, int midiaffectation
-}
-
-//5ème colonne grands blocs
-for(int cl=0;cl<3;cl++)
-{
-switch(cl)
-{
-case 0:
-IDmidi=755;
-sprintf(nom_commande,"CFG-Menu");
-sprintf(raccourci_commande,"Shift-F11");
-stae=index_show_config_window;
-break;
-case 1:
-IDmidi=1338;
-sprintf(nom_commande,"N-Pad");
-sprintf(raccourci_commande,"P");
-stae=index_visual_pad;
-break;
-case 2:
-IDmidi=757;
-sprintf(nom_commande,"QUIT");
-sprintf(raccourci_commande,"Ctrl-F12");
-stae=index_do_quit_with_save;
-break;
-default:
-break;
-}
-command_button_view(xmenu+290,ymenu+50+(cl*25),stae,nom_commande,raccourci_commande,IDmidi);
 }
 
 return(0);
