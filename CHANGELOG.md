@@ -29,6 +29,28 @@
 - **Fix : taille de sauvegarde des délais** (`banger_times_size`) : la valeur était `128×6×2` au lieu de `128×6`, causant un dépassement de tampon lors de la lecture/écriture du fichier `banger_times.whc` (le double des octets nécessaires étaient lus/écrits). Les fichiers existants se chargent correctement — seuls les 768 premiers floats (délais réels) sont lus, la portion excédentaire est ignorée.
 - **Affichage val1/val2** : les colonnes val1, val2, action et délai ne s'affichent plus pour les événements de type 0 (vide), éliminant l'apparition de valeurs aberrantes dans les lignes non configurées.
 
+### Circuits — Affichage des niveaux
+
+- **Fix : latence des niveaux** dans la liste des circuits lors d'un mouvement rapide de fader. `Merger()` (qui calcule `bufferSequenciel` à partir des faders) tourne dans un timer SDL séparé à ~50 Hz : l'affichage pouvait donc avoir jusqu'à 20 ms de retard sur la valeur réelle. `Merger()` est maintenant appelé juste avant chaque dessin → les niveaux sont toujours à jour.
+
+### Faders — REPORT (F3)
+
+- **Champ titre pour le REPORT** : enregistrer un niveau stage dans un dock via F3 + clic affiche désormais le champ "Nom" dans la fenêtre de confirmation (comme STORE), et le nom saisi est appliqué au dock.
+- **Confirmation par F3** : la fenêtre de confirmation d'un REPORT se valide avec **F3** (F1 reste réservé à STORE). Le filtre de saisie du champ nom laisse désormais passer F3.
+
+### Fenêtre Save — Ascenseurs
+
+- **Ascenseurs complets** : les ronds +/- des listes (import/export et shows) sont remplacés par un ascenseur identique à celui de la fenêtre audio — piste, flèches haut/bas, thumb déplaçable à la souris, et **défilement à la molette**. L'ascenseur n'apparaît que si la liste dépasse la zone visible.
+
+### Fenêtre Save — Sélecteurs d'éléments
+
+- **Entrées mortes retirées** : iCAT, MOVER et le slot vide "-" (fonctionnalités supprimées) disparaissent des sélecteurs de sauvegarde binaire et d'export PDF.
+- **Réorganisation sans trou** : le sélecteur binaire est piloté par tableaux (label + index réel) et affiché en **3 colonnes de 11** ; le sélecteur PDF est nettoyé de la même façon. Les index de sauvegarde sont préservés → compatibilité totale avec les anciens fichiers show.
+
+### Fenêtre MENUS — Réorganisation
+
+- **Disposition par tableau** : les 5 colonnes codées en dur (inégales 5/3/5/5/3, avec des trous laissés par le retrait de Freeze/Exclude/Help) sont remplacées par une table unique partagée découplant la position d'affichage de l'action et de l'ID MIDI. Affichage en **4 colonnes de 4 + 1 colonne de 5**.
+
 ---
 
 ## Version 0.9.x (2026 — Jacques Bouault)
