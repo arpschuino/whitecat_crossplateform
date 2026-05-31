@@ -113,6 +113,14 @@ static char wc_log_path[512] = "wc_debug.txt"; // fallback relatif
 #define JPGALLEG_H
 
 #include <SDL2/SDL.h>
+// Fallbacks pour SDL < 2.24 (ex. Ubuntu 20.04 = SDL 2.0.10) : ces hints DPI
+// (Windows uniquement) n'existent pas ; SDL_SetHint ignore un hint inconnu.
+#ifndef SDL_HINT_WINDOWS_DPI_AWARENESS
+#define SDL_HINT_WINDOWS_DPI_AWARENESS "SDL_WINDOWS_DPI_AWARENESS"
+#endif
+#ifndef SDL_HINT_WINDOWS_DPI_SCALING
+#define SDL_HINT_WINDOWS_DPI_SCALING "SDL_WINDOWS_DPI_SCALING"
+#endif
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_syswm.h>
 #include <SDL2/SDL_ttf.h>
