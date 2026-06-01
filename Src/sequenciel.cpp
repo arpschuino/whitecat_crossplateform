@@ -33,7 +33,7 @@ int other_mem_in_loop = 0;
 char descriptif_memoires[10000][50];
 char annotation_memoires[10000][50];
 bool MemoiresExclues[10000];
-char string_ratio_x1x2[4];
+char string_ratio_x1x2[8]; // "%.2f" -> jusqu'a "-1.00\0" (6 o) : 4 etait trop petit (overflow)
 char str_crossfade_speed_is[6];
 bool index_text_auto_close = 0;
 float Times_Memoires[10000][4]; // 0=DIN 1=IN 2=DOUT 3=OUT

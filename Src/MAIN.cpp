@@ -51,6 +51,9 @@ WWWWWWWW           C  WWWWWWWW   |
 #include <stdio.h>
 #include <assert.h>
 #include <exception>   // std::set_terminate
+#ifndef _WIN32
+#include <execinfo.h>  // backtrace() pour le handler de crash Linux
+#endif
 #include <vector>
 
 #include "SmoothData.h"  // classe compilee separement dans SmoothData.cpp
@@ -809,6 +812,15 @@ static void sigabrt_handler(int) {
     wc_open_log(&f);
     if (f) {
         fprintf(f, "*** SIGABRT: abort() called, timer=%s\n", wc_current_timer);
+#ifndef _WIN32
+        // Backtrace POSIX : symboles de la pile (nécessite -rdynamic pour les noms).
+        void *bt[40];
+        int n = backtrace(bt, 40);
+        fprintf(f, "--- backtrace (%d frames) ---\n", n);
+        fflush(f);
+        backtrace_symbols_fd(bt, n, fileno(f));
+        fprintf(f, "--- end backtrace ---\n");
+#endif
         fclose(f);
     }
     signal(SIGABRT, SIG_DFL);

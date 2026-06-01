@@ -45,12 +45,18 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int affichage_time_format(float time_to_convert)
 {
+// Garde-fou : un temps négatif/aberrant (mémoire vide au démarrage, valeur non
+// initialisée) produisait une chaîne > 12 octets -> buffer overflow détecté par
+// _FORTIFY_SOURCE sous Linux (SIGABRT dans le timer dixiemes_de_secondes).
+if (time_to_convert < 0.0f || time_to_convert > 5999.0f) time_to_convert = 0.0f;
 int time_inminutes=(int)(time_to_convert/60)%60;
 //int time_insecondes=(int)(time_to_convert)%60;
 //int time_indixiemes=(int)(time_to_convert*10)%10;
 float fin_du_temps_secondes=time_to_convert-(time_inminutes*60);
 
-sprintf(string_conversion_timeis,"%d..%.2f",time_inminutes,fin_du_temps_secondes);
+// snprintf borné : string_conversion_timeis fait 12 octets. Le format "%d..%.2f"
+// reste < 12 car minutes 0-59 (2 chiffres) + ".." + secondes < 60 ("59.99").
+snprintf(string_conversion_timeis,sizeof(string_conversion_timeis),"%d..%.2f",time_inminutes,fin_du_temps_secondes);
 
 return(0);
 }

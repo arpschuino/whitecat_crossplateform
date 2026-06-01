@@ -37,7 +37,7 @@ extern int other_mem_in_loop;
 extern char descriptif_memoires[10000][50];
 extern char annotation_memoires[10000][50];
 extern bool MemoiresExclues[10000];
-extern char string_ratio_x1x2[4];
+extern char string_ratio_x1x2[8];
 extern char str_crossfade_speed_is[6];
 extern bool index_text_auto_close;
 extern float Times_Memoires[10000][4];

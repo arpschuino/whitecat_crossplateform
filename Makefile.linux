@@ -152,10 +152,10 @@ all: dirs $(PCH) $(EXE)
 	@echo
 	@echo [OK] $(EXE)
 
-# Linkage
+# Linkage (-rdynamic : noms de fonctions dans le backtrace du handler de crash)
 $(EXE): $(OBJS)
 	@echo [link] Whitecat_Crossplatform ...
-	$(GCC) $^ $(LDFLAGS) -o $@
+	$(GCC) -rdynamic $^ $(LDFLAGS) -o $@
 
 # En-tete precompile
 $(PCH): $(SRC)/wc_tus.h $(SRC)/graphics_backend.h $(SRC)/wc_platform.h
