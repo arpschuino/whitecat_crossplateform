@@ -565,12 +565,15 @@ void dixiemes_de_secondes() {
     sprintf(string_last_copy_mem, "Mem to copy: %d.%d", CTRLC_mem_to_copy / 10, CTRLC_mem_to_copy % 10);
     if (!index_patch_window)
     {
-        sprintf(string_secondary_feeback,
-                string_last_over_dock); // last over dock: permet de savoir quelle selection orange est allumée
+        // last over dock: permet de savoir quelle selection orange est allumée.
+        // snprintf borné + "%s" : string_secondary_feeback fait 64 o, les sources
+        // peuvent être plus grandes (string_monitor_patch = 1024 o) -> évite le
+        // buffer overflow détecté par _FORTIFY_SOURCE sous Linux (SIGABRT).
+        snprintf(string_secondary_feeback, sizeof(string_secondary_feeback), "%s", string_last_over_dock);
     }
     else
     {
-        sprintf(string_secondary_feeback, string_monitor_patch);
+        snprintf(string_secondary_feeback, sizeof(string_secondary_feeback), "%s", string_monitor_patch);
     }
     sprintf(string_mem_onstage, "%d.%d", position_onstage / 10, position_onstage % 10);
     sprintf(string_mem_preset, "%d.%d", position_preset / 10, position_preset % 10);
