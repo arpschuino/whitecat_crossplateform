@@ -2,6 +2,14 @@
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
 
+### Portage Linux — corrections de bugs (profitent aussi à Windows et au Raspberry Pi)
+
+- **Compatibilité SDL ancienne** : `KMOD_SCROLL` (SDL ≥ 2.0.18) et les hints DPI `SDL_HINT_WINDOWS_DPI_*` (SDL ≥ 2.24) sont désormais protégés par des gardes de version, permettant de compiler contre SDL 2.0.10 (Ubuntu 18.04). Le binaire Linux est ainsi compatible glibc 2.27 → fonctionne de Mint 19 / Ubuntu 18.04 / Debian 10 jusqu'aux versions les plus récentes.
+- **Séparateurs de chemin** : 18 constructions de chemins utilisaient le séparateur Windows `\` codé en dur (saves, audio, import/export, plans, ressources). Sur Linux, ces antislashs devenaient des caractères littéraux dans les noms de fichiers (`saves\last_save` au lieu de `saves/last_save`), cassant la sauvegarde et le rechargement. Tous remplacés par `/` (valide sur Windows ET Linux).
+- **Tableaux Arduino sous-dimensionnés** : `digital_limit` (127 → 128) et `analog_limit` (63 → 64) ne correspondaient pas à la taille de sérialisation utilisée par les `fread`/`fwrite` (128/64). Le chargement d'un show lisait un élément de trop → débordement mémoire (corruption silencieuse sur Windows, crash `__fread_chk` sur Linux).
+- **Buffer overflow `do_sprintf_job`** : `string_ratio_x1x2[4]` était trop petit pour `sprintf("%.2f", …)` (toujours ≥ 5 octets). Débordement à chaque rafraîchissement → crash immédiat sous Linux (détecté par `_FORTIFY_SOURCE`). Buffer agrandi, valeurs de temps bornées dans `affichage_time_format`.
+- **Diagnostic crash** : ajout d'un gestionnaire de signaux POSIX (SIGSEGV/SIGBUS/SIGFPE/SIGABRT) qui écrit la pile d'appel (backtrace symbolisé via `-rdynamic`) dans `wc_debug.txt`, facilitant le diagnostic des plantages sur le portage Linux/Pi.
+
 ### MIDI — Crossfade continu (sans raccrochage des potards)
 
 - **Nouvelle option** dans l'onglet *MIDI PRESETS & OPTIONS* : **Continuous xfade**. Lorsqu'elle est activée, les potards X1/X2 (contrôles MIDI 491/492) permettent d'enchaîner les crossfades sans jamais avoir à les recharger :

@@ -1680,7 +1680,7 @@ index_is_saving=1;
 int comptch=0;
 cmptline_pdf=0;
 
-sprintf(rep,"%s\\import_export\\pdf\\",mondirectory);
+sprintf(rep,"%s/import_export/pdf/",mondirectory);
 chdir(rep);
 //////////////
 
@@ -4431,7 +4431,7 @@ HPDF_Free (pdf);
 
 
 //REROLL//////
-sprintf(rep,"%s\\",mondirectory);
+sprintf(rep,"%s/",mondirectory);
 chdir (rep);
 index_is_saving=0;
 return(0);

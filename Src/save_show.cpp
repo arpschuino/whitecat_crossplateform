@@ -531,19 +531,7 @@ int get_current_time()
 
 int load_gel_list_numerical()
 {
-FILE* dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"Inside load_gel_list step 1\n");fclose(dbg3);}
-sprintf(rep,"%s\\",mondirectory);
-chdir(rep);
-dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"Inside load_gel_list step 2\n");fclose(dbg3);}
-sprintf(rep,"%s\\ressources",mondirectory);
-chdir(rep);
-dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"Inside load_gel_list step 3 - before fopen\n");fclose(dbg3);}
-sprintf(rep,"%s\\",mondirectory);
-chdir(rep);
-sprintf(rep,"%s\\ressources",mondirectory);
+sprintf(rep,"%s/ressources",mondirectory);
 chdir(rep);
 volatile bool index_ok=1;
 char line [256];
@@ -560,26 +548,17 @@ marker_de_gel[i]=0;
 }
 
 FILE *f=NULL;
-dbg3=NULL;
 
 if ((f=fopen("gel_list_num_order.txt", "rt"))== NULL)
 {
-    dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-    if(dbg3){fprintf(dbg3,"gel fopen FAILED\n");fclose(dbg3);}
     sprintf(string_save_load_report[0],"Error opening %s","gel_list_num_order.txt"); b_report_error[0]=1;
     idf++;
 }
 else
     {
-        dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-        if(dbg3){fprintf(dbg3,"gel fopen OK\n");fclose(dbg3);}
-        int line_count = 0;
 	do {
 		if (fgets(line,256,f)!=NULL)
 		{
-line_count++;
-dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"parsing line %d\n", line_count);fclose(dbg3);}
 		sscanf(line,"%s\t%d\t%s\t%d\t%d\t%d\t%f\n",&tmp_name_of_mark,&tmp_ref,&tmp_name_of_gel,&tmprvb[0],&tmprvb[1],&tmprvb[2],&transmission);
 
         if(strcmp(tmp_name_of_mark,"Lee")==0){index_type_of_gel=0;}
@@ -606,21 +585,17 @@ if(dbg3){fprintf(dbg3,"parsing line %d\n", line_count);fclose(dbg3);}
 		else break;
 	}
 	while (index_ok!=0);
-dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"parsing done, closing file\n");fclose(dbg3);}
 fclose(f);
-dbg3 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg3){fprintf(dbg3,"file closed, returning\n");fclose(dbg3);}
 }
 
-sprintf(rep,"%s\\",mondirectory);
+sprintf(rep,"%s/",mondirectory);
 chdir(rep);
 return(0);
 }
 
 int load_gel_list_designer()
 {
-sprintf(rep,"%s\\ressources",mondirectory);
+sprintf(rep,"%s/ressources",mondirectory);
 chdir(rep);
 volatile bool index_ok=1;
 char line [256];
@@ -670,7 +645,7 @@ else
         while (index_ok!=0);
         fclose(f);
     }
-sprintf(rep,"%s\\",mondirectory);
+sprintf(rep,"%s/",mondirectory);
 chdir(rep);
 return(0);
 }
@@ -1659,7 +1634,7 @@ int Save_audiofiles_cues()
 {
 FILE *fpo;
 char tmp_audio_f[512];
-sprintf(tmp_audio_f,"audio\\%s\\audio_cues_in_out.txt",audio_folder);
+sprintf(tmp_audio_f,"audio/%s/audio_cues_in_out.txt",audio_folder);
 if((fpo=fopen(tmp_audio_f,"w")))
 {
 fprintf(fpo,"#arguments: audiofilename / cuein_p0 / cueout_p0 / cuein_p1 / cueout_p1 / cuein_p2 / cueout_p2 / cuein_p3 / cueout_p3\n");
@@ -1690,7 +1665,7 @@ int Load_Audio_Conf()
     FILE *cfg_file = NULL ;
     char read_buff_winfil[ 512 ] ;
     char audio_conf_path[512];
-    sprintf(audio_conf_path, "%s\\audio_conf.txt", mondirectory);
+    sprintf(audio_conf_path, "%s/audio_conf.txt", mondirectory);
 	cfg_file = fopen(audio_conf_path, "rt" );
 	if( !cfg_file )
 	{	 sprintf(string_save_load_report[idf],"Error on opening Sequenciel.txt"); b_report_error[idf]=1;	}
@@ -1713,7 +1688,7 @@ int Save_Audio_Conf()
 {
 FILE *fpo;
 char audio_conf_path[512];
-sprintf(audio_conf_path, "%s\\audio_conf.txt", mondirectory);
+sprintf(audio_conf_path, "%s/audio_conf.txt", mondirectory);
 if((fpo=fopen(audio_conf_path,"w")))
 {
 fprintf(fpo,"#arguments: audiofolder\n");
@@ -1734,7 +1709,7 @@ index_is_saving=1;
 save_load_print_to_screen("Saving ...");
 
 //index_show_save_load_report=1;
-sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
+sprintf(rep,"%s/%s%s",mondirectory,rep_saves,nomduspectacle);
 //LPSECURITY_ATTRIBUTES attr;
 //attr=NULL;
 //CreateDirectory(rep,attr);
@@ -4311,21 +4286,8 @@ return(0);
 
 int Load_Show()
 {
- FILE* dbg4 = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg4){fprintf(dbg4,"Load_Show started, rep=%s\n",rep);fclose(dbg4);}
-
-sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
-
-sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
-FILE* dbg4b = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg4b){fprintf(dbg4b,"rep after sprintf=%s\n",rep);fclose(dbg4b);}
+sprintf(rep,"%s/%s%s",mondirectory,rep_saves,nomduspectacle);
 chdir(rep);
-
-chdir (rep);
-
-chdir(rep);
-FILE* dbg4c = fopen("C:\\whitecat_crossplateform\\whitecatbuild\\build\\white_cat_for_mingw\\debug_crash.txt","a");
-if(dbg4c){fprintf(dbg4c,"After chdir, starting fread\n");fclose(dbg4c);}
 
 int fread_count = 0;
 
@@ -7033,7 +6995,7 @@ refresh_all_midi_out_faders();
 sprintf(rep,"%s",mondirectory);
 chdir (rep);
 scan_planfolder();
-sprintf(rep,"%s\\%s%s",mondirectory,rep_saves,nomduspectacle);
+sprintf(rep,"%s/%s%s",mondirectory,rep_saves,nomduspectacle);
 chdir (rep);
 
 

@@ -1188,7 +1188,7 @@ for(int p=0;p<24;p++)
 
 reset_numeric_entry();
 index_type=0;
-sprintf(rep,"%s\\",mondirectory);
+sprintf(rep,"%s/",mondirectory);
 chdir (rep);
 scan_audiofolder();
 Save_Audio_Conf();

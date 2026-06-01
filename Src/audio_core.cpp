@@ -48,7 +48,7 @@ int Load_audiofiles_cues() {
     char read_buff_winfil[512];
     // sab 02/03/2014 unused int it=0;
     char tmp_audio_f[512];
-    sprintf(tmp_audio_f, "audio\\%s\\audio_cues_in_out.txt", audio_folder);
+    sprintf(tmp_audio_f, "audio/%s/audio_cues_in_out.txt", audio_folder);
     cfg_file = fopen(tmp_audio_f, "rt");
 
     if (!cfg_file) {
@@ -121,7 +121,7 @@ int AffectSoundFile(int player) {
         }
         player_ignited[player] = 0; // clear BEFORE nulling pointer (thread safety vs sound_core_processing)
         player1 = 0;
-        sprintf(soundfile_temp_loader, "audio\\%s\\%s", audio_folder, sound_files[player]);
+        sprintf(soundfile_temp_loader, "audio/%s/%s", audio_folder, sound_files[player]);
         wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
         player1 = OpenSound(device, path_utf8, 0);
         if (!player1) {
@@ -157,7 +157,7 @@ int AffectSoundFile(int player) {
         }
         player_ignited[player] = 0;
         player2 = 0;
-        sprintf(soundfile_temp_loader, "audio\\%s\\%s", audio_folder, sound_files[player]);
+        sprintf(soundfile_temp_loader, "audio/%s/%s", audio_folder, sound_files[player]);
         wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
         player2 = OpenSound(device, path_utf8, 1);
         if (!player2) {
@@ -194,7 +194,7 @@ int AffectSoundFile(int player) {
         }
         player_ignited[player] = 0;
         player3 = 0;
-        sprintf(soundfile_temp_loader, "audio\\%s\\%s", audio_folder, sound_files[player]);
+        sprintf(soundfile_temp_loader, "audio/%s/%s", audio_folder, sound_files[player]);
         wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
         player3 = OpenSound(device, path_utf8, 2);
         if (!player3) {
@@ -230,7 +230,7 @@ int AffectSoundFile(int player) {
         }
         player_ignited[player] = 0;
         player4 = 0;
-        sprintf(soundfile_temp_loader, "audio\\%s\\%s", audio_folder, sound_files[player]);
+        sprintf(soundfile_temp_loader, "audio/%s/%s", audio_folder, sound_files[player]);
         wc_acp_to_utf8(soundfile_temp_loader, path_utf8, 512);
         player4 = OpenSound(device, path_utf8, 3);
         if (!player4) {
@@ -1839,7 +1839,7 @@ int do_logical_fenetre_audio(int xb, int yb) {
                 audio_folder[63] = '\0';
                 index_show_audio_folder_list = 0;
                 audio_folder_list_scroll = 0;
-                sprintf(rep, "%s\\", mondirectory);
+                sprintf(rep, "%s/", mondirectory);
                 chdir(rep);
                 scan_audiofolder();
                 Save_Audio_Conf();

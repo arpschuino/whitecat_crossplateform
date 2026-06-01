@@ -826,6 +826,29 @@ static void sigabrt_handler(int) {
     signal(SIGABRT, SIG_DFL);
     raise(SIGABRT);
 }
+#ifndef _WIN32
+// Handler générique pour SIGSEGV/SIGBUS/SIGFPE : capture la pile même quand le
+// crash n'est pas un abort() (ex. déréférencement nul, accès tableau hors borne).
+static void posix_crash_handler(int sig) {
+    FILE *f;
+    wc_open_log(&f);
+    if (f) {
+        const char *nm = (sig == SIGSEGV) ? "SIGSEGV" :
+                         (sig == SIGBUS)  ? "SIGBUS"  :
+                         (sig == SIGFPE)  ? "SIGFPE"  : "SIGNAL";
+        fprintf(f, "*** %s caught, timer=%s\n", nm, wc_current_timer);
+        void *bt[40];
+        int n = backtrace(bt, 40);
+        fprintf(f, "--- backtrace (%d frames) ---\n", n);
+        fflush(f);
+        backtrace_symbols_fd(bt, n, fileno(f));
+        fprintf(f, "--- end backtrace ---\n");
+        fclose(f);
+    }
+    signal(sig, SIG_DFL);
+    raise(sig);
+}
+#endif
 #ifdef _WIN32
 static LONG WINAPI crash_handler(EXCEPTION_POINTERS *ep) {
     FILE *f;
@@ -1168,6 +1191,11 @@ int main(int /*argc*/, char ** /*argv*/) {
     SetUnhandledExceptionFilter(crash_handler);
 #endif
     signal(SIGABRT, sigabrt_handler);
+#ifndef _WIN32
+    signal(SIGSEGV, posix_crash_handler);
+    signal(SIGBUS,  posix_crash_handler);
+    signal(SIGFPE,  posix_crash_handler);
+#endif
     {
         FILE *_d = fopen(WC_LOG_FILE, "a");
         if (_d) {

@@ -9,8 +9,9 @@ int nBytesSendtoArduino = 0;
 int arduino_com0 = 4;
 int arduino_baud_rate0 = 9600;
 bool arduino_device_0_is_ignited = 0;
-#define digital_limit 127
-#define analog_limit 63
+// Voir arduino.h : alignées sur la sérialisation (128/64), pas 127/63.
+#define digital_limit 128
+#define analog_limit 64
 #define pwm_limit 35
 unsigned char input_str_arduino[digital_limit];
 int digital_data_from_arduino[digital_limit];

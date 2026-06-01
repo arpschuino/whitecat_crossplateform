@@ -1199,7 +1199,7 @@ int do_dmx_config(int cfgdmx_X, int cfgdmx_Y, int largeurCFGdmxwindow, int haute
 int save_network_settings() {
     FILE *fp;
     char rep_conf_ntwk[256];
-    sprintf(rep_conf_ntwk, "%s\\user\\config_network.txt", mondirectory);
+    sprintf(rep_conf_ntwk, "%s/user/config_network.txt", mondirectory);
     if ((fp = fopen(rep_conf_ntwk, "w"))) {
 
         fprintf(fp, "#arguments: Receive art-net Socket  \n");

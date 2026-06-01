@@ -36,8 +36,8 @@ char rep[255]; // repertoire avec arborescence complete du fichier
 /** Directory where is the executable file - Répertoire où se trouve l'exécutable **/
 char mondirectory[512];
 char working_nameis[120];
-char rep_saves[10] = {"saves\\"};
-char nomduspectacle[48] = {"last_save\\"};
+char rep_saves[10] = {"saves/"};       // '/' portable : valide sous Windows ET Linux/macOS
+char nomduspectacle[48] = {"last_save/"};
 char video_folder[256];
 char my_show_is_coming_from[128] = {"default"};
 bool there_is_change_on_show_save_state = 0;

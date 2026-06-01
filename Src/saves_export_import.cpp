@@ -61,7 +61,7 @@ for (int r=0;r<514;r++)
 int do_ASCII_import()
 {
 index_is_saving=1;
-sprintf(rep,"%s\\import_export\\ascii",mondirectory);
+sprintf(rep,"%s/import_export/ascii",mondirectory);
 chdir(rep);
 
 
@@ -290,7 +290,7 @@ int do_ASCII_export()
 
 index_is_saving=1;
 rest(100);
-sprintf(rep,"%s\\import_export\\ascii",mondirectory);
+sprintf(rep,"%s/import_export/ascii",mondirectory);
 
 chdir(rep);
 
@@ -420,7 +420,7 @@ int do_Schwartzpeter_import()
 {
 rest(10);
 index_is_saving=1;
-sprintf(rep,"%s\\import_export\\schwz\\%s",mondirectory,importfile_name);
+sprintf(rep,"%s/import_export/schwz/%s",mondirectory,importfile_name);
 chdir(rep);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -545,7 +545,7 @@ index_is_saving=0;
 int do_Alq_import()
 {
 index_is_saving=1;
-sprintf(rep,"%s\\import_export\\ascii",mondirectory);
+sprintf(rep,"%s/import_export/ascii",mondirectory);
 chdir(rep);
 ////////////////////////////////////////////////////////////////////////////////
 

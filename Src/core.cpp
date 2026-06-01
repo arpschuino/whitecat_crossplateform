@@ -1450,7 +1450,7 @@ int load_plan_of_theatre( char name_of_plan[256], bool rescan_width_eight)
 
     char temp_namePlot[272];
 
-    sprintf(temp_namePlot,"plans\\%s",name_of_plan);
+    sprintf(temp_namePlot,"plans/%s",name_of_plan);
 
     LightPlanBitmapMain.Load(temp_namePlot);
 
@@ -2138,6 +2138,8 @@ if( index_midi_affectation_autoclose==1)
 
 int process_assign_to_core(int coreis)
 {
+#ifdef _WIN32
+    // Affinité CPU via l'utilitaire Windows Process.exe (utils/). Windows uniquement.
     char tmpmondirectory[200];
     get_executable_name(tmpmondirectory,sizeof(mondirectory)); //recup du patch complet
     char nom_exe[200];
@@ -2146,6 +2148,9 @@ int process_assign_to_core(int coreis)
     sprintf(tmp_order_call,"%s\\utils\\Process.exe %s -a %d", mondirectory, nom_exe, coreis);
     system(tmp_order_call);//lancement system
     sprintf(string_Last_Order,">>Assigned %s to Core %d", nom_exe, coreis);
+#else
+    (void)coreis; // pas d'équivalent simple sous Linux (affinité gérée par taskset/cgroup)
+#endif
     return(0);
 }
 

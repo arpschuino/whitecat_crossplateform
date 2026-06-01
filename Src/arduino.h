@@ -12,8 +12,11 @@ extern int arduino_com0;
 extern int arduino_baud_rate0;
 extern bool arduino_device_0_is_ignited;
 
-#define digital_limit 127
-#define analog_limit 63
+// Tailles alignées sur la sérialisation save/load (128 / 64).
+// Étaient 127/63 alors que les fread/fwrite utilisent 128/64 (arduino_*_size) :
+// 1 élément de débordement -> __fread_chk abort sous Linux au chargement d'un show.
+#define digital_limit 128
+#define analog_limit 64
 #define pwm_limit 35
 
 extern unsigned char input_str_arduino[digital_limit];

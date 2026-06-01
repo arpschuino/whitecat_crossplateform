@@ -1286,7 +1286,7 @@ int Save_my_dmx_conf() {
     }
     FILE *fp;
     char rep_conf_dmx[256];
-    sprintf(rep_conf_dmx, "%s\\user\\config_dmx.txt", mondirectory);
+    sprintf(rep_conf_dmx, "%s/user/config_dmx.txt", mondirectory);
     if ((fp = fopen(rep_conf_dmx, "w"))) {
         fprintf(fp, "#arguments: dmxkeyword (legacy) / active interfaces: artnet / enttecopen / enttecpro / sunlite\n");
         fprintf(fp, "%s\n", motcleinterface);
