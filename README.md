@@ -38,7 +38,7 @@
 
 The user documentation (HTML) is included in the repository in the [`doc/`](doc/) folder.
 
-Open [`doc/liste.html`](doc/liste.html) locally in a browser to browse all pages (French/English).
+Open [`doc/introduction.html`](doc/introduction.html) locally in a browser — the home page links to all the documentation (French/English).
 
 ---
 
