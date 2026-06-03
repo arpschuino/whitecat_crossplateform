@@ -93,7 +93,12 @@ avec la section Raspberry Pi — config matérielle recommandée, modèle de Pi,
 sortie DMX (Enttec Pro / libftdi1 + groupe `dialout`), performances. À reformater au passage
 si encore à l'ancien format DokuWiki (modèle : introduction.html / interface.html).
 
-### 3. Finalisation release GitHub
+### 3. Doc cue list — crossfade dans les deux sens
+Documenter dans `doc/sequentiel.html` (et `sequentiel_eng.html`) l'option **Continuous xfade**
+(crossfade enchaînable en descendant PUIS en remontant les potards, sans raccrochage).
+La fonctionnalité est déjà codée (0.9.1) ; il manque sa description dans la page cue list.
+
+### 4. Finalisation release GitHub
 - Tag `v0.9.1`
 - GitHub Release avec les 3 archives (Windows zip + Linux tar.gz + AppImage [+ Pi quand prêt])
 - Notes de version (reprendre CHANGELOG.md section 0.9.1)
