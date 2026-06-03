@@ -19,10 +19,17 @@
   <li class="level1"><div class="li"><a href="#state_of_development">State of Development</a></div></li>
   <li class="level1"><div class="li"><a href="#version_091">Version 0.9.1</a></div>
     <ul class="toc">
+      <li class="level2"><div class="li"><a href="#v091_linux">Linux port</a></div></li>
       <li class="level2"><div class="li"><a href="#v091_audio">Audio</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_midi">MIDI</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_cuelist">Cue list</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_faders">Faders — REPORT (F3)</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_save">Save window</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_menus">MENUS window</a></div></li>
       <li class="level2"><div class="li"><a href="#v091_performance">Performance</a></div></li>
       <li class="level2"><div class="li"><a href="#v091_display">Display fixes</a></div></li>
       <li class="level2"><div class="li"><a href="#v091_banger">Banger</a></div></li>
+      <li class="level2"><div class="li"><a href="#v091_circuits">Channels — level display</a></div></li>
       <li class="level2"><div class="li"><a href="#v091_architecture">Technical architecture</a></div></li>
     </ul>
   </li>
@@ -98,6 +105,18 @@ Functional development is resuming progressively. This page lists the changes in
 
 <h1 class="sectionedit2"><a name="version_091" id="version_091">Version 0.9.1</a></h1>
 
+<h2 class="sectionedit_linux"><a name="v091_linux" id="v091_linux">Linux port</a></h2>
+<p class="level2">
+The major undertaking of this release is the Linux port. WhiteCat now compiles and runs on Linux x86_64 (tested on Linux Mint). An AppImage and a self-contained archive are produced. The fixes below are genuine bugs, which also benefit Windows and the upcoming Raspberry Pi port.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Older-SDL compatibility</strong>: <code>KMOD_SCROLL</code> (SDL ≥ 2.0.18) and the DPI hints <code>SDL_HINT_WINDOWS_DPI_*</code> (SDL ≥ 2.24) are now guarded by version checks, allowing compilation against SDL 2.0.10 (Ubuntu 18.04). The Linux binary is thus compatible with glibc 2.27, and runs from Mint 19 / Ubuntu 18.04 / Debian 10 up to the most recent distributions.</div></li>
+<li class="level1"><div class="li"><strong>Path separators</strong>: 18 path constructions used the hardcoded Windows separator <code>\</code> (saves, audio, import/export, plans, ressources). On Linux these backslashes became literal characters in file names (<code>saves\last_save</code> instead of <code>saves/last_save</code>), breaking show saving and reloading. All replaced with <code>/</code> (valid on both Windows and Linux).</div></li>
+<li class="level1"><div class="li"><strong>Undersized Arduino arrays</strong>: <code>digital_limit</code> (127 → 128) and <code>analog_limit</code> (63 → 64) did not match the serialization size used by <code>fread</code>/<code>fwrite</code> (128/64). Loading a show read one element too many, causing a memory overrun (silent corruption on Windows, crash on load on Linux).</div></li>
+<li class="level1"><div class="li"><strong>Buffer overflow in time display</strong>: a 4-byte buffer was too small for the <code>"%.2f"</code> string (always ≥ 5 bytes). The overflow occurred on every refresh, causing an immediate crash on Linux. Buffer enlarged and time values clamped.</div></li>
+<li class="level1"><div class="li"><strong>Crash diagnostics</strong>: added a POSIX signal handler (SIGSEGV / SIGBUS / SIGFPE / SIGABRT) that writes the call stack (symbolized backtrace) to <code>wc_debug.txt</code>, greatly easing the diagnosis of crashes on Linux and Raspberry Pi.</div></li>
+</ul>
+
 <h2 class="sectionedit3"><a name="v091_audio" id="v091_audio">Audio</a></h2>
 <ul class="level2">
 <li class="level1"><div class="li"><strong>Glitch-free OGG/FLAC loading</strong>: loading an OGG or FLAC file no longer briefly cuts the audio of other players currently playing. Files are loaded into RAM then decoded incrementally in the audio callback, without ever blocking the main thread.</div></li>
@@ -108,6 +127,38 @@ Functional development is resuming progressively. This page lists the changes in
 <li class="level1"><div class="li"><strong>Cue In/Out in non-loop mode</strong>: cue In and Out points are now usable in simple (non-looping) playback mode.</div></li>
 <li class="level1"><div class="li"><strong>Double-click on Pan and Pitch</strong>: double-clicking the pan or pitch fader resets it to centre.</div></li>
 <li class="level1"><div class="li"><strong>Audio folder selection</strong>: the source folder can now be selected with the mouse via a scrollable dropdown menu.</div></li>
+</ul>
+
+<h2 class="sectionedit_midi091"><a name="v091_midi" id="v091_midi">MIDI</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Continuous crossfade (no fader re-pickup)</strong>: new <em>Continuous xfade</em> option in the <em>MIDI PRESETS &amp; OPTIONS</em> tab. Once enabled, the X1/X2 faders let you chain crossfades without ever having to re-pick them up: bringing both faders down triggers a crossfade (preset → stage), bringing them back up automatically triggers the next crossfade, and so on indefinitely. In classic mode (option off), the usual behaviour is kept (WhiteCat waits for the faders to be brought back up — "GET UP MIDI FADERS" — before accepting a new crossfade). The option is saved in the show file.</div></li>
+<li class="level1"><div class="li"><strong>Dedicated "MIDI CLOCK" tab</strong>: the MIDI clock settings (BPM, encoder, stored-tempo grid) are moved to a 4th tab, freeing space for the options in the <em>MIDI PRESETS &amp; OPTIONS</em> tab, now laid out in two columns.</div></li>
+<li class="level1"><div class="li"><strong>Fix: MIDI CLOCK wheel cursor position</strong> at startup — the orange dot appeared at the top-left (0,0) on opening. Its position is now recomputed on each render from the wheel centre.</div></li>
+</ul>
+
+<h2 class="sectionedit_cuelist091"><a name="v091_cuelist" id="v091_cuelist">Cue list</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Inline editing of descriptions</strong>: double-clicking the first or second description line of a cue lets you write or edit the text directly in the cue list (in addition to the classic Name mode).</div></li>
+<li class="level1"><div class="li"><strong>Name on creation</strong>: the cue-creation confirmation window offers a field to enter a name or description.</div></li>
+<li class="level1"><div class="li"><strong>Wider buttons</strong>: the bottom oval buttons (Stage ±, Preset ±, etc.) are widened by 3 px so the "Preset+" label fits fully.</div></li>
+<li class="level1"><div class="li"><strong>More readable grid</strong>: the separator lines (columns and rows) are slightly darkened for better contrast.</div></li>
+</ul>
+
+<h2 class="sectionedit_faders091"><a name="v091_faders" id="v091_faders">Faders — REPORT (F3)</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Name field for REPORT</strong>: recording a stage level into a dock via [F3] + click now shows a "Name" field in the confirmation window (like [STORE]), and the entered name is applied to the dock.</div></li>
+<li class="level1"><div class="li"><strong>Confirm with F3</strong>: the confirmation window of a REPORT is confirmed with [F3] ([F1] stays reserved for STORE).</div></li>
+</ul>
+
+<h2 class="sectionedit_save091"><a name="v091_save" id="v091_save">Save window</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Scrollbars</strong>: the +/- circles of the lists (import/export and shows) are replaced by a proper scrollbar, identical to the audio window one (track, arrows, mouse-draggable thumb, mouse-wheel scrolling). It only appears when the list overflows the visible area.</div></li>
+<li class="level1"><div class="li"><strong>Cleaned-up element selectors</strong>: the entries for removed features (iCAT, MOVER, empty slot) are gone from the binary-save and PDF-export selectors. The binary selector is reorganised into 3 balanced columns, with no gaps. Save indices are preserved: full compatibility with existing show files.</div></li>
+</ul>
+
+<h2 class="sectionedit_menus091"><a name="v091_menus" id="v091_menus">MENUS window</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Reorganisation</strong>: the MENUS window, whose columns were uneven and gapped after some buttons were moved elsewhere (Freeze, Exclude, Help), is laid out cleanly into 4 columns of 4 entries + 1 column of 5.</div></li>
 </ul>
 
 <h2 class="sectionedit6"><a name="v091_performance" id="v091_performance">Performance</a></h2>
@@ -127,6 +178,13 @@ Functional development is resuming progressively. This page lists the changes in
 <ul class="level2">
 <li class="level1"><div class="li"><strong>Flash of the 6 circles on activation</strong>: the 6 circles in the banger window now flash red (like the "bang it" button) when active. Two fixes: display (pulsed red colour instead of the static hover colour) and interaction (a direct click on a circle now triggers the visual flash).</div></li>
 <li class="level1"><div class="li"><strong>Value validation (val1/val2)</strong>: each banger type now checks the bounds of entered values (fader 1–48, MIDI channel 0–15, audio player 1–4, audio file 0–126, chaser 1–128…) and shows a WCat-style popup if a value is out of range. Corrupted values already present in show files are automatically sanitised on load.</div></li>
+<li class="level1"><div class="li"><strong>Fix: delay save size</strong> — a size error in the banger delay serialization read/wrote twice as many bytes as needed. Existing files remain readable; only the actually-used portion is taken into account.</div></li>
+<li class="level1"><div class="li"><strong>val1/val2 display</strong>: the value, action and delay columns no longer show for empty events (type 0), removing the appearance of garbage values in unconfigured rows.</div></li>
+</ul>
+
+<h2 class="sectionedit_circuits091"><a name="v091_circuits" id="v091_circuits">Channels — level display</a></h2>
+<ul class="level2">
+<li class="level1"><div class="li"><strong>Fix: level latency</strong> in the channels list when moving a fader quickly. Since the mixing computation (Merger) runs in a separate ~50 Hz timer, the display could lag up to 20 ms behind the actual value. The mix is now recomputed right before each draw: displayed levels are always up to date.</div></li>
 </ul>
 
 <h2 class="sectionedit_arch"><a name="v091_architecture" id="v091_architecture">Technical architecture</a></h2>
@@ -267,6 +325,7 @@ This list dates from version 0.8.6 (Christoph Guillermet, 2014). Some bugs may h
 <h1 class="sectionedit27"><a name="to_do" id="to_do">TO DO / PLANNED</a></h1>
 
 <ul class="level1">
+<li class="level1"><div class="li">Raspberry Pi (ARM64) port — the Linux build is ready, remaining work is to compile and validate it on the Pi</div></li>
 <li class="level1"><div class="li">Mover, for moving heads</div></li>
 <li class="level1"><div class="li">Channel times</div></li>
 <li class="level1"><div class="li">Wizard: include faders, and dynamic content in channel functions</div></li>
@@ -276,7 +335,6 @@ This list dates from version 0.8.6 (Christoph Guillermet, 2014). Some bugs may h
 <li class="level1"><div class="li">Customisable keyboard mapping</div></li>
 <li class="level1"><div class="li">Universal MIDI mapper with built-in presets</div></li>
 <li class="level1"><div class="li">Timeline</div></li>
-<li class="level1"><div class="li">Linux / Raspberry Pi port</div></li>
 </ul>
 
 <h2 class="sectionedit28"><a name="drivers_enttec" id="drivers_enttec">ENTTEC DRIVERS</a></h2>

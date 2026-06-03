@@ -2,26 +2,15 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>sequentiel</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2012-07-15T22:27:38+0200"/>
-<meta name="keywords" content="sequentiel"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="sequentiel.html"/>
-<link rel="contents" href="sequentiel.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="sequentiel.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="sequentiel.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=sequentiel"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"sequentiel","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Le Séquentiel (CueList) — WhiteCat</title>
+  <meta name="date" content="2026-06-02"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="sequentiel_eng.html">🇬🇧 English</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
 <h3 class="toggle">Table des matières</h3>
@@ -31,758 +20,822 @@
 <li class="level1"><div class="li"><a href="#le_sequentiel_cuelist">Le Séquentiel (CueList)</a></div>
 <ul class="toc">
 <li class="level2"><div class="li"><a href="#definition">Définition</a></div></li>
-<li class="level2"><div class="li"><a href="#presentation_de_l_interface_du_sequentiel">Présentation de l&#039;interface du Séquentiel</a></div></li>
+<li class="level2"><div class="li"><a href="#presentation_de_l_interface_du_sequentiel">Présentation de l'interface du Séquentiel</a></div></li>
 </ul>
 </li>
 <li class="level1"><div class="li"><a href="#manipulations_de_base">Manipulations de base</a></div>
 <ul class="toc">
 <li class="level2"><div class="li"><a href="#creation_de_memoire">Création de mémoire</a></div></li>
 <li class="level2"><div class="li"><a href="#destruction_de_memoire">Destruction de mémoire</a></div></li>
-<li class="level2"><div class="li"><a href="#re-enregistrement_de_memoire">Ré-enregistrement de mémoire</a></div>
-<ul class="toc">
-<li class="level3"><div class="li"><a href="#re-enregistrement_sur_scene_ou_en_preset">Ré-enregistrement sur scène ou en preset</a></div></li>
-<li class="level3"><div class="li"><a href="#re-enregistrement_d_une_autre_memoire_que_celle_en_preset_ou_en_scene">Ré-enregistrement d&#039;une  autre mémoire que celle en preset ou en scène</a></div></li>
-</ul>
-</li>
-<li class="level2"><div class="li"><a href="#modification_selective_d_une_memoire">Modification sélective d&#039;une mémoire</a></div></li>
-<li class="level2"><div class="li"><a href="#enregistrement_d_une_memoire_conjuguant_faders_et_niveaux">Enregistrement d&#039;une mémoire conjuguant Faders et niveaux</a></div></li>
+<li class="level2"><div class="li"><a href="#re-enregistrement_de_memoire">Ré-enregistrement de mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#modification_selective_d_une_memoire">Modification sélective d'une mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#enregistrement_d_une_memoire_conjuguant_faders_et_niveaux">Enregistrement d'une mémoire conjuguant Faders et niveaux</a></div></li>
 <li class="level2"><div class="li"><a href="#copier_rapidement_une_memoire_vers_une_autre">Copier rapidement une mémoire vers une autre</a></div></li>
 <li class="level2"><div class="li"><a href="#navigation_rapide_cut">Navigation rapide, CUT</a></div></li>
-<li class="level2"><div class="li"><a href="#gotocharger_une_memoire_appelee_au_clavier">GOTO: Charger une mémoire appelée au clavier</a></div>
-<ul class="toc">
-<li class="clear">
-<ul class="toc">
-<li class="level4"><div class="li"><a href="#charger_a_la_souris">Charger à la souris:</a></div></li>
-<li class="level4"><div class="li"><a href="#charger_via_le_bouton_goto">Charger via le bouton GOTO:</a></div></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="level2"><div class="li"><a href="#affectation_de_temps">Affectation de temps</a></div>
-<ul class="toc">
-<li class="level3"><div class="li"><a href="#changer_les_temps_d_une_memoire_sur_scene_ou_en_preset">Changer les temps d&#039;une mémoire sur scène ou en preset</a></div></li>
-<li class="level3"><div class="li"><a href="#changer_les_temps_d_une_memoire_autre">Changer les temps d&#039;une mémoire autre</a></div></li>
-</ul>
-</li>
+<li class="level2"><div class="li"><a href="#gotocharger_une_memoire_appelee_au_clavier">GOTO : charger une mémoire appelée au clavier</a></div></li>
+<li class="level2"><div class="li"><a href="#affectation_de_temps">Affectation de temps</a></div></li>
 <li class="level2"><div class="li"><a href="#donner_un_descriptif_a_une_memoire">Donner un descriptif à une mémoire</a></div></li>
 </ul>
 </li>
 <li class="level1"><div class="li"><a href="#crossfade_manuel">Crossfade manuel</a></div>
 <ul class="toc">
-<li class="clear">
-<ul class="toc">
 <li class="level3"><div class="li"><a href="#crossfade_manuel_a_la_souris">Crossfade manuel à la souris</a></div></li>
 <li class="level3"><div class="li"><a href="#crossfade_manuel_en_midi">Crossfade manuel en midi</a></div></li>
 </ul>
 </li>
-</ul>
-</li>
 <li class="level1"><div class="li"><a href="#crossfade_au_go">Crossfade au GO</a></div>
-<ul class="toc">
-<li class="clear">
-<ul class="toc">
-<li class="clear">
 <ul class="toc">
 <li class="level4"><div class="li"><a href="#go_midi_forcemode">Go Midi ForceMode</a></div></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="level1"><div class="li"><a href="#exclusion_de_memoires_du_sequenciel">Exclusion de mémoires du séquenciel</a></div></li>
+<li class="level1"><div class="li"><a href="#exclusion_de_memoires_du_sequenciel">Exclusion de mémoires du séquentiel</a></div></li>
 <li class="level1"><div class="li"><a href="#links_de_memoires">Links de mémoires</a></div>
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#affecter_deaffecter_un_link_a_une_memoire">Affecter/déaffecter un Link à une mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#affecter_desaffecter_un_link_a_une_memoire">Affecter/désaffecter un Link à une mémoire</a></div></li>
 <li class="level2"><div class="li"><a href="#activer_le_mode_link">Activer le mode Link</a></div></li>
 </ul>
 </li>
-<li class="level1"><div class="li"><a href="#bangerautomations_et_conduite_elaboree">Banger: Automations et conduite élaborée</a></div>
+<li class="level1"><div class="li"><a href="#bangerautomations_et_conduite_elaboree">Banger : automations et conduite élaborée</a></div>
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#affecter_deaffecter_un_bang_a_une_memoire">Affecter/déaffecter un Bang à une mémoire</a></div></li>
+<li class="level2"><div class="li"><a href="#affecter_desaffecter_un_bang_a_une_memoire">Affecter/désaffecter un Bang à une mémoire</a></div></li>
 <li class="level2"><div class="li"><a href="#activer_le_mode_bang">Activer le mode Bang</a></div></li>
 </ul>
 </li>
-<li class="level1"><div class="li"><a href="#double_sequenciel">Double séquenciel</a></div></li>
+<li class="level1"><div class="li"><a href="#double_sequenciel">Double séquentiel</a></div></li>
 </ul>
 </div>
 </div>
 <!-- TOC END -->
 
-<h1 class="sectionedit1"><a name="le_sequentiel_cuelist" id="le_sequentiel_cuelist">Le Séquentiel (CueList)</a></h1>
+<h1 class="sectionedit1" id="le_sequentiel_cuelist">Le Séquentiel (CueList)</h1>
+<div class="level1">
 
-<p class="level1">
-Accéder au séquenciel:
+<p>
+Accéder au séquentiel :
 </p>
 
-<p class="level1">
-Clicker [CueList] ou taper [F9]
+<p>
+cliquer [CueList] ou taper [F9].
 </p>
 
-<p class="level1">
-<img src="click_cuelist.jpeg" class="media" title="click_cuelist.jpg" alt="click_cuelist.jpg" />
+<p>
+<a href="click_cuelist.png" class="media" title="click_cuelist.png"><img src="click_cuelist.png" class="mediacenter" title="Bouton CueList" alt="Bouton CueList dans la barre principale" /></a>
 </p>
-<!-- EDIT1 SECTION "Le Séquentiel (CueList)" [1-121] -->
-<h2 class="sectionedit2"><a name="definition" id="definition">Définition</a></h2>
-<ul class="level2">
-<li class="level1"><div class="li"> le séquentiel est un gestionnaire de mémoires</div>
+
+</div>
+
+<h2 class="sectionedit2" id="definition">Définition</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Le séquentiel est un gestionnaire de mémoires.</div>
 </li>
-<li class="level1"><div class="li"> les états lumineux sont enregistrés dans des mémoires</div>
+<li class="level1"><div class="li"> Les états lumineux sont enregistrés dans des mémoires.</div>
 </li>
-<li class="level1"><div class="li"> ces mémoires sont enregistrables avec une appellation numérique ( mémoire 1, mémoire 125, mémoire 999)</div>
+<li class="level1"><div class="li"> Ces mémoires sont enregistrables avec une appellation numérique (mémoire 1, mémoire 125.5, mémoire 999).</div>
 </li>
-<li class="level1"><div class="li"> elles vont de la mémoire 0 à la mémoire 999.9</div>
+<li class="level1"><div class="li"> Elles vont de la mémoire 0 à la mémoire 999.9.</div>
 </li>
-<li class="level1"><div class="li"> leur ordre de rangement est automatiquement dans un ordre croissant</div>
+<li class="level1"><div class="li"> Leur ordre de rangement est automatiquement croissant.</div>
 </li>
-<li class="level1"><div class="li"> elles possèdent entre chaque unité 9 mémoires d&#039;insert, “des mémoires point”: .1 .2 .3 .4 … jusqu&#039;à .9</div>
+<li class="level1"><div class="li"> Elles possèdent, entre chaque unité, 9 mémoires d'insert, « des mémoires point » : .1 .2 .3 .4 … jusqu'à .9.</div>
 </li>
 </ul>
-<ul class="level2">
-<li class="level1"><div class="li"> à ces mémoires ont affecte un temps de fondu de l&#039;une à l&#039;autre. Ce fondu s&#039;appelle un crossfade ou encore transfert.</div>
+<ul>
+<li class="level1"><div class="li"> À ces mémoires on affecte un temps de fondu de l'une à l'autre. Ce fondu s'appelle un crossfade, ou encore transfert.</div>
 </li>
-<li class="level1"><div class="li"> ce passage d&#039;une mémoire à l&#039;autre peut se faire de plusieurs manières:</div>
-<ul class="level2">
-<li class="level2"><div class="li"> à la main, via la souris ou une interface midi avec des potentiomètres</div>
+<li class="level1"><div class="li"> Ce passage d'une mémoire à l'autre peut se faire de plusieurs manières :
+<ul>
+<li class="level2"><div class="li"> à la main, via la souris ou une interface midi avec des potentiomètres ;</div>
 </li>
-<li class="level2"><div class="li"> au lancement d&#039;un Go qui lancera le crossfade sur la base de temps enregistrée</div>
-</li>
-</ul>
+<li class="level2"><div class="li"> au lancement d'un Go, qui lancera le crossfade sur la base de temps enregistrée.</div>
 </li>
 </ul>
-<ul class="level2">
-<li class="level1"><div class="li"> ce séquenciel est en parallèle de l&#039;activité circuits des faders.</div>
-</li>
-<li class="level1"><div class="li"> lorsque l&#039;on manipule des circuits par sélection et montée de niveau à la souris ou aux flèches, on intervient sur la mémoire sur scène.</div>
-</li>
-<li class="level1"><div class="li"> lorsque l&#039;on manipule des circuits par sélection et montée de niveau à la souris ou aux flèches dans le BLIND, on intervient sur le preset, la mémoire à venir.</div>
-</li>
-<li class="level1"><div class="li"> entre les circuits de type HTP, dont les niveaux sont contrôlés par le séquenciel ( affichage en bleu ) et ceux  dont les niveaux sont contrôlés par les faders ( affichage en orange), le niveau le plus haut est pris en compte et envoyé à l&#039;interface dmx.</div>
+</div>
 </li>
 </ul>
-
-<p class="level2">
-<strong>Pour accéder au séquentiel: clicker [SEQUENCES] ou taper [F9] </strong>
-</p>
-<!-- EDIT2 SECTION "Définition" [122-1708] -->
-<h2 class="sectionedit3"><a name="presentation_de_l_interface_du_sequentiel" id="presentation_de_l_interface_du_sequentiel">Présentation de l&#039;interface du Séquentiel</a></h2>
-
-<p class="level2">
-<img src="sequentiel.jpeg" class="media" title="sequentiel.jpg" alt="sequentiel.jpg" />
-</p>
-
-<p class="level2">
-<strong>1- l&#039;espace des mémoires, où sont affichés, de haut en bas:</strong>
-</p>
-<ul class="level2">
-<li class="level1"><div class="li"> la mémoire précédant la mémoire sur scène</div>
+<ul>
+<li class="level1"><div class="li"> Ce séquentiel est en parallèle de l'activité circuits des faders.</div>
 </li>
-<li class="level2"><div class="li"> la mémoire sur scène, sur fond bleu</div>
+<li class="level1"><div class="li"> Lorsque l'on manipule des circuits par sélection et montée de niveau à la souris ou aux flèches, on intervient sur la mémoire sur scène.</div>
 </li>
-<li class="level2"><div class="li"> la mémoire en preset / blind, sur fond rouge</div>
+<li class="level1"><div class="li"> Lorsque l'on manipule des circuits par sélection et montée de niveau à la souris ou aux flèches dans le BLIND, on intervient sur le preset, la mémoire à venir.</div>
 </li>
-<li class="level2"><div class="li"> 6 autres mémoires après la mémoire en preset</div>
+<li class="level1"><div class="li"> Entre les circuits de type HTP dont les niveaux sont contrôlés par le séquentiel (affichage en bleu) et ceux dont les niveaux sont contrôlés par les faders (affichage en orange), le niveau le plus haut est pris en compte et envoyé à l'interface DMX.</div>
 </li>
 </ul>
+</div>
 
-<p class="level2">
-     Ces mémoires sont affichées, de gauche à droite:
+<h2 class="sectionedit3" id="presentation_de_l_interface_du_sequentiel">Présentation de l'interface du Séquentiel</h2>
+<div class="level2">
+
+<p>
+<a href="sequentiel.jpeg" class="media" title="sequentiel.jpeg"><img src="sequentiel.jpeg" class="mediacenter" title="Interface du Séquentiel" alt="Interface de la fenêtre Séquentiel" /></a>
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> avec le temps de delay et le temps de crossfade</div>
+
+<p>
+<strong>1 — L'espace des mémoires, où sont affichées, de haut en bas :</strong>
+</p>
+<ul>
+<li class="level1"><div class="li"> la mémoire précédant la mémoire sur scène ;</div>
 </li>
-<li class="level2"><div class="li"> le numéro de la mémoire</div>
+<li class="level1"><div class="li"> la mémoire sur scène, sur fond bleu ;</div>
 </li>
-<li class="level2"><div class="li"> si elle est linkée ou non. Le link apparait avec une flèche.</div>
+<li class="level1"><div class="li"> la mémoire en preset / blind, sur fond rouge ;</div>
 </li>
-<li class="level2"><div class="li"> si une automation est intégrée ( Banger), avec l&#039;affichage du numéro de cette automation</div>
-</li>
-<li class="level2"><div class="li"> le descriptif de la mémoire</div>
+<li class="level1"><div class="li"> 6 autres mémoires après la mémoire en preset.</div>
 </li>
 </ul>
 
-<p class="level2">
-<strong>2- l&#039;espace du crossfade:</strong>
+<p>
+Ces mémoires sont affichées, de gauche à droite :
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> le master de la mémoire sur scène en bleu</div>
+<ul>
+<li class="level1"><div class="li"> avec le temps de delay et le temps de crossfade ;</div>
 </li>
-<li class="level2"><div class="li"> le master de la mémoire en preset en rouge</div>
+<li class="level1"><div class="li"> le numéro de la mémoire ;</div>
 </li>
-<li class="level2"><div class="li"> le bouton de ratio pour un crossfade manuel</div>
+<li class="level1"><div class="li"> si elle est linkée ou non (le link apparaît avec une flèche) ;</div>
+</li>
+<li class="level1"><div class="li"> si une automation est intégrée (Banger), avec l'affichage du numéro de cette automation ;</div>
+</li>
+<li class="level1"><div class="li"> le descriptif de la mémoire.</div>
 </li>
 </ul>
 
-<p class="level2">
-<strong>3- l&#039;espace du Go:</strong>
+<p>
+<strong>2 — L'espace du crossfade :</strong>
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> les trois bouttons de Go: Go Back, Go, et DoubleGo</div>
+<ul>
+<li class="level1"><div class="li"> le master de la mémoire sur scène, en bleu ;</div>
 </li>
-<li class="level2"><div class="li"> l&#039;accéléromètre du crossfade</div>
+<li class="level1"><div class="li"> le master de la mémoire en preset, en rouge ;</div>
+</li>
+<li class="level1"><div class="li"> le bouton de ratio pour un crossfade manuel.</div>
 </li>
 </ul>
 
-<p class="level2">
-<strong>4- l&#039;espace des manipulations: création / destruction de mémoire, et navigation rapide sur scène ou en preset</strong>
+<p>
+<strong>3 — L'espace du Go :</strong>
 </p>
-<!-- EDIT3 SECTION "Présentation de l'interface du Séquentiel" [1709-2834] -->
-<h1 class="sectionedit4"><a name="manipulations_de_base" id="manipulations_de_base">Manipulations de base</a></h1>
-<!-- EDIT4 SECTION "Manipulations de base" [2835-2869] -->
-<h2 class="sectionedit5"><a name="creation_de_memoire" id="creation_de_memoire">Création de mémoire</a></h2>
-<ol class="level2">
-<li class="level1"><div class="li"> Créer son état lumineux, sur scène ou en preset</div>
+<ul>
+<li class="level1"><div class="li"> les trois boutons de Go : Go Back, Go et DoubleGo ;</div>
 </li>
-<li class="level1"><div class="li"> Taper son numéro de mémoire ( par ex. 27.5)</div>
+<li class="level1"><div class="li"> l'accéléromètre du crossfade.</div>
 </li>
-<li class="level1"><div class="li"> Clicker [NEW] ou taper [CTRL][F1]</div>
+</ul>
+
+<p>
+<strong>4 — L'espace des manipulations :</strong> création / destruction de mémoire, et navigation rapide sur scène ou en preset.
+</p>
+
+</div>
+
+<h1 class="sectionedit4" id="manipulations_de_base">Manipulations de base</h1>
+<div class="level1">
+
+<h2 class="sectionedit5" id="creation_de_memoire">Création de mémoire</h2>
+<div class="level2">
+<ol>
+<li class="level1"><div class="li"> Créer un état lumineux, sur scène ou en preset.</div>
+</li>
+<li class="level1"><div class="li"> Taper un numéro de mémoire (par ex. 27.5).</div>
+</li>
+<li class="level1"><div class="li"> Cliquer [Create] ou taper [CTRL][F1].</div>
+</li>
+<li class="level1"><div class="li"> Dans la fenêtre de confirmation, on peut saisir un nom ou un descriptif.</div>
+</li>
+<li class="level1"><div class="li"> Confirmer en cliquant [OK], ou en tapant [Enter] ou [F1].</div>
 </li>
 </ol>
 
-<p class="level2">
-! Surveillez le retour d&#039;infos.
+<p>
+<a href="memory_confirm.png" class="media" title="memory_confirm.png"><img src="memory_confirm.png" class="mediacenter" title="Fenêtre de confirmation" alt="Fenêtre de confirmation de création de mémoire" /></a>
 </p>
-<!-- EDIT5 SECTION "Création de mémoire" [2870-3084] -->
-<h2 class="sectionedit6"><a name="destruction_de_memoire" id="destruction_de_memoire">Destruction de mémoire</a></h2>
-<ol class="level2">
-<li class="level1"><div class="li"> Taper son numéro de mémoire ( par ex. 27.5)</div>
+
+</div>
+
+<h2 class="sectionedit6" id="destruction_de_memoire">Destruction de mémoire</h2>
+<div class="level2">
+<ol>
+<li class="level1"><div class="li"> Taper le numéro de la mémoire à détruire (par ex. 27.5).</div>
 </li>
-<li class="level1"><div class="li"> Clicker [DEL] ou taper [SHIFT][DEL]</div>
+<li class="level1"><div class="li"> Cliquer [Delete] ou taper [SHIFT][SUPPR].</div>
 </li>
 </ol>
 
-<p class="level2">
-v.0.8.2.2: Si aucun chiffre n&#039;est tapé, le fait d&#039;être en Blind ou pas défini la position sur scène ou en preset comme la mémoire à détruire.
+<p>
+Si aucun numéro n'est tapé, le fait d'être en Blind ou non définit la position sur scène ou en preset comme la mémoire à détruire.
 </p>
 
-<p class="level2">
-! [DEL] est [SUPR] en clavier français
-</p>
-<!-- EDIT6 SECTION "Destruction de mémoire" [3085-3403] -->
-<h2 class="sectionedit7"><a name="re-enregistrement_de_memoire" id="re-enregistrement_de_memoire">Ré-enregistrement de mémoire</a></h2>
-<!-- EDIT7 SECTION "Ré-enregistrement de mémoire" [3404-3447] -->
-<h3 class="sectionedit8"><a name="re-enregistrement_sur_scene_ou_en_preset" id="re-enregistrement_sur_scene_ou_en_preset">Ré-enregistrement sur scène ou en preset</a></h3>
+</div>
 
-<p class="level3">
+<h2 class="sectionedit7" id="re-enregistrement_de_memoire">Ré-enregistrement de mémoire</h2>
+<div class="level2">
+
+<h3 class="sectionedit8" id="re-enregistrement_sur_scene_ou_en_preset">Ré-enregistrement sur scène ou en preset</h3>
+<div class="level3">
+
+<p>
 Le ré-enregistrement de la mémoire comprend tous les circuits présents sur scène, ou en preset si vous êtes en mode Blind.
 </p>
-<ul class="level3">
-<li class="level1"><div class="li"> Modifier l&#039;état lumineux sur scène ou en preset</div>
+<ul>
+<li class="level1"><div class="li"> Modifier l'état lumineux sur scène ou en preset.</div>
 </li>
 </ul>
-<ul class="level3">
-<li class="level1"><div class="li"> à la souris: </div>
-<ol class="level3">
-<li class="level3"><div class="li"> enclencher le mode STORE ( clicker [STORE] ou taper [F1]</div>
+<ul>
+<li class="level1"><div class="li"> À la souris :
+<ol>
+<li class="level3"><div class="li"> enclencher le mode STORE (cliquer [STORE] ou taper [F1]) ;</div>
 </li>
-<li class="level3"><div class="li"> clicker le numéro de mémoire où enregistrer cet état lumineux</div>
+<li class="level3"><div class="li"> cliquer le numéro de mémoire où enregistrer cet état lumineux.</div>
 </li>
 </ol>
+</div>
 </li>
 </ul>
 
-<p class="level3">
-<div align="center" style="text-align: center"><img src="affect_time_preset.jpeg" class="mediacenter" title="affect_time_preset.jpg" alt="affect_time_preset.jpg" /></div>
+<p>
+<a href="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpeg"><img src="affect_time_preset.jpeg" class="mediacenter" title="Ré-enregistrement en preset" alt="Ré-enregistrement d'une mémoire en preset" /></a>
 </p>
-<ul class="level3">
-<li class="level1"><div class="li"> au clavier : taper [CTRL][F1] pour ré-enregistrer la mémoire sur scène ou en preset ( si vous êtes en mode Blind)</div>
+<ul>
+<li class="level1"><div class="li"> Au clavier : taper [CTRL][F1] pour ré-enregistrer la mémoire sur scène, ou en preset si vous êtes en mode Blind.</div>
 </li>
 </ul>
-<!-- EDIT8 SECTION "Ré-enregistrement sur scène ou en preset" [3448-3997] -->
-<h3 class="sectionedit9"><a name="re-enregistrement_d_une_autre_memoire_que_celle_en_preset_ou_en_scene" id="re-enregistrement_d_une_autre_memoire_que_celle_en_preset_ou_en_scene">Ré-enregistrement d&#039;une  autre mémoire que celle en preset ou en scène</a></h3>
-<ul class="level3">
-<li class="level1"><div class="li"> Taper le numéro de mémoire</div>
+
+</div>
+
+<h3 class="sectionedit9" id="re-enregistrement_d_une_autre_memoire_que_celle_en_preset_ou_en_scene">Ré-enregistrement d'une autre mémoire que celle en preset ou en scène</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> Taper le numéro de mémoire.</div>
+</li>
+<li class="level1"><div class="li"> Taper [SHIFT][F1] pour ré-enregistrer cette mémoire à la volée.</div>
 </li>
 </ul>
-<ul class="level3">
-<li class="level1"><div class="li"> taper [SHIFT][F1] pour ré-enregistrer cette mémoire à la volée.</div>
-</li>
-</ul>
-<!-- EDIT9 SECTION "Ré-enregistrement d'une  autre mémoire que celle en preset ou en scène" [3998-4194] -->
-<h2 class="sectionedit10"><a name="modification_selective_d_une_memoire" id="modification_selective_d_une_memoire">Modification sélective d&#039;une mémoire</a></h2>
+</div>
+</div>
 
-<p class="level2">
-On peut être amené à devoir enregistrer juste l&#039;état d&#039;un ou plusieurs circuits.
+<h2 class="sectionedit10" id="modification_selective_d_une_memoire">Modification sélective d'une mémoire</h2>
+<div class="level2">
+
+<p>
+On peut être amené à devoir enregistrer juste l'état d'un ou plusieurs circuits.
 </p>
 
-<p class="level2">
-Par ex. en cours de spectacle on se rend compte que sur les 3 mémoires suivantes le circuit 65 est trop fort de 20 points.
+<p>
+Par exemple, en cours de spectacle, on se rend compte que sur les 3 mémoires suivantes le circuit 65 est trop fort de 20 points.
 </p>
 
-<p class="level2">
-Plutôt que de naviguer dans les mémoires et les ré-enregistrer par une suite de manipulations, il faut:
+<p>
+Plutôt que de naviguer dans les mémoires et de les ré-enregistrer par une suite de manipulations, il faut :
 </p>
-<ol class="level2">
-<li class="level1"><div class="li"> sélectionner le ou les circuits à l&#039;intensité voulue</div>
+<ol>
+<li class="level1"><div class="li"> Sélectionner le ou les circuits à l'intensité voulue.</div>
 </li>
-<li class="level1"><div class="li"> enclencher le mode [MODIFY] en clickant [MODIFY] ou en tapant [F2]</div>
+<li class="level1"><div class="li"> Enclencher le mode [MODIFY] en cliquant [MODIFY] ou en tapant [F2].</div>
 </li>
-<li class="level1"><div class="li"> clicker la mémoire à modifier</div>
+<li class="level1"><div class="li"> Cliquer la mémoire à modifier.</div>
 </li>
-<li class="level1"><div class="li"> répéter les étapes 1 2 et 3 pour les mémoires suivantes</div>
+<li class="level1"><div class="li"> Répéter les étapes 1, 2 et 3 pour les mémoires suivantes.</div>
 </li>
 </ol>
-<!-- EDIT10 SECTION "Modification sélective d'une mémoire" [4195-4797] -->
-<h2 class="sectionedit11"><a name="enregistrement_d_une_memoire_conjuguant_faders_et_niveaux" id="enregistrement_d_une_memoire_conjuguant_faders_et_niveaux">Enregistrement d&#039;une mémoire conjuguant Faders et niveaux</a></h2>
 
-<p class="level2">
+</div>
+
+<h2 class="sectionedit11" id="enregistrement_d_une_memoire_conjuguant_faders_et_niveaux">Enregistrement d'une mémoire conjuguant Faders et niveaux</h2>
+<div class="level2">
+
+<p>
 Une mémoire peut être enregistrée en prenant en compte la sortie des Faders, et celle du séquentiel.
 </p>
 
-<p class="level2">
-A la souris dans la fenêtre séquenciel:
+<p>
+À la souris, dans la fenêtre séquentiel :
 </p>
-<ol class="level2">
-<li class="level1"><div class="li"> enclencher le mode [REPORT] en clickant [REPORT] ou en tapant [F3]</div>
+<ol>
+<li class="level1"><div class="li"> Enclencher le mode [REPORT] en cliquant [REPORT] ou en tapant [F3].</div>
 </li>
-<li class="level1"><div class="li"> clicker la mémoire à modifier</div>
+<li class="level1"><div class="li"> Cliquer la mémoire à modifier.</div>
 </li>
 </ol>
 
-<p class="level2">
+<p>
 ! Si vous êtes en position Blind, les Faders ne seront pas descendus.
 </p>
 
-<p class="level2">
-En raccourcis clavier ( manipulation que sur scène):
+<p>
+En raccourcis clavier (manipulation possible seulement sur scène) :
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> création de mémoire:</div>
-<ol class="level2">
-<li class="level2"><div class="li"> taper le numéro de mémoire à créer</div>
+<ul>
+<li class="level1"><div class="li"> Création de mémoire :
+<ol>
+<li class="level2"><div class="li"> taper le numéro de mémoire à créer ;</div>
 </li>
-<li class="level2"><div class="li"> presser [SHIFT][F3]</div>
+<li class="level2"><div class="li"> presser [SHIFT][F3] ;</div>
 </li>
-<li class="level2"><div class="li"> confirmer</div>
+<li class="level2"><div class="li"> nommer (facultatif) et confirmer.</div>
 </li>
 </ol>
+</div>
 </li>
 </ul>
-<ul class="level2">
-<li class="level1"><div class="li"> modification de mémoire ( uniquement la mémoire sur scène )</div>
-<ol class="level2">
-<li class="level2"><div class="li"> presser [SHIFT][F3]</div>
+<ul>
+<li class="level1"><div class="li"> Modification de mémoire (uniquement la mémoire sur scène) :
+<ol>
+<li class="level2"><div class="li"> presser [CTRL][F3] ;</div>
 </li>
-<li class="level2"><div class="li"> confirmer</div>
+<li class="level2"><div class="li"> confirmer.</div>
 </li>
 </ol>
+</div>
 </li>
 </ul>
-<!-- EDIT11 SECTION "Enregistrement d'une mémoire conjuguant Faders et niveaux" [4798-5485] -->
-<h2 class="sectionedit12"><a name="copier_rapidement_une_memoire_vers_une_autre" id="copier_rapidement_une_memoire_vers_une_autre">Copier rapidement une mémoire vers une autre</a></h2>
 
-<p class="level2">
-version 0.8.2.2, en utilisant [CTRL][C] et [CTRL][V]
+</div>
+
+<h2 class="sectionedit12" id="copier_rapidement_une_memoire_vers_une_autre">Copier rapidement une mémoire vers une autre</h2>
+<div class="level2">
+
+<p>
+En utilisant [CTRL][C] et [CTRL][V].
 </p>
 
-<p class="level2">
-Sont copiés: les circuits, le descriptif, l&#039;annotation, les temps, le link, le banger enchassé dans la mémoire.
+<p>
+Sont copiés : les circuits, le descriptif, l'annotation, les temps, le link et le banger enchâssé dans la mémoire.
 </p>
 
-<p class="level2">
-Si l&#039;entrée numérique contient des chiffres ( ici 32 ), ceux-ci sont considérés comme une mémoire à appeler, et non plus des circuits à copier:
+<p>
+Si l'entrée numérique contient des chiffres (ici 32), ceux-ci sont considérés comme une mémoire à appeler, et non plus des circuits à copier :
 </p>
 
-<p class="level2">
-<img src="ctrlc_mem.png" class="media" alt="" />
+<p>
+<a href="ctrlc_mem.png" class="media" title="ctrlc_mem.png"><img src="ctrlc_mem.png" class="mediacenter" title="Copie de mémoire" alt="Copie rapide d'une mémoire vers une autre" /></a>
 </p>
-<ol class="level2">
-<li class="level1"><div class="li"> taper numéro de mémoire à copier ( ici 25 )</div>
+<ol>
+<li class="level1"><div class="li"> Taper le numéro de mémoire à copier (ici 25).</div>
 </li>
-<li class="level1"><div class="li"> [CTRL][C] ( noter en retour d&#039;infos que Mem.To Copy affiche la mémoire à copier)</div>
+<li class="level1"><div class="li"> [CTRL][C] (noter, dans le retour d'infos, que « Mem. To Copy » affiche la mémoire à copier).</div>
 </li>
-<li class="level1"><div class="li"> taper numéro de mémoire à créer ou remplacer ( ici 32 )</div>
+<li class="level1"><div class="li"> Taper le numéro de mémoire à créer ou remplacer (ici 32).</div>
 </li>
-<li class="level1"><div class="li"> [CTRL][V]</div>
+<li class="level1"><div class="li"> [CTRL][V].</div>
 </li>
-<li class="level1"><div class="li"> confirmer</div>
+<li class="level1"><div class="li"> Confirmer.</div>
 </li>
 </ol>
-<!-- EDIT12 SECTION "Copier rapidement une mémoire vers une autre" [5486-6123] -->
-<h2 class="sectionedit13"><a name="navigation_rapide_cut" id="navigation_rapide_cut">Navigation rapide, CUT</a></h2>
 
-<p class="level2">
+</div>
+
+<h2 class="sectionedit13" id="navigation_rapide_cut">Navigation rapide, CUT</h2>
+<div class="level2">
+
+<p>
 La navigation rapide permet de se déplacer sans crossfade dans la conduite.
 </p>
 
-<p class="level2">
-On peut donc se déplacer directement sur scène:
+<p>
+On peut donc se déplacer directement sur scène :
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> à la souris, en clickant [Stage -] ou [Stage +]</div>
+<ul>
+<li class="level1"><div class="li"> à la souris, en cliquant [Stage -] ou [Stage +] ;</div>
 </li>
-<li class="level1"><div class="li"> au clavier, en tapant [CTRL][W] ou [CTRL][X]</div>
-</li>
-</ul>
-
-<p class="level2">
-Le séquenciel sera rafraichi.
-</p>
-
-<p class="level2">
-Ou se déplacer dans les mémoires du preset, sans toucher la mémoire sur scène:
-</p>
-<ul class="level2">
-<li class="level1"><div class="li"> à la souris, en clickant [Preset -] ou [Preset +]</div>
-</li>
-<li class="level1"><div class="li"> au clavier, en tapant [SHIFT][W] ou [SHIFT][X]</div>
-</li>
-</ul>
-<!-- EDIT13 SECTION "Navigation rapide, CUT" [6124-6611] -->
-<h2 class="sectionedit14"><a name="gotocharger_une_memoire_appelee_au_clavier" id="gotocharger_une_memoire_appelee_au_clavier">GOTO: Charger une mémoire appelée au clavier</a></h2>
-<!-- EDIT14 SECTION "GOTO: Charger une mémoire appelée au clavier" [6612-6671] -->
-<h4 class="sectionedit15"><a name="charger_a_la_souris" id="charger_a_la_souris">Charger à la souris:</a></h4>
-<ul class="level4">
-<li class="level1"><div class="li"> Taper au clavier le numéro de mémoire et le charger en clickant:</div>
-</li>
-</ul>
-<ul class="level4">
-<li class="level1"><div class="li"> soit dans le numéro de mémoire sur scène</div>
-</li>
-<li class="level1"><div class="li"> soit dans le numéro de mémoire en preset</div>
+<li class="level1"><div class="li"> au clavier, en tapant [CTRL][W] ou [CTRL][X].</div>
 </li>
 </ul>
 
-<p class="level4">
-<img src="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpg" alt="affect_time_preset.jpg" />
+<p>
+Le séquentiel sera rafraîchi.
 </p>
 
-<p class="level4">
-Cette manipulation est possible en cours de crossfade, ou en pause. Le renvoi du Go prendra en compte les temps de cette mémoire. 
+<p>
+Ou se déplacer dans les mémoires du preset, sans toucher la mémoire sur scène :
 </p>
-
-<p class="level4">
-Cette manipulation n&#039;est pas possible sur scène. 
-</p>
-
-<p class="level4">
-L&#039;envoi de la mémoire 0.0 est possible dans la mémoire en preset, absolument pas sur scène.
-</p>
-<!-- EDIT15 SECTION "Charger à la souris:" [6672-7178] -->
-<h4 class="sectionedit16"><a name="charger_via_le_bouton_goto" id="charger_via_le_bouton_goto">Charger via le bouton GOTO:</a></h4>
-
-<p class="level4">
-En utilisant le bouton [GOTO] vous chargez uniquement le numéro de mémoire dans le preset.
-</p>
-
-<p class="level4">
- * Taper au clavier 
- * Clicker le bouton [GOTO] ( ou utilisez le midi)
-</p>
-<!-- EDIT16 SECTION "Charger via le bouton GOTO:" [7179-7381] -->
-<h2 class="sectionedit17"><a name="affectation_de_temps" id="affectation_de_temps">Affectation de temps</a></h2>
-
-<p class="level2">
-L&#039;affectation des temps se fait toujours dans la logique de la mémoire en preset.
-En effet, <strong>la mémoire en preset comprent le temps de sortie de la mémoire sur scène, et son temps d&#039;entrée à elle</strong>.
-Il faut donc penser Preset.
-</p>
-
-<p class="level2">
-Affecter un temps est donc affecter le temps d&#039;entrée de la mémoire que l&#039;on a choisi, et le temps de sortie de la mémoire qui précèdera notre mémoire, quelque qu&#039;elle soit. 
-</p>
-
-<p class="level2">
-L&#039;affectation de temps peut se faire différemment
-</p>
-<ul class="level2">
-<li class="level1"><div class="li"> si on affecte les temps d&#039;une mémoire sur scène ou en preset</div>
+<ul>
+<li class="level1"><div class="li"> à la souris, en cliquant [Preset -] ou [Preset +] ;</div>
 </li>
-<li class="level3"><div class="li"> ou si l&#039;on affecte les autres mémoires affichées</div>
-</li>
-</ul>
-<!-- EDIT17 SECTION "Affectation de temps" [7382-8014] -->
-<h3 class="sectionedit18"><a name="changer_les_temps_d_une_memoire_sur_scene_ou_en_preset" id="changer_les_temps_d_une_memoire_sur_scene_ou_en_preset">Changer les temps d&#039;une mémoire sur scène ou en preset</a></h3>
-
-<p class="level3">
-<img src="temps_sur_x1x2.jpeg" class="media" alt="" />
-</p>
-
-<p class="level3">
-Si l&#039;on désire affecter les temps:
-</p>
-<ul class="level3">
-<li class="level1"><div class="li"> d&#039;un crossfade à venir, on affectera le temps de la mémoire en preset ( en rouge)</div>
-</li>
-<li class="level2"><div class="li"> du dernier crossfade effectué, on affectera le temps de la mémoire sur scène ( en bleu)</div>
+<li class="level1"><div class="li"> au clavier, en tapant [SHIFT][W] ou [SHIFT][X].</div>
 </li>
 </ul>
 
-<p class="level3">
-Cette modification des temps peut se faire de deux manières:
-</p>
-<ul class="level3">
-<li class="level1"><div class="li"> en utilisant <a href="time.html" class="wikilink1" title="Time">la fenêtre Time</a>, et en clickant en mode [AFFECT] le numéro de mémoire en preset ou sur scène à affecter</div>
+</div>
+
+<h2 class="sectionedit14" id="gotocharger_une_memoire_appelee_au_clavier">GOTO : charger une mémoire appelée au clavier</h2>
+<div class="level2">
+
+<h4 class="sectionedit15" id="charger_a_la_souris">Charger à la souris</h4>
+<div class="level4">
+<ul>
+<li class="level1"><div class="li"> Taper au clavier le numéro de mémoire et le charger en cliquant :
+<ul>
+<li class="level1"><div class="li"> soit dans le numéro de mémoire sur scène ;</div>
+</li>
+<li class="level1"><div class="li"> soit dans le numéro de mémoire en preset.</div>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 
-<p class="level3">
-<img src="affect_time_preset.jpeg" class="media" alt="" />
+<p>
+<a href="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpeg"><img src="affect_time_preset.jpeg" class="mediacenter" title="Charger une mémoire" alt="Charger une mémoire en preset à la souris" /></a>
 </p>
-<ul class="level3">
-<li class="level1"><div class="li"> en tapant directement son temps au clavier, comme vu dans les conventions ( 1..23. par ex.), et en clickant le chiffre du temps IN OUT ou Delay IN / Delay Out du preset </div>
+
+<p>
+Cette manipulation est possible en cours de crossfade, ou en pause. Le renvoi du Go prendra en compte les temps de cette mémoire.
+</p>
+
+<p>
+Cette manipulation n'est pas possible sur scène.
+</p>
+
+<p>
+L'envoi de la mémoire 0.0 est possible dans la mémoire en preset, mais absolument pas sur scène.
+</p>
+
+</div>
+
+<h4 class="sectionedit16" id="charger_via_le_bouton_goto">Charger via le bouton GOTO</h4>
+<div class="level4">
+
+<p>
+En utilisant le bouton [GOTO], vous chargez uniquement le numéro de mémoire dans le preset.
+</p>
+<ul>
+<li class="level1"><div class="li"> Taper au clavier.</div>
+</li>
+<li class="level1"><div class="li"> Cliquer le bouton [GOTO] (ou utiliser le midi).</div>
 </li>
 </ul>
 
-<p class="level3">
-<img src="affcet_time_ch_preset.jpeg" class="media" alt="" />
-</p>
-<!-- EDIT18 SECTION "Changer les temps d'une mémoire sur scène ou en preset" [8015-8773] -->
-<h3 class="sectionedit19"><a name="changer_les_temps_d_une_memoire_autre" id="changer_les_temps_d_une_memoire_autre">Changer les temps d&#039;une mémoire autre</a></h3>
+</div>
+</div>
 
-<p class="level3">
-… apparaissant dans le séquentiel:
+<h2 class="sectionedit17" id="affectation_de_temps">Affectation de temps</h2>
+<div class="level2">
+
+<p>
+L'affectation des temps se fait toujours dans la logique de la mémoire en preset. En effet, <strong>la mémoire en preset comprend le temps de sortie de la mémoire sur scène, et son propre temps d'entrée</strong>. Il faut donc penser Preset.
 </p>
-<ul class="level3">
-<li class="level1"><div class="li"> en utilisant <a href="time.html" class="wikilink1" title="Time">la fenêtre Time</a>, et en clickant en mode [AFFECT] le numéro de mémoire à affecter</div>
+
+<p>
+Affecter un temps, c'est donc affecter le temps d'entrée de la mémoire que l'on a choisie, et le temps de sortie de la mémoire qui précèdera notre mémoire, quelle qu'elle soit.
+</p>
+
+<p>
+L'affectation de temps peut se faire différemment :
+</p>
+<ul>
+<li class="level1"><div class="li"> si on affecte les temps d'une mémoire sur scène ou en preset ;</div>
+</li>
+<li class="level1"><div class="li"> ou si l'on affecte les autres mémoires affichées.</div>
 </li>
 </ul>
 
-<p class="level3">
-<img src="affect_time_autres.jpeg" class="media" alt="" />
-</p>
-<!-- EDIT19 SECTION "Changer les temps d'une mémoire autre" [8774-9006] -->
-<h2 class="sectionedit20"><a name="donner_un_descriptif_a_une_memoire" id="donner_un_descriptif_a_une_memoire">Donner un descriptif à une mémoire</a></h2>
+<h3 class="sectionedit18" id="changer_les_temps_d_une_memoire_sur_scene_ou_en_preset">Changer les temps d'une mémoire sur scène ou en preset</h3>
+<div class="level3">
 
-<p class="level2">
-Appeler le mode <a href="name.html" class="wikilink1" title="Name">Name</a>, tapez votre descriptif et clickez la description de la mémoire à affecter.
-Vous avez deux lignes où taper votre descriptif.
+<p>
+<a href="temps_sur_x1x2.jpeg" class="media" title="temps_sur_x1x2.jpeg"><img src="temps_sur_x1x2.jpeg" class="mediacenter" title="Temps sur X1/X2" alt="Affichage des temps sur les masters X1/X2" /></a>
 </p>
 
-<p class="level2">
-<img src="descr_mems.jpeg" class="media" title="descr_mems.jpg" alt="descr_mems.jpg" />
+<p>
+Si l'on désire affecter les temps :
 </p>
-<!-- EDIT20 SECTION "Donner un descriptif à une mémoire" [9007-9235] -->
-<h1 class="sectionedit21"><a name="crossfade_manuel" id="crossfade_manuel">Crossfade manuel</a></h1>
-
-<p class="level1">
-Il y a deux types de transferts en manuel:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> le transfert à la souris</div>
+<ul>
+<li class="level1"><div class="li"> d'un crossfade à venir, on affectera le temps de la mémoire en preset (en rouge) ;</div>
 </li>
-<li class="level2"><div class="li"> le transfert en midi</div>
-</li>
-</ul>
-<!-- EDIT21 SECTION "Crossfade manuel" [9236-9369] -->
-<h3 class="sectionedit22"><a name="crossfade_manuel_a_la_souris" id="crossfade_manuel_a_la_souris">Crossfade manuel à la souris</a></h3>
-
-<p class="level3">
-Lorsque l&#039;icône de chainage est enclenché, monter le master du preset descendra le master de ce qui est sur scène.
-Et vice versa, de manière complètement linéaîre.
-</p>
-
-<p class="level3">
-<img src="cross_souris.jpeg" class="media" alt="" />
-</p>
-
-<p class="level3">
-Cependant, nombre d&#039;entre nous utilisons sur un jeu manuel la technique de l&#039;anticipé:
-le master en preset monte, et une fois que les lumières qu&#039;il contient sur scène sont ammorcées, on commence à descendre le master de scène.
-Un seul contrôle à la souris rend impossible cette anticipation…
-</p>
-
-<p class="level3">
-Pour ce, il faut fixer <strong>le ratio</strong>.
-Ce ratio ( ici valeur 1.47), permet de descendre le master de scène uniquement une fois le ratio atteint en preset ( chiffres rouges à droite du master du preset).
-La descente du master de scène se fait alors proportionnellement au ratio et à la montée du master de preset.
-</p>
-
-<p class="level3">
-<img src="ratio.jpeg" class="media" alt="" />
-</p>
-
-<p class="level3">
-! Ce ratio n&#039;est absolument pas pris en compte dans un crossfade en midi ou lancé par un go.
-</p>
-<!-- EDIT22 SECTION "Crossfade manuel à la souris" [9370-10339] -->
-<h3 class="sectionedit23"><a name="crossfade_manuel_en_midi" id="crossfade_manuel_en_midi">Crossfade manuel en midi</a></h3>
-
-<p class="level3">
-Voir <a href="configuration_affectation_midi.html" class="wikilink1" title="Configuration Affectation Midi">Configuration Midi et Affectations Midi</a>.
-</p>
-<ul class="level3">
-<li class="level1"><div class="li"> master sur scène et en preset: depuis la page Faders de la configuration Midi.</div>
-</li>
-</ul>
-<pre class="code">  Ils sont pilotés par un signal Control Change. </pre>
-
-<p class="level3">
-! Une fois paramétré l&#039;asservissement midi des faders, penser à bien remonter à la fin d&#039;un crossfade vos potentiomètres Scène/Preset en position haute 
-</p>
-
-<p class="level3">
-La pastille enclenchée permet d&#039;envoyer le signal midi de ces potentiomètres vers l&#039;extérieur.
-</p>
-<!-- EDIT23 SECTION "Crossfade manuel en midi" [10340-10853] -->
-<h1 class="sectionedit24"><a name="crossfade_au_go" id="crossfade_au_go">Crossfade au GO</a></h1>
-
-<p class="level1">
-<img src="go.jpeg" class="media" alt="" />
-</p>
-
-<p class="level1">
-Le crossfade au Go prend en compte les temps enregistrés dans le preset, fonction de l&#039;accéléromètre.
-</p>
-
-<p class="level1">
-Les temps affichés en preset sont ceux modifiés par l&#039;accéléromètre.
-</p>
-
-<p class="level1">
-<strong>Si un temps de delay en In ou en OUT  n&#039;est pas passé lors du transfert, la barre du Master concerné clignote en rouge.
-</strong>
-</p>
-
-<p class="level1">
-<strong>Pour lancer le GO</strong>, un crossfade sur la base de temps enregistrée:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> à la souris: clicker la flèche centrale du GO.</div>
-</li>
-<li class="level1"><div class="li"> au clavier: taper la touche [SPACE]</div>
+<li class="level1"><div class="li"> du dernier crossfade effectué, on affectera le temps de la mémoire sur scène (en bleu).</div>
 </li>
 </ul>
 
-<p class="level1">
-<strong>Pour pauser</strong> le crossfade en cours, re-clicker le GO ou retaper [SPACE].
+<p>
+Cette modification des temps peut se faire de deux manières :
 </p>
-
-<p class="level1">
-<strong>Pour faire un GO BACK</strong>, un retour en arrière:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> à la souris: clicker la flèchevers la gauche du GO BACK.</div>
-</li>
-<li class="level1"><div class="li"> au clavier: taper [CTRL][SPACE]</div>
+<ul>
+<li class="level1"><div class="li"> en utilisant <a href="time.html" class="wikilink1" title="time">la fenêtre Time</a>, et en cliquant en mode [AFFECT] le numéro de mémoire en preset ou sur scène à affecter :</div>
 </li>
 </ul>
 
-<p class="level1">
-<strong>Pour faire un DOUBLE GO</strong> ( sauter le crossfade actuel et lancer celui d&#039;après):
+<p>
+<a href="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpeg"><img src="affect_time_preset.jpeg" class="mediacenter" title="Affecter un temps en preset" alt="Affecter un temps via la fenêtre Time" /></a>
 </p>
-<ul class="level1">
-<li class="level1"><div class="li"> à la souris: clicker la double flèche vers la droite du DOUBLE.</div>
-</li>
-<li class="level1"><div class="li"> au clavier: taper [SHIFT][SPACE]</div>
-</li>
-</ul>
-<!-- EDIT24 SECTION "Crossfade au GO" [10854-11802] -->
-<h4 class="sectionedit25"><a name="go_midi_forcemode" id="go_midi_forcemode">Go Midi ForceMode</a></h4>
-
-<p class="level4">
-Le Force Mode n&#039;intervient qu&#039;en midi ( pour pilotage par des applications comme Live par ex).
-Il faut aller dans le MENU CFG &gt; GENERAL pour l&#039;enclencher.
-</p>
-
-<p class="level4">
-Enclenche/désenclenche le ForceMode du pilotage midi du Go. Si ce mode est ON, et que le crossfade est en cours, presser la touche du GO en midi ne provoquera pas de pause, mais un JUMP. Valable uniquement pour le midi, pas pour le clavier, ni pour l&#039;arduino.
-</p>
-
-<p class="level4">
-Quand le ForceMode est /On le Go est entouré en vert.
-</p>
-<!-- EDIT25 SECTION "Go Midi ForceMode" [11803-12304] -->
-<h1 class="sectionedit26"><a name="exclusion_de_memoires_du_sequenciel" id="exclusion_de_memoires_du_sequenciel">Exclusion de mémoires du séquenciel</a></h1>
-
-<p class="level1">
-Si en répétition vous avez besoin de sortir du défilement du séquenciel des mémoires <strong>sans les détruire</strong>, il faut les exclure:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> clicker en face de la mémoire la première bande.</div>
-</li>
-<li class="level1"><div class="li"> une mémoire exclue du séquenciel voit la case clignoter en jaune</div>
+<ul>
+<li class="level1"><div class="li"> en tapant directement son temps au clavier, comme vu dans les conventions (1..23. par ex.), et en cliquant le chiffre du temps IN, OUT, Delay IN ou Delay Out du preset :</div>
 </li>
 </ul>
 
-<p class="level1">
-<img src="seq_exclusion.jpeg" class="media" title="seq_exclusion.jpg" alt="seq_exclusion.jpg" />
+<p>
+<a href="affcet_time_ch_preset.jpeg" class="media" title="affcet_time_ch_preset.jpeg"><img src="affcet_time_ch_preset.jpeg" class="mediacenter" title="Affecter un temps au clavier" alt="Affecter un temps en tapant au clavier" /></a>
 </p>
 
-<p class="level1">
-Pour réintégrer la mémoire, reclicker la case.
-</p>
-<!-- EDIT26 SECTION "Exclusion de mémoires du séquenciel" [12305-12695] -->
-<h1 class="sectionedit27"><a name="links_de_memoires" id="links_de_memoires">Links de mémoires</a></h1>
+</div>
 
-<p class="level1">
-En activant la pastille [Link] par un click, on permet lors d&#039;un crossfade au GO l&#039;enchainement direct vers le prochain crossfade.
+<h3 class="sectionedit19" id="changer_les_temps_d_une_memoire_autre">Changer les temps d'une autre mémoire</h3>
+<div class="level3">
+
+<p>
+… apparaissant dans le séquentiel :
+</p>
+<ul>
+<li class="level1"><div class="li"> en utilisant <a href="time.html" class="wikilink1" title="time">la fenêtre Time</a>, et en cliquant en mode [AFFECT] le numéro de mémoire à affecter.</div>
+</li>
+</ul>
+
+<p>
+<a href="affect_time_autres.jpeg" class="media" title="affect_time_autres.jpeg"><img src="affect_time_autres.jpeg" class="mediacenter" title="Affecter le temps d'une autre mémoire" alt="Affecter le temps d'une autre mémoire affichée" /></a>
 </p>
 
-<p class="level1">
+</div>
+</div>
+
+<h2 class="sectionedit20" id="donner_un_descriptif_a_une_memoire">Donner un descriptif à une mémoire</h2>
+<div class="level2">
+
+<p>
+Depuis la version 0.9.1, on peut donner un nom ou un descriptif au moment de la création de la mémoire (voir plus haut « Création de mémoire »).
+</p>
+
+<p>
+Sinon, vous disposez de 2 modes pour nommer ou modifier le descriptif d'une mémoire :
+</p>
+<ul>
+<li class="level1"><div class="li"> Le mode classique : appeler le mode <a href="name.html" class="wikilink1" title="name">Name</a>, taper le descriptif et cliquer sur la première ou la deuxième ligne de la description de la mémoire à affecter.</div>
+</li>
+</ul>
+
+<p>
+<a href="descr_mems.jpeg" class="media" title="descr_mems.jpeg"><img src="descr_mems.jpeg" class="mediacenter" title="Descriptif de mémoire (mode Name)" alt="Donner un descriptif via le mode Name" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> Depuis la version 0.9.1, on peut double-cliquer sur la première ou la deuxième ligne et écrire / modifier directement le texte. Terminer en pressant la touche [Enter].</div>
+</li>
+</ul>
+
+<p>
+<a href="saisie_directe.png" class="media" title="saisie_directe.png"><img src="saisie_directe.png" class="mediacenter" title="Saisie directe du descriptif" alt="Saisie directe du descriptif par double-clic" /></a>
+</p>
+
+</div>
+</div>
+
+<h1 class="sectionedit21" id="crossfade_manuel">Crossfade manuel</h1>
+<div class="level1">
+
+<p>
+Il y a deux types de transferts en manuel :
+</p>
+<ul>
+<li class="level1"><div class="li"> le transfert à la souris ;</div>
+</li>
+<li class="level1"><div class="li"> le transfert en midi.</div>
+</li>
+</ul>
+
+<h3 class="sectionedit22" id="crossfade_manuel_a_la_souris">Crossfade manuel à la souris</h3>
+<div class="level3">
+
+<p>
+Lorsque l'icône de chaînage est enclenchée, monter le master du preset descendra le master de ce qui est sur scène. Et vice versa, de manière complètement linéaire.
+</p>
+
+<p>
+<a href="cross_souris.jpeg" class="media" title="cross_souris.jpeg"><img src="cross_souris.jpeg" class="mediacenter" title="Crossfade à la souris" alt="Crossfade manuel à la souris" /></a>
+</p>
+
+<p>
+Cependant, nombre d'entre nous utilisons, sur un jeu manuel, la technique de l'anticipé : le master en preset monte, et une fois que les lumières qu'il contient sont amorcées sur scène, on commence à descendre le master de scène. Un seul contrôle à la souris rend impossible cette anticipation…
+</p>
+
+<p>
+Pour cela, il faut fixer <strong>le ratio</strong>. Ce ratio (ici valeur 1.47) permet de ne descendre le master de scène qu'une fois le ratio atteint en preset (chiffres rouges à droite du master du preset). La descente du master de scène se fait alors proportionnellement au ratio et à la montée du master de preset.
+</p>
+
+<p>
+<a href="ratio.jpeg" class="media" title="ratio.jpeg"><img src="ratio.jpeg" class="mediacenter" title="Ratio de crossfade" alt="Bouton de ratio du crossfade manuel" /></a>
+</p>
+
+<p>
+! Ce ratio n'est absolument pas pris en compte dans un crossfade en midi ou lancé par un Go.
+</p>
+
+</div>
+
+<h3 class="sectionedit23" id="crossfade_manuel_en_midi">Crossfade manuel en midi</h3>
+<div class="level3">
+
+<p>
+Voir <a href="configuration_affectation_midi.html" class="wikilink1" title="configuration_affectation_midi">Configuration Midi et Affectations Midi</a>.
+</p>
+<ul>
+<li class="level1"><div class="li"> Master sur scène et en preset : depuis la page Faders de la configuration Midi.</div>
+</li>
+</ul>
+
+<p>
+Ils sont pilotés par un signal Control Change.
+</p>
+
+<p>
+! Une fois paramétré l'asservissement midi des faders, penser à bien remonter, à la fin d'un crossfade, vos potentiomètres Scène / Preset en position haute.
+</p>
+
+<p>
+La pastille enclenchée permet d'envoyer le signal midi de ces potentiomètres vers l'extérieur.
+</p>
+
+</div>
+</div>
+
+<h1 class="sectionedit24" id="crossfade_au_go">Crossfade au GO</h1>
+<div class="level1">
+
+<p>
+<a href="go.jpeg" class="media" title="go.jpeg"><img src="go.jpeg" class="mediacenter" title="Boutons de Go" alt="Boutons Go Back, Go et Double Go" /></a>
+</p>
+
+<p>
+Le crossfade au Go prend en compte les temps enregistrés dans le preset, en fonction de l'accéléromètre.
+</p>
+
+<p>
+Les temps affichés en preset sont ceux modifiés par l'accéléromètre.
+</p>
+
+<p>
+<strong>Si un temps de delay en In ou en Out n'est pas passé lors du transfert, la barre du Master concerné clignote en rouge.</strong>
+</p>
+
+<p>
+<strong>Pour lancer le GO</strong>, un crossfade sur la base de temps enregistrée :
+</p>
+<ul>
+<li class="level1"><div class="li"> à la souris : cliquer la flèche centrale du GO ;</div>
+</li>
+<li class="level1"><div class="li"> au clavier : taper la touche [SPACE].</div>
+</li>
+</ul>
+
+<p>
+<strong>Pour mettre en pause</strong> le crossfade en cours, re-cliquer le GO ou retaper [SPACE].
+</p>
+
+<p>
+<strong>Pour faire un GO BACK</strong>, un retour en arrière :
+</p>
+<ul>
+<li class="level1"><div class="li"> à la souris : cliquer la flèche vers la gauche du GO BACK ;</div>
+</li>
+<li class="level1"><div class="li"> au clavier : taper [CTRL][SPACE].</div>
+</li>
+</ul>
+
+<p>
+<strong>Pour faire un DOUBLE GO</strong> (sauter le crossfade actuel et lancer celui d'après) :
+</p>
+<ul>
+<li class="level1"><div class="li"> à la souris : cliquer la double flèche vers la droite du DOUBLE ;</div>
+</li>
+<li class="level1"><div class="li"> au clavier : taper [SHIFT][SPACE].</div>
+</li>
+</ul>
+
+<h4 class="sectionedit25" id="go_midi_forcemode">Go Midi ForceMode</h4>
+<div class="level4">
+
+<p>
+Le Force Mode n'intervient qu'en midi (pour un pilotage par des applications comme Live, par ex.). Il faut aller dans le MENU CFG &gt; GENERAL pour l'enclencher.
+</p>
+
+<p>
+Il enclenche / désenclenche le ForceMode du pilotage midi du Go. Si ce mode est ON et que le crossfade est en cours, presser la touche du GO en midi ne provoquera pas de pause, mais un JUMP. Valable uniquement pour le midi, pas pour le clavier ni pour l'arduino.
+</p>
+
+<p>
+Quand le ForceMode est /On, le Go est entouré en vert.
+</p>
+
+</div>
+</div>
+
+<h1 class="sectionedit26" id="exclusion_de_memoires_du_sequenciel">Exclusion de mémoires du séquentiel</h1>
+<div class="level1">
+
+<p>
+Si, en répétition, vous avez besoin de sortir des mémoires du défilement du séquentiel <strong>sans les détruire</strong>, il faut les exclure :
+</p>
+<ul>
+<li class="level1"><div class="li"> cliquer, en face de la mémoire, la première bande ;</div>
+</li>
+<li class="level1"><div class="li"> une mémoire exclue du séquentiel voit sa case clignoter en jaune.</div>
+</li>
+</ul>
+
+<p>
+<a href="seq_exclusion.jpeg" class="media" title="seq_exclusion.jpeg"><img src="seq_exclusion.jpeg" class="mediacenter" title="Exclusion de mémoire" alt="Mémoire exclue du séquentiel, case jaune clignotante" /></a>
+</p>
+
+<p>
+Pour réintégrer la mémoire, re-cliquer la case.
+</p>
+
+</div>
+
+<h1 class="sectionedit27" id="links_de_memoires">Links de mémoires</h1>
+<div class="level1">
+
+<p>
+En activant la pastille [Link] par un clic, on permet, lors d'un crossfade au GO, l'enchaînement direct vers le prochain crossfade.
+</p>
+
+<p>
 Lorsque [Link] est activé, si la mémoire qui arrive sur scène comprend un link, le prochain crossfade est déclenché automatiquement.
 </p>
 
-<p class="level1">
-<img src="link.jpeg" class="media" alt="" />
-</p>
-<!-- EDIT27 SECTION "Links de mémoires" [12696-13015] -->
-<h2 class="sectionedit28"><a name="affecter_deaffecter_un_link_a_une_memoire" id="affecter_deaffecter_un_link_a_une_memoire">Affecter/déaffecter un Link à une mémoire</a></h2>
-
-<p class="level2">
-Clicker en face de la mémoire, sous la colonne de Link. 
-</p>
-<!-- EDIT28 SECTION "Affecter/déaffecter un Link à une mémoire" [13016-13131] -->
-<h2 class="sectionedit29"><a name="activer_le_mode_link" id="activer_le_mode_link">Activer le mode Link</a></h2>
-
-<p class="level2">
-Clicker la pastille [Link] en haut de la fenêtre Séquentiel. 
-</p>
-<!-- EDIT29 SECTION "Activer le mode Link" [13132-13232] -->
-<h1 class="sectionedit30"><a name="bangerautomations_et_conduite_elaboree" id="bangerautomations_et_conduite_elaboree">Banger: Automations et conduite élaborée</a></h1>
-
-<p class="level1">
-Lors du Go, le banger sélectionné sera déclenché tel qu&#039;encodé dans  <a href="banger.html" class="wikilink1" title="Banger">Banger, le gestionnaire d&#039;évènements</a>, avec un delay choisi de déclenchement, et les effets enregistrés.
+<p>
+<a href="link.jpeg" class="media" title="link.jpeg"><img src="link.jpeg" class="mediacenter" title="Link de mémoire" alt="Pastille Link et flèche d'enchaînement" /></a>
 </p>
 
-<p class="level1">
-Banger permet de créer des effets de channel time via le contrôle des Faders. Celà permet de créer un crossfade à plusieurs vitesses, en utilisant la capacité des LFOs de monter ou descendre un Fader sur une base temps.
-Banger permet aussi de piloter des logiciels externes via l&#039;envoi de Midi Out.
-Il permet aussi d&#039;allumer certaines fenêtres dynamique et de préparer des presets ( Trichro et Tracking).
-</p>
-<!-- EDIT30 SECTION "Banger: Automations et conduite élaborée" [13233-13897] -->
-<h2 class="sectionedit31"><a name="affecter_deaffecter_un_bang_a_une_memoire" id="affecter_deaffecter_un_bang_a_une_memoire">Affecter/déaffecter un Bang à une mémoire</a></h2>
+<h2 class="sectionedit28" id="affecter_desaffecter_un_link_a_une_memoire">Affecter/désaffecter un Link à une mémoire</h2>
+<div class="level2">
 
-<p class="level2">
-Taper le numéro de Banger à choisir, et clicker en face de la mémoire, sous la colonne de Bang. 
-Pour vider le bang d&#039;une mémoire, choisir 0 comme numéro de bang. 
-</p>
-<!-- EDIT31 SECTION "Affecter/déaffecter un Bang à une mémoire" [13898-14124] -->
-<h2 class="sectionedit32"><a name="activer_le_mode_bang" id="activer_le_mode_bang">Activer le mode Bang</a></h2>
-
-<p class="level2">
-Clicker la pastille [Bang] en haut de la fenêtre Séquentiel. 
-</p>
-<!-- EDIT32 SECTION "Activer le mode Bang" [14125-14222] -->
-<h1 class="sectionedit33"><a name="double_sequenciel" id="double_sequenciel">Double séquenciel</a></h1>
-
-<p class="level1">
-Les 4 GridPlayers peuvent être utilisés via Banger dans la CueList, permettant la construction d&#039;effets déclenchables au GO. 
+<p>
+Cliquer en face de la mémoire, sous la colonne Link.
 </p>
 
-<p class="level1">
-La structure des GridPlayers équivaut à des séquenciels parallèles. De façon à rendre aisée la manipulation d&#039;un GridPlayer en conduite, <strong>on peut enchasser le GridPlayer 1</strong> dans la CueList. Vous bénéficierez des fonctions de Go Back, de Jump, de navigation rapide ( W/X), ainsi que de l&#039;asservissement de l&#039;accéléromètre.
+</div>
+
+<h2 class="sectionedit29" id="activer_le_mode_link">Activer le mode Link</h2>
+<div class="level2">
+
+<p>
+Cliquer la pastille [Link] en haut de la fenêtre Séquentiel.
 </p>
 
-<p class="level1">
-Même s&#039;il est enchassé dans le séquenciel, le GridPlayer1 continue d&#039;être affecté à un Fader. La sortie du GridPlayer1 se fait donc dans le buffer des faders ( circuits en orange). 
+</div>
+</div>
+
+<h1 class="sectionedit30" id="bangerautomations_et_conduite_elaboree">Banger : automations et conduite élaborée</h1>
+<div class="level1">
+
+<p>
+Lors du Go, le banger sélectionné sera déclenché tel qu'encodé dans <a href="banger.html" class="wikilink1" title="banger">Banger, le gestionnaire d'évènements</a>, avec un delay de déclenchement choisi et les effets enregistrés.
 </p>
 
-<p class="level1">
-<strong>Pour activer le GridPlayer1 dans la CueList clicker la case [GPL1] dans le séquenciel.</strong>
+<p>
+Banger permet de créer des effets de channel time via le contrôle des Faders. Cela permet de créer un crossfade à plusieurs vitesses, en utilisant la capacité des LFO à monter ou descendre un Fader sur une base de temps. Banger permet aussi de piloter des logiciels externes via l'envoi de Midi Out. Il permet enfin d'allumer certaines fenêtres dynamiques et de préparer des presets (Trichro et Tracking).
 </p>
 
-<p class="level1">
-La fenêtre de ce dernier s&#039;étend permettant d&#039;accéder aux fonctions de manipulation générale d&#039;un GridPlayer, hors matrice.
+<h2 class="sectionedit31" id="affecter_desaffecter_un_bang_a_une_memoire">Affecter/désaffecter un Bang à une mémoire</h2>
+<div class="level2">
+
+<p>
+Taper le numéro de Banger à choisir, et cliquer en face de la mémoire, sous la colonne Bang. Pour vider le bang d'une mémoire, choisir 0 comme numéro de bang.
 </p>
 
-<p class="level1">
-Voir <a href="grid.html" class="wikilink1" title="Grid">la documentation des GridPlayers</a> et la section double séquenciel.
+</div>
+
+<h2 class="sectionedit32" id="activer_le_mode_bang">Activer le mode Bang</h2>
+<div class="level2">
+
+<p>
+Cliquer la pastille [Bang] en haut de la fenêtre Séquentiel.
 </p>
 
-<p class="level1">
-<img src="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpg" alt="cuelist_extended.jpg" />
+</div>
+</div>
+
+<h1 class="sectionedit33" id="double_sequenciel">Double séquentiel</h1>
+<div class="level1">
+
+<p>
+Les 4 GridPlayers peuvent être utilisés via Banger dans la CueList, permettant la construction d'effets déclenchables au GO.
 </p>
-<!-- EDIT33 SECTION "Double séquenciel" [14223-] --></div>
+
+<p>
+La structure des GridPlayers équivaut à des séquentiels parallèles. De façon à rendre aisée la manipulation d'un GridPlayer en conduite, <strong>on peut enchâsser le GridPlayer 1</strong> dans la CueList. Vous bénéficierez des fonctions de Go Back, de Jump, de navigation rapide (W/X), ainsi que de l'asservissement de l'accéléromètre.
+</p>
+
+<p>
+Même s'il est enchâssé dans le séquentiel, le GridPlayer 1 continue d'être affecté à un Fader. La sortie du GridPlayer 1 se fait donc dans le buffer des faders (circuits en orange).
+</p>
+
+<p>
+<strong>Pour activer le GridPlayer 1 dans la CueList, cliquer la case [GPL1] dans le séquentiel.</strong>
+</p>
+
+<p>
+La fenêtre de ce dernier s'étend, permettant d'accéder aux fonctions de manipulation générale d'un GridPlayer, hors matrice.
+</p>
+
+<p>
+Voir <a href="grid.html" class="wikilink1" title="grid">la documentation des GridPlayers</a> et la section double séquentiel.
+</p>
+
+<p>
+<a href="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpeg"><img src="cuelist_extended.jpeg" class="mediacenter" title="CueList étendue (GridPlayer 1)" alt="CueList étendue avec le GridPlayer 1 enchâssé" /></a>
+</p>
+
+</div>
+
 </body>
 </html>

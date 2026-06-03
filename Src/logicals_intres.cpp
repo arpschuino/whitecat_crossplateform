@@ -1605,7 +1605,7 @@ int fenetre_confirm()
    seq_edit_cursor = confirm_name_len;
    SDL_StartTextInput();
   }
-  petitchiffre.Print("Nom :", XConfirm+10, YConfirm+57);
+  petitchiffre.Print("Name :", XConfirm+10, YConfirm+57);
   Rect NameField(Vec2D(XConfirm+60, YConfirm+47), Vec2D(300, 26));
   NameField.SetRoundness(6);
   NameField.Draw(CouleurFond);

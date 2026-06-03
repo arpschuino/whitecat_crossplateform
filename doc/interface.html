@@ -2,308 +2,303 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>interface</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2014-05-01T14:17:54+0200"/>
-<meta name="keywords" content="interface"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="interface.html"/>
-<link rel="contents" href="interface.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="interface.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="interface.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=interface"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"interface","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Présentation générale de l'interface — WhiteCat</title>
+  <meta name="date" content="2026-06-02"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="interface_eng.html">🇬🇧 English</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
 <h3 class="toggle">Table des matières</h3>
 <div>
 
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#interface_generale_de_white_cat">Interface générale de White Cat:</a></div></li>
-<li class="level2"><div class="li"><a href="#systeme_des_fenetres">Système des fenêtres</a></div>
+<li class="level1"><div class="li"><a href="#interface_generale">Interface générale de White Cat</a></div></li>
+<li class="level1"><div class="li"><a href="#systeme_des_fenetres">Système des fenêtres</a></div>
 <ul class="toc">
-<li class="clear">
-<ul class="toc">
-<li class="level4"><div class="li"><a href="#la_fenetre_menus">La fenêtre [Menus]</a></div></li>
-<li class="level4"><div class="li"><a href="#les_differentes_fenetres_de_whitecat">Les différentes fenêtres de WhiteCat</a></div></li>
-<li class="level4"><div class="li"><a href="#les_differentes_fenetres_dans_whitecat">Les différentes fenêtres dans WhiteCat</a></div></li>
-<li class="level4"><div class="li"><a href="#navigation_dans_les_fenetres">Navigation dans les fenêtres</a></div></li>
-<li class="level4"><div class="li"><a href="#snapshot_des_fenetres">Snapshot des fenêtres</a></div></li>
-<li class="level4"><div class="li"><a href="#remettre_par_defaut_la_position_des_fenetres">Remettre par défaut la position des fenêtres</a></div></li>
+<li class="level3"><div class="li"><a href="#la_fenetre_menus">La fenêtre [Menus]</a></div></li>
+<li class="level3"><div class="li"><a href="#appeler_fermer_fenetres">Appeler et refermer les fenêtres</a></div></li>
+<li class="level3"><div class="li"><a href="#classement_des_fenetres">Classement des fenêtres</a></div></li>
+<li class="level3"><div class="li"><a href="#navigation_dans_les_fenetres">Navigation dans les fenêtres</a></div></li>
+<li class="level3"><div class="li"><a href="#snapshot_des_fenetres">Snapshot des fenêtres</a></div></li>
+<li class="level3"><div class="li"><a href="#remettre_par_defaut_la_position_des_fenetres">Remettre par défaut la position des fenêtres</a></div></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="level2"><div class="li"><a href="#interactions_utilisateurs">Interactions utilisateurs:</a></div>
+<li class="level1"><div class="li"><a href="#interactions_utilisateurs">Interactions utilisateurs</a></div>
 <ul class="toc">
-<li class="level3"><div class="li"><a href="#la_souris_ou_l_ecran_tactile">La souris ou l&#039;écran tactile</a></div></li>
+<li class="level3"><div class="li"><a href="#la_souris_ou_l_ecran_tactile">La souris ou l'écran tactile</a></div></li>
 <li class="level3"><div class="li"><a href="#le_clavier_ordinateur">Le clavier ordinateur</a></div></li>
 <li class="level3"><div class="li"><a href="#le_midi">Le Midi</a></div></li>
-<li class="level3"><div class="li"><a href="#l_arduino">L&#039;arduino</a></div></li>
-<li class="level3"><div class="li"><a href="#telecommandes_type_telephones_ou_tablettes">Télécommandes type téléphones ou tablettes</a></div>
-<ul class="toc">
-<li class="level4"><div class="li"><a href="#l_ipod_phone_et_l_ipad">L&#039;iPod/Phone et l&#039;iPad</a></div></li>
-<li class="level4"><div class="li"><a href="#android">Android</a></div></li>
+<li class="level3"><div class="li"><a href="#l_arduino">L'arduino</a></div></li>
+<li class="level3"><div class="li"><a href="#telecommandes_type_telephones_ou_tablettes">Télécommandes type téléphones ou tablettes</a></div></li>
+<li class="level3"><div class="li"><a href="#l_art-net_et_banger">L'art-net et Banger</a></div></li>
 </ul>
 </li>
-<li class="level3"><div class="li"><a href="#l_art-net_et_banger">L&#039;art-net et Banger</a></div></li>
-</ul></li>
 </ul>
 </div>
 </div>
 <!-- TOC END -->
 
-<h2 class="sectionedit1"><a name="interface_generale_de_white_cat" id="interface_generale_de_white_cat">Interface générale de White Cat:</a></h2>
+<h1 class="sectionedit1" id="interface_generale">Interface générale de White Cat</h1>
+<div class="level1">
 
-<p class="level2">
-White Cat comprend un tableau de bord qui peut s&#039;étendre sur plusieurs écrans.
+<p>
+White Cat comprend un tableau de bord qui peut s'étendre sur plusieurs écrans. Un soin particulier est apporté à la simplicité de l'espace de travail et à l'ergonomie.
 </p>
 
-<p class="level2">
-En version 0.8.3, un effort a été fait pour simplifier l&#039;espace de travail et l&#039;ergonomie.
+<p>
+Au démarrage, votre tableau de bord se présente ainsi :
 </p>
 
-<p class="level2">
-Au démarrage, votre tableau de bord se présente ainsi:
+<p>
+<a href="ecran_general_faders_down_2.png" class="media" title="ecran_general_faders_down_2.png"><img src="ecran_general_faders_down_2.png" class="mediacenter" title="Tableau de bord au démarrage" alt="Tableau de bord de White Cat au démarrage" /></a>
 </p>
 
-<p class="level2">
-<div align="center" style="text-align: center"><img src="ecran_general_faders_down_2.jpeg" class="mediacenter" title="ecran_general_faders_down_2.jpg" alt="ecran_general_faders_down_2.jpg" /></div>
+<p>
+Il comprend 6 grandes parties :
 </p>
-
-<p class="level2">
-Il comprend 6 grandes parties:
-</p>
-<ol class="level2">
-<li class="level1"><div class="li"> La barre principale, comportant les grandes commandes communes aux différentes fenêtres, et les commandes les plus usuelles</div>
+<ol>
+<li class="level1"><div class="li"> La barre principale, comportant les grandes commandes communes aux différentes fenêtres, et les commandes les plus usuelles.</div>
 </li>
-<li class="level1"><div class="li"> La fenêtre [MENUS] qui permet l&#039;accès aux différentes fenêtres</div>
+<li class="level1"><div class="li"> La fenêtre [MENUS], qui permet l'accès aux différentes fenêtres.</div>
 </li>
-<li class="level1"><div class="li"> L&#039;espace circuits</div>
+<li class="level1"><div class="li"> L'espace circuits.</div>
 </li>
-<li class="level1"><div class="li"> Le retour d&#039;informations ( frappe clavier, infos DMX, midi, art-net )</div>
+<li class="level1"><div class="li"> Le retour d'informations (frappe clavier, infos DMX, midi, art-net).</div>
 </li>
-<li class="level1"><div class="li"> L&#039;espace manuel des bangers</div>
+<li class="level1"><div class="li"> L'espace manuel des bangers.</div>
 </li>
-<li class="level1"><div class="li"> Le grand master</div>
+<li class="level1"><div class="li"> Le grand master.</div>
 </li>
 </ol>
-<!-- EDIT1 SECTION "Interface générale de White Cat:" [1-704] -->
-<h2 class="sectionedit2"><a name="systeme_des_fenetres" id="systeme_des_fenetres">Système des fenêtres</a></h2>
-<!-- EDIT2 SECTION "Système des fenêtres" [705-741] -->
-<h4 class="sectionedit3"><a name="la_fenetre_menus" id="la_fenetre_menus">La fenêtre [Menus]</a></h4>
 
-<p class="level4">
-La fenêtre [Menus] va vous permettre d&#039;appeler par un click souris les différentes fenêtres de WhiteCat.
+</div>
+
+<h1 class="sectionedit2" id="systeme_des_fenetres">Système des fenêtres</h1>
+<div class="level1">
+
+<h4 class="sectionedit3" id="la_fenetre_menus">La fenêtre [Menus]</h4>
+<div class="level4">
+
+<p>
+La fenêtre [Menus] vous permet d'appeler, par un clic souris, les différentes fenêtres de WhiteCat.
 </p>
 
-<p class="level4">
-Pour activer la fenêtre [Menus]:
+<p>
+Pour activer la fenêtre [Menus] :
 </p>
-<ul class="level4">
-<li class="level1"><div class="li"> clicker [Menus] dans la barre tout en haut</div>
+<ul>
+<li class="level1"><div class="li"> cliquer [Menus] dans la barre tout en haut ;</div>
+</li>
+<li class="level1"><div class="li"> ou cliquer droit sur le plan de travail : la fenêtre [Menus] apparaît sous votre souris.</div>
 </li>
 </ul>
 
-<p class="level4">
-  ou
-</p>
-<ul class="level4">
-<li class="level1"><div class="li"> clicker droit sur le plan de travail, la fenêtre menu apparait sous votre souris.</div>
-</li>
-</ul>
-<!-- EDIT3 SECTION "La fenêtre [Menus]" [742-1053] -->
-<h4 class="sectionedit4"><a name="les_differentes_fenetres_de_whitecat" id="les_differentes_fenetres_de_whitecat">Les différentes fenêtres de WhiteCat</a></h4>
+</div>
 
-<p class="level4">
-L&#039;espace de WhiteCat est modulable fonction de vos besoins.
+<h4 class="sectionedit4" id="appeler_fermer_fenetres">Appeler et refermer les fenêtres</h4>
+<div class="level4">
+
+<p>
+L'espace de WhiteCat est modulable en fonction de vos besoins.
 </p>
 
-<p class="level4">
-<strong>Vous pouvez appeler et refermer les fenêtres par:</strong>
+<p>
+<strong>Vous pouvez appeler et refermer les fenêtres par :</strong>
 </p>
-<ul class="level4">
-<li class="level1"><div class="li"> la fenêtre [MENUS] </div>
+<ul>
+<li class="level1"><div class="li"> la fenêtre [MENUS] ;</div>
 </li>
-<li class="level1"><div class="li"> les raccourcis clavier</div>
+<li class="level1"><div class="li"> les raccourcis clavier ;</div>
 </li>
-<li class="level1"><div class="li"> les boutons midi de votre surface de contrôle</div>
+<li class="level1"><div class="li"> les boutons midi de votre surface de contrôle.</div>
 </li>
 </ul>
 
-<p class="level4">
-Chaque position de fenêtre est sauvée pour chaque spectacle.
+<p>
+La position de chaque fenêtre est sauvegardée pour chaque spectacle.
 </p>
 
-<p class="level4">
-<strong>Chaque fenêtre peut être fermée ou bougée, via deux icones:</strong>
+<p>
+<strong>Chaque fenêtre peut être fermée ou déplacée, via deux icônes :</strong>
 </p>
-<ul class="level4">
-<li class="level1"><div class="li"> clicker [X] pour fermer la fenêtre, ou taper la commande d&#039;appel de cette fenêtre</div>
+<ul>
+<li class="level1"><div class="li"> cliquer [X] pour fermer la fenêtre, ou taper la commande d'appel de cette fenêtre ;</div>
 </li>
-<li class="level1"><div class="li"> clicker [M] et rester clické pour bouger la fenêtre de place</div>
-</li>
-</ul>
-
-<p class="level4">
-<div align="center" style="text-align: center"><img src="move_close.jpeg" class="mediacenter" title="move_close.jpg" alt="move_close.jpg" /></div>
-</p>
-<!-- EDIT4 SECTION "Les différentes fenêtres de WhiteCat" [1054-1630] -->
-<h4 class="sectionedit5"><a name="les_differentes_fenetres_dans_whitecat" id="les_differentes_fenetres_dans_whitecat">Les différentes fenêtres dans WhiteCat</a></h4>
-
-<p class="level4">
-Les fenêtres sont classées dans la fenêtre [Menus] par la logique suivante:
-</p>
-<ul class="level4">
-<li class="level1"><div class="li"> Séquenciel, manipulations par lots, sauvegardes</div>
-</li>
-<li class="level1"><div class="li"> Circuits et actions sur les circuits</div>
-</li>
-<li class="level1"><div class="li"> Faders et contenus</div>
-</li>
-<li class="level1"><div class="li"> Suite des contenus, AudioPlayers et fonction [Name]</div>
-</li>
-<li class="level1"><div class="li"> Configuration et Utiles</div>
+<li class="level1"><div class="li"> cliquer [M] et maintenir le clic pour déplacer la fenêtre.</div>
 </li>
 </ul>
 
-<p class="level4">
-<img src="fenetre_menus.jpeg" class="media" title="fenetre_menus.jpg" alt="fenetre_menus.jpg" />
-</p>
-<!-- EDIT5 SECTION "Les différentes fenêtres dans WhiteCat" [1631-1986] -->
-<h4 class="sectionedit6"><a name="navigation_dans_les_fenetres" id="navigation_dans_les_fenetres">Navigation dans les fenêtres</a></h4>
-
-<p class="level4">
-Clicker sur une fenêtre la ramène au premier plan, lui donnant le “focus”. <strong>Une fenêtre a le “focus” lorsque son liseré est de couleur orange.</strong>
+<p>
+<a href="move_close.png" class="media" title="move_close.png"><img src="move_close.png" class="mediacenter" title="Icônes Déplacer et Fermer" alt="Icônes M (déplacer) et X (fermer) d'une fenêtre" /></a>
 </p>
 
-<p class="level4">
-<img src="id_windows.jpeg" class="media" alt="" />
-</p>
+</div>
 
-<p class="level4">
-Un système de navigation rapide dans les fenêtres est possible via les touche[Page DOWN] et [Page UP].
-</p>
+<h4 class="sectionedit5" id="classement_des_fenetres">Classement des fenêtres</h4>
+<div class="level4">
 
-<p class="level4">
-La combinaison [CTRL][PAGE DOWN] permet de faire défiler en solo ces fenêtres, avec une position extinction.
+<p>
+Les fenêtres sont classées dans la fenêtre [Menus] selon la logique suivante :
 </p>
-<!-- EDIT6 SECTION "Navigation dans les fenêtres" [1987-2416] -->
-<h4 class="sectionedit7"><a name="snapshot_des_fenetres" id="snapshot_des_fenetres">Snapshot des fenêtres</a></h4>
-
-<p class="level4">
-On peut garder en mémoire quelles fenêtres étaient ouvertes et toutes les éteindre par la combinaison clavier [SHIFT][IMPR.ECRAN].
-On peut rappeler les fenêtres qui étaient appelées par un  [CTRL][IMPR.ECRAN].
-</p>
-<!-- EDIT7 SECTION "Snapshot des fenêtres" [2417-2664] -->
-<h4 class="sectionedit8"><a name="remettre_par_defaut_la_position_des_fenetres" id="remettre_par_defaut_la_position_des_fenetres">Remettre par défaut la position des fenêtres</a></h4>
-
-<p class="level4">
-En utilisant un moniteur externe dans votre théâtre, puis en partant en tournée, il est possible que vous ne puissiez plus accéder aux fenêtres sauvées dans l&#039;espace du deuxième moniteur. En ce cas, aller dans : <a href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_affichage#fenetres_internes" class="urlextern" title="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=configuration_affichage#fenetres_internes"  rel="nofollow">CFG Menus, onglet Screen</a>.
-</p>
-<!-- EDIT8 SECTION "Remettre par défaut la position des fenêtres" [2665-3077] -->
-<h2 class="sectionedit9"><a name="interactions_utilisateurs" id="interactions_utilisateurs">Interactions utilisateurs:</a></h2>
-
-<p class="level2">
-<strong>Il y a 6 types d&#039;interaction utilisateur:</strong>
-</p>
-<!-- EDIT9 SECTION "Interactions utilisateurs:" [3078-3166] -->
-<h3 class="sectionedit10"><a name="la_souris_ou_l_ecran_tactile" id="la_souris_ou_l_ecran_tactile">La souris ou l&#039;écran tactile</a></h3>
-
-<p class="level3">
-White Cat est prévu pour le tactile ( un point). 
-</p>
-
-<p class="level3">
-Toutes les actions se font donc par le click gauche. 
-</p>
-
-<p class="level3">
-Le Click droit est utilisé dans deux cas de figure uniquement:
-</p>
-<ul class="level3">
-<li class="level1"><div class="li"> lorsque vous n&#039;êtes pas dans la fenêtre [LIGHTPLOT], il permet d&#039;appeler la fenêtre [MENUS]</div>
+<ul>
+<li class="level1"><div class="li"> Séquentiel, manipulations par lots, sauvegardes ;</div>
 </li>
-<li class="level1"><div class="li"> lorque vous travaillez sur la fenêtre [LightPlot], il vous permet de bouger dans l&#039;espace du plan lumière ( ViewPort )</div>
+<li class="level1"><div class="li"> Circuits et actions sur les circuits ;</div>
+</li>
+<li class="level1"><div class="li"> Faders et contenus ;</div>
+</li>
+<li class="level1"><div class="li"> Suite des contenus, AudioPlayers et fonction [Name] ;</div>
+</li>
+<li class="level1"><div class="li"> Configuration et Utiles.</div>
 </li>
 </ul>
 
-<p class="level3">
-Les menus sont tous prévus pour un fonctionnement au tactile, avec des boutons et des masters adéquats en taille.
+<p>
+<a href="fenetre_menus.png" class="media" title="fenetre_menus.png"><img src="fenetre_menus.png" class="mediacenter" title="La fenêtre Menus" alt="La fenêtre Menus de White Cat" /></a>
 </p>
 
-<p class="level3">
-Un soin particulier a été apporté à la manipulation souris:  les potentiomètres ont donc tous une course de 255 pixels, permettant d&#039;être le plus précis possible. 
+</div>
+
+<h4 class="sectionedit6" id="navigation_dans_les_fenetres">Navigation dans les fenêtres</h4>
+<div class="level4">
+
+<p>
+Cliquer sur une fenêtre la ramène au premier plan, lui donnant le « focus ». <strong>Une fenêtre a le focus lorsque son liseré est de couleur orange.</strong>
 </p>
 
-<p class="level3">
-Le crossfade peut se faire aussi à la souris, avec un ratio permettant un équivalent de la technique du croisé X1/X2 ( le preset part avant la descente de X1).
+<p>
+<a href="id_windows.jpeg" class="media" title="id_windows.jpeg"><img src="id_windows.jpeg" class="mediacenter" title="Fenêtre avec le focus" alt="Une fenêtre au focus, liseré orange" /></a>
 </p>
 
-<p class="level3">
-Un clavier numérique virtuel pour les écrans tactiles est disponible: le <a href="num-pad.html" class="wikilink1" title="Num-Pad">Num-Pad</a>.
-</p>
-<!-- EDIT10 SECTION "La souris ou l'écran tactile" [3167-4153] -->
-<h3 class="sectionedit11"><a name="le_clavier_ordinateur" id="le_clavier_ordinateur">Le clavier ordinateur</a></h3>
-
-<p class="level3">
-Le clavier permet de travailler très vite via des raccourcis et des combinaisons de touches ( Ctrl et Shift notamment)
-</p>
-<!-- EDIT11 SECTION "Le clavier ordinateur" [4154-4305] -->
-<h3 class="sectionedit12"><a name="le_midi" id="le_midi">Le Midi</a></h3>
-
-<p class="level3">
-Quasiment toutes les fonctions  sont pilotables en midi. On peut donc utiliser des surfaces de contrôle comme la BCF2000, l&#039;iControl, des logiciels sous tablette tactile ou iPhone, pour travailler en manuel: séquenciel,  masters, roue de couleur, accélérateurs de crossfade, appels des lfos&#039;s, boutons divers ….
-</p>
-<!-- EDIT12 SECTION "Le Midi" [4306-4640] -->
-<h3 class="sectionedit13"><a name="l_arduino" id="l_arduino">L&#039;arduino</a></h3>
-
-<p class="level3">
-Un  grand nombre de fonctions sont accesibles en discutant directement avec des interfaces arduino ( USB ou RF ). Les interfaces arduino permmettent l&#039;intégration électronique de manière simple et peu onéreuse ( boites à boutons, interfaces personnalisées et futuristes, etc). WhiteCat est fourni avec des scripts pour l&#039;arduino, vous permettant très rapidement de créer une boite à bouton ou de controller des moteurs, des relais, des mini-gradas, etc etc..
-</p>
-<!-- EDIT13 SECTION "L'arduino" [4641-5128] -->
-<h3 class="sectionedit14"><a name="telecommandes_type_telephones_ou_tablettes" id="telecommandes_type_telephones_ou_tablettes">Télécommandes type téléphones ou tablettes</a></h3>
-
-<p class="level3">
-La version 0.8.6 fournit une sauvegarde dédiée aux télécommandes, permettant de piloter WhiteCat, que ce soit via iCAT, ou via TouchOSC. 
-</p>
-<!-- EDIT14 SECTION "Télécommandes type téléphones ou tablettes" [5129-5328] -->
-<h4 class="sectionedit15"><a name="l_ipod_phone_et_l_ipad" id="l_ipod_phone_et_l_ipad">L&#039;iPod/Phone et l&#039;iPad</a></h4>
-
-<p class="level4">
-Boutons et faders peuvent être pilotés par le module <a href="icat.html" class="wikilink1" title="iCat">iCat</a>, qui s&#039;appuye sur le programme libre et gratuit Fantastick ( voir AppStore).
+<p>
+Un système de navigation rapide dans les fenêtres est possible via les touches [Page DOWN] et [Page UP].
 </p>
 
-<p class="level4">
-iCat intègre la communication de manière très poussée: vous pouvez en direct reconfigurer et personnaliser votre espace de travail.
+<p>
+La combinaison [CTRL][PAGE DOWN] permet de faire défiler ces fenêtres en solo, avec une position d'extinction.
 </p>
 
-<p class="level4">
-Le module iCat permet un contrôle type télécommande ( réglages, correction en salle), ou des contrôleurs additionnels ( faders, séquenciel). Le module DRAW est à explorer, puisqu&#039;avec un iDEVICE et DRAW vosu pourrez dessiner, effacer, suivre avec des sources traditionnelles, bref peindre à la volée vos états lumineux. 
-</p>
-<!-- EDIT15 SECTION "L'iPod/Phone et l'iPad" [5329-5975] -->
-<h4 class="sectionedit16"><a name="android" id="android">Android</a></h4>
+</div>
 
-<p class="level4">
-Sous Android, il faudra se tourner vers Touch OSC. 
-La communication n&#039;est pas en aller-retouor entre White Cat et Touch OSC.
-</p>
-<!-- EDIT16 SECTION "Android" [5976-6117] -->
-<h3 class="sectionedit17"><a name="l_art-net_et_banger" id="l_art-net_et_banger">L&#039;art-net et Banger</a></h3>
+<h4 class="sectionedit7" id="snapshot_des_fenetres">Snapshot des fenêtres</h4>
+<div class="level4">
 
-<p class="level3">
-WhiteCat peut recevoir du dmx par éthernet. 
-En utiisant les <a href="liste.html#channel_macros" class="wikilink1" title="channel_macros">channels macros</a> et <a href="banger.html" class="wikilink1" title="Banger">Banger, le gestionnaire d&#039;évènements</a>, vous pouvez asservir puissament WhiteCat depuis un autre jeu lumière.
+<p>
+On peut garder en mémoire quelles fenêtres étaient ouvertes et toutes les éteindre par la combinaison clavier [SHIFT][IMPR. ÉCRAN]. On peut rappeler les fenêtres mémorisées par [CTRL][IMPR. ÉCRAN].
 </p>
-<!-- EDIT17 SECTION "L'art-net et Banger" [6118-] --></div>
+
+</div>
+
+<h4 class="sectionedit8" id="remettre_par_defaut_la_position_des_fenetres">Remettre par défaut la position des fenêtres</h4>
+<div class="level4">
+
+<p>
+En utilisant un moniteur externe dans votre théâtre, puis en partant en tournée, il est possible que vous ne puissiez plus accéder aux fenêtres sauvegardées dans l'espace du deuxième moniteur. Dans ce cas, rendez-vous dans <a href="configuration_affichage.html" class="wikilink1" title="configuration_affichage">CFG Menus, onglet Screen</a>.
+</p>
+
+</div>
+</div>
+
+<h1 class="sectionedit9" id="interactions_utilisateurs">Interactions utilisateurs</h1>
+<div class="level1">
+
+<p>
+<strong>Il y a 6 types d'interaction utilisateur :</strong>
+</p>
+
+<h3 class="sectionedit10" id="la_souris_ou_l_ecran_tactile">La souris ou l'écran tactile</h3>
+<div class="level3">
+
+<p>
+White Cat est prévu pour le tactile (un point).
+</p>
+
+<p>
+Toutes les actions se font donc par le clic gauche.
+</p>
+
+<p>
+Le clic droit n'est utilisé que dans deux cas de figure :
+</p>
+<ul>
+<li class="level1"><div class="li"> lorsque vous n'êtes pas dans la fenêtre [LightPlot], il permet d'appeler la fenêtre [MENUS] ;</div>
+</li>
+<li class="level1"><div class="li"> lorsque vous travaillez sur la fenêtre [LightPlot], il vous permet de vous déplacer dans l'espace du plan lumière (ViewPort).</div>
+</li>
+</ul>
+
+<p>
+Les menus sont tous prévus pour un fonctionnement au tactile, avec des boutons et des masters de taille adéquate.
+</p>
+
+<p>
+Un soin particulier a été apporté à la manipulation à la souris : les potentiomètres ont tous une course de 255 pixels, permettant d'être le plus précis possible.
+</p>
+
+<p>
+Le crossfade peut aussi se faire à la souris, avec un ratio permettant un équivalent de la technique du croisé X1/X2 (le preset part avant la descente de X1).
+</p>
+
+<p>
+Un clavier numérique virtuel pour les écrans tactiles est disponible : le <a href="num-pad.html" class="wikilink1" title="num-pad">Num-Pad</a>.
+</p>
+
+</div>
+
+<h3 class="sectionedit11" id="le_clavier_ordinateur">Le clavier ordinateur</h3>
+<div class="level3">
+
+<p>
+Le clavier permet de travailler très vite, via des raccourcis et des combinaisons de touches ([Ctrl] et [Shift] notamment).
+</p>
+
+</div>
+
+<h3 class="sectionedit12" id="le_midi">Le Midi</h3>
+<div class="level3">
+
+<p>
+Quasiment toutes les fonctions sont pilotables en midi. On peut donc utiliser des surfaces de contrôle ou des logiciels sur tablette tactile ou iPhone, pour travailler en manuel : séquentiel, masters, roue de couleur, accélérateurs de crossfade, appels des LFO, boutons divers…
+</p>
+
+</div>
+
+<h3 class="sectionedit13" id="l_arduino">L'arduino</h3>
+<div class="level3">
+
+<p>
+Un grand nombre de fonctions sont accessibles en discutant directement avec des interfaces Arduino (USB ou RF). Les interfaces Arduino permettent l'intégration électronique de manière simple et peu onéreuse (boîtes à boutons, interfaces personnalisées et futuristes, etc.). WhiteCat est fourni avec des scripts pour l'Arduino, vous permettant très rapidement de créer une boîte à boutons, ou de contrôler des moteurs, des relais, des mini-gradateurs, etc.
+</p>
+
+</div>
+
+<h3 class="sectionedit14" id="telecommandes_type_telephones_ou_tablettes">Télécommandes type téléphones ou tablettes</h3>
+<div class="level3">
+
+<p>
+Une sauvegarde dédiée aux télécommandes permet de piloter WhiteCat via TouchOSC.
+</p>
+
+<p>
+Depuis la version 0.9, le module iCat, qui s'appuyait sur le programme libre Fantastick (obsolète), n'est plus disponible. Il faut donc se tourner vers TouchOSC. La communication se fait pour l'instant dans un seul sens, de TouchOSC vers White Cat.
+</p>
+
+</div>
+
+<h3 class="sectionedit17" id="l_art-net_et_banger">L'art-net et Banger</h3>
+<div class="level3">
+
+<p>
+WhiteCat peut recevoir du DMX par Ethernet. En utilisant les <a href="liste.html" class="wikilink1" title="liste">channels macros</a> et <a href="banger.html" class="wikilink1" title="banger">Banger, le gestionnaire d'évènements</a>, vous pouvez asservir fortement WhiteCat depuis un autre jeu d'orgue.
+</p>
+
+</div>
+</div>
+
 </body>
 </html>

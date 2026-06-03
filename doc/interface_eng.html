@@ -1,260 +1,304 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>interface_eng</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2014-05-01T14:16:13+0200"/>
-<meta name="keywords" content="interface_eng"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="interface_eng.html"/>
-<link rel="contents" href="interface_eng.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="interface_eng.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="interface_eng.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=interface_eng"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"interface_eng","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>General overview of the interface — WhiteCat</title>
+  <meta name="date" content="2026-06-02"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="interface.html">🇫🇷 Français</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
-<h3 class="toggle">Table des matières</h3>
+<h3 class="toggle">Table of contents</h3>
 <div>
 
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#white_cat_s_workspace">White Cat&#039;s workspace</a></div>
+<li class="level1"><div class="li"><a href="#general_interface">General interface of White Cat</a></div></li>
+<li class="level1"><div class="li"><a href="#window_system">Window system</a></div>
 <ul class="toc">
-<li class="level3"><div class="li"><a href="#navigation_between_windows">Navigation between windows</a></div></li>
-<li class="level3"><div class="li"><a href="#snapshot_of_windows_states">Snapshot of windows states</a></div></li>
+<li class="level3"><div class="li"><a href="#the_menus_window">The [Menus] window</a></div></li>
+<li class="level3"><div class="li"><a href="#open_close_windows">Opening and closing windows</a></div></li>
+<li class="level3"><div class="li"><a href="#window_classification">Window classification</a></div></li>
+<li class="level3"><div class="li"><a href="#window_navigation">Navigating between windows</a></div></li>
+<li class="level3"><div class="li"><a href="#window_snapshot">Window snapshot</a></div></li>
+<li class="level3"><div class="li"><a href="#reset_window_positions">Resetting window positions to default</a></div></li>
 </ul>
 </li>
-<li class="level2"><div class="li"><a href="#users_interactions">Users Interactions</a></div></li>
+<li class="level1"><div class="li"><a href="#user_interactions">User interactions</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="#mouse_or_touchscreen">The mouse or touchscreen</a></div></li>
+<li class="level3"><div class="li"><a href="#computer_keyboard">The computer keyboard</a></div></li>
+<li class="level3"><div class="li"><a href="#midi">Midi</a></div></li>
+<li class="level3"><div class="li"><a href="#arduino">Arduino</a></div></li>
+<li class="level3"><div class="li"><a href="#remotes_phones_tablets">Remotes such as phones or tablets</a></div></li>
+<li class="level3"><div class="li"><a href="#art-net_and_banger">Art-Net and Banger</a></div></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <!-- TOC END -->
 
-<h2 class="sectionedit1"><a name="white_cat_s_workspace" id="white_cat_s_workspace">White Cat&#039;s workspace</a></h2>
+<h1 class="sectionedit1" id="general_interface">General interface of White Cat</h1>
+<div class="level1">
 
-<p class="level2">
-White Cat has a main workspace from which you can call all the other windows.
+<p>
+White Cat features a dashboard that can span several screens. Special care is given to keeping the workspace simple and the ergonomics comfortable.
 </p>
 
-<p class="level2">
-At startup, White Cat will look like this::
+<p>
+On startup, your dashboard looks like this:
 </p>
 
-<p class="level2">
-<div align="center" style="text-align: center"><img src="ecran_general_faders_down_2.jpeg" class="mediacenter" title="ecran_general_faders_down_2.jpg" alt="ecran_general_faders_down_2.jpg" /></div>
+<p>
+<a href="ecran_general_faders_down_2.png" class="media" title="ecran_general_faders_down_2.png"><img src="ecran_general_faders_down_2.png" class="mediacenter" title="Dashboard on startup" alt="White Cat dashboard on startup" /></a>
 </p>
 
-<p class="level2">
-It consists of 6 main sections:
+<p>
+It is made up of 6 main parts:
 </p>
-
-<p class="level2">
-<div align="center" style="text-align: center"><img src="ecran_general.jpeg" class="mediacenter" title="ecran_general.jpg" alt="ecran_general.jpg" /></div>
-</p>
-<ol class="level2">
-<li class="level1"><div class="li"> The main commands common to all windows</div>
+<ol>
+<li class="level1"><div class="li"> The main bar, holding the major commands shared by the different windows, along with the most common commands.</div>
 </li>
-<li class="level1"><div class="li"> Choice of windows selection</div>
+<li class="level1"><div class="li"> The [MENUS] window, which gives access to the different windows.</div>
 </li>
-<li class="level1"><div class="li"> Channel Space, where the outputs from the CueList and masters are displayed</div>
+<li class="level1"><div class="li"> The channels area.</div>
 </li>
-<li class="level1"><div class="li"> A user feedback area for commands, hardware, midi status</div>
+<li class="level1"><div class="li"> The information feedback (keyboard input, DMX info, midi, art-net).</div>
 </li>
-<li class="level1"><div class="li"> Grand Master</div>
+<li class="level1"><div class="li"> The manual bangers area.</div>
+</li>
+<li class="level1"><div class="li"> The grand master.</div>
 </li>
 </ol>
 
-<p class="level2">
-<div align="center" style="text-align: center"><img src="ecran_general_faders_milieu.jpeg" class="mediacenter" title="ecran_general_faders_milieu.jpg" alt="ecran_general_faders_milieu.jpg" /></div>
+</div>
+
+<h1 class="sectionedit2" id="window_system">Window system</h1>
+<div class="level1">
+
+<h4 class="sectionedit3" id="the_menus_window">The [Menus] window</h4>
+<div class="level4">
+
+<p>
+The [Menus] window lets you call up the different White Cat windows with a mouse click.
 </p>
 
-<p class="level2">
-White Cat&#039;s workspace is customizable with windows and scroll bars. The Channel space can be vertically scrolled to view all the channels, or the windows can be changed to display other functions like the DMX/Midi configuration window.
+<p>
+To open the [Menus] window:
 </p>
-
-<p class="level2">
-<strong>Here a snapshot of the workspace in a Cue List view:</strong>
-</p>
-
-<p class="level2">
-<div align="center" style="text-align: center"><img src="ecran_mode_sequence.jpeg" class="mediacenter" title="ecran_mode_sequence.jpg" alt="ecran_mode_sequence.jpg" /></div>
-</p>
-
-<p class="level2">
-<strong>Each window may be moved or closed by using 2 icons:</strong>
-</p>
-<ul class="level2">
-<li class="level1"><div class="li">click [X] to close a window, or type the shortcut of this window to close it</div>
+<ul>
+<li class="level1"><div class="li"> click [Menus] in the bar at the very top;</div>
 </li>
-<li class="level1"><div class="li">click [M] and drag with the mouse to move the window</div>
+<li class="level1"><div class="li"> or right-click on the workspace: the [Menus] window appears under your cursor.</div>
 </li>
 </ul>
 
-<p class="level2">
-<div align="center" style="text-align: center"><img src="move_close.jpeg" class="mediacenter" title="move_close.jpg" alt="move_close.jpg" /></div>
-</p>
-<!-- EDIT1 SECTION "White Cat's workspace" [1-1083] -->
-<h3 class="sectionedit2"><a name="navigation_between_windows" id="navigation_between_windows">Navigation between windows</a></h3>
+</div>
 
-<p class="level3">
-To quickly cycle through a view of all the windows, and restore the focus on them, use the [Page DOWN] key.
-</p>
+<h4 class="sectionedit4" id="open_close_windows">Opening and closing windows</h4>
+<div class="level4">
 
-<p class="level3">
-<img src="id_windows.jpeg" class="media" alt="" />
+<p>
+The White Cat workspace is adjustable to your needs.
 </p>
 
-<p class="level3">
-Clicking on a window will bring it to the foreground and give it the focus.
+<p>
+<strong>You can open and close windows with:</strong>
 </p>
-
-<p class="level3">
-Windows that will be affected by this are:
-</p>
-<ol class="level3">
-<li class="level1"><div class="li"> faders</div>
+<ul>
+<li class="level1"><div class="li"> the [MENUS] window;</div>
 </li>
-<li class="level1"><div class="li"> cue list</div>
+<li class="level1"><div class="li"> the keyboard shortcuts;</div>
 </li>
-<li class="level1"><div class="li"> minimized cue list view</div>
-</li>
-<li class="level1"><div class="li"> time</div>
-</li>
-<li class="level1"><div class="li"> trichromy</div>
-</li>
-<li class="level1"><div class="li"> video tracking</div>
-</li>
-<li class="level1"><div class="li"> audio players</div>
-</li>
-<li class="level1"><div class="li"> banger</div>
-</li>
-<li class="level1"><div class="li"> num-pad</div>
-</li>
-<li class="level1"><div class="li"> Patch</div>
-</li>
-<li class="level1"><div class="li"> List of spotlights</div>
-</li>
-<li class="level1"><div class="li"> Name</div>
-</li>
-<li class="level1"><div class="li"> CFG (setup dmx / midi / network / screen / artnet in)</div>
-</li>
-<li class="level1"><div class="li"> Internal Help</div>
-</li>
-</ol>
-
-<p class="level3">
-When you use [PAGE DOWN], you jump from one window from another, and the window that has the focus will have an orange outline.
-</p>
-
-<p class="level3">
-[CTRL][PAGE DOWN] will switch windows, closing the previous one.
-</p>
-<!-- EDIT2 SECTION "Navigation between windows" [1084-1822] -->
-<h3 class="sectionedit3"><a name="snapshot_of_windows_states" id="snapshot_of_windows_states">Snapshot of windows states</a></h3>
-
-<p class="level3">
-To simplify the arrangement of windows in the workspace there is a Snapshot function.
-</p>
-
-<p class="level3">
-You can save the current window layout by hitting [SHIFT][PRINT SCREEN].
-</p>
-
-<p class="level3">
-You can later recall this by hitting [CTRL][PRINT SCREEN].
-</p>
-
-<p class="level3">
-Here is a snapshot of 2 screens (0.7.3):
-</p>
-
-<p class="level3">
-<div align="center" style="text-align: center"><img src="deux_ecrans_fenetres.jpeg" class="mediacenter" title="deux_ecrans_fenetres.jpg" alt="deux_ecrans_fenetres.jpg" /></div>
-</p>
-<!-- EDIT3 SECTION "Snapshot of windows states" [1823-2156] -->
-<h2 class="sectionedit4"><a name="users_interactions" id="users_interactions">Users Interactions</a></h2>
-
-<p class="level2">
-<strong>There are three possible ways for the user to interact with the program</strong>
-</p>
-<ul class="level2">
-<li class="level1"><div class="li"> mouse or touch screen: </div>
-<ul class="level2">
-<li class="level2"><div class="li"> White Cat is for the moment only responsive to one point touch. </div>
-</li>
-<li class="level2"><div class="li"> All actions are performed with a left mouse click. The right click is not used.</div>
-</li>
-<li class="level2"><div class="li"> The menus have all been designed from the beginning of the project to fit touch screen needs, as are the buttons and faders.</div>
-</li>
-<li class="level2"><div class="li"> For mouse manipulation there is one main goal:</div>
-</li>
-<li class="level2"><div class="li"> all sliders are 255 pixels high, giving the best precision to the mouse action. </div>
-</li>
-<li class="level2"><div class="li"> You can also do a cross-fade with the mouse, using a manual ratio enabling you to approximate what you would do with two fingers on a traditional board, which is to say a split cross-fade where the cue in Preset is usually coming in before the current cue on Stage is going down.</div>
-</li>
-<li class="level2"><div class="li"> A virtual numeric key pad is provided for users with touch screen only: <a href="num-pad.html" class="wikilink1" title="Num-Pad">Num-Pad</a>.</div>
-</li>
-</ul>
-</li>
-</ul>
-<ul class="level2">
-<li class="level1"><div class="li"> Computer Keyboard:</div>
+<li class="level1"><div class="li"> the midi buttons of your control surface.</div>
 </li>
 </ul>
 
-<p class="level2">
-       The Keyboard enables you to work very quickly by the use of shortcut combinations (Ctrl - Shift)
+<p>
+The position of each window is saved for each show.
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> Midi:</div>
+
+<p>
+<strong>Each window can be closed or moved, using two icons:</strong>
+</p>
+<ul>
+<li class="level1"><div class="li"> click [X] to close the window, or type the command that calls this window;</div>
+</li>
+<li class="level1"><div class="li"> click [M] and hold to move the window.</div>
 </li>
 </ul>
 
-<p class="level2">
-       Many functions can be done through midi. You can use midi control surfaces like the BCF2000, UC-33 or Launchpad to work manually: cues, masters, color wheel, accelerometers, Lfo calls and chasers, …  a lot of keys are accessible in midi, enabling you to configure your White Cat manually any way you want.
+<p>
+<a href="move_close.png" class="media" title="move_close.png"><img src="move_close.png" class="mediacenter" title="Move and Close icons" alt="Move (M) and Close (X) icons of a window" /></a>
 </p>
-<ul class="level2">
-<li class="level1"><div class="li"> Arduino:</div>
+
+</div>
+
+<h4 class="sectionedit5" id="window_classification">Window classification</h4>
+<div class="level4">
+
+<p>
+The windows are arranged in the [Menus] window according to the following logic:
+</p>
+<ul>
+<li class="level1"><div class="li"> Sequential, batch operations, saving;</div>
+</li>
+<li class="level1"><div class="li"> Channels and channel actions;</div>
+</li>
+<li class="level1"><div class="li"> Faders and contents;</div>
+</li>
+<li class="level1"><div class="li"> More contents, AudioPlayers and the [Name] function;</div>
+</li>
+<li class="level1"><div class="li"> Configuration and Utilities.</div>
 </li>
 </ul>
 
-<p class="level2">
-  As for midi, a large number of functions are directly accessible by communicating in serial with arduino cards (USB or RF12 based). Arduino interface enables electronic DIY integration very easily and inexpensively (buttons/Faders boxes, or futuristic customized interfaces) .
+<p>
+<a href="fenetre_menus.png" class="media" title="fenetre_menus.png"><img src="fenetre_menus.png" class="mediacenter" title="The Menus window" alt="The Menus window of White Cat" /></a>
 </p>
-<ul class="level2">
-<li class="level1"><div class="li">  Phone and Tablet Remote</div>
+
+</div>
+
+<h4 class="sectionedit6" id="window_navigation">Navigating between windows</h4>
+<div class="level4">
+
+<p>
+Clicking a window brings it to the front, giving it the “focus”. <strong>A window has the focus when its border is orange.</strong>
+</p>
+
+<p>
+<a href="id_windows.jpeg" class="media" title="id_windows.jpeg"><img src="id_windows.jpeg" class="mediacenter" title="Focused window" alt="A focused window, orange border" /></a>
+</p>
+
+<p>
+Quick navigation between windows is possible using the [Page DOWN] and [Page UP] keys.
+</p>
+
+<p>
+The [CTRL][PAGE DOWN] combination cycles through these windows in solo, including a blackout position.
+</p>
+
+</div>
+
+<h4 class="sectionedit7" id="window_snapshot">Window snapshot</h4>
+<div class="level4">
+
+<p>
+You can remember which windows were open and turn them all off with the keyboard combination [SHIFT][PRINT SCREEN]. You can recall the remembered windows with [CTRL][PRINT SCREEN].
+</p>
+
+</div>
+
+<h4 class="sectionedit8" id="reset_window_positions">Resetting window positions to default</h4>
+<div class="level4">
+
+<p>
+If you use an external monitor in your theatre and then go on tour, you may no longer be able to reach windows that were saved in the space of the second monitor. In that case, go to <a href="configuration_affichage_eng.html" class="wikilink1" title="configuration_affichage_eng">CFG Menus, Screen tab</a>.
+</p>
+
+</div>
+</div>
+
+<h1 class="sectionedit9" id="user_interactions">User interactions</h1>
+<div class="level1">
+
+<p>
+<strong>There are 6 types of user interaction:</strong>
+</p>
+
+<h3 class="sectionedit10" id="mouse_or_touchscreen">The mouse or touchscreen</h3>
+<div class="level3">
+
+<p>
+White Cat is designed for touch (single point).
+</p>
+
+<p>
+All actions are therefore done with the left click.
+</p>
+
+<p>
+The right click is only used in two cases:
+</p>
+<ul>
+<li class="level1"><div class="li"> when you are not in the [LightPlot] window, it opens the [MENUS] window;</div>
+</li>
+<li class="level1"><div class="li"> when working in the [LightPlot] window, it lets you move around the light plot space (ViewPort).</div>
 </li>
 </ul>
 
-<p class="level2">
-From version 0.8.6 a complete save in the savefolder is dedicated to remote.
+<p>
+All menus are designed for touch operation, with adequately sized buttons and masters.
 </p>
 
-<p class="level2">
-Iphone and iPad :
+<p>
+Special care has been given to mouse operation: the faders all have a 255-pixel travel, allowing the greatest possible precision.
 </p>
 
-<p class="level2">
-Buttons and Faders may be controlled from the iCat module, which is transmitted over wifi with the free and great Fantastick application (see AppStore). iCat will help you as a Telecommand, handling channels, modifying cues, or as a controller (faders, CueList Faders, etc).
+<p>
+The crossfade can also be done with the mouse, with a ratio offering an equivalent of the X1/X2 crossing technique (the preset comes in before X1 goes down).
 </p>
 
-<p class="level2">
-Android :
+<p>
+A virtual numeric keypad for touchscreens is available: the <a href="num-pad_eng.html" class="wikilink1" title="num-pad_eng">Num-Pad</a>.
 </p>
 
-<p class="level2">
-TouchOSC is used in MIDI to remote WhiteCat. You can grab from the ressources folder the TOUCH OSC layout for White Cat. It will be only one communication way.
+</div>
+
+<h3 class="sectionedit11" id="computer_keyboard">The computer keyboard</h3>
+<div class="level3">
+
+<p>
+The keyboard lets you work very fast, through shortcuts and key combinations ([Ctrl] and [Shift] in particular).
 </p>
-<!-- EDIT4 SECTION "Users Interactions" [2157-] --></div>
+
+</div>
+
+<h3 class="sectionedit12" id="midi">Midi</h3>
+<div class="level3">
+
+<p>
+Almost every function can be controlled over midi. You can therefore use control surfaces such as the BCF2000 or the iControl, or software on a touch tablet or iPhone, to work manually: sequential, masters, colour wheel, crossfade accelerators, LFO triggers, various buttons…
+</p>
+
+</div>
+
+<h3 class="sectionedit13" id="arduino">Arduino</h3>
+<div class="level3">
+
+<p>
+A great many functions are accessible by talking directly with Arduino interfaces (USB or RF). Arduino interfaces allow electronic integration in a simple and inexpensive way (button boxes, custom and futuristic interfaces, etc.). White Cat ships with scripts for the Arduino, letting you very quickly build a button box, or control motors, relays, mini-dimmers, and so on.
+</p>
+
+</div>
+
+<h3 class="sectionedit14" id="remotes_phones_tablets">Remotes such as phones or tablets</h3>
+<div class="level3">
+
+<p>
+A dedicated remote-control save lets you drive White Cat through TouchOSC.
+</p>
+
+<p>
+Since version 0.9, the iCat module, which relied on the free program Fantastick (now obsolete), is no longer available. You must therefore turn to TouchOSC. For now communication is one-way only, from TouchOSC to White Cat.
+</p>
+
+</div>
+
+<h3 class="sectionedit17" id="art-net_and_banger">Art-Net and Banger</h3>
+<div class="level3">
+
+<p>
+White Cat can receive DMX over Ethernet. Using <a href="liste_eng.html" class="wikilink1" title="liste_eng">channel macros</a> and <a href="banger_eng.html" class="wikilink1" title="banger_eng">Banger, the event manager</a>, you can strongly drive White Cat from another lighting desk.
+</p>
+
+</div>
+</div>
+
 </body>
 </html>

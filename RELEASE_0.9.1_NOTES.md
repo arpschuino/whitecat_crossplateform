@@ -73,12 +73,25 @@ groups                         # suis-je dans 'dialout' ?
 **Action probable côté code** : étendre le scan à `/dev/ttyACM%d` dans les deux fonctions
 Detect du backend Linux. Modèle exact de l'interface à confirmer (DMX USB Pro / Pro Mk2 / clone).
 
+**MISE À JOUR (2026-06-02)** : diagnostic fait sur une machine Mint. L'Enttec Pro est bien
+détectée : `/dev/ttyUSB0` apparaît (driver FTDI, `crw-rw---- root dialout`). Donc **le code
+Linux est correct** (scan ttyUSB OK), pas besoin de modif ttyACM pour cette interface.
+Le SEUL blocage était les **permissions** : l'utilisateur n'était pas dans le groupe `dialout`,
+et le poste de test n'avait pas de droits sudo. → À refaire sur un poste avec sudo :
+`sudo usermod -aG dialout $USER` + déconnexion/reconnexion, puis tester la sortie DMX réelle.
+Le scan ttyACM reste une amélioration souhaitable pour les clones (DMXKing), mais non bloquant.
+
 ### 2. Build Raspberry Pi (ARM64) — pas encore fait
 Compiler SUR le Pi (cross-compil trop lourde depuis ce poste) :
 ```bash
 make -f Makefile.linux PI3=1 -j4
 ```
 Le flag `PI3=1` active les caps FPS réduits (`-DWC_PI3`). Puis packager comme le x86_64.
+
+**Doc à mettre à jour quand le Pi sera prêt** : compléter `doc/hardware.html` (et `hardware_eng.html`)
+avec la section Raspberry Pi — config matérielle recommandée, modèle de Pi, installation,
+sortie DMX (Enttec Pro / libftdi1 + groupe `dialout`), performances. À reformater au passage
+si encore à l'ancien format DokuWiki (modèle : introduction.html / interface.html).
 
 ### 3. Finalisation release GitHub
 - Tag `v0.9.1`
