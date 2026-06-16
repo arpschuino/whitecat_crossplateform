@@ -962,25 +962,22 @@ int main(int /*argc*/, char ** /*argv*/) {
     load_indexes();
     LoadWhiteCatColorProfil();
 
-    Canvas::Fill(CouleurFond);
-    Canvas::Refresh();
-
+    // Polices + logo AVANT le premier rendu, pour que le tout premier buffer
+    // présenté contienne l'écran d'accueil complet.
     Load_Fonts();
-    save_load_print_to_screen("Loaded Fonts");
-
     logo.Load("gfx/logo.png"); // ne s'affiche que en 32 bits !!!
-
     if (logo.Load("gfx/logo.png") != true) {
         allegro_message("Couldn't load gfx/logo.png");
         exit(-1);
     }
 
-    Canvas::Fill(CouleurFond);
-    Canvas::Refresh();
+    // Premier rendu de l'écran d'accueil. Sous Linux/Wayland, save_load_print_to_screen
+    // dessine directement sur le back-buffer (sinon la fenêtre reste noire pendant
+    // tout le chargement synchrone — le chemin via wc_ui_texture ne s'affiche pas).
+    save_load_print_to_screen("Loaded Fonts");
 #ifndef _WIN32
-    // Sur Linux, pomper les événements SDL pour que la fenêtre soit
-    // mappée et le contenu visible avant la suite du chargement.
-    for (int _i = 0; _i < 5; _i++) { SDL_PumpEvents(); SDL_Delay(20); }
+    // Laisser le compositeur labwc mapper/afficher ce premier buffer (l'accueil).
+    for (int _i = 0; _i < 20; _i++) { SDL_PumpEvents(); SDL_Delay(16); }
 #endif
     FILE *dbg = fopen(WC_LOG_FILE, "w");
     if (dbg) {
@@ -1096,9 +1093,11 @@ int main(int /*argc*/, char ** /*argv*/) {
     save_load_print_to_screen("Loading Gels List");
     load_gel_list_numerical();
     idf++;
+#ifdef _WIN32
     Canvas::Fill(CouleurFond);
     Canvas::Refresh();
-    save_load_print_to_screen("Init Sound");
+#endif
+    save_load_print_to_screen("Init Sound"); // sous Linux : rendu direct, reste affiché pendant Load_Show
     InitSound();
     Load_Show();
     chdir(mondirectory);

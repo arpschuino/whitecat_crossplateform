@@ -2176,7 +2176,20 @@ void save_load_print_to_screen(const std::string label)
 {
     const std::string string_print_to_screen = label.substr (0,64);
 
+#ifndef _WIN32
+    // Linux/Wayland (labwc) : rendu DIRECT sur le back-buffer. Le chemin normal
+    // (via la texture wc_ui_texture recopiée à l'écran) ne s'affiche pas pendant
+    // les chargements synchrones sous Wayland — la fenêtre reste noire. En
+    // dessinant directement sur l'écran, l'accueil + le label de progression
+    // restent visibles pendant tout le chargement.
+    if (wc_sdl_renderer) {
+        SDL_SetRenderTarget(wc_sdl_renderer, nullptr);
+        SDL_SetRenderDrawColor(wc_sdl_renderer, CouleurFond.r, CouleurFond.g, CouleurFond.b, 255);
+        SDL_RenderClear(wc_sdl_renderer);
+    }
+#else
     Canvas::Fill(CouleurFond); // garantit wc_frame_was_updated=true dans ce TU → presents_since_draw remis à 0
+#endif
     if(index_do_quick_save==0)
     {
         show_title();
@@ -2188,7 +2201,11 @@ void save_load_print_to_screen(const std::string label)
     nameAera.DrawOutline(CouleurLigne);
     neuro.Print(string_print_to_screen,((largeur_ecran/2)-150),((hauteur_ecran/2)-60));
 
+#ifndef _WIN32
+    if (wc_sdl_renderer) { SDL_RenderPresent(wc_sdl_renderer); SDL_PumpEvents(); }
+#else
     Canvas::Refresh();
+#endif
 //sab 02/03/2014 return(0);
 }
 
