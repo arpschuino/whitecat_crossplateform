@@ -121,6 +121,11 @@ static char wc_log_path[512] = "wc_debug.txt"; // fallback relatif
 #ifndef SDL_HINT_WINDOWS_DPI_SCALING
 #define SDL_HINT_WINDOWS_DPI_SCALING "SDL_WINDOWS_DPI_SCALING"
 #endif
+// SDL_HINT_APP_ID (SDL >= 2.0.18) : app_id Wayland, pour associer la fenêtre
+// à whitecat.desktop (donc à l'icône). Fallback inerte sur SDL plus ancien.
+#ifndef SDL_HINT_APP_ID
+#define SDL_HINT_APP_ID "SDL_APP_ID"
+#endif
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_syswm.h>
 #include <SDL2/SDL_ttf.h>
@@ -2318,6 +2323,9 @@ inline void SetAntialiasing(bool) {
 namespace Setup {
 
 inline void SetupProgram(int /*flags*/) {
+    // app_id Wayland : labwc associe la fenêtre à whitecat.desktop (et donc à
+    // l'icône installée). À définir AVANT SDL_Init. Sans effet sous Windows.
+    SDL_SetHint(SDL_HINT_APP_ID, "whitecat");
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) != 0) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "WhiteCat", SDL_GetError(), nullptr);
         exit(-1);
@@ -2343,6 +2351,16 @@ inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
     if (!wc_sdl_window) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "WhiteCat", SDL_GetError(), nullptr);
         exit(-1);
+    }
+
+    // Icône de la fenêtre (effective sous X11 et Windows ; sous Wayland l'icône
+    // vient du .desktop via l'app_id). gfx/logo.png = tête de chat (RGBA).
+    {
+        SDL_Surface *_icon = IMG_Load("gfx/logo.png");
+        if (_icon) {
+            SDL_SetWindowIcon(wc_sdl_window, _icon);
+            SDL_FreeSurface(_icon);
+        }
     }
 
     SCREEN_W = w;
