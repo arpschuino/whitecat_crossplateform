@@ -346,3 +346,114 @@ curve_draw_splines();
 view_curve_after_draw();
  return(0);
 }
+
+
+// ============================================================
+// Initialisation des courbes par defaut (correction de fond)
+// ------------------------------------------------------------
+// compute_curve_report_local : calcule curve_report[c] a partir de
+// curve_ctrl_pt[c] + the_curve_spline_level[c], en coordonnees locales (0..255),
+// SANS dependance a la fenetre patch ni au rendu (contrairement a write_curve()).
+// Reproduit le meme calcul : tangentes -> points de Bezier -> echantillonnage spline.
+// Les offsets xpatch_window/ypatch_window de write_curve() s'annulent : on travaille
+// directement en 0..255. Validee : ecart < 2 vs la courbe square editee a la main.
+static void compute_curve_report_local(int c)
+{
+    // sauvegarde de l'etat global manipule
+    int        save_sel = curve_selected;
+    int        save_nc  = curve_node_count;
+    float      save_sl  = curve_spline_level;
+    fixed      save_cv  = curve_curviness;
+    curve_node save_nodes[MAX_curve_nodeS];
+    for (int i = 0; i < MAX_curve_nodeS; i++) save_nodes[i] = curve_nodes[i];
+
+    // noeuds en coordonnees locales (1..5)
+    for (int i = 1; i <= 5; i++) {
+        curve_nodes[i].x = curve_ctrl_pt[c][i][0];
+        curve_nodes[i].y = curve_ctrl_pt[c][i][1];
+        curve_nodes[i].tangent = 0;
+    }
+    curve_node_count   = 6;
+    curve_spline_level = ((float)the_curve_spline_level[c] / 127.0f) - 1.0f;
+    curve_curviness    = ftofix(curve_spline_level);
+    curve_calc_tangents();   // noeuds fantomes + tangentes + curve_node_count++
+
+    for (int i = 0; i < 256; i++) curve_report[c][i] = 0;
+
+    int points[8];
+    for (int nio = 1; nio < (curve_node_count - 1); nio++) {
+        curve_get_control_points(curve_nodes[nio], curve_nodes[nio + 1], points);
+        int resolu = curve_nodes[nio + 1].x - curve_nodes[nio].x;
+        if (resolu < 1)   resolu = 1;
+        if (resolu > 300) resolu = 300;
+        int tx[301], ty[301];
+        calc_spline(points, resolu, tx, ty);
+        for (int cuv = 0; cuv < resolu; cuv++) {
+            int idx = curve_nodes[nio].x + cuv;   // coords locales 0..255
+            if (idx < 0)   idx = 0;
+            if (idx > 255) idx = 255;
+            int val = ty[cuv];
+            if (val < 0)   val = 0;
+            if (val > 255) val = 255;
+            curve_report[c][idx] = val;
+        }
+    }
+    curve_report[c][255] = 0;   // niveau max -> sortie full (255 - 0)
+
+    // restauration de l'etat global
+    curve_selected     = save_sel;
+    curve_node_count   = save_nc;
+    curve_spline_level = save_sl;
+    curve_curviness    = save_cv;
+    for (int i = 0; i < MAX_curve_nodeS; i++) curve_nodes[i] = save_nodes[i];
+}
+
+// init_default_curves : pose les courbes par defaut (poignees + report coherents)
+// 0 et 4..15 = lineaire, 1 = square, 2 = preheat, 3 = fluo.
+// Ne (re)genere QU'UNE courbe dont curve_report est entierement nul (invalide) :
+// une courbe valide chargee d'un show ou personnalisee est respectee.
+// A appeler juste apres Load_Show() : repare aussi les last_save corrompus.
+int init_default_curves()
+{
+    for (int c = 0; c < 16; c++) {
+        bool nulle = true;
+        for (int i = 0; i < 256; i++) { if (curve_report[c][i] != 0) { nulle = false; break; } }
+        if (!nulle) continue;   // courbe valide -> on n'y touche pas
+
+        if (c == 1) {           // square
+            curve_ctrl_pt[c][1][0]=0;   curve_ctrl_pt[c][1][1]=255;
+            curve_ctrl_pt[c][2][0]=27;  curve_ctrl_pt[c][2][1]=255-89;
+            curve_ctrl_pt[c][3][0]=55;  curve_ctrl_pt[c][3][1]=255-153;
+            curve_ctrl_pt[c][4][0]=118; curve_ctrl_pt[c][4][1]=255-213;
+            curve_ctrl_pt[c][5][0]=255; curve_ctrl_pt[c][5][1]=0;
+            the_curve_spline_level[c]=176;
+            compute_curve_report_local(c);
+        } else if (c == 2) {    // preheat
+            curve_ctrl_pt[c][1][0]=0;   curve_ctrl_pt[c][1][1]=255-28;
+            curve_ctrl_pt[c][2][0]=40;  curve_ctrl_pt[c][2][1]=255-86;
+            curve_ctrl_pt[c][3][0]=102; curve_ctrl_pt[c][3][1]=255-163;
+            curve_ctrl_pt[c][4][0]=187; curve_ctrl_pt[c][4][1]=255-235;
+            curve_ctrl_pt[c][5][0]=255; curve_ctrl_pt[c][5][1]=0;
+            the_curve_spline_level[c]=178;
+            compute_curve_report_local(c);
+        } else if (c == 3) {    // fluo
+            curve_ctrl_pt[c][1][0]=0;   curve_ctrl_pt[c][1][1]=255;
+            curve_ctrl_pt[c][2][0]=12;  curve_ctrl_pt[c][2][1]=255-45;
+            curve_ctrl_pt[c][3][0]=45;  curve_ctrl_pt[c][3][1]=255-103;
+            curve_ctrl_pt[c][4][0]=157; curve_ctrl_pt[c][4][1]=255-178;
+            curve_ctrl_pt[c][5][0]=255; curve_ctrl_pt[c][5][1]=0;
+            the_curve_spline_level[c]=176;
+            compute_curve_report_local(c);
+        } else {                // lineaire (0, 4..15)
+            curve_ctrl_pt[c][1][0]=0;   curve_ctrl_pt[c][1][1]=255;
+            curve_ctrl_pt[c][2][0]=64;  curve_ctrl_pt[c][2][1]=255-64;
+            curve_ctrl_pt[c][3][0]=128; curve_ctrl_pt[c][3][1]=255-128;
+            curve_ctrl_pt[c][4][0]=192; curve_ctrl_pt[c][4][1]=255-192;
+            curve_ctrl_pt[c][5][0]=255; curve_ctrl_pt[c][5][1]=0;
+            the_curve_spline_level[c]=168;
+            for (int i = 0; i < 256; i++) curve_report[c][i] = 255 - i;
+            curve_report[c][255] = 0;
+        }
+    }
+    return 0;
+}

@@ -1102,6 +1102,7 @@ int main(int /*argc*/, char ** /*argv*/) {
     InitSound();
     Load_Show();
     chdir(mondirectory);
+    init_default_curves(); // courbes par defaut (lin/square/preheat/fluo) si curve_report nul : repare un last_save sans courbes valides
     init_kbd_custom();
     save_load_print_to_screen("Init Keyboard");
     Show_report_save_load();

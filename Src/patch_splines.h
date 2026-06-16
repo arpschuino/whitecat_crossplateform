@@ -9,3 +9,4 @@ int build_square_curve(int curve);
 int build_fluo_curve(int curve);
 int build_preheat_curve(int curve);
 int build_inverse_curve(int curve);
+int init_default_curves();
