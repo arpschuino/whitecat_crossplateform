@@ -385,7 +385,16 @@ if(index_broadcast==1)//init broadcast mode, sinon est en unicast
     }
 }
 
-bind(sockartnet,(SOCKADDR*)&sinS,sizeof(sinS)); //Liaison entre la structure et la socket
+// Client UDP : bind sur INADDR_ANY (port 0 = choix OS)
+// Ne pas binder sur sinS (adresse destination) — échoue sur Linux.
+{
+    SOCKADDR_IN sinLocal;
+    memset(&sinLocal, 0, sizeof(sinLocal));
+    sinLocal.sin_family = AF_INET;
+    sinLocal.sin_addr.s_addr = INADDR_ANY;
+    sinLocal.sin_port = 0;
+    bind(sockartnet, (SOCKADDR*)&sinLocal, sizeof(sinLocal));
+}
 
 
  //non-blocking mode setting avec ioctlsocket

@@ -41,7 +41,8 @@ LDFLAGS := $(SDL2_LIBS) \
             -lpthread \
             -lftdi1 \
             -lGL \
-            -lhpdf -lz
+            -lhpdf -lz \
+            -Wl,-rpath,'$$ORIGIN/lib'
 
 # ============================================================
 # Sources (identiques au Makefile Windows, sans whitecat_res.o)

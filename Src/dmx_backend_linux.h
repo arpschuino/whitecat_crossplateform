@@ -117,6 +117,8 @@ static int wc_serial_open_dmx(const char* path, int baud, bool stop2)
 {
     int fd = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (fd < 0) return -1;
+    // Retire O_NONBLOCK après ouverture — les writes doivent être bloquants
+    fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) & ~O_NONBLOCK);
 
     struct termios tio;
     memset(&tio, 0, sizeof(tio));
@@ -283,8 +285,9 @@ static int Open_EnttecProOut() {
         return 0;
     }
     tcflush(com_handle_, TCIOFLUSH);
+
     sprintf(string_display_dmx_params,
-            "ENTTEC PRO Out ouvert sur %s", DeviceName);
+            "ENTTEC PRO Out open on %s", DeviceName);
     return 0;
 }
 
@@ -298,17 +301,31 @@ static int Enttec_Pro_SendData(int label, unsigned char* data,
                                unsigned int length, void* /*lpOverlapped*/)
 {
     if (com_handle_ < 0) return -1;
+    if (length > 513) length = 513;
 
-    unsigned char header[4];
-    header[0] = 0x7E;
-    header[1] = (unsigned char)label;
-    header[2] = length & 0xFF;
-    header[3] = (length >> 8) & 0xFF;
+    // Paquet complet en un seul write() pour éviter la fragmentation série
+    unsigned char packet[4 + 513 + 1];
+    packet[0] = 0x7E;
+    packet[1] = (unsigned char)label;
+    packet[2] = length & 0xFF;
+    packet[3] = (length >> 8) & 0xFF;
+    memcpy(packet + 4, data, length);
+    packet[4 + length] = 0xE7;
 
-    if (write(com_handle_, header, 4) != 4)               return -1;
-    if (write(com_handle_, data, length) != (ssize_t)length) return -1;
-    unsigned char end = 0xE7;
-    if (write(com_handle_, &end, 1) != 1)                 return -1;
+    ssize_t total = (ssize_t)(4 + length + 1);
+    ssize_t written = write(com_handle_, packet, (size_t)total);
+    // Log une fois toutes les 100 fois pour ne pas saturer le log
+    static int _log_count = 0;
+    if (++_log_count % 100 == 0) {
+        FILE* _lf = fopen(wc_log_path, "a");
+        if (_lf) {
+            fprintf(_lf, "[EnttecPro] write(%zd)=%zd fd=%d data[0..4]=%02X %02X %02X %02X %02X\n",
+                    total, written, com_handle_,
+                    packet[4], packet[5], packet[6], packet[7], packet[8]);
+            fclose(_lf);
+        }
+    }
+    if (written != total) return -1;
     return 0;
 }
 

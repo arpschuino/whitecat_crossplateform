@@ -977,6 +977,11 @@ int main(int /*argc*/, char ** /*argv*/) {
 
     Canvas::Fill(CouleurFond);
     Canvas::Refresh();
+#ifndef _WIN32
+    // Sur Linux, pomper les événements SDL pour que la fenêtre soit
+    // mappée et le contenu visible avant la suite du chargement.
+    for (int _i = 0; _i < 5; _i++) { SDL_PumpEvents(); SDL_Delay(20); }
+#endif
     FILE *dbg = fopen(WC_LOG_FILE, "w");
     if (dbg) {
         fprintf(dbg, "After Canvas::Refresh\n");
