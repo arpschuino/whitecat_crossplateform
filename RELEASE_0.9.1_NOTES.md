@@ -31,6 +31,22 @@ Dernière mise à jour : 2026-06-02.
    Les `fread`/`fwrite` utilisent `arduino_*_size` = 128/64, mais les tableaux étaient déclarés
    à 127/63 → débordement d'1 élément → `__fread_chk` abort au chargement d'un show.
    Fichiers : `arduino.h`, `arduino.cpp`.
+6. **Art-Net broadcast cassé sous Linux** : `SO_BROADCAST` était positionné depuis le `char`
+   global `broadcast='1'` (`sizeof` = 1), mais Linux exige un `int` (4 octets) → option non
+   appliquée → `sendto` broadcast échoue avec EACCES (errno 13). Passé un vrai `int`.
+   Windows/Winsock tolérait. Commit `9f9f1775`.
+7. **Une interface DMX en échec coupait TOUTES les sorties** : `index_init_dmx_ok` est global ;
+   un Enttec Pro activé dans la config mais non branché le remettait à 0, ce qui désactivait
+   aussi l'Art-Net (qui marchait). Recalcul après `Init_dmx_interface()` : prêt dès qu'au moins
+   une interface est active. Commit `37a1227d`. Cross-platform (Windows + Pi).
+
+### Config Art-Net — broadcast dirigé (à documenter côté utilisateur)
+Sur une machine à **plusieurs interfaces** (Ethernet + WiFi, ou surtout une interface
+**virtuelle** créée par **WSL / VM / VPN / Hyper-V**), le broadcast *limité* `255.255.255.255`
+n'est émis que sur **UNE** interface (souvent la mauvaise) → le projecteur ne reçoit rien
+alors qu'un moniteur local (Protokol) reçoit. **Utiliser le broadcast dirigé du sous-réseau du
+projecteur**, ex. `192.168.1.255`. Le Pi (1 seule interface) marche avec `255.255.255.255`
+« par chance ». → à expliquer dans la doc utilisateur (page DMX / Art-Net).
 
 ### Outil de diagnostic ajouté (gardé volontairement)
 - Handler **SIGSEGV/SIGBUS/SIGFPE** + backtrace POSIX dans `MAIN.cpp` (`posix_crash_handler`).
