@@ -1191,6 +1191,11 @@ int main(int /*argc*/, char ** /*argv*/) {
     reset_temp_state_for_channel_macros_launch(); // christoph 18/12/14 pour intialisation au démarrage de wcat des
                                                   // channels macros
 
+    scroll_channelspace = -3; // liste des circuits : place la 1re ligne (circuits 1-12) juste
+                              // sous le menu. Elle est dessinée en Y=36 alors que le clip démarre
+                              // à hauteur_ChannelMenu (53) ; -3 la descend sous le menu (valeur
+                              // validée à l'écran). Sinon les premiers circuits sont coupés.
+
     starting_wcat = 0;
 #ifdef _WIN32
     SetUnhandledExceptionFilter(crash_handler);
