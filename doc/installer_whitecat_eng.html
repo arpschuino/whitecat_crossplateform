@@ -16,7 +16,7 @@
 <h3 class="toggle">Table of contents</h3>
 <div>
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#installing_whitecat">Installing WhiteCat</a></div>
+<li class="level2"><div class="li"><a href="#installing_whitecat">Installing on Windows</a></div>
 <ul class="toc">
 <li class="level3"><div class="li"><a href="#download_format">Download format</a></div></li>
 <li class="level3"><div class="li"><a href="#install">Install</a></div></li>
@@ -24,6 +24,8 @@
 <li class="level3"><div class="li"><a href="#launch">Launching WhiteCat</a></div></li>
 </ul>
 </li>
+<li class="level2"><div class="li"><a href="#linux">Installing on Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#raspberry_pi">Installing on Raspberry Pi</a></div></li>
 <li class="level2"><div class="li"><a href="#drivers_dmx_midi">Installing DMX and MIDI drivers</a></div></li>
 <li class="level2"><div class="li"><a href="#sleep">Sleep / hibernate</a></div></li>
 <li class="level2"><div class="li"><a href="#performance">Performance</a></div></li>
@@ -32,7 +34,7 @@
 </div>
 <!-- TOC END -->
 
-<h2 class="sectionedit1" id="installing_whitecat">Installing WhiteCat</h2>
+<h2 class="sectionedit1" id="installing_whitecat">Installing on Windows</h2>
 <div class="level2">
 
 <h3 class="sectionedit2" id="download_format">Download format</h3>
@@ -87,6 +89,61 @@ The firewall may flag this and block startup.
 </ul>
 
 </div>
+</div>
+
+<h2 class="sectionedit5l" id="linux">Installing on Linux</h2>
+<div class="level2">
+
+<p>
+WhiteCat is distributed as a <strong>.tar.gz</strong> archive (64-bit <em>x86_64</em> build) on <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">GitHub</a>. Extract it into your home folder, avoiding paths with <em>accented characters or spaces</em>. All files (the executable, <code>Fonts/</code>, <code>gfx/</code>, <code>user/</code>, <code>saves/</code>...) must stay together in the same folder.
+</p>
+
+<p>The <code>.sh</code> scripts below can be launched either by <strong>double-click</strong> (choose "Execute" / "Run", possibly after ticking "Allow executing") or from a <strong>terminal</strong>.</p>
+
+<p><strong>1. Install dependencies</strong> (once per machine)</p>
+<p>In a terminal opened in the extracted folder:</p>
+<pre class="code">./install_deps.sh</pre>
+<p>This installs the required libraries (SDL2, audio, PDF export). The administrator password is requested.</p>
+
+<p><strong>2. Desktop integration</strong> (recommended)</p>
+<pre class="code">./install.sh</pre>
+<p>Adds the cat icon and a launcher in the application menu and on the desktop. No password required: this script only touches your user profile. Note: the executable launched on its own keeps a generic icon — this is normal on Linux, the icon comes from the launcher.</p>
+
+<p><strong>3. Access to USB DMX interfaces</strong></p>
+<p>To drive a USB DMX interface (Enttec Open/Pro, DMX King...), add your user to the <code>dialout</code> group, then log out and back in:</p>
+<pre class="code">sudo usermod -aG dialout $USER</pre>
+<p>(On Linux the <code>libftdi1</code> driver replaces the Windows FTD2XX driver — no manual driver installation is needed.)</p>
+
+<p><strong>4. Run</strong></p>
+<p>Double-click the <strong>WhiteCat</strong> (cat) icon in the application menu or on the desktop — the launcher created in step 2. <em>(If needed, you can also run <code>./run.sh</code> from a terminal.)</em></p>
+
+<ul>
+<li class="level1"><div class="li">Video tracking (OpenCV) is disabled in the Linux build.</div></li>
+<li class="level1"><div class="li">If a firewall is active (<code>ufw</code>), allow UDP port <strong>6454</strong> for Art-Net.</div></li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit5p" id="raspberry_pi">Installing on Raspberry Pi</h2>
+<div class="level2">
+
+<p>
+WhiteCat runs on Raspberry Pi under <strong>Raspberry Pi OS Bookworm 64-bit</strong> (<em>aarch64</em> archive). A <strong>Raspberry Pi 4 or 5</strong> is recommended: the Pi 3 works but stays limited (less fluid display).
+</p>
+
+<p>Installation is identical to Linux (scripts can be launched by double-click or from a terminal):</p>
+<ul>
+<li class="level1"><div class="li"><code>./install_deps.sh</code> — dependencies (once)</div></li>
+<li class="level1"><div class="li"><code>./install.sh</code> — icon, launcher <em>and</em> window placement</div></li>
+<li class="level1"><div class="li"><code>sudo usermod -aG dialout $USER</code> — USB DMX access</div></li>
+<li class="level1"><div class="li">run: for everyday use, just <strong>double-click the WhiteCat icon</strong> (application menu or desktop); <code>./run.sh</code> remains an alternative</div></li>
+</ul>
+
+<p><strong>Window placement (Wayland)</strong></p>
+<p>
+Raspberry Pi OS uses the Wayland/labwc compositor, under which an application <em>cannot</em> decide its own on-screen position. The <code>install.sh</code> script therefore adds a labwc rule that pins the WhiteCat window to the top-left corner. To choose another position, edit the <code>WC_POS_X</code> / <code>WC_POS_Y</code> variables at the top of <code>install.sh</code> and run it again.
+</p>
+
 </div>
 
 <h2 class="sectionedit6" id="drivers_dmx_midi">Installing DMX and MIDI drivers</h2>

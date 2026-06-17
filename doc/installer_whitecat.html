@@ -16,7 +16,7 @@
 <h3 class="toggle">Table des matières</h3>
 <div>
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#installer_whitecat">Installer WhiteCat</a></div>
+<li class="level2"><div class="li"><a href="#installer_whitecat">Installer sous Windows</a></div>
 <ul class="toc">
 <li class="level3"><div class="li"><a href="#format_fichier">Format du fichier téléchargé</a></div></li>
 <li class="level3"><div class="li"><a href="#installer">Installer</a></div></li>
@@ -24,6 +24,8 @@
 <li class="level3"><div class="li"><a href="#lancer">Lancer WhiteCat</a></div></li>
 </ul>
 </li>
+<li class="level2"><div class="li"><a href="#linux">Installer sous Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#raspberry_pi">Installer sur Raspberry Pi</a></div></li>
 <li class="level2"><div class="li"><a href="#drivers_dmx_midi">Installer les drivers DMX et MIDI</a></div></li>
 <li class="level2"><div class="li"><a href="#mises_en_veille">Mises en veille</a></div></li>
 <li class="level2"><div class="li"><a href="#optimisation">Optimisation des ressources</a></div></li>
@@ -32,7 +34,7 @@
 </div>
 <!-- TOC END -->
 
-<h2 class="sectionedit1" id="installer_whitecat">Installer WhiteCat</h2>
+<h2 class="sectionedit1" id="installer_whitecat">Installer sous Windows</h2>
 <div class="level2">
 
 <h3 class="sectionedit2" id="format_fichier">Format du fichier téléchargé</h3>
@@ -87,6 +89,61 @@ Le pare-feu peut trouver cela suspect et bloquer le démarrage.
 </ul>
 
 </div>
+</div>
+
+<h2 class="sectionedit5l" id="linux">Installer sous Linux</h2>
+<div class="level2">
+
+<p>
+WhiteCat est fourni en archive <strong>.tar.gz</strong> (version 64 bits <em>x86_64</em>) sur <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">GitHub</a>. Décompressez-la dans votre dossier personnel, en évitant les chemins contenant des <em>accents ou des espaces</em>. Tous les fichiers (l'exécutable, <code>Fonts/</code>, <code>gfx/</code>, <code>user/</code>, <code>saves/</code>...) doivent rester ensemble dans le même dossier.
+</p>
+
+<p>Les scripts <code>.sh</code> ci-dessous se lancent au choix par <strong>double-clic</strong> (choisir « Exécuter » / « Lancer », éventuellement après avoir coché « Autoriser l'exécution ») ou depuis un <strong>terminal</strong>.</p>
+
+<p><strong>1. Installer les dépendances</strong> (une seule fois par machine)</p>
+<p>Dans un terminal ouvert dans le dossier extrait :</p>
+<pre class="code">./install_deps.sh</pre>
+<p>Ce script installe les bibliothèques nécessaires (SDL2, audio, génération PDF). Le mot de passe administrateur est demandé.</p>
+
+<p><strong>2. Intégration au bureau</strong> (recommandé)</p>
+<pre class="code">./install.sh</pre>
+<p>Ajoute l'icône du chat et un raccourci dans le menu d'applications et sur le bureau. Aucun mot de passe requis : ce script ne touche qu'à votre profil utilisateur. À noter : l'exécutable lancé seul garde une icône générique — c'est normal sous Linux, l'icône provient du raccourci.</p>
+
+<p><strong>3. Accès aux interfaces DMX USB</strong></p>
+<p>Pour piloter une interface DMX USB (Enttec Open/Pro, DMX King...), ajoutez votre utilisateur au groupe <code>dialout</code>, puis reconnectez-vous :</p>
+<pre class="code">sudo usermod -aG dialout $USER</pre>
+<p>(Sous Linux, le pilote <code>libftdi1</code> remplace le pilote FTD2XX de Windows — aucune installation manuelle de driver n'est nécessaire.)</p>
+
+<p><strong>4. Lancer</strong></p>
+<p>Double-cliquez sur l'icône <strong>WhiteCat</strong> (chat) dans le menu d'applications ou sur le bureau — le raccourci créé à l'étape 2. <em>(Au besoin, on peut aussi lancer <code>./run.sh</code> depuis un terminal.)</em></p>
+
+<ul>
+<li class="level1"><div class="li">Le tracking vidéo (OpenCV) est désactivé sur la version Linux.</div></li>
+<li class="level1"><div class="li">Si un pare-feu est actif (<code>ufw</code>), autorisez le port UDP <strong>6454</strong> pour l'Art-Net.</div></li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit5p" id="raspberry_pi">Installer sur Raspberry Pi</h2>
+<div class="level2">
+
+<p>
+WhiteCat fonctionne sur Raspberry Pi sous <strong>Raspberry Pi OS Bookworm 64 bits</strong> (archive <em>aarch64</em>). Un <strong>Raspberry Pi 4 ou 5</strong> est recommandé : le Pi 3 fonctionne mais reste limité (affichage moins fluide).
+</p>
+
+<p>L'installation est identique à celle de Linux (scripts lançables par double-clic ou en terminal) :</p>
+<ul>
+<li class="level1"><div class="li"><code>./install_deps.sh</code> — dépendances (une fois)</div></li>
+<li class="level1"><div class="li"><code>./install.sh</code> — icône, raccourci <em>et</em> placement de la fenêtre</div></li>
+<li class="level1"><div class="li"><code>sudo usermod -aG dialout $USER</code> — accès DMX USB</div></li>
+<li class="level1"><div class="li">lancer : en usage courant, un simple <strong>double-clic sur l'icône WhiteCat</strong> (menu d'applications ou bureau) suffit ; <code>./run.sh</code> reste une alternative</div></li>
+</ul>
+
+<p><strong>Placement de la fenêtre (Wayland)</strong></p>
+<p>
+Raspberry Pi OS utilise le compositeur Wayland/labwc, sous lequel une application <em>ne peut pas</em> décider elle-même de sa position à l'écran. Le script <code>install.sh</code> ajoute pour cela une règle labwc qui cale la fenêtre WhiteCat en haut à gauche. Pour choisir une autre position, modifiez les variables <code>WC_POS_X</code> / <code>WC_POS_Y</code> en haut de <code>install.sh</code> puis relancez-le.
+</p>
+
 </div>
 
 <h2 class="sectionedit6" id="drivers_dmx_midi">Installer les drivers DMX et MIDI</h2>
