@@ -27,7 +27,7 @@ WWWWWWWW           C  WWWWWWWW   |
            WWWWWWWWt             |
                                  |
 ---------------------------------------------------------------------------------------------------------------*/
-char versionis[72] = {"0.9.1 - 28 mai 2026"};
+char versionis[72] = {"0.9.1 - 17 juin 2026"};
 char nickname_version[48] = {"arpschuino reborn"};
 bool init_done = 0; // démarrage pour éviter envoyer data pdt procedure d initialisation
 /////////////////////REPERTOIRE/////////////////////////////////////////////////
