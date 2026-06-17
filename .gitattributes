@@ -1,0 +1,2 @@
+# Les scripts shell doivent garder des fins de ligne LF (sinon bash échoue sur le \r)
+*.sh text eol=lf
