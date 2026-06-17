@@ -1,7 +1,7 @@
 # Release 0.9.1 — État et points en cours
 
 Document de suivi (synchronisé Nextcloud + GitHub) — accessible depuis n'importe quel poste.
-Dernière mise à jour : 2026-06-02.
+Dernière mise à jour : 2026-06-18.
 
 ---
 
@@ -65,7 +65,18 @@ projecteur**, ex. `192.168.1.255`. Le Pi (1 seule interface) marche avec `255.25
 
 ## 🔧 EN COURS — à faire demain / autre poste
 
-### 0. Placement des fenêtres & install.sh Linux (packaging — 2026-06-17)
+### 0. Placement des fenêtres & install.sh Linux (packaging) — ✅ FAIT (2026-06-18)
+**Réalisé** : `install.sh` créé (icône du chat + raccourci menu/bureau + window rule labwc),
+committé (`081a57ef`) et testé sur le Pi (insertion window rule + `.desktop` à chemin auto).
+`.gitattributes` ajouté (LF forcé pour les `.sh`, `3e820194`). `config_screens.txt` à `0 0`
+et `config_dmx` à `0/0/0/0` dans les paquets. `last_save` clean (préparé par l'utilisateur ;
+logs parasites `openlayer.log`/`debug_crash.txt`/`wc_debug.txt`/`wcat_audio.log` retirés à la
+copie). Date du splash → « 0.9.1 - 17 juin 2026 » (`globals.cpp`, `63538734`). Doc
+`installer_whitecat.html` FR+EN : nouvelles sections Linux & Pi, lancement par l'icône (`baa2a018`).
+**Paquets régénérés** : Windows `.zip` (14,6 Mo) ✅ et Raspberry Pi `.tar.gz` aarch64 (7,2 Mo) ✅
+— voir §2 et §4.
+
+Détail du plan initial (conservé pour référence) :
 - **Fenêtre principale en (0,0)** :
   - Windows / X11 (Mint, Ubuntu, Debian classiques) : déjà géré par le code
     (`MoveWindow` / `SDL_SetWindowPosition` à `posX/posY_mainwindow`). Il suffit de mettre
@@ -118,7 +129,18 @@ et le poste de test n'avait pas de droits sudo. → À refaire sur un poste avec
 `sudo usermod -aG dialout $USER` + déconnexion/reconnexion, puis tester la sortie DMX réelle.
 Le scan ttyACM reste une amélioration souhaitable pour les clones (DMXKing), mais non bloquant.
 
-### 2. Build Raspberry Pi (ARM64) — pas encore fait
+### 2. Build Raspberry Pi (ARM64) — ✅ FAIT (2026-06-18)
+**Réalisé** : compilé sur le Pi 4 via SSH (`jacques@192.168.1.135`) avec
+`make -f Makefile.linux clean && make -f Makefile.linux -j4` (build propre car
+`graphics_backend.h` = source du PCH avait changé). Binaire ELF ARM aarch64, testé OK
+(tourne sans crash, date splash correcte, validé visuellement par l'utilisateur).
+**Paquet** `Whitecat_Crossplatform_0.9.1_linux_aarch64.tar.gz` (7,2 Mo) créé dans
+`whitecatbuild/release/` : cloné depuis le paquet x86_64 (mêmes assets clean), binaire
+aarch64 swappé, `chmod +x` (binaire + `.sh`), puis `tar` créé **sur le Pi** (préserve les
+permissions — impossible depuis Windows). README adapté (Pi/ARM64, Pi 4-5 recommandé).
+NB : `PI3=1` non utilisé (c'est un Pi 4). Reste : compléter `doc/hardware.html` section Pi.
+
+Procédure initiale (référence) :
 Compiler SUR le Pi (cross-compil trop lourde depuis ce poste) :
 ```bash
 make -f Makefile.linux PI3=1 -j4
@@ -136,9 +158,20 @@ Documenter dans `doc/sequentiel.html` (et `sequentiel_eng.html`) l'option **Cont
 La fonctionnalité est déjà codée (0.9.1) ; il manque sa description dans la page cue list.
 
 ### 4. Finalisation release GitHub
-- Tag `v0.9.1`
-- GitHub Release avec les 3 archives (Windows zip + Linux tar.gz + AppImage [+ Pi quand prêt])
+**État des paquets (2026-06-18)** :
+- ✅ **Windows** `.zip` (14,6 Mo) — exe « 17 juin 2026 », config `0 0`, last_save clean — prêt
+- ✅ **Raspberry Pi** `.tar.gz` aarch64 (7,2 Mo) — prêt (voir §2)
+- ⏳ **Linux x86_64** `.tar.gz` — binaire du 5 juin à REBUILDER (le code est déjà à jour) :
+  1. corriger le chemin dans `build_linux.bat` (`/mnt/c/Nextcloud` → `/mnt/d/nextCloud`)
+  2. rebuild WSL, puis assembler comme le Pi (cloner dossier x86_64, swap binaire, `tar` sous WSL)
+  3. non testable faute de machine Linux Intel/AMD — binaire sain (même code source que le Pi qui tourne)
+- ⏳ **AppImage** — à régénérer (recette déjà faite une fois ; celle du 2 juin existe)
+- Tag `v0.9.1` + GitHub Release : uploader les archives (rappel : `whitecatbuild/` n'est PAS dans git)
 - Notes de version (reprendre CHANGELOG.md section 0.9.1)
+
+### 5. Petit nettoyage code
+- **Log de debug `[wc_hook] len=…`** affiché dans la console au démarrage (lecture de fichiers,
+  ex. `curves_matrix.whc` = 16384). Sans gravité mais à retirer (hook de debug oublié).
 
 ---
 
