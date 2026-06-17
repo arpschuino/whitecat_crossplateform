@@ -379,8 +379,12 @@ sockartnet=socket(AF_INET,SOCK_DGRAM,0); //On initialise le socket avec SOCK_DGR
 
 if(index_broadcast==1)//init broadcast mode, sinon est en unicast
 {
- if (setsockopt(sockartnet, SOL_SOCKET, SO_BROADCAST, &broadcast,
-        sizeof broadcast) == -1) {
+ // SO_BROADCAST attend un int (4 octets) sous Linux : passer le char global
+ // 'broadcast' (sizeof 1) n'active PAS l'option -> sendto broadcast = EACCES.
+ // Windows (Winsock) tolère, pas Linux. On passe donc un int.
+ int broadcast_opt = 1;
+ if (setsockopt(sockartnet, SOL_SOCKET, SO_BROADCAST, (const char*)&broadcast_opt,
+        sizeof broadcast_opt) == -1) {
         sprintf(string_Last_Order,">>ArtNet: setsockopt SO_BROADCAST failed (non-fatal)");
     }
 }
