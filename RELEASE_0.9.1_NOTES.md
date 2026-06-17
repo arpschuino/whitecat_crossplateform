@@ -49,6 +49,27 @@ Dernière mise à jour : 2026-06-02.
 
 ## 🔧 EN COURS — à faire demain / autre poste
 
+### 0. Placement des fenêtres & install.sh Linux (packaging — 2026-06-17)
+- **Fenêtre principale en (0,0)** :
+  - Windows / X11 (Mint, Ubuntu, Debian classiques) : déjà géré par le code
+    (`MoveWindow` / `SDL_SetWindowPosition` à `posX/posY_mainwindow`). Il suffit de mettre
+    `pos_x pos_y = 0 0` dans `user/config_screens.txt` des paquets.
+  - **Wayland (Pi / labwc)** : l'app NE PEUT PAS se positionner (protocole). Window rule labwc :
+    `~/.config/labwc/rc.xml` →
+    `<windowRule title="WhiteCat"><action name="MoveTo" x="0" y="0"/></windowRule>`
+    (matche aussi `identifier="whitecat"` = app_id défini via `SDL_HINT_APP_ID`). Recharger : `kill -SIGHUP $(pidof labwc)`.
+    → à installer par `install.sh`. Testé OK sur le Pi.
+- **Position des sous-fenêtres (dont la fenêtre de log « Loaded file… »)** : sauvegardée PAR SHOW
+  dans `saves/<show>/config_windows.txt` (ligne « report_SL_X report_SL_Y / … »). PAS dans le code
+  (l'init `report_SL_Y` est écrasée par le fichier au chargement). Le `last_save` livré dans les
+  paquets doit avoir de BONNES positions — le défaut `30 40` met la fenêtre de log trop haut
+  (Windows ok car le show de travail l'avait déplacée à `197 276`). → régler les positions dans le
+  `last_save` modèle avant packaging.
+- **install.sh** (Linux, à créer) : génère `~/.local/share/applications/whitecat.desktop`
+  (chemins auto + `StartupWMClass=whitecat` + `Icon=whitecat`), installe l'icône
+  (`~/.local/share/icons/hicolor/256x256/apps/whitecat.png`), et — sous labwc — ajoute la window
+  rule de position. Donne l'icône du chat (barre des tâches + menu) et le placement de la fenêtre.
+
 ### 1. Enttec Pro non détecté sous Linux (PRIORITÉ)
 Le backend Linux (`Src/dmx_backend_linux.h`) scanne uniquement `/dev/ttyUSB0..9`
 (`Detect_EnttecProOut`, ligne ~238). Ouverture via `wc_serial_open_dmx(DeviceName, 57600, false)`.

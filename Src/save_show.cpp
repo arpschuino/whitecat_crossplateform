@@ -655,7 +655,7 @@ int Show_report_save_load()
 {
 Rect Report_Save_Load(Vec2D(report_SL_X, report_SL_Y), Vec2D( 350,160));
 Report_Save_Load.SetRoundness(15);
-Report_Save_Load.SetLineWidth(epaisseur_ligne_fader*3);
+Report_Save_Load.SetLineWidth(epaisseur_bordure_fenetre); // même épaisseur que les autres fenêtres
 Report_Save_Load.Draw(CouleurFond);
 Report_Save_Load.DrawOutline(CouleurLigne);
 if(window_focus_id==W_SAVEREPORT){Report_Save_Load.DrawOutline(CouleurFader);}
