@@ -134,6 +134,15 @@ int Init_dmx_interface() {
             Init_single_dmx_interface(i);
         }
     }
+    // Une interface dont l'init échoue (ex. Enttec Pro activé dans la config mais non
+    // branché) remet index_init_dmx_ok=0 et coupe TOUTES les sorties, Art-Net compris.
+    // On recalcule : la sortie DMX est "prête" dès qu'au moins une interface est active
+    // (un sendto/write vers une interface absente échoue silencieusement, sans gêner les
+    // autres). Même logique que SelectDmxDevice().
+    index_init_dmx_ok = 0;
+    for (int i = 1; i <= 4; i++) {
+        if (dmx_interface_active[i]) { index_init_dmx_ok = 1; break; }
+    }
     return (0);
 }
 
