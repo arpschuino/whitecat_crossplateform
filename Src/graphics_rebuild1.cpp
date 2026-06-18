@@ -293,10 +293,11 @@ void Procedure(const std::string title, const std::string subtitle) {
 }
 
 int DoMouse() {
-    // Curseur système SDL utilisé à la place du curseur custom Allegro
-    if (Midi_Faders_Affectation_Type != 0) {
-        neuromoyen.Print(string_shortview_midi, mouse_x - 20, mouse_y + 40);
-    }
+    // Curseur système SDL utilisé à la place du curseur custom Allegro.
+    // (Ancien label MIDI flottant « type chan/pitch » retiré : affichait
+    //  miditable de l'élément survolé — souvent 999/999 « non assigné » — et
+    //  faisait doublon avec le moniteur MIDI. show_type_midi reste utilisé pour
+    //  string_last_midi_id, affiché dans la fenêtre MIDI.)
     return (0);
 #if 0
 	float fx, fy;
