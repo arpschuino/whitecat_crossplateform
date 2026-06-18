@@ -39,6 +39,11 @@ Dernière mise à jour : 2026-06-18.
    un Enttec Pro activé dans la config mais non branché le remettait à 0, ce qui désactivait
    aussi l'Art-Net (qui marchait). Recalcul après `Init_dmx_interface()` : prêt dès qu'au moins
    une interface est active. Commit `37a1227d`. Cross-platform (Windows + Pi).
+8. **Label MIDI flottant « 999/999 » + traînées** : en mode affectation MIDI, `DoMouse()`
+   dessinait `string_shortview_midi` au curseur (affectation de l'élément survolé, souvent
+   `999/999` = non assigné). Doublon avec le moniteur MIDI, et traînées (fond non réeffacé sous
+   le dirty-rects sur simple mouvement). Label retiré ; `show_type_midi` conservé (alimente
+   `string_last_midi_id` dans la fenêtre MIDI). Commit `7a46dfe5`. Cross-platform.
 
 ### Config Art-Net — broadcast dirigé (à documenter côté utilisateur)
 Sur une machine à **plusieurs interfaces** (Ethernet + WiFi, ou surtout une interface
@@ -158,16 +163,32 @@ Documenter dans `doc/sequentiel.html` (et `sequentiel_eng.html`) l'option **Cont
 La fonctionnalité est déjà codée (0.9.1) ; il manque sa description dans la page cue list.
 
 ### 4. Finalisation release GitHub
-**État des paquets (2026-06-18)** :
-- ✅ **Windows** `.zip` (14,6 Mo) — exe « 17 juin 2026 », config `0 0`, last_save clean — prêt
-- ✅ **Raspberry Pi** `.tar.gz` aarch64 (7,2 Mo) — prêt (voir §2)
-- ⏳ **Linux x86_64** `.tar.gz` — binaire du 5 juin à REBUILDER (le code est déjà à jour) :
-  1. corriger le chemin dans `build_linux.bat` (`/mnt/c/Nextcloud` → `/mnt/d/nextCloud`)
-  2. rebuild WSL, puis assembler comme le Pi (cloner dossier x86_64, swap binaire, `tar` sous WSL)
-  3. non testable faute de machine Linux Intel/AMD — binaire sain (même code source que le Pi qui tourne)
-- ⏳ **AppImage** — à régénérer (recette déjà faite une fois ; celle du 2 juin existe)
-- Tag `v0.9.1` + GitHub Release : uploader les archives (rappel : `whitecatbuild/` n'est PAS dans git)
-- Notes de version (reprendre CHANGELOG.md section 0.9.1)
+**État des paquets (2026-06-18, soir)** :
+- ✅ **Linux x86_64** — RÉGÉNÉRÉ ce soir : binaire glibc 2.27 (chroot bionic) à jour
+  (tous les fixes du jour + **fix label MIDI**), `.tar.gz` (12,8 Mo) + **AppImage** (12,9 Mo),
+  38 libs embarquées, aucune dépendance manquante.
+  → **À TESTER lundi** sur une machine Linux (transfert clé USB / Nextcloud).
+  → Profiter du test pour générer un `last_save` propre SOUS LINUX (New Show + placer les
+     fenêtres + quitter) puis régénérer le paquet — voir note last_save ci-dessous.
+- 🔴 **Windows** `.zip` — binaire à RÉGÉNÉRER : le zip (14,6 Mo) date d'AVANT le fix label MIDI.
+  Copier l'exe à jour de `whitecatbuild/build/white_cat_for_mingw/` dans le paquet + re-zipper.
+- 🔴 **Raspberry Pi** `.tar.gz` — binaire à RÉGÉNÉRER : le tar.gz (7,2 Mo) date d'AVANT le fix
+  label MIDI. Le binaire aarch64 à jour est DÉJÀ compilé sur le Pi (carte SD) ; le récupérer
+  par SSH (`jacques@192.168.1.135`) quand le Pi est rallumé, swap dans le paquet + re-tar SUR le Pi.
+- Tag `v0.9.1` + GitHub Release : uploader les 3 archives + AppImage
+  (rappel : `whitecatbuild/` n'est PAS dans git).
+- Notes de version (reprendre CHANGELOG.md section 0.9.1).
+
+**Note last_save** : le `last_save` du paquet x86_64 (195 fichiers, version 5 juin) diffère de
+celui de Windows (240 fichiers, version 18 juin). Le fix `fclose(NULL)` (fichier manquant) évite
+le crash, mais pour la cohérence, générer un `last_save` propre sous Linux lundi et le diffuser
+aux paquets x86_64 + aarch64 (mêmes .whc 64-bit little-endian).
+
+**Procédure build Linux x86_64 (scripts présents dans `~/wcbuild/` sous WSL Ubuntu, ce poste)** :
+chroot bionic `/opt/wcbionic` (glibc 2.27), `sudo` NOPASSWD, projet déjà bind sur `/mnt/d`.
+- `bash ~/wcbuild/rebclean.sh` — clean + build dans le chroot (clean OBLIGATOIRE si `.h` du PCH changé)
+- `bash ~/wcbuild/repackage_linux.sh` — bundle libs (ldd + blacklist) + `.tar.gz` + AppImage (appimagetool)
+- ⚠️ `build_linux.bat` (racine) = ancienne approche Ubuntu-22.04 (glibc récent) → NE PAS utiliser pour la release.
 
 ### 5. Petit nettoyage code
 - **Log de debug `[wc_hook] len=…`** affiché dans la console au démarrage (lecture de fichiers,
