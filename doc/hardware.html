@@ -19,6 +19,7 @@
 <li class="level3"><div class="li"><a href="#systeme">Système</a></div></li>
 <li class="level3"><div class="li"><a href="#configuration_minimum">Configuration minimum</a></div></li>
 <li class="level3"><div class="li"><a href="#configuration_ideale">Configuration idéale</a></div></li>
+<li class="level3"><div class="li"><a href="#raspberry_pi">WhiteCat sur Raspberry Pi</a></div></li>
 <li class="level3"><div class="li"><a href="#tester_configuration">Tester la configuration d'un ordi</a></div></li>
 <li class="level3"><div class="li"><a href="#conseils_achat">Conseils d'achat</a></div></li>
 <li class="level3"><div class="li"><a href="#lumiere_video">Lumière et vidéo sur un même portable</a></div></li>
@@ -36,6 +37,12 @@
 White Cat fonctionne sous Windows 10 et 11.
 À tester sous Windows 7 et Windows 8-8.1.
 Ne fonctionne plus sous XP, Vista.
+</p>
+
+<p>
+Depuis la version 0.9.1, WhiteCat fonctionne aussi sous <strong>Linux</strong> (64 bits, x86_64)
+et sur <strong>Raspberry Pi</strong> (ARM64, Raspberry Pi OS Bookworm) — voir la section
+<a href="#raspberry_pi">WhiteCat sur Raspberry Pi</a> ci-dessous.
 </p>
 
 <p>
@@ -94,6 +101,41 @@ Les utilisateurs de très anciennes machines peuvent télécharger une ancienne 
 </ul>
 
 <p>En résumé : un laptop bureautique milieu de gamme récent fait parfaitement l'affaire. Pas besoin de machine gaming.</p>
+
+</div>
+
+<h3 class="sectionedit3b" id="raspberry_pi">WhiteCat sur Raspberry Pi</h3>
+<div class="level3">
+
+<p>
+Depuis la version 0.9.1, WhiteCat tourne sur Raspberry Pi — une solution compacte,
+silencieuse et peu coûteuse pour piloter un spectacle.
+</p>
+
+<h4>Modèle recommandé</h4>
+<ul>
+<li class="level1"><div class="li"><strong>Raspberry Pi 4</strong> ou <strong>Pi 5</strong> — pour un affichage fluide (la version <strong>2 Go</strong> de RAM suffit, WhiteCat est léger)</div></li>
+<li class="level1"><div class="li">Le <strong>Pi 3</strong> fonctionne mais reste limité (interface moins fluide) — dépannage ou applications autonomes (installation, boucle automatique)</div></li>
+<li class="level1"><div class="li">Système : <strong>Raspberry Pi OS Bookworm 64 bits</strong> (aarch64)</div></li>
+<li class="level1"><div class="li">Carte microSD rapide (classe A1/A2) ou SSD USB pour le confort</div></li>
+</ul>
+
+<h4>Sortie DMX</h4>
+<ul>
+<li class="level1"><div class="li"><strong>USB</strong> : interfaces Enttec Open/Pro, DMX King... via le pilote <code>libftdi1</code> (l'utilisateur doit être dans le groupe <code>dialout</code>)</div></li>
+<li class="level1"><div class="li"><strong>Réseau</strong> : Art-Net (Ethernet), idéal vers des nodes ou projecteurs Art-Net</div></li>
+</ul>
+
+<h4>Affichage</h4>
+<ul>
+<li class="level1"><div class="li">Raspberry Pi OS utilise le compositeur Wayland/labwc ; le placement de la fenêtre est géré par le script <code>install.sh</code> (voir la page d'installation)</div></li>
+<li class="level1"><div class="li">Écran ou dalle HDMI, 1280×800 minimum</div></li>
+<li class="level1"><div class="li">Le tracking vidéo (OpenCV) est désactivé sur Pi / Linux</div></li>
+</ul>
+
+<p>
+Installation détaillée : voir <a href="installer_whitecat.html" class="wikilink1">Installer WhiteCat</a> (section Raspberry Pi).
+</p>
 
 </div>
 

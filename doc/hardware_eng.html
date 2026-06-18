@@ -19,6 +19,7 @@
 <li class="level3"><div class="li"><a href="#system">System</a></div></li>
 <li class="level3"><div class="li"><a href="#minimum_config">Minimum configuration</a></div></li>
 <li class="level3"><div class="li"><a href="#ideal_config">Ideal configuration</a></div></li>
+<li class="level3"><div class="li"><a href="#raspberry_pi">WhiteCat on Raspberry Pi</a></div></li>
 <li class="level3"><div class="li"><a href="#testing">Testing a computer</a></div></li>
 <li class="level3"><div class="li"><a href="#buying_tips">Buying tips</a></div></li>
 <li class="level3"><div class="li"><a href="#lighting_video">Lighting and video on the same laptop</a></div></li>
@@ -36,6 +37,12 @@
 White Cat runs on Windows 10 and 11.
 To be tested on Windows 7 and Windows 8–8.1.
 No longer works on XP or Vista.
+</p>
+
+<p>
+Since version 0.9.1, WhiteCat also runs on <strong>Linux</strong> (64-bit, x86_64) and on
+<strong>Raspberry Pi</strong> (ARM64, Raspberry Pi OS Bookworm) — see the
+<a href="#raspberry_pi">WhiteCat on Raspberry Pi</a> section below.
 </p>
 
 <p>
@@ -94,6 +101,41 @@ Users with very old machines can download an older version (0.8.x), still availa
 </ul>
 
 <p>In short: a mid-range office laptop from recent years is perfectly adequate. No gaming machine needed.</p>
+
+</div>
+
+<h3 class="sectionedit3b" id="raspberry_pi">WhiteCat on Raspberry Pi</h3>
+<div class="level3">
+
+<p>
+Since version 0.9.1, WhiteCat runs on the Raspberry Pi — a compact, silent and
+inexpensive way to drive a show.
+</p>
+
+<h4>Recommended model</h4>
+<ul>
+<li class="level1"><div class="li"><strong>Raspberry Pi 4</strong> or <strong>Pi 5</strong> — for a fluid display (the <strong>2 GB</strong> RAM version is enough, WhiteCat is lightweight)</div></li>
+<li class="level1"><div class="li">The <strong>Pi 3</strong> works but stays limited (less fluid interface) — backup use or standalone setups (installation, automatic loop)</div></li>
+<li class="level1"><div class="li">OS: <strong>Raspberry Pi OS Bookworm 64-bit</strong> (aarch64)</div></li>
+<li class="level1"><div class="li">A fast microSD card (class A1/A2) or a USB SSD for comfort</div></li>
+</ul>
+
+<h4>DMX output</h4>
+<ul>
+<li class="level1"><div class="li"><strong>USB</strong>: Enttec Open/Pro, DMX King... interfaces via the <code>libftdi1</code> driver (the user must be in the <code>dialout</code> group)</div></li>
+<li class="level1"><div class="li"><strong>Network</strong>: Art-Net (Ethernet), ideal towards Art-Net nodes or fixtures</div></li>
+</ul>
+
+<h4>Display</h4>
+<ul>
+<li class="level1"><div class="li">Raspberry Pi OS uses the Wayland/labwc compositor; window placement is handled by the <code>install.sh</code> script (see the install page)</div></li>
+<li class="level1"><div class="li">HDMI screen or panel, 1280×800 minimum</div></li>
+<li class="level1"><div class="li">Video tracking (OpenCV) is disabled on Pi / Linux</div></li>
+</ul>
+
+<p>
+Detailed installation: see <a href="installer_whitecat_eng.html" class="wikilink1">Installing WhiteCat</a> (Raspberry Pi section).
+</p>
 
 </div>
 
