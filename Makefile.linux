@@ -42,7 +42,7 @@ LDFLAGS := $(SDL2_LIBS) \
             -lftdi1 \
             -lGL \
             -lhpdf -lz \
-            -Wl,-rpath,'$$ORIGIN/lib'
+            -Wl,--disable-new-dtags -Wl,-rpath,'$$ORIGIN/lib'
 
 # ============================================================
 # Sources (identiques au Makefile Windows, sans whitecat_res.o)
