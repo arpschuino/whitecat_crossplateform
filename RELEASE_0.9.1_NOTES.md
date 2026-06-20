@@ -190,6 +190,46 @@ chroot bionic `/opt/wcbionic` (glibc 2.27), `sudo` NOPASSWD, projet déjà bind 
 - `bash ~/wcbuild/repackage_linux.sh` — bundle libs (ldd + blacklist) + `.tar.gz` + AppImage (appimagetool)
 - ⚠️ `build_linux.bat` (racine) = ancienne approche Ubuntu-22.04 (glibc récent) → NE PAS utiliser pour la release.
 
+### 4bis. Débogage paquet Linux x86_64 — libs non résolues (2026-06-21)
+**Symptôme** : au lancement (`run.sh` ou double-clic), rien ne s'affiche ; `whitecat.log`
+contient `./Whitecat_Crossplatform: error while loading shared libraries: libtiff.so.5:
+cannot open shared object file`, exit 127. (Testé sur une vraie machine Linux.)
+
+**3 causes en cascade, toutes corrigées** :
+
+1. **`DT_RUNPATH` au lieu de `DT_RPATH`** — `Makefile.linux` linkait `-Wl,-rpath,'$ORIGIN/lib'`
+   mais les « new dtags » par défaut produisent `DT_RUNPATH`, qui NE se propage PAS aux
+   dépendances transitives (`libtiff` est une dep de `libSDL2_image`, pas du binaire).
+   → **FIX commité** `b3286250` : ajout de `-Wl,--disable-new-dtags`.
+   Vérif : `readelf -d <bin> | grep -E 'RPATH|RUNPATH'` doit montrer **RPATH (0x0f)**, pas RUNPATH.
+
+2. **`libmodplug.so.1` + `libmad.so.0` absentes du bundle** — deps de `libSDL2_mixer` ;
+   `repackage_linux.sh` ne les a pas copiées (cause non élucidée : `ldd` dans le chroot les
+   résout pourtant). → contournées à la main :
+   `sudo cp -L /opt/wcbionic/usr/lib/x86_64-linux-gnu/{libmodplug.so.1,libmad.so.0} <pkg>/lib/`
+
+3. **`libpulse` avec RUNPATH absolu** — `libpulse.so.0` / `libpulse-simple.so.0` ont
+   `RUNPATH = /usr/lib/x86_64-linux-gnu/pulseaudio` (absolu) → `libpulsecommon-11.1.so`
+   introuvable (le `DT_RPATH` du binaire ne couvre pas : un `DT_RUNPATH` intermédiaire casse
+   la chaîne). `libpulse` vient de `libfluidsynth` (dep de SDL2_mixer). → patché :
+   `patchelf --set-rpath '$ORIGIN' <pkg>/lib/libpulse.so.0 <pkg>/lib/libpulse-simple.so.0`
+   (`libpulsecommon` est à plat dans `lib/`, et `$ORIGIN` de libpulse = `lib/`).
+   Script utilisé : `whitecatbuild/fix_pulse.sh` (NON versionné, sur le poste actuel).
+
+**Validation** : `cd <pkg> && ldd ./Whitecat_Crossplatform | grep 'not found'` → vide (« AUCUNE »).
+Le `.tar.gz` corrigé (≈13 Mo) est dans `whitecatbuild/release/` (poste actuel) — À RETESTER.
+
+**À CORRIGER dans `repackage_linux.sh` (`~/wcbuild/`) pour la reproductibilité** — sinon le
+prochain repack recasse le paquet :
+- passe `ldd` **récursive** sur les `.so` de `lib/` (pas seulement sur le binaire) pour copier
+  les deps manquantes (modplug, mad) ;
+- passe `patchelf --set-rpath '$ORIGIN'` sur toute lib bundlée ayant un RUNPATH **absolu** (libpulse*).
+
+⚠️ **Sur un AUTRE poste** : le chroot bionic (`/opt/wcbionic`) et les scripts (`~/wcbuild/`)
+n'existent QUE sur le poste actuel (WSL « Ubuntu »). Pour rebuilder Linux ailleurs : recréer le
+chroot via `build_bionic.sh` (debootstrap bionic + deps, cf. procédure §4), puis `rebclean.sh`
++ `repackage_linux.sh` + les 3 correctifs ci-dessus. `patchelf` requis (`apt install patchelf`).
+
 ### 5. Petit nettoyage code
 - **Log de debug `[wc_hook] len=…`** affiché dans la console au démarrage (lecture de fichiers,
   ex. `curves_matrix.whc` = 16384). Sans gravité mais à retirer (hook de debug oublié).
