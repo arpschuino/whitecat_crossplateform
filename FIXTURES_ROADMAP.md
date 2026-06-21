@@ -53,11 +53,55 @@ briques, sur une base de code stable.
 
 ## Phases
 
-### Phase 0 — Fondations (papier, pas de code)
-- Figer la **taxonomie d'attributs** (intensité / couleur / position / faisceau / contrôle).
-- Spécifier le **modèle de données** : `Channel/Parameter`, `Fixture`, `Patch (univers, canal, fine)`.
-- Trancher les décisions ouvertes (voir plus bas).
-- Valider le choix de la lib JSON.
+### Phase 0 — Fondations ✅ ACTÉ (2026-06-21, conception sans code)
+
+**Taxonomie d'attributs** — nommage **canonique GDTF** (rend le mapping GDTF/OFL quasi trivial).
+Organisée en groupes ; chaque attribut porte : groupe · combinaison **HTP/LTP** par défaut · valeur
+**home** · type (`continu` = fadeable / `slot` = roue à plages).
+
+| Groupe | Attributs | Combine | Type |
+|---|---|---|---|
+| Intensity | `Dimmer` | **HTP** | continu |
+| Position | `Pan`, `Tilt` | LTP | continu (souvent 16 bit) |
+| Color | `ColorAdd_R/G/B/W` (+ ext. `_A/_UV/_Lime/_Cyan/_Indigo…`), `ColorSub_C/M/Y`, `CTO/CTC` | LTP | continu |
+| Color *(ext.)* | `Color1` (roue) | LTP | slot |
+| Beam | `Shutter1`/`Shutter1Strobe`, `Iris`, `Zoom`, `Focus1` | LTP | continu |
+| Beam *(ext.)* | `Gobo1`+`Gobo1PosRotate`, `Prism1`, `Frost1` | LTP | slot / continu |
+| Control *(ext.)* | `Function`/`Control` (reset, lamp, fan…) | LTP | slot |
+
+Stratégie « **figer large, implémenter étroit** » :
+- **Vague 1** (Phases 1-3) : `Dimmer`, `ColorAdd_R/G/B/W`, `Pan`, `Tilt` — continus uniquement.
+- **Vague 2** (Phase 5+) : `Zoom`/`Focus`/`Iris`/`Shutter`, puis le concept **slot** (roues + capabilities), puis `Control`.
+- Palette couleur **listée large** dès maintenant (ce n'est qu'une liste), câblage R/G/B/W d'abord.
+- Concept **slot** posé dans le modèle dès maintenant, **implémenté en Vague 2**.
+
+**Modèle de données** — 3 objets en **composition**. Point clé : **un circuit classique = une
+`Fixture` à un seul `Channel` `Dimmer`** → modèle unifié, le circuit est le cas le plus simple.
+```
+Channel { attribute;  value:uint16;  combine:HTP|LTP;
+          universe; coarse_addr; fine_addr(=0 si 8 bit); resolution:8|16; curve }
+Fixture { id; name; profile; base_universe; base_address; channels:Channel[] }
+Patch   { fixtures[] }
+```
+Rendu : pour chaque `Channel` → `curve(value)` → écrit `coarse` (+`fine` si 16 bit) dans le
+**buffer DMX plat** de l'univers. Logique dans les objets, hot path = balayage plat (perf 40 Hz).
+
+**Décisions de représentation** :
+- `value` interne = **`uint16`** (haute résolution **entière**, pas float). Raison : la résolution
+  interne doit **dépasser la sortie** pour absorber la chaîne `mémoire × master × grand master ×
+  courbe` sans **banding** ; `uint16` = 65 536 niveaux, couvre 8 bit (`value>>8`) et 16 bit (MSB/LSB),
+  reste **léger** (cible Pi), et permet des **courbes en LUT entière**. Le `float` est réservé aux
+  calculs couleur **ponctuels à l'édition** (jamais au stockage ni au rendu).
+- **Courbe par `Channel`** (comme une courbe par circuit aujourd'hui), appliquée en interne via LUT.
+
+**Fils rouges (validation incrémentale)** :
+> circuit 8 bit *(non-régression)* → **dimmer 16 bit *(fade fin)*** → PAR RGBW *(couleur)*
+
+**Lib JSON** : **`nlohmann/json`** (header-only, MIT) — parsing ponctuel de petits fichiers OFL,
+à **isoler dans le TU de l'importeur** (gros header → hors PCH global). GDTF plus tard : XML `tinyxml2`.
+
+*Reste de la Phase 0 réellement à faire avant de coder : rien de bloquant — on peut démarrer la
+Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 
 ### Phase 1 — Objet `Channel` (cœur)
 - Classe sobre : valeur interne haute résolution, résolution sortie 8/16 bit (flag), courbe, mode HTP/LTP.
@@ -100,11 +144,12 @@ briques, sur une base de code stable.
 - **Performance** : garder un buffer DMX plat au rendu (40 Hz).
 - **Fil rouge** : un cas d'usage validé à chaque brique.
 
-## ❓ Décisions à trancher en Phase 0
-- Taxonomie exacte des attributs (liste + nommage).
-- Format de profil prioritaire — **OFL d'abord** (acté), GDTF plus tard.
-- 1 univers au départ, ou multi d'emblée dans les structures (adresse = `(univers, canal)` acté).
-- Stratégie de migration des shows existants.
+## ✅ Décisions Phase 0 — tranchées (2026-06-21)
+- Taxonomie d'attributs **figée**, nommage **GDTF** canonique (voir détail Phase 0).
+- Format de profil : **OFL d'abord**, importeur **GDTF remonté après Phase 4** (couverture).
+- Adresse = `(univers, canal)` dès maintenant ; 1 univers utilisé au départ, structures prêtes multi-univers.
+- `value` interne = **`uint16`** ; **courbe par `Channel`** ; lib JSON = **`nlohmann/json`**.
+- **Encore ouvert** (à trancher en Phase 6) : stratégie de migration / rétrocompat des shows `.whc` existants.
 
 ## Comparatif des formats de profils (rappel)
 
