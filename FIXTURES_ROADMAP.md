@@ -124,8 +124,11 @@ Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 - Bibliothèque de profils + UI de **patch fixtures**.
 - ⚠️ Le vrai travail n'est pas le parsing mais le **mapping** vers la taxonomie + les cas tordus.
 
-### Phase 5 — Contrôles dédiés
-- **Color picker** (RGB/CMY), **Pan/Tilt** (pad/joystick), encodeurs d'attributs.
+### Phase 5 — Contrôles dédiés & UI ergonomique
+- **Color picker** (RGB/CMY), **pad XY** Pan/Tilt (souris + manette), **banque d'encodeurs** d'attributs.
+- **Palettes** (positions / couleurs / gobos / beams) référencées par les mémoires.
+- **Sheets configurables** (Channel Views étendues → vue par fixture / par attribut).
+- OSC en entrée (télécommandes, surfaces tactiles). Détail : voir section « Interface utilisateur ».
 
 ### Phase 6 — Intégration mémoires / séquentiel / chasers
 - Mémoires stockant les **attributs de fixtures** (format save étendu + **rétrocompat `.whc`**).
@@ -136,6 +139,44 @@ Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 - **Multi-univers Art-Net** complet. Éventuel visualiseur (réutiliserait la géométrie GDTF).
 
 ---
+
+## Interface utilisateur (transversale — pas une phase finale)
+
+L'UI accompagne **chaque** fil rouge : deux niveaux selon le stade.
+- **UI « de travail » brute** (avec les Phases 1-3) : des **faders bruts par attribut** suffisent à
+  valider le moteur (RGBW = 4 faders, Pan/Tilt = 2 faders). Moche mais fonctionnel.
+- **UI ergonomique** (Phase 5+) : color picker, pad XY, galeries de slots, palettes — là où WhiteCat
+  « ne doit rien envier aux grandes ».
+
+**Paradigme central : `sélection → attribut → valeur`.** WhiteCat en a déjà la moitié : la sélection
+(clavier numérique, thru, +/−) et un buffer (`bufferSaisie` = germe de **programmer**). Le seul ajout
+structurant est la **couche « attribut »** (choisir quel paramètre on édite) entre la sélection et le
+réglage. Aujourd'hui il n'y a qu'un attribut implicite (l'intensité).
+
+**Surfaces d'entrée** (par ordre d'arrivée) :
+1. **Souris + clavier** (base).
+2. **MIDI** — déjà présent : mapper des **encodeurs/Launchpad** aux attributs (gros atout existant).
+3. **OSC** — à terme (télécommandes, surfaces tactiles, inter-logiciels).
+4. **Hardware dédié** (encodeurs physiques pour Raspberry Pi) — long terme.
+
+**Widgets de valeur, par groupe d'attribut** :
+| Groupe | Contrôleur | Réutilise |
+|---|---|---|
+| Intensity | fader / niveau | espace circuits actuel |
+| Color | **color picker** (roue/carré HSV) + faders RGBW + **palettes** | trichromie (embryon à faire grandir) |
+| Position | **pad XY 2D** (souris + manette/joystick) | — (W_MOVER retiré = retour d'expérience) |
+| Beam (zoom/focus/iris) | banque d'**encodeurs** virtuels | — |
+| Slot (gobo/color wheel) | **galerie de vignettes** | — (Vague 2) |
+
+**Vues d'état — extension des Channel Views.** Les Channel Views deviennent des **« sheets »
+configurables** (tableau *fixtures × attributs*, colonnes masquables) → on obtient avec **un seul
+mécanisme** la **vue par fixture** (toutes les colonnes) ET la **vue par attribut** (une colonne isolée :
+« tous les Tilt ensemble » pour aligner / repérer une déviation).
+
+**Palettes — essentiel, à porter tôt.** Presets réutilisables par groupe d'attributs (positions,
+couleurs, gobos, beams), référencés par les mémoires (une mémoire pointe une palette → modifier la
+palette met à jour toutes les mémoires qui l'utilisent). Le **modèle de palette est à prévoir dès le
+modèle de données** (Phase 0/3), l'UI suit en Phase 5.
 
 ## ⚠️ Points de vigilance transversaux
 - **Cohabitation** avec le cœur legacy (tableaux `grid_levels`/`Memoires` indexés par circuit) : wrapper
