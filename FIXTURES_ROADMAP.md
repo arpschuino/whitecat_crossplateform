@@ -200,7 +200,13 @@ modèle de données** (Phase 0/3), l'UI suit en Phase 5.
 - Format de profil : **OFL d'abord**, importeur **GDTF remonté après Phase 4** (couverture).
 - Adresse = `(univers, canal)` dès maintenant ; 1 univers utilisé au départ, structures prêtes multi-univers.
 - `value` interne = **`uint16`** ; **courbe par `Channel`** ; lib JSON = **`nlohmann/json`**.
-- **Encore ouvert** (à trancher en Phase 6) : stratégie de migration / rétrocompat des shows `.whc` existants.
+- **Séquentiel : cue-only d'abord** (mémoires = états complets, comme aujourd'hui). Le **tracking**
+  reste une évolution possible *plus tard* (couche de calcul par-dessus, sans changer la structure de
+  mémoire) → porte non fermée. Le tracking brille surtout sur les longues conduites ; le public
+  WhiteCat (théâtre/danse) s'accommode bien du cue-only.
+- **Encore ouvert** : modèle de mixage **couches + programmer prioritaire** (HTP intensité / LTP
+  couleur-position) — nécessaire *indépendamment* du cue-only (à confirmer/concevoir, cf. Phase 6) ;
+  stratégie de migration / rétrocompat des shows `.whc` existants.
 
 ## Comparatif des formats de profils (rappel)
 
