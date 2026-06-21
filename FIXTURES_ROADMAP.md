@@ -142,6 +142,14 @@ Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 
 ## Interface utilisateur (transversale — pas une phase finale)
 
+**Principe directeur — UI native souris/clavier/écran, ne PAS émuler une console physique.**
+WhiteCat est un logiciel : pas de touches dédiées (`[Params]`, `[Data]`… comme sur Eos), donc on évite
+les combinaisons « modificateur maintenu + touche » pensées pour un hardware. À la place : **toggles
+directs** (un clic affiche/masque), **menus contextuels** (clic droit sur en-tête de colonne),
+**glisser-déposer**, et surtout des **vues sauvegardées** (sheets nommées rappelables d'un clic/raccourci
+— on *prépare* puis on *rappelle*, souvent plus rapide en exploitation qu'une reconfiguration à la volée).
+C'est un avantage, pas une contrainte : aucun layout de console figé.
+
 L'UI accompagne **chaque** fil rouge : deux niveaux selon le stade.
 - **UI « de travail » brute** (avec les Phases 1-3) : des **faders bruts par attribut** suffisent à
   valider le moteur (RGBW = 4 faders, Pan/Tilt = 2 faders). Moche mais fonctionnel.
@@ -171,7 +179,9 @@ réglage. Aujourd'hui il n'y a qu'un attribut implicite (l'intensité).
 **Vues d'état — extension des Channel Views.** Les Channel Views deviennent des **« sheets »
 configurables** (tableau *fixtures × attributs*, colonnes masquables) → on obtient avec **un seul
 mécanisme** la **vue par fixture** (toutes les colonnes) ET la **vue par attribut** (une colonne isolée :
-« tous les Tilt ensemble » pour aligner / repérer une déviation).
+« tous les Tilt ensemble » pour aligner / repérer une déviation). Config par **toggles / menu contextuel /
+vues sauvegardées** (cf. principe directeur). Liberté qu'Eos n'a pas : masquer aussi des **catégories
+entières** (Intensity/Color/Beam) pour une vue vraiment épurée.
 
 **Palettes — essentiel, à porter tôt.** Presets réutilisables par groupe d'attributs (positions,
 couleurs, gobos, beams), référencés par les mémoires (une mémoire pointe une palette → modifier la
