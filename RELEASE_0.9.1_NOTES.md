@@ -68,6 +68,36 @@ projecteur**, ex. `192.168.1.255`. Le Pi (1 seule interface) marche avec `255.25
 
 ---
 
+## 🆕 Après publication de 0.9.1 — correctifs MIDI out (2026-06-22/23)
+
+0.9.1 est **PUBLIÉE** (tag `v0.9.1` = `2b2b0ded`, 3 paquets sur la release GitHub).
+Bugs corrigés **APRÈS le tag** (donc **pas encore dans les binaires publiés**) :
+
+- **MIDI out — sélection du device impossible** : dans le handler de clic, index parasite
+  `do_connect_out[j+compt_midi_in]` / `midi_out_is_connected[j+compt_midi_in]`, alors que
+  `PrintSlotsInfosDevices` remplit/lit à `[i+1]=[j]`. Dès qu'un device MIDI **IN** est présent
+  (`compt_midi_in>0`), le flag partait au mauvais index → device OUT jamais ouvert. Vestige
+  MidiShare (liste in+out commune). Commit `3fb26ac0`.
+- **MIDI out — Control Change jamais envoyés** : `midi_backend_send` codait le CC en `case 3`
+  sans `case 4`, alors que la convention WhiteCat (callback RX + `show_type_midi` + `miditable[0]`)
+  est **CC = 4** → `emit_midi_out()` envoie `send(miditable[0]==4,…)` qui tombait dans
+  `default → return -1` : rien n'était émis. CC géré à `case 4`. Commit `4148b525`.
+  (Note On/Off = types 1/2 marchaient déjà ; le **pitch-bend** type 7 n'est PAS géré à l'envoi.)
+- **loopMIDI / hotplug** : un port créé **après** le lancement n'apparaît pas, même via le bouton
+  **Rescan** (qui fait pourtant `QuitMidi()`+`InitMidi()` = delete+new des objets RtMidi). C'est
+  une **limite de WinMM** (cache des ports au niveau du *processus*) ; seul un **redémarrage**
+  rafraîchit. Workaround : créer les ports loopMIDI / brancher les contrôleurs **avant** de lancer
+  WhiteCat. Piste long terme : backend **WinRT MIDI** (gère le hotplug) — gros chantier.
+
+### Reste à faire (reprise)
+1. **2ᵉ bug signalé par un beta testeur** : PAS encore décrit ni traité → demander à Jacques les
+   détails (action, attendu vs constaté, plateforme) puis corriger.
+2. **Re-publier en 0.9.1.1 ?** Les 2 fixes MIDI out sont une vraie **régression** (MIDI out cassé
+   depuis la migration RtMidi) mais **absents des binaires publiés**. → décider : régénérer +
+   re-publier les 3 paquets (Win/Linux/Pi) en 0.9.1.1, ou attendre une 0.9.2.
+3. Rappels : fiabiliser `repackage_linux.sh` (§4bis), **sécuriser le token GitHub** (en clair dans
+   l'URL du remote `arpschuino`), `FIXTURES_ROADMAP` Phase 1 (objet `Channel`).
+
 ## 🔧 EN COURS — à faire demain / autre poste
 
 ### 0. Placement des fenêtres & install.sh Linux (packaging) — ✅ FAIT (2026-06-18)
