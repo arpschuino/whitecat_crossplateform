@@ -4564,12 +4564,12 @@ int midipage_devices(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteur
      if(mouse_button==1 &&  mouse_released==0 )
      {
       MidiDeviceBox.Draw(CouleurFader);
-      if( do_connect_out[j+compt_midi_in]==0){ do_connect_out[j+compt_midi_in]=1;  }
+      if( do_connect_out[j]==0){ do_connect_out[j]=1;  }
       mouse_released=1;
      }
      }
      }
-     if (midi_out_is_connected[j+compt_midi_in]== 1)
+     if (midi_out_is_connected[j]== 1)
       {MidiDeviceBox.DrawOutline(CouleurBlind);}
 
      sprintf(string_midi_device_out,"%s",tableau_peripheriques_out[j]);
@@ -4589,12 +4589,12 @@ int midipage_devices(int cfg_midiX,int cfg_midiY, int largeurCFGmidi,int hauteur
      if(mouse_button==1 &&  mouse_released==0 )
      {
       MidiDeviceBox.Draw(CouleurFader);
-      if( do_connect_out[j+compt_midi_in]==0){ do_connect_out[j+compt_midi_in]=1;  }
+      if( do_connect_out[j]==0){ do_connect_out[j]=1;  }
       mouse_released=1;
      }
      }
      }
-     if (midi_out_is_connected[j+compt_midi_in]== 1)
+     if (midi_out_is_connected[j]== 1)
       {MidiDeviceBox.DrawOutline(CouleurBlind);}
 
       sprintf(string_midi_device_out,tableau_peripheriques_out[j]);
