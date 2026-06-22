@@ -208,7 +208,8 @@ int midi_backend_send(int type, int channel, int pitch, int velocity)
             message[1] = pitch;
             message[2] = velocity;
             break;
-        case 3:
+        case 3: // (ancienne convention)
+        case 4: // Control Change — convention WhiteCat (miditable[0]==4, cf. réception/show_type_midi)
             message[0] = 0xB0 | (channel & 0x0F);
             message[1] = pitch;
             message[2] = velocity;
