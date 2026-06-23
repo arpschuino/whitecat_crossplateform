@@ -11,6 +11,7 @@
 
 ## Bugs / Fonctionnalités incomplètes
 
+- [ ] **Simplifier l'écran d'accueil / l'affichage de la version au démarrage** : le splash défile trop vite, le numéro de version (`versionis`) n'est pas lisible humainement. Repenser durée / lisibilité / position (cf. `show_title()` dans core.cpp et le splash de chargement `save_load_print_to_screen`).
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
 
 ---

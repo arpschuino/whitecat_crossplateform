@@ -1,5 +1,20 @@
 # WhiteCat — Changelog
 
+## Version 0.9.2 (en cours — Jacques Bouault)
+
+### MIDI — Sortie (OUT)
+
+- **Fix : sélection du périphérique MIDI OUT impossible** dès qu'un périphérique MIDI IN était présent. Dans la fenêtre de configuration MIDI, le clic posait son indicateur à `do_connect_out[j + compt_midi_in]` (et lisait l'état au même décalage), alors que l'ouverture du port lit `do_connect_out[j]`. Vestige de l'époque MidiShare (liste IN+OUT commune) ; RtMidi indexe IN et OUT séparément. Le décalage `+compt_midi_in` est retiré.
+- **Fix : Control Change jamais émis en sortie**. `emit_midi_out()` envoie les faders avec le type MIDI `miditable[0]` (convention WhiteCat : `4` = Control Change), mais `midi_backend_send()` codait le CC en `case 3` sans `case 4` → les CC tombaient dans `default` et n'étaient jamais envoyés. CC géré à `case 4` (les Notes, types 1/2, fonctionnaient déjà).
+- *Note : sous Windows, un port MIDI créé à chaud (ex. loopMIDI) après le lancement n'apparaît qu'au redémarrage — limite de l'API WinMM, pas un bug WhiteCat. Créer/brancher les ports avant de lancer WhiteCat.*
+
+### Banger — Bouton LOOP
+
+- **Fix : la mise en boucle ne fonctionnait pas**. L'intervalle de relance utilisait un facteur `×10000` hérité du timer Allegro : à 50 Hz, un réglage de « 2 s » donnait ~400 s avant relance. Corrigé en `×50` (`do_loop_bang()` tourne à 50 Hz → `time_loop_banger` est réellement en secondes).
+- **Fix : affichage figé pendant une boucle**. Le « ticker intelligent » (cap fps d'économie CPU) détecte les LFO/chasers/GO/dampers mais pas les bangers : un banger en boucle laissait WhiteCat passer en veille d'affichage → les événements paraissaient désynchronisés/manquants **à l'écran** (la sortie DMX/MIDI restait correcte ; bouger la souris « réparait »). Les bangers en boucle sont ajoutés à la détection d'activité du rendu. Aucun surcoût au repos.
+
+---
+
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
 
 ### Portage Linux — corrections de bugs (profitent aussi à Windows et au Raspberry Pi)
