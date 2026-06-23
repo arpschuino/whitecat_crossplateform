@@ -4717,8 +4717,10 @@ return(0);
 int do_loop_bang(int banger_is)
 {
 ticker_loop_banger[banger_is]++;
-//verifier ok calcul *10000
-if(do_loop_banger[banger_is]==1 && time_loop_banger[banger_is]>0.0 && ticker_loop_banger[banger_is]>time_loop_banger[banger_is]*10000)
+// do_loop_bang() est appelé à 50 Hz (ticker_full_loop, BPS_TO_TIMER(50)) : facteur 50 pour que
+// time_loop_banger soit en SECONDES. L'ancien *10000 datait du timer Allegro -> ~200x trop long
+// après la migration SDL2 (ex. 2 s donnaient 400 s avant relance).
+if(do_loop_banger[banger_is]==1 && time_loop_banger[banger_is]>0.0 && ticker_loop_banger[banger_is]>time_loop_banger[banger_is]*50)
 {
   for (int y=0;y<6;y++){event_sended[banger_is][y]=0;}
   bang_is_sended[banger_is]=0;

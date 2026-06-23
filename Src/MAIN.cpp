@@ -300,6 +300,14 @@ void ticker() {
                 if (chaser_is_playing[i]) { wc_request_refresh(); break; }
             }
         }
+        // — au moins un banger en boucle : il rejoue en continu, donc l'affichage doit suivre.
+        //   Sans ça, en idle le rendu fige et le banger paraît désynchronisé À L'ÉCRAN (la sortie,
+        //   elle, est correcte). Condition restreinte à do_loop_banger pour ne pas casser l'idle.
+        if (core_do_calculations[2]) {
+            for (int i = 0; i < core_user_define_nb_bangers; i++) {
+                if (do_loop_banger[i]) { wc_request_refresh(); break; }
+            }
+        }
 
         for (int pr = 0; pr < 6; pr++) {
             if (draw_point_is_traced[pr] == 1)
