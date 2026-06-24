@@ -64,16 +64,16 @@ struct Channel {
     uint8_t  curve       = 0;             // index de courbe (curve_report[curve])
 
     uint16_t universe    = 0;             // univers DMX (0 au début ; multi-univers prêt)
-    uint16_t coarse_addr = 0;             // canal DMX 1..512 (MSB). 0 = non patché.
-    uint16_t fine_addr   = 0;             // canal LSB. 0 = pas de fine (8 bit).
+    uint16_t coarse_addr = 0;             // output DMX 1..512 (MSB). 0 = non patché.
+    uint16_t fine_addr   = 0;             // output LSB. 0 = pas de fine (8 bit).
     uint8_t  resolution  = RES_8BIT;      // 8 ou 16
 
-    // Écrit la valeur dans le buffer DMX (indices 1..512 ; 0 = start code).
+    // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])
     //   curve_lut  : curve_report (int[16][256]) passé en (*)[256]
     //
     // Étape 1a : reproduit AU BIT PRÈS le calcul historique du circuit 8 bit :
-    //   DmxBlock[canal] = 255 - curve_report[courbe][niveau 8 bit]
+    //   DmxBlock[output] = 255 - curve_report[courbe][niveau 8 bit]
     // (l'inversion "255 -" et la LUT 256 sont la convention WhiteCat actuelle).
     //
     // 16 bit (resolution==16, fine_addr!=0) + courbes haute résolution : Phase 2.

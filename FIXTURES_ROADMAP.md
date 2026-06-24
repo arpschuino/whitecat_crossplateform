@@ -28,6 +28,14 @@ briques, sur une base de code stable.
 3. **L'univers fait partie de l'adresse dès maintenant** — patch en `(univers, canal, fine?)`, même
    si on n'utilise qu'un univers au début. Très pénible à rajouter après (patch + save + réseau).
 
+3 bis. **Nombre de circuits CONFIGURABLE par l'utilisateur** — pouvoir avoir plus *ou* moins de
+   512 circuits. Les **circuits** sont du contrôle **logique** (faders, mémoires), découplés des
+   **outputs** physiques (sorties DMX, limitées à 512/univers) : leur nombre n'a donc pas de raison
+   d'être plafonné à 512. Le modèle `Fixture`/`Channel` (composition + `vector`) est nativement
+   dynamique ; corollaire : les tableaux legacy figés `[513]` (`MergerArray`, `Patch`, `curves`,
+   faders…) devront passer en dimensionnement dynamique. Côté sortie, l'adresse `(univers, canal)`
+   absorbe l'extension (plusieurs univers d'outputs).
+
 4. **HTP/LTP porté par l'objet `Channel`** — WhiteCat est tout-HTP aujourd'hui (le plus fort gagne).
    Couleurs et positions exigent du **LTP** (le dernier gagne). Concept nouveau, à poser dès le channel.
 

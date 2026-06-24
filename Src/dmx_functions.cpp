@@ -50,6 +50,7 @@ PC CPU to be send to the enttec open dmx via the D2XX drivers
 #include "audio_core.h"
 #include "grider_calcul.h"
 #include "sequentiel_core.h"
+#include "channel.h"   // [Phase 1] moteur multi-paramètres (fixtures) — wc::Channel
 int DoLock(int masterfader, int locklevel);
 int do_send_bang();
 
@@ -72,6 +73,13 @@ Open_USB_DMX *pUsbDmx = NULL;
 unsigned char DmxBlockEnttecOpen[513];
 unsigned char dmxIN[513];
 #endif
+
+// [Phase 1 — fixtures] Un wc::Channel par OUTPUT (sortie DMX physique, 1..512).
+// Terminologie : 'circuit' = canal de contrôle logique ; 'output' = sortie DMX
+// physique (ex-'dimmer'). Le patch relie un circuit à un ou plusieurs outputs.
+// Cohabitation : re-synchronisé chaque frame depuis MergerArray/Patch/curves,
+// puis render() écrit DmxBlock. Reproduit le rendu historique (étape 1b/1c).
+static wc::Channel wc_outputs[513];
 
 int Init_single_dmx_interface(int which) {
     switch (which) {
@@ -1214,11 +1222,18 @@ int Merger() {
         circrootpatch = Patch[i];
         DmxBlockPatch[i] = (MergerArray[circrootpatch]);
 
-        // Curve
-        for (int courb = 0; courb < 16; courb++) {
-            if (curves[i] == courb) {
-                DmxBlock[i] = 255 - curve_report[courb][(DmxBlockPatch[i])];
-            }
+        // [Phase 1c] Rendu de l'output i via wc::Channel (attribut Dimmer, 8 bit, HTP).
+        // Cohabitation : le Channel wrappe l'existant — value <- niveau du circuit
+        // patché (promu en haute résolution), curve <- curves[i]. render() reproduit
+        // au bit près l'ancien calcul : DmxBlock[i] = 255 - curve_report[curve][niveau].
+        // Garde curves[i] dans [0,15] : reproduit l'ancienne boucle (hors plage =
+        // DmxBlock[i] inchangé) et évite tout débordement de curve_report.
+        if (curves[i] >= 0 && curves[i] < 16) {
+            wc_outputs[i].attribute   = wc::ATTR_DIMMER;
+            wc_outputs[i].coarse_addr = (uint16_t)i;
+            wc_outputs[i].curve       = (uint8_t)curves[i];
+            wc_outputs[i].value       = (uint16_t)(DmxBlockPatch[i] << 8);
+            wc_outputs[i].render(DmxBlock, curve_report);
         }
 
         // check channel override la sortie
