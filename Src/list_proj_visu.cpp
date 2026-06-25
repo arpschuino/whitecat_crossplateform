@@ -318,6 +318,16 @@ petitpetitchiffre.Print( ol::ToString(leveltoshowis), (xlist+245),(ylist+50+(25*
 }
 }
 petitchiffre.Print( descriptif_projecteurs[co+line_list_is],(xlist+60), (ylist+50+(25*co)));
+//freeze : estompe la ligne + F rouge (coherent avec la vue circuits)
+if(freeze_array[co+line_list_is]==1)
+{
+Rect FreezeVeil(Vec2D(xlist+5,(ylist+35+(25*co))),Vec2D(335,23));
+FreezeVeil.SetRoundness(7.5);
+FreezeVeil.Draw(Rgba::BLACK.WithAlpha(0.65));
+petitchiffre.SetColor(CouleurRougePur);
+petitchiffre.Print("F",(xlist+45),(ylist+50+(25*co)));
+petitchiffre.SetColor(CouleurLigne);
+}
 }
 }
 
