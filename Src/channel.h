@@ -72,13 +72,21 @@ struct Channel {
     //   dmx        : DmxBlock (unsigned char[513])
     //   curve_lut  : curve_report (int[16][256]) passé en (*)[256]
     //
-    // Étape 1a : reproduit AU BIT PRÈS le calcul historique du circuit 8 bit :
-    //   DmxBlock[output] = 255 - curve_report[courbe][niveau 8 bit]
-    // (l'inversion "255 -" et la LUT 256 sont la convention WhiteCat actuelle).
-    //
-    // 16 bit (resolution==16, fine_addr!=0) + courbes haute résolution : Phase 2.
+    // 8 bit  : reproduit AU BIT PRÈS le calcul historique du circuit :
+    //            DmxBlock[output] = 255 - curve_report[courbe][niveau 8 bit]
+    //            (l'inversion "255 -" et la LUT 256 sont la convention WhiteCat actuelle).
+    // 16 bit : déplie la valeur haute résolution sur deux outputs — MSB sur coarse_addr,
+    //            LSB sur fine_addr. Courbe LINÉAIRE pour l'instant ; les courbes haute
+    //            résolution (interpolation de la LUT 8 bit) arrivent en étape 2d.
     void render(unsigned char* dmx, const int (*curve_lut)[256]) const {
         if (coarse_addr == 0) return;                 // non patché
+
+        if (resolution == RES_16BIT && fine_addr != 0) {
+            dmx[coarse_addr] = static_cast<unsigned char>(value >> 8);     // MSB (octet fort)
+            dmx[fine_addr]   = static_cast<unsigned char>(value & 0xFF);   // LSB (octet faible)
+            return;
+        }
+
         const uint8_t lvl8 = static_cast<uint8_t>(value >> 8);   // HR -> 8 bit (octet fort)
         dmx[coarse_addr] = static_cast<unsigned char>(255 - curve_lut[curve][lvl8]);
     }
