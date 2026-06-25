@@ -3554,15 +3554,18 @@ gzclose(gzfp);
 }
 }
 idf++;
-if ((fp=fopen( file_grid_goto, "wb"))==NULL)
+{ // [compression] grid_goto (int) en gzip — longueur en OCTETS (size * sizeof(int))
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_goto, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_goto);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_grid_goto);
-if (fwrite(grid_goto, sizeof(int), grid_goto_size, fp) != grid_goto_size)
+if (gzwrite(gzfp, grid_goto, grid_goto_size*sizeof(int)) != (int)(grid_goto_size*sizeof(int)))
 { sprintf(string_save_load_report[idf],"Error writting %s", file_grid_goto);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_goto);
-fclose(fp);
+gzclose(gzfp);
+}
 }
  idf++;
 if ((fp=fopen( file_grid_seekpos, "wb"))==NULL)
@@ -6305,15 +6308,18 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_times);
 }
 idf++;
 
-if ((fp=fopen( file_grid_goto, "rb"))==NULL)
+{ // [compression] grid_goto (int) : gzread lit le gzip ET l'ancien non compresse — longueur en OCTETS
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_goto, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_goto);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_grid_goto);
-if (fread(grid_goto, sizeof(int), grid_goto_size, fp) !=grid_goto_size)
+if (gzread(gzfp, grid_goto, grid_goto_size*sizeof(int)) !=(int)(grid_goto_size*sizeof(int)))
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_goto);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_goto);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 if ((fp=fopen( file_grid_seekpos, "rb"))==NULL)
