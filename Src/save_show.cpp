@@ -52,6 +52,8 @@ void ticker_midi_clock();
 *
 **/
 
+#include <zlib.h>   // [compression saves] gros fichiers binaires (grid_levels, Memoires)
+
 //modes d enregistrement
 const char file_save_preset[24]={"save_personnal_cfg.whc"};
 unsigned int save_preset_size=80*4;//bool preset_specify_who_to_save_load[80][4];
@@ -1758,15 +1760,18 @@ fclose(fp);
 }
  idf++;
 
-if ((fp=fopen( file_memories, "wb"))==NULL)
+{ // [compression] Memoires ecrit en gzip
+gzFile gzfp;
+if ((gzfp=gzopen( file_memories, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_memories); b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",  file_memories);
-if (fwrite(Memoires, sizeof(unsigned char),memories_size, fp) !=  memories_size)
+if (gzwrite(gzfp, Memoires, memories_size) != (int)memories_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_memories); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_memories);
-fclose(fp);
+gzclose(gzfp);
+}
 }
  idf++;
 
@@ -3443,15 +3448,18 @@ temp_grid_levels_for_save[iu][st][ct]=grid_levels[iu][st][ct];
 }
 }
 
-if ((fp=fopen( file_grid_levels_1, "wb"))==NULL)
+{ // [compression] grid_levels_1 en gzip
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_1, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_levels_1);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_grid_levels_1);
-if (fwrite(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) != grid_levels_size)
+if (gzwrite(gzfp, temp_grid_levels_for_save, grid_levels_size) != (int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_grid_levels_1);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_levels_1);
-fclose(fp);
+gzclose(gzfp);
+}
 }
 idf++;
 
@@ -3465,15 +3473,18 @@ temp_grid_levels_for_save[i][s][c]=grid_levels[32+i][s][c];
 }
 }
 }
-if ((fp=fopen( file_grid_levels_2, "wb"))==NULL)
+{ // [compression] grid_levels_2 en gzip
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_2, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_levels_2);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_grid_levels_2);
-if (fwrite(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) != grid_levels_size)
+if (gzwrite(gzfp, temp_grid_levels_for_save, grid_levels_size) != (int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_grid_levels_2);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_levels_2);
-fclose(fp);
+gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
@@ -3486,15 +3497,18 @@ temp_grid_levels_for_save[i][s][c]=grid_levels[64+i][s][c];
 }
 }
 }
-if ((fp=fopen( file_grid_levels_3, "wb"))==NULL)
+{ // [compression] grid_levels_3 en gzip
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_3, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_levels_3);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_grid_levels_3);
-if (fwrite(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) != grid_levels_size)
+if (gzwrite(gzfp, temp_grid_levels_for_save, grid_levels_size) != (int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_grid_levels_3);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_levels_3);
-fclose(fp);
+gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
@@ -3507,15 +3521,18 @@ temp_grid_levels_for_save[i][s][c]=grid_levels[96+i][s][c];
 }
 }
 }
-if ((fp=fopen( file_grid_levels_4, "wb"))==NULL)
+{ // [compression] grid_levels_4 en gzip
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_4, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_levels_4);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_grid_levels_4);
-if (fwrite(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) != grid_levels_size)
+if (gzwrite(gzfp, temp_grid_levels_for_save, grid_levels_size) != (int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_grid_levels_4);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_levels_4);
-fclose(fp);
+gzclose(gzfp);
+}
 }
 idf++;
 //fin des 4 grid levels
@@ -4322,15 +4339,18 @@ fclose(fp);
 }
 
 idf++;
-if ((fp=fopen( file_memories, "rb"))==NULL)
+{ // [compression] Memoires : gzread lit aussi bien le gzip (nouveau) que l'ancien fichier non compresse
+gzFile gzfp;
+if ((gzfp=gzopen( file_memories, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_memories);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",  file_memories);
-if (fread(Memoires, sizeof(unsigned char), memories_size, fp) != memories_size)
+if (gzread(gzfp, Memoires, memories_size) != (int)memories_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_memories);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_memories);
-fclose(fp);
+gzclose(gzfp);
+}
 }
 idf++;
 if ((fp=fopen(  file_text_mems, "rb"))==NULL)
@@ -6157,15 +6177,18 @@ if(specify_who_to_save_load[29]==1)
 {
 
 
-if ((fp=fopen( file_grid_levels_1, "rb"))==NULL)
+{ // [compression] grid_levels_1 : gzread lit le gzip ET l'ancien non compresse
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_1, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_levels_1);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_grid_levels_1);
-if (fread(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) !=grid_levels_size)
+if (gzread(gzfp, temp_grid_levels_for_save, grid_levels_size) !=(int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_levels_1);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_1);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
@@ -6179,15 +6202,18 @@ grid_levels[i][s][c]=temp_grid_levels_for_save[i][s][c];
 }
 }
 
-if ((fp=fopen( file_grid_levels_2, "rb"))==NULL)
+{ // [compression] grid_levels_2 : gzread lit le gzip ET l'ancien non compresse
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_2, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_levels_2);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_grid_levels_2);
-if (fread(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) !=grid_levels_size)
+if (gzread(gzfp, temp_grid_levels_for_save, grid_levels_size) !=(int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_levels_2);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_2);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
@@ -6200,15 +6226,18 @@ grid_levels[i+32][s][c]=temp_grid_levels_for_save[i][s][c];
 }
 }
 }
-if ((fp=fopen( file_grid_levels_3, "rb"))==NULL)
+{ // [compression] grid_levels_3 : gzread lit le gzip ET l'ancien non compresse
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_3, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_levels_3);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_grid_levels_3);
-if (fread(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) !=grid_levels_size)
+if (gzread(gzfp, temp_grid_levels_for_save, grid_levels_size) !=(int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_levels_3);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_3);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
@@ -6221,15 +6250,18 @@ grid_levels[i+64][s][c]=temp_grid_levels_for_save[i][s][c];
 }
 }
 }
-if ((fp=fopen( file_grid_levels_4, "rb"))==NULL)
+{ // [compression] grid_levels_4 : gzread lit le gzip ET l'ancien non compresse
+gzFile gzfp;
+if ((gzfp=gzopen( file_grid_levels_4, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_levels_4);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_grid_levels_4);
-if (fread(temp_grid_levels_for_save, sizeof(unsigned char), grid_levels_size, fp) !=grid_levels_size)
+if (gzread(gzfp, temp_grid_levels_for_save, grid_levels_size) !=(int)grid_levels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_levels_4);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_4);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 for(int i=0;i<32;i++)
