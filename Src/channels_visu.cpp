@@ -289,10 +289,10 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 
 
 //freeze
-                        if(freeze_array[num_circ]==1)
+                        if(freeze_levels.count(num_circ))
                         {
-                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
-                            petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.55));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
+                            petitchiffre.Print(ol::ToString((int) (((float)(freeze_levels.at(num_circ)) /2.55))) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
                             petitchiffre.SetColor(CouleurRougePur);
                             petitchiffre.Print("F" ,(xchan + (xposch))+15,((ypos_l) + 50 - ypos_ch),CENTER );
                             petitchiffre.SetColor(CouleurLigne);
@@ -328,10 +328,10 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 
 
 //freeze
-                        if(freeze_array[num_circ]==1)
+                        if(freeze_levels.count(num_circ))
                         {
-                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
-                            petitchiffre.Print(ol::ToString((int)(freeze_state[num_circ])) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.55));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
+                            petitchiffre.Print(ol::ToString((int)(freeze_levels.at(num_circ))) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
                             petitchiffre.SetColor(CouleurRougePur);
                             petitchiffre.Print("F" ,(xchan + (xposch))+15,((ypos_l) + 50 - ypos_ch),CENTER );
                             petitchiffre.SetColor(CouleurLigne);
@@ -733,10 +733,10 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 
 //freeze
-                        if(freeze_array[num_circ]==1)
+                        if(freeze_levels.count(num_circ))
                         {
-                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
-                            petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10, ypos_ch+30,CENTER );
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.55));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
+                            petitchiffre.Print(ol::ToString((int) (((float)(freeze_levels.at(num_circ)) /2.55))) ,(xchan + (xposch))+10, ypos_ch+30,CENTER );
                             petitchiffre.SetColor(CouleurRougePur);
                             petitchiffre.Print("F" ,(xchan + (xposch))+15, ypos_ch+16,CENTER );
                             petitchiffre.SetColor(CouleurLigne);
@@ -772,10 +772,10 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 
 //freeze
-                        if(freeze_array[num_circ]==1)
+                        if(freeze_levels.count(num_circ))
                         {
-                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
-                            petitchiffre.Print(ol::ToString((int)(freeze_state[num_circ])) ,(xchan + (xposch))+10,ypos_ch+30,CENTER );
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.55));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
+                            petitchiffre.Print(ol::ToString((int)(freeze_levels.at(num_circ))) ,(xchan + (xposch))+10,ypos_ch+30,CENTER );
                             petitchiffre.SetColor(CouleurRougePur);
                             petitchiffre.Print("F" ,(xchan + (xposch))+15,ypos_ch+16,CENTER );
                             petitchiffre.SetColor(CouleurLigne);

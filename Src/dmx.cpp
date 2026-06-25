@@ -17,8 +17,10 @@ bool index_init_EnttecPROIN_ok = 0;
 int istheresomeone_in_enttecpro = 0;
 int vcom_inposition_is = 0;
 ///////////////////FREEZE//////////////////////////////////////////////////////////
-bool freeze_array[514];
-std::vector<unsigned char> freeze_state(514, 0);  // [2c-A] tableau fixe -> vector dynamique (echelle 0-255 conservee)
+// [prototype buffer sparse] freeze : map circuit -> niveau gele.
+// La PRESENCE de la cle = circuit gele ; la valeur = niveau gele. Unifie les anciens
+// freeze_array (booleen) + freeze_state (niveau). Memoire proportionnelle au nombre de geles.
+std::map<int, unsigned char> freeze_levels;
 ///////////GRAND MASTER////////////////////////////////////////////////////////
 int niveauGMaster = 255;
 int previous_niveauGMaster = 0;

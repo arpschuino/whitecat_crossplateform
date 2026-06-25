@@ -5468,10 +5468,9 @@ int GlobInit()
 
     if(specify_who_to_save_load[7]==1)//channels freeze exclude/////////////////////////////
     {
+        freeze_levels.clear();
         for(int io=0; io<514; io++)
         {
-            freeze_array[io]=0;
-            freeze_state[io]=0;
             Channels_excluded_from_grand_master[io]=0;
         }
     }

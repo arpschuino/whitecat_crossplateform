@@ -319,7 +319,7 @@ petitpetitchiffre.Print( ol::ToString(leveltoshowis), (xlist+245),(ylist+50+(25*
 }
 petitchiffre.Print( descriptif_projecteurs[co+line_list_is],(xlist+60), (ylist+50+(25*co)));
 //freeze : estompe la ligne + F rouge (coherent avec la vue circuits)
-if(freeze_array[co+line_list_is]==1)
+if(freeze_levels.count(co+line_list_is))
 {
 Rect FreezeVeil(Vec2D(xlist+5,(ylist+35+(25*co))),Vec2D(335,23));
 FreezeVeil.SetRoundness(7.5);

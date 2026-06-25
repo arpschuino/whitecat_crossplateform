@@ -2032,12 +2032,16 @@ fclose(fp);
 
 if(specify_who_to_save_load[7]==1)  ////////////FREEZE STATE//////////////////////////////////////////////////
 {
+// [buffer sparse] reconstruit 2 tableaux denses depuis la map -> format fichier inchange (compat shows)
+bool dofreeze_tmp[514]={0};
+unsigned char freezestate_tmp[514]={0};
+for(int c=0;c<514;c++){ std::map<int,unsigned char>::const_iterator it=freeze_levels.find(c); if(it!=freeze_levels.end()){ dofreeze_tmp[c]=1; freezestate_tmp[c]=it->second; } }
 if ((fp=fopen(file_dofreeze, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_dofreeze); b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",  file_dofreeze);
-if (fwrite( freeze_array, sizeof(bool), dofreeze_size, fp) !=   dofreeze_size)
+if (fwrite( dofreeze_tmp, sizeof(bool), dofreeze_size, fp) !=   dofreeze_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_dofreeze); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_dofreeze);
 fclose(fp);
@@ -2048,7 +2052,7 @@ if ((fp=fopen(file_freeze_state, "wb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",  file_freeze_state);
-if (fwrite( freeze_state.data(), sizeof(unsigned char), freezestate_size, fp) !=   freezestate_size)
+if (fwrite( freezestate_tmp, sizeof(unsigned char), freezestate_size, fp) !=   freezestate_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_freeze_state); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_freeze_state);
 fclose(fp);
@@ -4651,12 +4655,15 @@ idf++;
 
 if(specify_who_to_save_load[7]==1)/////Channels Freeze/////////////////////////
 {
+// [buffer sparse] lit 2 tableaux denses puis reconstruit la map (apres les 2 fread)
+bool dofreeze_tmp[514]={0};
+unsigned char freezestate_tmp[514]={0};
 if ((fp=fopen(  file_dofreeze, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_dofreeze);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",   file_dofreeze);
-if (fread(freeze_array, sizeof(bool), dofreeze_size, fp) !=dofreeze_size)
+if (fread(dofreeze_tmp, sizeof(bool), dofreeze_size, fp) !=dofreeze_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_dofreeze);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_dofreeze);
  fclose(fp);
@@ -4667,11 +4674,14 @@ if ((fp=fopen(  file_freeze_state, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",   file_freeze_state);
-if (fread(freeze_state.data(), sizeof(unsigned char), freezestate_size, fp) !=freezestate_size)
+if (fread(freezestate_tmp, sizeof(unsigned char), freezestate_size, fp) !=freezestate_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_freeze_state);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_freeze_state);
  fclose(fp);
 }
+// [buffer sparse] reconstruit la map depuis les tableaux denses charges
+freeze_levels.clear();
+for(int c=0;c<514;c++){ if(dofreeze_tmp[c]){ freeze_levels[c]=freezestate_tmp[c]; } }
 idf++;
 if ((fp=fopen(  file_excluded_chan, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_excluded_chan);b_report_error[idf]=1;}

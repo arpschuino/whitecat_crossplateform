@@ -1133,19 +1133,22 @@ int operations_confirmation()
  {
  if(Selected_Channel[fz]==1)
  {
- if(freeze_array[fz]==0)
+ if(freeze_levels.count(fz)==0)   // pas gele -> geler (capturer le niveau courant)
  {
      if(bufferSequenciel[fz]>=bufferFaders[fz])
     {
-      freeze_state[fz]=bufferSequenciel[fz];
+      freeze_levels[fz]=bufferSequenciel[fz];
     }
     if(bufferFaders[fz]>bufferSequenciel[fz])
     {
-      freeze_state[fz]=bufferFaders[fz];
+      freeze_levels[fz]=bufferFaders[fz];
     }
 }
- else {bufferSaisie[fz]=freeze_state[fz];}
- freeze_array[fz]=toggle(freeze_array[fz]);
+ else                             // gele -> degeler (restaurer puis retirer)
+ {
+   bufferSaisie[fz]=freeze_levels.at(fz);
+   freeze_levels.erase(fz);
+ }
  }
 
  }

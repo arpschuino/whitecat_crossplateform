@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 ////////////////////DMX/////////////////////////////////////////////////////////
 extern unsigned char DmxBlock[514];
@@ -22,8 +23,7 @@ extern int istheresomeone_in_enttecpro;
 extern int vcom_inposition_is;
 
 ///////////////////FREEZE//////////////////////////////////////////////////////////
-extern bool freeze_array[514];
-extern std::vector<unsigned char> freeze_state;  // [2c-A] vector dynamique (cf. FIXTURES_ROADMAP 2c)
+extern std::map<int, unsigned char> freeze_levels;  // freeze : buffer sparse circuit->niveau (cf. FIXTURES_ROADMAP 2c)
 
 ///////////GRAND MASTER////////////////////////////////////////////////////////
 extern int niveauGMaster;

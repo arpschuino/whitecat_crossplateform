@@ -1182,7 +1182,8 @@ int Merger() {
 
     int circrootpatch = 0;
     for (int i = 1; i < 514; i++) {
-        if (!freeze_array[i])
+        std::map<int, unsigned char>::const_iterator frz = freeze_levels.find(i);
+        if (frz == freeze_levels.end())   // circuit non gele
         {
             // MergerArray[i]=bufferSequenciel[i]>?bufferFaders[i];
             MergerArray[i] = Tmax(bufferSequenciel[i], bufferFaders[i]);
@@ -1191,9 +1192,9 @@ int Merger() {
                 MergerArray[i] = (int)(((float)(MergerArray[i]) / 255) * niveauGMaster);
             }
         }
-        else
+        else                              // circuit gele : niveau fige
         {
-            MergerArray[i] = freeze_state[i];
+            MergerArray[i] = frz->second;
         }
 
         // go et pause channel
