@@ -54,6 +54,29 @@ void ticker_midi_clock();
 
 #include <zlib.h>   // [compression saves] gros fichiers binaires (grid_levels, Memoires)
 
+// --- Helpers compression : un bloc binaire <-> fichier gzip, en UNE ligne. ---
+// gzread lit aussi les anciens fichiers NON compresses (compat transparente zlib).
+// A reserver aux blocs SANS detection de format par taille (ftell ne donne pas la
+// taille decompressee sur un gzip) : sinon garder fopen/fread.
+static void gz_save_block(const char* file, const void* data, size_t bytes, int idf)
+{
+    gzFile gz = gzopen(file, "wb");
+    if (gz == NULL) { sprintf(string_save_load_report[idf], "Error opening file %s", file); b_report_error[idf] = 1; return; }
+    sprintf(string_save_load_report[idf], "Opened file %s", file);
+    if (gzwrite(gz, data, (unsigned)bytes) != (int)bytes) { sprintf(string_save_load_report[idf], "Error writting %s", file); b_report_error[idf] = 1; }
+    else sprintf(string_save_load_report[idf], "Saved file %s", file);
+    gzclose(gz);
+}
+static void gz_load_block(const char* file, void* data, size_t bytes, int idf)
+{
+    gzFile gz = gzopen(file, "rb");
+    if (gz == NULL) { sprintf(string_save_load_report[idf], "Error opening file %s", file); b_report_error[idf] = 1; return; }
+    sprintf(string_save_load_report[idf], "Opening file %s", file);
+    if (gzread(gz, data, (unsigned)bytes) != (int)bytes) { sprintf(string_save_load_report[idf], "Error Loaded %s", file); b_report_error[idf] = 1; }
+    else sprintf(string_save_load_report[idf], "Loaded file %s", file);
+    gzclose(gz);
+}
+
 //modes d enregistrement
 const char file_save_preset[24]={"save_personnal_cfg.whc"};
 unsigned int save_preset_size=80*4;//bool preset_specify_who_to_save_load[80][4];
@@ -2791,16 +2814,7 @@ fclose(fp);
 
 
 
-if ((fp=fopen(file_chaser_stepop, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_chaser_stepop); b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s",file_chaser_stepop);
-if (fwrite( chaser_step_operation, sizeof(int),chaser_stepop_size, fp) !=chaser_stepop_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_chaser_stepop); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s",file_chaser_stepop);
-fclose(fp);
-}
+gz_save_block(file_chaser_stepop, chaser_step_operation, chaser_stepop_size*sizeof(int), idf); // [compression]
  idf++;
 
 if ((fp=fopen(file_chaser_play, "wb"))==NULL)
@@ -3568,16 +3582,7 @@ gzclose(gzfp);
 }
 }
  idf++;
-if ((fp=fopen( file_grid_seekpos, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_seekpos);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s", file_grid_seekpos);
-if (fwrite(grid_seekpos, sizeof(int), grid_seekpos_size, fp) != grid_seekpos_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_grid_seekpos);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_seekpos);
-fclose(fp);
-}
+gz_save_block(file_grid_seekpos, grid_seekpos, grid_seekpos_size*sizeof(int), idf); // [compression]
  idf++;
  if ((fp=fopen( file_grid_stoplay, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_stoplay);b_report_error[idf]=1;}
@@ -3762,28 +3767,10 @@ fclose(fp);
 idf++;
 
 
-if ((fp=fopen(file_grid_count, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_grid_count);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s", file_grid_count);
-if (fwrite( grid_count, sizeof(int), grid_count_size, fp) !=grid_count_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_grid_count);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_grid_count);
-fclose(fp);
-}
+gz_save_block(file_grid_count, grid_count, grid_count_size*sizeof(int), idf); // [compression]
 idf++;
 
-if ((fp=fopen(file_grided_count, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",file_grided_count);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s", file_grided_count);
-if (fwrite( grid_counted_times, sizeof(int), grid_counted_size, fp) !=grid_counted_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_grided_count);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_grided_count);
-fclose(fp);
-}
+gz_save_block(file_grided_count, grid_counted_times, grid_counted_size*sizeof(int), idf); // [compression]
 idf++;
 
 
@@ -5502,16 +5489,7 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_chaser_timeunit)
 idf++;
 
 
-if ((fp=fopen(  file_chaser_stepop, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_stepop);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s",   file_chaser_stepop);
-if (fread(chaser_step_operation, sizeof(int),chaser_stepop_size, fp) !=chaser_stepop_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_chaser_stepop);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s",file_chaser_stepop);
- fclose(fp);
-}
+gz_load_block(file_chaser_stepop, chaser_step_operation, chaser_stepop_size*sizeof(int), idf); // [compression]
 idf++;
 
 if ((fp=fopen(  file_chaser_play, "rb"))==NULL)
@@ -6322,16 +6300,7 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_goto);
 }
 }
 idf++;
-if ((fp=fopen( file_grid_seekpos, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_seekpos);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s", file_grid_seekpos);
-if (fread(grid_seekpos, sizeof(int), grid_seekpos_size, fp) !=grid_seekpos_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_seekpos);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_seekpos);
- fclose(fp);
-}
+gz_load_block(file_grid_seekpos, grid_seekpos, grid_seekpos_size*sizeof(int), idf); // [compression]
 idf++;
 if ((fp=fopen( file_grid_stoplay, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",  file_grid_stoplay);b_report_error[idf]=1;}
@@ -6522,27 +6491,9 @@ grid_floatX1[gr]=(float)grid_niveauX1[gr];
 grid_floatX2[gr]=(float)grid_niveauX2[gr];
 }
 idf++;
-if ((fp=fopen( file_grid_count, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_grid_count);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s",file_grid_count);
-if (fread(grid_count, sizeof(int),grid_count_size, fp) !=grid_count_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_grid_count);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_count);
- fclose(fp);
-}
+gz_load_block(file_grid_count, grid_count, grid_count_size*sizeof(int), idf); // [compression]
 idf++;
-if ((fp=fopen( file_grided_count, "rb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_grided_count);b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opening file %s",file_grided_count);
-if (fread(grid_counted_times, sizeof(int),grid_counted_size, fp) !=grid_counted_size)
-{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_grided_count);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_grided_count);
- fclose(fp);
-}
+gz_load_block(file_grided_count, grid_counted_times, grid_counted_size*sizeof(int), idf); // [compression]
 idf++;
 
 refresh_hauteur_fenetre_grider();
