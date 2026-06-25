@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 ////////////////////DMX/////////////////////////////////////////////////////////
 extern unsigned char DmxBlock[514];
 extern unsigned char DmxBlockPatch[514];
@@ -21,7 +23,7 @@ extern int vcom_inposition_is;
 
 ///////////////////FREEZE//////////////////////////////////////////////////////////
 extern bool freeze_array[514];
-extern unsigned char freeze_state[514];
+extern std::vector<unsigned char> freeze_state;  // [2c-A] vector dynamique (cf. FIXTURES_ROADMAP 2c)
 
 ///////////GRAND MASTER////////////////////////////////////////////////////////
 extern int niveauGMaster;

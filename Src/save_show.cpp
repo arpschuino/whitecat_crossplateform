@@ -2048,7 +2048,7 @@ if ((fp=fopen(file_freeze_state, "wb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",  file_freeze_state);
-if (fwrite( freeze_state, sizeof(unsigned char), freezestate_size, fp) !=   freezestate_size)
+if (fwrite( freeze_state.data(), sizeof(unsigned char), freezestate_size, fp) !=   freezestate_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_freeze_state); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_freeze_state);
 fclose(fp);
@@ -4667,7 +4667,7 @@ if ((fp=fopen(  file_freeze_state, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",   file_freeze_state);
-if (fread(freeze_state, sizeof(unsigned char), freezestate_size, fp) !=freezestate_size)
+if (fread(freeze_state.data(), sizeof(unsigned char), freezestate_size, fp) !=freezestate_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_freeze_state);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",file_freeze_state);
  fclose(fp);

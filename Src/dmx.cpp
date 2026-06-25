@@ -18,7 +18,7 @@ int istheresomeone_in_enttecpro = 0;
 int vcom_inposition_is = 0;
 ///////////////////FREEZE//////////////////////////////////////////////////////////
 bool freeze_array[514];
-unsigned char freeze_state[514];
+std::vector<unsigned char> freeze_state(514, 0);  // [2c-A] tableau fixe -> vector dynamique (echelle 0-255 conservee)
 ///////////GRAND MASTER////////////////////////////////////////////////////////
 int niveauGMaster = 255;
 int previous_niveauGMaster = 0;
