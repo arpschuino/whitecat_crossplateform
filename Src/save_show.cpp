@@ -2902,15 +2902,18 @@ fclose(fp);
  idf++;
 
 
-if ((fp=fopen( file_chaser_trackcontent, "wb"))==NULL)
+{ // [compression] TrackContains (int) en gzip — longueur en OCTETS (size * sizeof(int))
+gzFile gzfp;
+if ((gzfp=gzopen( file_chaser_trackcontent, "wb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_trackcontent); b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",file_chaser_trackcontent);
-if (fwrite(  TrackContains, sizeof(int),chaser_trackcontent_size, fp) != chaser_trackcontent_size)
+if (gzwrite(gzfp, TrackContains, chaser_trackcontent_size*sizeof(int)) != (int)(chaser_trackcontent_size*sizeof(int)))
 { sprintf(string_save_load_report[idf],"Error writting %s",file_chaser_trackcontent); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s",file_chaser_trackcontent);
-fclose(fp);
+gzclose(gzfp);
+}
 }
  idf++;
 
@@ -5609,15 +5612,18 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_chaser_tracktype
 }
 idf++;
 
-if ((fp=fopen( file_chaser_trackcontent, "rb"))==NULL)
+{ // [compression] TrackContains (int) : gzread lit le gzip ET l'ancien non compresse — longueur en OCTETS
+gzFile gzfp;
+if ((gzfp=gzopen( file_chaser_trackcontent, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_trackcontent);b_report_error[idf]=1;}
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s",  file_chaser_trackcontent);
-if (fread( TrackContains, sizeof(int), chaser_trackcontent_size, fp) != chaser_trackcontent_size)
+if (gzread( gzfp, TrackContains, chaser_trackcontent_size*sizeof(int)) != (int)(chaser_trackcontent_size*sizeof(int)))
 { sprintf(string_save_load_report[idf],"Error Loaded %s",   file_chaser_trackcontent);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_chaser_trackcontent);
- fclose(fp);
+ gzclose(gzfp);
+}
 }
 idf++;
 
