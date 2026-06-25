@@ -36,6 +36,16 @@ briques, sur une base de code stable.
    faders…) devront passer en dimensionnement dynamique. Côté sortie, l'adresse `(univers, canal)`
    absorbe l'extension (plusieurs univers d'outputs).
 
+3 ter. **Tableaux fixes → structures dynamiques (principe transverse)** — le legacy regorge de
+   tableaux fixes **surdimensionnés**, indexés par des axes récurrents : `circuits`/`outputs` (≈514),
+   `grids` (128), `steps` (1024), `chasers` (128), `tracks` (24), `docks`… Exemples coûteux :
+   `grid_levels[128][1024][513]` ≈ 67 Mo, `TrackContains`/`TracksBuffer[128][24][514]` ≈ 6 Mo chacun —
+   réservés qu'on en utilise 1 % ou 100 %. Le passage en `std::vector` dimensionné par la config
+   s'applique **par axe de dimension** (rendre `nb_circuits` configurable oblige à suivre TOUS les
+   tableaux en `[514]`), **progressivement et au fil de l'eau** (quand on touche une structure),
+   **jamais en big-bang**. La Phase 2c traite l'axe des **niveaux** ; les autres axes (chasers, audio
+   docks, grid…) suivront au fur et à mesure, avec le même pattern.
+
 4. **HTP/LTP porté par l'objet `Channel`** — WhiteCat est tout-HTP aujourd'hui (le plus fort gagne).
    Couleurs et positions exigent du **LTP** (le dernier gagne). Concept nouveau, à poser dès le channel.
 
@@ -117,26 +127,42 @@ Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 - 🎯 Fil rouge : « un circuit 8 bit s'allume exactement comme avant » (non-régression).
 
 ### Phase 2 — 16 bit (cœur converti) + patch multi-univers + gradation haute résolution
-**Décision actée (2026-06-24)** : on convertit **tout le cœur** en 16 bit (échelle interne 0..65535)
-plutôt qu'un chemin parallèle. Le 8 bit devient un simple **cas de sortie** (`niveau >> 8`).
-Facteur d'échelle = **257** (255 × 257 = 65535) → round-trip 8 bit exact, donc non-régression
-**bit-exacte** possible à chaque étape.
+**Décisions actées (2026-06-24)** :
+- **Cœur en 16 bit** (échelle interne 0..65535) plutôt qu'un chemin parallèle. Le 8 bit devient un
+  simple **cas de sortie** (`niveau >> 8`). Facteur **257** (255 × 257 = 65535) → round-trip 8 bit
+  exact, donc non-régression **bit-exacte** possible.
+- **Structures dynamiques** : les buffers de niveau passent de **tableaux fixes** à des `std::vector`
+  **dimensionnés par la config** (`core_user_define_nb_*`, infra déjà existante). Le vrai défaut du
+  legacy n'est pas le 8 bit mais le **tableau fixe surdimensionné** (`grid_levels[128][1024][513]`
+  = 67 Mo réservés en dur, utilisés ou non) : un vector dimensionné à l'usage règle **RAM + 16 bit +
+  configurabilité** (principe 3 bis) d'un coup. **grid_levels passe AUSSI en 16 bit** (vector →
+  quelques Mo, pas 134).
+- **Ordre** : **dynamique d'abord** (vector, échelle 0-255 conservée → non-régression triviale),
+  **16 bit ensuite** (un seul axe de changement à la fois).
 
 - **2a** ✅ `render()` déplie le 16 bit (MSB sur `coarse_addr`, LSB sur `fine_addr`).
   *(channel.h — testé hors-ligne ; pas encore activé : tous les outputs sont en 8 bit)*
 - **2b** — **patch 16 bit** : marquer une paire d'outputs (coarse + fine) comme un canal 16 bit.
-- **2c** — **conversion du cœur en 16 bit** (le gros morceau), en sous-étapes non-régressives :
-  - **2c-0** *Cartographie* — recenser les buffers de niveau (`MergerArray`, `bufferFaders`,
-    `bufferSequenciel`, `freeze_state`, Grand Master…) et les `255` en dur (distinguer « niveau »
-    d'« octet DMX »).
-  - **2c-1** *Échelle + helpers* — `LVL_MAX = 65535`, `lvl→dmx8 (v>>8)`, `dmx8→lvl (d×257)`,
-    `lvl↔%`. Aucun changement de comportement.
-  - **2c-2** *Pipeline de rendu en `uint16`* — buffers + Merger (`Tmax`, Grand Master) en 0..65535 ;
-    sortie 8 bit = `lvl>>8`, output 16 bit = `lvl` complet. 🎯 Non-régression : même DMX 8 bit qu'avant.
-  - **2c-3** *Sources fines* — crossfade GO **interpolé** en 16 bit (le gain visible), LFO 16 bit,
-    faders stockés ×257.
-  - **2c-4** *Périphérie* — save/load (anciens shows 0-255 → ×257 à la lecture), UI (% depuis 16 bit) ;
-    Art-Net déjà couvert par le rendu.
+- **2c** — **conversion du cœur : structures dynamiques + 16 bit** (le gros morceau) :
+  - **2c-0** ✅ *Cartographie* — buffers de niveau, tous `unsigned char[514]` (0-255) : `bufferFaders`,
+    `bufferSequenciel` (channels.cpp), `MergerArray` (patch.cpp), `freeze_state` (dmx.cpp) ;
+    `niveauGMaster` (`int`, dmx.cpp). `grid_levels[128][1024][513]` = 67 Mo (grider.cpp). ~218 usages /
+    24 fichiers (foyers : dmx_functions 51, list_proj_core 28, channels_visu 22, save_show 17,
+    core 16) ; usages de `grid_levels` à cartographier à part.
+  - **2c-A — Dynamique** (échelle 0-255 CONSERVÉE → non-régression triviale) :
+    - 1D : `unsigned char X[514]` → `std::vector<uint16_t> X;` + `resize(nb+2)` à l'init. Accès `X[i]`
+      inchangé (`vector::operator[]`). *Roder le pattern sur un petit buffer (ex. `freeze_state`)
+      avant de généraliser.*
+    - 3D : `grid_levels` → classe `GridLevels` (vector **plat contigu** + `at(g,s,o)`, cache-friendly),
+      dimensionnée `(nb_grids, nb_steps, nb_outputs)`.
+    - Nouveaux params config : `nb_circuits`, `nb_outputs`/`nb_universes`, `nb_grids`, `nb_steps`.
+  - **2c-B — 16 bit** (échelle ×257, une fois tout dynamique) :
+    - Helpers : `LVL_MAX=65535`, `lvl→dmx8 (>>8)`, `dmx8→lvl (×257)`, `lvl↔%`.
+    - Écritures ×257, lectures `>>8` (DMX 8 bit) ; output 16 bit = `lvl` complet ; Merger (`Tmax`, GM)
+      en 16 bit.
+    - Sources fines : crossfade GO **interpolé** en 16 bit (le gain visible), LFO 16 bit.
+    - Périphérie : save/load (anciens shows 0-255 → ×257 à la lecture), UI (% depuis 16 bit) ;
+      Art-Net couvert par le rendu.
 - **2d** — **courbes haute résolution** (interpolation de la LUT 8 bit, ou LUT 16 bit).
 - 🎯 Fil rouge : « un canal 16 bit fait un fade fin et lisse ».
 
