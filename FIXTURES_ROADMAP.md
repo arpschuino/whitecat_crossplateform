@@ -116,9 +116,28 @@ Phase 1 (objet `Channel`) quand 0.9.1 sera publiée.*
 - **Cohabitation** : le `Channel` *wrappe* `grid_levels`/`Memoires` (ne remplace pas encore).
 - 🎯 Fil rouge : « un circuit 8 bit s'allume exactement comme avant » (non-régression).
 
-### Phase 2 — 16 bit + patch multi-univers + gradation haute résolution
-- Patch étendu `(univers, coarse, fine?)`.
-- Rendu DMX qui déplie 8/16 bit ; courbes passées en interne haute résolution (aujourd'hui en 256).
+### Phase 2 — 16 bit (cœur converti) + patch multi-univers + gradation haute résolution
+**Décision actée (2026-06-24)** : on convertit **tout le cœur** en 16 bit (échelle interne 0..65535)
+plutôt qu'un chemin parallèle. Le 8 bit devient un simple **cas de sortie** (`niveau >> 8`).
+Facteur d'échelle = **257** (255 × 257 = 65535) → round-trip 8 bit exact, donc non-régression
+**bit-exacte** possible à chaque étape.
+
+- **2a** ✅ `render()` déplie le 16 bit (MSB sur `coarse_addr`, LSB sur `fine_addr`).
+  *(channel.h — testé hors-ligne ; pas encore activé : tous les outputs sont en 8 bit)*
+- **2b** — **patch 16 bit** : marquer une paire d'outputs (coarse + fine) comme un canal 16 bit.
+- **2c** — **conversion du cœur en 16 bit** (le gros morceau), en sous-étapes non-régressives :
+  - **2c-0** *Cartographie* — recenser les buffers de niveau (`MergerArray`, `bufferFaders`,
+    `bufferSequenciel`, `freeze_state`, Grand Master…) et les `255` en dur (distinguer « niveau »
+    d'« octet DMX »).
+  - **2c-1** *Échelle + helpers* — `LVL_MAX = 65535`, `lvl→dmx8 (v>>8)`, `dmx8→lvl (d×257)`,
+    `lvl↔%`. Aucun changement de comportement.
+  - **2c-2** *Pipeline de rendu en `uint16`* — buffers + Merger (`Tmax`, Grand Master) en 0..65535 ;
+    sortie 8 bit = `lvl>>8`, output 16 bit = `lvl` complet. 🎯 Non-régression : même DMX 8 bit qu'avant.
+  - **2c-3** *Sources fines* — crossfade GO **interpolé** en 16 bit (le gain visible), LFO 16 bit,
+    faders stockés ×257.
+  - **2c-4** *Périphérie* — save/load (anciens shows 0-255 → ×257 à la lecture), UI (% depuis 16 bit) ;
+    Art-Net déjà couvert par le rendu.
+- **2d** — **courbes haute résolution** (interpolation de la LUT 8 bit, ou LUT 16 bit).
 - 🎯 Fil rouge : « un canal 16 bit fait un fade fin et lisse ».
 
 ### Phase 3 — Fixtures (groupement d'attributs)
