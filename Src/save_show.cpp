@@ -1798,28 +1798,10 @@ gzclose(gzfp);
 }
  idf++;
 
-if ((fp=fopen( file_text_mems, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_text_mems); b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s",  file_text_mems);
-if (fwrite(descriptif_memoires, sizeof(char),text_mems_size, fp) !=  text_mems_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_text_mems); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_text_mems);
-fclose(fp);
-}
+gz_save_block(file_text_mems, descriptif_memoires, text_mems_size, idf); // [compression] (toujours format 50)
  idf++;
 
-if ((fp=fopen( file_text_annots, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_text_annots); b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s",  file_text_annots);
-if (fwrite(annotation_memoires, sizeof(char),text_annots_size, fp) !=  text_annots_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_text_annots); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_text_annots);
-fclose(fp);
-}
+gz_save_block(file_text_annots, annotation_memoires, text_annots_size, idf); // [compression] (toujours format 50)
  idf++;
 
 if ((fp=fopen( file_mem_detruites, "wb"))==NULL)
@@ -4349,6 +4331,13 @@ gzclose(gzfp);
 }
 }
 idf++;
+{ // [compression] text_mems : si gzip (nouveau, format 50) -> gz_load_block ; sinon ancien code (detection 25/50)
+unsigned char gzmagic[2] = {0,0};
+FILE* gzprobe = fopen(file_text_mems, "rb");
+if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fclose(gzprobe); }
+if (gzmagic[0]==0x1f && gzmagic[1]==0x8b)
+{ gz_load_block(file_text_mems, descriptif_memoires, text_mems_size, idf); }
+else
 if ((fp=fopen(  file_text_mems, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_text_mems);b_report_error[idf]=1;}
 else
@@ -4375,7 +4364,15 @@ sprintf(string_save_load_report[idf],"Opening file %s",   file_text_mems);
 }
 fclose(fp);
 }
+}
 idf++;
+{ // [compression] text_annots : si gzip (nouveau, format 50) -> gz_load_block ; sinon ancien code (detection 25/50)
+unsigned char gzmagic[2] = {0,0};
+FILE* gzprobe = fopen(file_text_annots, "rb");
+if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fclose(gzprobe); }
+if (gzmagic[0]==0x1f && gzmagic[1]==0x8b)
+{ gz_load_block(file_text_annots, annotation_memoires, text_annots_size, idf); }
+else
 if ((fp=fopen(  file_text_annots, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_text_annots);b_report_error[idf]=1;}
 else
@@ -4401,6 +4398,7 @@ sprintf(string_save_load_report[idf],"Opening file %s",   file_text_annots);
     }
 }
 fclose(fp);
+}
 }
 idf++;
 
