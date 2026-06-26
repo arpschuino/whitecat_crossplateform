@@ -15,7 +15,7 @@ extern bool index_preheat_curve;
 extern bool Dimmers_selected[514];
 extern int Patch[514];
 extern bool dimmer_type[514];
-extern unsigned char MergerArray[514];
+extern unsigned short MergerArray[514];   // [2c-2A] 16 bit
 extern char string_monitor_patch[1024];
 extern bool index_patch_affect_is_done;
 extern int last_dim_selected;

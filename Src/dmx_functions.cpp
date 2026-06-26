@@ -819,12 +819,12 @@ int Merger_Faders() {
             case 0: // HTP normal
                 if (!fader_fx_route[cif])
                 {
-                    bufferFaders[h] = Tmax(bufferFaders[h], FaderDoDmx[cif][h]);
+                    bufferFaders[h] = Tmax(bufferFaders[h], (unsigned short)FaderDoDmx[cif][h]);
                 }
                 else
                 {
                     if (FaderDoDmx[cif][h] > 0) {
-                        bufferSequenciel[h] = Tmax(bufferSequenciel[h], FaderDoDmx[cif][h]);
+                        bufferSequenciel[h] = Tmax(bufferSequenciel[h], (unsigned short)FaderDoDmx[cif][h]);
                         channel_is_touched_by_fader_fx[h] = 1;
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];

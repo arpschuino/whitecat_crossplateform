@@ -32,8 +32,8 @@ int scroll_channelspace = 0;
 int dmx_view = 0;                // 0 pourcentage 1 dmx
 unsigned char bufferSaisie[514]; // le 0 n est pas pris, le 512 est en  513
 unsigned char bufferBlind[514];
-unsigned char bufferFaders[514];
-unsigned char bufferSequenciel[514];
+unsigned short bufferFaders[514];   // [2c-2A] 16 bit (echelle 0-255 pour l'instant)
+unsigned short bufferSequenciel[514];
 unsigned char bufferCopyPaste[514];
 unsigned char buffer_affichage_valeurs_sequenciel[514];
 unsigned char bufferPourcentStepdefaultlevel[514]; // buffer tampon pour simplifier les steps levels en % ou dmx

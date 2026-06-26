@@ -18,7 +18,7 @@ bool index_preheat_curve = 0;
 bool Dimmers_selected[514];
 int Patch[514];
 bool dimmer_type[514]; // 0=HTP 1=LTP
-unsigned char MergerArray[514];
+unsigned short MergerArray[514];   // [2c-2A] 16 bit (echelle 0-255 pour l'instant)
 char string_monitor_patch[1024];
 bool index_patch_affect_is_done = 0;
 int last_dim_selected = 0;
