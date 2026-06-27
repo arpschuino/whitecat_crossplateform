@@ -147,7 +147,7 @@ circ=Channel_View_ROUTING[vv][ck];
     }
     if(prevcirc==0){prevcirc=circ;}
     Selected_Channel[prevcirc]=1;
-    bufferSaisie[prevcirc]=check_channel_level;
+    bufferSaisie[prevcirc]=wc::dmx8_to_lvl((unsigned char)check_channel_level);  // [2c-2B] 16 bit
     last_ch_selected=prevcirc;
     break;
     }
@@ -179,7 +179,7 @@ for(int ck=1;ck<513;ck++)
     Selected_Channel[ck]=0;
 
     Selected_Channel[ck-1]=1;
-    bufferSaisie[ck-1]=check_channel_level;
+    bufferSaisie[ck-1]=wc::dmx8_to_lvl((unsigned char)check_channel_level);  // [2c-2B] 16 bit
 
         if(index_patch_window==1)
         {
@@ -246,7 +246,7 @@ circ=Channel_View_ROUTING[vv][ck];
 
     if(nextcirc==0){nextcirc=circ;}
     Selected_Channel[nextcirc]=1;
-    bufferSaisie[nextcirc]=check_channel_level;
+    bufferSaisie[nextcirc]=wc::dmx8_to_lvl((unsigned char)check_channel_level);  // [2c-2B] 16 bit
     last_ch_selected=nextcirc;
     break;
     }
@@ -279,7 +279,7 @@ case 1:
     Selected_Channel[ck]=0;
 
     Selected_Channel[ck+1]=1;
-    bufferSaisie[ck+1]=check_channel_level;
+    bufferSaisie[ck+1]=wc::dmx8_to_lvl((unsigned char)check_channel_level);  // [2c-2B] 16 bit
 
         if(index_patch_window==1)
         {
@@ -615,28 +615,30 @@ if (Selected_Channel[chk_ch]==1){detect_selectch_on=1;}
 }
 if(detect_selectch_on==1)
 {
+// [2c-2B] saisie -> VRAI 16 bit. % via pct_to_lvl (50%=32768 -> coarse 128/fine 0),
+// DMX via dmx8_to_lvl. chlevelis reste 8 bit (faders hipass + affichage).
 int chlevelis=0;
+unsigned short lvl16=0;
 if(dmx_view==0)
 {
-if(atof(numeric)>0)
-{
-chlevelis=(int)((atof(numeric) *2.55) +1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-}
-else {chlevelis=0;}
+int pc=(int)(atof(numeric)+0.5); if(pc<0){pc=0;} if(pc>100){pc=100;}
+lvl16=wc::pct_to_lvl(pc);
+chlevelis=wc::lvl_to_dmx8(lvl16);
 }
 else if (dmx_view==1)
-{chlevelis= atol(numeric);}
-
-if(chlevelis>255){chlevelis=255;}
-if(chlevelis<0){chlevelis=0;}
+{
+int d=atol(numeric); if(d<0){d=0;} if(d>255){d=255;}
+lvl16=wc::dmx8_to_lvl((unsigned char)d);
+chlevelis=d;
+}
 
  for (int ci=1;ci<514;ci++)
  {
  switch((int)index_do_hipass)
  {
  case 0://normal
- if(Selected_Channel[ci]==1 && index_blind==0)    {bufferSaisie[ci]=chlevelis;}
- else if(Selected_Channel[ci]==1  && index_blind==1)    {bufferBlind[ci]=chlevelis;}
+ if(Selected_Channel[ci]==1 && index_blind==0)    {bufferSaisie[ci]=lvl16;}   // [2c-2B] vrai 16 bit
+ else if(Selected_Channel[ci]==1  && index_blind==1)    {bufferBlind[ci]=lvl16;}
  break;
  case 1://mode hipass faders
  if(Selected_Channel[ci]==1)
@@ -654,7 +656,7 @@ break;
 switch(dmx_view)
 {
 case 0:
-sprintf(string_Last_Order,">> Selection AT %d",(int)(chlevelis/2.55));
+sprintf(string_Last_Order,">> Selection AT %d%%",(int)wc::lvl_to_pct(lvl16));   // [2c-2B] vrai % depuis 16 bit
 break;
 case 1:
 sprintf(string_Last_Order,">> Selection AT %d", chlevelis);
@@ -834,19 +836,21 @@ if(index_blind==0)
 
                                if(index_crossfading==0)
                                {
-
-                               if(dmx_view==1)
+                               // [2c-2B] Ctrl maintenu = pas fin (1/65535) ; sinon pas grossier %/DMX en 16 bit
+                               if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
                                {
-                               if(bufferSaisie[tc]+default_step_level<=255) { bufferSaisie[tc]+=default_step_level; }
+                               if(bufferSaisie[tc] <= wc::LVL_MAX-1){ bufferSaisie[tc]+=1; }
+                               }
+                               else if(dmx_view==1)
+                               {
+                               int d=wc::lvl_to_dmx8(bufferSaisie[tc]);
+                               if(d+default_step_level<=255){ bufferSaisie[tc]=wc::dmx8_to_lvl((unsigned char)(d+default_step_level)); }
                                }
                                else if(dmx_view==0)
                                {
-                               if( (bufferSaisie[tc]+(unsigned char)(default_step_level*2.55))<=255)
-                               {
-                               bufferPourcentStepdefaultlevel[tc]=(int) (((float)(bufferSaisie[tc]) /2.55))+default_step_level;
-                               bufferSaisie[tc]=1+(unsigned char)(bufferPourcentStepdefaultlevel[tc]*2.55);
-                               }
-                               else if(bufferSaisie[tc]==254){bufferSaisie[tc]=255;}
+                               int p=wc::lvl_to_pct(bufferSaisie[tc])+default_step_level;
+                               if(p>100){p=100;}
+                               bufferSaisie[tc]=wc::pct_to_lvl(p);
                                }
 
                                }
@@ -869,19 +873,21 @@ else if (index_blind==1)//blind
                if (Selected_Channel[tb]==1)
                {
 
-                               if(dmx_view==1)
+                               // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
+                               if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
                                {
-                               if(bufferBlind[tb]+default_step_level<=255) {bufferBlind[tb]+=default_step_level; }
+                               if(bufferBlind[tb] <= wc::LVL_MAX-1){ bufferBlind[tb]+=1; }
                                }
-
+                               else if(dmx_view==1)
+                               {
+                               int d=wc::lvl_to_dmx8(bufferBlind[tb]);
+                               if(d+default_step_level<=255){ bufferBlind[tb]=wc::dmx8_to_lvl((unsigned char)(d+default_step_level)); }
+                               }
                                else if(dmx_view==0)
                                {
-                               if((bufferBlind[tb]+(unsigned char)(default_step_level*2.55))<=255)
-                               {
-                               bufferPourcentStepdefaultlevel[tb]=(int) (((float)(bufferBlind[tb]) /2.55))+default_step_level;
-                               bufferBlind[tb]=1+(unsigned char)(bufferPourcentStepdefaultlevel[tb]*2.55);
-                               }
-                               else if(bufferBlind[tb]==254){bufferBlind[tb]=255;}
+                               int p=wc::lvl_to_pct(bufferBlind[tb])+default_step_level;
+                               if(p>100){p=100;}
+                               bufferBlind[tb]=wc::pct_to_lvl(p);
                                }
 
 
@@ -944,18 +950,21 @@ if(index_blind==0)
 
                      if(index_crossfading==0)
                      {
-                                             if(dmx_view==1)
+                                             // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
+                                             if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
                                              {
-                                             if(bufferSaisie[tc]-default_step_level>=0) { bufferSaisie[tc]-=default_step_level; }
+                                             if(bufferSaisie[tc] >= 1){ bufferSaisie[tc]-=1; }
+                                             }
+                                             else if(dmx_view==1)
+                                             {
+                                             int d=wc::lvl_to_dmx8(bufferSaisie[tc]);
+                                             if(d-default_step_level>=0){ bufferSaisie[tc]=wc::dmx8_to_lvl((unsigned char)(d-default_step_level)); }
                                              }
                                              else if(dmx_view==0)
                                              {
-                                             if((bufferSaisie[tc]-(unsigned char)(default_step_level*2.55))>=0)
-                                             {
-                                             bufferPourcentStepdefaultlevel[tc]=(int) (((float)(bufferSaisie[tc]) /2.55))-default_step_level;
-                                             bufferSaisie[tc]=1+(unsigned char)(bufferPourcentStepdefaultlevel[tc]*2.55);
-                                             if( bufferSaisie[tc]==1){ bufferSaisie[tc]=0;}
-                                             }
+                                             int p=wc::lvl_to_pct(bufferSaisie[tc])-default_step_level;
+                                             if(p<0){p=0;}
+                                             bufferSaisie[tc]=wc::pct_to_lvl(p);
                                              }
                      }
                       else//crossfading
@@ -971,19 +980,21 @@ else if ( index_blind==1)
                   {
                   if (Selected_Channel[tb]==1 )
                   {
-                                              if(dmx_view==1)
+                                              // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
+                                              if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
                                               {
-                                              if(bufferBlind[tb]-default_step_level>0) {bufferBlind[tb]-=default_step_level; }
+                                              if(bufferBlind[tb] >= 1){ bufferBlind[tb]-=1; }
                                               }
-
+                                              else if(dmx_view==1)
+                                              {
+                                              int d=wc::lvl_to_dmx8(bufferBlind[tb]);
+                                              if(d-default_step_level>=0){ bufferBlind[tb]=wc::dmx8_to_lvl((unsigned char)(d-default_step_level)); }
+                                              }
                                               else if(dmx_view==0)
                                               {
-                                              if((bufferBlind[tb]-(unsigned char)(default_step_level*2.55))>=0)
-                                              {
-                                              bufferPourcentStepdefaultlevel[tb]=(int) (((float)(bufferBlind[tb]) /2.55))-default_step_level;
-                                              bufferBlind[tb]=1+(unsigned char)(bufferPourcentStepdefaultlevel[tb]*2.55);
-                                              if( bufferBlind[tb]==1){ bufferBlind[tb]=0;}
-                                              }
+                                              int p=wc::lvl_to_pct(bufferBlind[tb])-default_step_level;
+                                              if(p<0){p=0;}
+                                              bufferBlind[tb]=wc::pct_to_lvl(p);
                                               }
                   }
                   }
@@ -1208,8 +1219,8 @@ else
            reset_numeric_entry();
            for (int ci=1;ci<514;ci++)
            {
-           if(Selected_Channel[ci]==1 && index_blind==0)    {bufferSaisie[ci]=255;}
-           else if(Selected_Channel[ci]==1  && index_blind==1)    {bufferBlind[ci]=255;}
+           if(Selected_Channel[ci]==1 && index_blind==0)    {bufferSaisie[ci]=wc::LVL_MAX;}   // [2c-2B] 16 bit plein
+           else if(Selected_Channel[ci]==1  && index_blind==1)    {bufferBlind[ci]=wc::LVL_MAX;}
            }
 sprintf(string_Last_Order,">> Selection AT FULL");
 index_level_attribue=1;//pour déselection lors prochain circuit piqué

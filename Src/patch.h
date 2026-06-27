@@ -7,6 +7,7 @@ extern int scroller_patch;
 extern float Patch_Scroll_Factor;
 extern int iddim;
 extern bool index_affect_patch;
+extern bool index_affect_patch_16bit;   // [2b] mode patch 16 bit
 extern bool index_menu_curve;
 extern bool index_reset_curve;
 extern bool index_square_curve;
@@ -16,6 +17,8 @@ extern bool Dimmers_selected[514];
 extern int Patch[514];
 extern bool dimmer_type[514];
 extern unsigned short MergerArray[514];   // [2c-2A] 16 bit
+extern int output_fine[514];   // [2b] patch 16 bit : output coarse -> son output fine
+extern bool is_fine[514];       // [2b] output = LSB d'un canal 16 bit
 extern char string_monitor_patch[1024];
 extern bool index_patch_affect_is_done;
 extern int last_dim_selected;

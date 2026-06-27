@@ -181,11 +181,11 @@ else if( index_do_dock==1 && index_affect_time==0 )
  if(call_stage==1){Memoires[position_onstage][dc]=0;  }
  if(index_blind==0)
  {
- Memoires[mem_is][dc]=bufferSequenciel[dc];
+ Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferSequenciel[dc]);   // [2c-2B] 16 bit -> 8 bit
  }
  else if(index_blind==1)
  {
- Memoires[mem_is][dc]=bufferBlind[dc];
+ Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> 8 bit
  }
  Selected_Channel[dc]=0;
  }
@@ -200,11 +200,11 @@ else if( index_do_dock==0 && index_do_modify==1 && index_do_report==0 && index_a
  {
  if(index_blind==0)
  {
- Memoires[mem_is][dc]=bufferSequenciel[dc];
+ Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferSequenciel[dc]);   // [2c-2B] 16 bit -> 8 bit
  }
  else if(index_blind==1)
  {
-  Memoires[mem_is][dc]=bufferBlind[dc];
+  Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> 8 bit
  }
  Selected_Channel[dc]=0;
  }
@@ -218,8 +218,8 @@ if(index_blind==0)
  {
  for (int dc=1;dc<514;dc++)
  {
- if(bufferFaders[dc]>bufferSequenciel[dc]){Memoires[mem_is][dc]=bufferFaders[dc];}
- else { Memoires[mem_is][dc]=bufferSequenciel[dc]; }
+ if(bufferFaders[dc]>bufferSequenciel[dc]){Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferFaders[dc]);}   // [2c-2B] 16 bit -> 8 bit
+ else { Memoires[mem_is][dc]=wc::lvl_to_dmx8(bufferSequenciel[dc]); }   // [2c-2B] 16 bit -> 8 bit
  Selected_Channel[dc]=0;
  }
  for (int u=0;u<49;u++)

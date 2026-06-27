@@ -31,11 +31,11 @@ WWWWWWWW           C  WWWWWWWW   |
 /////////////////////////////CHANNELS///////////////////////////////////////////
 extern int scroll_channelspace;
 extern int dmx_view;
-extern unsigned char bufferSaisie[514];
-extern unsigned char bufferBlind[514];
-extern unsigned short bufferFaders[514];   // [2c-2A] 16 bit
+extern unsigned short bufferSaisie[514];   // [2c-2B] 16 bit pleine echelle (x257)
+extern unsigned short bufferBlind[514];     // [2c-2B] 16 bit pleine echelle (x257)
+extern unsigned short bufferFaders[514];   // [2c-2B] 16 bit pleine echelle (x257)
 extern unsigned short bufferSequenciel[514];
-extern unsigned char bufferCopyPaste[514];
+extern unsigned short bufferCopyPaste[514];   // [2c-2B] 16 bit (presse-papier RAM, preserve le fin)
 extern unsigned char buffer_affichage_valeurs_sequenciel[514];
 extern unsigned char bufferPourcentStepdefaultlevel[514];
 

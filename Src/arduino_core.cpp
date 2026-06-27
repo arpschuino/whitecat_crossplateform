@@ -766,7 +766,7 @@ for(int p=0;p<arduino_max_digital;p++)
     case 2://si l'affectation est type  ON/OFF
     if(arduino_digital_function_output[p][0]==1) //CHANNEL >10
     {
-    if(MergerArray[(arduino_digital_function_output[p][1])]>value_dm)
+    if(wc::lvl_to_dmx8(MergerArray[(arduino_digital_function_output[p][1])])>value_dm)
     {digital_data_to_arduino[p]=1;temp_send_arduino[3+p]=127;}
     else {digital_data_to_arduino[p]=0;temp_send_arduino[3+p]=32;}
     }
@@ -782,7 +782,7 @@ for(int p=0;p<arduino_max_digital;p++)
     //CHANNEL
     if(arduino_digital_function_output[p][0]==1 && arduino_digital_function_output[p][1]>0 && arduino_digital_function_output[p][1]<513)
     {
-    pwm_data_to_arduino[p]=MergerArray[(arduino_digital_function_output[p][1])];
+    pwm_data_to_arduino[p]=wc::lvl_to_dmx8(MergerArray[(arduino_digital_function_output[p][1])]);
     temp_send_arduino[3+p]=pwm_data_to_arduino[p];
     if(temp_send_arduino[3+p]<=0) temp_send_arduino[3+p]=1;//eviter le caractere NULL
     }
@@ -844,7 +844,7 @@ if(arduino_digital_type[p]==6 || arduino_digital_type[p]==4|| arduino_digital_ty
 //CHANNEL
 if(arduino_digital_function_output[p][0]==1 && arduino_digital_function_output[p][1]>0 && arduino_digital_function_output[p][1]<513)
 {
-pwm_data_to_arduino[p]=MergerArray[(arduino_digital_function_output[p][1])];
+pwm_data_to_arduino[p]=wc::lvl_to_dmx8(MergerArray[(arduino_digital_function_output[p][1])]);
 }
 //FADER
 else if(arduino_digital_function_output[p][0]==2 && arduino_digital_function_output[p][1]>0 && arduino_digital_function_output[p][1]<49)
@@ -910,7 +910,7 @@ if(arduino_digital_type[p]==3 )//si l'affectation est type OUTPUT
 {
 if(arduino_digital_function_output[p][0]==1) //CHANNEL >10
 {
-if(MergerArray[(arduino_digital_function_output[p][1])]>value_dm)
+if(wc::lvl_to_dmx8(MergerArray[(arduino_digital_function_output[p][1])])>value_dm)
 
 {digital_data_to_arduino[p]=1;}
 else {digital_data_to_arduino[p]=0;}

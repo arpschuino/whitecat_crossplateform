@@ -1137,16 +1137,16 @@ int operations_confirmation()
  {
      if(bufferSequenciel[fz]>=bufferFaders[fz])
     {
-      freeze_levels[fz]=bufferSequenciel[fz];
+      freeze_levels[fz]=wc::lvl_to_dmx8(bufferSequenciel[fz]);   // [2c-2B] freeze stocke en 8 bit (0-255)
     }
     if(bufferFaders[fz]>bufferSequenciel[fz])
     {
-      freeze_levels[fz]=bufferFaders[fz];
+      freeze_levels[fz]=wc::lvl_to_dmx8(bufferFaders[fz]);
     }
 }
  else                             // gele -> degeler (restaurer puis retirer)
  {
-   bufferSaisie[fz]=freeze_levels.at(fz);
+   bufferSaisie[fz]=wc::dmx8_to_lvl(freeze_levels.at(fz));   // [2c-2B] 8 bit -> 16 bit
    freeze_levels.erase(fz);
  }
  }

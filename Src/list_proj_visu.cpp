@@ -268,14 +268,14 @@ if(co+line_list_is<513)
 Rect NameList(Vec2D((xlist+60)-5,(ylist+35+(25*co))),Vec2D(185,23));
 NameList.SetRoundness(7.5);
 float leveldraw=0.0;
-if(bufferSequenciel[co+line_list_is]>bufferFaders[co+line_list_is])
+if(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is])>wc::lvl_to_dmx8(bufferFaders[co+line_list_is]))
 {
-leveldraw=((float)(bufferSequenciel[co+line_list_is]))/255;
+leveldraw=((float)(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is])))/255;
 NameList.Draw(CouleurNiveau.WithAlpha(leveldraw));
 }
-else if(bufferSequenciel[co+line_list_is]<=bufferFaders[co+line_list_is])
+else if(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is])<=wc::lvl_to_dmx8(bufferFaders[co+line_list_is]))
 {
-leveldraw=((float)(bufferFaders[co+line_list_is]))/255;
+leveldraw=((float)(wc::lvl_to_dmx8(bufferFaders[co+line_list_is])))/255;
 NameList.Draw(CouleurFader.WithAlpha(leveldraw));
 }
 if(Selected_Channel[co+line_list_is]==1)
@@ -288,13 +288,13 @@ petitchiffre.Print( listnum,(xlist+10), (ylist+50+(25*co)));
 if(dmx_view==1)
 {
 int leveltoshowis;
-if(bufferSequenciel[co+line_list_is]>=bufferFaders[co+line_list_is])
+if(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is])>=wc::lvl_to_dmx8(bufferFaders[co+line_list_is]))
 {
-  leveltoshowis= bufferSequenciel[co+line_list_is];
+  leveltoshowis= wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is]);
 }
-if(bufferFaders[co+line_list_is]>bufferSequenciel[co+line_list_is])
+if(wc::lvl_to_dmx8(bufferFaders[co+line_list_is])>wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is]))
 {
-  leveltoshowis= bufferFaders[co+line_list_is];
+  leveltoshowis= wc::lvl_to_dmx8(bufferFaders[co+line_list_is]);
 }
 if(leveltoshowis>0)
 {
@@ -304,13 +304,13 @@ petitpetitchiffre.Print( ol::ToString(leveltoshowis), (xlist+245),(ylist+50+(25*
 else if(dmx_view==0)
 {
 int leveltoshowis;
-if(bufferSequenciel[co+line_list_is]>=bufferFaders[co+line_list_is])
+if(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is])>=wc::lvl_to_dmx8(bufferFaders[co+line_list_is]))
 {
-    leveltoshowis=(int)(((float)(bufferSequenciel[co+line_list_is])/2.55));
+    leveltoshowis=(int)(((float)(wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is]))/2.55));
 }
-if(bufferFaders[co+line_list_is]>bufferSequenciel[co+line_list_is])
+if(wc::lvl_to_dmx8(bufferFaders[co+line_list_is])>wc::lvl_to_dmx8(bufferSequenciel[co+line_list_is]))
 {
-    leveltoshowis=(int)(((float)(bufferFaders[co+line_list_is])/2.55));
+    leveltoshowis=(int)(((float)(wc::lvl_to_dmx8(bufferFaders[co+line_list_is]))/2.55));
 }
 if(leveltoshowis>0)
 {

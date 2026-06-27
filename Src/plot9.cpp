@@ -4940,51 +4940,51 @@ Rect etiquette(Vec2D(plotx+pos_symbol[plot_calc_number_is][i][0]-15,ploty+pos_sy
 etiquette.SetRoundness(5);
 if (!index_blind)
 {
-if(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]>0)
+if(wc::lvl_to_dmx8(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])])>0)
 {
 if (!dmx_view)
 {//stage et faders
-sprintf(lev,"%d",(int) ((float)(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
+sprintf(lev,"%d",(int) ((float)(wc::lvl_to_dmx8(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]))/2.55));
 }
 else
 {
-sprintf(lev,"%d",bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]);
+sprintf(lev,"%d",wc::lvl_to_dmx8(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]));
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
-etiquette.Draw(CouleurBleuProcedure.WithAlpha(((float)(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])])/255)));
+etiquette.Draw(CouleurBleuProcedure.WithAlpha(((float)(wc::lvl_to_dmx8(bufferSequenciel[( symbol_channel_is[plot_calc_number_is][i])]))/255)));
 petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_symbol[plot_calc_number_is][i][1]-20);
 }
-if( plot_index_show_levels_from_faders==1 && bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]>0)
+if( plot_index_show_levels_from_faders==1 && wc::lvl_to_dmx8(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])])>0)
 {
 etiquette.MoveTo(Vec2D(plotx+pos_symbol[plot_calc_number_is][i][0]-15,ploty+pos_symbol[plot_calc_number_is][i][1]-55));
 if (!dmx_view)
 {
-sprintf(lev,"%d",(int) ((float)(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
+sprintf(lev,"%d",(int) ((float)(wc::lvl_to_dmx8(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]))/2.55));
 }
 else
 {
-sprintf(lev,"%d",bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]);
+sprintf(lev,"%d",wc::lvl_to_dmx8(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]));
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
-etiquette.Draw(CouleurFader.WithAlpha(((float)(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])])/255)));
+etiquette.Draw(CouleurFader.WithAlpha(((float)(wc::lvl_to_dmx8(bufferFaders[( symbol_channel_is[plot_calc_number_is][i])]))/255)));
 etiquette.DrawOutline(CouleurPlotLine.WithAlpha(0.8));
 petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_symbol[plot_calc_number_is][i][1]-40);
 }
 }
 else
 {
-if(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]>0)
+if(wc::lvl_to_dmx8(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])])>0)
 {
 if (!dmx_view)
 {
-sprintf(lev,"%d",(int) ((float)(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])])/2.55));
+sprintf(lev,"%d",(int) ((float)(wc::lvl_to_dmx8(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]))/2.55));
 }
 else
 {
-sprintf(lev,"%d",bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]);
+sprintf(lev,"%d",wc::lvl_to_dmx8(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]));
 }
 etiquette.Draw(CouleurPlotLine.WithAlpha(0.2));
-etiquette.Draw(CouleurBlind.WithAlpha(((float)(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])])/255)));
+etiquette.Draw(CouleurBlind.WithAlpha(((float)(wc::lvl_to_dmx8(bufferBlind[( symbol_channel_is[plot_calc_number_is][i])]))/255)));
 petitchiffre.Print(lev,plotx+pos_symbol[plot_calc_number_is][i][0]-10,ploty+pos_symbol[plot_calc_number_is][i][1]-20);
 }
 }

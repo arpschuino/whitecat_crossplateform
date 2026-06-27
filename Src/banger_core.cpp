@@ -1804,8 +1804,8 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      case 14://paste to stage output of faders
       for (int dc=1;dc<514;dc++)
       {
-      if(FaderDoDmx[the_fader_is][dc]>bufferSaisie[dc])
-      {bufferSaisie[dc]=FaderDoDmx[the_fader_is][dc];}
+      if(wc::dmx8_to_lvl(FaderDoDmx[the_fader_is][dc])>bufferSaisie[dc])
+      {bufferSaisie[dc]=wc::dmx8_to_lvl(FaderDoDmx[the_fader_is][dc]);}   // [2c-2B] fader 8 bit -> 16 bit
       }
       Fader[the_fader_is]= 0;
       midi_levels[the_fader_is]= 0;
@@ -3538,111 +3538,44 @@ bang_the_chan_is=bangers_params[banger_num][event_num][0];
 bang_val_the_chan_is=bangers_params[banger_num][event_num][1];
 if(bang_the_chan_is>0 && bang_the_chan_is<513)
 {
+     // [2c-2B] bangers = FX 8 bit. Arithmetique en 0-255 sur le niveau courant (cur),
+     // puis ecriture x257 dans le buffer pipeline 16 bit. buf = stage ou blind.
+     unsigned short* buf = (index_blind==0) ? bufferSaisie : bufferBlind;
+     int cur = wc::lvl_to_dmx8(buf[bang_the_chan_is]);
      switch(bangers_action[banger_num][event_num])
      {
-      case 0://"/100 Set At");
-            if(index_blind==0){
-                  bufferSaisie[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  if(bufferSaisie[bang_the_chan_is]>=255){bufferSaisie[bang_the_chan_is]=255;}
-            }
-            else{
-                  bufferBlind[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  if(bufferBlind[bang_the_chan_is]>=255){bufferBlind[bang_the_chan_is]=255;}
-            }
+      case 0:{//"/100 Set At");
+            int t=(int)(((float)bang_val_the_chan_is*2.55)+1); if(t>255){t=255;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)t);
             sprintf(string_event,"SetChan %d at %d/100",bang_the_chan_is,bang_val_the_chan_is);
-            break;
-      case 1://"/100 Set +");
-            if(index_blind==0){
-                  if(bufferSaisie[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
-                        bufferSaisie[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else{
-                        bufferSaisie[bang_the_chan_is]=255;
-                  }
-            }
-            else{
-                  if(bufferBlind[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
-                        bufferBlind[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);
-                  }
-                  else {
-                        bufferBlind[bang_the_chan_is]=255;
-                  }
-            }
+            break;}
+      case 1:{//"/100 Set +");
+            int d=(int)(((float)bang_val_the_chan_is*2.55)+1);
+            if(cur+d<255){cur+=d;} else {cur=255;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d + %d/100",bang_the_chan_is,bang_val_the_chan_is);
-            break;
-      case 2://"/100 Set -");
-            if(index_blind==0){
-                  if( bufferSaisie[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0)
-                  {
-                  bufferSaisie[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else {bufferSaisie[bang_the_chan_is]=0;}
-            }
-            else{
-                  if(bufferBlind[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0){
-                        bufferBlind[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else{
-                        bufferBlind[bang_the_chan_is]=0;
-                  }
-            }
+            break;}
+      case 2:{//"/100 Set -");
+            int d=(int)(((float)bang_val_the_chan_is*2.55)+1);
+            if(cur-d>0){cur-=d;} else {cur=0;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d - %d/100",bang_the_chan_is,bang_val_the_chan_is);
-            break;
-      case 3://"/255 Set At");
-            if(index_blind==0)
-            {
-                  bufferSaisie[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  if(bufferSaisie[bang_the_chan_is]>=255){
-                        bufferSaisie[bang_the_chan_is]=255;
-                  }
-            }
-            else{
-                  bufferBlind[bang_the_chan_is]=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  if(bufferBlind[bang_the_chan_is]>=255){
-                        bufferBlind[bang_the_chan_is]=255;
-                  }
-            }
+            break;}
+      case 3:{//"/255 Set At");
+            int t=bang_val_the_chan_is; if(t>255){t=255;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)t);
             sprintf(string_event,"SetChan %d at %d/255",bang_the_chan_is,bang_val_the_chan_is);
-            break;
-      case 4://"/255 Set +")
-            if(index_blind==0)
-            {
-                  if( bufferSaisie[bang_the_chan_is]+bang_val_the_chan_is<255){
-                        bufferSaisie[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else {
-                        bufferSaisie[bang_the_chan_is]=255;
-                  }
-            }
-            else{
-                  if( bufferBlind[bang_the_chan_is]+bang_val_the_chan_is<255){
-                        bufferBlind[bang_the_chan_is]+=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else {
-                        bufferBlind[bang_the_chan_is]=255;
-                  }
-            }
+            break;}
+      case 4:{//"/255 Set +")
+            if(cur+bang_val_the_chan_is<255){cur+=bang_val_the_chan_is;} else {cur=255;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d + %d/255",bang_the_chan_is,bang_val_the_chan_is);
-            break;
-      case 5://"/255 Set -");
-            if(index_blind==0){
-                  if(bufferSaisie[bang_the_chan_is]-bang_val_the_chan_is>0){
-                        bufferSaisie[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else {
-                        bufferSaisie[bang_the_chan_is]=0;
-                  }
-            }
-            else{
-                  if(bufferBlind[bang_the_chan_is]-bang_val_the_chan_is>0){
-                        bufferBlind[bang_the_chan_is]-=bang_val_the_chan_is;// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
-                  }
-                  else {
-                        bufferBlind[bang_the_chan_is]=0;
-                  }
-            }
+            break;}
+      case 5:{//"/255 Set -");
+            if(cur-bang_val_the_chan_is>0){cur-=bang_val_the_chan_is;} else {cur=0;}
+            buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d - %d/255",bang_the_chan_is,bang_val_the_chan_is);
-            break;
+            break;}
       case 6://"Macro ON"
             if(bang_val_the_chan_is>0 && bang_val_the_chan_is<5)
             {

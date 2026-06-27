@@ -1917,9 +1917,9 @@ int Get_channels_from_memory(int the_mem)
         if (Selected_Channel[p]==1)
         {
             if (!index_blind) {
-                bufferSaisie[p]=Memoires[the_mem][p];
+                bufferSaisie[p]=wc::dmx8_to_lvl(Memoires[the_mem][p]);   // [2c-2B] rappel memoire 8 bit -> pipeline 16 bit
             } else {
-                bufferBlind[p]=Memoires[the_mem][p];
+                bufferBlind[p]=wc::dmx8_to_lvl(Memoires[the_mem][p]);
             }
         }
     }
@@ -2263,7 +2263,7 @@ int refresh_stage()
 {
     for (int l=1; l<512; l++)
     {
-        bufferSaisie[l]=Memoires[position_onstage][l];
+        bufferSaisie[l]=wc::dmx8_to_lvl(Memoires[position_onstage][l]);   // [2c-2B] rappel 8 bit -> 16 bit
     }
     return(0);
 }
@@ -3526,11 +3526,11 @@ int record_memory(int mem_is)
     {
         if(index_blind==0)
         {
-            Memoires[mem_is][u]=bufferSequenciel[u];
+            Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferSequenciel[u]);   // [2c-2B] pipeline 16 bit -> memoire 8 bit
         }
         else if(index_blind==1)
         {
-            Memoires[mem_is][u]=bufferBlind[u];
+            Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferBlind[u]);
         }
         Selected_Channel[u]=0;
     }
@@ -3543,7 +3543,7 @@ int refresh_mem_onstage(int mem_is)
 {
     for (int u=1; u<514; u++)
     {
-        bufferSaisie[u]=Memoires[mem_is][u];
+        bufferSaisie[u]=wc::dmx8_to_lvl(Memoires[mem_is][u]);   // [2c-2B] rappel 8 bit -> 16 bit
     }
     return(0);
 }
@@ -3558,11 +3558,11 @@ int record_memory_plus_faders(int mem_is)
         {
             if(bufferSequenciel[u] >bufferFaders[u])
             {
-                Memoires[mem_is][u]=bufferSequenciel[u];
+                Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferSequenciel[u]);   // [2c-2B] 16 bit -> 8 bit
             }
             if(bufferSequenciel[u] <=bufferFaders[u])
             {
-                Memoires[mem_is][u]=bufferFaders[u];
+                Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferFaders[u]);
             }
             Selected_Channel[u]=0;
         }
@@ -3592,11 +3592,11 @@ int overrecord_memory_plus_faders(int mem_is)
         {
             if(bufferSequenciel[u] >bufferFaders[u])
             {
-                Memoires[mem_is][u]=bufferSequenciel[u];
+                Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferSequenciel[u]);   // [2c-2B] 16 bit -> 8 bit
             }
             if(bufferSequenciel[u] <=bufferFaders[u])
             {
-                Memoires[mem_is][u]=bufferFaders[u];
+                Memoires[mem_is][u]=wc::lvl_to_dmx8(bufferFaders[u]);
             }
             Selected_Channel[u]=0;
         }
@@ -3772,7 +3772,7 @@ int refresh_mem_onpreset(int mem_is)
 {
     for (int u=1; u<514; u++)
     {
-        bufferBlind[u]=Memoires[mem_is][u];
+        bufferBlind[u]=wc::dmx8_to_lvl(Memoires[mem_is][u]);   // [2c-2B] rappel 8 bit -> 16 bit
     }
     ratio_X1X2_together=ratio_cross_manuel[mem_is];
     if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;

@@ -178,12 +178,13 @@ int Channel_select_thruth(int fromch, int toch)
 
 int Channel_at_level()
 {
+ // [2c-2B] saisie grossiere (%/DMX 0-255) convertie en 16 bit. Le fin viendra de molette/fleches+Ctrl.
  int chlevelis=0;
  if(dmx_view==0)
- {chlevelis=(int)( atof(numeric)*2.55); }
+ {int p=(int)(atof(numeric)+0.5); if(p>100){p=100;} if(p<0){p=0;} chlevelis=wc::pct_to_lvl(p); }
  else if (dmx_view==1)
- {chlevelis= atol(numeric);}
- if(chlevelis>255){chlevelis=255;}
+ {int d=atol(numeric); if(d>255){d=255;} if(d<0){d=0;} chlevelis=wc::dmx8_to_lvl((unsigned char)d);}
+ if(chlevelis>65535){chlevelis=65535;}
  if(chlevelis<0){chlevelis=0;}
 
  for (int ci=1;ci<514;ci++)
@@ -192,7 +193,8 @@ int Channel_at_level()
  else if(Selected_Channel[ci]==1  && index_blind==1)    {bufferBlind[ci]=chlevelis;}
  }
 
- sprintf(string_Last_Order,">> Selection AT %d", chlevelis);
+ if(dmx_view==0){sprintf(string_Last_Order,">> Selection AT %d%%", wc::lvl_to_pct((unsigned short)chlevelis));}
+ else {sprintf(string_Last_Order,">> Selection AT %d", wc::lvl_to_dmx8((unsigned short)chlevelis));}
  return(0);
 }
 

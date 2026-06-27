@@ -6,3 +6,4 @@
 using namespace ol;
 #include "whitecat.h"
 #include "core.h"
+#include "wc_levels.h"  // [Phase 2c] echelle des niveaux 16 bit (dmx8 <-> lvl), dispo dans tous les TUs

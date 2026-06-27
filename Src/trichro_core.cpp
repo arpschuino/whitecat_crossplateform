@@ -412,14 +412,14 @@ if(index_blind==0)
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferSaisie[p]=my_red;}
+if(Selected_Channel[p]==1){bufferSaisie[p]=wc::dmx8_to_lvl(my_red);}
 }
 }
 else
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferBlind[p]=my_red;}
+if(Selected_Channel[p]==1){bufferBlind[p]=wc::dmx8_to_lvl(my_red);}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly RED result");
@@ -446,14 +446,14 @@ if(index_blind==0)
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferSaisie[p]=my_green;}
+if(Selected_Channel[p]==1){bufferSaisie[p]=wc::dmx8_to_lvl(my_green);}
 }
 }
 else
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferBlind[p]=my_green;}
+if(Selected_Channel[p]==1){bufferBlind[p]=wc::dmx8_to_lvl(my_green);}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly GREEN result");
@@ -480,14 +480,14 @@ if(index_blind==0)
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferSaisie[p]=my_blue;}
+if(Selected_Channel[p]==1){bufferSaisie[p]=wc::dmx8_to_lvl(my_blue);}
 }
 }
 else
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferBlind[p]=my_blue;}
+if(Selected_Channel[p]==1){bufferBlind[p]=wc::dmx8_to_lvl(my_blue);}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly BLUE result");
@@ -513,14 +513,14 @@ if(index_blind==0)
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferSaisie[p]=my_yellow;}
+if(Selected_Channel[p]==1){bufferSaisie[p]=wc::dmx8_to_lvl(my_yellow);}
 }
 }
 else
 {
 for(int p=1;p<513;p++)
 {
-if(Selected_Channel[p]==1){bufferBlind[p]=my_yellow;}
+if(Selected_Channel[p]==1){bufferBlind[p]=wc::dmx8_to_lvl(my_yellow);}
 }
 }
 sprintf(string_Last_Order,"Pasted On the Fly YELLOW result");

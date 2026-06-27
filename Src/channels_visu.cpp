@@ -165,7 +165,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 
                     ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)),((ypos_l)+ 36 -ypos_ch)));
 
-                    unsigned char circuittoshow=bufferSequenciel[num_circ] ;
+                    unsigned char circuittoshow=wc::lvl_to_dmx8(bufferSequenciel[num_circ]) ;   // [2c-2B] 16 bit -> 8 bit pour affichage
                     showisup=0;
 
                     if  (bufferSequenciel[num_circ] < bufferBlind[num_circ])
@@ -187,7 +187,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 //NIVEAUX MIS PAR LES  FADERS Buffer general
                     if(bufferFaders[num_circ]>0) // FORMULE MAGIQUE
                     {
-                        myalpha_channel=((float)bufferFaders[num_circ]/255);
+                        myalpha_channel=((float)bufferFaders[num_circ]/wc::LVL_MAX);   // [2c-2B] alpha 16 bit
                         ChannelRect.Draw(CouleurFader.WithAlpha(myalpha_channel/2));
                     }
 
@@ -195,14 +195,14 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     if(index_blind==0)//differencec avec mem enregistrée
                     {
 
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(wc::lvl_to_dmx8(bufferSaisie[num_circ])!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
                     }
                     else{//difference avec mem enregistrée
 
-                        if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
+                        if(wc::lvl_to_dmx8(bufferBlind[num_circ])!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                         }
@@ -264,17 +264,17 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     {
                         if(circuittoshow>0)
                         {
-                            circuitlevel.Print(ol::ToString((int) (((float)(circuittoshow) /2.55))) ,(xchan + (xposch)),((ypos_l) + 74 - ypos_ch),CENTER );
+                            circuitlevel.Print(ol::ToString((int)wc::lvl_to_pct(bufferSequenciel[num_circ])),(xchan + (xposch)),((ypos_l) + 74 - ypos_ch),CENTER );
                         }
 //
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int) (((float)(bufferFaders[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int) (((float)(wc::lvl_to_dmx8(bufferFaders[num_circ])) /2.55))) ,(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
                         }
 //blind
                         if( index_blind==1 && bufferBlind[num_circ]>0)
                         {
-                            circuitblindlevel.Print(ol::ToString((int) (((float)(bufferBlind[num_circ]) /2.55))) ,(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
+                            circuitblindlevel.Print(ol::ToString((int) (((float)(wc::lvl_to_dmx8(bufferBlind[num_circ])) /2.55))) ,(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)
@@ -308,12 +308,12 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         }
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int)(bufferFaders[num_circ])) ,(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int)wc::lvl_to_dmx8(bufferFaders[num_circ])),(xchan + (xposch)),((ypos_l) + 84 - ypos_ch),CENTER );
                         }
 //blind
                         if(index_blind==1 && bufferBlind[num_circ]>0 )
                         {
-                            circuitblindlevel.Print(ol::ToString((int)(bufferBlind[num_circ])) ,(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
+                            circuitblindlevel.Print(ol::ToString((int)wc::lvl_to_dmx8(bufferBlind[num_circ])),(xchan + (xposch)),((ypos_l) + 94 - ypos_ch),CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)
@@ -611,7 +611,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
                     ChannelRect.MoveTo(Vec2D(((xchan-5) + (xposch)), y0));
 
-                    unsigned char circuittoshow=bufferSequenciel[num_circ] ;
+                    unsigned char circuittoshow=wc::lvl_to_dmx8(bufferSequenciel[num_circ]) ;   // [2c-2B] 16 bit -> 8 bit pour affichage
                     showisup=0;
 
                     if  (bufferSequenciel[num_circ] < bufferBlind[num_circ])
@@ -633,20 +633,20 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 //NIVEAUX MIS PAR LES  FADERS Buffer general
                     if(bufferFaders[num_circ]>0) // FORMULE MAGIQUE
                     {
-                        myalpha_channel=((float)bufferFaders[num_circ]/255);
+                        myalpha_channel=((float)bufferFaders[num_circ]/wc::LVL_MAX);   // [2c-2B] alpha 16 bit
                         ChannelRect.Draw(CouleurFader.WithAlpha(myalpha_channel/2));
                     }
 
 //BLIND
                     if(index_blind==0){//differencec avec mem enregistrée                    
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(wc::lvl_to_dmx8(bufferSaisie[num_circ])!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
                     }
                     else{//difference avec mem enregistrée
 
-                        if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
+                        if(wc::lvl_to_dmx8(bufferBlind[num_circ])!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                         }
@@ -708,17 +708,17 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                     {
                         if(circuittoshow>0)
                         {
-                            circuitlevel.Print(ol::ToString((int) (((float)(circuittoshow) /2.55))) ,(xchan + (xposch)), ypos_ch+40,CENTER );
+                            circuitlevel.Print(ol::ToString((int)wc::lvl_to_pct(bufferSequenciel[num_circ])),(xchan + (xposch)), ypos_ch+40,CENTER );
                         }
 //
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int) (((float)(bufferFaders[num_circ]) /2.55))) ,(xchan + (xposch)),ypos_ch+50,CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int) (((float)(wc::lvl_to_dmx8(bufferFaders[num_circ])) /2.55))) ,(xchan + (xposch)),ypos_ch+50,CENTER );
                         }
 //blind
                         if( index_blind==1 && bufferBlind[num_circ]>0)
                         {
-                            circuitblindlevel.Print(ol::ToString((int) (((float)(bufferBlind[num_circ]) /2.55))) ,(xchan + (xposch)),ypos_ch+60,CENTER );
+                            circuitblindlevel.Print(ol::ToString((int) (((float)(wc::lvl_to_dmx8(bufferBlind[num_circ])) /2.55))) ,(xchan + (xposch)),ypos_ch+60,CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)
@@ -752,12 +752,12 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         }
                         if(bufferFaders[num_circ]>0)
                         {
-                            circuitfaderlevel.Print(ol::ToString((int)(bufferFaders[num_circ])) ,(xchan + (xposch)),ypos_ch+50,CENTER );
+                            circuitfaderlevel.Print(ol::ToString((int)wc::lvl_to_dmx8(bufferFaders[num_circ])),(xchan + (xposch)),ypos_ch+50,CENTER );
                         }
 //blind
                         if(index_blind==1 && bufferBlind[num_circ]>0 )
                         {
-                            circuitblindlevel.Print(ol::ToString((int)(bufferBlind[num_circ])) ,(xchan + (xposch)), ypos_ch+60,CENTER );
+                            circuitblindlevel.Print(ol::ToString((int)wc::lvl_to_dmx8(bufferBlind[num_circ])),(xchan + (xposch)), ypos_ch+60,CENTER );
                         }
 //affichage niveau inspekt fader
                         if(index_inspekt==1 && show_who_is_in_FADER_DOCK[num_circ]==1)

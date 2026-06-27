@@ -51,6 +51,7 @@ PC CPU to be send to the enttec open dmx via the D2XX drivers
 #include "grider_calcul.h"
 #include "sequentiel_core.h"
 #include "channel.h"   // [Phase 1] moteur multi-paramètres (fixtures) — wc::Channel
+#include "wc_levels.h"  // [Phase 2c] echelle des niveaux (dmx8 <-> lvl 16 bit)
 int DoLock(int masterfader, int locklevel);
 int do_send_bang();
 
@@ -258,13 +259,11 @@ int Attribute_ArtNet(int aff, int ddok) {
 
 int refresh_modified_levels_in_crossfade() {
     for (int i = 0; i < 513; i++) {
-        if (bufferSaisie[i] + channel_level_mofification_while_crossfade[i] > 255) {
-            bufferSaisie[i] = 255;
-        } else if (bufferSaisie[i] + channel_level_mofification_while_crossfade[i] < 0) {
-            bufferSaisie[i] = 0;
-        } else {
-            bufferSaisie[i] += channel_level_mofification_while_crossfade[i];
-        }
+        // [2c-2B] 1 pas de modif crossfade = 1 unite DMX -> x257 en 16 bit ; clamp 0..65535
+        int v = (int)bufferSaisie[i] + channel_level_mofification_while_crossfade[i] * 257;
+        if (v > wc::LVL_MAX) { v = wc::LVL_MAX; }
+        if (v < 0) { v = 0; }
+        bufferSaisie[i] = (unsigned short)v;
     }
     reset_modified_levels_in_crossfade();
     return (0);
@@ -810,21 +809,24 @@ int do_lfos() {
 int Merger_Faders() {
 
     // merging des valeurs des faders en HTP
+    // [2c-2B] faders 8 bit (FaderDoDmx 0-255) convertis en 16 bit (x257) pour merger
+    // dans les buffers pipeline 16 bit. Clamps a wc::LVL_MAX (65535).
     int tmp_val = 0;
     for (int h = 0; h < 513; h++) {
         bufferFaders[h] = 0;
         channel_is_touched_by_fader_fx[h] = 0;
         for (int cif = 0; cif < core_user_define_nb_faders; cif++) {
+            unsigned short fd = wc::dmx8_to_lvl((unsigned char)FaderDoDmx[cif][h]);  // [2c-2B] fader 0-255 -> 16 bit
             switch (fader_mode_with_buffers[cif]) {
             case 0: // HTP normal
                 if (!fader_fx_route[cif])
                 {
-                    bufferFaders[h] = Tmax(bufferFaders[h], (unsigned short)FaderDoDmx[cif][h]);
+                    bufferFaders[h] = Tmax(bufferFaders[h], fd);
                 }
                 else
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        bufferSequenciel[h] = Tmax(bufferSequenciel[h], (unsigned short)FaderDoDmx[cif][h]);
+                    if (fd > 0) {
+                        bufferSequenciel[h] = Tmax(bufferSequenciel[h], fd);
                         channel_is_touched_by_fader_fx[h] = 1;
                         channel_is_touched_by_fader_number[h] = cif;
                         channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
@@ -837,7 +839,7 @@ int Merger_Faders() {
             case 2: // substract
                 if (!fader_fx_route[cif])
                 {
-                    tmp_val = bufferFaders[h] - FaderDoDmx[cif][h];
+                    tmp_val = bufferFaders[h] - fd;
                     if (tmp_val < 0) {
                         tmp_val = 0;
                     }
@@ -845,8 +847,8 @@ int Merger_Faders() {
                 }
                 else
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        tmp_val = bufferSequenciel[h] - FaderDoDmx[cif][h];
+                    if (fd > 0) {
+                        tmp_val = bufferSequenciel[h] - fd;
                         if (tmp_val < 0) {
                             tmp_val = 0;
                         }
@@ -860,10 +862,10 @@ int Merger_Faders() {
             case 3: // add
                 if (!fader_fx_route[cif])
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        tmp_val = bufferFaders[h] + FaderDoDmx[cif][h];
-                        if (tmp_val > 255) {
-                            tmp_val = 255;
+                    if (fd > 0) {
+                        tmp_val = bufferFaders[h] + fd;
+                        if (tmp_val > wc::LVL_MAX) {
+                            tmp_val = wc::LVL_MAX;
                         }
                         bufferFaders[h] = tmp_val;
                         channel_is_touched_by_fader_fx[h] = 1;
@@ -873,10 +875,10 @@ int Merger_Faders() {
                 }
                 else
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        tmp_val = bufferSequenciel[h] + FaderDoDmx[cif][h];
-                        if (tmp_val > 255) {
-                            tmp_val = 255;
+                    if (fd > 0) {
+                        tmp_val = bufferSequenciel[h] + fd;
+                        if (tmp_val > wc::LVL_MAX) {
+                            tmp_val = wc::LVL_MAX;
                         }
                         bufferSequenciel[h] = tmp_val;
                         channel_is_touched_by_fader_fx[h] = 1;
@@ -888,13 +890,13 @@ int Merger_Faders() {
             case 4: // screen
                 if (!fader_fx_route[cif])
                 {
-                    tmp_val = (int)((FaderDoDmx[cif][h] + bufferFaders[h]) / 2);
-                    if (tmp_val > 255) {
-                        tmp_val = 255;
+                    tmp_val = (int)((fd + bufferFaders[h]) / 2);
+                    if (tmp_val > wc::LVL_MAX) {
+                        tmp_val = wc::LVL_MAX;
                     } else if (tmp_val < 0) {
                         tmp_val = 0;
                     }
-                    if (FaderDoDmx[cif][h] > 0) {
+                    if (fd > 0) {
                         bufferFaders[h] = tmp_val;
                         channel_is_touched_by_fader_fx[h] = 1;
                         channel_is_touched_by_fader_number[h] = cif;
@@ -903,13 +905,13 @@ int Merger_Faders() {
                 }
                 else
                 {
-                    tmp_val = (int)((FaderDoDmx[cif][h] + bufferSequenciel[h]) / 2);
-                    if (tmp_val > 255) {
-                        tmp_val = 255;
+                    tmp_val = (int)((fd + bufferSequenciel[h]) / 2);
+                    if (tmp_val > wc::LVL_MAX) {
+                        tmp_val = wc::LVL_MAX;
                     } else if (tmp_val < 0) {
                         tmp_val = 0;
                     }
-                    if (FaderDoDmx[cif][h] > 0) {
+                    if (fd > 0) {
                         bufferSequenciel[h] = tmp_val;
                         channel_is_touched_by_fader_fx[h] = 1;
                         channel_is_touched_by_fader_number[h] = cif;
@@ -920,9 +922,9 @@ int Merger_Faders() {
             case 5: // exclusion
                 if (!fader_fx_route[cif])
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        if (FaderDoDmx[cif][h] < bufferFaders[h]) {
-                            tmp_val = bufferFaders[h] - FaderDoDmx[cif][h];
+                    if (fd > 0) {
+                        if (fd < bufferFaders[h]) {
+                            tmp_val = bufferFaders[h] - fd;
                             if (tmp_val < 0) {
                                 tmp_val = 0;
                             }
@@ -931,7 +933,7 @@ int Merger_Faders() {
                             channel_is_touched_by_fader_number[h] = cif;
                             channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                         } else {
-                            tmp_val = FaderDoDmx[cif][h] - bufferFaders[h];
+                            tmp_val = fd - bufferFaders[h];
                             if (tmp_val < 0) {
                                 tmp_val = 0;
                             }
@@ -944,9 +946,9 @@ int Merger_Faders() {
                 }
                 else
                 {
-                    if (FaderDoDmx[cif][h] > 0) {
-                        if (FaderDoDmx[cif][h] < bufferSequenciel[h]) {
-                            tmp_val = bufferSequenciel[h] - FaderDoDmx[cif][h];
+                    if (fd > 0) {
+                        if (fd < bufferSequenciel[h]) {
+                            tmp_val = bufferSequenciel[h] - fd;
                             if (tmp_val < 0) {
                                 tmp_val = 0;
                             }
@@ -955,7 +957,7 @@ int Merger_Faders() {
                             channel_is_touched_by_fader_number[h] = cif;
                             channel_is_touched_by_fader_type_fx[h] = fader_mode_with_buffers[cif];
                         } else {
-                            tmp_val = FaderDoDmx[cif][h] - bufferSequenciel[h];
+                            tmp_val = fd - bufferSequenciel[h];
                             if (tmp_val < 0) {
                                 tmp_val = 0;
                             }
@@ -1044,7 +1046,7 @@ int calculs_etats_faders_et_contenus() {
                     if (!index_fader_is_manipulated[f])
                     {
                         beforeloop_for_directch[f] = Fader[f];
-                        Fader[f] = bufferSequenciel[(FaderDirectChan[f][d])];
+                        Fader[f] = wc::lvl_to_dmx8(bufferSequenciel[(FaderDirectChan[f][d])]);  // [2c-2B] 16 bit -> 8 bit
                         if (Fader[f] == 255) {
                             midi_levels[f] = 127;
                         } else {
@@ -1057,7 +1059,7 @@ int calculs_etats_faders_et_contenus() {
                     else
                     {
                         bufferSaisie[(FaderDirectChan[f][d])] =
-                            (255 - curve_report[(FaderCurves[f])][(Fader[f])]); // pour etre actif: buffer saisi
+                            wc::dmx8_to_lvl((unsigned char)(255 - curve_report[(FaderCurves[f])][(Fader[f])])); // [2c-2B] 8 bit -> 16 bit ; buffer saisi
                         index_fader_is_manipulated[f] = 0;
                     }
                     break;
@@ -1143,24 +1145,26 @@ int calculs_etats_faders_et_contenus() {
 ////////////////////////////////////////////////////////////////////////////////
 int Merger_Sequenciel() {
     for (int p = 1; p < 514; p++) {
+        // [2c-2B] buffers 16 bit. niveauX1/X2 (0-255) = ratio de crossfade -> le /255 normalise,
+        // il NE convertit PAS l'echelle (delta deja 16 bit). On retire juste le cast (uchar) qui tronquait.
         if (bufferSaisie[p] == bufferBlind[p]) {
             bufferSequenciel[p] = bufferBlind[p];
         } else if (bufferSaisie[p] > bufferBlind[p]) {
+            // [2c-2B] arithmetique ENTIERE (x niveauX1 puis /255) : a niveauX1=255 c'est l'identite
+            // exacte, les bits FINS (sous l'octet fort) sont preserves. Le float /255*255 les detruisait.
             bufferSequenciel[p] =
-                bufferBlind[p] + (unsigned char)(((float)(bufferSaisie[p] - bufferBlind[p]) / 255) * niveauX1);
+                bufferBlind[p] + (int)((long)(bufferSaisie[p] - bufferBlind[p]) * niveauX1 / 255);
         } else if (bufferSaisie[p] < bufferBlind[p]) {
             bufferSequenciel[p] =
-                bufferSaisie[p] + (unsigned char)(((float)(bufferBlind[p] - bufferSaisie[p]) / 255) * niveauX2);
+                bufferSaisie[p] + (int)((long)(bufferBlind[p] - bufferSaisie[p]) * niveauX2 / 255);
         }
         if (index_crossfading == 1 || index_pause == 1) {
-            if ((bufferSequenciel[p] + channel_level_mofification_while_crossfade[p] >= 0) &&
-                (bufferSequenciel[p] + channel_level_mofification_while_crossfade[p] <= 255)) {
-                bufferSequenciel[p] += channel_level_mofification_while_crossfade[p];
-            } else if (bufferSequenciel[p] + channel_level_mofification_while_crossfade[p] > 255) {
-                bufferSequenciel[p] = 255;
-            } else if (bufferSequenciel[p] + channel_level_mofification_while_crossfade[p] < 0) {
-                bufferSequenciel[p] = 0;
-            }
+            // [2c-2B] modif manuelle de crossfade : 1 pas = 1 unite DMX -> x257 en 16 bit
+            int mod = channel_level_mofification_while_crossfade[p] * 257;
+            int v = (int)bufferSequenciel[p] + mod;
+            if (v < 0) { v = 0; }
+            if (v > wc::LVL_MAX) { v = wc::LVL_MAX; }
+            bufferSequenciel[p] = (unsigned short)v;
         }
     }
     return (0);
@@ -1189,23 +1193,24 @@ int Merger() {
             MergerArray[i] = Tmax(bufferSequenciel[i], bufferFaders[i]);
             // MASTER
             if (Channels_excluded_from_grand_master[i] == 0) {
-                MergerArray[i] = (int)(((float)(MergerArray[i]) / 255) * niveauGMaster);
+                // [2c-2B] arithmetique ENTIERE : a niveauGMaster=255 identite exacte (preserve le fin)
+                MergerArray[i] = (int)((long)(MergerArray[i]) * niveauGMaster / 255);
             }
         }
         else                              // circuit gele : niveau fige
         {
-            MergerArray[i] = frz->second;
+            MergerArray[i] = wc::dmx8_to_lvl(frz->second);   // [2c-2B] freeze 8 bit -> 16 bit
         }
 
         // go et pause channel
         if (index_go == 1 && index_pause == 0 && go_channel_is > 0 && go_channel_is < 513) {
-            bufferSequenciel[go_channel_is] = (unsigned char)(255 * alpha_blinker);
-            MergerArray[go_channel_is] = (unsigned char)(255 * alpha_blinker);
+            bufferSequenciel[go_channel_is] = (unsigned short)(wc::LVL_MAX * alpha_blinker);   // [2c-2B] 16 bit
+            MergerArray[go_channel_is] = (unsigned short)(wc::LVL_MAX * alpha_blinker);
         }
 
         if (index_go == 1 && index_pause == 1 && pause_channel_is > 0 && pause_channel_is < 513) {
-            bufferSequenciel[pause_channel_is] = (unsigned char)(255 * alpha_blinker);
-            MergerArray[pause_channel_is] = (unsigned char)(255 * alpha_blinker);
+            bufferSequenciel[pause_channel_is] = (unsigned short)(wc::LVL_MAX * alpha_blinker);   // [2c-2B] 16 bit
+            MergerArray[pause_channel_is] = (unsigned short)(wc::LVL_MAX * alpha_blinker);
         }
 
         if (index_go == 0 && index_pause == 0) {
@@ -1219,22 +1224,37 @@ int Merger() {
             }
         }
 
-        // Patch
-        circrootpatch = Patch[i];
-        DmxBlockPatch[i] = (MergerArray[circrootpatch]);
+        // Patch + rendu de l'output i via wc::Channel.
+        // [Phase 2b] is_fine[i] : l'output est le LSB d'un canal 16 bit -> ecrit par son
+        // coarse, on ne le rend pas separement.
+        if (!is_fine[i]) {
+            circrootpatch = Patch[i];
+            // [2c-2B] MergerArray est desormais en pleine echelle 16 bit (x257). On lit le
+            // niveau 16 bit du circuit patche directement ; DmxBlockPatch garde le MSB 8 bit.
+            unsigned short lvl16 = MergerArray[circrootpatch];
+            DmxBlockPatch[i] = wc::lvl_to_dmx8(lvl16);
 
-        // [Phase 1c] Rendu de l'output i via wc::Channel (attribut Dimmer, 8 bit, HTP).
-        // Cohabitation : le Channel wrappe l'existant — value <- niveau du circuit
-        // patché (promu en haute résolution), curve <- curves[i]. render() reproduit
-        // au bit près l'ancien calcul : DmxBlock[i] = 255 - curve_report[curve][niveau].
-        // Garde curves[i] dans [0,15] : reproduit l'ancienne boucle (hors plage =
-        // DmxBlock[i] inchangé) et évite tout débordement de curve_report.
-        if (curves[i] >= 0 && curves[i] < 16) {
-            wc_outputs[i].attribute   = wc::ATTR_DIMMER;
-            wc_outputs[i].coarse_addr = (uint16_t)i;
-            wc_outputs[i].curve       = (uint8_t)curves[i];
-            wc_outputs[i].value       = (uint16_t)(DmxBlockPatch[i] << 8);
-            wc_outputs[i].render(DmxBlock, curve_report);
+            if (output_fine[i] != 0) {
+                // [Phase 2b] canal 16 bit : i = coarse (MSB), output_fine[i] = fine (LSB).
+                // value = niveau 16 bit REEL : coarse et fine distincts des que la saisie/molette
+                // fine (Ctrl) ou le crossfade apportent de la resolution sous l'octet fort.
+                wc_outputs[i].attribute   = wc::ATTR_DIMMER;
+                wc_outputs[i].resolution  = wc::RES_16BIT;
+                wc_outputs[i].coarse_addr = (uint16_t)i;
+                wc_outputs[i].fine_addr   = (uint16_t)output_fine[i];
+                wc_outputs[i].value       = lvl16;
+                wc_outputs[i].render(DmxBlock, curve_report);
+            }
+            else if (curves[i] >= 0 && curves[i] < 16) {
+                // 8 bit (reproduit l'ancien calcul : 255 - curve_report[curve][value>>8]).
+                wc_outputs[i].attribute   = wc::ATTR_DIMMER;
+                wc_outputs[i].resolution  = wc::RES_8BIT;
+                wc_outputs[i].coarse_addr = (uint16_t)i;
+                wc_outputs[i].fine_addr   = 0;
+                wc_outputs[i].curve       = (uint8_t)curves[i];
+                wc_outputs[i].value       = lvl16;
+                wc_outputs[i].render(DmxBlock, curve_report);
+            }
         }
 
         // check channel override la sortie

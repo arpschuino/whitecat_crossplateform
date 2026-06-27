@@ -471,7 +471,7 @@ int DoDockChaserTrack(int numchaser, int numtrack)
  {
  for (int dc=1;dc<514;dc++)
  {
- TrackContains[numchaser][numtrack][dc]=bufferBlind[dc];
+ TrackContains[numchaser][numtrack][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> step 8 bit
  }
  index_do_dock=0;
  sprintf(string_Last_Order,">>n Preset Stored in Chaser %d Track %d",numchaser+1, numtrack+1);
@@ -548,7 +548,7 @@ int DoModifyChaserTrack(int numchaser, int numtrack)
  {
  if(Selected_Channel[dc]==1)
  {
- TrackContains[numchaser][numtrack][dc]=bufferBlind[dc];
+ TrackContains[numchaser][numtrack][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> step 8 bit
  }
  }
  index_do_modify=0;
@@ -564,8 +564,8 @@ int DoReportChaserTrack(int numchaser, int numtrack)
 {
  for (int u=1;u<514;u++)
  {
- TrackContains[numchaser][numtrack][u]=bufferSaisie[u];
- if(bufferFaders[u]>TrackContains[numchaser][numtrack][u]){TrackContains[numchaser][numtrack][u]=bufferFaders[u];}
+ TrackContains[numchaser][numtrack][u]=wc::lvl_to_dmx8(bufferSaisie[u]);   // [2c-2B] 16 bit -> step 8 bit
+ if(wc::lvl_to_dmx8(bufferFaders[u])>TrackContains[numchaser][numtrack][u]){TrackContains[numchaser][numtrack][u]=wc::lvl_to_dmx8(bufferFaders[u]);}
  }
  for (int x=1;x<514;x++)
  {

@@ -149,7 +149,7 @@ if( mouse_released==0)
  {
   for(int i=ofset;i<513;i++)//OK FEVRIER 2015
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferSaisie[i];
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=wc::lvl_to_dmx8(bufferSaisie[i]);   // [2c-2B] 16 bit -> grid 8 bit
   bufferSaisie[i]=0;
  }
  }
@@ -157,7 +157,7 @@ if( mouse_released==0)
  {
   for(int i=1;i<513;i++)
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferBlind[i];
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=wc::lvl_to_dmx8(bufferBlind[i]);   // [2c-2B] 16 bit -> grid 8 bit
   bufferBlind[i]=0;
  }
  }
@@ -206,7 +206,7 @@ if( mouse_released==0)
  {
   if(Selected_Channel[i]==1)
   {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=bufferSaisie[i];
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=wc::lvl_to_dmx8(bufferSaisie[i]);   // [2c-2B] 16 bit -> grid 8 bit
   bufferSaisie[i]=0;
  }
  }
@@ -217,7 +217,7 @@ if( mouse_released==0)
  {
  if(Selected_Channel[i]==1)
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=bufferBlind[i];
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=wc::lvl_to_dmx8(bufferBlind[i]);   // [2c-2B] 16 bit -> grid 8 bit
   bufferBlind[i]=0;
  }
  }
@@ -233,11 +233,11 @@ if( mouse_released==0)
  if(bufferSequenciel[u] >= bufferFaders[u])
  {
   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]
- =  bufferSequenciel[u];
+ =  wc::lvl_to_dmx8(bufferSequenciel[u]);   // [2c-2B] 16 bit -> grid 8 bit
  }
  if(bufferFaders[u]>bufferSequenciel[u])
  {
-grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]=bufferFaders[u];
+grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]=wc::lvl_to_dmx8(bufferFaders[u]);   // [2c-2B] 16 bit -> grid 8 bit
  }
  Selected_Channel[u]=0;
  }

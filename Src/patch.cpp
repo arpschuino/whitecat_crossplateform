@@ -10,6 +10,7 @@ int scroller_patch = 1;
 float Patch_Scroll_Factor = 25.0;
 int iddim = 0;
 bool index_affect_patch = 0;
+bool index_affect_patch_16bit = 0;   // [2b] mode patch 16 bit (coarse + fine=coarse+1)
 bool index_menu_curve = 0;
 bool index_reset_curve = 0;
 bool index_square_curve = 0;
@@ -18,7 +19,9 @@ bool index_preheat_curve = 0;
 bool Dimmers_selected[514];
 int Patch[514];
 bool dimmer_type[514]; // 0=HTP 1=LTP
-unsigned short MergerArray[514];   // [2c-2A] 16 bit (echelle 0-255 pour l'instant)
+unsigned short MergerArray[514];   // [2c-2B] 16 bit pleine echelle (x257)
+int output_fine[514];   // [2b] pour un output coarse : son output fine (LSB) ; 0 = output 8 bit
+bool is_fine[514];      // [2b] cet output est le LSB d'un canal 16 bit (rendu par son coarse)
 char string_monitor_patch[1024];
 bool index_patch_affect_is_done = 0;
 int last_dim_selected = 0;

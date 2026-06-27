@@ -245,6 +245,11 @@ petitpetitchiffre.Print("493-512",XChan+350,YChan+247+12);
  SelectPatchAction.SetLineWidth(epaisseur_ligne_fader);
  if(index_affect_patch==1){SelectPatchAction.Draw(CouleurFader); }
 
+ Rect SelectPatch16bit(Vec2D(XChan+345, YChan+560),Vec2D(90,20));
+ SelectPatch16bit.SetRoundness(7.5);
+ SelectPatch16bit.SetLineWidth(epaisseur_ligne_fader);
+ if(index_affect_patch_16bit==1){SelectPatch16bit.Draw(CouleurFader);}
+
  Rect SelectPatchActionCurv(Vec2D(XChan+345, YChan+440),Vec2D(90,20));
  SelectPatchActionCurv.SetRoundness(7.5);
  SelectPatchActionCurv.SetLineWidth(epaisseur_ligne_fader);
@@ -270,6 +275,7 @@ petitchiffre.Print("Curve",XChan+350,YChan+452);
 petitchiffre.Print("Check Dimmers",XChan+350,YChan+482);
 petitchiffre.Print("Link LightPlot",XChan+350,YChan+512);
 petitchiffre.Print("Show 1st Dimmer",XChan+350,YChan+542);
+petitchiffre.Print("Patch 16 bit",XChan+350,YChan+572);
 
 
 

@@ -49,6 +49,10 @@ WWWWWWWW           C  WWWWWWWW   |
 int do_the_macro_of_the_channel(int the_chan, int num_macro)
 {
 int the_Abanger_num=0;
+// [2c-2B] m8 = niveau du circuit reduit a 8 bit, pour les puits qui sont <=8 bit
+// (MIDI 7 bit, index audio, seuils de conditions, faders 0-255). Les follow circuit->circuit
+// (ecriture dans bufferSaisie) gardent le 16 bit REEL (MergerArray[the_chan] direct).
+int m8 = wc::lvl_to_dmx8(MergerArray[the_chan]);
 
 switch(channel_macro_action[the_chan][num_macro])
 {
@@ -74,13 +78,13 @@ if(channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_
 switch(dmx_view)
 {
 case 0:
-audiofile_selected=(int)(((float)MergerArray[the_chan])/2.55);
-if(channel_macro_reaction[the_chan][num_macro]==8){audiofile_selected=100-(int)(((float)MergerArray[the_chan])/2.55);}
+audiofile_selected=(int)(((float)m8)/2.55);
+if(channel_macro_reaction[the_chan][num_macro]==8){audiofile_selected=100-(int)(((float)m8)/2.55);}
 if(audiofile_selected<0){audiofile_selected=0;}
 if(audiofile_selected>100){audiofile_selected=100;}
 break;
 case 1:
-audiofile_selected=MergerArray[the_chan];
+audiofile_selected=m8;
 if(channel_macro_reaction[the_chan][num_macro]==8){audiofile_selected=127-audiofile_selected;}
 if(audiofile_selected<0){audiofile_selected=0;}
 if(audiofile_selected>127){audiofile_selected=127;}
@@ -209,7 +213,7 @@ if(channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_
 {
 float lev_to_do=0.0;
 
-lev_to_do=((float)MergerArray[the_chan])/255.0;
+lev_to_do=((float)m8)/255.0;
 
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
@@ -247,7 +251,7 @@ if(channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_
 {
 float pitc_to_do=0.0;
 
-pitc_to_do=(((float)MergerArray[the_chan])/255.0)*127.0;
+pitc_to_do=(((float)m8)/255.0)*127.0;
 
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
@@ -287,7 +291,7 @@ if(channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_
 {
 float pitc_to_do=0.0;
 
-pitc_to_do=(((float)MergerArray[the_chan])/255.0)*127.0;
+pitc_to_do=(((float)m8)/255.0)*127.0;
 
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
@@ -327,39 +331,39 @@ break;
 case 11://Midi Ch15 CC
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-send_immidiateley_my_midi_cc(4,15,channel_macro_val[the_chan][num_macro][1],(127-(int)((float)MergerArray[the_chan])/2));
+send_immidiateley_my_midi_cc(4,15,channel_macro_val[the_chan][num_macro][1],(127-(int)((float)m8)/2));
 }
 else
 {
-send_immidiateley_my_midi_cc(4,15,channel_macro_val[the_chan][num_macro][1],((int)((float)MergerArray[the_chan])/2));
+send_immidiateley_my_midi_cc(4,15,channel_macro_val[the_chan][num_macro][1],((int)((float)m8)/2));
 }
 break;
 case 12://Midi Ch15 KOn
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-send_my_midi_note(1, 15, channel_macro_val[the_chan][num_macro][1], (127-(int)((float)MergerArray[the_chan])/2), 10);
+send_my_midi_note(1, 15, channel_macro_val[the_chan][num_macro][1], (127-(int)((float)m8)/2), 10);
 }
 else
 {
-send_my_midi_note(1, 15, channel_macro_val[the_chan][num_macro][1], ((int)((float)MergerArray[the_chan])/2), 10);
+send_my_midi_note(1, 15, channel_macro_val[the_chan][num_macro][1], ((int)((float)m8)/2), 10);
 }
 break;
 case 13://Midi Ch15 KOff
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-send_my_midi_note(2, 15, channel_macro_val[the_chan][num_macro][1], (127-(int)((float)MergerArray[the_chan])/2), 10);
+send_my_midi_note(2, 15, channel_macro_val[the_chan][num_macro][1], (127-(int)((float)m8)/2), 10);
 }
 else
 {
-send_my_midi_note(2, 15, channel_macro_val[the_chan][num_macro][1], ((int)((float)MergerArray[the_chan])/2), 10);
+send_my_midi_note(2, 15, channel_macro_val[the_chan][num_macro][1], ((int)((float)m8)/2), 10);
 }
 break;
 case 14://FADER LEVEL
 if((channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_chan][num_macro]==8) && channel_macro_val[the_chan][num_macro][1]>0 && channel_macro_val[the_chan][num_macro][1]<49 )//follow pur
 {
 int num_f=(channel_macro_val[the_chan][num_macro][1]-1);
-Fader[ num_f]=MergerArray[the_chan];
-midi_levels[ num_f]=(int)(MergerArray[the_chan]/2);
+Fader[ num_f]=m8;
+midi_levels[ num_f]=(int)(m8/2);
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
 Fader[ num_f]=255-Fader[ num_f];
@@ -374,8 +378,8 @@ case 15://FADER SPEED
 if((channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_chan][num_macro]==8) && channel_macro_val[the_chan][num_macro][1]>0 && channel_macro_val[the_chan][num_macro][1]<49 )//follow pur
 {
 int num_f=(channel_macro_val[the_chan][num_macro][1]-1);
-lfo_speed[ num_f]=(int)(MergerArray[the_chan]/2);
-midi_levels[196+ num_f]=(int)(MergerArray[the_chan]/2);
+lfo_speed[ num_f]=(int)(m8/2);
+midi_levels[196+ num_f]=(int)(m8/2);
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
 lfo_speed[ num_f]=127-lfo_speed[ num_f];
@@ -393,10 +397,10 @@ if((channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the
 && channel_macro_val[the_chan][num_macro][1]>0 && channel_macro_val[the_chan][num_macro][1]<49 )//follow pur
 {
 int num_f=(channel_macro_val[the_chan][num_macro][1]-1);
-FaderDockContains[num_f][(dock_used_by_fader_is[num_f])][chan_to_manipulate] = MergerArray[the_chan];
+FaderDockContains[num_f][(dock_used_by_fader_is[num_f])][chan_to_manipulate] = m8;
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-FaderDockContains[num_f][(dock_used_by_fader_is[num_f])][chan_to_manipulate] = 255-MergerArray[the_chan];
+FaderDockContains[num_f][(dock_used_by_fader_is[num_f])][chan_to_manipulate] = 255-m8;
 }
 }
 break;
@@ -406,10 +410,10 @@ if((channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the
 && channel_macro_val[the_chan][num_macro][0]>0 && channel_macro_val[the_chan][num_macro][0]<512
 )//follow pur
 {
-bufferSaisie[chan_to_manipulate] =(unsigned char) (((float)(MergerArray[the_chan])/100) * channel_macro_val[the_chan][num_macro][1]) ;
+bufferSaisie[chan_to_manipulate] =(unsigned short) (((float)(MergerArray[the_chan])/100) * channel_macro_val[the_chan][num_macro][1]) ;   // [2c-2B] follow circuit->circuit : 16 bit REEL (ratio scale naturellement)
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-bufferSaisie[chan_to_manipulate] = (unsigned char) (255-((float)(MergerArray[the_chan])/100) * channel_macro_val[the_chan][num_macro][1]) ;
+bufferSaisie[chan_to_manipulate] = (unsigned short) (wc::LVL_MAX-((float)(MergerArray[the_chan])/100) * channel_macro_val[the_chan][num_macro][1]) ;   // [2c-2B] inversion 16 bit
 }
 }
 break;
@@ -427,10 +431,12 @@ int do_channels_macro()
 {
 for(int i=1;i<513;i++)
 {
+// [2c-2B] seuils de conditions et detection de changement en 8 bit (seuils 0-255)
+int m8i = wc::lvl_to_dmx8(MergerArray[i]);
 
   for(int evo=0;evo<4;evo++)
   {
-    if(macro_channel_on[i][evo]==1 && MergerArray[i]!=previous_state_of_outputted_channels[i])
+    if(macro_channel_on[i][evo]==1 && m8i!=previous_state_of_outputted_channels[i])
     {
    bool is_ok_for_condition=0;
    switch(channel_macro_reaction[i][evo])//condition
@@ -439,22 +445,22 @@ for(int i=1;i<513;i++)
    //nothing
    break;
    case 1://>=
-   if(MergerArray[i]>=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+   if(m8i>=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 2://>
-    if(MergerArray[i]>channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+    if(m8i>channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 3://==
-    if(MergerArray[i]==channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+    if(m8i==channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 4://!=
-    if(MergerArray[i]!=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+    if(m8i!=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 5://<=
-    if(MergerArray[i]<=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+    if(m8i<=channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 6://<
-    if(MergerArray[i]<channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
+    if(m8i<channel_macro_val[i][evo][0] ){is_ok_for_condition=1;}
    break;
    case 7://Follow
    is_ok_for_condition=1;
@@ -474,7 +480,7 @@ for(int i=1;i<513;i++)
    }
     //fin check macro on   x 4
   }
-  previous_state_of_outputted_channels[i]=MergerArray[i];//stockage pour declenchements
+  previous_state_of_outputted_channels[i]=m8i;//stockage pour declenchements
 }
 //fin 512 circuits
 

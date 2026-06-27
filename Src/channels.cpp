@@ -30,11 +30,11 @@ WWWWWWWW           C  WWWWWWWW   |
 /////////////////////////////CHANNELS///////////////////////////////////////////
 int scroll_channelspace = 0;
 int dmx_view = 0;                // 0 pourcentage 1 dmx
-unsigned char bufferSaisie[514]; // le 0 n est pas pris, le 512 est en  513
-unsigned char bufferBlind[514];
-unsigned short bufferFaders[514];   // [2c-2A] 16 bit (echelle 0-255 pour l'instant)
-unsigned short bufferSequenciel[514];
-unsigned char bufferCopyPaste[514];
+unsigned short bufferSaisie[514]; // [2c-2B] 16 bit pleine echelle (x257) - le 0 n est pas pris, le 512 est en 513
+unsigned short bufferBlind[514];  // [2c-2B] 16 bit pleine echelle (x257)
+unsigned short bufferFaders[514];   // [2c-2B] 16 bit pleine echelle (x257)
+unsigned short bufferSequenciel[514];   // [2c-2B] 16 bit pleine echelle (x257)
+unsigned short bufferCopyPaste[514];   // [2c-2B] 16 bit (presse-papier RAM)
 unsigned char buffer_affichage_valeurs_sequenciel[514];
 unsigned char bufferPourcentStepdefaultlevel[514]; // buffer tampon pour simplifier les steps levels en % ou dmx
 bool SelectedForCopyPaste[514];

@@ -222,7 +222,7 @@ scroller_patch=mouse_y-(YChan+50);
 }
 
 
-for (int o=0;o<9;o++)
+for (int o=0;o<10;o++)
 {
 
  if(mouse_x>XChan+345 && mouse_x<XChan+435 && mouse_y>YChan+290+(o*30) &&  mouse_y<YChan+310+(o*30)  )
@@ -258,6 +258,11 @@ switch(o)
  break;
  case 8:
  index_show_first_dim=toggle(index_show_first_dim);
+ break;
+ case 9:
+ // [2b] mode patch 16 bit : ensuite, clic sur l'output coarse (fine = coarse+1)
+ index_affect_patch_16bit=toggle(index_affect_patch_16bit);
+ if(index_affect_patch_16bit==1){index_affect_patch=0;}
  break;
  default:
  break;
@@ -298,6 +303,20 @@ for (int ci=1;ci<514;ci++)
 {Selected_Channel[ci]=0;}
 index_type=0;index_level_attribue=0;
 index_affect_patch=0;
+}
+if(index_affect_patch_16bit==1)//[2b] affectation 16 bit a la souris : coarse=grad, fine=grad+1
+{
+Patch[grad]=last_ch_selected;
+Patch[grad+1]=last_ch_selected;
+output_fine[grad]=grad+1;
+is_fine[grad+1]=1;
+sprintf(string_Last_Order,">> 16-bit channel (Dimmer %d + %d) patched to Channel %d",grad, grad+1, last_ch_selected);
+sprintf(string_monitor_patch,">> 16-bit channel (Dimmer %d + %d) patched to Channel %d",grad, grad+1, last_ch_selected);
+patch_unselect_all_dimmers();
+for (int ci=1;ci<514;ci++)
+{Selected_Channel[ci]=0;}
+index_type=0;index_level_attribue=0;
+index_affect_patch_16bit=0;
 }
 generate_channel_view_list_from_patched_circuits();
 mouse_released=1;

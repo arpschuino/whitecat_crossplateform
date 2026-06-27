@@ -60,11 +60,11 @@ for (int tc=1;tc<514;tc++)
 {
 if (Selected_Channel[tc]==1 && index_blind==0)
 {
-bufferSaisie[tc]=your_level_is;
+bufferSaisie[tc]=wc::dmx8_to_lvl(your_level_is);   // [2c-2B] pipeline 16 bit
 }
 else if (Selected_Channel[tc]==1 && index_blind==1)
 {
-bufferBlind[tc]=your_level_is;
+bufferBlind[tc]=wc::dmx8_to_lvl(your_level_is);   // [2c-2B] pipeline 16 bit
 }
 }
 }

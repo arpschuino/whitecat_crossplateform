@@ -300,7 +300,7 @@ int DoModify(int fad, int dk)
  {
  if(Selected_Channel[dc]==1)
  {
- FaderDockContains[fad][dk][dc]=bufferSaisie[dc];
+ FaderDockContains[fad][dk][dc]=wc::lvl_to_dmx8(bufferSaisie[dc]);   // [2c-2B] 16 bit -> dock 8 bit
  bufferSaisie[dc]=0;
  Selected_Channel[dc]=0;
  }
@@ -313,7 +313,7 @@ int DoModify(int fad, int dk)
  for (int dc=1;dc<514;dc++)
  {
  if(Selected_Channel[dc]==1)
- {FaderDockContains[fad][dk][dc]=bufferBlind[dc];}
+ {FaderDockContains[fad][dk][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);}   // [2c-2B] 16 bit -> dock 8 bit
  }
  index_do_modify=0;
  }
@@ -333,8 +333,8 @@ int DoReport(int fad, int dk)
  DockTypeIs[fad][dk]=0;//le type est 0, circuits normaux
  for (int u=1;u<514;u++)
  {
- FaderDockContains[fad][dk][u]=bufferSaisie[u];
- if(bufferFaders[u]>FaderDockContains[fad][dk][u]){FaderDockContains[fad][dk][u]=bufferFaders[u];}
+ FaderDockContains[fad][dk][u]=wc::lvl_to_dmx8(bufferSaisie[u]);   // [2c-2B] 16 bit -> dock 8 bit
+ if(wc::lvl_to_dmx8(bufferFaders[u])>FaderDockContains[fad][dk][u]){FaderDockContains[fad][dk][u]=wc::lvl_to_dmx8(bufferFaders[u]);}
  }
  for (int x=1;x<514;x++)
  {

@@ -44,6 +44,7 @@ WWWWWWWW           C  WWWWWWWW   |
 */
 
 #include "Crossplateform.h"
+#include "wc_levels.h"   // [Phase 2c] echelle des niveaux 16 bit (dispo dans MAIN et tous les TUs)
 #include "patch.h"
 #include "audio.h"
 #include "dmx.h"
