@@ -1,5 +1,17 @@
 # WhiteCat — Changelog
 
+## Version 0.10 (en cours — Jacques Bouault)
+
+### Gradation 16 bits (préparation fixtures)
+
+- **Cœur de gradation converti en 16 bits.** Tout le pipeline de niveaux (saisie, blind, séquentiel, faders, master) travaille désormais en haute résolution interne (0 → 65535) au lieu de 0 → 255. Le 8 bits devient un simple cas de sortie (octet de poids fort). Conséquence : les **circuits 8 bits classiques sont strictement inchangés** (non-régression à l'identique), et on peut piloter des canaux **16 bits réels** (coarse + fine) pour des fondus fins et lisses.
+- **Patch 16 bits** : le bouton *Patch 16 bit* (fenêtre Patch) associe une paire de sorties (coarse + fine) à un même circuit. La sortie déplie alors le niveau sur deux canaux DMX. *Limite temporaire : ce patch 16 bits n'est pas encore enregistré dans le show — il le sera avec le modèle « fixtures » à venir.*
+- **Saisie** : une valeur entrée en **%** ou en **DMX (0-255)** produit un vrai niveau 16 bits (ex. `51 %` → coarse 130 / fine 143). L'affichage en % du niveau circuit est désormais exact (plus d'arrondi 8 bits).
+- **Contrôle fin** : **Ctrl maintenu + molette ou flèches haut/bas** ajuste le niveau au pas fin (1/65535), pour régler l'octet faible d'un canal 16 bits sans bouger l'octet fort. Sans Ctrl, la molette/les flèches gardent le pas grossier habituel (%/DMX).
+- **Compatibilité des shows préservée** : les mémoires, grids, chasers, docks de faders et freeze restent stockés en 8 bits (conversion automatique aux frontières). Les shows `.whc` existants se chargent à l'identique, et un show enregistré reste relisible par une version antérieure.
+
+---
+
 ## Version 0.9.2 (en cours — Jacques Bouault)
 
 ### MIDI — Sortie (OUT)
