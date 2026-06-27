@@ -44,6 +44,139 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "wc_tus.h"
 #include "patch_splines.h"
 
+// ============================================================================
+// [Fixtures] Pont entre le modele wc_patch (source de verite) et les tableaux
+// legacy que le rendu balaie (cohabitation). Voir wc_fixture.h.
+// ============================================================================
+
+// Regenere les tableaux plats depuis wc_patch.
+int rebuild_patch_from_fixtures()
+{
+    for(int o=0;o<514;o++)
+    {
+        Patch[o]=0;
+        output_fine[o]=0;
+        is_fine[o]=0;
+        curves[o]=0;
+        dimmer_type[o]=0;
+    }
+    for(size_t f=0; f<wc_patch.size(); f++)
+    {
+        for(size_t c=0; c<wc_patch[f].channels.size(); c++)
+        {
+            const wc::Channel& ch = wc_patch[f].channels[c];
+            int co = (int)ch.coarse_addr;
+            if(co<=0 || co>=514) continue;
+            Patch[co]       = (int)ch.circuit;
+            curves[co]      = (int)ch.curve;
+            dimmer_type[co] = (ch.combine==wc::COMBINE_LTP) ? 1 : 0;
+            if(ch.resolution==wc::RES_16BIT && ch.fine_addr!=0 && (int)ch.fine_addr<514)
+            {
+                output_fine[co]          = (int)ch.fine_addr;
+                is_fine[ch.fine_addr]    = 1;
+                Patch[ch.fine_addr]      = (int)ch.circuit;   // l'output fine pointe le meme circuit
+                curves[ch.fine_addr]     = (int)ch.curve;
+            }
+        }
+    }
+    return 0;
+}
+
+// Reconstruit wc_patch depuis les tableaux plats courants (1 fixture = 1 dimmer).
+int synthesize_fixtures_from_legacy()
+{
+    wc_patch.clear();
+    for(int o=1;o<514;o++)
+    {
+        if(Patch[o]>0 && is_fine[o]==0)
+        {
+            wc::Channel ch;
+            ch.attribute   = wc::ATTR_DIMMER;
+            ch.combine     = dimmer_type[o] ? wc::COMBINE_LTP : wc::COMBINE_HTP;
+            ch.resolution  = (output_fine[o]!=0) ? wc::RES_16BIT : wc::RES_8BIT;
+            ch.curve       = (uint8_t)curves[o];
+            ch.universe    = 0;
+            ch.coarse_addr = (uint16_t)o;
+            ch.fine_addr   = (uint16_t)output_fine[o];
+            ch.circuit     = (uint16_t)Patch[o];
+            wc::Fixture fx;
+            fx.channels.push_back(ch);
+            wc_patch.push_back(fx);
+        }
+    }
+    return 0;
+}
+
+// ---------------------------------------------------------------------------
+// Persistance TEXTE du patch fixtures (format maison versionne, lisible).
+// 1 fichier patch_fixtures.whc dans le dossier du show. Petit -> non compresse.
+//   WCPATCH <version>
+//   <nb fixtures>
+//   pour chaque fixture : <nb channels> puis 1 ligne / channel :
+//     <attr> <combine> <resolution> <curve> <univers> <coarse> <fine> <circuit>
+// ---------------------------------------------------------------------------
+int save_patch_fixtures_text(const char* file)
+{
+    synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
+    FILE* fp = fopen(file, "wt");
+    if(!fp) return 1;
+    fprintf(fp, "WCPATCH 1\n");
+    fprintf(fp, "%u\n", (unsigned)wc_patch.size());
+    for(size_t f=0; f<wc_patch.size(); f++)
+    {
+        const wc::Fixture& fx = wc_patch[f];
+        fprintf(fp, "%u\n", (unsigned)fx.channels.size());
+        for(size_t c=0; c<fx.channels.size(); c++)
+        {
+            const wc::Channel& ch = fx.channels[c];
+            fprintf(fp, "%d %d %d %d %d %d %d %d\n",
+                    (int)ch.attribute, (int)ch.combine, (int)ch.resolution, (int)ch.curve,
+                    (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit);
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+// Retour : 0 = chargé OK ; 1 = fichier absent (vieux show) ; 2 = format invalide.
+int load_patch_fixtures_text(const char* file)
+{
+    FILE* fp = fopen(file, "rt");
+    if(!fp) return 1;
+    int ver=0;
+    if(fscanf(fp, " WCPATCH %d", &ver)!=1 || ver<1) { fclose(fp); return 2; }
+    unsigned nfix=0;
+    if(fscanf(fp, " %u", &nfix)!=1) { fclose(fp); return 2; }
+    wc_patch.clear();
+    for(unsigned f=0; f<nfix; f++)
+    {
+        unsigned nch=0;
+        if(fscanf(fp, " %u", &nch)!=1) { fclose(fp); return 2; }
+        wc::Fixture fx;
+        for(unsigned c=0; c<nch; c++)
+        {
+            int attr=0,comb=0,res=8,curve=0,uni=0,coarse=0,fine=0,circ=0;
+            if(fscanf(fp, " %d %d %d %d %d %d %d %d",
+                      &attr,&comb,&res,&curve,&uni,&coarse,&fine,&circ)!=8)
+            { fclose(fp); return 2; }
+            wc::Channel ch;
+            ch.attribute   = (uint8_t)attr;
+            ch.combine     = (uint8_t)comb;
+            ch.resolution  = (uint8_t)res;
+            ch.curve       = (uint8_t)curve;
+            ch.universe    = (uint16_t)uni;
+            ch.coarse_addr = (uint16_t)coarse;
+            ch.fine_addr   = (uint16_t)fine;
+            ch.circuit     = (uint16_t)circ;
+            fx.channels.push_back(ch);
+        }
+        wc_patch.push_back(fx);
+    }
+    fclose(fp);
+    rebuild_patch_from_fixtures();   // modele -> tableaux legacy (que le rendu balaie)
+    return 0;
+}
+
 int do_curve_affectation()
 {
 for(int k=0;k<513;k++)
@@ -296,6 +429,7 @@ Dimmers_selected[grad]=0;
 if(index_affect_patch==1)//affectation manuelle à la souris
 {
 Patch[grad]=last_ch_selected;
+output_fine[grad]=0; is_fine[grad]=0;   // [Fixtures] patch 8 bit normal : annule un eventuel appariement 16 bit
 sprintf(string_Last_Order,">> Dimmer %d affected to Channel %d",grad, last_ch_selected);
 sprintf(string_monitor_patch,">> Dimmer %d affected to Channel %d",grad, last_ch_selected);
 patch_unselect_all_dimmers();

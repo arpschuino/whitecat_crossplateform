@@ -2624,7 +2624,7 @@ int olddim=symbol_dimmer_is[view_plot_calc_number_is][i];
 int the_symb=i;
 
 if(index_build_patch_from_plot==1 )
-{Patch[olddim]=0;} //depatch
+{Patch[olddim]=0; output_fine[olddim]=0; is_fine[olddim]=0;} //depatch [Fixtures] nettoie le 16 bit
 
 for (int l=0;l<4;l++)
 {

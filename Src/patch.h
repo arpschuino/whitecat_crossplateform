@@ -1,5 +1,16 @@
 #pragma once
 
+#include "wc_fixture.h"   // [Fixtures] wc::Fixture + std::vector<wc::Fixture> wc_patch (source de verite du patch)
+
+// [Fixtures] Régénère les tableaux legacy (Patch/output_fine/is_fine/curves/dimmer_type)
+// depuis wc_patch (source de vérité) — appelé après toute édition/chargement du patch.
+int rebuild_patch_from_fixtures();
+// [Fixtures] Reconstruit wc_patch depuis les tableaux legacy courants (démarrage + chargement vieux show).
+int synthesize_fixtures_from_legacy();
+// [Fixtures] Persistance texte du patch fixtures (dans le dossier du show).
+int save_patch_fixtures_text(const char* file);
+int load_patch_fixtures_text(const char* file);   // 0 = OK, 1 = absent (vieux show), 2 = format invalide
+
 //////////////////PATCH//////////////////////////////////////////////////////////
 extern int xpatch_window;
 extern int ypatch_window;

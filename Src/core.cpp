@@ -1417,6 +1417,8 @@ int clear_completely_the_patch()
         Patch[i]=0;
         curves[i]=0;
         dimmer_type[i]=0;
+        output_fine[i]=0;   // [Fixtures] clear complet : pas de 16 bit residuel
+        is_fine[i]=0;
     }
     //modif 18/12/14 merci rui serge
      for(int pl=0;pl<128;pl++)
@@ -3109,6 +3111,8 @@ int patch_straight()
     for(int i=0; i<513; i++)
     {
         Patch[i]=i;
+        output_fine[i]=0;   // [Fixtures] patch droit : pas de 16 bit residuel
+        is_fine[i]=0;
     }
     if(index_build_patch_from_plot==1)
     {
@@ -3136,6 +3140,8 @@ int  patch_clear_selected()
         {
             Patch[i]=0;
             curves[i]=0;
+            output_fine[i]=0;   // [Fixtures] clear : pas de 16 bit residuel
+            is_fine[i]=0;
             if(index_build_patch_from_plot==1)
             {
                 for(int c=0; c<4; c++)
@@ -3166,6 +3172,8 @@ int patch_to_default_selected()
         {
             Patch[i]=i;
             curves[i]=0;
+            output_fine[i]=0;   // [Fixtures] default : pas de 16 bit residuel
+            is_fine[i]=0;
         }
     }
     if(index_build_patch_from_plot==1)
@@ -5481,6 +5489,8 @@ int GlobInit()
         for(int i=0; i<514; i++)
         {
             Patch[i]=i;
+            output_fine[i]=0;   // [Fixtures] reset : pas d'appariement 16 bit residuel
+            is_fine[i]=0;
             for(int llo=0; llo<4; llo++)
             {
                 show_first_dim_array[i][llo]=0;
@@ -5503,6 +5513,10 @@ int GlobInit()
         for(int i=0; i<514; i++)
         {
             curves[i]=0;
+        }
+        for(int c=0; c<16; c++)   // reset : reconstruire les 16 courbes DROITES par defaut (forme + points)
+        {
+            build_default_curve(c);
         }
     }
 

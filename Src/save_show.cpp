@@ -182,6 +182,7 @@ const char file_camera_modes[24]={"camera_modes.whc"};
 unsigned int camera_modes_size=8*16;//int camera_modes_and_settings[8][16];//ocv_calcul_mode /levels
 //PATCH
 const char file_patch_channels[24]={"patch_channels.whc"};
+const char file_patch_fixtures[24]={"patch_fixtures.whc"};   // [Fixtures] patch modele (texte) ; remplace patch_channels en save
 unsigned int patch_channels_size=514;//int Patch[514];
 const char file_patch_ltp[24]={"patch_ltp.whc"};
 unsigned int patch_ltp_size=514;//bool dimmer_type[514]; //0=HTP= 1 LTP
@@ -2085,18 +2086,13 @@ fclose(fp);
 
 
 
-if(specify_who_to_save_load[8]==1)  /////PATCH CHANNELS ////////////////////////////////////////////////////
+if(specify_who_to_save_load[8]==1)  /////PATCH CHANNELS (modele fixtures, texte) ////////////////////////////
 {
-if ((fp=fopen( file_patch_channels, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_patch_channels); b_report_error[idf]=1;}
-else
-{
-sprintf(string_save_load_report[idf],"Opened file %s",file_patch_channels);
-if (fwrite(Patch, sizeof(int),patch_channels_size, fp) != patch_channels_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_patch_channels); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_patch_channels);
-fclose(fp);
-}
+// [Fixtures] On sauve le patch sous forme de modele (Fixture/Channel), pas le tableau plat Patch[].
+// save_patch_fixtures_text() synthetise wc_patch depuis l'etat courant puis l'ecrit.
+if (save_patch_fixtures_text(file_patch_fixtures)!=0)
+{ sprintf(string_save_load_report[idf],"Error writting %s", file_patch_fixtures); b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Saved file %s", file_patch_fixtures);
  idf++;
 }
 
@@ -4714,6 +4710,12 @@ idf++;
 if(specify_who_to_save_load[8]==1)/////Patch circuits/////////////////////////////////
 {
 save_load_print_to_screen("Loading Patch");
+// [Fixtures] Nouveau format : patch_fixtures.whc (modele). Sinon vieux show : patch_channels.whc (plat).
+int fxres = load_patch_fixtures_text(file_patch_fixtures);   // 0=OK, 1=absent, 2=invalide
+if(fxres==0)
+{ sprintf(string_save_load_report[idf],"Loaded file %s", file_patch_fixtures); }
+else
+{
 if ((fp=fopen( file_patch_channels, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_patch_channels);b_report_error[idf]=1;}
 else
@@ -4723,6 +4725,7 @@ if (fread(Patch, sizeof(int),patch_channels_size, fp) !=patch_channels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s",  file_patch_channels);b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Loaded file %s",  file_patch_channels);
  fclose(fp);
+}
 }
 generate_channel_view_list_from_patched_circuits();
 idf++;
