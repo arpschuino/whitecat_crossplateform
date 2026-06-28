@@ -22,9 +22,9 @@ int vcom_inposition_is = 0;
 // freeze_array (booleen) + freeze_state (niveau). Memoire proportionnelle au nombre de geles.
 std::map<int, unsigned char> freeze_levels;
 ///////////GRAND MASTER////////////////////////////////////////////////////////
-int niveauGMaster = 255;
+int niveauGMaster = 65535; // [GM 16 bit] grand master en 16 bit (0..65535, echelle x257)
 int previous_niveauGMaster = 0;
-char string_niveauGMaster[4];
+char string_niveauGMaster[4]; // affiche %/DMX (<=255) via lvl_to_pct / lvl_to_dmx8
 bool index_allow_grand_master = 1;
 // DMX interfaces
 int dmx_interface_active[5] = {0, 0, 0, 0, 0}; // indices 1-4: ArtNet, EnttecOpen, EnttecPro, Sunlite

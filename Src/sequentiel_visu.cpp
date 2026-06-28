@@ -465,12 +465,14 @@ int x1_x2(int x_seq, int y_seq) {
     Rect FaderX1(Vec2D(x_seq + 480, y_seq + 80), Vec2D(45, 255)); // box du fader
     FaderX1.SetRoundness(15);
     FaderX1.SetLineWidth(epaisseur_ligne_fader);
-    Rect FaderNiveauX1(Vec2D(x_seq + 480, ((y_seq + 335) - niveauX1)), Vec2D(45, niveauX1 + 2)); // niveau fader
+    int pix_niveauX1 = niveauX1 >> 8; // [crossfade 16 bit] hauteur barre en pixels (0..255)
+    int pix_niveauX2 = niveauX2 >> 8;
+    Rect FaderNiveauX1(Vec2D(x_seq + 480, ((y_seq + 335) - pix_niveauX1)), Vec2D(45, pix_niveauX1 + 2)); // niveau fader
     FaderNiveauX1.SetRoundness(15);
     Rect FaderX2(Vec2D(x_seq + 580, y_seq + 80), Vec2D(45, 255)); // box du fader
     FaderX2.SetRoundness(15);
     FaderX2.SetLineWidth(epaisseur_ligne_fader);
-    Rect FaderNiveauX2(Vec2D(x_seq + 580, ((y_seq + 335 - niveauX2))), Vec2D(45, niveauX2)); // niveau fader
+    Rect FaderNiveauX2(Vec2D(x_seq + 580, ((y_seq + 335 - pix_niveauX2))), Vec2D(45, pix_niveauX2)); // niveau fader
     FaderNiveauX2.SetRoundness(15);
     FaderNiveauX1.Draw(CouleurNiveau.WithAlpha(0.5));
     FaderX1.DrawOutline(CouleurLigne);
@@ -491,11 +493,11 @@ int x1_x2(int x_seq, int y_seq) {
         }
     }
     if (dmx_view == 1) {
-        neuro.Print(ol::ToString(niveauX1), x_seq + 485, y_seq + 70);
-        neuro.Print(ol::ToString(niveauX2), x_seq + 590, y_seq + 70);
+        neuro.Print(ol::ToString((int)wc::lvl_to_dmx8(niveauX1)), x_seq + 485, y_seq + 70); // [16 bit] affichage DMX 0..255
+        neuro.Print(ol::ToString((int)wc::lvl_to_dmx8(niveauX2)), x_seq + 590, y_seq + 70);
     } else {
-        neuro.Print(ol::ToString((int)((float)niveauX1 / 2.55)), x_seq + 485, y_seq + 70);
-        neuro.Print(ol::ToString((int)((float)niveauX2 / 2.55)), x_seq + 590, y_seq + 70);
+        neuro.Print(ol::ToString(wc::lvl_to_pct(niveauX1)), x_seq + 485, y_seq + 70); // [16 bit] affichage % 0..100
+        neuro.Print(ol::ToString(wc::lvl_to_pct(niveauX2)), x_seq + 590, y_seq + 70);
     }
 
     Rect X1X2Together(Vec2D(x_seq + 530, y_seq + 50), Vec2D(50, 20)); // box du fader

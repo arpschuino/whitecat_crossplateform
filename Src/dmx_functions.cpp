@@ -290,13 +290,13 @@ int do_crossfade() {
         }
         if (actual_time > (crossfade_start_time + crossfade_time_delay_in)) {
             floatX2 += fraction_X2_in;
-            if (floatX2 > 255) {
-                floatX2 = 255;
+            if (floatX2 > wc::LVL_MAX) {
+                floatX2 = wc::LVL_MAX;
             }
             niveauX2 = (int)floatX2;
             crossfade_time_delay_in = 0;
         }
-        if (niveauX1 == 0 && niveauX2 == 255) {
+        if (niveauX1 == 0 && niveauX2 == wc::LVL_MAX) {
 
             next_mem_crossfade_finished(position_preset);
             refresh_modified_levels_in_crossfade(); // modification fleches pdt crossfade
@@ -366,8 +366,8 @@ int do_goback() {
         crossfade_time_delay_out = 0;
 
         floatX1 += fraction_X1_out;
-        if (floatX1 > 255) {
-            floatX1 = 255.0;
+        if (floatX1 > wc::LVL_MAX) {
+            floatX1 = wc::LVL_MAX;
         }
         niveauX1 = (int)floatX1;
 
@@ -392,7 +392,7 @@ int do_goback() {
             grid_niveauX2[0] = (int)grid_floatX2[0];
         }
 
-        if (niveauX1 == 255 && niveauX2 == 0) {
+        if (niveauX1 == wc::LVL_MAX && niveauX2 == 0) {
             // sab 02/03/2014 crossfade_done_time=0;sprintf(string_time_left_is,"");
             crossfade_done_time = 0;
             strcpy(string_time_left_is, "");
@@ -1145,18 +1145,18 @@ int calculs_etats_faders_et_contenus() {
 ////////////////////////////////////////////////////////////////////////////////
 int Merger_Sequenciel() {
     for (int p = 1; p < 514; p++) {
-        // [2c-2B] buffers 16 bit. niveauX1/X2 (0-255) = ratio de crossfade -> le /255 normalise,
-        // il NE convertit PAS l'echelle (delta deja 16 bit). On retire juste le cast (uchar) qui tronquait.
+        // [crossfade 16 bit] niveauX1/X2 (0-65535) = position de crossfade -> le /LVL_MAX normalise
+        // (ratio 0..1), il NE convertit PAS l'echelle (delta deja 16 bit). A niveauX1=65535 c'est l'identite.
         if (bufferSaisie[p] == bufferBlind[p]) {
             bufferSequenciel[p] = bufferBlind[p];
         } else if (bufferSaisie[p] > bufferBlind[p]) {
             // [2c-2B] arithmetique ENTIERE (x niveauX1 puis /255) : a niveauX1=255 c'est l'identite
             // exacte, les bits FINS (sous l'octet fort) sont preserves. Le float /255*255 les detruisait.
             bufferSequenciel[p] =
-                bufferBlind[p] + (int)((long)(bufferSaisie[p] - bufferBlind[p]) * niveauX1 / 255);
+                bufferBlind[p] + (int)((long)(bufferSaisie[p] - bufferBlind[p]) * niveauX1 / wc::LVL_MAX);
         } else if (bufferSaisie[p] < bufferBlind[p]) {
             bufferSequenciel[p] =
-                bufferSaisie[p] + (int)((long)(bufferBlind[p] - bufferSaisie[p]) * niveauX2 / 255);
+                bufferSaisie[p] + (int)((long)(bufferBlind[p] - bufferSaisie[p]) * niveauX2 / wc::LVL_MAX);
         }
         if (index_crossfading == 1 || index_pause == 1) {
             // [2c-2B] modif manuelle de crossfade : 1 pas = 1 unite DMX -> x257 en 16 bit
@@ -1193,8 +1193,8 @@ int Merger() {
             MergerArray[i] = Tmax(bufferSequenciel[i], bufferFaders[i]);
             // MASTER
             if (Channels_excluded_from_grand_master[i] == 0) {
-                // [2c-2B] arithmetique ENTIERE : a niveauGMaster=255 identite exacte (preserve le fin)
-                MergerArray[i] = (int)((long)(MergerArray[i]) * niveauGMaster / 255);
+                // [GM 16 bit] arithmetique ENTIERE : a niveauGMaster=65535 identite exacte (preserve le fin)
+                MergerArray[i] = (int)((long)(MergerArray[i]) * niveauGMaster / wc::LVL_MAX);
             }
         }
         else                              // circuit gele : niveau fige

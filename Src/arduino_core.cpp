@@ -135,8 +135,8 @@ case 5://grand master
 //NIVEAU
 if(index_allow_grand_master==1)
 {
-niveauGMaster=analog_data_from_arduino[p];
-midi_levels[615]=(niveauGMaster/2);
+niveauGMaster=wc::dmx8_to_lvl(analog_data_from_arduino[p]); // [GM 16 bit] analog 8 bit -> 16 bit (x257)
+midi_levels[615]=(wc::lvl_to_dmx8(niveauGMaster)/2);
 if(midi_send_out[615]==1){ index_send_midi_out[615]=1;}
 }
 break;
@@ -150,8 +150,8 @@ temp_ardniveauX1=analog_data_from_arduino[p];
 if(index_get_back_faders_need_to_be_done==0)
 {
 index_go=0; index_go_back=0; index_pause=0;
-niveauX1=analog_data_from_arduino[p];
-midi_levels[491]=niveauX1/2;
+niveauX1=wc::dmx8_to_lvl(analog_data_from_arduino[p]); // [crossfade 16 bit] analog 8 bit -> 16 bit (x257)
+midi_levels[491]=wc::lvl_to_dmx8(niveauX1)/2;
 if(midi_send_out[491]==1){index_send_midi_out[491]=1;}
 }
 }
@@ -162,7 +162,7 @@ temp_ardniveauX2=255-analog_data_from_arduino[p];
 if(index_get_back_faders_need_to_be_done==0)
 {
 index_go=0; index_go_back=0; index_pause=0;
-niveauX2=255-analog_data_from_arduino[p];
+niveauX2=wc::dmx8_to_lvl(255-analog_data_from_arduino[p]); // [crossfade 16 bit] analog 8 bit -> 16 bit (x257)
 midi_levels[492]=analog_data_from_arduino[p]/2;//inversion faite dans le midi
 if(midi_send_out[492]==1){index_send_midi_out[492]=1;}
 }

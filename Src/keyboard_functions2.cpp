@@ -1412,7 +1412,7 @@ int key_backward()
            detect_mem_before_one();
            detect_mem_preset();
            refresh_mem_onpreset(position_preset);
-           niveauX1=255; niveauX2=0;
+           niveauX1=65535; niveauX2=0;
            refresh_banger_wx();
            refresh_integrated_gridplayer1();
            reset_modified_levels_in_crossfade();
@@ -1442,7 +1442,7 @@ int key_forward()
            detect_mem_before_one();
            detect_mem_preset();
            refresh_mem_onpreset(position_preset);
-           niveauX1=255; niveauX2=0;
+           niveauX1=65535; niveauX2=0;
            refresh_banger_wx();
            refresh_integrated_gridplayer1();
            reset_modified_levels_in_crossfade();

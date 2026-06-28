@@ -41,8 +41,8 @@ bool Links_Memoires[10000];
 bool index_link_is_on = 0;
 int index_blink_change_memories = 0;
 float default_time = 3.0;
-int niveauX1 = 255;
-int niveauX2 = 0;
+int niveauX1 = 65535; // [crossfade 16 bit] position de crossfade X1 en 16 bit (0..65535, echelle x257)
+int niveauX2 = 0;     // [crossfade 16 bit] position de crossfade X2 en 16 bit (0..65535, echelle x257)
 bool call_preset = 0;
 bool call_stage = 0;
 char string_mem_before_one[6];
@@ -55,8 +55,8 @@ int ratio_X1X2_together = 0;
 int seq_ratio_drag_active = 0; // 0=pas de drag ratio en cours, 1=drag actif (reset MAIN mouse_down)
 int mouse_click_x = 0;  // position X au moment du dernier mouse_down
 int mouse_click_y = 0;  // position Y au moment du dernier mouse_down
-int remapX1[255];
-int remapX2[255];
+int remapX1[256]; // [crossfade 16 bit] LUT courbe manuelle : indexee 0..255 (>>8), valeurs 16 bit (x257)
+int remapX2[256];
 // cross fade
 bool index_go = 0;
 bool index_pause = 0;

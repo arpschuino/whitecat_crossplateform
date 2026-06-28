@@ -3673,22 +3673,22 @@ int prepare_crossfade()
 {
     if(crossfade_speed<64)
     {
-        fraction_X2_in= 255.0/ (Times_Memoires[position_preset][1]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
-        fraction_X1_out=  255.0/ (Times_Memoires[position_preset][3]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
+        fraction_X2_in= 65535.0/ (Times_Memoires[position_preset][1]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
+        fraction_X1_out=  65535.0/ (Times_Memoires[position_preset][3]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
         crossfade_time_delay_in=(int)(Times_Memoires[position_preset][0]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
         crossfade_time_delay_out=(int)(Times_Memoires[position_preset][2]*(((float)BPS_RATE)*(64.0/crossfade_speed)));
     }
     else if(crossfade_speed==64)
     {
-        fraction_X2_in= 255.0/ (Times_Memoires[position_preset][1]*BPS_RATE);
-        fraction_X1_out= 255.0/ (Times_Memoires[position_preset][3]*BPS_RATE);
+        fraction_X2_in= 65535.0/ (Times_Memoires[position_preset][1]*BPS_RATE);
+        fraction_X1_out= 65535.0/ (Times_Memoires[position_preset][3]*BPS_RATE);
         crossfade_time_delay_in=(int) (Times_Memoires[position_preset][0]*BPS_RATE);
         crossfade_time_delay_out=(int)(Times_Memoires[position_preset][2]*BPS_RATE);
     }
     else if(crossfade_speed>64)
     {
-        fraction_X2_in= 255.0/ ((Times_Memoires[position_preset][1]- ( (Times_Memoires[position_preset][1] /64) * (crossfade_speed-63)))*BPS_RATE); //-62 evite un passage de temps pas bon, cf curseur
-        fraction_X1_out=  255.0/ ((Times_Memoires[position_preset][3]- ( (Times_Memoires[position_preset][3] /64) * (crossfade_speed-63)))*BPS_RATE);
+        fraction_X2_in= 65535.0/ ((Times_Memoires[position_preset][1]- ( (Times_Memoires[position_preset][1] /64) * (crossfade_speed-63)))*BPS_RATE); //-62 evite un passage de temps pas bon, cf curseur
+        fraction_X1_out=  65535.0/ ((Times_Memoires[position_preset][3]- ( (Times_Memoires[position_preset][3] /64) * (crossfade_speed-63)))*BPS_RATE);
         crossfade_time_delay_in= (int) ((Times_Memoires[position_preset][0]- ( (Times_Memoires[position_preset][0] /64) * (crossfade_speed-63)))*BPS_RATE); //-62 evite un passage de temps pas bon, cf curseur
         crossfade_time_delay_out= (int) ((Times_Memoires[position_preset][2]- ( (Times_Memoires[position_preset][2] /64) * (crossfade_speed-63)))*BPS_RATE);
     }
@@ -3925,7 +3925,7 @@ int do_load_mem_preset_while_crossfade(int mem_is)
     {
         bufferSaisie[op]=bufferSequenciel[op];
     }
-    niveauX1=255;
+    niveauX1=65535;
     niveauX2=0;
     crossfade_speed=64;
     position_preset=mem_is;
@@ -3947,7 +3947,7 @@ int do_double_go_function()
     {
         bufferSaisie[op]=bufferSequenciel[op];
     }
-    niveauX1=255;
+    niveauX1=65535;
     niveauX2=0;
     crossfade_speed=64;
     reset_modified_levels_in_crossfade();
@@ -3991,7 +3991,7 @@ int do_go_back_function()
         {
             bufferSaisie[op]=bufferSequenciel[op];
         }
-        niveauX1=255;
+        niveauX1=65535;
         niveauX2=0;
         position_preset=mem_before_one;
         refresh_mem_onpreset(position_preset);
@@ -5854,7 +5854,7 @@ int GlobInit()
         index_banger_selected=0;
         index_show_banger_window=0;
         index_allow_sunlite_dmxIN=0;//sunlite
-        niveauGMaster=255;//grand master
+        niveauGMaster=65535;//grand master [GM 16 bit]
         index_allow_multicore=0;
         allow_artnet_in=0;
         index_setup_gfx=0;

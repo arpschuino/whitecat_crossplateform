@@ -200,6 +200,91 @@ int Channel_at_level()
 
 int DoMouseLevel()
 {
+ // [crossfade 16 bit] molette sur les faders X1/X2 du sequenciel :
+ //   molette = pas COARSE (1 DMX = 257 en 16 bit) ; Ctrl+molette = pas FIN (1/65535).
+ //   Reutilise la meme courbe veloce dynamique que la molette circuits (1,1,5,20,45 max).
+ {
+   static int last_scroll_mouse_for_xfade = 0;
+   bool overX1 = (mouse_x > xseq_window+480 && mouse_x < xseq_window+525);
+   bool overX2 = (mouse_x > xseq_window+580 && mouse_x < xseq_window+625);
+   if (window_focus_id == W_SEQUENCIEL &&
+       mouse_y > yseq_window+35 && mouse_y < yseq_window+330 && (overX1 || overX2)) {
+       int _delta = mouse_z - last_scroll_mouse_for_xfade;
+       if (_delta != 0) {
+           int _absd  = _delta > 0 ? _delta : -_delta;
+           int _d     = _absd > 2 ? _absd - 2 : 0;
+           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique (sans inertie)
+           if (_steps > 45) _steps = 45;            // plafond
+           // etat Ctrl LIVE : key_shifts n'est rafraichi qu'aux events clavier, pas a la molette
+           // -> il resterait colle a "fine" apres relachement du Ctrl. SDL_GetModState() est a jour.
+           bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
+           int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
+           int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
+           index_go = 0; index_go_back = 0; index_pause = 0;
+           if (overX1) {
+               niveauX1 += change;
+               if (niveauX1 < 0)     niveauX1 = 0;
+               if (niveauX1 > 65535) niveauX1 = 65535;
+               if (index_x1_x2_together == 1) {
+                   if (((255.0 - ratio_X1X2_together) / 255) == 1.0) niveauX2 = 65535 - niveauX1;
+                   else niveauX2 = remapX2[(255 - (niveauX1 >> 8))];
+                   if (niveauX2 < 0)     niveauX2 = 0;
+                   if (niveauX2 > 65535) niveauX2 = 65535;
+               }
+           } else {
+               niveauX2 += change;
+               if (niveauX2 < 0)     niveauX2 = 0;
+               if (niveauX2 > 65535) niveauX2 = 65535;
+               if (index_x1_x2_together == 1) {
+                   if (((255.0 - ratio_X1X2_together) / 255) == 1.0) niveauX1 = 65535 - niveauX2;
+                   else niveauX1 = 65535 - remapX1[(niveauX2 >> 8)];
+                   if (niveauX1 < 0)     niveauX1 = 0;
+                   if (niveauX1 > 65535) niveauX1 = 65535;
+                   if (niveauX2 == 65535) niveauX1 = 0;
+               }
+           }
+           if (midi_send_out[491] == 1) index_send_midi_out[491] = 1;
+           if (midi_send_out[492] == 1) index_send_midi_out[492] = 1;
+           last_scroll_mouse_for_xfade = mouse_z;
+           last_scroll_mouse_for_chan  = mouse_z; // empeche le bloc niveau-circuit de refirer sur ce scroll
+       }
+       return (0); // molette consommee par le crossfade manuel : pas de modif niveau circuit
+   }
+   last_scroll_mouse_for_xfade = mouse_z; // hors survol : garde la baseline fraiche (evite un saut au survol)
+ }
+
+ // [GM 16 bit] molette sur le grand master : coarse (1 DMX = 257) / Ctrl+molette = fin (1/65535),
+ //   meme courbe veloce dynamique. GM dessine en 1050,55 larg 40 (cf graphics_rebuild1 / procs_visuels).
+ {
+   static int last_scroll_mouse_for_gm = 0;
+   const int GMX = 1050, GMY = 55, GMlarg = 40;
+   // [GM 16 bit] molette active quel que soit le focus (le GM est sur le bureau), mais PAS si le
+   // curseur est au-dessus d'une fenetre. On teste le survol EN DIRECT (wc_window_under_mouse) :
+   // index_over_A_window est fige au dernier clic et resterait colle a 1 -> ne convient pas ici.
+   extern int wc_window_under_mouse();
+   if (index_allow_grand_master == 1 && wc_window_under_mouse() == 0 &&
+       mouse_x > GMX && mouse_x < GMX + GMlarg && mouse_y >= GMY - 20 && mouse_y <= GMY + 275) {
+       int _delta = mouse_z - last_scroll_mouse_for_gm;
+       if (_delta != 0) {
+           int _absd  = _delta > 0 ? _delta : -_delta;
+           int _d     = _absd > 2 ? _absd - 2 : 0;
+           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
+           if (_steps > 45) _steps = 45;
+           bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
+           int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
+           niveauGMaster += (_delta > 0 ? 1 : -1) * _steps * unit;
+           if (niveauGMaster < 0)     niveauGMaster = 0;
+           if (niveauGMaster > 65535) niveauGMaster = 65535;
+           midi_levels[615] = wc::lvl_to_dmx8(niveauGMaster) / 2;
+           if (midi_send_out[615] == 1) index_send_midi_out[615] = 1;
+           last_scroll_mouse_for_gm   = mouse_z;
+           last_scroll_mouse_for_chan = mouse_z; // empeche le bloc niveau-circuit de refirer sur ce scroll
+       }
+       return (0); // molette consommee par le grand master
+   }
+   last_scroll_mouse_for_gm = mouse_z; // hors survol : garde la baseline fraiche
+ }
+
  {
  int _delta = mouse_z - last_scroll_mouse_for_chan;
  if (_delta != 0) {

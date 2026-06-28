@@ -140,7 +140,7 @@ bufferSaisie[a]=bufferBlind[a];
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
 detect_mem_before_one();
-niveauX1=255; niveauX2=0;
+niveauX1=65535; niveauX2=0;
 if(midi_send_out[493]==1){index_send_midi_out[493]=1;}
 someone_changed_in_sequences=1;//icat
 return(0);
@@ -159,7 +159,7 @@ for (int po=1;po<514;po++)
 {
 bufferSaisie[po]=bufferSequenciel[po];
 }
-niveauX1=255;
+niveauX1=65535;
 niveauX2=0;
 prepare_crossfade();
 floatX1=niveauX1;
@@ -656,16 +656,16 @@ else
 {
 set_mouse_range(x_seq+480, y_seq+60, x_seq+480+45, y_seq+100+255);//pour pas deborder
 index_go=0; index_go_back=0; index_pause=0;
-niveauX1=(y_seq+80+255)-mouse_y;
+niveauX1=((y_seq+80+255)-mouse_y)*257; // [crossfade 16 bit] pixel (0..255) -> 16 bit (x257)
 if(niveauX1<0){niveauX1=0;}
-if(niveauX1>255){niveauX1=255;}
+if(niveauX1>65535){niveauX1=65535;}
 if(midi_send_out[491]==1){index_send_midi_out[491]=1;}
 if(index_x1_x2_together==1)
 {
-if(((255.0-ratio_X1X2_together)/255)==1.0){niveauX2=(255-niveauX1);}
-else {niveauX2=remapX2[(255-niveauX1)];}
+if(((255.0-ratio_X1X2_together)/255)==1.0){niveauX2=(65535-niveauX1);}
+else {niveauX2=remapX2[(255-(niveauX1>>8))];} // LUT indexee 8 bit (>>8), valeur deja 16 bit
 if(niveauX2<0){niveauX2=0;}
-if(niveauX2>255){niveauX2=255;}
+if(niveauX2>65535){niveauX2=65535;}
 if(midi_send_out[492]==1){index_send_midi_out[492]=1;}
 }
 }
@@ -704,23 +704,23 @@ else
 {
 set_mouse_range(x_seq+580, y_seq+60, x_seq+580+45, y_seq+100+255);//pour pas deborder
 index_go=0; index_go_back=0; index_pause=0;
-niveauX2=(-1)*(mouse_y-(y_seq+80+255));
+niveauX2=((-1)*(mouse_y-(y_seq+80+255)))*257; // [crossfade 16 bit] pixel (0..255) -> 16 bit (x257)
 if(niveauX2<0){niveauX2=0;}
-if(niveauX2>255){niveauX2=255;}
+if(niveauX2>65535){niveauX2=65535;}
 if(midi_send_out[492]==1){index_send_midi_out[492]=1;}
 if(index_x1_x2_together==1)
 {
-if(((255.0-ratio_X1X2_together)/255)==1.0){niveauX1=(255-niveauX2);}
-else { niveauX1=255-remapX1[niveauX2];     }
+if(((255.0-ratio_X1X2_together)/255)==1.0){niveauX1=(65535-niveauX2);}
+else { niveauX1=65535-remapX1[(niveauX2>>8)];     } // LUT indexee 8 bit (>>8), valeur deja 16 bit
 if(niveauX1<0){niveauX1=0;}
-if(niveauX1>255){niveauX1=255;}
-if (niveauX2==255){niveauX1=0;}//report à zero
+if(niveauX1>65535){niveauX1=65535;}
+if (niveauX2==65535){niveauX1=0;}//report à zero
 if(midi_send_out[491]==1){index_send_midi_out[491]=1;}
 }
 }
 }
 
-if(niveauX1==0 && niveauX2==255 &&
+if(niveauX1==0 && niveauX2==65535 &&
    ((mouse_click_x>x_seq+480 && mouse_click_x<x_seq+480+45) ||
     (mouse_click_x>x_seq+580 && mouse_click_x<x_seq+580+45)))
 {
@@ -771,19 +771,19 @@ float fract_remplaX2=(255.0-ratio_X1X2_together)/255;
 for(int mop=255;mop>=0;mop--)
 {
 remapis-=fract_remplaX1;
-if (remapis>255){remapX1[mop]=255;}
+if (remapis>255){remapX1[mop]=65535;}        // [crossfade 16 bit] LUT en 16 bit (x257)
 else if(remapis<0){remapX1[mop]=0;}
 else
 {
-remapX1[mop]=(int)(remapis);
+remapX1[mop]=(int)(remapis*257);
 }
 }
 for(int mop=0;mop<256;mop++)
 {
 remapis+=fract_remplaX2;
-if (remapis>255){remapX2[mop]=255;}
+if (remapis>255){remapX2[mop]=65535;}        // [crossfade 16 bit] LUT en 16 bit (x257)
 else if(remapis<0){remapX2[mop]=0;}
-else {remapX2[mop]=(int)(remapis);  }
+else {remapX2[mop]=(int)(remapis*257);  }
 }
 //christoph 15/12/14 debug go déclenché par manip ratio (??? why ???) + enregistrement auto du ratio
 index_go=0;
@@ -1107,7 +1107,7 @@ refresh_mem_onstage(position_onstage);
 detect_mem_before_one();
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
-niveauX1=255; niveauX2=0;
+niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
 }
@@ -1131,7 +1131,7 @@ refresh_mem_onstage(position_onstage);
 detect_mem_before_one();
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
-niveauX1=255; niveauX2=0;
+niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
 }

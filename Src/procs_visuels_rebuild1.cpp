@@ -81,7 +81,9 @@ bool wc_askConfirmWindowIsOpen()
 }
 //sab 29/05/2013 fin ------------------------------------------------------
 
-int detection_over_window()
+// wc_window_under_mouse : detection PURE (sans effet de bord) de la fenetre sous le curseur.
+// Retourne l'id de la fenetre survolee, ou 0 si aucune. Utilisable a chaque frame (molette GM).
+int wc_window_under_mouse()
 {
 bool stop_detect=0;
 int window_is=0;
@@ -195,7 +197,16 @@ break;
 if(stop_detect==1){break;}
 }
 }
-if(stop_detect==0){index_over_A_window=0;}
+return stop_detect ? window_is : 0;
+}
+
+// detection_over_window : version a EFFETS DE BORD (focus, bring-to-front, index_over_*).
+// Appelee SUR CLIC -> index_over_A_window reflete l'etat au dernier clic, PAS le survol courant.
+// Pour un test "survol fenetre" frais (ex. molette GM), utiliser wc_window_under_mouse().
+int detection_over_window()
+{
+int window_is = wc_window_under_mouse();
+if(window_is==0){index_over_A_window=0;}
 else {index_over_A_window=1;window_bring_to_front(window_is);}
 
 

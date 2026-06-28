@@ -440,18 +440,18 @@ if(control==491)
 if(seq_midi_xfade_continuous) {
     if(!seq_midi_xfade_inverted) {
         // normal phase: pots go DOWN, MIDI 127→0 → niveauX1 255→0
-        if(midi_levels[control]<127) niveauX1=midi_levels[control]*2;
-        else niveauX1=255;
+        if(midi_levels[control]<127) niveauX1=wc::dmx8_to_lvl(midi_levels[control]*2); // [16 bit] x257
+        else niveauX1=65535;
     } else {
         // inverted phase: pots go UP, MIDI 0→127 → niveauX1 255→0 (reversed)
-        if(midi_levels[control]>0) niveauX1=(127-midi_levels[control])*2;
-        else niveauX1=255;
+        if(midi_levels[control]>0) niveauX1=wc::dmx8_to_lvl((127-midi_levels[control])*2);
+        else niveauX1=65535;
     }
 } else {
     if(midi_levels[control]<127 && index_get_back_faders_need_to_be_done==0)
-    { niveauX1=midi_levels[control]*2; }
+    { niveauX1=wc::dmx8_to_lvl(midi_levels[control]*2); }
     if(midi_levels[control]==127 && index_get_back_faders_need_to_be_done==0)
-    { niveauX1=255; }
+    { niveauX1=65535; }
 }
 }
 
@@ -462,18 +462,18 @@ if(control==492)
 if(seq_midi_xfade_continuous) {
     if(!seq_midi_xfade_inverted) {
         // normal phase: MIDI 127→0 → niveauX2 0→255 (natural X2 inversion)
-        if((127-midi_levels[control])<127) niveauX2=(127-midi_levels[control])*2;
-        else niveauX2=255;
+        if((127-midi_levels[control])<127) niveauX2=wc::dmx8_to_lvl((127-midi_levels[control])*2); // [16 bit] x257
+        else niveauX2=65535;
     } else {
         // inverted phase: pots go UP, MIDI 0→127 → niveauX2 0→255
-        if(midi_levels[control]<127) niveauX2=midi_levels[control]*2;
-        else niveauX2=255;
+        if(midi_levels[control]<127) niveauX2=wc::dmx8_to_lvl(midi_levels[control]*2);
+        else niveauX2=65535;
     }
 } else {
     if((127-midi_levels[control])<127 && index_get_back_faders_need_to_be_done==0)
-    { niveauX2=(127-midi_levels[control])*2; }
+    { niveauX2=wc::dmx8_to_lvl((127-midi_levels[control])*2); }
     if((127-midi_levels[control])==127 && index_get_back_faders_need_to_be_done==0)
-    { niveauX2=255; }
+    { niveauX2=65535; }
 }
 }
 
@@ -484,7 +484,7 @@ if(midi_levels[491]==127 && (127-midi_levels[492])==0 )
 // trigger — both phases produce niveauX1==0 && niveauX2==255 at end:
 // normal phase  : pots at bottom (MIDI 491=0,  492=0)   → niveauX1=0, niveauX2=255
 // inverted phase: pots at top    (MIDI 491=127, 492=127) → niveauX1=0, niveauX2=255
-if(niveauX1==0 && niveauX2==255)
+if(niveauX1==0 && niveauX2==65535)
 {
 bool should_fire = false;
 if(!seq_midi_xfade_continuous) {
@@ -509,7 +509,7 @@ if(seq_midi_xfade_continuous) {
     seq_midi_xfade_inverted=!seq_midi_xfade_inverted;
     // New stage immediately full, new preset immediately dark.
     // Pots don't send events while stationary, so force the reset here.
-    niveauX1=255;
+    niveauX1=65535;
     niveauX2=0;
 }
 else index_get_back_faders_need_to_be_done=1;
@@ -675,11 +675,11 @@ if(index_allow_grand_master==1)
 {
 if(midi_levels[control]<127 )
 {
-niveauGMaster=midi_levels[control]*2;
+niveauGMaster=wc::dmx8_to_lvl(midi_levels[control]*2); // [GM 16 bit] midi 7 bit -> 16 bit (x257)
 }
 if(midi_levels[control]==127)
 {
-niveauGMaster=255;
+niveauGMaster=65535;
 }
 }
 }
@@ -1453,7 +1453,7 @@ refresh_mem_onstage(position_onstage);
 detect_mem_before_one();
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
-niveauX1=255; niveauX2=0;
+niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
 someone_changed_in_sequences=1;//icat
@@ -1470,7 +1470,7 @@ refresh_mem_onstage(position_onstage);
 detect_mem_before_one();
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
-niveauX1=255; niveauX2=0;
+niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
 someone_changed_in_sequences=1;//icat
@@ -3380,8 +3380,8 @@ int ventilation_midi_sur_crossfade()
 {
 if(index_get_back_faders_need_to_be_done==0)
 {
-midi_levels[491]=niveauX1/2;
-midi_levels[492]=127-(niveauX2/2);
+midi_levels[491]=wc::lvl_to_dmx8(niveauX1)/2;        // [16 bit] retour 8 bit (>>8) puis /2 -> 0..127
+midi_levels[492]=127-(wc::lvl_to_dmx8(niveauX2)/2);
 midi_levels[493]=crossfade_speed;
 }
  return(0);

@@ -1180,8 +1180,10 @@ int Load_Sequenciel_Conf()
     fscanf( cfg_file , "%d %d /\n" ,  &go_channel_is, &pause_channel_is);
 	fclose( cfg_file );
 	}
-midi_levels[491]=niveauX1/2;
-midi_levels[492]=127-(niveauX2/2);
+niveauX1=wc::dmx8_to_lvl(niveauX1); // [crossfade 16 bit] le show stocke 8 bit -> echelle interne 16 bit (x257)
+niveauX2=wc::dmx8_to_lvl(niveauX2);
+midi_levels[491]=wc::lvl_to_dmx8(niveauX1)/2;
+midi_levels[492]=127-(wc::lvl_to_dmx8(niveauX2)/2);
 midi_levels[493]=crossfade_speed;
    if(go_channel_is<1 || ( go_channel_is> 512)){go_channel_is=0;}
    if(pause_channel_is<1 || ( pause_channel_is> 512)){pause_channel_is=0;}
@@ -1343,7 +1345,7 @@ index_report_customs[25]=index_banger_selected;
 index_report_customs[26]=index_save_mode_export_or_binary;
 index_report_customs[27]=index_allow_sunlite_dmxIN;// dmx in position sunlite
 index_report_customs[28]=index_config_general;
-index_report_customs[29]=niveauGMaster;//grand master
+index_report_customs[29]=wc::lvl_to_dmx8(niveauGMaster);//grand master [GM 16 bit] sur disque en 8 bit (>>8)
 index_report_customs[30]=cheat_key_off_to_key_on;
 index_report_customs[31]=clocklevel_absolutemode;//midi clock add level
 index_report_customs[32]=echo_selected;
@@ -1425,7 +1427,7 @@ index_banger_selected=index_report_customs[25];
 index_save_mode_export_or_binary=index_report_customs[26];
 index_allow_sunlite_dmxIN=index_report_customs[27];//sunlite
 index_config_general=index_report_customs[28];
-niveauGMaster=index_report_customs[29];//grand master
+niveauGMaster=wc::dmx8_to_lvl(index_report_customs[29]);//grand master [GM 16 bit] disque 8 bit -> 16 bit (x257)
 cheat_key_off_to_key_on=index_report_customs[30];
 clocklevel_absolutemode=index_report_customs[31];//midiclock midi mode
 echo_selected=index_report_customs[32];
@@ -1457,8 +1459,8 @@ line_list_is=index_report_customs[55];
 //index_window_gui_iCat=index_report_customs[58];
 //iCatPageis=index_report_customs[59]; // iCat removed
 
-if(niveauGMaster<255){midi_levels[615]=(niveauGMaster/2);}
-else if(niveauGMaster==255){midi_levels[615]=127;}
+if(niveauGMaster<65535){midi_levels[615]=(wc::lvl_to_dmx8(niveauGMaster)/2);}
+else if(niveauGMaster==65535){midi_levels[615]=127;}
 
 
 
@@ -1646,7 +1648,7 @@ FILE *fpo;
 if((fpo=fopen("sequenciel.txt","w")))
 {
 fprintf(fpo,"#arguments: mem_on_stage*10 / mem_on_preset*10 / master_stage / master_preset / speed /\n");
-fprintf(fpo,"%d / %d / %d / %d / %d /\n",position_onstage, position_preset,niveauX1,niveauX2,crossfade_speed);
+fprintf(fpo,"%d / %d / %d / %d / %d /\n",position_onstage, position_preset,wc::lvl_to_dmx8(niveauX1),wc::lvl_to_dmx8(niveauX2),crossfade_speed); // [crossfade 16 bit] sur disque en 8 bit (>>8)
 fprintf(fpo,"%.1f /\n",default_time);
 fprintf(fpo,"%d %d /\n", go_channel_is,pause_channel_is);
 sprintf(string_save_load_report[idf],"Saved sequenciel.txt");

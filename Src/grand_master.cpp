@@ -55,14 +55,14 @@ int do_logical_grand_master(int GMX, int GMY, int larg) {
         if ((window_focus_id == 0) && mouse_button == 1 && index_allow_grand_master == 1) {
             set_mouse_range(GMX, GMY - 20, GMX + larg, GMY + 275); // pour pas deborder
             // NIVEAU
-            niveauGMaster = ((GMY + 255) - mouse_y);
-            if (niveauGMaster > 255) {
-                niveauGMaster = 255;
+            niveauGMaster = ((GMY + 255) - mouse_y) * 257; // [GM 16 bit] pixel (0..255) -> 16 bit (x257)
+            if (niveauGMaster > 65535) {
+                niveauGMaster = 65535;
             }
             if (niveauGMaster < 0) {
                 niveauGMaster = 0;
             }
-            midi_levels[615] = (niveauGMaster / 2);
+            midi_levels[615] = (wc::lvl_to_dmx8(niveauGMaster) / 2);
             if (midi_send_out[615] == 1) {
                 index_send_midi_out[615] = 1;
             }
@@ -119,14 +119,15 @@ int grand_master(int GMX, int GMY) {
     Rect Gma(Vec2D(GMX, GMY), Vec2D(40, 255)); // box du fader
     Gma.SetRoundness(15);
     Gma.SetLineWidth(epaisseur_ligne_fader);
-    Rect GmaNiv(Vec2D(GMX, ((GMY + 255) - niveauGMaster)), Vec2D(40, niveauGMaster)); // niveau fader
+    int pix_gm = niveauGMaster >> 8; // [GM 16 bit] hauteur barre en pixels (0..255)
+    Rect GmaNiv(Vec2D(GMX, ((GMY + 255) - pix_gm)), Vec2D(40, pix_gm)); // niveau fader
     GmaNiv.SetRoundness(15);
     switch (dmx_view) {
     case 0:
-        sprintf(string_niveauGMaster, "%d", (int)(((float)niveauGMaster) / 2.55));
+        sprintf(string_niveauGMaster, "%d", wc::lvl_to_pct(niveauGMaster)); // [GM 16 bit] %
         break;
     case 1:
-        sprintf(string_niveauGMaster, "%d", niveauGMaster);
+        sprintf(string_niveauGMaster, "%d", (int)wc::lvl_to_dmx8(niveauGMaster)); // [GM 16 bit] DMX 0..255
         break;
     }
     GmaNiv.Draw(CouleurBlind);

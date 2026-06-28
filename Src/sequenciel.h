@@ -56,8 +56,8 @@ extern char string_next_mem[6];
 // cross manuel
 extern bool index_x1_x2_together;
 extern int ratio_X1X2_together;
-extern int remapX1[255];
-extern int remapX2[255];
+extern int remapX1[256];
+extern int remapX2[256];
 // cross fade
 extern bool index_go;
 extern bool index_pause;
