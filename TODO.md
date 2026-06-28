@@ -13,6 +13,7 @@
 
 - [ ] **Simplifier l'écran d'accueil / l'affichage de la version au démarrage** : le splash défile trop vite, le numéro de version (`versionis`) n'est pas lisible humainement. Repenser durée / lisibilité / position (cf. `show_title()` dans core.cpp et le splash de chargement `save_load_print_to_screen`).
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
+- [ ] **Faders & masters en 16 bit (option A)** : passer `Fader[48]` (`unsigned char`) en 16 bit (0-65535, ×257) comme `niveauX1`/grand master. Point dur : le niveau fader **indexe une table de courbe 8 bit** `curve_report[courbe][Fader[f]]` (faders_core.cpp ~1135) → vrai 16 bit = **interpoler la courbe** (entre `curve[x>>8]` et `curve[(x>>8)+1]`, pondéré par l'octet faible). Adapter aussi : chasers (`Fader[cmptfader]==0` détection fin), bangers, LFO (`faders_in_float`), lock-levels (`StateOfFaderBeforeLock/255*locklevel`), arduino, save/load, minifaders. **Actuellement (option B)** seule la molette coarse / Ctrl-fine (8 bit) est en place dans `DoMouseLevel`. Cf. mémoire `crossfade-16bit-plan`.
 
 ---
 

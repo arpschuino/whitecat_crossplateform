@@ -198,8 +198,16 @@ int Channel_at_level()
  return(0);
 }
 
+int wc_window_under_mouse();           // detection fenetre sous le curseur (procs_visuels_rebuild1.cpp)
+int fader_set_level(int cmptfader, int val); // setter master fader (core.cpp)
+
 int DoMouseLevel()
 {
+ // fenetre actuellement SOUS le curseur (detection FRAICHE, sans effet de bord) : sert aux gardes
+ // molette du grand master (== aucune fenetre) et des faders (== W_FADERS). index_over_A_window est
+ // fige au dernier clic et ne convient pas pour une garde au survol.
+ int win_under = wc_window_under_mouse();
+
  // [crossfade 16 bit] molette sur les faders X1/X2 du sequenciel :
  //   molette = pas COARSE (1 DMX = 257 en 16 bit) ; Ctrl+molette = pas FIN (1/65535).
  //   Reutilise la meme courbe veloce dynamique que la molette circuits (1,1,5,20,45 max).
@@ -259,10 +267,8 @@ int DoMouseLevel()
    static int last_scroll_mouse_for_gm = 0;
    const int GMX = 1050, GMY = 55, GMlarg = 40;
    // [GM 16 bit] molette active quel que soit le focus (le GM est sur le bureau), mais PAS si le
-   // curseur est au-dessus d'une fenetre. On teste le survol EN DIRECT (wc_window_under_mouse) :
-   // index_over_A_window est fige au dernier clic et resterait colle a 1 -> ne convient pas ici.
-   extern int wc_window_under_mouse();
-   if (index_allow_grand_master == 1 && wc_window_under_mouse() == 0 &&
+   // curseur est au-dessus d'une fenetre (win_under, frais).
+   if (index_allow_grand_master == 1 && win_under == 0 &&
        mouse_x > GMX && mouse_x < GMX + GMlarg && mouse_y >= GMY - 20 && mouse_y <= GMY + 275) {
        int _delta = mouse_z - last_scroll_mouse_for_gm;
        if (_delta != 0) {
@@ -283,6 +289,51 @@ int DoMouseLevel()
        return (0); // molette consommee par le grand master
    }
    last_scroll_mouse_for_gm = mouse_z; // hors survol : garde la baseline fraiche
+ }
+
+ // [faders molette - option B] molette sur la fenetre faders = master survole.
+ //   molette = coarse (courbe veloce) ; Ctrl+molette = fin (1 unite DMX/cran, sans accel).
+ //   Faders encore 8 bit -> le vrai 16 bit fin viendra avec le chantier dedie (cf TODO.md).
+ {
+   static int last_scroll_mouse_for_fader = 0;
+   if (win_under == W_FADERS && mouse_y >= YFader && mouse_y <= YFader + 255) {
+       int _delta = mouse_z - last_scroll_mouse_for_fader;
+       if (_delta != 0) {
+           int x_base     = XFader - (int)(scroll_faderspace * facteur_scroll_fader_space);
+           int largeur    = (int)(50 * size_faders);
+           int espacement = (int)(150 + (190 - 150) * size_faders);
+           int cmptfader  = -1;
+           for (int f = 0; f < 48; f++) {
+               int fx = x_base + f * espacement;
+               if (mouse_x >= fx && mouse_x <= fx + largeur) { cmptfader = f; break; }
+           }
+           if (cmptfader >= 0) {
+               bool fine = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
+               int step;
+               if (fine) {
+                   step = (_delta > 0 ? 1 : -1);            // fin : 1 unite DMX par cran, sans accel
+               } else {
+                   int _absd  = _delta > 0 ? _delta : -_delta;
+                   int _d     = _absd > 2 ? _absd - 2 : 0;
+                   int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
+                   if (_steps > 45) _steps = 45;
+                   step = (_delta > 0 ? 1 : -1) * _steps;   // coarse : accelere
+               }
+               int val = (int)Fader[cmptfader] + step;
+               if (val < 0)   val = 0;
+               if (val > 255) val = 255;
+               // sortie de LFO si actif (comme le drag souris du fader)
+               if (lfo_mode_is[cmptfader] == 1 || lfo_mode_is[cmptfader] == 2 || lfo_cycle_is_on[cmptfader] == 1) {
+                   lfo_mode_is[cmptfader] = 0; lfo_cycle_is_on[cmptfader] = 0;
+               }
+               fader_set_level(cmptfader, val);
+           }
+           last_scroll_mouse_for_fader = mouse_z;
+           last_scroll_mouse_for_chan  = mouse_z; // empeche le bloc niveau-circuit de refirer
+       }
+       return (0); // molette consommee par les faders
+   }
+   last_scroll_mouse_for_fader = mouse_z; // hors survol : garde la baseline fraiche
  }
 
  {
