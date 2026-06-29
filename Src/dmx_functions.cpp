@@ -990,23 +990,30 @@ int calculs_etats_faders_et_contenus() {
         /////////////////////////
         if (FaderIsFlash[f] == 1 && FaderIsFlashBefore[f] == 0) {
             LevelFaderBeforeFlash[f] = Fader[f];
-            fader_set_level(f, 65535);// [fader 16 bit] full
-            // Fader[f]=255;
-            // midi_levels[f]=127;
-            // index_fader_is_manipulated[f]=1;
+            // [flash] montee instantanee, SANS damper : le flash est momentane, il ne doit pas
+            // etre lisse. On ecrit Fader directement et on raccorde l'etat du damper a la meme
+            // valeur (sinon la boucle damper du MAIN remonterait/redescendrait le fader en lisse).
+            Fader[f] = 65535; // [fader 16 bit] full
+            Fader_dampered[f].fix_all_damper_state_value(65535);
+            Fader_dampered[f].set_target_val(65535);
+            midi_levels[f] = (wc::lvl_to_dmx8(Fader[f]) / 2);
+            index_fader_is_manipulated[f] = 1;
             FaderIsFlashBefore[f] = FaderIsFlash[f];
         } else if (FaderIsFlash[f] == 0 && FaderIsFlashBefore[f] == 1) {
-            // Fader[f]=LevelFaderBeforeFlash[f];
-            fader_set_level(f, LevelFaderBeforeFlash[f]);
-            // midi_levels[f]=Fader[f]/2;
+            // [flash] retour instantane au niveau d'avant flash, SANS damper (idem ci-dessus).
+            Fader[f] = LevelFaderBeforeFlash[f];
+            Fader_dampered[f].fix_all_damper_state_value(LevelFaderBeforeFlash[f]);
+            Fader_dampered[f].set_target_val(LevelFaderBeforeFlash[f]);
+            midi_levels[f] = (wc::lvl_to_dmx8(Fader[f]) / 2);
+            index_fader_is_manipulated[f] = 1;
             FaderIsFlashBefore[f] = FaderIsFlash[f];
-            // index_fader_is_manipulated[f]=1;
         }
 
         ////////////////////////
         // report des valeurs des docks aux faders
         for (int d = 0; d < core_user_define_nb_docks; d++) {
             if (DockIsSelected[f][d] == 1) {
+                bool _echo16 = false; // [echo 16 bit] dock echo -> sortie 16 bit directe (court-circuite le dock 8 bit)
                 switch (DockTypeIs[f][d]) {
                     // artnet
                 case 2:
@@ -1123,7 +1130,7 @@ int calculs_etats_faders_et_contenus() {
                         FaderDockContains[f][d][ppin] =
                             int(255.0 * echo_levels[(echo_affected_to_dock[f][d])][0][ppin - 1]);
                     }
-
+                    _echo16 = true; // [echo 16 bit] sortie directe depuis echo_levels (float) ci-dessous
                     break;
                 default:
                     break;
@@ -1139,9 +1146,23 @@ int calculs_etats_faders_et_contenus() {
                 int _c0  = 255 - curve_report[_cv][_idx];
                 int _c1  = 255 - curve_report[_cv][_idx < 255 ? _idx + 1 : 255];
                 int _curve16 = _c0 * 257 + ((_c1 - _c0) * 257 * _frc) / 256; // 0..65535
-                for (int j = 1; j < 514; j++) {
-                    // contenu du dock = ratio 8 bit (0-255) ; produit -> 16 bit
-                    FaderDoDmx[f][j] = (unsigned short)(((long)FaderDockContains[f][d][j] * _curve16) / 255);
+                if (_echo16) {
+                    // [echo 16 bit] echo_levels (float 0-1) -> 16 bit directement, sans la
+                    // quantification 256 paliers du dock 8 bit (animation echo fluide). Courbe
+                    // appliquee comme pour les autres docks.
+                    int _ech = echo_affected_to_dock[f][d];
+                    for (int j = 1; j < 514; j++) {
+                        float _el = echo_levels[_ech][0][j - 1];
+                        if (_el < 0.0f) _el = 0.0f;
+                        if (_el > 1.0f) _el = 1.0f;
+                        int _e16 = (int)(65535.0f * _el);
+                        FaderDoDmx[f][j] = (unsigned short)(((long long)_e16 * _curve16) / 65535);
+                    }
+                } else {
+                    for (int j = 1; j < 514; j++) {
+                        // contenu du dock = ratio 8 bit (0-255) ; produit -> 16 bit
+                        FaderDoDmx[f][j] = (unsigned short)(((long)FaderDockContains[f][d][j] * _curve16) / 255);
+                    }
                 }
             }
         }

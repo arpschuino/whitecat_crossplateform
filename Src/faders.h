@@ -123,7 +123,7 @@ extern char str_tmp_minidock_dock[16];
 extern char str_minifader_feedback[16][64];
 extern bool FaderIsFlash[48];
 extern bool FaderIsFlashBefore[48];
-extern unsigned char LevelFaderBeforeFlash[48];
+extern unsigned short LevelFaderBeforeFlash[48]; // [fader 16 bit]
 extern bool minifaders_preset_selection[8][48];
 extern int mf_preset_selected_is;
 extern bool minifader_preset_is_empty[8];

@@ -1702,7 +1702,7 @@ int Load_Audio_Conf()
 //premiere ligne les args
 	if( !fgets( read_buff_winfil , sizeof( read_buff_winfil ) ,cfg_file ) )
 	{     sprintf(string_save_load_report[idf],"Error on reading audio_conf.txt");b_report_error[idf]=1; 	}
-    else {sprintf(string_save_load_report[idf],"audio_conf.txt readed");}
+    else {sprintf(string_save_load_report[idf],"audio_conf.txt readed");b_report_error[idf]=0;}// [fix report] succes -> pas rouge (le slot idf est partage avec l'op precedente)
 	fscanf( cfg_file , "%s\n" ,  audio_folder);
 	fclose( cfg_file );
     }

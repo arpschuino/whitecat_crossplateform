@@ -114,7 +114,7 @@ char str_tmp_minidock_dock[16];
 char str_minifader_feedback[16][64];
 bool FaderIsFlash[48];
 bool FaderIsFlashBefore[48];
-unsigned char LevelFaderBeforeFlash[48];
+unsigned short LevelFaderBeforeFlash[48]; // [fader 16 bit] niveau sauve avant flash (etait unsigned char -> tronque a 0 apres flash d'un fader non nul)
 bool minifaders_preset_selection[8][48];
 int mf_preset_selected_is = 0;
 bool minifader_preset_is_empty[8];
