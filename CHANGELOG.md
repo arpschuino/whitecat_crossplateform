@@ -22,6 +22,10 @@
 - **Fix : le fader ne redescendait pas immédiatement à l'écran au relâchement du Flash** (il restait figé haut jusqu'à un mouvement de souris). Le relâchement est détecté dans le code de dessin, mais le niveau n'est restauré qu'au tick suivant du merger : le rendu est désormais maintenu quelques frames après la fin du flash. Même classe de bug que le « banger en boucle ».
 - **Fix : le Flash était lissé par le damper.** Un fader avec damper actif montait/redescendait progressivement au flash au lieu d'être instantané. Le flash écrit maintenant le niveau directement (et raccorde l'état du damper) → montée et descente instantanées.
 
+### Faders — Damper
+
+- **Fix : avec un damper actif, le fader ne redescendait pas complètement** (ex. piloté par LFO : il restait un poil au-dessus de 0). La glisse exponentielle du damper est asymptotique → elle n'atteint jamais la cible pile. Ajout d'un accrochage exact à la cible (snap) quand l'écart devient négligeable. Corrige aussi une initialisation manquante (`_damper_blocking_mode`/`_damper_accel`) qui pouvait figer le damper.
+
 ### Espace circuits — Vue Classical
 
 - **Fix : le premier circuit d'une page (1-12, 49-60, …) caché sous la barre « Ch.View ».** L'auto-scroll à la sélection (`set_channel_scroll`) plaçait la 1re rangée de chaque page de 48 trop haut (Y=36, sous le clip à ~53). Offset -3 appliqué à tous les paliers (= valeur déjà validée au démarrage).

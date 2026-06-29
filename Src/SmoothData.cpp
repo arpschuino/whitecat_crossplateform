@@ -12,6 +12,8 @@ SmoothData::SmoothData()
     _damper_val = 0.0;
     _damper_target_val = 0.0;
     _damper_previous_target=0.0;
+    _damper_blocking_mode = false; // [fix damper] etait non initialise -> pouvait figer le damper
+    _damper_accel = 0.0;
 }
 
 ////////////////////////////////////////////////////
@@ -129,6 +131,12 @@ if(_damper_do_calculation==1)
     }
     if(_damper_val<0.0){_damper_val=0.0; _damper_do_calculation=0;}
     else if(_damper_val>1.0){_damper_val=1.0; _damper_do_calculation=0;}
+    // [fix damper] snap : la glisse exponentielle est asymptotique (n'atteint jamais la cible pile)
+    // -> le fader ne redescend jamais completement (ex. LFO + damper). On accroche exactement la
+    // cible (0 / plein / valeur) quand l'ecart vaut moins d'1 unite 12 bit (1/4096, en normalise).
+    float _ecart = _damper_target_val - _damper_val;
+    if (_ecart < 0.0f) _ecart = -_ecart;
+    if (_ecart * 4096.0f < 1.0f) { _damper_val = _damper_target_val; _damper_do_calculation = 0; }
 }
 
 
