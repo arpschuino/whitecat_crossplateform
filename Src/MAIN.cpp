@@ -308,6 +308,31 @@ void ticker() {
                 if (do_loop_banger[i]) { wc_request_refresh(); break; }
             }
         }
+        // — au moins un echo en cours de rebond : do_bouncing_levels() anime les niveaux en
+        //   continu. Sans ça, le rendu fige en idle et l'echo paraît saccadé À L'ÉCRAN
+        //   (fluide seulement quand on bouge la souris). La sortie DMX, elle, est correcte.
+        if (core_do_calculations[8]) {
+            for (int i = 0; i < core_user_define_nb_echo; i++) {
+                if (do_bounce[i]) { wc_request_refresh(); break; }
+            }
+        }
+        // — au moins un fader en flash : le flash force le niveau pendant qu'on maintient le bouton.
+        //   Sans refresh, l'affichage fige durant le flash (fluide seulement si on bouge la souris).
+        //   Au relachement, FaderIsFlash repasse a 0 (dessin) mais le niveau n'est restaure qu'au
+        //   tick suivant du merger : il faut garder le rendu actif QUELQUES frames APRES la fin du
+        //   flash, sinon l'ecran reste fige sur la valeur haute jusqu'au mouvement souris.
+        {
+            static int flash_refresh_hold = 0;
+            bool any_flash = false;
+            for (int i = 0; i < 48; i++) {
+                if (FaderIsFlash[i]) { any_flash = true; break; }
+            }
+            if (any_flash) flash_refresh_hold = 6; // ~240ms a 25fps : couvre la restauration du niveau
+            if (flash_refresh_hold > 0) {
+                wc_request_refresh();
+                flash_refresh_hold--;
+            }
+        }
 
         for (int pr = 0; pr < 6; pr++) {
             if (draw_point_is_traced[pr] == 1)

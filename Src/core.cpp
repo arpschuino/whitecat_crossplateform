@@ -3186,49 +3186,52 @@ int set_channel_scroll( int ch)
     }
     else
     {
+        // [fix CH.view] offset -3 (= valeur validée au startup, MAIN.cpp) : sans lui la 1re rangée
+        // de chaque page de 48 est dessinée en Y=36 (YChannels=70, Ch_Scroll_Factor=12), donc
+        // cachée sous la barre Ch.View (clip à ~53). -3 descend la rangée à Y=72.
         if(ch>0 && ch<48)
         {
-            scroll_channelspace=0;
+            scroll_channelspace=-3;
         }
         else  if(ch>=48 && ch<97)
         {
-            scroll_channelspace=23;
+            scroll_channelspace=20;
         }
         else  if(ch>=97 && ch<145)
         {
-            scroll_channelspace=47;
+            scroll_channelspace=44;
         }
         else  if(ch>=145 && ch<193)
         {
-            scroll_channelspace=70;
+            scroll_channelspace=67;
         }
         else  if(ch>=193 && ch<241)
         {
-            scroll_channelspace=95;
+            scroll_channelspace=92;
         }
         else  if(ch>=241 && ch<289)
         {
-            scroll_channelspace=117;
+            scroll_channelspace=114;
         }
         else  if(ch>=289 && ch<337)
         {
-            scroll_channelspace=141;
+            scroll_channelspace=138;
         }
         else  if(ch>=337 && ch<385)
         {
-            scroll_channelspace=163;
+            scroll_channelspace=160;
         }
         else  if(ch>=385 && ch<433)
         {
-            scroll_channelspace=187;
+            scroll_channelspace=184;
         }
         else  if(ch>=433 && ch<481)
         {
-            scroll_channelspace=210;
+            scroll_channelspace=207;
         }
         else  if(ch>=481)
         {
-            scroll_channelspace=236;
+            scroll_channelspace=233;
         }
     }
 

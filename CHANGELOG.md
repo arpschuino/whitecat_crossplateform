@@ -13,6 +13,27 @@
 - **Fix : la mise en boucle ne fonctionnait pas**. L'intervalle de relance utilisait un facteur `×10000` hérité du timer Allegro : à 50 Hz, un réglage de « 2 s » donnait ~400 s avant relance. Corrigé en `×50` (`do_loop_bang()` tourne à 50 Hz → `time_loop_banger` est réellement en secondes).
 - **Fix : affichage figé pendant une boucle**. Le « ticker intelligent » (cap fps d'économie CPU) détecte les LFO/chasers/GO/dampers mais pas les bangers : un banger en boucle laissait WhiteCat passer en veille d'affichage → les événements paraissaient désynchronisés/manquants **à l'écran** (la sortie DMX/MIDI restait correcte ; bouger la souris « réparait »). Les bangers en boucle sont ajoutés à la détection d'activité du rendu. Aucun surcoût au repos.
 
+### Faders — Lock
+
+- **Fix : un clic sur Lock mettait le fader à zéro.** Le toggle Lock était inversé/incomplet et `locklevel` valait 0 par défaut : sans master lock actif, le déverrouillage restaurait `niveau_sauvé × locklevel = 0`. Toggle corrigé et `locklevel` par défaut = plein (255).
+
+### Faders — Flash
+
+- **Fix : le fader ne redescendait pas immédiatement à l'écran au relâchement du Flash** (il restait figé haut jusqu'à un mouvement de souris). Le relâchement est détecté dans le code de dessin, mais le niveau n'est restauré qu'au tick suivant du merger : le rendu est désormais maintenu quelques frames après la fin du flash. Même classe de bug que le « banger en boucle ».
+- **Fix : le Flash était lissé par le damper.** Un fader avec damper actif montait/redescendait progressivement au flash au lieu d'être instantané. Le flash écrit maintenant le niveau directement (et raccorde l'état du damper) → montée et descente instantanées.
+
+### Espace circuits — Vue Classical
+
+- **Fix : le premier circuit d'une page (1-12, 49-60, …) caché sous la barre « Ch.View ».** L'auto-scroll à la sélection (`set_channel_scroll`) plaçait la 1re rangée de chaque page de 48 trop haut (Y=36, sous le clip à ~53). Offset -3 appliqué à tous les paliers (= valeur déjà validée au démarrage).
+
+### Echo — Affichage
+
+- **Fix : animation de l'echo saccadée à l'écran** (fluide seulement en bougeant la souris). Le « ticker intelligent » ne détectait pas les echos en cours de rebond : ajoutés à la détection d'activité du rendu (même correctif que les bangers en boucle). La sortie DMX, elle, était correcte.
+
+### Sauvegarde / Chargement — Rapport
+
+- **Fix : ligne « audio_conf.txt readed » affichée en rouge** au rechargement d'un show alors que la lecture réussissait. Plusieurs opérations partagent le même slot de rapport (`idf`) ; la branche succès ne remettait pas l'indicateur d'erreur à zéro. Corrigé.
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)

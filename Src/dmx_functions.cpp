@@ -980,17 +980,23 @@ int calculs_etats_faders_et_contenus() {
         /////////////////////////
         if (FaderIsFlash[f] == 1 && FaderIsFlashBefore[f] == 0) {
             LevelFaderBeforeFlash[f] = Fader[f];
-            fader_set_level(f, 255);
-            // Fader[f]=255;
-            // midi_levels[f]=127;
-            // index_fader_is_manipulated[f]=1;
+            // [flash] montee instantanee, SANS damper : le flash est momentane, il ne doit pas
+            // etre lisse. On ecrit Fader directement et on raccorde l'etat du damper a la meme
+            // valeur (sinon la boucle damper du MAIN remonterait/redescendrait le fader en lisse).
+            Fader[f] = 255;
+            Fader_dampered[f].fix_all_damper_state_value(255);
+            Fader_dampered[f].set_target_val(255);
+            midi_levels[f] = (Fader[f] / 2);
+            index_fader_is_manipulated[f] = 1;
             FaderIsFlashBefore[f] = FaderIsFlash[f];
         } else if (FaderIsFlash[f] == 0 && FaderIsFlashBefore[f] == 1) {
-            // Fader[f]=LevelFaderBeforeFlash[f];
-            fader_set_level(f, LevelFaderBeforeFlash[f]);
-            // midi_levels[f]=Fader[f]/2;
+            // [flash] retour instantane au niveau d'avant flash, SANS damper (idem ci-dessus).
+            Fader[f] = LevelFaderBeforeFlash[f];
+            Fader_dampered[f].fix_all_damper_state_value(LevelFaderBeforeFlash[f]);
+            Fader_dampered[f].set_target_val(LevelFaderBeforeFlash[f]);
+            midi_levels[f] = (Fader[f] / 2);
+            index_fader_is_manipulated[f] = 1;
             FaderIsFlashBefore[f] = FaderIsFlash[f];
-            // index_fader_is_manipulated[f]=1;
         }
 
         ////////////////////////
