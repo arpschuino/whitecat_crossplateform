@@ -60,9 +60,9 @@ if( echo_is_echo_mode[ech]==1)
 //recopie des niveaux sup
 for(int i=1;i<513;i++)
 {
-if(((float)(FaderDoDmx[(echo_pointing_fader_num[ech]-1)][i]))/255 > echo_levels[ech][0][i-1] )
+if(((float)(FaderDoDmx[(echo_pointing_fader_num[ech]-1)][i]))/65535 > echo_levels[ech][0][i-1] )// [fader 16 bit]
 {
-echo_levels[ech][0][i-1]=((float)(FaderDoDmx[(echo_pointing_fader_num[ech]-1)][i]))/255;//((float)(FaderDockContains[f][dock_used_by_fader_is[f]][i]))/255;
+echo_levels[ech][0][i-1]=((float)(FaderDoDmx[(echo_pointing_fader_num[ech]-1)][i]))/65535;// [fader 16 bit]
 //prepa
 tmp_echo[ech][i-1]=0.0;
 tmp_falling_from_level[ech][i-1]=echo_levels[ech][0][i-1];

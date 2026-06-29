@@ -179,7 +179,7 @@ for(int p=0;p<6;p++)
  Fader_dampered[fad].fix_all_damper_state_value(Fader[fad]);
  Fader_dampered[fad].set_target_val(Fader[fad]);
  Fader_dampered[fad].set_damper_decay(1.0);
- Fader_dampered[fad].set_damper_dt(0.1);
+ Fader_dampered[fad].set_damper_dt(0.3);// [fader 16 bit] defaut plus vif (plage dt 0..1)
  FaderLocked[fad]=0;
  LockFader_is_FullLevel[fad]=0;
  StateOfFaderBeforeLock[fad]=0;
@@ -257,7 +257,7 @@ int DoDock(int fad, int dk)
  index_do_dock=0;
  Unselect_other_docks(fad,dk);
  DockIsSelected[fad][dk]=1;
- Fader[fad]=255;
+ Fader[fad]=65535;// [fader 16 bit]
  sprintf(string_Last_Order,">>n Stage Stored in F %d Dock %d",fad+1, dk);
  }
 
@@ -349,7 +349,7 @@ int DoReport(int fad, int dk)
  }
  Unselect_other_docks(fad,dk);
  DockIsSelected[fad][dk]=1;
- Fader[fad]=255;
+ Fader[fad]=65535;// [fader 16 bit]
  index_do_report=0;
  return(0);
 }

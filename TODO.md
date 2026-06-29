@@ -11,8 +11,13 @@
 
 ## Bugs / Fonctionnalités incomplètes
 
+- [ ] **Bug à corriger : Flash** (bouton Flash d'un fader — comportement à vérifier/corriger)
+- [ ] **Bug à corriger : affichage du premier circuit sélectionné** (le premier circuit d'une sélection ne s'affiche pas correctement)
+
 - [ ] **Simplifier l'écran d'accueil / l'affichage de la version au démarrage** : le splash défile trop vite, le numéro de version (`versionis`) n'est pas lisible humainement. Repenser durée / lisibilité / position (cf. `show_title()` dans core.cpp et le splash de chargement `save_load_print_to_screen`).
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
+- [x] **Documenter le DAMPER de fader** (bouton « ~ » en bas de chaque fader, faders_visuels.cpp:49 `fader_damper_commands` ; Decay/Delta/Mode). Section ajoutée dans `doc/espace_faders2.html` (FR). Reste : version EN (`espace_faders_eng.html`).
+- [ ] **Refaire proprement toute la doc des faders** : la doc actuelle (`espace_faders2.html`, DokuWiki 2012) est ancienne et incomplète (damper ajouté à la main, captures à refaire, fonctionnalités récentes manquantes). Reprendre l'ensemble proprement (FR + EN), captures d'écran à jour, 16 bit.
 - [ ] **Faders & masters en 16 bit (option A)** : passer `Fader[48]` (`unsigned char`) en 16 bit (0-65535, ×257) comme `niveauX1`/grand master. Point dur : le niveau fader **indexe une table de courbe 8 bit** `curve_report[courbe][Fader[f]]` (faders_core.cpp ~1135) → vrai 16 bit = **interpoler la courbe** (entre `curve[x>>8]` et `curve[(x>>8)+1]`, pondéré par l'octet faible). Adapter aussi : chasers (`Fader[cmptfader]==0` détection fin), bangers, LFO (`faders_in_float`), lock-levels (`StateOfFaderBeforeLock/255*locklevel`), arduino, save/load, minifaders. **Actuellement (option B)** seule la molette coarse / Ctrl-fine (8 bit) est en place dans `DoMouseLevel`. Cf. mémoire `crossfade-16bit-plan`.
 
 ---

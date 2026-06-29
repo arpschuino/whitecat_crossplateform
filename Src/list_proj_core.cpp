@@ -366,7 +366,7 @@ Fader[ num_f]=m8;
 midi_levels[ num_f]=(int)(m8/2);
 if(channel_macro_reaction[the_chan][num_macro]==8)
 {
-Fader[ num_f]=255-Fader[ num_f];
+Fader[ num_f]=65535-Fader[ num_f];// [fader 16 bit]
 midi_levels[ num_f]=127-midi_levels[ num_f];
 }
 

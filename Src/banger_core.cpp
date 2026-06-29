@@ -199,16 +199,16 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
       if(FaderLocked[the_fader_is]==0){
             FaderLocked[the_fader_is]=0;
             //remise à plat du niveau
-            Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
-            midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
+            Fader[the_fader_is]=(unsigned short)((((float)(StateOfFaderBeforeLock[the_fader_is]))/65535)*locklevel);// [fader 16 bit]
+            midi_levels[the_fader_is]=(int)(wc::lvl_to_dmx8(Fader[the_fader_is])/2);// [fader 16 bit]
       }
       else{
             FaderLocked[the_fader_is]=1;
             StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
-            if(StateOfFaderBeforeLock[the_fader_is]==255){
+            if(StateOfFaderBeforeLock[the_fader_is]==65535){
                   LockFader_is_FullLevel[the_fader_is]=1;
             }
-            else if(StateOfFaderBeforeLock[the_fader_is]<255){
+            else if(StateOfFaderBeforeLock[the_fader_is]<65535){
                   LockFader_is_FullLevel[the_fader_is]=0;
             }
       }
@@ -254,7 +254,7 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      case 0:
      lfo_mode_is[the_fader_is]=0;
      lfo_cycle_is_on[the_fader_is]=1;
-     if(Fader[the_fader_is]>0 && Fader[the_fader_is]<255 ){lfo_running_is_upward[the_fader_is]=1;}
+     if(Fader[the_fader_is]>0 && Fader[the_fader_is]<65535 ){lfo_running_is_upward[the_fader_is]=1;}// [fader 16 bit]
      break;
      case 1:
      lfo_cycle_is_on[the_fader_is]=0;
@@ -1555,15 +1555,15 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      if(FaderLocked[the_fader_is]==0){
             FaderLocked[the_fader_is]=0;
             //remise à plat du niveau
-            Fader[the_fader_is]=(unsigned char)((((float)(StateOfFaderBeforeLock[the_fader_is]))/255)*locklevel);
-            midi_levels[the_fader_is]=(int)(((float)Fader[the_fader_is])/2);
+            Fader[the_fader_is]=(unsigned short)((((float)(StateOfFaderBeforeLock[the_fader_is]))/65535)*locklevel);// [fader 16 bit]
+            midi_levels[the_fader_is]=(int)(wc::lvl_to_dmx8(Fader[the_fader_is])/2);// [fader 16 bit]
             sprintf(string_event,"UNLOCKED Fader %d",the_fader_is+1);
       }
      else{
             FaderLocked[the_fader_is]=1;
             StateOfFaderBeforeLock[the_fader_is]=Fader[the_fader_is];
-            if(StateOfFaderBeforeLock[the_fader_is]==255){LockFader_is_FullLevel[the_fader_is]=1;}
-            else if(StateOfFaderBeforeLock[the_fader_is]<255){LockFader_is_FullLevel[the_fader_is]=0;}
+            if(StateOfFaderBeforeLock[the_fader_is]==65535){LockFader_is_FullLevel[the_fader_is]=1;}
+            else if(StateOfFaderBeforeLock[the_fader_is]<65535){LockFader_is_FullLevel[the_fader_is]=0;}
             lfo_cycle_is_on[the_fader_is]=0;//rajout 0.7.6
             lfo_mode_is[the_fader_is]=0;
             sprintf(string_event,"LOCKED Fader %d",the_fader_is+1);
@@ -1779,7 +1779,7 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
           }
           if (lStopP>=0 && lStopP<=255)
           {
-          StopPosOn[the_fader_is]=1;LevelStopPos[the_fader_is]=lStopP;
+          StopPosOn[the_fader_is]=1;LevelStopPos[the_fader_is]=wc::dmx8_to_lvl(lStopP);// [fader 16 bit] saisie 0-255 -> 16 bit
           do_light_setpos[the_fader_is]=1;
           sprintf(string_event,"SET ENDPOS %d Fader %d",param2_is,the_fader_is+1);
           }
@@ -1804,8 +1804,8 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      case 14://paste to stage output of faders
       for (int dc=1;dc<514;dc++)
       {
-      if(wc::dmx8_to_lvl(FaderDoDmx[the_fader_is][dc])>bufferSaisie[dc])
-      {bufferSaisie[dc]=wc::dmx8_to_lvl(FaderDoDmx[the_fader_is][dc]);}   // [2c-2B] fader 8 bit -> 16 bit
+      if(FaderDoDmx[the_fader_is][dc]>bufferSaisie[dc])
+      {bufferSaisie[dc]=FaderDoDmx[the_fader_is][dc];}   // [fader 16 bit] FaderDoDmx deja 16 bit
       }
       Fader[the_fader_is]= 0;
       midi_levels[the_fader_is]= 0;
@@ -2067,7 +2067,7 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
      case 36://"Damper SetDelta"
      if( param2_is>=0 &&  param2_is<=127)
      {
-     Fader_dampered[the_fader_is].set_damper_dt((((float)param2_is)/127));
+     Fader_dampered[the_fader_is].set_damper_dt((((float)param2_is)/127)*DAMPER_DT_MAX);// [fader 16 bit] dt 0..DAMPER_DT_MAX
      sprintf(string_event,"Fader %d Damper Delta at %d level", the_fader_is+1, param2_is);
      }
      break;
@@ -4062,7 +4062,7 @@ switch(bangers_action[banger_num][event_num])
       {
      if(i+grider_begin_channel_is+1<513)
       {
-      grid_levels[index_grider_selected[numgridpl]][index_grider_step_is[numgridpl]][i]=FaderDoDmx[(GplSnapFader[numgridpl])][i+grider_begin_channel_is];
+      grid_levels[index_grider_selected[numgridpl]][index_grider_step_is[numgridpl]][i]=wc::lvl_to_dmx8(FaderDoDmx[(GplSnapFader[numgridpl])][i+grider_begin_channel_is]);// [fader 16 bit] grid stocke 8 bit
       }
       }
      sprintf(string_event,"GridPl %d SnapFader %d",numgridpl+1, param2_is);
@@ -4424,7 +4424,7 @@ if(param1_is>=0 && param1_is<=6)
      {
      if(draw_preset_channel_routing[param1_is][i]>0)
      {
-     draw_preset_levels[param1_is][i]=((float)(FaderDoDmx[param2_is-1][draw_preset_channel_routing[param1_is][i]]))/255.0  ;
+     draw_preset_levels[param1_is][i]=((float)(FaderDoDmx[param2_is-1][draw_preset_channel_routing[param1_is][i]]))/65535.0  ;// [fader 16 bit]
      }
      }
      }

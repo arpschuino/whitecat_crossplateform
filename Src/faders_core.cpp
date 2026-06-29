@@ -86,8 +86,8 @@ int DoLock(int masterfader, int locklevel)
     OldFaderLockProc[fi]=Fader[fi];
     if(FaderLocked[fi]==1 && fi!=masterfader)
     {
-      Fader[fi]=(unsigned char)((((float)(StateOfFaderBeforeLock[fi]))/255)*locklevel);
-      midi_levels[fi]=(int)(((float)Fader[fi])/2);
+      Fader[fi]=(unsigned short)((((float)(StateOfFaderBeforeLock[fi]))/65535)*locklevel);// [fader 16 bit]
+      midi_levels[fi]=(int)(wc::lvl_to_dmx8(Fader[fi])/2);// [fader 16 bit]
       if( OldFaderLockProc[fi]!=Fader[fi])
       {
         index_send_midi_out[fi]=1;
@@ -204,7 +204,7 @@ int do_logical_fader_damper_commands(int _x,int _y, int fd)
     else
     {
         set_mouse_range(_x+30, _y+35, _x+157, _y+47);
-        Fader_dampered[fd].set_damper_dt((1.0-(((float)(_x+157-mouse_x))/127))/10);
+        Fader_dampered[fd].set_damper_dt((1.0-(((float)(_x+157-mouse_x))/127))*DAMPER_DT_MAX);// [fader 16 bit] dt 0..DAMPER_DT_MAX
         midi_levels[2056+fd]=127-(_x+157-mouse_x);
         index_send_midi_out[2056+fd]=1;
     }
@@ -493,7 +493,7 @@ int do_logical_lfo_fader_functions (int cmptfader, int x, int y,int largeur, int
         reset_numeric_entry();
         if (lStopPos>=0 && lStopPos<=255)
           {
-          StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=lStopPos;
+          StopPosOn[cmptfader]=1;LevelStopPos[cmptfader]=wc::dmx8_to_lvl(lStopPos);// [fader 16 bit] saisie 0-255 -> 16 bit
           index_do_dock=0;
           do_light_setpos[cmptfader]=1;
           }
@@ -1011,7 +1011,8 @@ set_mouse_range(x+(cmptfader*espacement), y, x+(cmptfader*espacement)+largeur, y
 if( index_main_clear==0)
 {
 //NIVEAU
-int val=((y+255)-mouse_y);
+int val=((y+255)-mouse_y)*257;// [fader 16 bit] pixel 0-255 -> 16 bit (x257)
+if(val<0){val=0;} if(val>65535){val=65535;}
 fader_set_level(cmptfader,val);
 //index_fader_is_manipulated[cmptfader]=1;
 //if(midi_send_out[cmptfader]==1){ index_send_midi_out[cmptfader]=1;}
@@ -1340,12 +1341,12 @@ if(Midi_Faders_Affectation_Type!=0)
   //action lock on/off
   else
   {
-    if(FaderLocked[cmptfader])
+    if(FaderLocked[cmptfader]==0)// [fix lock] vrai toggle : non-locke -> LOCK (garde le niveau) ; locke -> UNLOCK (restaure)
     {
       FaderLocked[cmptfader]=1;
       StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
-      if(StateOfFaderBeforeLock[cmptfader]==255){LockFader_is_FullLevel[cmptfader]=1;}
-      else if(StateOfFaderBeforeLock[cmptfader]<255){LockFader_is_FullLevel[cmptfader]=0;}
+      if(StateOfFaderBeforeLock[cmptfader]==65535){LockFader_is_FullLevel[cmptfader]=1;}// [fader 16 bit]
+      else if(StateOfFaderBeforeLock[cmptfader]<65535){LockFader_is_FullLevel[cmptfader]=0;}
       sprintf(string_Last_Order,">> LOCKED Fader %d",cmptfader+1);
       if(LockFader_is_FullLevel[cmptfader]==0)//quand mis en lock et pas full level rajout 0.7.6
       {
@@ -1356,8 +1357,8 @@ if(Midi_Faders_Affectation_Type!=0)
     else{
       FaderLocked[cmptfader]=0;
       //remise à plat du niveau
-      Fader[cmptfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[cmptfader]))/255)*locklevel);
-      midi_levels[cmptfader]=(int)(((float)Fader[cmptfader])/2);
+      Fader[cmptfader]=(unsigned short)((((float)(StateOfFaderBeforeLock[cmptfader]))/65535)*locklevel);// [fader 16 bit]
+      midi_levels[cmptfader]=(int)(wc::lvl_to_dmx8(Fader[cmptfader])/2);
       sprintf(string_Last_Order,">> UNLOCKED Fader %d",cmptfader+1);
     }
     mouse_released=1;

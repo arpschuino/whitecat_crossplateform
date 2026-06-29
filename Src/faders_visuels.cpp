@@ -62,12 +62,12 @@ int fader_damper_commands(int _x, int _y, int fd) {
     int f = 127 * Fader_dampered[fd].getdecay();
     petitpetitchiffregris.Print(ol::ToString(f), _x + 65, _y + 24);
 
-    Rect levDt(Vec2D(_x + 30, _y + 35), Vec2D(127 * (Fader_dampered[fd].getdt() * 10), 12));
+    Rect levDt(Vec2D(_x + 30, _y + 35), Vec2D(127 * (Fader_dampered[fd].getdt()) / DAMPER_DT_MAX, 12));// [fader 16 bit] dt 0..0.6
     Rect FDt(Vec2D(_x + 30, _y + 35), Vec2D(127, 12));
     levDt.Draw(CouleurConfig);
     FDt.DrawOutline(CouleurLigne.WithAlpha(0.5));
     minichiffregris.Print("Delta", _x + 35, _y + 43);
-    f = 127 * Fader_dampered[fd].getdt() * 10;
+    f = 127 * Fader_dampered[fd].getdt() / DAMPER_DT_MAX;// [fader 16 bit] dt 0..0.6
     petitpetitchiffregris.Print(ol::ToString(f), _x + 65, _y + 43);
 
     Rect Mod(Vec2D(_x + 137, _y), Vec2D(20, 10));
@@ -598,21 +598,21 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                           // on affiche et actionne que si les données sont dans l espace de l ecran
         if (((x + (cmptfader * espacement) + espacement) > 0) &&
             ((x + (cmptfader * espacement)) < LargeurEspaceFaderSize)) {
-            int niveau = (int)Fader[cmptfader];
-            myalpha = ((float)niveau / 255);
+            int niveau = (int)Fader[cmptfader]; // [fader 16 bit] 0-65535
+            myalpha = ((float)niveau / 65535);
             if (!dmx_view)
             {
                 if (FaderLocked[cmptfader] == 1) {
-                    petitchiffrerouge.Print(ol::ToString((int)((float)(StateOfFaderBeforeLock[cmptfader]) / 2.55)),
+                    petitchiffrerouge.Print(ol::ToString(wc::lvl_to_pct(StateOfFaderBeforeLock[cmptfader])),
                                             x + (cmptfader * espacement) + 12, y + 273);
                 }
-                sprintf(string_niveau, "%d", (int)(((float)niveau) / 2.55));
+                sprintf(string_niveau, "%d", wc::lvl_to_pct((unsigned short)niveau));
             }
             else
             {
-                sprintf(string_niveau, "%d", niveau);
+                sprintf(string_niveau, "%d", (int)wc::lvl_to_dmx8((unsigned short)niveau));
                 if (FaderLocked[cmptfader] == 1) {
-                    petitchiffrerouge.Print(ol::ToString((int)StateOfFaderBeforeLock[cmptfader]),
+                    petitchiffrerouge.Print(ol::ToString((int)wc::lvl_to_dmx8(StateOfFaderBeforeLock[cmptfader])),
                                             x + (cmptfader * espacement) + 12, y + 273);
                 }
             }
@@ -669,7 +669,8 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
             FaderB.SetRoundness(15);
             FaderB.SetLineWidth(epaisseur_ligne_fader);
 
-            Rect FaderNiveau(Vec2D(x + (cmptfader * espacement), (y + 257) - niveau), Vec2D(40, niveau)); // niveau
+            int niveau_px = niveau >> 8; // [fader 16 bit] hauteur barre en pixels (0-255)
+            Rect FaderNiveau(Vec2D(x + (cmptfader * espacement), (y + 257) - niveau_px), Vec2D(40, niveau_px)); // niveau
                                                                                                           // fader
             FaderNiveau.SetRoundness(15);
             // separateur

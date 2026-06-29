@@ -775,10 +775,11 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
                 }
 
                 FaderLittle.MoveTo(Vec2D(xmf+(cmptfader*larg),ymf+20+(lfad*hmfd)));
-                int niveau=(int)Fader[cmptfader+(lfad*24)];
-                Rect FaderLittleNiveau( Vec2D(  xmf+(cmptfader*larg),(ymf+127)+20+(lfad*hmfd) - (niveau/2)), Vec2D ( larg-5,(niveau/2)));//niveau fader
+                int niveau=(int)Fader[cmptfader+(lfad*24)]; // [fader 16 bit] 0-65535
+                int niveau_px=niveau>>8; // pixels 0-255
+                Rect FaderLittleNiveau( Vec2D(  xmf+(cmptfader*larg),(ymf+127)+20+(lfad*hmfd) - (niveau_px/2)), Vec2D ( larg-5,(niveau_px/2)));//niveau fader
                 FaderLittleNiveau.SetRoundness(4);
-                myalpha=((float)niveau/255);
+                myalpha=((float)niveau/65535);
 
                 if(FaderLocked[cmptfader+(lfad*24)]==0)
                 {
@@ -866,16 +867,16 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
                 {
                     if(FaderLocked[cmptfader+(lfad*24)]==1)
                     {
-                        petitpetitchiffrerouge.Print(ol::ToString((int)((float)(StateOfFaderBeforeLock[cmptfader +(lfad*24)])/2.55)),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));
+                        petitpetitchiffrerouge.Print(ol::ToString(wc::lvl_to_pct(StateOfFaderBeforeLock[cmptfader +(lfad*24)])),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));// [fader 16 bit]
                     }
-                    sprintf(string_niveau, "%d",(int)(((float)niveau)/2.55));
+                    sprintf(string_niveau, "%d",wc::lvl_to_pct((unsigned short)niveau));// [fader 16 bit]
                 }
                 else
                 {
-                    sprintf(string_niveau,"%d", niveau);
+                    sprintf(string_niveau,"%d", (int)wc::lvl_to_dmx8((unsigned short)niveau));// [fader 16 bit]
                     if(FaderLocked[cmptfader+(lfad*24)]==1)
                     {
-                        petitpetitchiffrerouge.Print(ol::ToString((int)StateOfFaderBeforeLock[cmptfader +(lfad*24)]),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));
+                        petitpetitchiffrerouge.Print(ol::ToString((int)wc::lvl_to_dmx8(StateOfFaderBeforeLock[cmptfader +(lfad*24)])),xmf+(cmptfader*larg),ymf+170+(lfad*hmfd));// [fader 16 bit]
                     }
                 }
                 if(Fader[cmptfader +(lfad*24)]>0)
@@ -890,7 +891,7 @@ int mini_faders_panel_visu(int xmf, int ymf, int larg)
                     int nivstopos=0;
                     if (!dmx_view)
                     {
-                    nivstopos= (int) (((float)LevelStopPos[cmptfader+(lfad*24)])/2.55);
+                    nivstopos= wc::lvl_to_pct(LevelStopPos[cmptfader+(lfad*24)]);// [fader 16 bit]
                     }
                     else
                     {

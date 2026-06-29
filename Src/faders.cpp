@@ -26,7 +26,7 @@ bool index_moving_x_slide = 0;
 bool index_moving_y_slide = 0;
 int dock_used_by_fader_is[48];
 int previous_dock_used[48]; // pour autolaunch sur banger, dock + - et animations
-unsigned char Fader[48];
+unsigned short Fader[48]; // [fader 16 bit] etape 1 : type 16 bit, echelle encore 0-255
 unsigned char Fader_before[48];
 unsigned char Fader_previous[48]; // pour chasers autolaunch
 bool DockIsSelected[48][6];
@@ -47,18 +47,18 @@ int colorpreset_linked_to_dock[8][2];
 char string_docktypvideo[8];
 char DockName[48][6][50];
 unsigned char FaderDockContains[48][6][514];
-unsigned char FaderDoDmx[49][514]; // sortie de chaque fader // 49 pour éviter débordement ECHO SNAP
+unsigned short FaderDoDmx[49][514]; // [fader 16 bit] sortie de chaque fader (49 pour éviter débordement ECHO SNAP)
 bool show_who_is_in_FADER_DOCK[514];
 bool FaderLocked[48];
 unsigned char OldFaderLockProc[48];
-int locklevel = 0;
+int locklevel = 65535;// [fix lock] defaut plein : sans master lock, l'unlock restaure le niveau sauve (etait 0 -> donnait 0)
 bool lock_preset[8];
 int lock_preset_selected_for_record = 0;
 bool FaderLocked_Preset[8][48];
 bool LockFader_is_FullLevel_Preset[8][48];
-unsigned char StateOfFaderBeforeLock_Preset[8][48];
+unsigned short StateOfFaderBeforeLock_Preset[8][48]; // [fader 16 bit]
 int master_lock_preset[8];
-unsigned char StateOfFaderBeforeLock[48];
+unsigned short StateOfFaderBeforeLock[48]; // [fader 16 bit]
 bool LockFader_is_FullLevel[48];
 int highest_level_comes_from_fader[514];
 int DockHasMem[48][6];
@@ -96,7 +96,7 @@ bool autolaunch[48];
 bool fader_damper_is_on[48];
 /// MODE DIRECT CHANNEL POUR LES FADERS
 int FaderDirectChan[48][6];
-unsigned char beforeloop_for_directch[48];
+unsigned short beforeloop_for_directch[48]; // [fader 16 bit]
 bool index_direct_chan = 0;
 bool index_do_record_direct_ch = 0;
 bool index_fader_is_manipulated[48];

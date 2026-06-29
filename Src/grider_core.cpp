@@ -583,7 +583,7 @@ int do_logical_TheGrid_divers( int xb, int yb, int num_grid_player)
    {
    if(i+grider_begin_channel_is+1<513)
    {
-   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i]=FaderDoDmx[(GplSnapFader[num_grid_player])][i+grider_begin_channel_is];
+   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i]=wc::lvl_to_dmx8(FaderDoDmx[(GplSnapFader[num_grid_player])][i+grider_begin_channel_is]);// [fader 16 bit] grid stocke 8 bit
    }
    }
    mouse_released=1;

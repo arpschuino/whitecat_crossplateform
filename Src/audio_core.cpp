@@ -686,7 +686,7 @@ int sound_core_processing() {
 int Control_Audio_thruth_faders(int ff, int dd, int typ) // typ 0 vol / 1 pan / 2 pitch
 {
     int player_to_remote = 0;
-    int vol_to_send = (255 - curve_report[(FaderCurves[ff])][(Fader[ff])]) / 2;
+    int vol_to_send = (255 - curve_report[(FaderCurves[ff])][wc::lvl_to_dmx8(Fader[ff])]) / 2;// [fader 16 bit] index courbe 8 bit (audio = puits 8 bit)
     if (vol_to_send > 127) {
         vol_to_send = 127;
     }

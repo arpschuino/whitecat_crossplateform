@@ -126,14 +126,14 @@ int fader_set_level(int cmptfader, int val)
 {
 if (!fader_damper_is_on[cmptfader]) {
 Fader[cmptfader]=val;
-midi_levels[cmptfader]=(Fader[cmptfader]/2);
+midi_levels[cmptfader]=(wc::lvl_to_dmx8(Fader[cmptfader])/2);// [fader 16 bit]
 Fader_dampered[cmptfader].fix_all_damper_state_value(val);
 Fader_dampered[cmptfader].set_target_val(val);
 } else {
 Fader_dampered[cmptfader].set_target_val(val);
 }
 
-index_fader_is_manipulated[cmptfader]=1;midi_levels[cmptfader]=(Fader[cmptfader]/2);
+index_fader_is_manipulated[cmptfader]=1;midi_levels[cmptfader]=(wc::lvl_to_dmx8(Fader[cmptfader])/2);// [fader 16 bit]
 if(midi_send_out[cmptfader]==1){ index_send_midi_out[cmptfader]=1;}
 return(0);
 }
@@ -220,9 +220,9 @@ int  snap_fader_state(int echo, int f)
     {
         for(int i=1; i<513; i++)
         {
-            if(((float)(FaderDoDmx[f][i]))/255>=echo_levels[echo][1][i-1])//si plancher
+            if(((float)(FaderDoDmx[f][i]))/65535>=echo_levels[echo][1][i-1])//si plancher [fader 16 bit]
             {
-                echo_levels[echo][0][i-1]=((float)(FaderDoDmx[f][i]))/255;//((float)(FaderDockContains[f][dock_used_by_fader_is[f]][i]))/255;
+                echo_levels[echo][0][i-1]=((float)(FaderDoDmx[f][i]))/65535;// [fader 16 bit]
                 snap_echo_to_recall[echo][i-1]=echo_levels[echo][0][i-1];
             }
         }
@@ -2932,13 +2932,13 @@ int do_lock_preset(int num_preset)
             LockFader_is_FullLevel[f]=LockFader_is_FullLevel_Preset[num_preset][f];*/
             if(LockFader_is_FullLevel_Preset[num_preset][f]==1)
             {
-                Fader[f]=255;
+                Fader[f]=65535;// [fader 16 bit]
                 midi_levels[f]=127;
                 if(midi_send_out[f]==1)
                 {
                     index_send_midi_out[f]=1;
                 }
-                StateOfFaderBeforeLock[f]=255;
+                StateOfFaderBeforeLock[f]=65535;// [fader 16 bit]
             }
             else //rajout 0.7.6
             {
@@ -3298,7 +3298,7 @@ int load_Fader_state_to_midi_array()
     for(int i=0; i<core_user_define_nb_faders; i++)
     {
 //faders
-        midi_levels[i]=(Fader[i]/2);
+        midi_levels[i]=(wc::lvl_to_dmx8(Fader[i])/2);// [fader 16 bit]
 //lfo speed
         midi_levels[i+196]=(lfo_speed[i]);
     }
@@ -4170,9 +4170,9 @@ int build_default_curve(int curve)
 
     curve_spline_level=(((float)index_curve_spline_level)/127)-1;
 
-    for (int i=0;i<255;i++)
-    {
-    curve_report[curve][i]=255-i;
+    for (int i=0;i<256;i++) // [fader 16 bit] i<256 : l'index 255 doit etre rempli (=0 -> sortie full).
+    {                       // l'ancien i<255 laissait curve[255] non initialise -> l'interpolation 16 bit
+    curve_report[curve][i]=255-i; // (qui lit curve[idx+1]) corrompait le haut (254->1, 255->0).
     }
 
     view_curve_after_draw();
@@ -4388,9 +4388,9 @@ int refresh_minifader_state_view_core(int cmptfader)
     {
         int niv=0;
         if (!dmx_view) {
-            niv= (int) (((float)LevelStopPos[cmptfader])/2.55);
+            niv= wc::lvl_to_pct(LevelStopPos[cmptfader]);// [fader 16 bit]
         } else {
-            niv=LevelStopPos[cmptfader];
+            niv=wc::lvl_to_dmx8(LevelStopPos[cmptfader]);
         }
         sprintf(string_fader_stop_pos[cmptfader],"%d",niv);
         sprintf(str_minifader_feedback[9],"Stop Pos ON: %d",niv);
@@ -4425,11 +4425,11 @@ int do_action_on_selected_minifaders(int action)
                 if (!FaderLocked[cmptfader]) {
                     FaderLocked[cmptfader]=1;
                     StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
-                    if(StateOfFaderBeforeLock[cmptfader]==255)
+                    if(StateOfFaderBeforeLock[cmptfader]==65535)// [fader 16 bit]
                     {
                         LockFader_is_FullLevel[cmptfader]=1;
                     }
-                    else if(StateOfFaderBeforeLock[cmptfader]<255)
+                    else if(StateOfFaderBeforeLock[cmptfader]<65535)
                     {
                         LockFader_is_FullLevel[cmptfader]=0;
                     }
@@ -4442,8 +4442,8 @@ int do_action_on_selected_minifaders(int action)
                 } else {
                     FaderLocked[cmptfader]=0;
                     //remise Ã  plat du niveau
-                    Fader[cmptfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[cmptfader]))/255)*locklevel);
-                    midi_levels[cmptfader]=(int)(((float)Fader[cmptfader])/2);
+                    Fader[cmptfader]=(unsigned short)((((float)(StateOfFaderBeforeLock[cmptfader]))/65535)*locklevel);// [fader 16 bit]
+                    midi_levels[cmptfader]=(int)(wc::lvl_to_dmx8(Fader[cmptfader])/2);// [fader 16 bit]
                     sprintf(string_Last_Order,">> UNLOCKED Fader %d",cmptfader+1);
                 }
                 break;
@@ -4597,7 +4597,7 @@ int do_action_on_selected_minifaders(int action)
                         if (lStopPos>=0 && lStopPos<=255)
                         {
                             StopPosOn[cmptfader]=1;
-                            LevelStopPos[cmptfader]=lStopPos;
+                            LevelStopPos[cmptfader]=wc::dmx8_to_lvl(lStopPos);// [fader 16 bit] saisie 0-255 -> 16 bit
                             index_do_dock=0;
                             do_light_setpos[cmptfader]=1;
                         }
@@ -5537,7 +5537,7 @@ int GlobInit()
             Fader_dampered[in].fix_all_damper_state_value(Fader[in]);
             Fader_dampered[in].set_target_val(Fader[in]);
             Fader_dampered[in].set_damper_decay(1.0);
-            Fader_dampered[in].set_damper_dt(0.1);
+            Fader_dampered[in].set_damper_dt(0.3);// [fader 16 bit] defaut plus vif (plage dt 0..1)
             FaderLocked[in]=0;
             LockFader_is_FullLevel[in]=0;
             StateOfFaderBeforeLock[in]=0;

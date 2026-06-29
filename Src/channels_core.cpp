@@ -291,9 +291,8 @@ int DoMouseLevel()
    last_scroll_mouse_for_gm = mouse_z; // hors survol : garde la baseline fraiche
  }
 
- // [faders molette - option B] molette sur la fenetre faders = master survole.
- //   molette = coarse (courbe veloce) ; Ctrl+molette = fin (1 unite DMX/cran, sans accel).
- //   Faders encore 8 bit -> le vrai 16 bit fin viendra avec le chantier dedie (cf TODO.md).
+ // [fader 16 bit] molette sur la fenetre faders = master survole.
+ //   molette = coarse (1 DMX = 257, courbe veloce) ; Ctrl+molette = fin (1/65535).
  {
    static int last_scroll_mouse_for_fader = 0;
    if (win_under == W_FADERS && mouse_y >= YFader && mouse_y <= YFader + 255) {
@@ -309,19 +308,15 @@ int DoMouseLevel()
            }
            if (cmptfader >= 0) {
                bool fine = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
-               int step;
-               if (fine) {
-                   step = (_delta > 0 ? 1 : -1);            // fin : 1 unite DMX par cran, sans accel
-               } else {
-                   int _absd  = _delta > 0 ? _delta : -_delta;
-                   int _d     = _absd > 2 ? _absd - 2 : 0;
-                   int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
-                   if (_steps > 45) _steps = 45;
-                   step = (_delta > 0 ? 1 : -1) * _steps;   // coarse : accelere
-               }
+               int _absd  = _delta > 0 ? _delta : -_delta;
+               int _d     = _absd > 2 ? _absd - 2 : 0;
+               int _steps = _d > 0 ? _d * _d * 5 : 1;       // courbe veloce dynamique
+               if (_steps > 45) _steps = 45;
+               int unit = fine ? 1 : 257;                   // [fader 16 bit] coarse = 1 DMX (257), fin = 1/65535
+               int step = (_delta > 0 ? 1 : -1) * _steps * unit;
                int val = (int)Fader[cmptfader] + step;
-               if (val < 0)   val = 0;
-               if (val > 255) val = 255;
+               if (val < 0)     val = 0;
+               if (val > 65535) val = 65535;
                // sortie de LFO si actif (comme le drag souris du fader)
                if (lfo_mode_is[cmptfader] == 1 || lfo_mode_is[cmptfader] == 2 || lfo_cycle_is_on[cmptfader] == 1) {
                    lfo_mode_is[cmptfader] = 0; lfo_cycle_is_on[cmptfader] = 0;

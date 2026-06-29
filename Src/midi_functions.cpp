@@ -197,8 +197,8 @@ if(control<=47)
 if((FaderLocked[control]==1 && LockFader_is_FullLevel[control]==1)|| (FaderLocked[control]==0 ))
 {
 
-if(midi_levels[control]==127){fader_set_level(control,255);}//pour mettre � full
-else {fader_set_level(control,midi_levels[control]*2);}
+if(midi_levels[control]==127){fader_set_level(control,65535);}//pour mettre a full [fader 16 bit] : 255->65535
+else {fader_set_level(control,wc::dmx8_to_lvl(midi_levels[control]*2));}// [fader 16 bit] midi 7 bit -> 16 bit
 //Fader[control]=midi_levels[control]*2;
 //if(midi_levels[control]==127){Fader[control]=255;}//pour mettre � full
 //index_fader_is_manipulated[control]=1;
@@ -299,16 +299,16 @@ if(control>=146 && control <195)
 if(FaderLocked[control-146]==1)
 {
 FaderLocked[control-146]=0;
-Fader[control-146]=(unsigned char)((((float)(StateOfFaderBeforeLock[control-146]))/255)*locklevel);
-midi_levels[control-146]=(int)(((float)Fader[control-146])/2);
+Fader[control-146]=(unsigned short)((((float)(StateOfFaderBeforeLock[control-146]))/65535)*locklevel);// [fader 16 bit]
+midi_levels[control-146]=(int)(wc::lvl_to_dmx8(Fader[control-146])/2);// [fader 16 bit]
 rest(midi_keyboard_wait);
 }
 else   if(FaderLocked[control-146]==0)
 {
 FaderLocked[control-146]=1;
 StateOfFaderBeforeLock[control-146]=Fader[control-146];
-if(StateOfFaderBeforeLock[control-146]==255){LockFader_is_FullLevel[control-146]=1;}
-else if(StateOfFaderBeforeLock[control-146]<255){LockFader_is_FullLevel[control-146]=0;}
+if(StateOfFaderBeforeLock[control-146]==65535){LockFader_is_FullLevel[control-146]=1;}// [fader 16 bit]
+else if(StateOfFaderBeforeLock[control-146]<65535){LockFader_is_FullLevel[control-146]=0;}
 lfo_cycle_is_on[control-146]=0;//rajout 0.7.6
 lfo_mode_is[control-146]=0;
 rest(midi_keyboard_wait);
@@ -360,7 +360,7 @@ if(lfo_cycle_is_on[control-343]==0 && (FaderLocked[control-343]==0 || LockFader_
 lfo_cycle_is_on[control-343]=1;
 lfo_running_is_upward[control-343]=1;
 lfo_mode_is[control-343]=0;
-if(Fader[control-343]>0 && Fader[control-343]<255 ){lfo_running_is_upward[control-343]=1;}
+if(Fader[control-343]>0 && Fader[control-343]<65535 ){lfo_running_is_upward[control-343]=1;}// [fader 16 bit]
 }
 else if(lfo_cycle_is_on[control-343]==1)
 {
@@ -1156,7 +1156,7 @@ int lStopPos=999;
 reset_numeric_entry();
 if (lStopPos>=0 && lStopPos<=255)
    {
-   StopPosOn[control-685]=1;LevelStopPos[control-685]=lStopPos;
+   StopPosOn[control-685]=1;LevelStopPos[control-685]=wc::dmx8_to_lvl(lStopPos);// [fader 16 bit] saisie 0-255 -> 16 bit
    index_do_dock=0;
    do_light_setpos[control-685]=1;
    }
@@ -3319,7 +3319,7 @@ if(control>=2008 && control <=2055)
 //DAMPER DT LEVEL 2056
 if(control>=2056 && control <=2113)
 {
-    Fader_dampered[control-2056].set_damper_dt((((float)midi_levels[control])/127)/10);
+    Fader_dampered[control-2056].set_damper_dt((((float)midi_levels[control])/127)*DAMPER_DT_MAX);// [fader 16 bit] dt 0..DAMPER_DT_MAX
 }
 
 

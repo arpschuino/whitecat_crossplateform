@@ -51,4 +51,8 @@ class SmoothData {
 
 const int max_damper_mode = 2;
 
+// [fader 16 bit] plage max du Delta (dt) du damper : Delta 127 (curseur plein) = DAMPER_DT_MAX.
+// dt eleve = glisse rapide (settle court) ; bas = lisse/lent. Regle ici la vitesse max du damper.
+const float DAMPER_DT_MAX = 0.4f;
+
 #endif

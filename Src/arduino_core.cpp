@@ -101,7 +101,7 @@ switch(arduino_analog_function_input[p])
 case 1://affectation à un fader
 
 vfader=arduino_analog_attribution_input[p];
-fader_set_level(vfader,analog_data_from_arduino[p]);
+fader_set_level(vfader,wc::dmx8_to_lvl(analog_data_from_arduino[p]));// [fader 16 bit] analog 8 bit -> 16 bit
 //Fader[vfader]=analog_data_from_arduino[p];
 //midi_levels[vfader]=(Fader[vfader]/2);
 //index_fader_is_manipulated[vfader]=1;
@@ -127,7 +127,7 @@ index_send_midi_out[1960+vfader]=1;
 break;
 case 4://damper delta
 vfader=arduino_analog_attribution_input[p];
-Fader_dampered[vfader].set_damper_dt((((float)(analog_data_from_arduino[p]))/255)/10);
+Fader_dampered[vfader].set_damper_dt((((float)(analog_data_from_arduino[p]))/255)*DAMPER_DT_MAX);// [fader 16 bit] dt 0..DAMPER_DT_MAX
 midi_levels[2056+vfader]=127-(analog_data_from_arduino[p]/2);
 index_send_midi_out[2056+vfader]=1;
 break;
@@ -401,8 +401,8 @@ vfader=(arduino_digital_function_input[p][1]-1);
  {
    FaderLocked[vfader]=1;
    StateOfFaderBeforeLock[vfader]=Fader[vfader];
-   if(StateOfFaderBeforeLock[vfader]==255){LockFader_is_FullLevel[vfader]=1;}
-   else if(StateOfFaderBeforeLock[vfader]<255){LockFader_is_FullLevel[vfader]=0;}
+   if(StateOfFaderBeforeLock[vfader]==65535){LockFader_is_FullLevel[vfader]=1;}// [fader 16 bit]
+   else if(StateOfFaderBeforeLock[vfader]<65535){LockFader_is_FullLevel[vfader]=0;}
    sprintf(string_Last_Order,">> LOCKED Fader %d",vfader+1);
    if(LockFader_is_FullLevel[vfader]==0)//quand mis en lock et pas full level rajout 0.7.6
    {
@@ -414,8 +414,8 @@ vfader=(arduino_digital_function_input[p][1]-1);
  {
    FaderLocked[vfader]=0;
    //remise à plat du niveau
-   Fader[vfader]=(unsigned char)((((float)(StateOfFaderBeforeLock[vfader]))/255)*locklevel);
-   midi_levels[vfader]=(int)(((float)Fader[vfader])/2);
+   Fader[vfader]=(unsigned short)((((float)(StateOfFaderBeforeLock[vfader]))/65535)*locklevel)/* [fader 16 bit] */;
+   midi_levels[vfader]=(int)(wc::lvl_to_dmx8(Fader[vfader])/2);// [fader 16 bit]
    sprintf(string_Last_Order,">> UNLOCKED Fader %d",vfader+1);
  }
    previous_digital_data_from_arduino[p]=toggle(previous_digital_data_from_arduino[p]);//pour ne pas faire un flicker sur le  go/pause/go

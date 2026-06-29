@@ -369,11 +369,17 @@ void ticker() {
         // damper of faders
         for (int i = 0; i < 48; i++) {
             if (fader_damper_is_on[i] == 1) {
+                unsigned short _dprev = Fader[i];
                 Fader_dampered[i].damper();
-                Fader[i] = Fader_dampered[i].getdmxvalue_dampered();
-                midi_levels[i] = ((Fader_dampered[i].getdmxvalue_dampered()) / 2);
+                Fader[i] = Fader_dampered[i].getdmxvalue_dampered(); // [fader 16 bit] damper sort 0-65535
+                midi_levels[i] = ((wc::lvl_to_dmx8(Fader[i])) / 2);
                 index_send_midi_out[1960 + i] = 1; //???
                 if (Fader_dampered[i].calculating() == 1) {
+                    index_fader_is_manipulated[i] = 1;
+                    wc_request_refresh();
+                } else if (Fader[i] != _dprev) {
+                    // [fader 16 bit] frame du snap final : la valeur a change mais le calcul s'arrete ->
+                    // forcer un dernier refresh, sinon l'affichage reste fige sur l'avant-derniere valeur.
                     index_fader_is_manipulated[i] = 1;
                     wc_request_refresh();
                 } // direct chan

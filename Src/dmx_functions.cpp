@@ -416,25 +416,25 @@ int do_goback() {
 int prepare_lfos(int cmptfader, int dksel) {
     if (lfo_speed[cmptfader] < 64) {
         fraction_lfo_in[cmptfader] =
-            255.0 / (time_per_dock[cmptfader][dksel][1] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
+            65535.0 / (time_per_dock[cmptfader][dksel][1] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
         fraction_lfo_out[cmptfader] =
-            255.0 / (time_per_dock[cmptfader][dksel][3] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
+            65535.0 / (time_per_dock[cmptfader][dksel][3] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
         time_delay_in[cmptfader] =
             (int)(time_per_dock[cmptfader][dksel][0] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
         time_delay_out[cmptfader] =
             (int)(time_per_dock[cmptfader][dksel][0] * (((float)BPS_RATE) * (64.0 / lfo_speed[cmptfader])));
     } else if (lfo_speed[cmptfader] == 64) {
-        fraction_lfo_in[cmptfader] = 255.0 / (time_per_dock[cmptfader][dksel][1] * BPS_RATE);
-        fraction_lfo_out[cmptfader] = 255.0 / (time_per_dock[cmptfader][dksel][3] * BPS_RATE);
+        fraction_lfo_in[cmptfader] = 65535.0 / (time_per_dock[cmptfader][dksel][1] * BPS_RATE);
+        fraction_lfo_out[cmptfader] = 65535.0 / (time_per_dock[cmptfader][dksel][3] * BPS_RATE);
         time_delay_in[cmptfader] = (int)(time_per_dock[cmptfader][dksel][0] * BPS_RATE);
         time_delay_out[cmptfader] = (int)(time_per_dock[cmptfader][dksel][2] * BPS_RATE);
     } else if (lfo_speed[cmptfader] > 64) {
         fraction_lfo_in[cmptfader] =
-            255.0 /
+            65535.0 /
             (time_per_dock[cmptfader][dksel][1] *
              (((float)BPS_RATE * 3) / (lfo_speed[cmptfader] - 62))); //-62 evite un passage de temps pas bon, cf curseur
         fraction_lfo_out[cmptfader] =
-            255.0 / (time_per_dock[cmptfader][dksel][3] * (((float)BPS_RATE * 3) / (lfo_speed[cmptfader] - 62)));
+            65535.0 / (time_per_dock[cmptfader][dksel][3] * (((float)BPS_RATE * 3) / (lfo_speed[cmptfader] - 62)));
         time_delay_in[cmptfader] =
             (int)(time_per_dock[cmptfader][dksel][0] *
                   (((float)BPS_RATE * 3) /
@@ -461,8 +461,8 @@ int do_lfos() {
                 actual_time > (start_time_for_delays[cmptfader] + time_delay_in[cmptfader])) {
                 index_lfoing[cmptfader] = 1;
                 faders_in_float[cmptfader] += fraction_lfo_in[cmptfader];
-                if (faders_in_float[cmptfader] > 255) {
-                    faders_in_float[cmptfader] = 255;
+                if (faders_in_float[cmptfader] > 65535) {
+                    faders_in_float[cmptfader] = 65535;
                 }
                 if (FaderIsFlash[cmptfader] == 0) // tous calculs ok si pas de flash
                 {
@@ -471,9 +471,9 @@ int do_lfos() {
                 }
 
                 lfo_running_is_upward[cmptfader] = 1;
-                if (faders_in_float[cmptfader] >= 255) {
+                if (faders_in_float[cmptfader] >= 65535) {
                     lfo_mode_is[cmptfader] = 0;
-                    faders_in_float[cmptfader] = 255.0;
+                    faders_in_float[cmptfader] = 65535.0;
                 }
                 // ONSTOP UP LIMITE
                 if (ActionnateStopOn[cmptfader] == 1 && StopPosOn[cmptfader] == 1 &&
@@ -485,7 +485,7 @@ int do_lfos() {
                     ActionnateStopOn[cmptfader] = 0;
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
@@ -521,7 +521,7 @@ int do_lfos() {
                     ActionnateStopOn[cmptfader] = 0;
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
@@ -536,8 +536,8 @@ int do_lfos() {
                 actual_time > (start_time_for_delays[cmptfader] + time_delay_in[cmptfader])) {
                 index_lfoing[cmptfader] = 1;
                 faders_in_float[cmptfader] += fraction_lfo_in[cmptfader];
-                if (faders_in_float[cmptfader] > 255) {
-                    faders_in_float[cmptfader] = 255;
+                if (faders_in_float[cmptfader] > 65535) {
+                    faders_in_float[cmptfader] = 65535;
                 }
                 if (FaderIsFlash[cmptfader] == 0) // tous calculs ok si pas de flash
                 {
@@ -552,13 +552,13 @@ int do_lfos() {
                     fader_set_level(cmptfader, LevelStopPos[cmptfader]);
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
 
                 lfo_running_is_upward[cmptfader] = 1;
-                if (faders_in_float[cmptfader] >= 255) {
+                if (faders_in_float[cmptfader] >= 65535) {
                     start_time_for_delays[cmptfader] = actual_time;
                     faders_in_float[cmptfader] = 0.0;
                     // Fader[cmptfader]=0;
@@ -617,10 +617,10 @@ int do_lfos() {
                     (Fader[cmptfader] == LevelStopPos[cmptfader] || Fader[cmptfader] < LevelStopPos[cmptfader]) &&
                     FaderIsFlash[cmptfader] == 0) {
                     //    Fader[cmptfader]=255;
-                    fader_set_level(cmptfader, 255);
+                    fader_set_level(cmptfader, 65535);// [fader 16 bit] full
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
@@ -628,8 +628,8 @@ int do_lfos() {
                 lfo_running_is_upward[cmptfader] = 0;
                 if (faders_in_float[cmptfader] == 0.0) {
                     // Fader[cmptfader]=255;
-                    fader_set_level(cmptfader, 255);
-                    faders_in_float[cmptfader] = 255.0;
+                    fader_set_level(cmptfader, 65535);// [fader 16 bit] full
+                    faders_in_float[cmptfader] = 65535.0;
                     start_time_for_delays[cmptfader] = actual_time;
                     if (lfo_do_next_step[cmptfader][1] == 1) {
                         for (int tt = 0; tt < core_user_define_nb_docks; tt++) {
@@ -671,8 +671,8 @@ int do_lfos() {
             if (lfo_running_is_upward[cmptfader] == 1 &&
                 actual_time > (start_time_for_delays[cmptfader] + time_delay_in[cmptfader])) {
                 faders_in_float[cmptfader] += fraction_lfo_in[cmptfader];
-                if (faders_in_float[cmptfader] > 255) {
-                    faders_in_float[cmptfader] = 255;
+                if (faders_in_float[cmptfader] > 65535) {
+                    faders_in_float[cmptfader] = 65535;
                 }
 
                 if (FaderIsFlash[cmptfader] == 0) // tous calculs ok si pas de flash
@@ -688,15 +688,15 @@ int do_lfos() {
                     fader_set_level(cmptfader, LevelStopPos[cmptfader]);
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
                 lfo_running_is_upward[cmptfader] = 1;
-                if (faders_in_float[cmptfader] == 255) {
-                    faders_in_float[cmptfader] = 255.0;
+                if (faders_in_float[cmptfader] == 65535) {// [fader 16 bit]
+                    faders_in_float[cmptfader] = 65535.0;
                     // Fader[cmptfader]=255;
-                    fader_set_level(cmptfader, 255);
+                    fader_set_level(cmptfader, 65535);// [fader 16 bit] full
                     start_time_for_delays[cmptfader] = actual_time;
                     lfo_running_is_upward[cmptfader] = 0;
                 }
@@ -722,7 +722,7 @@ int do_lfos() {
                     fader_set_level(cmptfader, LevelStopPos[cmptfader]);
                 }
                 // report midi
-                midi_levels[cmptfader] = (Fader[cmptfader] / 2);
+                midi_levels[cmptfader] = (wc::lvl_to_dmx8(Fader[cmptfader]) / 2);// [fader 16 bit]
                 if (midi_send_out[cmptfader] == 1) {
                     index_send_midi_out[cmptfader] = 1;
                 }
@@ -816,7 +816,7 @@ int Merger_Faders() {
         bufferFaders[h] = 0;
         channel_is_touched_by_fader_fx[h] = 0;
         for (int cif = 0; cif < core_user_define_nb_faders; cif++) {
-            unsigned short fd = wc::dmx8_to_lvl((unsigned char)FaderDoDmx[cif][h]);  // [2c-2B] fader 0-255 -> 16 bit
+            unsigned short fd = FaderDoDmx[cif][h];  // [fader 16 bit] FaderDoDmx deja 16 bit (0-65535)
             switch (fader_mode_with_buffers[cif]) {
             case 0: // HTP normal
                 if (!fader_fx_route[cif])
@@ -990,7 +990,7 @@ int calculs_etats_faders_et_contenus() {
         /////////////////////////
         if (FaderIsFlash[f] == 1 && FaderIsFlashBefore[f] == 0) {
             LevelFaderBeforeFlash[f] = Fader[f];
-            fader_set_level(f, 255);
+            fader_set_level(f, 65535);// [fader 16 bit] full
             // Fader[f]=255;
             // midi_levels[f]=127;
             // index_fader_is_manipulated[f]=1;
@@ -1046,11 +1046,11 @@ int calculs_etats_faders_et_contenus() {
                     if (!index_fader_is_manipulated[f])
                     {
                         beforeloop_for_directch[f] = Fader[f];
-                        Fader[f] = wc::lvl_to_dmx8(bufferSequenciel[(FaderDirectChan[f][d])]);  // [2c-2B] 16 bit -> 8 bit
-                        if (Fader[f] == 255) {
+                        Fader[f] = bufferSequenciel[(FaderDirectChan[f][d])];  // [fader 16 bit] direct 16 bit
+                        if (Fader[f] == 65535) {
                             midi_levels[f] = 127;
                         } else {
-                            midi_levels[f] = (int)Fader[f] / 2;
+                            midi_levels[f] = (int)wc::lvl_to_dmx8(Fader[f]) / 2;
                         }
                         if (beforeloop_for_directch[f] != Fader[f]) {
                             index_send_midi_out[f] = 1;
@@ -1092,7 +1092,7 @@ int calculs_etats_faders_et_contenus() {
                         if (fgroup[f][d][fg] == 1) {
                             for (int ppin = 1; ppin < 513; ppin++) {
                                 FaderDockContains[f][d][ppin] =
-                                    Tmax(FaderDockContains[f][d][ppin], FaderDoDmx[fg][ppin]);
+                                    Tmax(FaderDockContains[f][d][ppin], (unsigned char)FaderDoDmx[fg][ppin]); // [fader 16 bit] etape1: contenu reste 8 bit
                             }
                         }
                     }
@@ -1131,10 +1131,17 @@ int calculs_etats_faders_et_contenus() {
 
                 // data normal
 
+                // [fader 16 bit] courbe INTERPOLEE : Fader[f] 16 bit -> idx=octet fort, frac=octet faible.
+                // niveau courbe (0-255) interpole entre curve[idx] et curve[idx+1], remis a l'echelle 16 bit (x257).
+                int _cv  = FaderCurves[f];
+                int _idx = Fader[f] >> 8;
+                int _frc = Fader[f] & 0xFF;
+                int _c0  = 255 - curve_report[_cv][_idx];
+                int _c1  = 255 - curve_report[_cv][_idx < 255 ? _idx + 1 : 255];
+                int _curve16 = _c0 * 257 + ((_c1 - _c0) * 257 * _frc) / 256; // 0..65535
                 for (int j = 1; j < 514; j++) {
-                    FaderDoDmx[f][j] = (int)(((float)(FaderDockContains[f][d][j]) / 255) *
-                                             (255 - curve_report[(FaderCurves[f])][(Fader[f])]));
-                    // avant curve:  FaderDoDmx[f][j]=(int)(((float)(FaderDockContains[f][d][j])/255)  * Fader[f]);
+                    // contenu du dock = ratio 8 bit (0-255) ; produit -> 16 bit
+                    FaderDoDmx[f][j] = (unsigned short)(((long)FaderDockContains[f][d][j] * _curve16) / 255);
                 }
             }
         }
@@ -1153,10 +1160,10 @@ int Merger_Sequenciel() {
             // [2c-2B] arithmetique ENTIERE (x niveauX1 puis /255) : a niveauX1=255 c'est l'identite
             // exacte, les bits FINS (sous l'octet fort) sont preserves. Le float /255*255 les detruisait.
             bufferSequenciel[p] =
-                bufferBlind[p] + (int)((long)(bufferSaisie[p] - bufferBlind[p]) * niveauX1 / wc::LVL_MAX);
+                bufferBlind[p] + (int)((long long)(bufferSaisie[p] - bufferBlind[p]) * niveauX1 / wc::LVL_MAX);// [16 bit] long long : evite overflow 32 bit (65535*65535)
         } else if (bufferSaisie[p] < bufferBlind[p]) {
             bufferSequenciel[p] =
-                bufferSaisie[p] + (int)((long)(bufferBlind[p] - bufferSaisie[p]) * niveauX2 / wc::LVL_MAX);
+                bufferSaisie[p] + (int)((long long)(bufferBlind[p] - bufferSaisie[p]) * niveauX2 / wc::LVL_MAX);// [16 bit] long long : evite overflow 32 bit
         }
         if (index_crossfading == 1 || index_pause == 1) {
             // [2c-2B] modif manuelle de crossfade : 1 pas = 1 unite DMX -> x257 en 16 bit
@@ -1194,7 +1201,7 @@ int Merger() {
             // MASTER
             if (Channels_excluded_from_grand_master[i] == 0) {
                 // [GM 16 bit] arithmetique ENTIERE : a niveauGMaster=65535 identite exacte (preserve le fin)
-                MergerArray[i] = (int)((long)(MergerArray[i]) * niveauGMaster / wc::LVL_MAX);
+                MergerArray[i] = (int)((long long)(MergerArray[i]) * niveauGMaster / wc::LVL_MAX);// [16 bit] long long : evite overflow 32 bit (65535*65535)
             }
         }
         else                              // circuit gele : niveau fige

@@ -25,7 +25,7 @@ extern bool index_moving_y_slide;
 
 extern int dock_used_by_fader_is[48];
 extern int previous_dock_used[48];
-extern unsigned char Fader[48];
+extern unsigned short Fader[48]; // [fader 16 bit]
 extern unsigned char Fader_before[48];
 extern unsigned char Fader_previous[48];
 
@@ -50,7 +50,7 @@ extern int colorpreset_linked_to_dock[8][2];
 extern char string_docktypvideo[8];
 extern char DockName[48][6][50];
 extern unsigned char FaderDockContains[48][6][514];
-extern unsigned char FaderDoDmx[49][514];
+extern unsigned short FaderDoDmx[49][514]; // [fader 16 bit]
 extern bool show_who_is_in_FADER_DOCK[514];
 extern bool FaderLocked[48];
 extern unsigned char OldFaderLockProc[48];
@@ -59,9 +59,9 @@ extern bool lock_preset[8];
 extern int lock_preset_selected_for_record;
 extern bool FaderLocked_Preset[8][48];
 extern bool LockFader_is_FullLevel_Preset[8][48];
-extern unsigned char StateOfFaderBeforeLock_Preset[8][48];
+extern unsigned short StateOfFaderBeforeLock_Preset[8][48]; // [fader 16 bit]
 extern int master_lock_preset[8];
-extern unsigned char StateOfFaderBeforeLock[48];
+extern unsigned short StateOfFaderBeforeLock[48]; // [fader 16 bit]
 extern bool LockFader_is_FullLevel[48];
 extern int highest_level_comes_from_fader[514];
 extern int DockHasMem[48][6];
@@ -104,7 +104,7 @@ extern bool fader_damper_is_on[48];
 
 /// MODE DIRECT CHANNEL POUR LES FADERS
 extern int FaderDirectChan[48][6];
-extern unsigned char beforeloop_for_directch[48];
+extern unsigned short beforeloop_for_directch[48]; // [fader 16 bit]
 extern bool index_direct_chan;
 extern bool index_do_record_direct_ch;
 extern bool index_fader_is_manipulated[48];

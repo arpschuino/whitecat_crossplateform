@@ -2262,7 +2262,8 @@ if ((fp=fopen( file_faders_state, "wb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_faders_state);
-if (fwrite(Fader, sizeof(unsigned char), faders_saving_size, fp) != faders_saving_size)
+unsigned char _fader8[48]; for(unsigned int _i=0;_i<faders_saving_size;_i++) _fader8[_i]=wc::lvl_to_dmx8(Fader[_i]); // [fader 16 bit] disque 8 bit (octet fort)
+if (fwrite(_fader8, sizeof(unsigned char), faders_saving_size, fp) != faders_saving_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_faders_state); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_faders_state);
 fclose(fp);
@@ -2354,7 +2355,8 @@ if ((fp=fopen( file_fader_before_lock, "wb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s", file_fader_before_lock);
-if (fwrite(StateOfFaderBeforeLock, sizeof(unsigned char), fader_before_lock_size, fp) != fader_before_lock_size)
+unsigned char _sfbl8[48]; for(unsigned int _i=0;_i<fader_before_lock_size;_i++) _sfbl8[_i]=wc::lvl_to_dmx8(StateOfFaderBeforeLock[_i]); // [fader 16 bit] disque 8 bit (octet fort)
+if (fwrite(_sfbl8, sizeof(unsigned char), fader_before_lock_size, fp) != fader_before_lock_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_fader_before_lock); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_fader_before_lock);
 fclose(fp);
@@ -2758,7 +2760,8 @@ if ((fp=fopen( file_lock_preset_levels, "wb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opened file %s",file_lock_preset_levels);
-if (fwrite(StateOfFaderBeforeLock_Preset, sizeof(unsigned char), fader_lock_preset_levels_size, fp) != fader_lock_preset_levels_size)
+unsigned char _sfblp8[8*48]; for(unsigned int _i=0;_i<fader_lock_preset_levels_size;_i++) _sfblp8[_i]=wc::lvl_to_dmx8((&StateOfFaderBeforeLock_Preset[0][0])[_i]); // [fader 16 bit] disque 8 bit (octet fort)
+if (fwrite(_sfblp8, sizeof(unsigned char), fader_lock_preset_levels_size, fp) != fader_lock_preset_levels_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_lock_preset_levels); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s",file_lock_preset_levels);
 fclose(fp);
@@ -5019,9 +5022,10 @@ if ((fp=fopen(file_fader_before_lock, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_fader_before_lock);
-if (fread(StateOfFaderBeforeLock, sizeof(unsigned char),fader_before_lock_size, fp) !=fader_before_lock_size)
+unsigned char _sfbl8[48];
+if (fread(_sfbl8, sizeof(unsigned char),fader_before_lock_size, fp) !=fader_before_lock_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_fader_before_lock);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_fader_before_lock);
+else { for(unsigned int _i=0;_i<fader_before_lock_size;_i++) StateOfFaderBeforeLock[_i]=wc::dmx8_to_lvl(_sfbl8[_i]); sprintf(string_save_load_report[idf],"Loaded file %s", file_fader_before_lock); } // [fader 16 bit] disque 8 bit -> 16 bit
  fclose(fp);
 }
 idf++;
@@ -5225,9 +5229,10 @@ if ((fp=fopen(file_faders_state, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_faders_state);
-if (fread(Fader, sizeof(unsigned char),faders_saving_size, fp) !=faders_saving_size)
+unsigned char _fader8[48];
+if (fread(_fader8, sizeof(unsigned char),faders_saving_size, fp) !=faders_saving_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_faders_state);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_faders_state);
+else { for(unsigned int _i=0;_i<faders_saving_size;_i++) Fader[_i]=wc::dmx8_to_lvl(_fader8[_i]); sprintf(string_save_load_report[idf],"Loaded file %s", file_faders_state); } // [fader 16 bit] disque 8 bit -> 16 bit
  fclose(fp);
 }
 
@@ -5433,9 +5438,10 @@ if ((fp=fopen( file_lock_preset_levels, "rb"))==NULL)
 else
 {
 sprintf(string_save_load_report[idf],"Opening file %s", file_lock_preset_levels);
-if (fread(StateOfFaderBeforeLock_Preset, sizeof(unsigned char),fader_lock_preset_levels_size, fp) !=fader_lock_preset_levels_size)
+unsigned char _sfblp8[8*48];
+if (fread(_sfblp8, sizeof(unsigned char),fader_lock_preset_levels_size, fp) !=fader_lock_preset_levels_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s",  file_lock_preset_levels);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_lock_preset_levels);
+else { for(unsigned int _i=0;_i<fader_lock_preset_levels_size;_i++) (&StateOfFaderBeforeLock_Preset[0][0])[_i]=wc::dmx8_to_lvl(_sfblp8[_i]); sprintf(string_save_load_report[idf],"Loaded file %s", file_lock_preset_levels); } // [fader 16 bit] disque 8 bit -> 16 bit
  fclose(fp);
 }
 idf++;

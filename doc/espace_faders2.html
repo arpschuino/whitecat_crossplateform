@@ -111,6 +111,7 @@
 </li>
 <li class="level1"><div class="li"><a href="#accelerometre">Accéléromètre</a></div></li>
 <li class="level1"><div class="li"><a href="#attribution_d_une_courbe_a_un_fader">Attribution d&#039;une courbe à un fader</a></div></li>
+<li class="level1"><div class="li"><a href="#damper">Damper (lissage du fader)</a></div></li>
 <li class="level1"><div class="li"><a href="#controle_des_faders_en_midi">Contrôle des faders en MIDI</a></div>
 <ul class="toc">
 <li class="level2"><div class="li"><a href="#affectation_midi">Affectation MIDI</a></div></li>
@@ -1053,6 +1054,40 @@ Affecter une courbe à un fader:
 <img src="fader_curve.jpeg" class="media" title="fader_curve.jpg" alt="fader_curve.jpg" />
 </p>
 <!-- EDIT34 SECTION "Attribution d'une courbe à un fader" [19618-20568] -->
+<h1 class="sectionedit34b"><a name="damper" id="damper">Damper (lissage du fader)</a></h1>
+
+<p class="level1">
+Le <strong>Damper</strong> (amortisseur) lisse les mouvements d&#039;un fader&#160;: au lieu de <strong>sauter</strong> instantanément à la valeur demandée, le fader <strong>glisse</strong> progressivement vers elle. C&#039;est un effet d&#039;inertie réglable, propre à chaque fader, situé tout en bas de la tranche, sous la case de courbe.
+</p>
+
+<p class="level1">
+Le bouton du Damper est le petit carré marqué <strong>«&#160;~&#160;»</strong>. Il s&#039;allume en bleu lorsque le Damper est actif. À côté se trouvent les réglages <strong>Decay</strong>, <strong>Delta</strong> et le bouton de <strong>Mode</strong>.
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> <strong>~</strong>&#160;: active / désactive le Damper du fader (bleu = actif).</div>
+</li>
+<li class="level1"><div class="li"> <strong>Decay</strong>&#160;: constante d&#039;amortissement (raideur du rappel vers la cible). Plus elle est élevée, plus le fader rejoint vite sa valeur. Affichée de 0 à 127.</div>
+</li>
+<li class="level1"><div class="li"> <strong>Delta</strong>&#160;: pas de calcul du lissage (finesse temporelle). Affiché de 0 à 127.</div>
+</li>
+<li class="level1"><div class="li"> <strong>Mode</strong>&#160;: courbe de lissage. 0&#160;: plus véloce&#160;; 1&#160;: moins véloce&#160;; 2&#160;: in/out égaux.</div>
+</li>
+<li class="level1"><div class="li"> Deux pastilles <strong>MIDI-out</strong> renvoient en MIDI les valeurs de Decay et de Delta.</div>
+</li>
+</ul>
+
+<p class="level1">
+<strong>Fonctionnement&#160;:</strong> Damper actif, bouger le fader (souris, MIDI, LFO, banger) ne fixe qu&#039;une <strong>cible</strong>. À chaque image, le fader se rapproche de cette cible selon Decay et Delta, jusqu&#039;à l&#039;atteindre. Désactivé, le fader saute instantanément à la valeur.
+</p>
+
+<p class="level1">
+<strong>Intérêt en pilotage MIDI&#160;:</strong> une surface MIDI envoie des valeurs sur <strong>7&#160;bits</strong> (128 paliers). Sans lissage, le mouvement du fader est «&#160;en escalier&#160;». Avec le Damper, le fader <strong>interpole en interne sur 16&#160;bits</strong> entre deux valeurs MIDI reçues&#160;: le mouvement devient parfaitement fluide, en passant par les valeurs intermédiaires. Idéal pour des fondus lents pilotés à la main depuis un contrôleur MIDI.
+</p>
+
+<p class="level1">
+Le Damper et ses réglages (Decay, Delta) sont aussi affectables en MIDI.
+</p>
+<!-- EDIT34b SECTION "Damper (lissage du fader)" -->
 <h1 class="sectionedit35"><a name="controle_des_faders_en_midi" id="controle_des_faders_en_midi">Contrôle des faders en MIDI</a></h1>
 <!-- EDIT35 SECTION "Contrôle des faders en MIDI" [20569-20614] -->
 <h2 class="sectionedit36"><a name="affectation_midi" id="affectation_midi">Affectation MIDI</a></h2>
