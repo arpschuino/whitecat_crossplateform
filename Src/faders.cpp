@@ -51,7 +51,7 @@ unsigned char FaderDoDmx[49][514]; // sortie de chaque fader // 49 pour éviter 
 bool show_who_is_in_FADER_DOCK[514];
 bool FaderLocked[48];
 unsigned char OldFaderLockProc[48];
-int locklevel = 0;
+int locklevel = 255;// [fix lock] defaut plein (8 bit) : sans master lock, l'unlock restaure le niveau sauve (etait 0 -> donnait 0)
 bool lock_preset[8];
 int lock_preset_selected_for_record = 0;
 bool FaderLocked_Preset[8][48];

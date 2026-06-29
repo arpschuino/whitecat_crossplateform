@@ -1340,7 +1340,7 @@ if(Midi_Faders_Affectation_Type!=0)
   //action lock on/off
   else
   {
-    if(FaderLocked[cmptfader])
+    if(FaderLocked[cmptfader]==0)// [fix lock] vrai toggle : non-locke -> LOCK (garde le niveau) ; locke -> UNLOCK (restaure)
     {
       FaderLocked[cmptfader]=1;
       StateOfFaderBeforeLock[cmptfader]=Fader[cmptfader];
