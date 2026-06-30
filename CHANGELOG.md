@@ -38,6 +38,12 @@
 
 - **Fix : ligne « audio_conf.txt readed » affichée en rouge** au rechargement d'un show alors que la lecture réussissait. Plusieurs opérations partagent le même slot de rapport (`idf`) ; la branche succès ne remettait pas l'indicateur d'erreur à zéro. Corrigé.
 
+### Grid players
+
+- **Fix : animation saccadée à l'écran** (fluide seulement en bougeant la souris). Le « ticker intelligent » ne détectait pas les grid players en lecture : ajoutés à la détection d'activité du rendu (même correctif que les bangers en boucle / l'echo). La sortie DMX, elle, était correcte.
+- **En-tête réagencé** : le titre « Grid Players » (écrit sur deux lignes, qui débordait) passe sur **une seule ligne** ; les champs Beg.Chan / Col / Rows / edit / View / cases GridPlayers sont décalés à droite pour lui faire de la place (rendu **et** zones de clic alignés).
+- **Global viewer** : la ligne Grid / Step est recadrée de quelques pixels vers la droite (le label « Grid » touchait le bord gauche de la fenêtre).
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
