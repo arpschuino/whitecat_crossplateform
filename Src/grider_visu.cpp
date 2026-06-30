@@ -682,29 +682,30 @@ int GlobalGridViewer(int xb, int yb)
 {
 //appel de grille
 Line(Vec2D(xb,yb),Vec2D(xb+largeurGrider,yb)).Draw(CouleurLigne);
-neuromoyen.Print("Grid",xb,yb+23);
-Rect GriderNum(Vec2D(xb+40,yb+10),Vec2D(50,20));
+// [grid] ligne Grid/Step decalee de +6px a droite (le label "Grid" debordait sur le bord gauche)
+neuromoyen.Print("Grid",xb+6,yb+23);
+Rect GriderNum(Vec2D(xb+46,yb+10),Vec2D(50,20));
 GriderNum.SetRoundness(5);
 GriderNum.DrawOutline(CouleurLigne.WithAlpha(0.5));
-neuromoyen.Print(ol::ToString(grid_selected_for_view +1),(xb+50), (yb+23));
-if(window_focus_id==W_GRID && mouse_x>xb+40 && mouse_x<xb+90 && mouse_y>yb+10 && mouse_y<yb+30 )
+neuromoyen.Print(ol::ToString(grid_selected_for_view +1),(xb+56), (yb+23));
+if(window_focus_id==W_GRID && mouse_x>xb+46 && mouse_x<xb+96 && mouse_y>yb+10 && mouse_y<yb+30 )
 {
 GriderNum.DrawOutline(CouleurLigne);
 }
 
-neuromoyen.Print("Step",xb+110,yb+23);
-Rect GriderSt(Vec2D(xb+150,yb+10),Vec2D(50,20));
+neuromoyen.Print("Step",xb+116,yb+23);
+Rect GriderSt(Vec2D(xb+156,yb+10),Vec2D(50,20));
 GriderSt.SetRoundness(5);
 GriderSt.DrawOutline(CouleurLigne.WithAlpha(0.5));
-neuromoyen.Print(ol::ToString(grid_step_view+1),(xb+160), (yb+23));
-if(window_focus_id==W_GRID && mouse_x>xb+150 && mouse_x<xb+200 && mouse_y>yb+10 && mouse_y<yb+30 )
+neuromoyen.Print(ol::ToString(grid_step_view+1),(xb+166), (yb+23));
+if(window_focus_id==W_GRID && mouse_x>xb+156 && mouse_x<xb+206 && mouse_y>yb+10 && mouse_y<yb+30 )
 {
 GriderSt.DrawOutline(CouleurLigne);
 }
 
 //déplacement dans les pas
-previous_button_view(xb+220,yb+10,0);
-next_button_view(xb+250,yb+10,0);
+previous_button_view(xb+226,yb+10,0);
+next_button_view(xb+256,yb+10,0);
 
 int def_nombre_grilles_previsu=largeurGrider/((grider_nb_col*5)+20);
 //ajustements visuels
@@ -808,48 +809,51 @@ GriderBack.DrawOutline(CouleurLigne);
 }
 
 
-neuro.Print( "Grid",(xb+90), (yb+15));
-neuro.Print( "Players",(xb+90), (yb+35));
+neuro.Print( "Grid Players",(xb+90), (yb+27)); // [grid] titre sur une seule ligne (apres les boutons X/M), l'en-tete decale a droite lui fait de la place
+
+// [grid] tout l'en-tete (Beg.Chan, Col, Rows, edit, View, GridPlayers) est decale de dx vers la
+// droite pour liberer la place du titre ecrit sur une ligne. Regler grid_header_dx (grider.h).
+int dx = grid_header_dx;
 
 //definition debut chan du grider
-Rect BackGriderChan(Vec2D(xb+245,yb+15),Vec2D(40,20));
+Rect BackGriderChan(Vec2D(xb+dx+245,yb+15),Vec2D(40,20));
 BackGriderChan.SetRoundness(4);
 BackGriderChan.Draw(CouleurBleuProcedure.WithAlpha(0.5));
-petitchiffre.Print("Beg.Chan.",xb+180,yb+30);
-petitchiffre.Print(ol::ToString(grider_begin_channel_is),xb+250,yb+30);
+petitchiffre.Print("Beg.Chan.",xb+dx+180,yb+30);
+petitchiffre.Print(ol::ToString(grider_begin_channel_is),xb+dx+250,yb+30);
 
 //def number row and cols
-Rect BackGriderCol(Vec2D(xb+315,yb+15),Vec2D(30,20));
+Rect BackGriderCol(Vec2D(xb+dx+315,yb+15),Vec2D(30,20));
 BackGriderCol.SetRoundness(4);
 BackGriderCol.Draw(CouleurBleuProcedure.WithAlpha(0.5));
-petitchiffre.Print("Col.:",xb+290,yb+30);
-petitchiffre.Print(ol::ToString(grider_nb_col),xb+320,yb+30);
+petitchiffre.Print("Col.:",xb+dx+290,yb+30);
+petitchiffre.Print(ol::ToString(grider_nb_col),xb+dx+320,yb+30);
 
-Rect BackGriderRow(Vec2D(xb+385,yb+15),Vec2D(30,20));
+Rect BackGriderRow(Vec2D(xb+dx+385,yb+15),Vec2D(30,20));
 BackGriderRow.SetRoundness(4);
 BackGriderRow.Draw(CouleurBleuProcedure.WithAlpha(0.5));
-petitchiffre.Print("Rows:",xb+347,yb+30);
-petitchiffre.Print(ol::ToString(grider_nb_row),xb+390,yb+30);
+petitchiffre.Print("Rows:",xb+dx+347,yb+30);
+petitchiffre.Print(ol::ToString(grider_nb_row),xb+dx+390,yb+30);
 
 //////////////EDIT MODE///////////////////////////////
-Rect GriderEditEnable( Vec2D((xb+430),(yb+15)),Vec2D(50,20));
+Rect GriderEditEnable( Vec2D((xb+dx+430),(yb+15)),Vec2D(50,20));
 GriderEditEnable.SetRoundness(7.5);
 if(index_enable_edit_Grider==1)
 {
 GriderEditEnable.Draw(CouleurFader);
 }
 GriderEditEnable.DrawOutline(CouleurLigne);
-petitchiffre.Print("edit",xb+440 ,yb+27);
+petitchiffre.Print("edit",xb+dx+440 ,yb+27);
 
 /////////////nbre Gridplayers affichage///////////////////////////
-petitpetitchiffre.Print("GridPlayers",xb+535,yb+13);
+petitpetitchiffre.Print("GridPlayers",xb+dx+535,yb+13);
 for(int o=0;o<core_user_define_nb_gridplayers;o++)
 {
-Rect ShowGridB(Vec2D(xb+540+(o*15),yb+20),Vec2D(10,10));
+Rect ShowGridB(Vec2D(xb+dx+540+(o*15),yb+20),Vec2D(10,10));
 if(index_show_grid_player[o]==1)
 {ShowGridB.Draw(CouleurFader);}
 ShowGridB.DrawOutline(CouleurLigne.WithAlpha(0.7));
-if(window_focus_id==W_GRID  && mouse_x>xb+540+(o*15) && mouse_x<xb+540+(o*15)+10 && mouse_y>yb+20 && mouse_y<yb+30)
+if(window_focus_id==W_GRID  && mouse_x>xb+dx+540+(o*15) && mouse_x<xb+dx+540+(o*15)+10 && mouse_y>yb+20 && mouse_y<yb+30)
 {
 if(Midi_Faders_Affectation_Type!=0)
 {
@@ -864,15 +868,15 @@ ShowGridB.DrawOutline(CouleurBlind);
 
 if( window_focus_id==W_GRID  && mouse_y>yb+15 && mouse_y<yb+35)
 {
-if(mouse_x>xb+245 && mouse_x<xb+285 &&  index_enable_edit_Grider==1)//chan edit
+if(mouse_x>xb+dx+245 && mouse_x<xb+dx+285 &&  index_enable_edit_Grider==1)//chan edit
 {
 BackGriderChan.DrawOutline(CouleurLigne);
 }
-if(mouse_x>xb+315 && mouse_x<xb+355 &&  index_enable_edit_Grider==1)//col edit
+if(mouse_x>xb+dx+315 && mouse_x<xb+dx+355 &&  index_enable_edit_Grider==1)//col edit
 {
 BackGriderCol.DrawOutline(CouleurLigne);
 }
-if(mouse_x>xb+385 && mouse_x<xb+425 &&  index_enable_edit_Grider==1)//rows edit
+if(mouse_x>xb+dx+385 && mouse_x<xb+dx+425 &&  index_enable_edit_Grider==1)//rows edit
 {
 BackGriderRow.DrawOutline(CouleurLigne);
 }
@@ -882,14 +886,14 @@ BackGriderRow.DrawOutline(CouleurLigne);
 
 
 //Global grid viewer
-petitpetitchiffre.Print("View",xb+495,yb+13);
-Rect AllowGridViewerB(Vec2D(xb+495,yb+20),Vec2D(40,10));
+petitpetitchiffre.Print("View",xb+dx+495,yb+13);
+Rect AllowGridViewerB(Vec2D(xb+dx+495,yb+20),Vec2D(40,10));
 AllowGridViewerB.Draw(CouleurFader.WithAlpha(show_global_view_grider));
 AllowGridViewerB.DrawOutline(CouleurLigne);
 
 if( window_focus_id==W_GRID && mouse_b&1 && mouse_released==0)
 {
-if(mouse_x>xb+495 && mouse_x<xb+535 && mouse_y>yb+20 && mouse_y<yb+30)
+if(mouse_x>xb+dx+495 && mouse_x<xb+dx+535 && mouse_y>yb+20 && mouse_y<yb+30)
 {
 show_global_view_grider=toggle(show_global_view_grider);
 refresh_hauteur_fenetre_grider();

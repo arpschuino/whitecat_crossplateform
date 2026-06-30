@@ -12,6 +12,15 @@
 - **Contrôle fin** : **Ctrl maintenu + molette ou flèches haut/bas** ajuste le niveau au pas fin (1/65535), pour régler l'octet faible d'un canal 16 bits sans bouger l'octet fort. Sans Ctrl, la molette/les flèches gardent le pas grossier habituel (%/DMX).
 - **Compatibilité des shows préservée** : les mémoires, grids, chasers, docks de faders et freeze restent stockés en 8 bits (conversion automatique aux frontières). Les shows `.whc` existants se chargent à l'identique, et un show enregistré reste relisible par une version antérieure.
 
+### Corrections (echo, faders, circuits, grid players)
+
+- **Echo** : fin des saccades d'affichage (le rendu reste actif tant qu'un echo rebondit) + animation en **16 bit** (sortie directe depuis `echo_levels`, plus de paliers).
+- **Faders / Flash** : le fader redescend immédiatement à l'écran au relâchement (le rendu reste actif quelques frames le temps que le niveau soit restauré) ; le flash n'est plus **lissé par le damper** (montée et descente instantanées).
+- **Damper** : atteint enfin 0 (accrochage exact à la cible — la glisse exponentielle était asymptotique) + initialisation manquante qui pouvait le figer.
+- **Espace circuits (vue classical)** : le 1er circuit de chaque page (1-12, 49-60…) n'est plus caché sous la barre Ch.View (auto-scroll recalé).
+- **Grid players** : fin des saccades d'affichage (rendu actif tant qu'un player tourne) ; en-tête réagencé — titre « Grid Players » sur une seule ligne, champs (Beg.Chan, Col, Rows, edit, View…) décalés à droite ; ligne Grid/Step du global viewer recadrée (ne touche plus le bord gauche).
+- **Rapport save/reload** : la ligne « audio_conf.txt readed » ne s'affiche plus en rouge à tort (slot de rapport partagé).
+
 ---
 
 ## Version 0.9.2 (en cours — Jacques Bouault)

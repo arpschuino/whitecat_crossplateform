@@ -2,6 +2,11 @@
 
 //////////GRIDER 24*24 matrice evailable//////////////////
 
+// [grid] decalage horizontal de l'en-tete (Beg.Chan, Col, Rows, edit, View, GridPlayers) pour
+// liberer la place du titre "Grid Players" ecrit sur une seule ligne a gauche. Partage entre le
+// rendu (grider_visu.cpp) et les zones de clic (grider_core.cpp) pour qu'ils restent alignes.
+const int grid_header_dx = 70;
+
 extern bool index_grider_window;
 
 extern bool index_click_move_Grider;

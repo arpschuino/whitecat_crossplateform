@@ -316,6 +316,14 @@ void ticker() {
                 if (do_bounce[i]) { wc_request_refresh(); break; }
             }
         }
+        // — au moins un grid player en lecture : do_grid() anime les niveaux en continu. Meme
+        //   cause que l'echo : sans refresh, le rendu fige en idle et le grid player parait saccade
+        //   A L'ECRAN (fluide seulement quand on bouge la souris). La sortie DMX est correcte.
+        if (core_do_calculations[6]) {
+            for (int i = 0; i < core_user_define_nb_gridplayers; i++) {
+                if (grider_is_playing[i]) { wc_request_refresh(); break; }
+            }
+        }
         // — au moins un fader en flash : le flash force le niveau pendant qu'on maintient le bouton.
         //   Sans refresh, l'affichage fige durant le flash (fluide seulement si on bouge la souris).
         //   Au relachement, FaderIsFlash repasse a 0 (dessin) mais le niveau n'est restaure qu'au

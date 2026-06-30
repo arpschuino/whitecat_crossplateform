@@ -808,7 +808,7 @@ int do_logical_GlobalGridViewer(int xb, int yb, int taillecase)
 {
 //appel de grille
 
-if(mouse_x>xb+40 && mouse_x<xb+40+50 && mouse_y>yb+10 && mouse_y<yb+10+20  )
+if(mouse_x>xb+46 && mouse_x<xb+46+50 && mouse_y>yb+10 && mouse_y<yb+10+20  )
 {
 if(mouse_released==0)
 {
@@ -826,7 +826,7 @@ mouse_released=1;
 }
 
 
-if(mouse_x>xb+150 && mouse_x<xb+150+50 && mouse_y>yb+10 && mouse_y<yb+10+20 )
+if(mouse_x>xb+156 && mouse_x<xb+156+50 && mouse_y>yb+10 && mouse_y<yb+10+20 )
 {
 if( mouse_released==0)
 {
@@ -845,7 +845,7 @@ mouse_released=1;
 
 //déplacement dans les pas
 
-if(mouse_x>xb+220 && mouse_x<xb+220+20 && mouse_y>yb+10 && mouse_y<yb+10+20)
+if(mouse_x>xb+226 && mouse_x<xb+226+20 && mouse_y>yb+10 && mouse_y<yb+10+20)
 {
 if( mouse_released==0)
 {
@@ -854,7 +854,7 @@ if(grid_step_view<0){grid_step_view=0;}
 mouse_released=1;
 }
 }
-if(mouse_x>xb+250 && mouse_x<xb+250+20 && mouse_y>yb+10 && mouse_y<yb+10+20)
+if(mouse_x>xb+256 && mouse_x<xb+256+20 && mouse_y>yb+10 && mouse_y<yb+10+20)
 {
 if( mouse_released==0)
 {
@@ -878,7 +878,7 @@ int do_logical_Grider_Box(int xb, int yb)
 
 for(int o=0;o<core_user_define_nb_gridplayers;o++)
 {
-if( mouse_x>xb+540+(o*15) && mouse_x<xb+540+(o*15)+10 && mouse_y>yb+20 && mouse_y<yb+20+10)
+if( mouse_x>xb+grid_header_dx+540+(o*15) && mouse_x<xb+grid_header_dx+540+(o*15)+10 && mouse_y>yb+20 && mouse_y<yb+20+10)
 {
 if( mouse_released==0)
 {
@@ -899,7 +899,7 @@ mouse_released=1;
 if( mouse_y>yb+15 && mouse_y<yb+15+20 )
 {
 //////def chan begin
-if(mouse_x>xb+245 && mouse_x<xb+245+40 &&  index_enable_edit_Grider==1)//chan edit
+if(mouse_x>xb+grid_header_dx+245 && mouse_x<xb+grid_header_dx+245+40 &&  index_enable_edit_Grider==1)//chan edit
 {
 if(mouse_released==0 )
 {
@@ -912,7 +912,7 @@ reset_numeric_entry();
 mouse_released=1;
 }
 }
-if(mouse_x>xb+315 && mouse_x<xb+315+40 &&  index_enable_edit_Grider==1 )//col edit
+if(mouse_x>xb+grid_header_dx+315 && mouse_x<xb+grid_header_dx+315+40 &&  index_enable_edit_Grider==1 )//col edit
 {
 if(mouse_released==0)
 {
@@ -925,7 +925,7 @@ reset_numeric_entry();
 mouse_released=1;
 }
 }
-if(mouse_x>xb+385 && mouse_x<xb+385+40 &&  index_enable_edit_Grider==1)//rows edit
+if(mouse_x>xb+grid_header_dx+385 && mouse_x<xb+grid_header_dx+385+40 &&  index_enable_edit_Grider==1)//rows edit
 {
 
 if(mouse_released==0 )
@@ -940,7 +940,7 @@ reset_numeric_entry();
 mouse_released=1;
 }
 }
-if(mouse_x>xb+430 && mouse_x<xb+430+50)//edit mode
+if(mouse_x>xb+grid_header_dx+430 && mouse_x<xb+grid_header_dx+430+50)//edit mode
 {
 if(mouse_released==0 )
 {
@@ -971,7 +971,7 @@ hauteurGlobalGridviewer=100+(grider_nb_row*size_preview_case);
 do_logical_GlobalGridViewer(xb,yb+40,size_preview_case);  //x y taille de previsu de la grille
 }
 
-if(mouse_x>xb+495 && mouse_x<xb+495+40 && mouse_y>yb+20 && mouse_y<yb+20+10)
+if(mouse_x>xb+grid_header_dx+495 && mouse_x<xb+grid_header_dx+495+40 && mouse_y>yb+20 && mouse_y<yb+20+10)
 {
 show_global_view_grider=toggle(show_global_view_grider);
 refresh_hauteur_fenetre_grider();
