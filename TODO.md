@@ -11,22 +11,31 @@
 
 ## Bugs / Fonctionnalités incomplètes
 
-- [ ] **Backport branche 0.6.2 : refresh echo** — porter le fix « ticker demande un refresh tant qu'un echo rebondit » (MAIN.cpp, bloc `core_do_calculations[8]` + `do_bounce[i]` → `wc_request_refresh()`) pour supprimer les saccades de la fenêtre echo en idle. (Le fix « echo 16 bit » ne s'applique PAS à 0.6.2, branche 8 bit.)
-- [ ] **Bug à corriger : Flash** (bouton Flash d'un fader — comportement à vérifier/corriger)
-- [ ] **Bug à corriger : affichage du premier circuit sélectionné** (le premier circuit d'une sélection ne s'affiche pas correctement)
+- [x] **Bug corrigé : Flash** — l'affichage ne redescendait pas immédiatement au relâchement (rendu maintenu quelques frames après la fin du flash) ; le flash était lissé par le damper (écrit `Fader` + snap damper → instantané) ; `LevelFaderBeforeFlash` 8→16 bit. Commit `af49c894` (0.10), backporté 0.9.2 `da241d08`.
+- [x] **Bug corrigé : affichage du premier circuit sélectionné** — vue classical, `set_channel_scroll()` plaçait la 1re rangée de chaque page de 48 sous la barre Ch.View (Y=36 < clip ~53) ; offset -3 sur tous les paliers. Commit `af49c894` (0.10), backporté 0.9.2 `da241d08`.
 
 - [ ] **Simplifier l'écran d'accueil / l'affichage de la version au démarrage** : le splash défile trop vite, le numéro de version (`versionis`) n'est pas lisible humainement. Repenser durée / lisibilité / position (cf. `show_title()` dans core.cpp et le splash de chargement `save_load_print_to_screen`).
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
 - [x] **Documenter le DAMPER de fader** (bouton « ~ » en bas de chaque fader, faders_visuels.cpp:49 `fader_damper_commands` ; Decay/Delta/Mode). Section ajoutée dans `doc/espace_faders2.html` (FR). Reste : version EN (`espace_faders_eng.html`).
 - [ ] **Refaire proprement toute la doc des faders** : la doc actuelle (`espace_faders2.html`, DokuWiki 2012) est ancienne et incomplète (damper ajouté à la main, captures à refaire, fonctionnalités récentes manquantes). Reprendre l'ensemble proprement (FR + EN), captures d'écran à jour, 16 bit.
 - [x] **Faders & masters en 16 bit (option A)** — FAIT (commit `a57f6ae8` sur 0.10-devices) : `Fader[48]` 16 bit + interpolation de courbe + damper 16 bit + toutes intégrations. Cf. mémoire `crossfade-16bit-plan`. Reste à tester : save→reload, echo/grid snap.
-- [ ] **Mémoires (cues) en 16 bit** — ⚠️ FONDAMENTAL pour têtes mobiles (positions pan/tilt précises). Actuellement `unsigned char Memoires[10000][514]` (sequenciel.h:32) : l'enregistrement capture déjà du 16 bit (`bufferSequenciel`/`bufferFaders`/`bufferBlind` sont `unsigned short`) mais **tronque à 8 bit** via `wc::lvl_to_dmx8(...)` (core.cpp:~3537/3541/3569/3573/3603/3607). Donc une position enregistrée dans une cue = 256 valeurs au lieu de 65536. À faire :
+- [ ] **Stockage des scènes en 16 bit — mémoires (cues) + grid players** — ⚠️ FONDAMENTAL pour têtes mobiles (positions pan/tilt précises). Les deux ont le même profil : niveaux stockés en `unsigned char`, tronqués à l'enregistrement (`wc::lvl_to_dmx8`), sauvés en blob binaire (compat shows à gérer).
+
+  **Mémoires (cues)** — `unsigned char Memoires[10000][514]` (sequenciel.h:32) : l'enregistrement capture déjà du 16 bit (`bufferSequenciel`/`bufferFaders`/`bufferBlind` sont `unsigned short`) mais **tronque à 8 bit** via `wc::lvl_to_dmx8(...)` (core.cpp:~3537/3541/3569/3573/3603/3607). Donc une position enregistrée dans une cue = 256 valeurs au lieu de 65536. À faire :
   1. `Memoires` (+`Wiz_Memoires`) `unsigned char` → `unsigned short` (RAM/disque ~×2, négligeable).
   2. Enregistrement : retirer `lvl_to_dmx8(...)`, copier direct le 16 bit (sites core.cpp ci-dessus).
   3. Playback : `do_crossfade` lit `Memoires` → `bufferSequenciel` en 16 bit direct (au lieu de `dmx8_to_lvl`).
   4. Audit des lectures supposant 0-255 (affichages, export ASCII `saves_export_import.cpp` ~157/339, `core.cpp:1079/1146`).
   5. ⚠️ **LE point sensible — compat des shows** : le blob `Memoires` est sauvé en gzip d'octets bruts (`save_show.cpp:1796` gzwrite / `4321` gzread). Passer en `unsigned short` change le format binaire → vieux show mal relu. Besoin d'un **drapeau de version de format** + conversion ascendante (vieux 8 bit → ×257) au load.
-  → Chantier dédié comparable aux faders 16 bit, à rattacher au modèle Fixture (qui saura qu'un attribut est 16 bit). Cf. mémoires `fixtures-patch-model`, `crossfade-16bit-plan`.
+
+  **Grid players** — même travail, avec deux spécificités :
+  - `unsigned char grid_levels[128][1024][513]` (grider.h:63, ≈67 Mo) + `buffer_gridder[4][513]` (sortie) → `unsigned short`. ⚠️ **RAM ×2 (67 → 134 Mo)** — notable sur Pi 3 (1 Go).
+  - `grid_niveauX1/X2[4]` (crossfade par player, plage 0-255) → 16 bit ; rework du calcul de fondu (grider_calcul.cpp:451-457) ; consommateurs de `buffer_gridder` en `/65535` (ex. Draw3.cpp:159).
+  - Enregistrement : retirer `lvl_to_dmx8` (grider_core.cpp:~152/160/209/240).
+  - ⚠️ Compat shows : `grid_levels` sauvé en 4 fichiers `grids_levels_*.whc` (`fwrite` octets bruts, save_show.cpp:3431) → même drapeau de version + conversion ×257.
+  - **Option intermédiaire** (sans compat ni RAM ×2) : passer seulement `grid_niveauX1/X2` + `buffer_gridder` + le calcul en 16 bit → transitions entre pas lisses, endpoints encore 8 bit (parallèle au crossfade 16 bit déjà fait sur le séquentiel principal).
+
+  → Chantier dédié comparable aux faders 16 bit, à rattacher au modèle Fixture (qui saura qu'un attribut est 16 bit). Cf. mémoires `fixtures-patch-model`, `crossfade-16bit-plan`, `memoires-16bit-bottleneck`.
 
 ---
 
