@@ -93,7 +93,7 @@ extern int grid_midi_multiple_for_step_call[4];
 extern int GplSnapFader[4];
 
 // les 4 players crossfades
-extern unsigned char buffer_gridder[4][513];
+extern unsigned short buffer_gridder[4][513]; // [grid 16 bit]
 
 extern int grid_crossfade_start_time[4];
 extern int grid_end_time[4];

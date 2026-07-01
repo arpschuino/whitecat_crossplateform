@@ -1014,6 +1014,7 @@ int calculs_etats_faders_et_contenus() {
         for (int d = 0; d < core_user_define_nb_docks; d++) {
             if (DockIsSelected[f][d] == 1) {
                 bool _echo16 = false; // [echo 16 bit] dock echo -> sortie 16 bit directe (court-circuite le dock 8 bit)
+                bool _grid16 = false; // [grid 16 bit] dock grid -> sortie 16 bit directe (crossfade fin, court-circuite le dock 8 bit)
                 switch (DockTypeIs[f][d]) {
                     // artnet
                 case 2:
@@ -1085,9 +1086,10 @@ int calculs_etats_faders_et_contenus() {
                         if (ppin + grider_begin_channel_is - 1 < 513) // eviter débordement hors des 513 circuits
                         {
                             FaderDockContains[f][d][ppin + grider_begin_channel_is - 1] =
-                                buffer_gridder[(faders_dock_grid_affectation[f][d])][ppin - 1];
+                                wc::lvl_to_dmx8(buffer_gridder[(faders_dock_grid_affectation[f][d])][ppin - 1]); // [grid 16 bit] dock 8 bit (compat) ; sortie 16 bit reelle ci-dessous
                         }
                     }
+                    _grid16 = true; // [grid 16 bit] sortie directe 16 bit depuis buffer_gridder
                     break;
                 case 13: // fgroup
 
@@ -1157,6 +1159,18 @@ int calculs_etats_faders_et_contenus() {
                         if (_el > 1.0f) _el = 1.0f;
                         int _e16 = (int)(65535.0f * _el);
                         FaderDoDmx[f][j] = (unsigned short)(((long long)_e16 * _curve16) / 65535);
+                    }
+                } else if (_grid16) {
+                    // [grid 16 bit] buffer_gridder (16 bit) -> FaderDoDmx directement, avec l'adressage
+                    // du dock grid (offset grider_begin_channel_is), sans quantification 8 bit -> crossfade fin.
+                    int _gpl = faders_dock_grid_affectation[f][d];
+                    for (int j = 1; j < 514; j++) FaderDoDmx[f][j] = 0;
+                    for (int ppin = 1; ppin < 513; ppin++) {
+                        int _k = ppin + grider_begin_channel_is - 1;
+                        if (_k >= 1 && _k < 513) {
+                            unsigned short _g = buffer_gridder[_gpl][ppin - 1];
+                            FaderDoDmx[f][_k] = (unsigned short)(((long long)_g * _curve16) / 65535);
+                        }
                     }
                 } else {
                     for (int j = 1; j < 514; j++) {

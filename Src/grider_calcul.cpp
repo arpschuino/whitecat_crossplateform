@@ -66,7 +66,7 @@ int refresh_step_in_player(int grid_number, int num_step, int grider_player)
 //rafraichir buffer issu du player
 for(int chg=0;chg<513;chg++)
 {
- buffer_gridder[grider_player][chg]=grid_levels[grid_number][num_step][chg];
+ buffer_gridder[grider_player][chg]=(unsigned short)(grid_levels[grid_number][num_step][chg]*257); // [grid 16 bit] 8 bit -> 16 bit
 }
 return(0);
 }
@@ -444,21 +444,25 @@ gr_step_pr=grid_in_preset[grid_pl][1];
 for(int cg=0;cg<512;cg++)
 {
 
+// [grid 16 bit] endpoints 8 bit -> 16 bit (x257), interpolation par la position LISSE grid_floatX1/X2
+// (0-255 float) au lieu du grid_niveauX1/X2 (int, 256 paliers) -> crossfade fin en 16 bit.
 if(grid_levels[gr_grille][gr_step][cg]>grid_levels[gr_grille_pr][gr_step_pr][cg])
 {
-buffer_gridder[grid_pl][cg]=
-grid_levels[gr_grille_pr][gr_step_pr][cg]
- + (unsigned char)((((float)(grid_levels[gr_grille][gr_step][cg]-grid_levels[gr_grille_pr][gr_step_pr][cg])/255)*grid_niveauX1[grid_pl])) ;
+int _d16=(grid_levels[gr_grille][gr_step][cg]-grid_levels[gr_grille_pr][gr_step_pr][cg])*257;
+buffer_gridder[grid_pl][cg]=(unsigned short)(
+ grid_levels[gr_grille_pr][gr_step_pr][cg]*257
+ + (int)((float)_d16*(grid_floatX1[grid_pl]/255.0f)) );
 }
 if(grid_levels[gr_grille][gr_step][cg]<grid_levels[gr_grille_pr][gr_step_pr][cg])
 {
-buffer_gridder[grid_pl][cg]=
-grid_levels[gr_grille][gr_step][cg]
-+ (unsigned char)((((float)(grid_levels[gr_grille_pr][gr_step_pr][cg]-grid_levels[gr_grille][gr_step][cg])/255)*grid_niveauX2[grid_pl])) ;
+int _d16=(grid_levels[gr_grille_pr][gr_step_pr][cg]-grid_levels[gr_grille][gr_step][cg])*257;
+buffer_gridder[grid_pl][cg]=(unsigned short)(
+ grid_levels[gr_grille][gr_step][cg]*257
+ + (int)((float)_d16*(grid_floatX2[grid_pl]/255.0f)) );
 }
 if(grid_levels[gr_grille][gr_step][cg]==grid_levels[gr_grille_pr][gr_step_pr][cg])
 {
-buffer_gridder[grid_pl][cg]=grid_levels[gr_grille_pr][gr_step_pr][cg];
+buffer_gridder[grid_pl][cg]=(unsigned short)(grid_levels[gr_grille_pr][gr_step_pr][cg]*257);
 }
 }
 //bug grid sur temps decales out    ALGO RIGINAL

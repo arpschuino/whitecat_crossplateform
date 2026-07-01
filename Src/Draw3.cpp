@@ -156,7 +156,7 @@ for(int c=-draw_preset_parameters[pr][0]/2;c<=(draw_preset_parameters[pr][0]/2) 
           if (coord%draw_preset_parameters[pr][0]>=draw_centre_x[pr]-(draw_preset_parameters[pr][0]/2)
           && coord%draw_preset_parameters[pr][0]<=draw_centre_x[pr]+(draw_preset_parameters[pr][0]/2) )
           {
-          value_grid=((float)(buffer_gridder[draw_get_gpl[pr]-1][draw_offset_gpl[pr]-1 + c+(l*grider_nb_col)])/255 )*draw_level_to_do[pr];
+          value_grid=((float)(buffer_gridder[draw_get_gpl[pr]-1][draw_offset_gpl[pr]-1 + c+(l*grider_nb_col)])/65535 )*draw_level_to_do[pr]; // [grid 16 bit]
 
 //préparattion calculs damper decay
           damper_target_val=draw_preset_levels[pr][coord]+value_grid;

@@ -11,6 +11,7 @@
 - **Saisie** : une valeur entrée en **%** ou en **DMX (0-255)** produit un vrai niveau 16 bits (ex. `51 %` → coarse 130 / fine 143). L'affichage en % du niveau circuit est désormais exact (plus d'arrondi 8 bits).
 - **Contrôle fin** : **Ctrl maintenu + molette ou flèches haut/bas** ajuste le niveau au pas fin (1/65535), pour régler l'octet faible d'un canal 16 bits sans bouger l'octet fort. Sans Ctrl, la molette/les flèches gardent le pas grossier habituel (%/DMX).
 - **Compatibilité des shows préservée** : les mémoires, grids, chasers, docks de faders et freeze restent stockés en 8 bits (conversion automatique aux frontières). Les shows `.whc` existants se chargent à l'identique, et un show enregistré reste relisible par une version antérieure.
+- **Crossfade des grid players en 16 bit** : les transitions entre pas (fondu temporisé) sont calculées et sorties en 16 bit — interpolation par la position de fondu *lisse* (au lieu de 256 paliers) et sortie directe sans re-quantification 8 bit. Plus de paliers visibles sur les fondus de grid players, que la sortie passe par un fader, un draw player (source GPL) ou un snap banger. Les **niveaux stockés des pas** restent 8 bit (donc pas de sur-coût RAM ni de rupture de compat ; le 16 bit des pas eux-mêmes reste un chantier futur, avec les mémoires).
 
 ### Corrections (echo, faders, circuits, grid players)
 

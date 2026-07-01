@@ -75,7 +75,7 @@ int faders_dock_grid_affectation[48][6];
 int grid_midi_multiple_for_step_call[4];
 int GplSnapFader[4];
 // les 4 players crossfades
-unsigned char buffer_gridder[4][513];
+unsigned short buffer_gridder[4][513]; // [grid 16 bit] sortie du crossfade grid en 16 bit (endpoints 8 bit interpoles finement)
 int grid_crossfade_start_time[4];
 int grid_end_time[4];
 int grid_crossfade_speed[4];

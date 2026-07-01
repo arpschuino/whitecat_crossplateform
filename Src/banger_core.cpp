@@ -4436,7 +4436,7 @@ if(param1_is>=0 && param1_is<=6)
      {
      if(draw_preset_channel_routing[param1_is][i]>0 &&  i+grider_begin_channel_is+1<513 )
      {
-     draw_preset_levels[param1_is][i]=((float)(buffer_gridder[param2_is-1][ draw_preset_channel_routing[param1_is][i]-grider_begin_channel_is ]))/255.0  ;
+     draw_preset_levels[param1_is][i]=((float)(buffer_gridder[param2_is-1][ draw_preset_channel_routing[param1_is][i]-grider_begin_channel_is ]))/65535.0  ; // [grid 16 bit]
      }
      }
      }
