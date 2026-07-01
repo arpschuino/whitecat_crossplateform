@@ -48,6 +48,10 @@
 
 - **La catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger alors que la fenêtre iCat a été supprimée. Catégorie rendue inatteignable (défilement vers le haut ET vers le bas + chargement d'un show) et code mort retiré.
 
+### Interface
+
+- **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
