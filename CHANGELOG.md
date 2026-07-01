@@ -44,6 +44,10 @@
 - **En-tête réagencé** : le titre « Grid Players » (écrit sur deux lignes, qui débordait) passe sur **une seule ligne** ; les champs Beg.Chan / Col / Rows / edit / View / cases GridPlayers sont décalés à droite pour lui faire de la place (rendu **et** zones de clic alignés).
 - **Global viewer** : la ligne Grid / Step est recadrée de quelques pixels vers la droite (le label « Grid » touchait le bord gauche de la fenêtre).
 
+### Bangers — vestige iCat retiré
+
+- **La catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger alors que la fenêtre iCat a été supprimée. Catégorie rendue inatteignable (défilement vers le haut ET vers le bas + chargement d'un show) et code mort retiré.
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)

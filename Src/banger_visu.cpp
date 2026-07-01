@@ -599,9 +599,7 @@ case 3:
      case 17:
      sprintf(bangers_type_action,"CFG MENU");
      break;
-     case 18:
-     sprintf(bangers_type_action,"iCAT Builder");
-     break;
+     // [iCat retiré] action 18 "iCAT Builder" supprimee (fenetre iCat retiree) ; max actions Windows 18 -> 17
      default:
      sprintf(bangers_type_action,"-");
      break;
@@ -829,30 +827,8 @@ case 8:
       break;
       }
 break;
-case 9:
-     sprintf(bangers_type_affiche,"iCat");
-     switch(bangers_action[index_banger_selected][lp])
-     {
-      case 0:
-      sprintf(bangers_type_action,"Select Page Num");
-      break;
-      case 1:
-      sprintf(bangers_type_action,"Select Page -");
-      break;
-      case 2:
-      sprintf(bangers_type_action,"Select Page +");
-      break;
-      case 3:
-      sprintf(bangers_type_action,"Refresh Page");
-      break;
-      case 4:
-      sprintf(bangers_type_action,"Toggle Orientation");
-      break;
-      default:
-      sprintf(bangers_type_action,"-");
-      break;
-      }
-break;
+// [iCat retiré] categorie 9 (iCat) supprimee (fenetre iCat retiree) ; type 9 rendu inatteignable
+// par le selecteur (constrain_banger_type + skip au decrement) et scrubbe au chargement.
 case 10: //chrono
     sprintf(bangers_type_affiche,"Chrono");
      switch(bangers_action[index_banger_selected][lp])

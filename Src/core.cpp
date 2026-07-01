@@ -1623,6 +1623,12 @@ int constrain_banger_type(int lp)
     {
         bangers_type[index_banger_selected][lp]=0;
     }
+    // [iCat retiré] la categorie 9 (iCat) n'existe plus : on la saute au defilement du type
+    // (le selecteur avance uniquement en ++). Le chargement d'un show scrubbe deja type 9 -> 0.
+    if(bangers_type[index_banger_selected][lp]==9)
+    {
+        bangers_type[index_banger_selected][lp]=10;
+    }
     return(0);
 }
 
@@ -1646,7 +1652,7 @@ int constrain_banger_param(int lp)
         }
         break;
     case 3://windows
-        if(bangers_action[index_banger_selected][lp]>18)
+        if(bangers_action[index_banger_selected][lp]>17)// [iCat retiré] 18 = "iCAT Builder" supprimee
         {
             bangers_action[index_banger_selected][lp]=0;
         }
