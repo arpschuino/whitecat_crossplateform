@@ -1534,7 +1534,6 @@ int Bang_event(int banger_num, int event_num)
 int param1_is=0;
 int param2_is=0;
 int the_fader_is=0;
-int the_icatpage_is=0;
 int numgridpl=0;
 //sab 02/03/2014 unused var int numgrid=0;
 //sab 02/03/2014 unused var int numstep=0;

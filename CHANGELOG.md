@@ -21,6 +21,7 @@
 - **Espace circuits (vue classical)** : le 1er circuit de chaque page (1-12, 49-60…) n'est plus caché sous la barre Ch.View (auto-scroll recalé).
 - **Grid players** : fin des saccades d'affichage (rendu actif tant qu'un player tourne) ; en-tête réagencé — titre « Grid Players » sur une seule ligne, champs (Beg.Chan, Col, Rows, edit, View…) décalés à droite ; ligne Grid/Step du global viewer recadrée (ne touche plus le bord gauche).
 - **Rapport save/reload** : la ligne « audio_conf.txt readed » ne s'affiche plus en rouge à tort (slot de rapport partagé).
+- **Bangers — vestige iCat retiré** : la fenêtre iCat ayant été supprimée, la **catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger. Catégorie rendue inatteignable (défilement haut/bas + chargement) et code mort retiré.
 
 ---
 

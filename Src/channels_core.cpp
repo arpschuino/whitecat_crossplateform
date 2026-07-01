@@ -393,6 +393,10 @@ int DoMouseLevel()
                 if(bangers_type[index_banger_selected][ over_banger_event-1]<0){
                     bangers_type[index_banger_selected][ over_banger_event-1]=0;
                 }
+                // [iCat retiré] categorie 9 supprimee : au decrement on la saute vers le bas (9 -> 8)
+                if(bangers_type[index_banger_selected][ over_banger_event-1]==9){
+                    bangers_type[index_banger_selected][ over_banger_event-1]=8;
+                }
                 reset_banger_event(index_banger_selected, over_banger_event-1);
                 position_mouse_z(0);  //reset
                 mouse_level_for_event=mouse_z;
