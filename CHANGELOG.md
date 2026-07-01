@@ -23,6 +23,10 @@
 - **Rapport save/reload** : la ligne « audio_conf.txt readed » ne s'affiche plus en rouge à tort (slot de rapport partagé).
 - **Bangers — vestige iCat retiré** : la fenêtre iCat ayant été supprimée, la **catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger. Catégorie rendue inatteignable (défilement haut/bas + chargement) et code mort retiré.
 
+### Interface
+
+- **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS qui met le rendu en pause — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
+
 ---
 
 ## Version 0.9.2 (en cours — Jacques Bouault)

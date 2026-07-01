@@ -2343,7 +2343,10 @@ inline void SetupProgram(int /*flags*/) {
 inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // moins de travail DWM qu'avec D3D11
 
-    Uint32 flags = SDL_WINDOW_SHOWN;
+    // [resize] fenetre redimensionnable a la souris. L'UI garde ses coordonnees fixes (largeur_ecran)
+    // -> agrandir donne "plus de vide" (fond), retrecir rogne l'UI. La texture est recreee a la taille
+    // fenetre (WINDOWEVENT_RESIZED) et le fond est efface en plein (wc_bg_dirty) -> zone vide propre.
+    Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
     if (mode == FULLSCREEN)
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
