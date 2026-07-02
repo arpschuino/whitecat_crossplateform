@@ -33,7 +33,7 @@ extern int nbre_de_mems_manipulees;
 extern int mode_rebuild;
 extern int variable_wizard_mem;
 extern bool Wiz_MemoiresExistantes[10000];
-extern unsigned char Wiz_Memoires[10000][514];
+extern unsigned short Wiz_Memoires[10000][514];// [mem16]
 extern float Wiz_Times_Memoires[10000][4];
 extern bool Wiz_Links_Memoires[10000];
 extern int Wiz_Banger_Memoire[10000];

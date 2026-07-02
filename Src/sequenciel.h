@@ -29,7 +29,7 @@ inline int calc_hauteur_sequenciel(int n) {
 }
 extern int hauteur_globale_sequenciel;
 extern bool MemoiresExistantes[10000];
-extern unsigned char Memoires[10000][514];
+extern unsigned short Memoires[10000][514]; // [mem16] 16 bit
 extern int position_onstage;
 extern int position_preset;
 extern int mem_before_one;

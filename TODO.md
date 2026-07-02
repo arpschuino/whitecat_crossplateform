@@ -19,23 +19,14 @@
 - [x] **Documenter le DAMPER de fader** (bouton « ~ » en bas de chaque fader, faders_visuels.cpp:49 `fader_damper_commands` ; Decay/Delta/Mode). Section ajoutée dans `doc/espace_faders2.html` (FR). Reste : version EN (`espace_faders_eng.html`).
 - [ ] **Refaire proprement toute la doc des faders** : la doc actuelle (`espace_faders2.html`, DokuWiki 2012) est ancienne et incomplète (damper ajouté à la main, captures à refaire, fonctionnalités récentes manquantes). Reprendre l'ensemble proprement (FR + EN), captures d'écran à jour, 16 bit.
 - [x] **Faders & masters en 16 bit (option A)** — FAIT (commit `a57f6ae8` sur 0.10-devices) : `Fader[48]` 16 bit + interpolation de courbe + damper 16 bit + toutes intégrations. Cf. mémoire `crossfade-16bit-plan`. Reste à tester : save→reload, echo/grid snap.
-- [ ] **Stockage des scènes en 16 bit — mémoires (cues) + grid players** — ⚠️ FONDAMENTAL pour têtes mobiles (positions pan/tilt précises). Les deux ont le même profil : niveaux stockés en `unsigned char`, tronqués à l'enregistrement (`wc::lvl_to_dmx8`), sauvés en blob binaire (compat shows à gérer).
+- **Stockage des scènes en 16 bit — vers le 16 bit TOTAL** (⚠️ FONDAMENTAL têtes mobiles). Objectif validé avec Jacques : **16 bit complet et total** à terme. Approche par étapes (échafaudage 8 bit tag `[mem16 s1]` à retirer au fil des stages) :
+  - [x] **Phase A — Mémoires (cues) 16 bit** — FAIT. `Memoires` (+`Wiz_Memoires`, buffers temp wizard) → `unsigned short`. Enregistrement/rappel/playback 16 bit direct. Save/load : nouveau `memories16.whc` (16 bit) + fallback `memories.whc` 8 bit ×257 pour vieux shows (décision : **16 bit seul**, pas de double écriture). **Dock mémoire d'un fader** → sortie 16 bit directe (`_mem16`, comme echo/grid). Copier/coller wizard 16 bit.
+  - [ ] **Stage B — Grid players (endpoints)** : le **crossfade** grid est déjà 16 bit (commit `cdb04584` : `buffer_gridder`, `grid_niveauX1/X2`, calcul). Reste `unsigned char grid_levels[128][1024][513]` (grider.h:63, ≈67 Mo) → `unsigned short`. ⚠️ **RAM ×2 (67→134 Mo, notable Pi 3)** + compat shows (`grids_levels_*.whc`, fwrite octets bruts → nouveau fichier 16 bit + fallback ×257). Retirer `lvl_to_dmx8` à l'enregistrement (grider_core.cpp:~152/160/209/240) et le wrapper `[mem16 s1]` de grider_core.cpp:136.
+  - [ ] **Stage C — Wizard (maths)** : Set/Add/Reduce niveaux encore en 8 bit (wrappers `[mem16 s1]` wizard_operations.cpp) → passer la maths en 16 bit (%, clamps 65535).
+  - [ ] **Stage D — Chasers** : `int TrackContains[128][24][514]` traité en 8 bit (wrapper `[mem16 s1]` chasers_core.cpp:314, + record 474). Passer tout le pipeline chaser (TrackContains + merge + sortie) en 16 bit.
+  - [ ] **Stage E — Export/import ASCII** : format texte 8 bit (wrappers `[mem16 s1]` saves_export_import.cpp). Étendre le format (ex. hex 16 bit) pour fidélité WhiteCat↔WhiteCat — ⚠️ casse l'interchange avec d'autres logiciels (à décider).
 
-  **Mémoires (cues)** — `unsigned char Memoires[10000][514]` (sequenciel.h:32) : l'enregistrement capture déjà du 16 bit (`bufferSequenciel`/`bufferFaders`/`bufferBlind` sont `unsigned short`) mais **tronque à 8 bit** via `wc::lvl_to_dmx8(...)` (core.cpp:~3537/3541/3569/3573/3603/3607). Donc une position enregistrée dans une cue = 256 valeurs au lieu de 65536. À faire :
-  1. `Memoires` (+`Wiz_Memoires`) `unsigned char` → `unsigned short` (RAM/disque ~×2, négligeable).
-  2. Enregistrement : retirer `lvl_to_dmx8(...)`, copier direct le 16 bit (sites core.cpp ci-dessus).
-  3. Playback : `do_crossfade` lit `Memoires` → `bufferSequenciel` en 16 bit direct (au lieu de `dmx8_to_lvl`).
-  4. Audit des lectures supposant 0-255 (affichages, export ASCII `saves_export_import.cpp` ~157/339, `core.cpp:1079/1146`).
-  5. ⚠️ **LE point sensible — compat des shows** : le blob `Memoires` est sauvé en gzip d'octets bruts (`save_show.cpp:1796` gzwrite / `4321` gzread). Passer en `unsigned short` change le format binaire → vieux show mal relu. Besoin d'un **drapeau de version de format** + conversion ascendante (vieux 8 bit → ×257) au load.
-
-  **Grid players** — même travail, avec deux spécificités :
-  - `unsigned char grid_levels[128][1024][513]` (grider.h:63, ≈67 Mo) + `buffer_gridder[4][513]` (sortie) → `unsigned short`. ⚠️ **RAM ×2 (67 → 134 Mo)** — notable sur Pi 3 (1 Go).
-  - `grid_niveauX1/X2[4]` (crossfade par player, plage 0-255) → 16 bit ; rework du calcul de fondu (grider_calcul.cpp:451-457) ; consommateurs de `buffer_gridder` en `/65535` (ex. Draw3.cpp:159).
-  - Enregistrement : retirer `lvl_to_dmx8` (grider_core.cpp:~152/160/209/240).
-  - ⚠️ Compat shows : `grid_levels` sauvé en 4 fichiers `grids_levels_*.whc` (`fwrite` octets bruts, save_show.cpp:3431) → même drapeau de version + conversion ×257.
-  - **Option intermédiaire** (sans compat ni RAM ×2) : passer seulement `grid_niveauX1/X2` + `buffer_gridder` + le calcul en 16 bit → transitions entre pas lisses, endpoints encore 8 bit (parallèle au crossfade 16 bit déjà fait sur le séquentiel principal).
-
-  → Chantier dédié comparable aux faders 16 bit, à rattacher au modèle Fixture (qui saura qu'un attribut est 16 bit). Cf. mémoires `fixtures-patch-model`, `crossfade-16bit-plan`, `memoires-16bit-bottleneck`.
+  → À rattacher au modèle Fixture (qui saura qu'un attribut est 16 bit). Cf. mémoires `fixtures-patch-model`, `crossfade-16bit-plan`, `memoires-16bit-bottleneck`.
 
 ---
 

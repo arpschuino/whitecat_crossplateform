@@ -311,7 +311,7 @@ if(TrackTypeIs[nch][trkis]==1)//si une mémoire embarquée
 {
 for(int u=1;u<513;u++)
 {
-TrackContains[nch][trkis][u]= Memoires[(TrackHasMem[nch][trkis])][u];
+TrackContains[nch][trkis][u]= wc::lvl_to_dmx8(Memoires[(TrackHasMem[nch][trkis])][u]);// [mem16 s1] chaser reste 8 bit -> conversion (a passer 16 bit en stage D)
 for(int ui=0;ui<core_user_define_nb_tracks_per_chasers;ui++)
 {
 TracksBuffer[nch][trkis][ui]=0;

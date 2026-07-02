@@ -154,7 +154,7 @@ chdir(rep);
 					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
 					    	{
 							sscanf(temp,"%d/H%x\n",&chan,&level);//debug 3/12/14 christoph
-							Memoires[cue][chan]=(unsigned char)level;
+							Memoires[cue][chan]=wc::dmx8_to_lvl((unsigned char)level);// [mem16 s1] import 8 bit -> 16 bit
 							temp=strtok(NULL," ");
 						    }
 					}
@@ -336,7 +336,7 @@ int level_export=0;
 
                                 if (Memoires[m][s]>0)
                                                                 {
-                                                                level_export=(int) (Memoires[m][s]);
+                                                                level_export=(int) wc::lvl_to_dmx8(Memoires[m][s]);// [mem16 s1] export reste 8 bit
                                                                 fprintf(fp,"%d/H%x ",s, level_export ); //essai level
 
                                                                 }
@@ -495,8 +495,8 @@ for (int m=1;m<5000;m++)
 MemoiresExistantes[m]=SchwzMemoiresExistantes[m];
 for (int c=0;c<121;c++)
 {
-Memoires[m][c]=(unsigned char)(SchwzMemoires[c][m]*2.55);
-if(SchwzMemoires[c][m]==100){Memoires[m][c]=255;}
+Memoires[m][c]=wc::dmx8_to_lvl((unsigned char)(SchwzMemoires[c][m]*2.55));// [mem16 s1] import Schwz 0-100 -> 16 bit
+if(SchwzMemoires[c][m]==100){Memoires[m][c]=wc::dmx8_to_lvl(255);}// [mem16 s1]
 }
 Links_Memoires[m]=Schwzautogo[m];
 Times_Memoires[m][0]=SchwzMemTime[m][3];
@@ -661,7 +661,7 @@ chdir(rep);
 					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
 					    	{
 							sscanf(temp,"%d=%d\n",&chan,&level);
-							Memoires[cue][chan]=(unsigned char)(level*2.55) ;
+							Memoires[cue][chan]=wc::dmx8_to_lvl((unsigned char)(level*2.55)) ;// [mem16 s1] import % -> 16 bit
 							temp=strtok(NULL," ");
 						    }
 					}

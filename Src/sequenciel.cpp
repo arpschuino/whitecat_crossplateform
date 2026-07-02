@@ -25,7 +25,7 @@ int yseq_window = 10;
 int nbre_memoires_visualisables_en_preset = 8;
 int hauteur_globale_sequenciel = calc_hauteur_sequenciel(nbre_memoires_visualisables_en_preset);
 bool MemoiresExistantes[10000];
-unsigned char Memoires[10000][514];
+unsigned short Memoires[10000][514]; // [mem16] memoires (cues) en 16 bit (0-65535) pour positions tetes mobiles
 int position_onstage = 0;
 int position_preset = 0;
 int mem_before_one = 0;

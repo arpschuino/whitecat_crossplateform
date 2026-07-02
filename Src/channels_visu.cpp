@@ -195,14 +195,14 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     if(index_blind==0)//differencec avec mem enregistrée
                     {
 
-                        if(wc::lvl_to_dmx8(bufferSaisie[num_circ])!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
                     }
                     else{//difference avec mem enregistrée
 
-                        if(wc::lvl_to_dmx8(bufferBlind[num_circ])!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
+                        if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                         }
@@ -639,14 +639,14 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 //BLIND
                     if(index_blind==0){//differencec avec mem enregistrée                    
-                        if(wc::lvl_to_dmx8(bufferSaisie[num_circ])!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
                     }
                     else{//difference avec mem enregistrée
 
-                        if(wc::lvl_to_dmx8(bufferBlind[num_circ])!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
+                        if(bufferBlind[num_circ]!=Memoires[position_preset][num_circ]  && index_blink_change_memories==1)
                         {
                             ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                         }

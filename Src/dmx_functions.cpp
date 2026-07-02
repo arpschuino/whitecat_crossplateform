@@ -1015,6 +1015,7 @@ int calculs_etats_faders_et_contenus() {
             if (DockIsSelected[f][d] == 1) {
                 bool _echo16 = false; // [echo 16 bit] dock echo -> sortie 16 bit directe (court-circuite le dock 8 bit)
                 bool _grid16 = false; // [grid 16 bit] dock grid -> sortie 16 bit directe (crossfade fin, court-circuite le dock 8 bit)
+                bool _mem16 = false;  // [mem16] dock memoire -> sortie 16 bit directe (positions tetes mobiles, court-circuite le dock 8 bit)
                 switch (DockTypeIs[f][d]) {
                     // artnet
                 case 2:
@@ -1037,8 +1038,9 @@ int calculs_etats_faders_et_contenus() {
                     // MEMOIRES
                 case 5:
                     for (int ppin = 0; ppin < 514; ppin++) {
-                        FaderDockContains[f][d][ppin] = Memoires[(DockHasMem[f][d])][ppin];
+                        FaderDockContains[f][d][ppin] = wc::lvl_to_dmx8(Memoires[(DockHasMem[f][d])][ppin]);// [mem16] dock 8 bit (compat/display) ; sortie 16 bit reelle ci-dessous
                     }
+                    _mem16 = true; // [mem16] sortie directe 16 bit depuis Memoires
                     break;
                 case 6: // report et controle des fadersAudio
                     Control_Audio_thruth_faders(f, d, 0);
@@ -1171,6 +1173,14 @@ int calculs_etats_faders_et_contenus() {
                             unsigned short _g = buffer_gridder[_gpl][ppin - 1];
                             FaderDoDmx[f][_k] = (unsigned short)(((long long)_g * _curve16) / 65535);
                         }
+                    }
+                } else if (_mem16) {
+                    // [mem16] Memoires (16 bit) -> FaderDoDmx directement (1:1), sans quantification 8 bit
+                    // -> positions tetes mobiles preservees quand une memoire est docke sur un fader.
+                    int _mm = DockHasMem[f][d];
+                    for (int j = 1; j < 514; j++) {
+                        unsigned short _v = Memoires[_mm][j];
+                        FaderDoDmx[f][j] = (unsigned short)(((long long)_v * _curve16) / 65535);
                     }
                 } else {
                     for (int j = 1; j < 514; j++) {

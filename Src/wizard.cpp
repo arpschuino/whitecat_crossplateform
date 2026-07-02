@@ -33,7 +33,7 @@ int nbre_de_mems_manipulees = 0;
 int mode_rebuild = 0; // 0 digit 1 unit 2 dizaines
 int variable_wizard_mem = 0;
 bool Wiz_MemoiresExistantes[10000];
-unsigned char Wiz_Memoires[10000][514];
+unsigned short Wiz_Memoires[10000][514];// [mem16] presse-papier wizard en 16 bit (RAM, non sauve)
 float Wiz_Times_Memoires[10000][4];
 bool Wiz_Links_Memoires[10000];
 int Wiz_Banger_Memoire[10000];

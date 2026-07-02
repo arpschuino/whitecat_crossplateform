@@ -222,8 +222,9 @@ unsigned int size_lfo_loop_step=49;//bool bool lfo_cycle_steps[49];
 //MEMOIRES
 const char file_mem_existantes[24]={"memories_exists.whc"};
 unsigned int mem_existantes_size=10000;
-const char file_memories[24]={"memories.whc"};
-unsigned int memories_size=10000*514;
+const char file_memories[24]={"memories.whc"};        // [mem16] ancien format 8 bit (fallback lecture des vieux shows)
+const char file_memories16[24]={"memories16.whc"};    // [mem16] nouveau format 16 bit (unsigned short)
+unsigned int memories_size=10000*514;                 // nombre d'elements (Memoires[10000][514])
 const char file_text_mems[24]={"memories_txt.whc"};
 unsigned int text_mems_size=10000*50;
 const char file_text_annots[24]={"memories_notes.whc"};
@@ -1786,16 +1787,17 @@ fclose(fp);
 }
  idf++;
 
-{ // [compression] Memoires ecrit en gzip
+{ // [mem16] Memoires 16 bit -> memories16.whc (gzip). L'ancien memories.whc (8 bit) n'est plus ecrit (16 bit seul).
 gzFile gzfp;
-if ((gzfp=gzopen( file_memories, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_memories); b_report_error[idf]=1;}
+unsigned int _msz16 = memories_size*2; // octets (unsigned short)
+if ((gzfp=gzopen( file_memories16, "wb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s", file_memories16); b_report_error[idf]=1;}
 else
 {
-sprintf(string_save_load_report[idf],"Opened file %s",  file_memories);
-if (gzwrite(gzfp, Memoires, memories_size) != (int)memories_size)
-{ sprintf(string_save_load_report[idf],"Error writting %s", file_memories); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s", file_memories);
+sprintf(string_save_load_report[idf],"Opened file %s",  file_memories16);
+if (gzwrite(gzfp, Memoires, _msz16) != (int)_msz16)
+{ sprintf(string_save_load_report[idf],"Error writting %s", file_memories16); b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Saved file %s", file_memories16);
 gzclose(gzfp);
 }
 }
@@ -4318,17 +4320,40 @@ fclose(fp);
 }
 
 idf++;
-{ // [compression] Memoires : gzread lit aussi bien le gzip (nouveau) que l'ancien fichier non compresse
+{ // [mem16] Charge memories16.whc (16 bit). Si absent (vieux show) -> fallback memories.whc (8 bit) x257.
 gzFile gzfp;
-if ((gzfp=gzopen( file_memories, "rb"))==NULL)
+unsigned int _msz16 = memories_size*2;
+if ((gzfp=gzopen( file_memories16, "rb"))!=NULL)
+{
+sprintf(string_save_load_report[idf],"Opening file %s",  file_memories16);
+if (gzread(gzfp, Memoires, _msz16) != (int)_msz16)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_memories16);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s", file_memories16);
+gzclose(gzfp);
+}
+else
+{ // fallback vieux format 8 bit -> conversion x257
+gzFile gzold;
+if ((gzold=gzopen( file_memories, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_memories);b_report_error[idf]=1;}
 else
 {
-sprintf(string_save_load_report[idf],"Opening file %s",  file_memories);
-if (gzread(gzfp, Memoires, memories_size) != (int)memories_size)
+unsigned char *_tmp8 = (unsigned char*)malloc(memories_size);
+if(_tmp8==NULL){ sprintf(string_save_load_report[idf],"Error malloc memoires 8bit");b_report_error[idf]=1; }
+else
+{
+if (gzread(gzold, _tmp8, memories_size) != (int)memories_size)
 { sprintf(string_save_load_report[idf],"Error Loaded %s", file_memories);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_memories);
-gzclose(gzfp);
+else
+{
+unsigned short *_dst=(unsigned short*)Memoires;
+for(unsigned int _i=0;_i<memories_size;_i++){ _dst[_i]=wc::dmx8_to_lvl(_tmp8[_i]); }
+sprintf(string_save_load_report[idf],"Loaded 8bit->16bit %s", file_memories);
+}
+free(_tmp8);
+}
+gzclose(gzold);
+}
 }
 }
 idf++;

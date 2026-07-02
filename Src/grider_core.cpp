@@ -133,7 +133,7 @@ if( mouse_released==0)
    {
    if(i+1<513)
    {
-   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-offset-1]=Memoires[mem_to_affect_to_grid][i];
+   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-offset-1]=wc::lvl_to_dmx8(Memoires[mem_to_affect_to_grid][i]);// [mem16 s1] grid_levels reste 8 bit (Phase B), Memoires 16 bit -> conversion
    }
    }
    reset_numeric_entry();

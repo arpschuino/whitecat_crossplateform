@@ -225,10 +225,10 @@ if(Memoires[variable_wizard_mem][w]>0)
 switch(dmx_view)
 {
 case 0:
-sprintf(tmpw,"%d=%d ",w,(int)((float)Memoires[variable_wizard_mem][w]/2.55));
+sprintf(tmpw,"%d=%d ",w,wc::lvl_to_pct(Memoires[variable_wizard_mem][w]));// [mem16] % depuis 16 bit
 break;
 case 1:
-sprintf(tmpw,"%d=%d ",w,Memoires[variable_wizard_mem][w]);
+sprintf(tmpw,"%d=%d ",w,wc::lvl_to_dmx8(Memoires[variable_wizard_mem][w]));// [mem16] DMX 8 bit depuis 16 bit
 break;
 }
 strcat(tmp_wizbuffer, tmpw);
@@ -521,7 +521,7 @@ switch(dmx_view)
 case 0:
 if(wizard_level_is>0)
 {
-Memoires[m][co]=(int)(((float)wizard_level_is)*2.55)+1;
+Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)((int)(((float)wizard_level_is)*2.55)+1));// [mem16 s1] wizard reste 8 bit
 }
 else if(wizard_level_is==0)
 {
@@ -529,7 +529,7 @@ Memoires[m][co]=0;
 }
 break;
 case 1:
-Memoires[m][co]=wizard_level_is;
+Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)wizard_level_is);// [mem16 s1]
 break;
 }
 }
@@ -551,18 +551,18 @@ if(Memoires[m][co]>0)//on ne rajoute pas sur un circuit à 0%
 switch(dmx_view)
 {
 case 0:
-if(Memoires[m][co]+(int)((((float)wizard_level_is)*2.55)+1) <=255)
 {
-Memoires[m][co]+=(int)((((float)wizard_level_is)*2.55)+1);
+int _c8=wc::lvl_to_dmx8(Memoires[m][co]); int _a=(int)((((float)wizard_level_is)*2.55)+1);// [mem16 s1]
+if(_c8+_a<=255){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8+_a));}
+else {Memoires[m][co]=wc::dmx8_to_lvl(255);}
 }
-else {Memoires[m][co]=255;}
 break;
 case 1:
-if(Memoires[m][co]+wizard_level_is<=255)
 {
-Memoires[m][co]+=wizard_level_is;
+int _c8=wc::lvl_to_dmx8(Memoires[m][co]);// [mem16 s1]
+if(_c8+wizard_level_is<=255){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8+wizard_level_is));}
+else  {Memoires[m][co]=wc::dmx8_to_lvl(255);}
 }
-else  {Memoires[m][co]=255;}
 break;
 }
 }
@@ -585,18 +585,18 @@ if(Memoires[m][co]>0)//on ne retire pas sur un circuit à 0%
 switch(dmx_view)
 {
 case 0:
-if(Memoires[m][co]-(int)((((float)wizard_level_is)*2.55)+1)>=0)
 {
-Memoires[m][co]-=(int)((((float)wizard_level_is)*2.55)+1);
-}
+int _c8=wc::lvl_to_dmx8(Memoires[m][co]); int _s=(int)((((float)wizard_level_is)*2.55)+1);// [mem16 s1]
+if(_c8-_s>=0){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8-_s));}
 else {Memoires[m][co]=0;}
+}
 break;
 case 1:
-if(Memoires[m][co]-wizard_level_is>=0)
 {
-Memoires[m][co]-=wizard_level_is;
-}
+int _c8=wc::lvl_to_dmx8(Memoires[m][co]);// [mem16 s1]
+if(_c8-wizard_level_is>=0){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8-wizard_level_is));}
 else {Memoires[m][co]=0;}
+}
 break;
 }
 }
@@ -606,7 +606,7 @@ break;
 }
 break;
 case 3://Exchange Replace
-unsigned char tmp_buff_wiz[514];
+unsigned short tmp_buff_wiz[514];// [mem16] temp 16 bit (shift wizard sans perte)
 bool please_replace[514];
 
 for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
@@ -678,7 +678,7 @@ case 4:
 //swap
 bool swapIN[514];
 bool swapOUT[514];
-unsigned char tmp_buff_mem[514];
+unsigned short tmp_buff_mem[514];// [mem16] temp 16 bit
 for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
 {
 if(MemoiresExistantes[m]==1)

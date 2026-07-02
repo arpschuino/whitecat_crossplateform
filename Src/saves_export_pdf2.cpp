@@ -1791,7 +1791,7 @@ for(int c=1;c<513;c++)
 if(Memoires[m][c]>0)
 {
 if(comptch==0){cmptline_pdf++; strcpy(header_export,"");}//retour ligne après 10 circuits
-sprintf(little_header,"%d=%d   ",c,(int)((float)(Memoires[m][c])/2.55));
+sprintf(little_header,"%d=%d   ",c,wc::lvl_to_pct(Memoires[m][c]));// [mem16] % depuis 16 bit
 strcat(header_export,little_header);
 comptch++;
 if(comptch>10)
