@@ -1269,9 +1269,15 @@ static void wc_handle_event(const SDL_Event &e) {
         // En mode nom (F5) : les caractères visibles arrivent via SDL_TEXTINPUT (accents, layout...).
         // On ne queuje ici que les touches spéciales : Backspace/Enter/Esc (sym<32) et Fn/flèches
         // (sym & SDLK_SCANCODE_MASK). Les lettres, chiffres, ponctuation → SDL_TEXTINPUT.
+        // [fix F5] Les touches chiffres du pave numerique (KP_1..KP_0, KP_.) portent le bit
+        // SDLK_SCANCODE_MASK dans leur sym -> la condition !(sym & MASK) ne les excluait PAS de la
+        // queue. En mode nom F5 elles etaient alors ajoutees a la fois par la queue (case KEY_x_PAD)
+        // ET par SDL_TEXTINPUT -> chaque chiffre compte double ("01" -> "0101"). On les traite comme
+        // les chiffres de la rangee du haut : hors queue (SDL_TEXTINPUT s'en charge).
+        bool is_numpad_char = (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_PERIOD);
         bool skip_for_textinput = index_type &&
                                   !(sym < 32) &&
-                                  !(sym & SDLK_SCANCODE_MASK);
+                                  (!(sym & SDLK_SCANCODE_MASK) || is_numpad_char);
         if (!is_modifier && !skip_for_textinput)
             wc_key_queue.push((scancode << 8) | ascii);
         break;
