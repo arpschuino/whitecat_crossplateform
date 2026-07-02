@@ -311,7 +311,7 @@ if(TrackTypeIs[nch][trkis]==1)//si une mémoire embarquée
 {
 for(int u=1;u<513;u++)
 {
-TrackContains[nch][trkis][u]= wc::lvl_to_dmx8(Memoires[(TrackHasMem[nch][trkis])][u]);// [mem16 s1] chaser reste 8 bit -> conversion (a passer 16 bit en stage D)
+TrackContains[nch][trkis][u]= Memoires[(TrackHasMem[nch][trkis])][u];// [chaser16] memoire 16 bit direct
 for(int ui=0;ui<core_user_define_nb_tracks_per_chasers;ui++)
 {
 TracksBuffer[nch][trkis][ui]=0;
@@ -471,7 +471,7 @@ int DoDockChaserTrack(int numchaser, int numtrack)
  {
  for (int dc=1;dc<514;dc++)
  {
- TrackContains[numchaser][numtrack][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> step 8 bit
+ TrackContains[numchaser][numtrack][dc]=bufferBlind[dc];   // [chaser16] 16 bit direct
  }
  index_do_dock=0;
  sprintf(string_Last_Order,">>n Preset Stored in Chaser %d Track %d",numchaser+1, numtrack+1);
@@ -548,7 +548,7 @@ int DoModifyChaserTrack(int numchaser, int numtrack)
  {
  if(Selected_Channel[dc]==1)
  {
- TrackContains[numchaser][numtrack][dc]=wc::lvl_to_dmx8(bufferBlind[dc]);   // [2c-2B] 16 bit -> step 8 bit
+ TrackContains[numchaser][numtrack][dc]=bufferBlind[dc];   // [chaser16] 16 bit direct
  }
  }
  index_do_modify=0;
@@ -564,8 +564,8 @@ int DoReportChaserTrack(int numchaser, int numtrack)
 {
  for (int u=1;u<514;u++)
  {
- TrackContains[numchaser][numtrack][u]=wc::lvl_to_dmx8(bufferSaisie[u]);   // [2c-2B] 16 bit -> step 8 bit
- if(wc::lvl_to_dmx8(bufferFaders[u])>TrackContains[numchaser][numtrack][u]){TrackContains[numchaser][numtrack][u]=wc::lvl_to_dmx8(bufferFaders[u]);}
+ TrackContains[numchaser][numtrack][u]=bufferSaisie[u];   // [chaser16] 16 bit direct
+ if(bufferFaders[u]>TrackContains[numchaser][numtrack][u]){TrackContains[numchaser][numtrack][u]=bufferFaders[u];}   // [chaser16]
  }
  for (int x=1;x<514;x++)
  {

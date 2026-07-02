@@ -1017,10 +1017,10 @@ if(comptch==0){cmptline_pdf++; strcpy(header_export,"");}//retour ligne après 1
 switch(dmx_view)
 {
 case 0:
-sprintf(little_header,"%d=%d   ",c,(int)((float)(TrackContains[chaser_num][t][c])/2.55));
+sprintf(little_header,"%d=%d   ",c,wc::lvl_to_pct((unsigned short)TrackContains[chaser_num][t][c]));// [chaser16] % depuis 16 bit
 break;
 case 1:
-sprintf(little_header,"%d=%d   ",c,TrackContains[chaser_num][t][c]);
+sprintf(little_header,"%d=%d   ",c,wc::lvl_to_dmx8((unsigned short)TrackContains[chaser_num][t][c]));// [chaser16] DMX 8 bit depuis 16 bit
 break;
 }
 strcat(header_export,little_header);

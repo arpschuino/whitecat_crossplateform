@@ -334,7 +334,7 @@ Btrack_sel.DrawOutline(CouleurBlind);
 }
 if(index_inspekt==1)//si au dessus de view, inspection
 {
-i_m_over_a_track=1;for(int pm=1;pm<513;pm++){over_track_show_channel[pm]= TrackContains[chaser_selected][num_track][pm];}
+i_m_over_a_track=1;for(int pm=1;pm<513;pm++){over_track_show_channel[pm]= wc::lvl_to_dmx8((unsigned short)TrackContains[chaser_selected][num_track][pm]);}// [chaser16] affichage hover en 8 bit
 }
 }
 

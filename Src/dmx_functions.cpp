@@ -1016,6 +1016,7 @@ int calculs_etats_faders_et_contenus() {
                 bool _echo16 = false; // [echo 16 bit] dock echo -> sortie 16 bit directe (court-circuite le dock 8 bit)
                 bool _grid16 = false; // [grid 16 bit] dock grid -> sortie 16 bit directe (crossfade fin, court-circuite le dock 8 bit)
                 bool _mem16 = false;  // [mem16] dock memoire -> sortie 16 bit directe (positions tetes mobiles, court-circuite le dock 8 bit)
+                bool _chaser16 = false;// [chaser16] dock chaser -> sortie 16 bit directe (court-circuite le dock 8 bit)
                 switch (DockTypeIs[f][d]) {
                     // artnet
                 case 2:
@@ -1076,8 +1077,9 @@ int calculs_etats_faders_et_contenus() {
 
                 case 11: // chasers
                     for (int ppin = 1; ppin < 513; ppin++) {
-                        FaderDockContains[f][d][ppin] = MergerBufferChasers[(ChaserAffectedToDck[f][d])][ppin];
+                        FaderDockContains[f][d][ppin] = wc::lvl_to_dmx8((unsigned short)MergerBufferChasers[(ChaserAffectedToDck[f][d])][ppin]);// [chaser16] dock 8 bit (compat) ; sortie 16 bit ci-dessous
                     }
+                    _chaser16 = true; // [chaser16] sortie directe 16 bit depuis MergerBufferChasers
                     break;
                 case 12: // grid
                     for (int ppin = 1; ppin < 513; ppin++) {
@@ -1180,6 +1182,13 @@ int calculs_etats_faders_et_contenus() {
                     int _mm = DockHasMem[f][d];
                     for (int j = 1; j < 514; j++) {
                         unsigned short _v = Memoires[_mm][j];
+                        FaderDoDmx[f][j] = (unsigned short)(((long long)_v * _curve16) / 65535);
+                    }
+                } else if (_chaser16) {
+                    // [chaser16] MergerBufferChasers (16 bit) -> FaderDoDmx directement (1:1), sans quantif 8 bit.
+                    int _ch = ChaserAffectedToDck[f][d];
+                    for (int j = 1; j < 514; j++) {
+                        unsigned short _v = (unsigned short)MergerBufferChasers[_ch][j];
                         FaderDoDmx[f][j] = (unsigned short)(((long long)_v * _curve16) / 65535);
                     }
                 } else {

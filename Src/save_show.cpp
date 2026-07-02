@@ -349,7 +349,8 @@ const char file_chaser_trackview[24]={"chaser_trackview.whc"};
 unsigned int chaser_trackview_size=128;//int position_affichage_track_num[128];
 const char file_chaser_tracktype[24]={"chaser_tracktype.whc"};
 unsigned int chaser_tracktype_size=128*24;//int TrackTypeIs[128][24];
-const char file_chaser_trackcontent[24]={"chaser_trackcontent.whc"};
+const char file_chaser_trackcontent[24]={"chaser_trackcontent.whc"};     // [chaser16] ancien format 8 bit (fallback)
+const char file_chaser_trackcontent16[24]={"chaser_trackcont16.whc"};    // [chaser16] nouveau format 16 bit
 unsigned int chaser_trackcontent_size=128*24*514;//int  TrackContains[128][24][514];
 const char file_chaser_stepis[24]={"chaser_stepis.whc"};
 unsigned int chaser_stepis_size=128;//int chaser_step_is[128]
@@ -2901,16 +2902,16 @@ fclose(fp);
  idf++;
 
 
-{ // [compression] TrackContains (int) en gzip — longueur en OCTETS (size * sizeof(int))
+{ // [chaser16] TrackContains 16 bit -> chaser_trackcont16.whc (gzip, int). Ancien fichier 8 bit non ecrit.
 gzFile gzfp;
-if ((gzfp=gzopen( file_chaser_trackcontent, "wb"))==NULL)
-{ sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_trackcontent); b_report_error[idf]=1;}
+if ((gzfp=gzopen( file_chaser_trackcontent16, "wb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_trackcontent16); b_report_error[idf]=1;}
 else
 {
-sprintf(string_save_load_report[idf],"Opened file %s",file_chaser_trackcontent);
+sprintf(string_save_load_report[idf],"Opened file %s",file_chaser_trackcontent16);
 if (gzwrite(gzfp, TrackContains, chaser_trackcontent_size*sizeof(int)) != (int)(chaser_trackcontent_size*sizeof(int)))
-{ sprintf(string_save_load_report[idf],"Error writting %s",file_chaser_trackcontent); b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Saved file %s",file_chaser_trackcontent);
+{ sprintf(string_save_load_report[idf],"Error writting %s",file_chaser_trackcontent16); b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Saved file %s",file_chaser_trackcontent16);
 gzclose(gzfp);
 }
 }
@@ -5630,17 +5631,34 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_chaser_tracktype
 }
 idf++;
 
-{ // [compression] TrackContains (int) : gzread lit le gzip ET l'ancien non compresse — longueur en OCTETS
+{ // [chaser16] Charge chaser_trackcont16.whc (16 bit). Si absent (vieux show) -> fallback 8 bit x257.
 gzFile gzfp;
-if ((gzfp=gzopen( file_chaser_trackcontent, "rb"))==NULL)
+unsigned int _tcsz = chaser_trackcontent_size*sizeof(int);
+if ((gzfp=gzopen( file_chaser_trackcontent16, "rb"))!=NULL)
+{
+sprintf(string_save_load_report[idf],"Opening file %s",  file_chaser_trackcontent16);
+if (gzread( gzfp, TrackContains, _tcsz) != (int)_tcsz)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s",   file_chaser_trackcontent16);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s", file_chaser_trackcontent16);
+ gzclose(gzfp);
+}
+else
+{ // fallback vieux format 8 bit (int, valeurs 0-255) -> x257
+gzFile gzold;
+if ((gzold=gzopen( file_chaser_trackcontent, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_chaser_trackcontent);b_report_error[idf]=1;}
 else
 {
-sprintf(string_save_load_report[idf],"Opening file %s",  file_chaser_trackcontent);
-if (gzread( gzfp, TrackContains, chaser_trackcontent_size*sizeof(int)) != (int)(chaser_trackcontent_size*sizeof(int)))
+if (gzread( gzold, TrackContains, _tcsz) != (int)_tcsz)
 { sprintf(string_save_load_report[idf],"Error Loaded %s",   file_chaser_trackcontent);b_report_error[idf]=1;}
-else sprintf(string_save_load_report[idf],"Loaded file %s", file_chaser_trackcontent);
- gzclose(gzfp);
+else
+{
+int *_tc=(int*)TrackContains;
+for(unsigned int _i=0;_i<chaser_trackcontent_size;_i++){ if(_tc[_i]>0 && _tc[_i]<=255){ _tc[_i]=wc::dmx8_to_lvl((unsigned char)_tc[_i]); } }
+sprintf(string_save_load_report[idf],"Loaded 8bit->16bit %s", file_chaser_trackcontent);
+}
+gzclose(gzold);
+}
 }
 }
 idf++;
