@@ -1199,6 +1199,11 @@ static void wc_handle_event(const SDL_Event &e) {
         break;
 
     case SDL_MOUSEWHEEL:
+        // [fix fin] la molette n'agit que si WhiteCat a le FOCUS clavier. Sinon (curseur qui survole
+        // la fenetre alors qu'une AUTRE appli est active) SDL delivre quand meme l'event -> les niveaux
+        // bougeaient a l'insu de l'utilisateur, avec le Ctrl (pas fin) de l'autre appli -> comportement
+        // erratique. On ignore la molette hors focus : mouse_z ne bouge pas (aucune action, aucun saut).
+        if (SDL_GetKeyboardFocus() != wc_sdl_window) break;
         wc_last_input_ms = SDL_GetTicks();
         wc_dirty = true;
         wc_bg_dirty = true;
@@ -1293,6 +1298,12 @@ static void wc_handle_event(const SDL_Event &e) {
                 wc_ui_texture = SDL_CreateTexture(wc_sdl_renderer, SDL_PIXELFORMAT_ARGB8888,
                                                    SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
             }
+        }
+        // [fix fin] perte de focus : on remet les modificateurs a zero. Sinon un Ctrl (ou Shift/Alt)
+        // presse/relache pendant que la fenetre est inactive n'est pas vu par SDL -> etat "colle" ->
+        // SDL_GetModState() perime -> molette pas-fin (Ctrl) erratique au retour dans la fenetre.
+        if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
+            SDL_SetModState(KMOD_NONE);
         }
         wc_dirty = true;
         wc_bg_dirty = true;
