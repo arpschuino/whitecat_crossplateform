@@ -837,7 +837,8 @@ if(index_blind==0)
                                if(index_crossfading==0)
                                {
                                // [2c-2B] Ctrl maintenu = pas fin (1/65535) ; sinon pas grossier %/DMX en 16 bit
-                               if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
+                               // [fix fin] Ctrl LIVE (SDL_GetModState) car key_shifts est perime a la molette (via key_up)
+                               if((SDL_GetModState() & KMOD_CTRL) || index_false_control==1)
                                {
                                if(bufferSaisie[tc] <= wc::LVL_MAX-1){ bufferSaisie[tc]+=1; }
                                }
@@ -874,7 +875,7 @@ else if (index_blind==1)//blind
                {
 
                                // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
-                               if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
+                               if((SDL_GetModState() & KMOD_CTRL) || index_false_control==1)// [fix fin] Ctrl live
                                {
                                if(bufferBlind[tb] <= wc::LVL_MAX-1){ bufferBlind[tb]+=1; }
                                }
@@ -951,7 +952,7 @@ if(index_blind==0)
                      if(index_crossfading==0)
                      {
                                              // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
-                                             if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
+                                             if((SDL_GetModState() & KMOD_CTRL) || index_false_control==1)// [fix fin] Ctrl live
                                              {
                                              if(bufferSaisie[tc] >= 1){ bufferSaisie[tc]-=1; }
                                              }
@@ -981,7 +982,7 @@ else if ( index_blind==1)
                   if (Selected_Channel[tb]==1 )
                   {
                                               // [2c-2B] Ctrl maintenu = pas fin ; sinon pas grossier %/DMX en 16 bit
-                                              if(key_shifts & KB_CTRL_FLAG || index_false_control==1)
+                                              if((SDL_GetModState() & KMOD_CTRL) || index_false_control==1)// [fix fin] Ctrl live
                                               {
                                               if(bufferBlind[tb] >= 1){ bufferBlind[tb]-=1; }
                                               }
