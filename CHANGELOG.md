@@ -51,6 +51,7 @@
 ### Interface
 
 - **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
+- **Fix : nom (F5) — chiffres du pavé numérique comptés double** (« 01 » donnait « 0101 »). Les touches du pavé numérique portent le bit `SDLK_SCANCODE_MASK` : elles échappaient au filtre qui laisse la saisie texte à `SDL_TEXTINPUT` en mode nom → elles étaient ajoutées deux fois (file de touches + `SDL_TEXTINPUT`). Traitées comme les chiffres de la rangée du haut.
 
 ---
 
