@@ -22,6 +22,7 @@
 - **Damper** : atteint enfin 0 (accrochage exact à la cible — la glisse exponentielle était asymptotique) + initialisation manquante qui pouvait le figer.
 - **Espace circuits (vue classical)** : le 1er circuit de chaque page (1-12, 49-60…) n'est plus caché sous la barre Ch.View (auto-scroll recalé).
 - **Grid players** : fin des saccades d'affichage (rendu actif tant qu'un player tourne) ; en-tête réagencé — titre « Grid Players » sur une seule ligne, champs (Beg.Chan, Col, Rows, edit, View…) décalés à droite ; ligne Grid/Step du global viewer recadrée (ne touche plus le bord gauche).
+- **Grid players — fix plantage (thread ticker)** : dans `gridder_prepare_cross()` (calcul du fondu, 50×/s), les indices `grid_in_preset` (grille/pas du pas suivant) pouvaient sortir des bornes (goto avec `grid_goto` corrompu passant le test `>= 0` sans borne haute, séquentiel, ou `pas+1 = 1024`) → accès `grid_times`/`grid_levels` hors bornes → plantage (access violation), **d'autant plus en 16 bit** (débordement de bloc). Indices bornés (grille 0-127, pas 0-1023) ; 1re occurrence loguée dans `wc_debug.txt`. *(Même correctif backporté en 0.9.2.)*
 - **Rapport save/reload** : la ligne « audio_conf.txt readed » ne s'affiche plus en rouge à tort (slot de rapport partagé).
 - **Bangers — vestige iCat retiré** : la fenêtre iCat ayant été supprimée, la **catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger. Catégorie rendue inatteignable (défilement haut/bas + chargement) et code mort retiré.
 
