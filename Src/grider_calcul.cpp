@@ -441,28 +441,38 @@ gr_step=index_grider_step_is[grid_pl];
 gr_grille_pr=grid_in_preset[grid_pl][0];
 gr_step_pr=grid_in_preset[grid_pl][1];
 
+// [B0] pointeurs de LIGNE caches (block(g) une seule fois hors boucle) : boucle chaude
+// sans test ni multiplication d'index. Grille non allouee -> ligne de zeros statique (=grille vide).
+static const unsigned char _grid_zero_row[513] = {0};
+unsigned char* _rc = grid_levels.block(gr_grille);
+_rc = _rc ? _rc + (size_t)gr_step * 513    : (unsigned char*)_grid_zero_row;
+unsigned char* _rp = grid_levels.block(gr_grille_pr);
+_rp = _rp ? _rp + (size_t)gr_step_pr * 513 : (unsigned char*)_grid_zero_row;
+
 for(int cg=0;cg<512;cg++)
 {
+int _cur=_rc[cg];   // niveau du step courant (8 bit)
+int _pr =_rp[cg];   // niveau du step precedent (8 bit)
 
 // [grid 16 bit] endpoints 8 bit -> 16 bit (x257), interpolation par la position LISSE grid_floatX1/X2
 // (0-255 float) au lieu du grid_niveauX1/X2 (int, 256 paliers) -> crossfade fin en 16 bit.
-if(grid_levels[gr_grille][gr_step][cg]>grid_levels[gr_grille_pr][gr_step_pr][cg])
+if(_cur>_pr)
 {
-int _d16=(grid_levels[gr_grille][gr_step][cg]-grid_levels[gr_grille_pr][gr_step_pr][cg])*257;
+int _d16=(_cur-_pr)*257;
 buffer_gridder[grid_pl][cg]=(unsigned short)(
- grid_levels[gr_grille_pr][gr_step_pr][cg]*257
+ _pr*257
  + (int)((float)_d16*(grid_floatX1[grid_pl]/255.0f)) );
 }
-if(grid_levels[gr_grille][gr_step][cg]<grid_levels[gr_grille_pr][gr_step_pr][cg])
+if(_cur<_pr)
 {
-int _d16=(grid_levels[gr_grille_pr][gr_step_pr][cg]-grid_levels[gr_grille][gr_step][cg])*257;
+int _d16=(_pr-_cur)*257;
 buffer_gridder[grid_pl][cg]=(unsigned short)(
- grid_levels[gr_grille][gr_step][cg]*257
+ _cur*257
  + (int)((float)_d16*(grid_floatX2[grid_pl]/255.0f)) );
 }
-if(grid_levels[gr_grille][gr_step][cg]==grid_levels[gr_grille_pr][gr_step_pr][cg])
+if(_cur==_pr)
 {
-buffer_gridder[grid_pl][cg]=(unsigned short)(grid_levels[gr_grille_pr][gr_step_pr][cg]*257);
+buffer_gridder[grid_pl][cg]=(unsigned short)(_pr*257);
 }
 }
 //bug grid sur temps decales out    ALGO RIGINAL

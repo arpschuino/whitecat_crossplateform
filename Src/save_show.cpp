@@ -3441,14 +3441,10 @@ idf++; */
 //les grilles paquées en 4 fichiers
 
 for(int iu=0;iu<32;iu++)
-{
-for (int st=0;st<1024;st++)
-{
-for (int ct=0;ct<513;ct++)
-{
-temp_grid_levels_for_save[iu][st][ct]=grid_levels[iu][st][ct];
-}
-}
+{ // [B0] copie par bloc : grille allouee -> memcpy, grille vide -> zeros
+unsigned char* _pg=grid_levels.block(iu);
+if(_pg) memcpy(temp_grid_levels_for_save[iu], _pg, (size_t)1024*513);
+else    memset(temp_grid_levels_for_save[iu], 0, (size_t)1024*513);
 }
 
 { // [compression] grid_levels_1 en gzip
@@ -3467,14 +3463,10 @@ gzclose(gzfp);
 idf++;
 
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-temp_grid_levels_for_save[i][s][c]=grid_levels[32+i][s][c];
-}
-}
+{ // [B0] copie par bloc (grilles 32..63)
+unsigned char* _pg=grid_levels.block(32+i);
+if(_pg) memcpy(temp_grid_levels_for_save[i], _pg, (size_t)1024*513);
+else    memset(temp_grid_levels_for_save[i], 0, (size_t)1024*513);
 }
 { // [compression] grid_levels_2 en gzip
 gzFile gzfp;
@@ -3491,14 +3483,10 @@ gzclose(gzfp);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-temp_grid_levels_for_save[i][s][c]=grid_levels[64+i][s][c];
-}
-}
+{ // [B0] copie par bloc (grilles 64..95)
+unsigned char* _pg=grid_levels.block(64+i);
+if(_pg) memcpy(temp_grid_levels_for_save[i], _pg, (size_t)1024*513);
+else    memset(temp_grid_levels_for_save[i], 0, (size_t)1024*513);
 }
 { // [compression] grid_levels_3 en gzip
 gzFile gzfp;
@@ -3515,14 +3503,10 @@ gzclose(gzfp);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-temp_grid_levels_for_save[i][s][c]=grid_levels[96+i][s][c];
-}
-}
+{ // [B0] copie par bloc (grilles 96..127)
+unsigned char* _pg=grid_levels.block(96+i);
+if(_pg) memcpy(temp_grid_levels_for_save[i], _pg, (size_t)1024*513);
+else    memset(temp_grid_levels_for_save[i], 0, (size_t)1024*513);
 }
 { // [compression] grid_levels_4 en gzip
 gzFile gzfp;
@@ -6234,14 +6218,12 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_1);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-grid_levels[i][s][c]=temp_grid_levels_for_save[i][s][c];
-}
-}
+{ // [B0] grille non vide -> alloc + memcpy ; grille entierement nulle -> liberee (0 octet)
+unsigned char* _src=&temp_grid_levels_for_save[i][0][0];
+bool _nz=false;
+for(size_t _k=0;_k<(size_t)1024*513;_k++){ if(_src[_k]){ _nz=true; break; } }
+if(_nz) memcpy(grid_levels.ensure_block(i), _src, (size_t)1024*513);
+else    grid_levels.free_block(i);
 }
 
 { // [compression] grid_levels_2 : gzread lit le gzip ET l'ancien non compresse
@@ -6259,14 +6241,12 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_2);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-grid_levels[i+32][s][c]=temp_grid_levels_for_save[i][s][c];
-}
-}
+{ // [B0] grilles 32..63
+unsigned char* _src=&temp_grid_levels_for_save[i][0][0];
+bool _nz=false;
+for(size_t _k=0;_k<(size_t)1024*513;_k++){ if(_src[_k]){ _nz=true; break; } }
+if(_nz) memcpy(grid_levels.ensure_block(32+i), _src, (size_t)1024*513);
+else    grid_levels.free_block(32+i);
 }
 { // [compression] grid_levels_3 : gzread lit le gzip ET l'ancien non compresse
 gzFile gzfp;
@@ -6283,14 +6263,12 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_3);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-grid_levels[i+64][s][c]=temp_grid_levels_for_save[i][s][c];
-}
-}
+{ // [B0] grilles 64..95
+unsigned char* _src=&temp_grid_levels_for_save[i][0][0];
+bool _nz=false;
+for(size_t _k=0;_k<(size_t)1024*513;_k++){ if(_src[_k]){ _nz=true; break; } }
+if(_nz) memcpy(grid_levels.ensure_block(64+i), _src, (size_t)1024*513);
+else    grid_levels.free_block(64+i);
 }
 { // [compression] grid_levels_4 : gzread lit le gzip ET l'ancien non compresse
 gzFile gzfp;
@@ -6307,14 +6285,12 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_levels_4);
 }
 idf++;
 for(int i=0;i<32;i++)
-{
-for (int s=0;s<1024;s++)
-{
-for (int c=0;c<513;c++)
-{
-grid_levels[i+96][s][c]=temp_grid_levels_for_save[i][s][c];
-}
-}
+{ // [B0] grilles 96..127
+unsigned char* _src=&temp_grid_levels_for_save[i][0][0];
+bool _nz=false;
+for(size_t _k=0;_k<(size_t)1024*513;_k++){ if(_src[_k]){ _nz=true; break; } }
+if(_nz) memcpy(grid_levels.ensure_block(96+i), _src, (size_t)1024*513);
+else    grid_levels.free_block(96+i);
 }
 
 

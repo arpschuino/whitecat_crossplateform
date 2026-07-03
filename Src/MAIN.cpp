@@ -1262,7 +1262,9 @@ int main(int /*argc*/, char ** /*argv*/) {
                     (void *)(MemoiresExistantes + 10000));
             fprintf(_d, "Times_Memoires     : %p  end:%p\n", (void *)Times_Memoires, (void *)(Times_Memoires + 10000));
             fprintf(_d, "SchwzMemoires      : %p  end:%p\n", (void *)SchwzMemoires, (void *)(SchwzMemoires + 121));
-            fprintf(_d, "grid_levels        : %p  end:%p\n", (void *)grid_levels, (void *)(grid_levels + 128));
+            // [B0] grid_levels est desormais 128 blocs alloues a la demande (plus un tableau contigu) :
+            // on rapporte le tableau de pointeurs de blocs a la place.
+            fprintf(_d, "grid_levels blk[]  : %p  end:%p\n", (void *)grid_levels.blk, (void *)(grid_levels.blk + 128));
             fprintf(_d, "=== END MAP ===\n");
             fclose(_d);
         }

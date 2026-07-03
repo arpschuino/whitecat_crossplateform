@@ -1,6 +1,45 @@
 #pragma once
 
+#include <cstdlib> // [B0] calloc/free pour l'allocation paresseuse de grid_levels
+
 //////////GRIDER 24*24 matrice evailable//////////////////
+
+// [B0] grid_levels en ALLOCATION PARESSEUSE par grille.
+// Avant : unsigned char grid_levels[128][1024][513] = ~67 Mo alloues d'un bloc, meme si la
+// plupart des grilles sont vides. Maintenant : 128 pointeurs ; le bloc [1024*513] d'une grille
+// est alloue (calloc) a sa 1re ecriture NON NULLE. Grille inutilisee = nullptr = 0 octet.
+//   - Lecture d'une grille non allouee -> 0 (n'alloue pas).
+//   - Ecriture d'un 0 dans une grille non allouee -> no-op (reste 0). => save/load et clears
+//     n'allouent QUE les grilles reellement utilisees (~4 Mo au lieu de 134 Mo une fois en 16 bit).
+// La syntaxe grid_levels[g][s][c] est PRESERVEE via des proxys inline (acces froids : record,
+// edit, affichage, pdf, banger). Les boucles CHAUDES (crossfade 50 Hz) et le save/load (67 M
+// copies) cachent le pointeur de bloc via .block(g)/.ensure_block(g) -> acces brut, zero test
+// dans la boucle (et meme une multiplication de moins que le tableau brut).
+class GridLevels {
+public:
+    unsigned char* blk[128];
+    GridLevels() { for (int i = 0; i < 128; i++) blk[i] = nullptr; }
+    inline unsigned char* block(int g) { return blk[g]; }                 // peut etre nullptr (grille vide)
+    inline unsigned char* ensure_block(int g) {
+        if (!blk[g]) blk[g] = (unsigned char*)calloc((size_t)1024 * 513, 1);
+        return blk[g];
+    }
+    void free_block(int g) { if (blk[g]) { free(blk[g]); blk[g] = nullptr; } }
+    void free_all() { for (int i = 0; i < 128; i++) free_block(i); }
+
+    struct Cell {
+        GridLevels* gl; int g; int idx;
+        inline operator unsigned char() const { unsigned char* p = gl->blk[g]; return p ? p[idx] : (unsigned char)0; }
+        inline Cell& operator=(int v) {
+            if (v == 0 && !gl->blk[g]) return *this;  // ecrire 0 dans une grille vide : ne pas allouer
+            gl->ensure_block(g); gl->blk[g][idx] = (unsigned char)v; return *this;
+        }
+        inline Cell& operator=(const Cell& o) { return (*this = (unsigned char)o); } // copie de VALEUR (pas du proxy)
+    };
+    struct Row  { GridLevels* gl; int g; int s; inline Cell operator[](int c) const { return Cell{ gl, g, s * 513 + c }; } };
+    struct GridP{ GridLevels* gl; int g;        inline Row  operator[](int s) const { return Row { gl, g, s }; } };
+    inline GridP operator[](int g) { return GridP{ this, g }; }
+};
 
 // [grid] decalage horizontal de l'en-tete (Beg.Chan, Col, Rows, edit, View, GridPlayers) pour
 // liberer la place du titre "Grid Players" ecrit sur une seule ligne a gauche. Partage entre le
@@ -60,7 +99,7 @@ extern int position_grid_editing;
 extern int temoin_over_grid_channel;
 
 extern char grider_name[128][25];
-extern unsigned char grid_levels[128][1024][513];
+extern GridLevels grid_levels; // [B0] allocation paresseuse par grille (cf. classe ci-dessus)
 extern unsigned char temp_grid_levels_for_save[32][1024][513];
 extern float grid_times[128][1024][4];
 extern int grid_goto[128][1024][2];

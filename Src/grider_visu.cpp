@@ -488,7 +488,10 @@ else if(grid_levels[grid_selected][gr_st_selected][tempfu]>0 && grid_levels[grid
 QuadCh.Draw(CouleurGreen.WithAlpha(3*(1.0/255.0)*(grid_levels[grid_selected][gr_st_selected][tempfu])));
 }
 //step précedent, info
-if(grid_levels[grid_selected][gr_st_selected-1][tempfu]>0)
+// [B0] garde gr_st_selected>0 : au step 1 (index 0), le "step precedent" serait l'index -1.
+// L'ancien tableau contigu tolerait cet index negatif (il lisait la grille voisine) ; avec
+// l'allocation par bloc, grid_levels[g][-1] sort du bloc et plante. Pas de step precedent au step 1.
+if(gr_st_selected>0 && grid_levels[grid_selected][gr_st_selected-1][tempfu]>0)
 {
 Rect QuadPrev(Vec2D(tmpx,tmpy),Vec2D(5,5));
 QuadPrev.Draw(CouleurSurvol);

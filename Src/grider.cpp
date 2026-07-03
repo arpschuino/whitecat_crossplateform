@@ -47,7 +47,7 @@ int hauteurGrider =
 int position_grid_editing;
 int temoin_over_grid_channel = 0;
 char grider_name[128][25];
-unsigned char grid_levels[128][1024][513];              // grid number // steps // 24*24 les cases max
+GridLevels grid_levels;              // [B0] allocation paresseuse par grille (grid number // steps // 24*24 cases max)
 unsigned char temp_grid_levels_for_save[32][1024][513]; // pour sauvegarde
 float grid_times[128][1024][4];                         // 0=DIN 1=IN 2=DOUT 3=OUT  // ATTENTION NO DELAY !!!!
 int grid_goto[128][1024][2];                            // 0 grid 1 step
