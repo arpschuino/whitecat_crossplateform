@@ -315,6 +315,26 @@ char the_out_preset[12];
 char the_delay_in_preset[12];
 char the_delay_out_preset[12];
 //
+// [fix crash ticker] grid_in_preset (grille/pas du pas SUIVANT) peut sortir des bornes selon le
+// chemin : goto corrompu, asservissement sequenciel, ou gr_actual_step+1 non borne (=1024 au dernier
+// pas). L'acces grid_times[preset0][preset1] ci-dessous plantait alors dans le thread ticker
+// (access violation 0xC0000005). On borne systematiquement ; la 1re occurrence est loguee pour
+// identifier la cause reelle sans spam ni crash. Protege aussi la boucle crossfade de do_grid
+// (qui lit grid_levels[preset0][preset1] au tick suivant -> debordement de bloc en 16 bit).
+if(grid_in_preset[grid_pl][0]<0 || grid_in_preset[grid_pl][0]>127
+|| grid_in_preset[grid_pl][1]<0 || grid_in_preset[grid_pl][1]>1023)
+{
+static bool _grid_preset_logged=false;
+if(!_grid_preset_logged){ _grid_preset_logged=true;
+ FILE* _dbg=fopen(WC_LOG_FILE,"a");
+ if(_dbg){ fprintf(_dbg,"[grid preset clamp] pl=%d grid=%d step=%d preset0=%d preset1=%d goto_mode=%d seq=%d\n",
+  grid_pl,gr_actual_grid,gr_actual_step,grid_in_preset[grid_pl][0],grid_in_preset[grid_pl][1],
+  (int)grider_goto_mode[grid_pl],(int)show_gridplayer_in_seq); fclose(_dbg); } }
+if(grid_in_preset[grid_pl][0]<0){grid_in_preset[grid_pl][0]=0;}
+if(grid_in_preset[grid_pl][0]>127){grid_in_preset[grid_pl][0]=127;}
+if(grid_in_preset[grid_pl][1]<0){grid_in_preset[grid_pl][1]=0;}
+if(grid_in_preset[grid_pl][1]>1023){grid_in_preset[grid_pl][1]=1023;}
+}
 if(grid_crossfade_speed[grid_pl]<64)
 {
 grid_fraction_X2_in[grid_pl]= 255.0/ (grid_times[(grid_in_preset[grid_pl][0])][(grid_in_preset[grid_pl][1])][1]*(((float)BPS_RATE)*(64.0/grid_crossfade_speed[grid_pl])));

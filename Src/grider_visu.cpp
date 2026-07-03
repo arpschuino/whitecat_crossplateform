@@ -488,7 +488,10 @@ else if(grid_levels[grid_selected][gr_st_selected][tempfu]>0 && grid_levels[grid
 QuadCh.Draw(CouleurGreen.WithAlpha(3*(1.0/255.0)*(grid_levels[grid_selected][gr_st_selected][tempfu])));
 }
 //step précedent, info
-if(grid_levels[grid_selected][gr_st_selected-1][tempfu]>0)
+// [fix] garde gr_st_selected>0 : au pas 1 (index 0), le "pas precedent" serait l'index -1.
+// grid_levels[grid_selected][-1] lit avant la grille -> pour la grille 0, avant le tableau =
+// acces memoire invalide -> plantage. Pas de pas precedent au pas 1.
+if(gr_st_selected>0 && grid_levels[grid_selected][gr_st_selected-1][tempfu]>0)
 {
 Rect QuadPrev(Vec2D(tmpx,tmpy),Vec2D(5,5));
 QuadPrev.Draw(CouleurSurvol);

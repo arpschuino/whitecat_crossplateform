@@ -40,6 +40,7 @@
 
 ### Grid players
 
+- **Fix : plantage (thread ticker) en éditant / navigant dans une grille.** Dans `gridder_prepare_cross()` (calcul du fondu, appelé 50×/s par le ticker), les indices `grid_in_preset` (grille/pas du pas *suivant*) pouvaient sortir des bornes selon le chemin (goto, asservissement séquentiel, ou `pas+1 = 1024` au dernier pas) et l'accès `grid_times[grille][pas]` lisait **hors du tableau** → access violation (`0xC0000005`), diagnostiquée via `wc_debug.txt` (adresse → `grider_calcul.cpp:334`). Indices désormais **bornés** (grille 0-127, pas 0-1023) avant tout accès ; la 1re occurrence est loguée pour tracer la cause. *(Un garde-fou d'affichage a aussi été ajouté à l'aperçu « pas précédent » qui lisait le pas -1 au pas 1 — bénin sur tableau contigu, mais incorrect.)*
 - **Fix : animation saccadée à l'écran** (fluide seulement en bougeant la souris). Le « ticker intelligent » ne détectait pas les grid players en lecture : ajoutés à la détection d'activité du rendu (même correctif que les bangers en boucle / l'echo). La sortie DMX, elle, était correcte.
 - **En-tête réagencé** : le titre « Grid Players » (écrit sur deux lignes, qui débordait) passe sur **une seule ligne** ; les champs Beg.Chan / Col / Rows / edit / View / cases GridPlayers sont décalés à droite pour lui faire de la place (rendu **et** zones de clic alignés).
 - **Global viewer** : la ligne Grid / Step est recadrée de quelques pixels vers la droite (le label « Grid » touchait le bord gauche de la fenêtre).
