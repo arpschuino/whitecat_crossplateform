@@ -4061,7 +4061,7 @@ switch(bangers_action[banger_num][event_num])
       {
      if(i+grider_begin_channel_is+1<513)
       {
-      grid_levels[index_grider_selected[numgridpl]][index_grider_step_is[numgridpl]][i]=wc::lvl_to_dmx8(FaderDoDmx[(GplSnapFader[numgridpl])][i+grider_begin_channel_is]);// [fader 16 bit] grid stocke 8 bit
+      grid_levels[index_grider_selected[numgridpl]][index_grider_step_is[numgridpl]][i]=FaderDoDmx[(GplSnapFader[numgridpl])][i+grider_begin_channel_is];// [grid 16 bit / stage B] snap fader 16 bit direct
       }
       }
      sprintf(string_event,"GridPl %d SnapFader %d",numgridpl+1, param2_is);

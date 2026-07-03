@@ -66,7 +66,7 @@ int refresh_step_in_player(int grid_number, int num_step, int grider_player)
 //rafraichir buffer issu du player
 for(int chg=0;chg<513;chg++)
 {
- buffer_gridder[grider_player][chg]=(unsigned short)(grid_levels[grid_number][num_step][chg]*257); // [grid 16 bit] 8 bit -> 16 bit
+ buffer_gridder[grider_player][chg]=(unsigned short)grid_levels[grid_number][num_step][chg]; // [grid 16 bit] niveau deja 16 bit
 }
 return(0);
 }
@@ -182,7 +182,7 @@ grid_counted_times[dest_grid_number][dest_num_step]=0;
 int insert_steps(int dest_grid_number, int from_num_step,  int dest_nbr_step)
 {
 
-unsigned char  buffer_temp_grd[1024][513];
+static unsigned short buffer_temp_grd[1024][513]; // [grid 16 bit] static : evite ~1 Mo sur la pile (op d'edition non reentrante)
 float tmp_grid_times[1024][4];
 int tmp_grid_goto[1024][2];//0 grid 1 step
 int tmp_grid_seekpos[1024];//step seek pos
@@ -443,36 +443,36 @@ gr_step_pr=grid_in_preset[grid_pl][1];
 
 // [B0] pointeurs de LIGNE caches (block(g) une seule fois hors boucle) : boucle chaude
 // sans test ni multiplication d'index. Grille non allouee -> ligne de zeros statique (=grille vide).
-static const unsigned char _grid_zero_row[513] = {0};
-unsigned char* _rc = grid_levels.block(gr_grille);
-_rc = _rc ? _rc + (size_t)gr_step * 513    : (unsigned char*)_grid_zero_row;
-unsigned char* _rp = grid_levels.block(gr_grille_pr);
-_rp = _rp ? _rp + (size_t)gr_step_pr * 513 : (unsigned char*)_grid_zero_row;
+static const unsigned short _grid_zero_row[513] = {0};
+unsigned short* _rc = grid_levels.block(gr_grille);
+_rc = _rc ? _rc + (size_t)gr_step * 513    : (unsigned short*)_grid_zero_row;
+unsigned short* _rp = grid_levels.block(gr_grille_pr);
+_rp = _rp ? _rp + (size_t)gr_step_pr * 513 : (unsigned short*)_grid_zero_row;
 
 for(int cg=0;cg<512;cg++)
 {
-int _cur=_rc[cg];   // niveau du step courant (8 bit)
-int _pr =_rp[cg];   // niveau du step precedent (8 bit)
+int _cur=_rc[cg];   // niveau du step courant (16 bit)
+int _pr =_rp[cg];   // niveau du step precedent (16 bit)
 
-// [grid 16 bit] endpoints 8 bit -> 16 bit (x257), interpolation par la position LISSE grid_floatX1/X2
-// (0-255 float) au lieu du grid_niveauX1/X2 (int, 256 paliers) -> crossfade fin en 16 bit.
+// [grid 16 bit / stage B] endpoints deja 16 bit (0..65535), interpolation par la position LISSE
+// grid_floatX1/X2 (0-255 float) -> crossfade fin en 16 bit, sans re-quantification.
 if(_cur>_pr)
 {
-int _d16=(_cur-_pr)*257;
+int _d16=(_cur-_pr);
 buffer_gridder[grid_pl][cg]=(unsigned short)(
- _pr*257
+ _pr
  + (int)((float)_d16*(grid_floatX1[grid_pl]/255.0f)) );
 }
 if(_cur<_pr)
 {
-int _d16=(_pr-_cur)*257;
+int _d16=(_pr-_cur);
 buffer_gridder[grid_pl][cg]=(unsigned short)(
- _cur*257
+ _cur
  + (int)((float)_d16*(grid_floatX2[grid_pl]/255.0f)) );
 }
 if(_cur==_pr)
 {
-buffer_gridder[grid_pl][cg]=(unsigned short)(_pr*257);
+buffer_gridder[grid_pl][cg]=(unsigned short)_pr;
 }
 }
 //bug grid sur temps decales out    ALGO RIGINAL

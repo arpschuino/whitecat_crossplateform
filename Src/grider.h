@@ -5,23 +5,23 @@
 //////////GRIDER 24*24 matrice evailable//////////////////
 
 // [B0] grid_levels en ALLOCATION PARESSEUSE par grille.
-// Avant : unsigned char grid_levels[128][1024][513] = ~67 Mo alloues d'un bloc, meme si la
+// [grid 16 bit / stage B] blocs en unsigned short (niveaux 0..65535) au lieu de unsigned char.
+// Avant B0 : unsigned char grid_levels[128][1024][513] = ~67 Mo alloues d'un bloc, meme si la
 // plupart des grilles sont vides. Maintenant : 128 pointeurs ; le bloc [1024*513] d'une grille
 // est alloue (calloc) a sa 1re ecriture NON NULLE. Grille inutilisee = nullptr = 0 octet.
 //   - Lecture d'une grille non allouee -> 0 (n'alloue pas).
 //   - Ecriture d'un 0 dans une grille non allouee -> no-op (reste 0). => save/load et clears
-//     n'allouent QUE les grilles reellement utilisees (~4 Mo au lieu de 134 Mo une fois en 16 bit).
+//     n'allouent QUE les grilles reellement utilisees (~8 Mo en 16 bit au lieu de 134 Mo pleins).
 // La syntaxe grid_levels[g][s][c] est PRESERVEE via des proxys inline (acces froids : record,
-// edit, affichage, pdf, banger). Les boucles CHAUDES (crossfade 50 Hz) et le save/load (67 M
-// copies) cachent le pointeur de bloc via .block(g)/.ensure_block(g) -> acces brut, zero test
-// dans la boucle (et meme une multiplication de moins que le tableau brut).
+// edit, affichage, pdf, banger). Les boucles CHAUDES (crossfade 50 Hz) et le save/load cachent
+// le pointeur de bloc via .block(g)/.ensure_block(g) -> acces brut, zero test dans la boucle.
 class GridLevels {
 public:
-    unsigned char* blk[128];
+    unsigned short* blk[128];
     GridLevels() { for (int i = 0; i < 128; i++) blk[i] = nullptr; }
-    inline unsigned char* block(int g) { return blk[g]; }                 // peut etre nullptr (grille vide)
-    inline unsigned char* ensure_block(int g) {
-        if (!blk[g]) blk[g] = (unsigned char*)calloc((size_t)1024 * 513, 1);
+    inline unsigned short* block(int g) { return blk[g]; }                 // peut etre nullptr (grille vide)
+    inline unsigned short* ensure_block(int g) {
+        if (!blk[g]) blk[g] = (unsigned short*)calloc((size_t)1024 * 513, sizeof(unsigned short));
         return blk[g];
     }
     void free_block(int g) { if (blk[g]) { free(blk[g]); blk[g] = nullptr; } }
@@ -29,12 +29,12 @@ public:
 
     struct Cell {
         GridLevels* gl; int g; int idx;
-        inline operator unsigned char() const { unsigned char* p = gl->blk[g]; return p ? p[idx] : (unsigned char)0; }
+        inline operator unsigned short() const { unsigned short* p = gl->blk[g]; return p ? p[idx] : (unsigned short)0; }
         inline Cell& operator=(int v) {
             if (v == 0 && !gl->blk[g]) return *this;  // ecrire 0 dans une grille vide : ne pas allouer
-            gl->ensure_block(g); gl->blk[g][idx] = (unsigned char)v; return *this;
+            gl->ensure_block(g); gl->blk[g][idx] = (unsigned short)v; return *this;
         }
-        inline Cell& operator=(const Cell& o) { return (*this = (unsigned char)o); } // copie de VALEUR (pas du proxy)
+        inline Cell& operator=(const Cell& o) { return (*this = (unsigned short)o); } // copie de VALEUR (pas du proxy)
     };
     struct Row  { GridLevels* gl; int g; int s; inline Cell operator[](int c) const { return Cell{ gl, g, s * 513 + c }; } };
     struct GridP{ GridLevels* gl; int g;        inline Row  operator[](int s) const { return Row { gl, g, s }; } };
@@ -97,10 +97,11 @@ extern int hauteurGrider;
 extern int position_grid_editing;
 
 extern int temoin_over_grid_channel;
+extern int grid_wheel_hover_player; // [grid 16 bit / stage B] player survole en edition (Ctrl+molette fin sur case)
 
 extern char grider_name[128][25];
 extern GridLevels grid_levels; // [B0] allocation paresseuse par grille (cf. classe ci-dessus)
-extern unsigned char temp_grid_levels_for_save[32][1024][513];
+extern unsigned short temp_grid_levels_for_save[32][1024][513]; // [grid 16 bit] buffer intermediaire save/load
 extern float grid_times[128][1024][4];
 extern int grid_goto[128][1024][2];
 extern int grid_seekpos[128][1024];

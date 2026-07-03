@@ -295,7 +295,7 @@ if(grid_levels[gr][ste][the_ch]!=0)
 //sab 02/03/2014 unused var print_level=false;
 
 //couleurs
-if(grid_levels[gr][ste][the_ch]==255)
+if(grid_levels[gr][ste][the_ch]==wc::LVL_MAX)
 {
 colRr=1.0; colGg=0.5; colBb=0.0;  //sab 02/03/2014 unused var print_level=false;
 }
@@ -317,17 +317,17 @@ HPDF_Page_SetRGBStroke (page, 0.5, 0.5, 0.5);//couleur ligne
 
 
 
-if(grid_levels[gr][ste][the_ch]!=255)
+if(grid_levels[gr][ste][the_ch]!=wc::LVL_MAX)
 {
 
 
 switch(dmx_view)
 {
-case 0:
-sprintf(header_export,"%d",(int)((float)(grid_levels[gr][ste][the_ch])/2.55) );
+case 0: // [grid 16 bit / stage B] % exact
+sprintf(header_export,"%d",wc::lvl_to_pct((unsigned short)grid_levels[gr][ste][the_ch]) );
 break;
-case 1:
-sprintf(header_export,"%d",grid_levels[gr][ste][the_ch] );
+case 1: // [grid 16 bit / stage B] DMX 8 bit (0-255) ; cast explicite (grid_levels[] est un proxy)
+sprintf(header_export,"%d",(int)wc::lvl_to_dmx8((unsigned short)grid_levels[gr][ste][the_ch]) );
 break;
 }
 draw_info(page,xx+(col*6)+1 ,yy-(ligne*6)+5,header_export);

@@ -331,6 +331,33 @@ int DoMouseLevel()
    last_scroll_mouse_for_fader = mouse_z; // hors survol : garde la baseline fraiche
  }
 
+ // [grid 16 bit / stage B] Ctrl+molette sur la case survolee d'une grille en edition = retouche
+ // FINE 16 bit (+/-1 par cran, meme acceleration que la molette-circuit). Mirroir du bloc fader :
+ // consomme la molette (return) pour ne PAS aussi piloter les circuits selectionnes.
+ {
+   static int last_scroll_mouse_for_grid = 0;
+   if (window_focus_id == W_GRID && index_enable_edit_Grider == 1 && grid_wheel_hover_player >= 0
+       && (SDL_GetModState() & KMOD_CTRL)) {
+       int _delta = mouse_z - last_scroll_mouse_for_grid;
+       if (_delta != 0) {
+           int _gsel = index_grider_selected[grid_wheel_hover_player];
+           int _step = index_grider_step_is[grid_wheel_hover_player];
+           int _absd  = _delta > 0 ? _delta : -_delta;
+           int _d     = _absd > 2 ? _absd - 2 : 0;
+           int _steps = _d > 0 ? _d * _d * 5 : 1;   // 1 cran = 1/65535 ; coup vif jusqu'a 45
+           if (_steps > 45) _steps = 45;
+           int _val = (int)grid_levels[_gsel][_step][position_grid_editing] + (_delta > 0 ? _steps : -_steps);
+           if (_val < 0)     _val = 0;
+           if (_val > 65535) _val = 65535;
+           grid_levels[_gsel][_step][position_grid_editing] = _val;
+           last_scroll_mouse_for_grid = mouse_z;
+           last_scroll_mouse_for_chan = mouse_z; // empeche le bloc circuit de refirer sur ce scroll
+       }
+       return (0); // molette consommee par la grille
+   }
+   last_scroll_mouse_for_grid = mouse_z; // hors edition/Ctrl : garde la baseline fraiche
+ }
+
  {
  int _delta = mouse_z - last_scroll_mouse_for_chan;
  if (_delta != 0) {

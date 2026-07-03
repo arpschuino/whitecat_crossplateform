@@ -479,13 +479,13 @@ tmpx=xb+(fu*15);
 tmpy=yb+(lo*15);
 tempfu=(fu+(lo*grider_nb_col));
 Rect QuadCh(Vec2D(tmpx,tmpy),Vec2D(15,15));
-if(grid_levels[grid_selected][gr_st_selected][(fu+(lo*grider_nb_col))]==255)
+if(grid_levels[grid_selected][gr_st_selected][(fu+(lo*grider_nb_col))]==wc::LVL_MAX)
 {
 QuadCh.Draw(CouleurFader);
 }
-else if(grid_levels[grid_selected][gr_st_selected][tempfu]>0 && grid_levels[grid_selected][gr_st_selected][tempfu]<255)
+else if(grid_levels[grid_selected][gr_st_selected][tempfu]>0 && grid_levels[grid_selected][gr_st_selected][tempfu]<wc::LVL_MAX)
 {
-QuadCh.Draw(CouleurGreen.WithAlpha(3*(1.0/255.0)*(grid_levels[grid_selected][gr_st_selected][tempfu])));
+QuadCh.Draw(CouleurGreen.WithAlpha(3*(1.0/65535.0)*((unsigned short)grid_levels[grid_selected][gr_st_selected][tempfu])));
 }
 //step précedent, info
 // [B0] garde gr_st_selected>0 : au step 1 (index 0), le "step precedent" serait l'index -1.
@@ -535,13 +535,11 @@ if(grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1]>0)
 char tmp_st[36];
 switch(dmx_view)
 {
-case 0:
-//petitpetitchiffre.Print(ol::ToString((int)(((float)grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1])/2.55)),mouse_x+10,mouse_y-5);
-sprintf(tmp_st,"OverChan: %d Level: %d",temoin_over_grid_channel,(int)(((float)grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1])/2.55));
+case 0: // [grid 16 bit / stage B] % exact via lvl_to_pct
+sprintf(tmp_st,"OverChan: %d Level: %d",temoin_over_grid_channel,wc::lvl_to_pct((unsigned short)grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1]));
 break;
-case 1:
-//petitpetitchiffre.Print(ol::ToString(grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1]),mouse_x+10,mouse_y-5);
-sprintf(tmp_st,"OverChan: %d Level: %d",temoin_over_grid_channel,grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1]);
+case 1: // [grid 16 bit / stage B] DMX 8 bit (0-255) via lvl_to_dmx8
+sprintf(tmp_st,"OverChan: %d Level: %d",temoin_over_grid_channel,(int)wc::lvl_to_dmx8((unsigned short)grid_levels[grid_selected][gr_st_selected][temoin_over_grid_channel-1]));
 break;
 }
 neuromoyen.Print(tmp_st,mouse_x+10,mouse_y-5);
@@ -758,13 +756,13 @@ if(grid_times[grid_selected_for_view][grid_step_view+pos][0]>0 || grid_times[gri
 minichiffrerouge.Print(string_grid_view_timing_global[pos],tmpblx,yb+38);
 }
 
-if(grid_levels[grid_selected_for_view][tempstep][tempfu]==255)
+if(grid_levels[grid_selected_for_view][tempstep][tempfu]==wc::LVL_MAX)
 {
 Rect QuadChF(Vec2D(tmpx,tmpy),Vec2D(5,5));
 QuadChF.Draw(CouleurFader);
 }
 else if(grid_levels[grid_selected_for_view][tempstep][tempfu]>0
-&& grid_levels[grid_selected_for_view][grid_step_view+pos][tempfu]<255)
+&& grid_levels[grid_selected_for_view][grid_step_view+pos][tempfu]<wc::LVL_MAX)
 {
 Rect QuadCh(Vec2D(tmpx,tmpy),Vec2D(5,5));
 QuadCh.Draw(CouleurGreen);

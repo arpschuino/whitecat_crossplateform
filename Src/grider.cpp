@@ -46,9 +46,10 @@ int hauteurGrider =
     50 + (index_nbre_players_visibles * (30 + (grider_facteur_hauteur * size_grille))) + hauteurGlobalGridviewer;
 int position_grid_editing;
 int temoin_over_grid_channel = 0;
+int grid_wheel_hover_player = -1; // [grid 16 bit / stage B] player dont la matrice est survolee en edition (-1 = aucune) ; pour le Ctrl+molette fin sur case
 char grider_name[128][25];
 GridLevels grid_levels;              // [B0] allocation paresseuse par grille (grid number // steps // 24*24 cases max)
-unsigned char temp_grid_levels_for_save[32][1024][513]; // pour sauvegarde
+unsigned short temp_grid_levels_for_save[32][1024][513]; // [grid 16 bit] buffer intermediaire save/load
 float grid_times[128][1024][4];                         // 0=DIN 1=IN 2=DOUT 3=OUT  // ATTENTION NO DELAY !!!!
 int grid_goto[128][1024][2];                            // 0 grid 1 step
 int grid_seekpos[128][1024];

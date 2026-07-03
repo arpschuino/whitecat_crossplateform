@@ -133,7 +133,7 @@ if( mouse_released==0)
    {
    if(i+1<513)
    {
-   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-offset-1]=wc::lvl_to_dmx8(Memoires[mem_to_affect_to_grid][i]);// [mem16 s1] grid_levels reste 8 bit (Phase B), Memoires 16 bit -> conversion
+   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-offset-1]=Memoires[mem_to_affect_to_grid][i];// [grid 16 bit / stage B] Memoires 16 bit -> grid 16 bit direct
    }
    }
    reset_numeric_entry();
@@ -149,7 +149,7 @@ if( mouse_released==0)
  {
   for(int i=ofset;i<513;i++)//OK FEVRIER 2015
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=wc::lvl_to_dmx8(bufferSaisie[i]);   // [2c-2B] 16 bit -> grid 8 bit
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferSaisie[i];   // [grid 16 bit / stage B] capture 16 bit direct
   bufferSaisie[i]=0;
  }
  }
@@ -157,7 +157,7 @@ if( mouse_released==0)
  {
   for(int i=1;i<513;i++)
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=wc::lvl_to_dmx8(bufferBlind[i]);   // [2c-2B] 16 bit -> grid 8 bit
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1-ofset]=bufferBlind[i];   // [grid 16 bit / stage B] capture 16 bit direct
   bufferBlind[i]=0;
  }
  }
@@ -206,7 +206,7 @@ if( mouse_released==0)
  {
   if(Selected_Channel[i]==1)
   {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=wc::lvl_to_dmx8(bufferSaisie[i]);   // [2c-2B] 16 bit -> grid 8 bit
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=bufferSaisie[i];   // [grid 16 bit / stage B] capture 16 bit direct
   bufferSaisie[i]=0;
  }
  }
@@ -217,7 +217,7 @@ if( mouse_released==0)
  {
  if(Selected_Channel[i]==1)
  {
-  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=wc::lvl_to_dmx8(bufferBlind[i]);   // [2c-2B] 16 bit -> grid 8 bit
+  grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i-1]=bufferBlind[i];   // [grid 16 bit / stage B] capture 16 bit direct
   bufferBlind[i]=0;
  }
  }
@@ -233,11 +233,11 @@ if( mouse_released==0)
  if(bufferSequenciel[u] >= bufferFaders[u])
  {
   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]
- =  wc::lvl_to_dmx8(bufferSequenciel[u]);   // [2c-2B] 16 bit -> grid 8 bit
+ =  bufferSequenciel[u];   // [grid 16 bit / stage B] capture 16 bit direct
  }
  if(bufferFaders[u]>bufferSequenciel[u])
  {
-grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]=wc::lvl_to_dmx8(bufferFaders[u]);   // [2c-2B] 16 bit -> grid 8 bit
+grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][u-1]=bufferFaders[u];   // [grid 16 bit / stage B] capture 16 bit direct
  }
  Selected_Channel[u]=0;
  }
@@ -439,14 +439,14 @@ int gr_st_selected=index_grider_step_is[num_grid_player];
 
 if(index_enable_edit_Grider==1 && mouse_x>=xb && mouse_x<=xb+(grider_nb_col*sizecase) && mouse_y>=yb && mouse_y<=yb+(grider_nb_row*sizecase))
 {
+grid_wheel_hover_player=num_grid_player; // [grid 16 bit / stage B] cette matrice est survolee -> cible du Ctrl+molette fin
 if( mouse_released==0)
 {
 if(numeric_postext==0)
-{
+{ // [grid 16 bit / stage B] toggle plein/eteint : full = LVL_MAX (65535)
 if(grid_levels[index_grider_selected[num_grid_player]][gr_st_selected][position_grid_editing]==0)
-{grid_levels[grid_selected][gr_st_selected][position_grid_editing]=255;}
-else if(grid_levels[grid_selected][gr_st_selected][position_grid_editing]==255
-|| grid_levels[index_grider_selected[num_grid_player]][gr_st_selected][position_grid_editing]>0 )
+{grid_levels[grid_selected][gr_st_selected][position_grid_editing]=wc::LVL_MAX;}
+else if(grid_levels[grid_selected][gr_st_selected][position_grid_editing]>0 )
 {grid_levels[grid_selected][gr_st_selected][position_grid_editing]=0;}
 }
 else if(numeric_postext>0)
@@ -454,19 +454,19 @@ else if(numeric_postext>0)
 int lev_to_attr_to_grid=0;
 lev_to_attr_to_grid=atoi(numeric);
 if (!dmx_view)
-{
+{ // [grid 16 bit / stage B] entree en % -> vraie valeur 16 bit (pct_to_lvl), plus de x2.55+1
 if(lev_to_attr_to_grid>0)
 {
-grid_levels[grid_selected][gr_st_selected][position_grid_editing]=
-(int)(((float)(lev_to_attr_to_grid) *2.55) +1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+if(lev_to_attr_to_grid>100){lev_to_attr_to_grid=100;} // clamp : pct_to_lvl(>100) deborderait le 16 bit
+grid_levels[grid_selected][gr_st_selected][position_grid_editing]=wc::pct_to_lvl(lev_to_attr_to_grid);
 }
 else {grid_levels[grid_selected][gr_st_selected][position_grid_editing]=0;}
 }
 else
-{
+{ // [grid 16 bit / stage B] entree en DMX 8 bit (0-255) -> 16 bit (x257)
 if(lev_to_attr_to_grid>=0 && lev_to_attr_to_grid<=255)
 {
-grid_levels[grid_selected][gr_st_selected][position_grid_editing]=lev_to_attr_to_grid;
+grid_levels[grid_selected][gr_st_selected][position_grid_editing]=wc::dmx8_to_lvl((unsigned char)lev_to_attr_to_grid);
 }
 }
 
@@ -583,7 +583,7 @@ int do_logical_TheGrid_divers( int xb, int yb, int num_grid_player)
    {
    if(i+grider_begin_channel_is+1<513)
    {
-   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i]=wc::lvl_to_dmx8(FaderDoDmx[(GplSnapFader[num_grid_player])][i+grider_begin_channel_is]);// [fader 16 bit] grid stocke 8 bit
+   grid_levels[index_grider_selected[num_grid_player]][index_grider_step_is[num_grid_player]][i]=FaderDoDmx[(GplSnapFader[num_grid_player])][i+grider_begin_channel_is];// [grid 16 bit / stage B] snap fader 16 bit direct
    }
    }
    mouse_released=1;
@@ -981,6 +981,7 @@ mouse_released=1;
 
 //AFFICHAGE DES GRID PLAYERS
 
+grid_wheel_hover_player=-1; // [grid 16 bit / stage B] re-publie chaque frame par la matrice survolee (do_logical_TheGrid_matrix)
 int numerodeplayer_affiche=0;
 for(int yo=0;yo<core_user_define_nb_gridplayers;yo++)
 {
