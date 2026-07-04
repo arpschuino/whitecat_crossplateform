@@ -518,18 +518,19 @@ if(wizard_buffer_in[co]==1)
 {
 switch(dmx_view)
 {
-case 0:
+case 0: // [mem16 stage C] Set en % -> 16 bit natif (pct_to_lvl, plus de quantification 8 bit)
 if(wizard_level_is>0)
 {
-Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)((int)(((float)wizard_level_is)*2.55)+1));// [mem16 s1] wizard reste 8 bit
+int _p=wizard_level_is; if(_p>100){_p=100;}
+Memoires[m][co]=wc::pct_to_lvl(_p);
 }
 else if(wizard_level_is==0)
 {
 Memoires[m][co]=0;
 }
 break;
-case 1:
-Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)wizard_level_is);// [mem16 s1]
+case 1: // [mem16 stage C] Set en DMX 8 bit (0-255) -> 16 bit (x257)
+Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)wizard_level_is);
 break;
 }
 }
@@ -551,17 +552,17 @@ if(Memoires[m][co]>0)//on ne rajoute pas sur un circuit à 0%
 switch(dmx_view)
 {
 case 0:
-{
-int _c8=wc::lvl_to_dmx8(Memoires[m][co]); int _a=(int)((((float)wizard_level_is)*2.55)+1);// [mem16 s1]
-if(_c8+_a<=255){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8+_a));}
-else {Memoires[m][co]=wc::dmx8_to_lvl(255);}
+{ // [mem16 stage C] Add en % : math 16 bit sans round-trip 8 bit (garde la finesse du niveau courant)
+int _cur=Memoires[m][co]; int _p=wizard_level_is; if(_p>100){_p=100;} int _a=wc::pct_to_lvl(_p);
+if(_cur+_a<=65535){Memoires[m][co]=(unsigned short)(_cur+_a);}
+else {Memoires[m][co]=wc::LVL_MAX;}
 }
 break;
 case 1:
-{
-int _c8=wc::lvl_to_dmx8(Memoires[m][co]);// [mem16 s1]
-if(_c8+wizard_level_is<=255){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8+wizard_level_is));}
-else  {Memoires[m][co]=wc::dmx8_to_lvl(255);}
+{ // [mem16 stage C] Add en DMX : delta = wizard_level_is x257, math 16 bit
+int _cur=Memoires[m][co]; int _a=wc::dmx8_to_lvl((unsigned char)wizard_level_is);
+if(_cur+_a<=65535){Memoires[m][co]=(unsigned short)(_cur+_a);}
+else  {Memoires[m][co]=wc::LVL_MAX;}
 }
 break;
 }
@@ -585,16 +586,16 @@ if(Memoires[m][co]>0)//on ne retire pas sur un circuit à 0%
 switch(dmx_view)
 {
 case 0:
-{
-int _c8=wc::lvl_to_dmx8(Memoires[m][co]); int _s=(int)((((float)wizard_level_is)*2.55)+1);// [mem16 s1]
-if(_c8-_s>=0){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8-_s));}
+{ // [mem16 stage C] Reduce en % : math 16 bit sans round-trip 8 bit
+int _cur=Memoires[m][co]; int _p=wizard_level_is; if(_p>100){_p=100;} int _s=wc::pct_to_lvl(_p);
+if(_cur-_s>=0){Memoires[m][co]=(unsigned short)(_cur-_s);}
 else {Memoires[m][co]=0;}
 }
 break;
 case 1:
-{
-int _c8=wc::lvl_to_dmx8(Memoires[m][co]);// [mem16 s1]
-if(_c8-wizard_level_is>=0){Memoires[m][co]=wc::dmx8_to_lvl((unsigned char)(_c8-wizard_level_is));}
+{ // [mem16 stage C] Reduce en DMX : delta = wizard_level_is x257, math 16 bit
+int _cur=Memoires[m][co]; int _s=wc::dmx8_to_lvl((unsigned char)wizard_level_is);
+if(_cur-_s>=0){Memoires[m][co]=(unsigned short)(_cur-_s);}
 else {Memoires[m][co]=0;}
 }
 break;
