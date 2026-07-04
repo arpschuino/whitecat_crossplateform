@@ -379,6 +379,9 @@ int f_name_len = strlen(importfile_name);
 return(0);
 }
 
+// [inline edit] callback apres validation du nom d'import/export : re-detecte le format d'apres
+// l'extension (void(*)() attendu par wc_inline_begin ; check_import_type renvoie int -> wrapper).
+static void wc_recheck_import_type(){ check_import_type(); }
 
 
 //sab 02/03/2014 int deroule_repertoire_export_import(int xrep, int yrep, char name_of_rep[25])
@@ -433,7 +436,8 @@ FrameSelected.DrawOutline(CouleurLigne);
 
 FrameSelected.SetLineWidth(epaisseur_ligne_fader);
 FrameSelected.DrawOutline(CouleurLigne.WithAlpha(alpha_blinker));
-petitchiffre.Print(importfile_name,xrep+10,yrep+365);
+if(wc_inline_editing(importfile_name)){ wc_inline_render(xrep+10, yrep+365, yrep+352, yrep+372); }
+else { petitchiffre.Print(importfile_name,xrep+10,yrep+365); }
 petitpetitchiffre.Print(string_typeexport_view,xrep+150,yrep+375);
 
 petitpetitchiffre.Print("Name must have extension: ",xrep+250,yrep+170 );
@@ -529,8 +533,13 @@ mouse_released=1;
 
 if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+205 && mouse_y>yrep+347 && mouse_y<yrep+367)
 {
-
-if(mouse_button==1 && mouse_released==0 && index_type==1 )
+// [inline edit] double-clic -> edition directe du nom d'import/export (sans F5) + re-detection du format.
+if(mouse_double_click)
+{
+wc_inline_begin(importfile_name, 72, 225, wc_recheck_import_type);
+mouse_released=1;
+}
+else if(mouse_button==1 && mouse_released==0 && index_type==1 ) // ancien chemin F5 conserve
 {
 for (int tt=0;tt<24;tt++)
 {
@@ -580,6 +589,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+40 && mouse_x<xrep+110 && mouse_y>yre
 {
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()){ wc_inline_commit(); } // [inline edit] valide le nom en cours (+ re-detecte le format)
 index_do_export=1;
 index_ask_confirm=1;
 mouse_released=1;
@@ -593,6 +603,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+140 && mouse_x<xrep+210 && mouse_y>yr
 {
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()){ wc_inline_commit(); } // [inline edit] valide le nom en cours (+ re-detecte le format)
 index_do_import=1;
 index_ask_confirm=1;
 mouse_released=1;
@@ -653,7 +664,8 @@ FrameSelected.DrawOutline(CouleurLigne);
 
 FrameSelected.SetLineWidth(epaisseur_ligne_fader);
 FrameSelected.DrawOutline(CouleurLigne.WithAlpha(alpha_blinker));
-petitchiffre.Print(importfile_name,xrep+10,yrep+365);
+if(wc_inline_editing(importfile_name)){ wc_inline_render(xrep+10, yrep+365, yrep+352, yrep+372); }
+else { petitchiffre.Print(importfile_name,xrep+10,yrep+365); }
 petitpetitchiffre.Print(string_typeexport_view,xrep+150,yrep+375);
 
 petitpetitchiffre.Print("Name must have extension: ",xrep+250,yrep+170 );
@@ -747,8 +759,13 @@ mouse_released=1;
 
 if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+205 && mouse_y>yrep+347 && mouse_y<yrep+367)
 {
-
-if(mouse_button==1 && mouse_released==0 && index_type==1 )
+// [inline edit] double-clic -> edition directe du nom d'import/export (sans F5) + re-detection du format.
+if(mouse_double_click)
+{
+wc_inline_begin(importfile_name, 72, 225, wc_recheck_import_type);
+mouse_released=1;
+}
+else if(mouse_button==1 && mouse_released==0 && index_type==1 ) // ancien chemin F5 conserve
 {
 for (int tt=0;tt<24;tt++)
 {
@@ -775,6 +792,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+40 && mouse_x<xrep+110 && mouse_y>yre
 {
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()){ wc_inline_commit(); } // [inline edit] valide le nom en cours (+ re-detecte le format)
 index_do_export=1;
 index_ask_confirm=1;
 mouse_released=1;
@@ -788,6 +806,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+140 && mouse_x<xrep+210 && mouse_y>yr
 {
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()){ wc_inline_commit(); } // [inline edit] valide le nom en cours (+ re-detecte le format)
 index_do_import=1;
 index_ask_confirm=1;
 mouse_released=1;
@@ -840,19 +859,8 @@ FrameSelected.DrawOutline(CouleurLigne);
 }
 FrameSelected.SetLineWidth(epaisseur_ligne_fader);
 FrameSelected.DrawOutline(CouleurLigne.WithAlpha(alpha_blinker));
-if(savename_editing && index_confirm_name_active)
-{
-// [save inline] texte en cours d'edition + caret clignotant a la position du curseur
-petitchiffre.Print(confirm_name_buf,xrep+10,yrep+365);
-char _cb[50]; int _n=seq_edit_cursor; if(_n<0)_n=0; if(_n>49)_n=49;
-memcpy(_cb,confirm_name_buf,_n); _cb[_n]='\0';
-int _cx = xrep+10 + petitchiffre.TextWidth(_cb);
-if(alpha_blinker>0.5f){ Line(Vec2D(_cx,yrep+352),Vec2D(_cx,yrep+372)).Draw(CouleurBlanc); }
-}
-else
-{
-petitchiffre.Print(savefile_name,xrep+10,yrep+365);
-}
+if(wc_inline_editing(savefile_name)){ wc_inline_render(xrep+10, yrep+365, yrep+352, yrep+372); }
+else { petitchiffre.Print(savefile_name,xrep+10,yrep+365); }
 //////////////////ASCENSEUR SAVE/////////////////////
 save_scrollbar_draw(xrep+228, yrep+176, 162, line_save, nbre_save_files, 8, save_binary_scroll_dragging);
 save_scrollbar_wheel(xrep, yrep+155, 245, 185, &line_save, nbre_save_files, 8, &save_binary_last_scroll_z);
@@ -920,17 +928,10 @@ mouse_released=1;
 
 if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+245 && mouse_y>yrep+347 && mouse_y<yrep+377)
 {
-// [save inline] double-clic -> edition directe du nom (reutilise l'editeur inline confirm_name_buf,
-// le meme que pour nommer les memoires). Enter valide, ESC annule. Plus besoin de passer par F5.
+// [inline edit] double-clic -> edition directe du nom de show (sans F5), composant reutilisable.
 if(mouse_double_click)
 {
-strncpy(confirm_name_buf, savefile_name, 49); confirm_name_buf[49]='\0';
-confirm_name_len=(int)strlen(confirm_name_buf);
-seq_edit_cursor=confirm_name_len;
-seq_editing_mem=-1;          // cible = nom de save, pas une memoire du sequenciel
-savename_editing=1;
-index_confirm_name_active=1;
-SDL_StartTextInput();
+wc_inline_begin(savefile_name, 72, 225, 0);
 mouse_released=1;
 }
 else if(mouse_button==1 && mouse_released==0 && index_type==1) // ancien chemin F5 conserve
@@ -957,13 +958,8 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+40 && mouse_x<xrep+110 && mouse_y>yre
 if(mouse_button==1 && mouse_released==0)
 {
 
-// [save inline] si on sauve alors qu'un nom est en cours d'edition -> le valider d'abord
-if(savename_editing)
-{
-strncpy(savefile_name, confirm_name_buf, 71); savefile_name[71]='\0';
-savename_editing=0; index_confirm_name_active=0; SDL_StopTextInput();
-confirm_name_buf[0]='\0'; confirm_name_len=0; seq_edit_cursor=0;
-}
+// [inline edit] si un nom est en cours d'edition -> le valider avant de sauver
+if(wc_inline_active()){ wc_inline_commit(); }
 if(strlen(savefile_name)==0){sprintf(savefile_name,"unnamed");}
 index_do_saveshow=1;
 index_ask_confirm=1;

@@ -91,7 +91,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             cand[confirm_name_len + clen] = '\0';
             {
                 // insertion au curseur — petitchiffre pour l'inline (seq + nom de save), neuro pour la boîte confirm
-                bool fits = savename_editing      ? (petitchiffre.TextWidth(cand) <= 225)  // [save inline] champ nom (240px)
+                bool fits = wc_inline_active()    ? (petitchiffre.TextWidth(cand) <= wc_inline_max_px()) // [inline edit] champ generique
                           : (seq_editing_mem >= 0) ? (petitchiffre.TextWidth(cand) <= 430)
                                                    : (neuro.TextWidth(cand) <= 290);
                 if (fits) {
@@ -176,14 +176,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
         case KEY_ESC://nettoyage chaine de caractere et deselection totale
 
-            if (savename_editing) { // [save inline] annule l'edition du nom (savefile_name inchange)
-                savename_editing = 0;
-                confirm_name_buf[0] = '\0'; confirm_name_len = 0; seq_edit_cursor = 0;
-                index_confirm_name_active = 0;
-                SDL_StopTextInput();
-                wc_dirty = true;
-                break;
-            }
+            if (wc_inline_active()) { wc_inline_cancel(); break; } // [inline edit] annule l'edition (cible inchangee)
             reset_indexs_confirmation();
             reset_index_actions();
             key_unselect_ch();
@@ -535,18 +528,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_ENTER :
-            if (savename_editing && index_confirm_name_active) { // [save inline] valide le nom de show
-                strncpy(savefile_name, confirm_name_buf, 71);
-                savefile_name[71] = '\0';
-                savename_editing = 0;
-                confirm_name_buf[0] = '\0';
-                confirm_name_len = 0;
-                seq_edit_cursor = 0;
-                index_confirm_name_active = 0;
-                SDL_StopTextInput();
-                wc_dirty = true;
-                break;
-            }
+            if (wc_inline_active()) { wc_inline_commit(); break; } // [inline edit] valide le champ generique
             if (seq_editing_mem >= 0 && index_confirm_name_active) {
                 if (seq_editing_annotation) {
                     strncpy(annotation_memoires[seq_editing_mem], confirm_name_buf, 49);
@@ -580,18 +562,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_ENTER_PAD:
-            if (savename_editing && index_confirm_name_active) { // [save inline] valide le nom de show
-                strncpy(savefile_name, confirm_name_buf, 71);
-                savefile_name[71] = '\0';
-                savename_editing = 0;
-                confirm_name_buf[0] = '\0';
-                confirm_name_len = 0;
-                seq_edit_cursor = 0;
-                index_confirm_name_active = 0;
-                SDL_StopTextInput();
-                wc_dirty = true;
-                break;
-            }
+            if (wc_inline_active()) { wc_inline_commit(); break; } // [inline edit] valide le champ generique
             if (seq_editing_mem >= 0 && index_confirm_name_active) {
                 if (seq_editing_annotation) {
                     strncpy(annotation_memoires[seq_editing_mem], confirm_name_buf, 49);
