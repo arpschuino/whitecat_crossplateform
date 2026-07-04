@@ -290,3 +290,4 @@ int chan_to_manipulate = 0;
 char confirm_name_buf[50] = {0};
 int confirm_name_len = 0;
 bool index_confirm_name_active = 0;
+bool savename_editing = 0; // [save inline] double-clic dans le champ nom de show -> edition inline (reutilise l'editeur confirm_name_buf)

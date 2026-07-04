@@ -331,3 +331,4 @@ extern int chan_to_manipulate;
 extern char confirm_name_buf[50];
 extern int confirm_name_len;
 extern bool index_confirm_name_active;
+extern bool savename_editing; // [save inline] edition inline du nom de show
