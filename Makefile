@@ -82,6 +82,7 @@ SRC_CPPS := \
     $(SRC)/channels.cpp \
     $(SRC)/video.cpp \
     $(SRC)/ui_indexes.cpp \
+    $(SRC)/wc_inline_edit.cpp \
     $(SRC)/patch.cpp \
     $(SRC)/audio.cpp \
     $(SRC)/dmx.cpp \

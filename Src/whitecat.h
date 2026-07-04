@@ -60,6 +60,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "trichro.h"
 
 #include "ui_indexes.h"
+#include "wc_inline_edit.h"
 
 // faders -> faders.h
 #include "faders.h"
