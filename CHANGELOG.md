@@ -34,6 +34,7 @@
 
 ### Interface
 
+- **Nom de show éditable au double-clic** (fenêtre Save) : double-cliquer sur le champ de nom permet de le saisir **directement**, sans passer par la fenêtre texte F5. Réutilise l'éditeur inline des noms de mémoires (curseur blanc, flèches, backspace, UTF-8) ; Entrée valide, Échap annule, un clic sur SAVE valide aussi le nom en cours.
 - **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS qui met le rendu en pause — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
 
 ---
