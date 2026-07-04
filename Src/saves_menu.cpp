@@ -99,16 +99,28 @@ void scan_importfolder(const char* subdir)
 {
     for(int i=0;i<127;i++) strcpy(list_import_files[i],"");
     int nrbe_de_fichiers=0;
+    // [import list] entree "remonter d'un dossier" en tete des qu'on est dans un sous-dossier.
+    // Valeur ".." (routee par check_import_type vers la racine) ; libelle lisible gere au rendu.
+    // Synthetisee ici a l'identique sur toutes les plateformes (pas de dependance au ".." de l'OS,
+    // que Linux filtre) -> remonter d'un cran marche partout (Windows, Linux, macOS a venir).
+    if(subdir && subdir[0]){ strcpy(list_import_files[0], ".."); nrbe_de_fichiers=1; }
 #ifdef _WIN32
     WIN32_FIND_DATA f;
     HANDLE hFind;
     char search_import[512];
-    sprintf(search_import,"%s\\import_export\\%s*.*",mondirectory,subdir);
+    // [fix import list] descendre VRAIMENT dans le sous-dossier : "import_export\<subdir>\*.*".
+    // Avant : "import_export\<subdir>*.*" (sans \) -> listait les entrees de import_export
+    // commencant par <subdir> (= le dossier lui-meme), jamais son contenu.
+    if(subdir && subdir[0])
+        sprintf(search_import,"%s\\import_export\\%s\\*.*",mondirectory,subdir);
+    else
+        sprintf(search_import,"%s\\import_export\\*.*",mondirectory);
     hFind = FindFirstFile(search_import, &f);
     if(hFind != INVALID_HANDLE_VALUE)
     {
         do
         {
+            if(strcmp(f.cFileName,".")==0 || strcmp(f.cFileName,"..")==0) continue; // [import list] pas d'entrees systeme (. ..)
             if(nrbe_de_fichiers<127)
             {
                 sprintf(list_import_files[nrbe_de_fichiers],f.cFileName);
@@ -120,7 +132,13 @@ void scan_importfolder(const char* subdir)
     }
 #else
     char search_import[512];
-    snprintf(search_import, sizeof(search_import), "%s/import_export", mondirectory);
+    // [fix import list] descendre dans le sous-dossier ("import_export/<subdir>") et lister TOUT son
+    // contenu. Avant : on ouvrait "import_export" et on filtrait par prefixe <subdir> -> ne montrait
+    // que le dossier lui-meme, pas son contenu.
+    if(subdir && subdir[0])
+        snprintf(search_import, sizeof(search_import), "%s/import_export/%s", mondirectory, subdir);
+    else
+        snprintf(search_import, sizeof(search_import), "%s/import_export", mondirectory);
     DIR* dir = opendir(search_import);
     if(dir)
     {
@@ -128,7 +146,6 @@ void scan_importfolder(const char* subdir)
         while((entry = readdir(dir)) != NULL && nrbe_de_fichiers < 127)
         {
             if(entry->d_name[0] == '.') continue;
-            if(subdir && subdir[0] && strncmp(entry->d_name, subdir, strlen(subdir)) != 0) continue;
             snprintf(list_import_files[nrbe_de_fichiers], sizeof(list_import_files[0]), "%s", entry->d_name);
             nrbe_de_fichiers++;
         }
@@ -409,7 +426,18 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 {
 OverFile.DrawOutline(CouleurLigne);
 }
-petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+188+(y*20));
+{ // [import list] entree "remonter d'un dossier" : petite fleche retour dessinee (langue-neutre,
+// UI anglaise) ; sinon le nom du fichier/dossier.
+const char* _lbl = list_import_files[line_import+y];
+if(strcmp(_lbl,"..")==0)
+{
+int _ax=xrep+13, _ay=yrep+183+(y*20);
+Line(Vec2D(_ax,_ay),Vec2D(_ax+13,_ay)).Draw(CouleurLigne);       // hampe
+Line(Vec2D(_ax,_ay),Vec2D(_ax+5,_ay-4)).Draw(CouleurLigne);      // pointe haut
+Line(Vec2D(_ax,_ay),Vec2D(_ax+5,_ay+4)).Draw(CouleurLigne);      // pointe bas
+}
+else petitpetitchiffre.Print(_lbl,xrep+10,yrep+188+(y*20));
+}
 
  //fin des 8 lignes
 }
@@ -515,6 +543,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()) wc_inline_cancel(); // [inline edit] choisir dans la liste annule une saisie en cours
 importfile_selected=(y+line_import);
 if(y+line_import<127)
 {sprintf(importfile_name,list_import_files[importfile_selected]);  }
@@ -637,7 +666,18 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 {
 OverFile.DrawOutline(CouleurLigne);
 }
-petitpetitchiffre.Print(list_import_files[line_import+y],xrep+10,yrep+188+(y*20));
+{ // [import list] entree "remonter d'un dossier" : petite fleche retour dessinee (langue-neutre,
+// UI anglaise) ; sinon le nom du fichier/dossier.
+const char* _lbl = list_import_files[line_import+y];
+if(strcmp(_lbl,"..")==0)
+{
+int _ax=xrep+13, _ay=yrep+183+(y*20);
+Line(Vec2D(_ax,_ay),Vec2D(_ax+13,_ay)).Draw(CouleurLigne);       // hampe
+Line(Vec2D(_ax,_ay),Vec2D(_ax+5,_ay-4)).Draw(CouleurLigne);      // pointe haut
+Line(Vec2D(_ax,_ay),Vec2D(_ax+5,_ay+4)).Draw(CouleurLigne);      // pointe bas
+}
+else petitpetitchiffre.Print(_lbl,xrep+10,yrep+188+(y*20));
+}
 
  //fin des 8 lignes
 }
@@ -741,6 +781,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()) wc_inline_cancel(); // [inline edit] choisir dans la liste annule une saisie en cours
 importfile_selected=(y+line_import);
 if(y+line_import<127)
 {sprintf(importfile_name,list_import_files[importfile_selected]);  }
@@ -917,6 +958,7 @@ if(window_focus_id==W_SAVE && mouse_x>xrep+5 && mouse_x<xrep+155 && mouse_y>(yre
 
 if(mouse_button==1 && mouse_released==0)
 {
+if(wc_inline_active()) wc_inline_cancel(); // [inline edit] choisir dans la liste annule une saisie en cours
 savefile_selected=(y+line_save);
 sprintf(savefile_name,list_save_files[savefile_selected]);
 mouse_released=1;
