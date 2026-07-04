@@ -266,8 +266,14 @@ grid_in_preset[grid_pl][1]=gr_actual_step+1;
 }
 else
 {
+// [fix goto sain] un goto est valide s'il est dans les bornes (grille 0-127, pas 0-1023) ;
+// desaffecte = -1. On rejette AUSSI les valeurs hors bornes hautes (grid_goto corrompu, ex.
+// vieux show avec 559903) -> le goto est ignore et le player progresse normalement, au lieu de
+// pointer vers une grille/pas invalide (cause du crash ticker, cf. grid_in_preset clamp plus bas).
 if(grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][0]>=0
-&& grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][1]>=0)//0 = step 1. désafecté val=-1
+&& grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][0]<=127
+&& grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][1]>=0
+&& grid_goto[(index_grider_selected[grid_pl])][(index_grider_step_is[grid_pl])][1]<=1023)//0 = step 1. desaffecte val=-1
 {
 
 if( grider_count_mode[grid_pl]==1 &&  grid_count[gr_actual_grid][gr_actual_step]>0

@@ -6386,6 +6386,17 @@ if (gzread(gzfp, grid_goto, grid_goto_size*sizeof(int)) !=(int)(grid_goto_size*s
 else sprintf(string_save_load_report[idf],"Loaded file %s", file_grid_goto);
  gzclose(gzfp);
 }
+// [fix goto sain] assainit un grid_goto hors bornes (vieux show / garbage, ex. 559903) :
+// goto invalide (grille hors [-1,127] ou pas hors [-1,1023]) -> desaffecte (-1,-1). Evite le
+// crash ticker en amont, un affichage aberrant du viewer, et re-sauve une donnee propre.
+{
+int* _gg=(int*)grid_goto;
+unsigned int _fixed=0;
+for(unsigned int _i=0; _i+1<grid_goto_size; _i+=2){
+ if(_gg[_i]<-1 || _gg[_i]>127 || _gg[_i+1]<-1 || _gg[_i+1]>1023){ _gg[_i]=-1; _gg[_i+1]=-1; _fixed++; }
+}
+if(_fixed>0){ sprintf(string_save_load_report[idf],"Sanitized %u grid_goto (out of range)", _fixed); }
+}
 }
 idf++;
 gz_load_block(file_grid_seekpos, grid_seekpos, grid_seekpos_size*sizeof(int), idf); // [compression]
