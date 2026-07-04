@@ -58,6 +58,43 @@ for (int r=0;r<514;r++)
 ////////////////////////ASCII///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// [ascii interop] Eos/Cobalt ecrivent les mots-cles en TitleCase (Cue, Up, Down, Chan) ; WhiteCat
+// les ecrivait en MAJUSCULES. Comparaison de prefixe insensible a la casse pour lire les deux.
+static int wc_ci_prefix(const char* s, const char* p){
+  for(; *p; ++s, ++p){
+    char a=*s, b=*p;
+    if(a>='A'&&a<='Z') a+=32;
+    if(b>='A'&&b<='Z') b+=32;
+    if(a!=b) return 0;
+  }
+  return 1;
+}
+static int wc_hexval(char c){
+  if(c>='0'&&c<='9') return c-'0';
+  if(c>='a'&&c<='f') return c-'a'+10;
+  if(c>='A'&&c<='F') return c-'A'+10;
+  return -1;
+}
+// [ascii interop] parse un token niveau "<chan><sep>H<hex>" (sep = @ Eos, ou / ancien WhiteCat).
+// La LARGEUR de l'hexa donne la resolution : 2 chiffres = 8 bit (x257), 4 chiffres = 16 bit direct
+// (ex. Eos : 2@Hff = 8 bit plein ; 1@Hffff / 5@H30a4 = 16 bit). Retourne 0 si non parsable.
+static int wc_parse_chan_level(const char* tok, int* out_chan, int* out_lvl16){
+  int c=0; const char* p=tok;
+  if(*p<'0'||*p>'9') return 0;
+  while(*p>='0'&&*p<='9'){ c=c*10+(*p-'0'); ++p; }
+  while(*p && *p!='@' && *p!='/') ++p;      // separateur @ (Eos) ou / (WhiteCat)
+  if(*p!='@' && *p!='/') return 0;
+  ++p;
+  if(*p!='H' && *p!='h') return 0;          // on ne gere que l'hexa (@H)
+  ++p;
+  int hl=0, v=0, d;
+  while((d=wc_hexval(p[hl]))>=0){ v=v*16+d; ++hl; }
+  if(hl==0) return 0;
+  int lvl16 = (hl>=3) ? v : (int)wc::dmx8_to_lvl((unsigned char)v); // >=3 chiffres -> 16 bit direct
+  if(lvl16>65535) lvl16=65535;
+  *out_chan=c; *out_lvl16=lvl16; return 1;
+}
+
 int do_ASCII_import()
 {
 index_is_saving=1;
@@ -101,25 +138,45 @@ chdir(rep);
 	do {
 		if (fgets(line,512,f)!=NULL)
 		{
-				if (strncmp(line, "CUE",3)==0)
+				// [ascii interop] Eos INDENTE les lignes de cue (3 espaces : "   Up 10", "   Chan …").
+				// On retire le blanc de tete pour que les tests de mot-cle et les offsets (line+N)
+				// marchent pour Eos ET WhiteCat (qui, lui, n'indente pas -> no-op).
+				{ char* _s=line; while(*_s==' '||*_s=='\t') _s++;
+				  if(_s!=line){ memmove(line,_s,strlen(_s)+1); } }
+				// [ascii interop] "CUE 1.5" (WhiteCat) ou "Cue 7 1" (Eos : num + cuelist). Le nombre
+				// apres le mot-cle -> memoire = num x10. On efface la memoire avant de la remplir
+				// (import propre, et compat avec le remplissage partiel Chan/$$ChanMove).
+				if (wc_ci_prefix(line, "CUE") && (line[3]==' '||line[3]=='\t'))
 					{
-						float tmpcueval= strtof(line+4,NULL);
-						cue = (int)(tmpcueval*10);
+						float tmpcueval= strtof(line+3,NULL);
+						cue = (int)(tmpcueval*10.0f + 0.5f);
+						if(cue>=0 && cue<10000)
+						{
 						MemoiresExistantes[cue]=1;
+						for(int _cc=0;_cc<514;_cc++){ Memoires[cue][_cc]=0; }
 	                    if(first_cue_from_import==0)
 	                    {first_cue_from_import=cue;}
 						flagcue=1;flagsub=-1;flagpatch=-1;
-
+						}
                     }
 
         	    if(flagcue==1)//cues
 			    {
 
-                 if(strncmp(line,"TEXT",4)==0)
+                 // [ascii interop] "Text …" (WhiteCat/USITT) ou "$$Text …" (Eos) -> label memoire
+                 if(wc_ci_prefix(line,"TEXT"))
                  {
                  for (int p=0; p<24;p++)
                  {
                  descriptif_memoires[cue][p]=line[p+5];
+                 }
+                 descriptif_memoires[cue][24]='\0';
+                 }
+                 else if(wc_ci_prefix(line,"$$TEXT"))
+                 {
+                 for (int p=0; p<24;p++)
+                 {
+                 descriptif_memoires[cue][p]=line[p+7];
                  }
                  descriptif_memoires[cue][24]='\0';
                  }
@@ -128,13 +185,13 @@ chdir(rep);
                 //sprintf(header_export,"Stage: d:%.1f  OUT: %.1f  | Memory: d:%.1f  IN: %.1f", Times_Memoires[m][2], Times_Memoires[m][3],Times_Memoires[m][0],Times_Memoires[m][1]);
 
 
-				if(strncmp(line,"DOWN",4)==0)
+				if(wc_ci_prefix(line,"DOWN") && (line[4]==' '||line[4]=='\t'))
 					{
 					down=(float)strtof(line+5,NULL);
 					Times_Memoires[cue][3]=down;
 
 					}
-				if(strncmp(line,"UP",2)==0)
+				if(wc_ci_prefix(line,"UP") && (line[2]==' '||line[2]=='\t'))
 					{
 					up=(float)strtof(line+3,NULL);
 					Times_Memoires[cue][1]=up;
@@ -148,16 +205,30 @@ chdir(rep);
 				//	Times_Memoires[cue][2]=autogotime;
 					}
 
-				if(strncmp(line,"CHAN",4)==0)
+				// [ascii interop] niveaux d'intensite. Eos ecrit "$$ChanMove" (moves, pleine resolution
+				// 16 bit) PUIS "Chan" (etat tracke, 8 bit). WhiteCat n'ecrivait que "CHAN 1/Hff" (8 bit).
+				// On lit les deux : $$ChanMove -> 16 bit ecrit directement (source la plus precise) ;
+				// Chan -> ne remplit QUE les circuits encore a 0 (ne clobbe pas le 16 bit du ChanMove).
+				{
+				bool _is_move = wc_ci_prefix(line,"$$CHANMOVE");
+				bool _is_chan = _is_move ? false : wc_ci_prefix(line,"CHAN");
+				if(_is_move || _is_chan)
 					{
-					temp= strtok(line+5," ");
-					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
-					    	{
-							sscanf(temp,"%d/H%x\n",&chan,&level);//debug 3/12/14 christoph
-							Memoires[cue][chan]=wc::dmx8_to_lvl((unsigned char)level);// [mem16 s1] import 8 bit -> 16 bit
-							temp=strtok(NULL," ");
-						    }
+					char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+					char* _t = strtok(_lc," \t\r\n"); // 1er token = mot-cle (Chan / $$ChanMove)
+					_t = strtok(NULL," \t\r\n");
+					while(_t!=NULL)
+						{
+						int _c=0,_l=0;
+						if(wc_parse_chan_level(_t,&_c,&_l) && _c>0 && _c<513)
+							{
+							if(_is_move){ Memoires[cue][_c]=(unsigned short)_l; }
+							else if(Memoires[cue][_c]==0){ Memoires[cue][_c]=(unsigned short)_l; }
+							}
+						_t = strtok(NULL," \t\r\n");
+						}
 					}
+				}
                 }//fin cues
 
                 if (strncmp(line, "SET DEFAULT PATCH",17)==0 || strncmp(line, "CLEAR PATCH",11)==0  )
@@ -300,13 +371,14 @@ FILE *fp=NULL;
 
 if((fp=fopen(importfile_name,"wt")))
 {
-    fprintf(fp,"MANUFACTURER WHITE CAT (c)CHRISTOPH GUILLERMET\n");
-    fprintf(fp,"%s\n",versionis);
-    fprintf(fp,"IDENT 3.0\n");
+    // [ascii interop] en-tete USITT standard lisible par Eos/Cobalt : "Ident 3:0" (deux-points !),
+    // Manufacturer/Console, commentaires prefixes '!'. (Avant : "IDENT 3.0" + version nue = non standard.)
+    fprintf(fp,"Ident 3:0\n");
+    fprintf(fp,"Manufacturer ARPSCHUINO (White Cat)\n");
+    fprintf(fp,"Console White Cat\n");
+    fprintf(fp,"$$Software Version %s\n",versionis);
 
-fprintf(fp,"CLEAR ALL\n\n");
-
-fprintf(fp,"CLEAR CUES\n");
+fprintf(fp,"Clear All\n\n");
 int s=0;
 int m=0;
 int level_export=0;
@@ -317,28 +389,34 @@ int level_export=0;
     {
         if (MemoiresExistantes[m]==1)
                 {
-                fprintf(fp,"\nCUE ");
-                fprintf(fp,"%d.%d\n", (m/10),(m%10));
+                // [ascii interop] "Cue <num> <cuelist>" (Eos). memoire m -> cue (m/10).(m%10) list 1.
+                fprintf(fp,"\nCue %d.%d 1\n", (m/10),(m%10));
 
-                fprintf(fp,"TEXT %s", descriptif_memoires[m]);
+                fprintf(fp,"Text %s\n", descriptif_memoires[m]);
                 ////0=DIN  1=IN 2=DOUT 3=OUT
-                //sprintf(header_export,"Stage: d:%.1f  OUT: %.1f  | Memory: d:%.1f  IN: %.1f", Times_Memoires[m][2], Times_Memoires[m][3],Times_Memoires[m][0],Times_Memoires[m][1]);
+                fprintf(fp,"Down %.1f %.1f\n", Times_Memoires[m][3], Times_Memoires[m][2]);
+                fprintf(fp,"Up %.1f %.1f\n", Times_Memoires[m][1], Times_Memoires[m][0]);
+                if (Links_Memoires[m]==0) { fprintf(fp,"$$WAIT 0\n");}
+                if (Links_Memoires[m]==1) { fprintf(fp,"$$WAIT 0.1\n");}
 
-                fprintf(fp,"\nDOWN %.1f %.1f ", Times_Memoires[m][3], Times_Memoires[m][2]);
-                fprintf(fp,"\nUP %.1f %.1f ", Times_Memoires[m][1], Times_Memoires[m][0]);
-                if (Links_Memoires[m]==0) { fprintf(fp,"\n$$WAIT 0\n");}
-                if (Links_Memoires[m]==1) { fprintf(fp,"\n$$WAIT 0.1\n");}
-
-                fprintf(fp,"CHAN ");
-
+                // [ascii interop] deux lignes, comme Eos :
+                //  $$ChanMove = pleine resolution 16 bit (4 chiffres hex) -> Eos + WhiteCat la relisent,
+                //  Chan       = etat 8 bit standard USITT (2 chiffres hex) -> toute console la lit.
+                fprintf(fp,"$$ChanMove ");
                 for ( s=1;s<513;s++)
                                 {
-
                                 if (Memoires[m][s]>0)
                                                                 {
-                                                                level_export=(int) wc::lvl_to_dmx8(Memoires[m][s]);// [mem16 s1] export reste 8 bit
-                                                                fprintf(fp,"%d/H%x ",s, level_export ); //essai level
-
+                                                                fprintf(fp," %d@H%04x",s,(unsigned)Memoires[m][s]);
+                                                                }
+                                }
+                 fprintf(fp,"\nChan ");
+                for ( s=1;s<513;s++)
+                                {
+                                if (Memoires[m][s]>0)
+                                                                {
+                                                                level_export=(int) wc::lvl_to_dmx8(Memoires[m][s]);
+                                                                fprintf(fp," %d@H%02x",s, level_export );
                                                                 }
                                 }
 
