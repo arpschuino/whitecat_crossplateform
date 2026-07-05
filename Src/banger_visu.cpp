@@ -104,7 +104,7 @@ else{BangerFeedback.DrawOutline(CouleurLigne);}
 for(int p=0;p<16;p++)
 {
 sprintf(over_banger_is,"%d",(p*8)+1);
-petitpetitchiffrerouge.Print(over_banger_is,xvis,(yvis+p*12)+35);
+petitpetitchiffre.Print(over_banger_is,xvis,(yvis+p*12)+35); // [ui] labels de ligne en blanc (defaut) au lieu de rouge
 }
 
 if(banger_overoll<127)
@@ -153,9 +153,11 @@ BangNumBox.DrawOutline(CouleurLigne);
 
 Rect GiveNameOfBanger(Vec2D(xb+200,yb+40), Vec2D( 170,30));
 GiveNameOfBanger.SetRoundness(7.5);
-GiveNameOfBanger.Draw(CouleurSurvol);
+GiveNameOfBanger.Draw(CouleurConfig);        // [ui] bleu standard comme les autres champs (etait CouleurSurvol = rouge, permanent)
 
-petitchiffre.Print( bangers_name[index_banger_selected],(xb+205), (yb+60));
+// [inline edit] nom du banger : saisie inline en cours -> texte + caret ; sinon le nom
+if(wc_inline_editing(bangers_name[index_banger_selected])) wc_inline_render(xb+205, yb+60, yb+47, yb+66);
+else petitchiffre.Print( bangers_name[index_banger_selected],(xb+205), (yb+60));
 
 //UP DOWN bangers number selected
 Circle BangerPlus(Vec2D(xb+160,yb+55),12);
