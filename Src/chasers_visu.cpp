@@ -340,7 +340,9 @@ i_m_over_a_track=1;for(int pm=1;pm<513;pm++){over_track_show_channel[pm]= TrackC
 
 
 petitchiffre.Print(ol::ToString(num_track+1),xp+5,yp+13);
-petitpetitchiffregris.Print(chaser_track_name[chaser_selected][num_track],xp+30,yp+22);
+// [inline edit] nom de piste : saisie inline en cours -> texte + caret ; sinon le nom
+if(wc_inline_editing(chaser_track_name[chaser_selected][num_track])) wc_inline_render(xp+30, yp+22, yp+13, yp+29);
+else petitpetitchiffregris.Print(chaser_track_name[chaser_selected][num_track],xp+30,yp+22);
 if(TrackTypeIs[chaser_selected][num_track]==1)
 {
 char str_ty[16];
@@ -471,9 +473,11 @@ if(mouse_x>xcha+288 && mouse_x<xcha+312 && mouse_y>ycha+13 && mouse_y<ycha+37)
 
 Rect GiveNameOfchaser(Vec2D(xcha+330,ycha+10), Vec2D( 185,30));
 GiveNameOfchaser.SetRoundness(7.5);
-GiveNameOfchaser.Draw(CouleurSurvol);
+GiveNameOfchaser.Draw(CouleurConfig);        // [ui] bleu standard comme les autres champs (etait CouleurSurvol = rouge)
 
-petitchiffre.Print( chaser_name[chaser_selected],(xcha+335), (ycha+30));
+// [inline edit] nom du chaser : saisie inline en cours -> texte + caret ; sinon le nom
+if(wc_inline_editing(chaser_name[chaser_selected])) wc_inline_render(xcha+335, ycha+30, ycha+17, ycha+36);
+else petitchiffre.Print( chaser_name[chaser_selected],(xcha+335), (ycha+30));
 
 //////////////EDIT MODE
 
