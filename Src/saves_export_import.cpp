@@ -127,6 +127,27 @@ chdir(rep);
 	int master_fader=-1;
 	int master_dock=-1;
 
+	// [ascii interop] Import des dimmers 16 bit (Eos : section $Patch fixtures + $Personality).
+	// On ne capte QUE les personalities qui sont des DIMMERS INTENSITE PURS : une seule $$PersChan,
+	// param 1 (intensite), size 2 (16 bit). Les devices (plusieurs $$PersChan) sont ignores.
+	// $$PersChan <param> <size 1=8/2=16> <offset MSB> <offset LSB> <home> [flags]
+	int pers16_id[128], pers16_msb[128], pers16_lsb[128], pers16_n=0;
+	int cur_pers_id=-1, cur_pers_chancount=0;
+	int cur_pers_first_param=0, cur_pers_first_size=0, cur_pers_first_msb=0, cur_pers_first_lsb=0;
+	// Cloture le bloc $Personality courant : l'enregistre s'il s'agit d'un dimmer 16 bit pur.
+	auto wc_finalize_pers = [&]() {
+		if(cur_pers_id>0 && cur_pers_chancount==1 && cur_pers_first_param==1
+		   && cur_pers_first_size==2 && pers16_n<128)
+		{
+			pers16_id[pers16_n]=cur_pers_id;
+			pers16_msb[pers16_n]=cur_pers_first_msb;
+			pers16_lsb[pers16_n]=cur_pers_first_lsb;
+			pers16_n++;
+		}
+		cur_pers_id=-1; cur_pers_chancount=0;
+		cur_pers_first_param=0; cur_pers_first_size=0; cur_pers_first_msb=0; cur_pers_first_lsb=0;
+	};
+
 
 
 	FILE *f=NULL;
@@ -267,24 +288,27 @@ chdir(rep);
                     }
                 }
 
-                if (strncmp(line, "SET DEFAULT PATCH",17)==0 || strncmp(line, "CLEAR PATCH",11)==0  )
+                // En-tete de patch — insensible a la casse : "SET DEFAULT PATCH"/"CLEAR PATCH" (Cobalt/Congo)
+                // ou "Clear All" (Eos, en tete de fichier). Remet le patch a plat avant l'import.
+                if (wc_ci_prefix(line,"SET DEFAULT PATCH") || wc_ci_prefix(line,"CLEAR PATCH") || wc_ci_prefix(line,"CLEAR ALL"))
                 {
-
                 flagcue=-1; flagsub=-1; flagmaster=-1;
                 flagpatch=1;
-                if (strncmp(line, "SET DEFAULT PATCH",17)==0 )
+                if (wc_ci_prefix(line,"SET DEFAULT PATCH"))
                 {
-                patch_to_default_selected();
+                // Patch droit sur TOUT : a l'import rien n'est selectionne, on ne peut pas
+                // se reposer sur patch_to_default_selected() (qui ne touche que Dimmers_selected).
+                for(int _i=0;_i<513;_i++){ Patch[_i]=_i; curves[_i]=0; output_fine[_i]=0; is_fine[_i]=0; }
                 }
-                else if (strncmp(line, "CLEAR PATCH",11)==0 )
+                else // CLEAR PATCH ou CLEAR ALL : table rase complete avant import
                 {
-                patch_clear_selected();
+                for(int _i=0;_i<513;_i++){ Patch[_i]=0; curves[_i]=0; output_fine[_i]=0; is_fine[_i]=0; }
                 }
                 }
-                if (flagpatch==1)//patch
+                // Ligne de patch conventionnel, auto-identifiante : "PATCH 1 ..." (Cobalt/Congo) ou "Patch 1 ..." (Eos).
+                // Parsee des qu'elle apparait (insensible a la casse), sans dependre d'un en-tete de section.
+                if (wc_ci_prefix(line,"PATCH 1"))
                 {
- 				    if(strncmp(line,"PATCH 1",7)==0)
-					{
 					temp= strtok(line+7," ");
 					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
 					    	{
@@ -296,8 +320,54 @@ chdir(rep);
 							temp=strtok(NULL," ");
 
                             }
-					}
                 }//fin patch
+
+                // [ascii interop] Personalities Eos (precedent la section $Patch).
+                // $Personality <id> ouvre un bloc ; $$PersChan <param> <size> <msbOff> <lsbOff> ... decrit un canal.
+                if (wc_ci_prefix(line,"$Personality"))
+                {
+                    wc_finalize_pers();                 // clot le bloc precedent
+                    int _id=0; if(sscanf(line,"%*s %d",&_id)==1){ cur_pers_id=_id; }
+                }
+                else if (wc_ci_prefix(line,"$$PersChan"))
+                {
+                    cur_pers_chancount++;
+                    if(cur_pers_chancount==1)           // on ne retient que la 1re $$PersChan (intensite si dimmer)
+                    {
+                        int _pa=0,_sz=0,_mo=0,_lo=0;
+                        sscanf(line,"%*s %d %d %d %d",&_pa,&_sz,&_mo,&_lo);
+                        cur_pers_first_param=_pa; cur_pers_first_size=_sz;
+                        cur_pers_first_msb=_mo;   cur_pers_first_lsb=_lo;
+                    }
+                }
+                // $Patch <circuit> <personality#> <adresse base> <?> <part> : patch des fixtures.
+                // On ne traite ici que les DIMMERS 16 bit purs reperes ci-dessus ; le 8 bit passe par
+                // le patch conventionnel, les devices restent pour le chantier Fixtures.
+                if (wc_ci_prefix(line,"$Patch "))
+                {
+                    wc_finalize_pers();                 // toutes les personalities sont lues avant le 1er $Patch
+                    int _ch=0,_pers=0,_addr=0,_x=0,_part=0;
+                    if(sscanf(line,"%*s %d %d %d %d %d",&_ch,&_pers,&_addr,&_x,&_part)>=3 && _addr>0)
+                    {
+                        for(int _k=0;_k<pers16_n;_k++)
+                        {
+                            if(pers16_id[_k]==_pers)
+                            {
+                                int _coarse=_addr + (pers16_msb[_k]-1);
+                                int _fine  =_addr + (pers16_lsb[_k]-1);
+                                if(_ch>0 && _ch<513 && _coarse>0 && _coarse<513 && _fine>0 && _fine<513)
+                                {
+                                    // meme appariement que le bouton "Patch 16 bit" (patch_core.cpp)
+                                    Patch[_coarse]=_ch;
+                                    Patch[_fine]=_ch;
+                                    output_fine[_coarse]=_fine;
+                                    is_fine[_fine]=1;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
 
 
                 //subs
