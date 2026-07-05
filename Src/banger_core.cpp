@@ -5007,7 +5007,7 @@ mouse_released=1;
 }
 
 //affectation nom du banger
-if(mouse_x>xb+200 && mouse_x<xb+320 && mouse_y> (yb+40) && mouse_y< (yb+40)+30 && index_enable_edit_banger==1)
+if(mouse_x>xb+200 && mouse_x<xb+320 && mouse_y> (yb+40) && mouse_y< (yb+40)+30) // [coherence] nommage sans mode edit (comme le grid)
 {
  // [inline edit] double-clic -> saisie directe du nom (sans F5), composant reutilisable
  if(mouse_double_click)

@@ -730,15 +730,24 @@ mouse_released=1;
 }
 }
 
-if(mouse_x>xb+70 && mouse_x<xb+70+170 && mouse_y>yb && mouse_y<yb+20 && index_type==1 && mouse_released==0)
+if(mouse_x>xb+70 && mouse_x<xb+70+170 && mouse_y>yb && mouse_y<yb+20)
 {
+ // [inline edit] double-clic -> saisie directe du nom de grille (sans F5), composant reutilisable
+ if(mouse_double_click)
+ {
+ wc_inline_begin(grider_name[index_grider_selected[num_grider]], 25, 155, 0);
+ mouse_released=1;
+ }
+ else if(index_type==1 && mouse_released==0) // ancien chemin F5 conserve
+ {
  for(int tt=0;tt<24;tt++)
  {
  grider_name[index_grider_selected[num_grider]][tt]=numeric[tt];
  }
  grider_name[index_grider_selected[num_grider]][24]='\0';
  reset_numeric_entry();numeric_postext=0; if(index_text_auto_close==1){index_type=0;}
-mouse_released=1;
+ mouse_released=1;
+ }
 }
 
 //UP DOWN griders number selected

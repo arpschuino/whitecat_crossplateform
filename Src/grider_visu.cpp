@@ -614,8 +614,10 @@ show_type_midi(1524+num_grider,sttmp );
 
 Rect GiveNameOfGrider(Vec2D(xb+70,yb), Vec2D( 170,20));
 GiveNameOfGrider.SetRoundness(7.5);
-GiveNameOfGrider.DrawOutline(CouleurLigne.WithAlpha(0.5));
-petitchiffre.Print( grider_name[index_grider_selected[num_grider]],(xb+75), (yb+15));
+GiveNameOfGrider.Draw(CouleurConfig);        // [ui] fond bleu standard comme les autres champs, sans contour
+// [inline edit] nom de grille : saisie inline en cours -> texte + caret ; sinon le nom
+if(wc_inline_editing(grider_name[index_grider_selected[num_grider]])) wc_inline_render(xb+75, yb+15, yb+3, yb+18);
+else petitchiffre.Print( grider_name[index_grider_selected[num_grider]],(xb+75), (yb+15));
 if(  window_focus_id==W_GRID && mouse_x>xb+70 && mouse_x<xb+250 && mouse_y>yb && mouse_y<yb+20 && index_type==1 )
 {
 GiveNameOfGrider.DrawOutline(CouleurLigne);
