@@ -773,6 +773,14 @@ mouse_released=1;
 }
 }
 
+// [inline edit] double-clic sur le NOM de la piste -> edition inline directe (rend le nommage
+// decouvrable ; avant il fallait F5 + clic sur le bouton ON en mode edit, introuvable).
+if(mouse_double_click && mouse_x>xp+30 && mouse_x<xp+157 && mouse_y>yp+14 && mouse_y<yp+36)
+{
+wc_inline_begin(chaser_track_name[chaser_selected][num_track], 25, 120, 0);
+mouse_released=1;
+}
+
 
 ////////TRACK LEVEL////////////////////////////////////////////////////////////////
 
@@ -909,11 +917,20 @@ mouse_released=1;
 //////////////////////TEXT////////////////////////////////////////////
 
 
-if(index_enable_edit_chaser==1 && index_type==1 && mouse_x>xcha+330 && mouse_x<xcha+330+185 && mouse_y>ycha+10 && mouse_y<ycha+10+30)
+if(mouse_x>xcha+330 && mouse_x<xcha+330+185 && mouse_y>ycha+10 && mouse_y<ycha+10+30) // [coherence] nommage sans mode edit
 {
-sprintf(chaser_name[chaser_selected],numeric);
-reset_numeric_entry();if(index_text_auto_close==1){index_type=0;}
-mouse_released=1;
+ // [inline edit] double-clic -> saisie directe du nom de chaser (sans F5), composant reutilisable
+ if(mouse_double_click)
+ {
+ wc_inline_begin(chaser_name[chaser_selected], 25, 175, 0);
+ mouse_released=1;
+ }
+ else if(index_type==1 && mouse_released==0) // ancien chemin F5 conserve
+ {
+ sprintf(chaser_name[chaser_selected],numeric);
+ reset_numeric_entry();if(index_text_auto_close==1){index_type=0;}
+ mouse_released=1;
+ }
 }
 //////////////EDIT MODE
 if(mouse_x>xcha+560 && mouse_x<xcha+560+50 && mouse_y>ycha+10 && mouse_y<ycha+10+20 )
