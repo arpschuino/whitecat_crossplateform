@@ -5076,6 +5076,14 @@ mouse_released=1;
 //affectation nom du banger
 if(mouse_x>xb+200 && mouse_x<xb+320 && mouse_y> (yb+40) && mouse_y< (yb+40)+30 && index_enable_edit_banger==1)
 {
+ // [inline edit] double-clic -> saisie directe du nom (sans F5), composant reutilisable
+ if(mouse_double_click)
+ {
+ wc_inline_begin(bangers_name[index_banger_selected], 25, 150, 0);
+ mouse_released=1;
+ }
+ else if(mouse_button==1 && mouse_released==0 && index_type==1) // ancien chemin F5 conserve
+ {
  for(int tt=0;tt<24;tt++)
  {
  bangers_name[index_banger_selected][tt]=numeric[tt];
@@ -5083,7 +5091,8 @@ if(mouse_x>xb+200 && mouse_x<xb+320 && mouse_y> (yb+40) && mouse_y< (yb+40)+30 &
  bangers_name[index_banger_selected][24]='\0';
   reset_numeric_entry();numeric_postext=0; if(index_text_auto_close==1){index_type=0;}
  sprintf(string_Last_Order,">>GIVED A NAME FOR BANGER %d ",index_banger_selected+1);
-mouse_released=1;
+ mouse_released=1;
+ }
 }
 
 
