@@ -122,6 +122,10 @@ chdir(rep);
 	int flagpatch= -1;
 	int flagsub=-1;
 	int first_cue_from_import=0;
+	// [master import Congo] $MASTPAGEITEM <page> <item> -> dock WCat (fader = item-1, dock = page-1)
+	int flagmaster=-1;
+	int master_fader=-1;
+	int master_dock=-1;
 
 
 
@@ -156,7 +160,7 @@ chdir(rep);
 						for(int _cc=0;_cc<514;_cc++){ Memoires[cue][_cc]=0; }
 	                    if(first_cue_from_import==0)
 	                    {first_cue_from_import=cue;}
-						flagcue=1;flagsub=-1;flagpatch=-1;
+						flagcue=1;flagsub=-1;flagpatch=-1;flagmaster=-1;
 						}
                     }
 
@@ -231,10 +235,42 @@ chdir(rep);
 				}
                 }//fin cues
 
+                // [master import Congo] $MASTPAGEITEM <page> <item> ... : un submaster suivi de lignes
+                // "CHAN <circuit>/H<niveau>". Mapping human-centric : item 1-40 -> fader 0-39,
+                // page 1-6 -> dock 0-5 (une page de masters Congo = une banque de faders WCat).
+                if (wc_ci_prefix(line,"$MASTPAGEITEM"))
+                {
+                    int _pg=0,_it=0;
+                    sscanf(line,"%*s %d %d",&_pg,&_it);   // saute le mot-cle, lit page puis item
+                    master_fader=_it-1; master_dock=_pg-1;
+                    flagcue=-1; flagsub=-1; flagpatch=-1;
+                    if(master_fader>=0 && master_fader<48 && master_dock>=0 && master_dock<6)
+                    {
+                        flagmaster=1;
+                        for(int _cc=0;_cc<514;_cc++){ FaderDockContains[master_fader][master_dock][_cc]=0; }
+                        DockTypeIs[master_fader][master_dock]=0; // dock de circuits (comme un sub)
+                    }
+                    else { flagmaster=-1; master_fader=-1; master_dock=-1; }
+                }
+                else if (wc_ci_prefix(line,"$MASTPAGE")) { flagmaster=-1; flagcue=-1; flagsub=-1; flagpatch=-1; }
+
+                if (flagmaster==1 && wc_ci_prefix(line,"CHAN"))
+                {
+                    char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+                    char* _t=strtok(_lc," \t\r\n"); _t=strtok(NULL," \t\r\n"); // saute "CHAN"
+                    while(_t!=NULL)
+                    {
+                        int _c=0,_l=0;
+                        if(wc_parse_chan_level(_t,&_c,&_l) && _c>0 && _c<514)
+                        { FaderDockContains[master_fader][master_dock][_c]=(unsigned char)wc::lvl_to_dmx8((unsigned short)_l); }
+                        _t=strtok(NULL," \t\r\n");
+                    }
+                }
+
                 if (strncmp(line, "SET DEFAULT PATCH",17)==0 || strncmp(line, "CLEAR PATCH",11)==0  )
                 {
 
-                flagcue=-1; flagsub=-1;
+                flagcue=-1; flagsub=-1; flagmaster=-1;
                 flagpatch=1;
                 if (strncmp(line, "SET DEFAULT PATCH",17)==0 )
                 {
@@ -338,6 +374,15 @@ while (ok!=0);
 
 fclose(f);
 }
+// [fix patch import / fixtures] L'import a ecrit le patch dans les tableaux legacy (Patch[]).
+// Sans cet appel, le modele Fixture wc_patch (source de verite) ignore le patch importe, et le
+// prochain rebuild_patch_from_fixtures() (chargement patch, refresh...) ecrase Patch[] au patch
+// du modele (droit/defaut). On capture donc le patch importe DANS le modele -> il survit et se sauve.
+synthesize_fixtures_from_legacy();
+// [fix affichage patch] rafraichir le cache "premier gradateur par circuit" (chiffres rouges
+// "show first dimmer") depuis Patch[] : sinon il reste sur l'ancien patch (droit) apres import,
+// contradictoire avec la fenetre Patch. Reconstruit maintenant que Patch[] est correct.
+generate_channel_preview_patch_list();
 scan_for_free_dock();
 ////////////////////////////////////////////////////////////////////////////////
 //detect sequenciel
