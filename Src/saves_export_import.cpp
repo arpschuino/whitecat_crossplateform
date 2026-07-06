@@ -132,6 +132,26 @@ static void wc_copy_name_utf8(const char* src, char* dst, int cap)
     dst[di]='\0';
 }
 
+// [ascii interop] Ecrit un nom (label) en Latin-1 / CP1252 dans le fichier, a partir de l'UTF-8 interne.
+// Eos et Cobalt attendent du Latin-1 (le 'e accent' UTF-8 sortait sinon en "MÃ©moire"). Les caracteres
+// hors Latin-1 (codepoint >= 256) sont remplaces par '?'. Utilise pour les lignes "Text ..." a l'export.
+static void wc_fprint_name_latin1(FILE* fp, const char* utf8)
+{
+    const unsigned char* s=(const unsigned char*)utf8;
+    while(*s)
+    {
+        unsigned char c=*s;
+        if(c<0x80){ fputc((int)c,fp); s++; }
+        else if((c&0xE0)==0xC0 && (s[1]&0xC0)==0x80)                 // UTF-8 2 octets -> codepoint
+        {
+            unsigned int cp=((c&0x1F)<<6)|(s[1]&0x3F);
+            fputc(cp<256 ? (int)cp : '?', fp); s+=2;
+        }
+        else if((c&0xF0)==0xE0 && (s[1]&0xC0)==0x80 && (s[2]&0xC0)==0x80) { fputc('?',fp); s+=3; }
+        else { fputc('?',fp); s++; }
+    }
+}
+
 int do_ASCII_import()
 {
 index_is_saving=1;
@@ -466,9 +486,18 @@ chdir(rep);
 					time_per_dock[sub_f][sub_d][2]=autogotime;
 					}
 
+					// [wc ext] "$$SubMem <n>" : ce dock porte une memoire (type 5). La ligne precede "Chan"
+					// a l'export -> on marque le type avant, et la ligne Chan (memoire aplatie) est ignoree.
+					if(wc_ci_prefix(line,"$$SUBMEM"))
+						{
+						int _m=0; sscanf(line,"%*s %d",&_m);
+						if(_m>0){ DockTypeIs[sub_f][sub_d]=5; DockHasMem[sub_f][sub_d]=_m; }
+						}
+
 				 // "Chan  1@H00 2@H66 ..." (Eos, sep @) ou "CHAN 1/Hff ..." (WhiteCat, sep /).
 				 // wc_parse_chan_level gere les deux + la largeur hexa ; le dock est 8 bit -> lvl_to_dmx8.
-				 if(wc_ci_prefix(line,"CHAN"))
+				 // (dock portant une memoire -> type 5 : on n'ecrase pas avec les circuits aplatis)
+				 if(wc_ci_prefix(line,"CHAN") && DockTypeIs[sub_f][sub_d]!=5)
 					{
                     DockTypeIs[sub_f][sub_d]=0;
                     char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
@@ -555,7 +584,7 @@ int level_export=0;
                 // [ascii interop] "Cue <num> <cuelist>" (Eos). memoire m -> cue (m/10).(m%10) list 1.
                 fprintf(fp,"\nCue %d.%d 1\n", (m/10),(m%10));
 
-                fprintf(fp,"Text %s\n", descriptif_memoires[m]);
+                fprintf(fp,"Text "); wc_fprint_name_latin1(fp, descriptif_memoires[m]); fprintf(fp,"\n");
                 ////0=DIN  1=IN 2=DOUT 3=OUT
                 fprintf(fp,"Down %.1f %.1f\n", Times_Memoires[m][3], Times_Memoires[m][2]);
                 fprintf(fp,"Up %.1f %.1f\n", Times_Memoires[m][1], Times_Memoires[m][0]);
@@ -587,9 +616,11 @@ int level_export=0;
                  }
 
      }
+// [ascii interop] Patch en Eos-flavored : "Patch 1 <chan><<dim>@Hff" (TitleCase, niveau hexa plein).
+// Direction USITT : chan<dimmer. Le "Clear All" en tete a deja remis le patch a plat.
 fprintf(fp,"\n");
-fprintf(fp,"CLEAR PATCH\n");
-fprintf(fp,"\nPATCH 1 ");
+fprintf(fp,"Clear Patch\n");
+fprintf(fp,"\nPatch 1 ");
 
 int retour_ligne=0;
 
@@ -599,11 +630,11 @@ for (int cpatch2=1;cpatch2<513;cpatch2++)
 {
 if (Patch[cpatch2]==cpatch)
 {
-fprintf (fp," %d<%d@100 ", cpatch, cpatch2);
+fprintf (fp," %d<%d@Hff ", cpatch, cpatch2);
 retour_ligne++;
 if (retour_ligne>5)
 {
-fprintf (fp,"\nPATCH 1 ");
+fprintf (fp,"\nPatch 1 ");
 retour_ligne=0;
 }
 }
@@ -611,29 +642,39 @@ retour_ligne=0;
 }
 /////////////////////FADERS/////////////////////////////////////////////////////
 
+// [ascii interop] Submasters en Eos-flavored : "Sub <n> 1" / "Text <nom>" / "Up"/"Down" / "Chan <ch>@H<hex>".
+// Le nom du dock (DockName) est desormais exporte (il manquait). On saute les docks vides et sans nom.
 fprintf (fp,"\n");
-fprintf (fp,"\nCLEAR SUBMASTERS");
-
 
 for(int d=0;d<6;d++)
 {
 for(int f=0;f<48;f++)
 {
-if( DockTypeIs[f][d]==0)
+int _dt=DockTypeIs[f][d];
+// dock de circuits (type 0) OU dock portant une memoire (type 5). Les autres types (audio,
+// chaser, grid, couleur...) sont specifiques WhiteCat, non representables en ASCII -> ignores.
+if( _dt==0 || _dt==5 )
 {
-fprintf (fp,"\n");
-fprintf (fp,"SUB %d\n",(f+(48*d)+1));
-fprintf(fp,"UP %.1f\n",time_per_dock[f][d][1]);
-fprintf(fp,"DOWN %.1f\n",time_per_dock[f][d][3]);
+int _mem = (_dt==5) ? DockHasMem[f][d] : 0;
+bool _hascontent=false;
+if(_dt==0){ for(int sc=1;sc<513;sc++){ if(FaderDockContains[f][d][sc]!=0){ _hascontent=true; break; } } }
+else      { if(_mem>0 && MemoiresExistantes[_mem]==1) _hascontent=true; }
+if(!_hascontent && DockName[f][d][0]=='\0') continue;   // dock vide et sans nom -> on n'exporte pas
 
-fprintf(fp,"CHAN ");
+fprintf (fp,"\nSub %d 1\n",(f+(48*d)+1));
+if(DockName[f][d][0]!='\0'){ fprintf(fp,"Text "); wc_fprint_name_latin1(fp, DockName[f][d]); fprintf(fp,"\n"); }
+fprintf(fp,"Up %.1f\n",time_per_dock[f][d][1]);
+fprintf(fp,"Down %.1f\n",time_per_dock[f][d][3]);
+// [wc ext] dock portant une memoire : on note la reference $$SubMem (round-trip WhiteCat). Les autres
+// consoles ignorent la ligne $$ et utilisent les niveaux "Chan" ci-dessous (la memoire est aplatie).
+if(_dt==5 && _mem>0) fprintf(fp,"$$SubMem %d\n",_mem);
+
+fprintf(fp,"Chan ");
 for ( s=1;s<513;s++)
 {
-if (FaderDockContains[f][d][s]!=0 )
-{
-level_export=(int)(FaderDockContains[f][d][s]);
-fprintf(fp,"%d/H%x ",s, level_export ); //essai level
-}
+int lv8 = (_dt==0) ? (int)FaderDockContains[f][d][s]
+                   : (int)wc::lvl_to_dmx8(Memoires[_mem][s]);
+if (lv8!=0) fprintf(fp," %d@H%02x",s, lv8 );
 }
 fprintf(fp,"\n");
 }
