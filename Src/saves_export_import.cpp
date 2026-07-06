@@ -207,8 +207,8 @@ chdir(rep);
 				  if(_s!=line){ memmove(line,_s,strlen(_s)+1); } }
 				// [ascii interop] Eos separe chaque enregistrement (cue, sub, effet, palette...) par une
 				// ligne vide. Fin du bloc cue -> on coupe flagcue, sinon un "Text" d'une section suivante
-				// (effets, palettes) serait attribue par erreur a la derniere memoire lue.
-				if(line[0]=='\n' || line[0]=='\r' || line[0]=='\0'){ flagcue=-1; }
+				// (effets, palettes) serait attribue par erreur a la derniere memoire OU au dernier sub lu.
+				if(line[0]=='\n' || line[0]=='\r' || line[0]=='\0'){ flagcue=-1; flagsub=-1; }
 				// [ascii interop] "CUE 1.5" (WhiteCat) ou "Cue 7 1" (Eos : num + cuelist). Le nombre
 				// apres le mot-cle -> memoire = num x10. On efface la memoire avant de la remplir
 				// (import propre, et compat avec le remplissage partiel Chan/$$ChanMove).
@@ -406,10 +406,23 @@ chdir(rep);
 
                 //subs
 
-				if (strncmp(line, "SUB",3)==0)
+                // [ascii interop] "Sub 1 1" (Eos, TitleCase) ou "SUB 1" (WhiteCat) -> submaster.
+				if (wc_ci_prefix(line,"SUB") && (line[3]==' '||line[3]=='\t'))
 					{
 						sub= (int)strtof(line+4,NULL);
-						flagsub=1;flagcue=-1;flagpatch=-1;
+						flagsub=1;flagcue=-1;flagpatch=-1;flagmaster=-1;
+                        // remise a zero du dock cible (import propre : un sub sans Text/Chan reste vide)
+                        if(sub>0)
+                        {
+                            int _sf = (sub<50) ? (sub-1) : ((sub-1)%48);
+                            int _sd = (sub<50) ? 0       : ((sub-1)/48);
+                            if(_sf>=0 && _sf<48 && _sd>=0 && _sd<6)
+                            {
+                                for(int _c=0;_c<514;_c++){ FaderDockContains[_sf][_sd][_c]=0; }
+                                DockName[_sf][_sd][0]='\0';
+                                DockTypeIs[_sf][_sd]=0;
+                            }
+                        }
                     }
 
                 if(flagsub==1)
@@ -426,20 +439,21 @@ chdir(rep);
                      }
 
 
-                 if(strncmp(line,"TEXT",4)==0)
+                 if(wc_ci_prefix(line,"$$TEXT") || wc_ci_prefix(line,"TEXT"))
                  {
-                 strncpy(DockName[sub_f][sub_d], line+5, 49);
-                 DockName[sub_f][sub_d][49]='\0';
+                 const char* nm = wc_ci_prefix(line,"$$TEXT") ? (line+6) : (line+4);
+                 while(*nm==' '||*nm=='\t') nm++;      // sauter le(s) espace(s) apres le mot-cle
+                 wc_copy_name_utf8(nm, DockName[sub_f][sub_d], 50);
                  }
 
-				if(strncmp(line,"DOWN",4)==0)
+				if(wc_ci_prefix(line,"DOWN") && (line[4]==' '||line[4]=='\t'))
 					{
 					down=(float)strtof(line+5,NULL);
 					//sab 02/03/2014 IMPACT time_per_dock[sub_f][sub_d][3]==down;
 					time_per_dock[sub_f][sub_d][3]=down;
 
 					}
-				if(strncmp(line,"UP",2)==0)
+				if(wc_ci_prefix(line,"UP") && (line[2]==' '||line[2]=='\t'))
 					{
 					up=(float)strtof(line+3,NULL);
 					time_per_dock[sub_f][sub_d][1]=up;
@@ -452,20 +466,20 @@ chdir(rep);
 					time_per_dock[sub_f][sub_d][2]=autogotime;
 					}
 
-				 if(strncmp(line,"CHAN",4)==0)
+				 // "Chan  1@H00 2@H66 ..." (Eos, sep @) ou "CHAN 1/Hff ..." (WhiteCat, sep /).
+				 // wc_parse_chan_level gere les deux + la largeur hexa ; le dock est 8 bit -> lvl_to_dmx8.
+				 if(wc_ci_prefix(line,"CHAN"))
 					{
                     DockTypeIs[sub_f][sub_d]=0;
-					temp= strtok(line+5," ");
-					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
-					    	{
-							sscanf(temp,"%d/H%x\n",&chan,&level);//debug 3/12/14 christoph
-                            if(chan<513)
-                            {
-                            FaderDockContains[sub_f][sub_d][chan]=(unsigned char)level ;
-							temp=strtok(NULL," ");
-                            }
-                            }
-
+                    char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+                    char* _t=strtok(_lc," \t\r\n"); _t=strtok(NULL," \t\r\n"); // saute "Chan"
+                    while(_t!=NULL)
+                        {
+                        int _c=0,_l=0;
+                        if(wc_parse_chan_level(_t,&_c,&_l) && _c>0 && _c<513)
+                        { FaderDockContains[sub_f][sub_d][_c]=(unsigned char)wc::lvl_to_dmx8((unsigned short)_l); }
+                        _t=strtok(NULL," \t\r\n");
+                        }
 					}
 
                 }//fin subs
