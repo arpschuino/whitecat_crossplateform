@@ -56,6 +56,16 @@
 - **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
 - **Fix : nom (F5) — chiffres du pavé numérique comptés double** (« 01 » donnait « 0101 »). Les touches du pavé numérique portent le bit `SDLK_SCANCODE_MASK` : elles échappaient au filtre qui laisse la saisie texte à `SDL_TEXTINPUT` en mode nom → elles étaient ajoutées deux fois (file de touches + `SDL_TEXTINPUT`). Traitées comme les chiffres de la rangée du haut.
 
+### Interopérabilité — import ASCII (ETC Eos / Cobalt / Congo)
+
+Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10). L'import lit désormais les fichiers USITT ASCII d'**Eos, Cobalt et Congo** en plus du format WhiteCat.
+
+- **Mots-clés insensibles à la casse.** Eos écrit en TitleCase (`Cue`, `Text`, `Up`, `Down`, `Chan`, `Patch 1`, `Clear All`, `Sub`) ; WhiteCat/Cobalt en majuscules. Tout est lu indifféremment. Les lignes de cue **indentées** d'Eos sont gérées (blanc de tête retiré).
+- **Patch remis à plat à l'import.** `Clear All` / `CLEAR PATCH` vide **tout** le patch avant de le remplir (auparavant seuls les circuits *sélectionnés* — donc rien à l'import) : plus de patch droit fantôme sous les circuits non listés.
+- **Noms de mémoires et de submasters propres.** Copie à **longueur exacte** (plus de petit rectangle en fin de label, c'était le `\n`), **accents corrects** (texte Latin-1 d'Eos converti en UTF-8, UTF-8 déjà présent laissé tel quel), et plus de **nom fantôme** : `flagcue`/`flagsub` coupés en fin de bloc (ligne vide) → un `Text` d'effet/palette ne fuit plus sur la dernière mémoire.
+- **Masters / submasters importés.** Masters Congo (`$MASTPAGEITEM` + `CHAN`) et submasters Eos (`Sub` + `Text`/`Chan`) versés dans les docks de faders (page/n° → dock, item/n° → fader), niveaux `@H` (Eos) comme `/H` (WhiteCat).
+- **Niveaux 16 bit d'Eos** (`$$ChanMove`, notation `@Hxxxx`) lus en prenant l'**octet de poids fort** (0.9.2 = moteur 8 bit). *(Le vrai 16 bit — dimmers `Dimmer_16B`, devices — reste réservé à la 0.10.)*
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)

@@ -58,6 +58,58 @@ for (int r=0;r<514;r++)
 ////////////////////////ASCII///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// [ascii interop] Eos/Cobalt ecrivent les mots-cles en TitleCase (Cue, Up, Down, Chan) ; WhiteCat
+// les ecrivait en MAJUSCULES. Comparaison de prefixe insensible a la casse pour lire les deux.
+static int wc_ci_prefix(const char* s, const char* p){
+  for(; *p; ++s, ++p){
+    char a=*s, b=*p;
+    if(a>='A'&&a<='Z') a+=32;
+    if(b>='A'&&b<='Z') b+=32;
+    if(a!=b) return 0;
+  }
+  return 1;
+}
+static int wc_hexval(char c){
+  if(c>='0'&&c<='9') return c-'0';
+  if(c>='a'&&c<='f') return c-'a'+10;
+  if(c>='A'&&c<='F') return c-'A'+10;
+  return -1;
+}
+// [ascii interop] parse un token niveau "<chan><sep>H<hex>" (sep = @ Eos, ou / ancien WhiteCat).
+// La LARGEUR de l'hexa donne la resolution : 2 chiffres = 8 bit direct ; 4 chiffres = 16 bit, dont
+// on prend l'octet de poids fort (0.9.2 = moteur 8 bit). Retourne 0 si non parsable.
+static int wc_parse_chan_level8(const char* tok, int* out_chan, int* out_lvl8){
+  int c=0; const char* p=tok;
+  if(*p<'0'||*p>'9') return 0;
+  while(*p>='0'&&*p<='9'){ c=c*10+(*p-'0'); ++p; }
+  while(*p && *p!='@' && *p!='/') ++p;      // separateur @ (Eos) ou / (WhiteCat)
+  if(*p!='@' && *p!='/') return 0;
+  ++p;
+  if(*p!='H' && *p!='h') return 0;          // on ne gere que l'hexa (@H)
+  ++p;
+  int hl=0, v=0, d;
+  while((d=wc_hexval(p[hl]))>=0){ v=v*16+d; ++hl; }
+  if(hl==0) return 0;
+  int lvl8 = (hl>=3) ? ((v>>8)&0xFF) : (v&0xFF);   // >=3 chiffres -> 16 bit, on garde le MSB
+  *out_chan=c; *out_lvl8=lvl8; return 1;
+}
+// [ascii interop] Copie un nom (label) normalise UTF-8, borne a cap-1 octets, arret au \n/\r,
+// espaces de fin retires. Gere l'UTF-8 deja present (aller-retour WhiteCat) ET le Latin-1/CP1252
+// (Eos, ex. 'e accent'=0xE9) converti a la volee -> plus de rectangle "glyphe manquant".
+static void wc_copy_name_utf8(const char* src, char* dst, int cap){
+  int di=0;
+  const unsigned char* s=(const unsigned char*)src;
+  while(*s && *s!='\n' && *s!='\r'){
+    unsigned char c=*s;
+    if(c<0x80){ if(di<cap-1) dst[di++]=(char)c; s++; }
+    else if((c&0xE0)==0xC0 && (s[1]&0xC0)==0x80){ if(di<cap-2){ dst[di++]=(char)s[0]; dst[di++]=(char)s[1]; } s+=2; }
+    else if((c&0xF0)==0xE0 && (s[1]&0xC0)==0x80 && (s[2]&0xC0)==0x80){ if(di<cap-3){ dst[di++]=(char)s[0]; dst[di++]=(char)s[1]; dst[di++]=(char)s[2]; } s+=3; }
+    else { if(di<cap-2){ dst[di++]=(char)(0xC0|(c>>6)); dst[di++]=(char)(0x80|(c&0x3F)); } s++; }
+  }
+  while(di>0 && dst[di-1]==' ') di--;
+  dst[di]='\0';
+}
+
 int do_ASCII_import()
 {
 index_is_saving=1;
@@ -85,6 +137,10 @@ chdir(rep);
 	int flagpatch= -1;
 	int flagsub=-1;
 	int first_cue_from_import=0;
+	// [master import Congo] $MASTPAGEITEM <page> <item> -> dock WCat (fader = item-1, dock = page-1)
+	int flagmaster=-1;
+	int master_fader=-1;
+	int master_dock=-1;
 
 
 
@@ -101,40 +157,47 @@ chdir(rep);
 	do {
 		if (fgets(line,512,f)!=NULL)
 		{
-				if (strncmp(line, "CUE",3)==0)
+				// [ascii interop] Eos INDENTE les lignes de cue (3 espaces) -> on retire le blanc de tete
+				// pour que les tests de mot-cle et les offsets (line+N) marchent pour Eos ET WhiteCat.
+				{ char* _s=line; while(*_s==' '||*_s=='\t') _s++;
+				  if(_s!=line){ memmove(line,_s,strlen(_s)+1); } }
+				// Eos separe chaque enregistrement (cue, sub, effet...) par une ligne vide -> fin de bloc :
+				// on coupe flagcue/flagsub, sinon un "Text" d'une section suivante fuirait sur la derniere memoire/sub.
+				if(line[0]=='\n' || line[0]=='\r' || line[0]=='\0'){ flagcue=-1; flagsub=-1; }
+				// "CUE 1.5" (WhiteCat) ou "Cue 7 1" (Eos : num + cuelist). On efface la memoire avant remplissage.
+				if (wc_ci_prefix(line, "CUE") && (line[3]==' '||line[3]=='\t'))
 					{
-						float tmpcueval= strtof(line+4,NULL);
-						cue = (int)(tmpcueval*10);
+						float tmpcueval= strtof(line+3,NULL);
+						cue = (int)(tmpcueval*10.0f + 0.5f);
+						if(cue>=0 && cue<10000)
+						{
 						MemoiresExistantes[cue]=1;
+						for(int _cc=0;_cc<514;_cc++){ Memoires[cue][_cc]=0; }
+						descriptif_memoires[cue][0]='\0';   // nom vide par defaut (rempli par un "Text" si present)
 	                    if(first_cue_from_import==0)
 	                    {first_cue_from_import=cue;}
-						flagcue=1;flagsub=-1;flagpatch=-1;
-
+						flagcue=1;flagsub=-1;flagpatch=-1;flagmaster=-1;
+						}
                     }
 
         	    if(flagcue==1)//cues
 			    {
 
-                 if(strncmp(line,"TEXT",4)==0)
+                 // "Text …" -> label memoire : longueur exacte (arret au \n) + normalisation UTF-8.
+                 if(wc_ci_prefix(line,"$$TEXT") || wc_ci_prefix(line,"TEXT"))
                  {
-                 for (int p=0; p<24;p++)
-                 {
-                 descriptif_memoires[cue][p]=line[p+5];
-                 }
-                 descriptif_memoires[cue][24]='\0';
+                 const char* nm = wc_ci_prefix(line,"$$TEXT") ? (line+6) : (line+4);
+                 while(*nm==' '||*nm=='\t') nm++;
+                 wc_copy_name_utf8(nm, descriptif_memoires[cue], 50);
                  }
 
-                 ////0=DIN  1=IN 2=DOUT 3=OUT
-                //sprintf(header_export,"Stage: d:%.1f  OUT: %.1f  | Memory: d:%.1f  IN: %.1f", Times_Memoires[m][2], Times_Memoires[m][3],Times_Memoires[m][0],Times_Memoires[m][1]);
-
-
-				if(strncmp(line,"DOWN",4)==0)
+				if(wc_ci_prefix(line,"DOWN") && (line[4]==' '||line[4]=='\t'))
 					{
 					down=(float)strtof(line+5,NULL);
 					Times_Memoires[cue][3]=down;
 
 					}
-				if(strncmp(line,"UP",2)==0)
+				if(wc_ci_prefix(line,"UP") && (line[2]==' '||line[2]=='\t'))
 					{
 					up=(float)strtof(line+3,NULL);
 					Times_Memoires[cue][1]=up;
@@ -144,40 +207,83 @@ chdir(rep);
 					{
 					autogotime=(float)strtof(line+7,NULL);
 					if (autogotime>0) {Links_Memoires[cue]=1;}
-				//	Times_Memoires[cue][0]=autogotime;
-				//	Times_Memoires[cue][2]=autogotime;
 					}
 
-				if(strncmp(line,"CHAN",4)==0)
+				// niveaux : Eos ecrit "$$ChanMove" (moves, prio) PUIS "Chan" (etat tracke). WhiteCat n'ecrivait
+				// que "CHAN 1/Hff". On lit les deux (0.9.2 = 8 bit ; le 16 bit d'un $$ChanMove -> MSB) :
+				// $$ChanMove ecrit directement, Chan ne remplit QUE les circuits encore a 0.
+				{
+				bool _is_move = wc_ci_prefix(line,"$$CHANMOVE");
+				bool _is_chan = _is_move ? false : wc_ci_prefix(line,"CHAN");
+				if(_is_move || _is_chan)
 					{
-					temp= strtok(line+5," ");
-					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
-					    	{
-							sscanf(temp,"%d/H%x\n",&chan,&level);//debug 3/12/14 christoph
-							Memoires[cue][chan]=(unsigned char)level;
-							temp=strtok(NULL," ");
-						    }
+					char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+					char* _t = strtok(_lc," \t\r\n"); // 1er token = mot-cle
+					_t = strtok(NULL," \t\r\n");
+					while(_t!=NULL)
+						{
+						int _c=0,_l=0;
+						if(wc_parse_chan_level8(_t,&_c,&_l) && _c>0 && _c<513)
+							{
+							if(_is_move){ Memoires[cue][_c]=(unsigned char)_l; }
+							else if(Memoires[cue][_c]==0){ Memoires[cue][_c]=(unsigned char)_l; }
+							}
+						_t = strtok(NULL," \t\r\n");
+						}
 					}
+				}
                 }//fin cues
 
-                if (strncmp(line, "SET DEFAULT PATCH",17)==0 || strncmp(line, "CLEAR PATCH",11)==0  )
+                // [master import Congo] $MASTPAGEITEM <page> <item> + lignes "CHAN <circuit>/H<niveau>".
+                // Mapping human-centric : item 1-40 -> fader 0-39, page 1-6 -> dock 0-5.
+                if (wc_ci_prefix(line,"$MASTPAGEITEM"))
                 {
+                    int _pg=0,_it=0;
+                    sscanf(line,"%*s %d %d",&_pg,&_it);
+                    master_fader=_it-1; master_dock=_pg-1;
+                    flagcue=-1; flagsub=-1; flagpatch=-1;
+                    if(master_fader>=0 && master_fader<48 && master_dock>=0 && master_dock<6)
+                    {
+                        flagmaster=1;
+                        for(int _cc=0;_cc<514;_cc++){ FaderDockContains[master_fader][master_dock][_cc]=0; }
+                        DockTypeIs[master_fader][master_dock]=0;
+                    }
+                    else { flagmaster=-1; master_fader=-1; master_dock=-1; }
+                }
+                else if (wc_ci_prefix(line,"$MASTPAGE")) { flagmaster=-1; flagcue=-1; flagsub=-1; flagpatch=-1; }
 
-                flagcue=-1; flagsub=-1;
+                if (flagmaster==1 && wc_ci_prefix(line,"CHAN"))
+                {
+                    char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+                    char* _t=strtok(_lc," \t\r\n"); _t=strtok(NULL," \t\r\n");
+                    while(_t!=NULL)
+                    {
+                        int _c=0,_l=0;
+                        if(wc_parse_chan_level8(_t,&_c,&_l) && _c>0 && _c<514)
+                        { FaderDockContains[master_fader][master_dock][_c]=(unsigned char)_l; }
+                        _t=strtok(NULL," \t\r\n");
+                    }
+                }
+
+                // En-tete de patch (insensible a la casse) : "SET DEFAULT PATCH"/"CLEAR PATCH" (Cobalt/Congo)
+                // ou "Clear All" (Eos). Table rase de TOUT le patch avant import (les fonctions *_selected
+                // ne touchent que les outputs selectionnes -> rien a l'import).
+                if (wc_ci_prefix(line,"SET DEFAULT PATCH") || wc_ci_prefix(line,"CLEAR PATCH") || wc_ci_prefix(line,"CLEAR ALL"))
+                {
+                flagcue=-1; flagsub=-1; flagmaster=-1;
                 flagpatch=1;
-                if (strncmp(line, "SET DEFAULT PATCH",17)==0 )
+                if (wc_ci_prefix(line,"SET DEFAULT PATCH"))
                 {
-                patch_to_default_selected();
+                for(int _i=0;_i<513;_i++){ Patch[_i]=_i; curves[_i]=0; }
                 }
-                else if (strncmp(line, "CLEAR PATCH",11)==0 )
+                else // CLEAR PATCH ou CLEAR ALL
                 {
-                patch_clear_selected();
+                for(int _i=0;_i<513;_i++){ Patch[_i]=0; curves[_i]=0; }
                 }
                 }
-                if (flagpatch==1)//patch
+                // Ligne de patch conventionnel, auto-identifiante (CI) : "PATCH 1 ..." / "Patch 1 ...".
+                if (wc_ci_prefix(line,"PATCH 1"))
                 {
- 				    if(strncmp(line,"PATCH 1",7)==0)
-					{
 					temp= strtok(line+7," ");
 					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
 					    	{
@@ -189,16 +295,28 @@ chdir(rep);
 							temp=strtok(NULL," ");
 
                             }
-					}
                 }//fin patch
 
 
                 //subs
 
-				if (strncmp(line, "SUB",3)==0)
+                // "Sub 1 1" (Eos, TitleCase) ou "SUB 1" (WhiteCat) -> submaster.
+				if (wc_ci_prefix(line,"SUB") && (line[3]==' '||line[3]=='\t'))
 					{
 						sub= (int)strtof(line+4,NULL);
-						flagsub=1;flagcue=-1;flagpatch=-1;
+						flagsub=1;flagcue=-1;flagpatch=-1;flagmaster=-1;
+                        // remise a zero du dock cible (import propre : un sub sans Text/Chan reste vide)
+                        if(sub>0)
+                        {
+                            int _sf = (sub<50) ? (sub-1) : ((sub-1)%48);
+                            int _sd = (sub<50) ? 0       : ((sub-1)/48);
+                            if(_sf>=0 && _sf<48 && _sd>=0 && _sd<6)
+                            {
+                                for(int _c=0;_c<514;_c++){ FaderDockContains[_sf][_sd][_c]=0; }
+                                DockName[_sf][_sd][0]='\0';
+                                DockTypeIs[_sf][_sd]=0;
+                            }
+                        }
                     }
 
                 if(flagsub==1)
@@ -215,20 +333,21 @@ chdir(rep);
                      }
 
 
-                 if(strncmp(line,"TEXT",4)==0)
+                 if(wc_ci_prefix(line,"$$TEXT") || wc_ci_prefix(line,"TEXT"))
                  {
-                 strncpy(DockName[sub_f][sub_d], line+5, 49);
-                 DockName[sub_f][sub_d][49]='\0';
+                 const char* nm = wc_ci_prefix(line,"$$TEXT") ? (line+6) : (line+4);
+                 while(*nm==' '||*nm=='\t') nm++;
+                 wc_copy_name_utf8(nm, DockName[sub_f][sub_d], 50);
                  }
 
-				if(strncmp(line,"DOWN",4)==0)
+				if(wc_ci_prefix(line,"DOWN") && (line[4]==' '||line[4]=='\t'))
 					{
 					down=(float)strtof(line+5,NULL);
 					//sab 02/03/2014 IMPACT time_per_dock[sub_f][sub_d][3]==down;
 					time_per_dock[sub_f][sub_d][3]=down;
 
 					}
-				if(strncmp(line,"UP",2)==0)
+				if(wc_ci_prefix(line,"UP") && (line[2]==' '||line[2]=='\t'))
 					{
 					up=(float)strtof(line+3,NULL);
 					time_per_dock[sub_f][sub_d][1]=up;
@@ -241,20 +360,19 @@ chdir(rep);
 					time_per_dock[sub_f][sub_d][2]=autogotime;
 					}
 
-				 if(strncmp(line,"CHAN",4)==0)
+				 // "Chan 1@H00 ..." (Eos, sep @) ou "CHAN 1/Hff ..." (WhiteCat, sep /) -> dock 8 bit.
+				 if(wc_ci_prefix(line,"CHAN"))
 					{
                     DockTypeIs[sub_f][sub_d]=0;
-					temp= strtok(line+5," ");
-					while((temp!=NULL) && (strcmp(temp,"\n")!=0))
-					    	{
-							sscanf(temp,"%d/H%x\n",&chan,&level);//debug 3/12/14 christoph
-                            if(chan<513)
-                            {
-                            FaderDockContains[sub_f][sub_d][chan]=(unsigned char)level ;
-							temp=strtok(NULL," ");
-                            }
-                            }
-
+                    char _lc[512]; strncpy(_lc,line,511); _lc[511]='\0';
+                    char* _t=strtok(_lc," \t\r\n"); _t=strtok(NULL," \t\r\n"); // saute "Chan"
+                    while(_t!=NULL)
+                        {
+                        int _c=0,_l=0;
+                        if(wc_parse_chan_level8(_t,&_c,&_l) && _c>0 && _c<513)
+                        { FaderDockContains[sub_f][sub_d][_c]=(unsigned char)_l; }
+                        _t=strtok(NULL," \t\r\n");
+                        }
 					}
 
                 }//fin subs
@@ -267,6 +385,9 @@ while (ok!=0);
 
 fclose(f);
 }
+// [fix affichage patch] rafraichir le cache "premier gradateur par circuit" (chiffres rouges
+// "show first dimmer") depuis Patch[], sinon il reste sur l'ancien patch apres import.
+generate_channel_preview_patch_list();
 scan_for_free_dock();
 ////////////////////////////////////////////////////////////////////////////////
 //detect sequenciel
