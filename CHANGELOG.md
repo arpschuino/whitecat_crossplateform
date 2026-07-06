@@ -17,6 +17,10 @@
 
 - **Wizard mémoires en 16 bit** : les opérations Set / Add / Reduce sur les niveaux des mémoires travaillent désormais en 16 bit natif. Le **Set en %** passe par `pct_to_lvl` (vraie valeur 16 bit, plus d'arrondi `×2.55`) ; **Add / Reduce** ne repassent plus le niveau courant par du 8 bit avant le calcul → la finesse est **conservée** (ajouter 10 % à un circuit à 56,4 % ne le ramène plus d'abord à 56 %). Clamps 0 → 65535.
 
+### Patch — visualisation des appareils multi-outputs (inspiré Cobalt)
+
+- **Bandeau « device » dans la grille des outputs** (fenêtre Patch). Comme l'Output Editor de Cobalt, un appareil occupant plusieurs outputs contigus est figuré par une **barre nommée** enjambant ses cases, au lieu de cases isolées. *v1* : les **dimmers 16 bit** (paire coarse+fine, repérée par `output_fine[]`) — premier appareil à 2 outputs — affichent un bandeau **vert** au-dessus du numéro de circuit : `<circuit>: 16 bit output`. Prépare l'affichage des vrais devices multi-paramètres (branchement futur sur le modèle Fixture `wc_patch` : nom réel, N outputs, couleur par type).
+
 ### Interopérabilité — import/export ASCII (USITT / ETC Eos)
 
 - **Import de shows Eos.** WhiteCat lit désormais les fichiers USITT ASCII produits par ETC Eos (et compatibles) : mots-clés en TitleCase (`Cue`, `Up`, `Down`, `Chan`) lus insensiblement à la casse, lignes de cue **indentées** gérées, temps de transfert récupérés. Auparavant WhiteCat ne relisait que son propre format.

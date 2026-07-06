@@ -325,6 +325,32 @@ petitpetitchiffre.Print(ol::ToString(curves[grad]+1),(XChan + (45*c))+5,(YChan+1
 }
 }
 }
+
+// [devices] Bandeau sur les channels multi-outputs, inspire de l'Output Editor de Cobalt :
+// une barre nommee enjambe la plage d'outputs de l'appareil. v1 : les dimmers 16 bit (coarse+fine,
+// reperes par output_fine[g]) -> premier "device" a 2 outputs, pour valider le rendu de la barre.
+for(int g=1; g<512; g++)
+{
+    if(output_fine[g]!=0)
+    {
+        int fin = output_fine[g];
+        int lc=(g-1)/6;   int cc=((g-1)%6)+1;   // ligne/colonne du coarse
+        int lf=(fin-1)/6; int cf=((fin-1)%6)+1; // ligne/colonne du fine
+        int ytop = YChan+85+(lc*60) - (int)(scroller_patch* scroll_chan);
+        if( (YChan+100+(lc*60) - (int)(scroller_patch* scroll_chan))>YChan+30
+         && (YChan+90 +(lc*60) - (int)(scroller_patch* scroll_chan))<YChan+570 )
+        {
+            int xl = XChan-14+(45*cc);
+            int xr = (lf==lc) ? (XChan+26+(45*cf)) : (XChan+26+(45*cc)); // meme ligne -> jusqu'au fine ; sinon coarse seul
+            // bandeau au-dessus du numero de circuit (Patch), en bleu : "<circuit> : 16 bit output"
+            char _blbl[40]; sprintf(_blbl,"%d: 16 bit output", Patch[g]);
+            Rect Band( Vec2D(xl, ytop+25), Vec2D(xr-xl, 13) );
+            Band.SetRoundness(6);
+            Band.Draw(CouleurGreen.WithAlpha(0.85));
+            petitpetitchiffre.Print(_blbl, xl+5, ytop+35);
+        }
+    }
+}
 Canvas::DisableClipping();
 
 //////////////////FENETRE CURVES////////////////////////////////////////////////
