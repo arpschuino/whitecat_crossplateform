@@ -95,6 +95,43 @@ static int wc_parse_chan_level(const char* tok, int* out_chan, int* out_lvl16){
   *out_chan=c; *out_lvl16=lvl16; return 1;
 }
 
+// [ascii interop] Copie un nom (label de memoire) en le normalisant en UTF-8, borne a cap-1 octets,
+// arret au premier \n/\r, espaces de fin retires. Gere les DEUX encodages rencontres :
+//  - UTF-8 (WhiteCat, aller-retour ASCII) : sequences valides laissees telles quelles ;
+//  - Latin-1 / CP1252 (Eos, ex. 'e accent'=0xE9) : octet haut isole converti a la volee.
+// Evite le double-encodage et le rectangle "glyphe manquant" du a un octet Latin-1 brut.
+static void wc_copy_name_utf8(const char* src, char* dst, int cap)
+{
+    int di=0;
+    const unsigned char* s=(const unsigned char*)src;
+    while(*s && *s!='\n' && *s!='\r')
+    {
+        unsigned char c=*s;
+        if(c<0x80)                                                   // ASCII
+        {
+            if(di<cap-1) dst[di++]=(char)c;
+            s++;
+        }
+        else if((c&0xE0)==0xC0 && (s[1]&0xC0)==0x80)                 // UTF-8 2 octets valide -> garder
+        {
+            if(di<cap-2){ dst[di++]=(char)s[0]; dst[di++]=(char)s[1]; }
+            s+=2;
+        }
+        else if((c&0xF0)==0xE0 && (s[1]&0xC0)==0x80 && (s[2]&0xC0)==0x80) // UTF-8 3 octets -> garder
+        {
+            if(di<cap-3){ dst[di++]=(char)s[0]; dst[di++]=(char)s[1]; dst[di++]=(char)s[2]; }
+            s+=3;
+        }
+        else                                                         // octet Latin-1 isole -> UTF-8
+        {
+            if(di<cap-2){ dst[di++]=(char)(0xC0|(c>>6)); dst[di++]=(char)(0x80|(c&0x3F)); }
+            s++;
+        }
+    }
+    while(di>0 && dst[di-1]==' ') di--;                              // retire les espaces de fin
+    dst[di]='\0';
+}
+
 int do_ASCII_import()
 {
 index_is_saving=1;
@@ -168,6 +205,10 @@ chdir(rep);
 				// marchent pour Eos ET WhiteCat (qui, lui, n'indente pas -> no-op).
 				{ char* _s=line; while(*_s==' '||*_s=='\t') _s++;
 				  if(_s!=line){ memmove(line,_s,strlen(_s)+1); } }
+				// [ascii interop] Eos separe chaque enregistrement (cue, sub, effet, palette...) par une
+				// ligne vide. Fin du bloc cue -> on coupe flagcue, sinon un "Text" d'une section suivante
+				// (effets, palettes) serait attribue par erreur a la derniere memoire lue.
+				if(line[0]=='\n' || line[0]=='\r' || line[0]=='\0'){ flagcue=-1; }
 				// [ascii interop] "CUE 1.5" (WhiteCat) ou "Cue 7 1" (Eos : num + cuelist). Le nombre
 				// apres le mot-cle -> memoire = num x10. On efface la memoire avant de la remplir
 				// (import propre, et compat avec le remplissage partiel Chan/$$ChanMove).
@@ -179,6 +220,7 @@ chdir(rep);
 						{
 						MemoiresExistantes[cue]=1;
 						for(int _cc=0;_cc<514;_cc++){ Memoires[cue][_cc]=0; }
+						descriptif_memoires[cue][0]='\0';   // nom vide par defaut (rempli par un "Text" si present)
 	                    if(first_cue_from_import==0)
 	                    {first_cue_from_import=cue;}
 						flagcue=1;flagsub=-1;flagpatch=-1;flagmaster=-1;
@@ -188,22 +230,14 @@ chdir(rep);
         	    if(flagcue==1)//cues
 			    {
 
-                 // [ascii interop] "Text …" (WhiteCat/USITT) ou "$$Text …" (Eos) -> label memoire
-                 if(wc_ci_prefix(line,"TEXT"))
+                 // [ascii interop] "Text …" (WhiteCat/USITT/Eos) ou "$$Text …" -> label memoire.
+                 // Copie a longueur exacte (arret au \n -> plus de rectangle final) et normalisee UTF-8
+                 // (Eos ecrit en Latin-1 : 'e accent' brut donnait un rectangle "glyphe manquant").
+                 if(wc_ci_prefix(line,"$$TEXT") || wc_ci_prefix(line,"TEXT"))
                  {
-                 for (int p=0; p<24;p++)
-                 {
-                 descriptif_memoires[cue][p]=line[p+5];
-                 }
-                 descriptif_memoires[cue][24]='\0';
-                 }
-                 else if(wc_ci_prefix(line,"$$TEXT"))
-                 {
-                 for (int p=0; p<24;p++)
-                 {
-                 descriptif_memoires[cue][p]=line[p+7];
-                 }
-                 descriptif_memoires[cue][24]='\0';
+                 const char* nm = wc_ci_prefix(line,"$$TEXT") ? (line+6) : (line+4);
+                 while(*nm==' '||*nm=='\t') nm++;      // sauter le(s) espace(s) apres le mot-cle
+                 wc_copy_name_utf8(nm, descriptif_memoires[cue], 50);
                  }
 
                  ////0=DIN  1=IN 2=DOUT 3=OUT
