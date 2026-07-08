@@ -36,6 +36,16 @@
 
 ---
 
+## Interop ASCII — export/import Eos & Congo/Cobalt
+
+Import Eos/Congo (cue list, patch 8/16 bit, masters, noms) ✅ ; export Eos-flavored ✅ ; export Congo/Cobalt par template-splice (cues+patch+masters+délais) ✅. Reste :
+- [ ] **Tester les délais de cue dans Eos** — confirmés OK côté Congo (`DOWN <temps> <délai>`, valeurs assainies). Vérifier qu'Eos les **importe** bien ET que notre **export Eos** les écrit correctement.
+- [ ] Export Congo : nettoyer la ligne `PATCH 1` **vide** en fin de patch (cosmétique).
+- [ ] Export Congo : **shipper `congo_template.asc`** dans un dossier tracké (actuellement gitignoré, dossier build synchro Nextcloud) pour une vraie release.
+- [ ] **Devices** multi-paramètres (import Eos `$Patch` perso >1 param ; Congo `$CHANNELDATA`/`$DEVICEMODEPAGE`) → chantier Fixtures. Visu bandeau device dans la grille Patch déjà démarrée (v1 dimmers 16 bit).
+
+---
+
 ## Phase 4 — vérifications post-extraction TU
 
 ### À vérifier : procs_visuels_rebuild1.cpp

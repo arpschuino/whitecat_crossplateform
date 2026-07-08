@@ -735,6 +735,16 @@ static void wc_congo_write_patch(FILE* fp)
     fprintf(fp,"\n");
 }
 
+// Assainit un temps/delai avant ecriture : NaN/inf/negatif -> 0, borne a 10000 s. Evite qu'un
+// "%g" ne sorte "nan"/"inf"/notation scientifique (ex. 1e+20) que le parseur Cobalt refuse (crash).
+static double wc_congo_time(float t)
+{
+    if(!(t==t)) return 0.0;              // NaN
+    if(t<0.0f) return 0.0;
+    if(t>10000.0f) return 10000.0;
+    return (double)t;
+}
+
 // Memoires WhiteCat au format cue Cobalt (bloc complet par cue, nom en Latin-1 + entites HTML).
 static void wc_congo_write_cues(FILE* fp)
 {
@@ -747,9 +757,10 @@ static void wc_congo_write_cues(FILE* fp)
 
         fprintf(fp,"\nCUE %d.%d\n",(m/10),(m%10));
         fprintf(fp,"$$CUEPARAMS 0 0\n");
-        // 2e champ de DOWN/UP = 0 (Congo l'exige ; y mettre le delai le fait planter). Delais WhiteCat -> plus tard, autre champ.
-        fprintf(fp,"DOWN %g 0\n", Times_Memoires[m][3]);
-        fprintf(fp,"UP %g 0\n",   Times_Memoires[m][1]);
+        // "DOWN <temps> <delai>" / "UP <temps> <delai>" (confirme par un export Cobalt reel : DOWN 12 5).
+        // WhiteCat : [3]=temps OUT, [2]=delai OUT ; [1]=temps IN, [0]=delai IN. Valeurs assainies (anti-crash).
+        fprintf(fp,"DOWN %g %g\n", wc_congo_time(Times_Memoires[m][3]), wc_congo_time(Times_Memoires[m][2]));
+        fprintf(fp,"UP %g %g\n",   wc_congo_time(Times_Memoires[m][1]), wc_congo_time(Times_Memoires[m][0]));
         fprintf(fp,"$$WAIT 0 0\n");
         fprintf(fp,"$$GOONGO 3\n");
         fprintf(fp,"CHAN ");
