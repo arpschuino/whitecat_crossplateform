@@ -696,6 +696,163 @@ return(0);
 
 
 /////////////////////////////////////////////////////////////////////////////////
+///////////////////EXPORT CONGO / COBALT///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+// [ascii interop] Export Congo/Cobalt par "template-splice" : un vrai fichier Cobalt
+// (import_export/congo_template.asc) sert de SQUELETTE — il contient toutes les sections
+// obligatoires (Parameter Definitions, Channel Database, Devices...) que Cobalt exige, sinon
+// il PLANTE. On recopie ce squelette a l'identique en n'y INJECTANT que les donnees WhiteCat :
+//   - les cues  (zone "$SEQUENCE" -> "! Additional Sequences"),
+//   - le patch  (zone "CLEAR PATCH" -> fin des "PATCH 1 ...").
+// Les masters du template (vides) sont conserves tels quels (injection master = chantier ulterieur).
+
+// Nom en entites HTML numeriques (ex. 'e accent' -> "&#233;"), format attendu par Cobalt pour $$TEXT.
+static void wc_fprint_name_htmlent(FILE* fp, const char* utf8)
+{
+    const unsigned char* s=(const unsigned char*)utf8;
+    while(*s)
+    {
+        unsigned char c=*s;
+        if(c<0x80){ fputc((int)c,fp); s++; }
+        else if((c&0xE0)==0xC0 && (s[1]&0xC0)==0x80){ unsigned int cp=((c&0x1F)<<6)|(s[1]&0x3F); fprintf(fp,"&#%u;",cp); s+=2; }
+        else if((c&0xF0)==0xE0 && (s[1]&0xC0)==0x80 && (s[2]&0xC0)==0x80){ unsigned int cp=((c&0x0F)<<12)|((s[1]&0x3F)<<6)|(s[2]&0x3F); fprintf(fp,"&#%u;",cp); s+=3; }
+        else { fputc('?',fp); s++; }
+    }
+}
+
+// Patch WhiteCat au format Cobalt : "PATCH 1 <chan><<addr>@100" (4 paires par ligne).
+static void wc_congo_write_patch(FILE* fp)
+{
+    fprintf(fp,"PATCH 1 ");
+    int rl=0;
+    for(int ch=1; ch<513; ch++)
+        for(int ad=1; ad<513; ad++)
+            if(Patch[ad]==ch)
+            {
+                fprintf(fp,"%d<%d@100 ",ch,ad);
+                if(++rl>=4){ fprintf(fp,"\nPATCH 1 "); rl=0; }
+            }
+    fprintf(fp,"\n");
+}
+
+// Memoires WhiteCat au format cue Cobalt (bloc complet par cue, nom en Latin-1 + entites HTML).
+static void wc_congo_write_cues(FILE* fp)
+{
+    for(int m=1; m<10000; m++)
+    {
+        if(MemoiresExistantes[m]!=1) continue;
+        bool hascue=false;
+        for(int s=1;s<513;s++){ if(Memoires[m][s]>0){ hascue=true; break; } }
+        if(!hascue && descriptif_memoires[m][0]=='\0') continue;
+
+        fprintf(fp,"\nCUE %d.%d\n",(m/10),(m%10));
+        fprintf(fp,"$$CUEPARAMS 0 0\n");
+        // 2e champ de DOWN/UP = 0 (Congo l'exige ; y mettre le delai le fait planter). Delais WhiteCat -> plus tard, autre champ.
+        fprintf(fp,"DOWN %g 0\n", Times_Memoires[m][3]);
+        fprintf(fp,"UP %g 0\n",   Times_Memoires[m][1]);
+        fprintf(fp,"$$WAIT 0 0\n");
+        fprintf(fp,"$$GOONGO 3\n");
+        fprintf(fp,"CHAN ");
+        for(int s=1;s<513;s++)
+        {
+            if(Memoires[m][s]>0){ int lv8=(int)wc::lvl_to_dmx8(Memoires[m][s]); fprintf(fp,"%d/H%02X ",s,lv8); }
+        }
+        fprintf(fp,"\n");
+        if(descriptif_memoires[m][0]!='\0')
+        {
+            fprintf(fp,"$$PRESETTEXT "); wc_fprint_name_latin1(fp, descriptif_memoires[m]); fprintf(fp,"\n");
+            fprintf(fp,"$$TEXT ");       wc_fprint_name_htmlent(fp, descriptif_memoires[m]); fprintf(fp,"\n");
+        }
+        fprintf(fp,"$$ATTRIBUTETIMES 0 0 0 0 0 0 0 0 0 100 100 100 \n");
+    }
+}
+// Masters WhiteCat d'un dock -> $MASTPAGEITEM + CHAN, injectes sous le "$MASTPAGE <d+1>" du template.
+// Type 2 = Channels (comme la_fille_Grigny). Fader f -> master item (f+1). Dock type 0 (circuits) ou 5 (memoire aplatie).
+static void wc_congo_write_masters_for_dock(FILE* fp, int d)
+{
+    for(int f=0; f<48; f++)
+    {
+        int dt=DockTypeIs[f][d];
+        if(dt!=0 && dt!=5) continue;
+        int mem=(dt==5)?DockHasMem[f][d]:0;
+        bool has=false;
+        if(dt==0){ for(int sc=1;sc<513;sc++){ if(FaderDockContains[f][d][sc]!=0){ has=true; break; } } }
+        else     { if(mem>0 && MemoiresExistantes[mem]==1) has=true; }
+        if(!has) continue;
+
+        fprintf(fp,"$MASTPAGEITEM %d %d 2 0 0 0 0 100 OFF OFF 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0\n", d+1, f+1);
+        fprintf(fp,"CHAN ");
+        for(int s=1;s<513;s++)
+        {
+            int l=(dt==0)?(int)FaderDockContains[f][d][s]:(int)wc::lvl_to_dmx8(Memoires[mem][s]);
+            if(l!=0) fprintf(fp,"%d/H%02X ",s,l);
+        }
+        fprintf(fp,"\n");
+    }
+}
+
+int do_Congo_export()
+{
+index_is_saving=1;
+rest(100);
+
+// squelette Cobalt (toutes les sections obligatoires) a cote des exe
+char tplpath[600]; sprintf(tplpath,"%s/import_export/congo_template.asc", mondirectory);
+FILE* tpl=fopen(tplpath,"rt");
+if(tpl==NULL)
+{
+    sprintf(string_save_load_report[0],"Congo: template introuvable (%s)", tplpath); b_report_error[0]=1;
+    index_is_saving=0;
+    return(0);
+}
+
+sprintf(rep,"%s/import_export/ascii",mondirectory);
+chdir(rep);
+
+FILE *fp=fopen(importfile_name,"wt");
+if(fp==NULL){ fclose(tpl); sprintf(rep,"%s",mondirectory); chdir(rep); index_is_saving=0; return(0); }
+
+save_load_print_to_screen("memoires");
+
+char line[2048];
+int mode=0;       // 0 = copie du template ; 1 = saut des cues ; 2 = saut du patch
+int cues_done=0;  // n'injecter les cues que sur la 1re "$SEQUENCE" (sequence principale)
+while(fgets(line,2048,tpl)!=NULL)
+{
+    if(mode==1)
+    {
+        if(strncmp(line,"! Additional Sequences",22)==0){ fputs(line,fp); mode=0; }
+        continue;
+    }
+    if(mode==2)
+    {
+        if(strncmp(line,"PATCH 1",7)==0) continue;
+        fputs(line,fp); mode=0; continue;
+    }
+    if(cues_done==0 && strncmp(line,"$SEQUENCE",9)==0){ fputs(line,fp); wc_congo_write_cues(fp); cues_done=1; mode=1; continue; }
+    if(strncmp(line,"CLEAR PATCH",11)==0){ fputs(line,fp); wc_congo_write_patch(fp); mode=2; continue; }
+    // masters : sous chaque "$MASTPAGE <p> ..." du template, injecter les $MASTPAGEITEM du dock (p-1)
+    if(strncmp(line,"$MASTPAGE ",10)==0)
+    {
+        fputs(line,fp);
+        int _pg=0; sscanf(line,"%*s %d",&_pg);
+        if(_pg>=1 && _pg<=6) wc_congo_write_masters_for_dock(fp, _pg-1);
+        continue;
+    }
+    fputs(line,fp);
+}
+
+fclose(tpl);
+fclose(fp);
+
+sprintf(rep,"%s",mondirectory);
+chdir(rep);
+index_is_saving=0;
+return(0);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////
 ///////////////////SCHWZ/////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 int do_Schwartzpeter_import()

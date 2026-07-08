@@ -512,6 +512,16 @@ petitchiffre.Print("SAVE",xrep+55,yrep+410);
 SaveExport.DrawOutline(CouleurLigne);
 }
 ////////////////////////////////////////////////////////////////////////////////
+// [ascii interop] toggle dialecte d'export ASCII : Eos-flavored (defaut) ou Congo/Cobalt.
+if(index_export_choice==0 && enable_export==1)
+{
+Rect ExpFmt(Vec2D(xrep+230,yrep+390),Vec2D(115,30));
+ExpFmt.SetRoundness(7.5);
+if(index_export_congo==1){ ExpFmt.Draw(CouleurSurvol); }
+ExpFmt.DrawOutline(CouleurLigne);
+petitchiffre.Print(index_export_congo==1 ? "Format: Congo" : "Format: Eos", xrep+240, yrep+410);
+}
+////////////////////////////////////////////////////////////////////////////////
 if(enable_import==1)
 {
 Rect LoadExport(Vec2D(xrep+140,yrep+390),Vec2D(70,30));
@@ -623,6 +633,16 @@ index_do_export=1;
 index_ask_confirm=1;
 mouse_released=1;
 }
+}
+}
+////////////////////////////////////////////////////////////////////////////////
+// [ascii interop] clic sur le toggle dialecte d'export Eos/Congo
+if(index_export_choice==0 && enable_export==1 && window_focus_id==W_SAVE && mouse_x>xrep+230 && mouse_x<xrep+345 && mouse_y>yrep+390 && mouse_y<yrep+420)
+{
+if(mouse_button==1 && mouse_released==0)
+{
+index_export_congo = (index_export_congo==0) ? 1 : 0;
+mouse_released=1;
 }
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -752,6 +772,16 @@ petitchiffre.Print("SAVE",xrep+55,yrep+410);
 SaveExport.DrawOutline(CouleurLigne);
 }
 ////////////////////////////////////////////////////////////////////////////////
+// [ascii interop] toggle dialecte d'export ASCII : Eos-flavored (defaut) ou Congo/Cobalt.
+if(index_export_choice==0 && enable_export==1)
+{
+Rect ExpFmt(Vec2D(xrep+230,yrep+390),Vec2D(115,30));
+ExpFmt.SetRoundness(7.5);
+if(index_export_congo==1){ ExpFmt.Draw(CouleurSurvol); }
+ExpFmt.DrawOutline(CouleurLigne);
+petitchiffre.Print(index_export_congo==1 ? "Format: Congo" : "Format: Eos", xrep+240, yrep+410);
+}
+////////////////////////////////////////////////////////////////////////////////
 if(enable_import==1)
 {
 Rect LoadExport(Vec2D(xrep+140,yrep+390),Vec2D(70,30));
@@ -838,6 +868,16 @@ index_do_export=1;
 index_ask_confirm=1;
 mouse_released=1;
 }
+}
+}
+////////////////////////////////////////////////////////////////////////////////
+// [ascii interop] clic sur le toggle dialecte d'export Eos/Congo
+if(index_export_choice==0 && enable_export==1 && window_focus_id==W_SAVE && mouse_x>xrep+230 && mouse_x<xrep+345 && mouse_y>yrep+390 && mouse_y<yrep+420)
+{
+if(mouse_button==1 && mouse_released==0)
+{
+index_export_congo = (index_export_congo==0) ? 1 : 0;
+mouse_released=1;
 }
 }
 ////////////////////////////////////////////////////////////////////////////////

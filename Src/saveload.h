@@ -52,6 +52,7 @@ extern bool index_please_do_not_save;
 /////////////SAVE MENU//////////////////////
 // EXPORTS IMPORTS
 extern int index_export_choice;
+extern int index_export_congo;   // 0 = export ASCII Eos-flavored, 1 = export Congo/Cobalt
 extern char list_import_files[128][72];
 extern int line_import;
 extern int nbre_import_files; // total fichiers import (pour ascenseur)

@@ -1017,7 +1017,7 @@ int operations_confirmation()
  if(isASCII==1)
  {
 
- do_ASCII_export();
+ if(index_export_congo==1){ do_Congo_export(); } else { do_ASCII_export(); }
  scan_importfolder("ascii");
  strcpy(importfile_name,"");
  strcpy(string_typeexport_view,"");
