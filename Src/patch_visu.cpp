@@ -340,14 +340,14 @@ for(int g=1; g<512; g++)
         if( (YChan+100+(lc*60) - (int)(scroller_patch* scroll_chan))>YChan+30
          && (YChan+90 +(lc*60) - (int)(scroller_patch* scroll_chan))<YChan+570 )
         {
-            int xl = XChan-14+(45*cc);
-            int xr = (lf==lc) ? (XChan+26+(45*cf)) : (XChan+26+(45*cc)); // meme ligne -> jusqu'au fine ; sinon coarse seul
-            // bandeau au-dessus du numero de circuit (Patch), en bleu : "<circuit> : 16 bit output"
+            int xl = XChan-5+(45*cc);
+            int xr = (lf==lc) ? (XChan+35+(45*cf)) : (XChan+35+(45*cc)); // meme ligne -> jusqu'au fine ; sinon coarse seul
+            // bandeau au-dessus du numero de circuit (Patch), en vert : "<circuit>: 16 bit output"
             char _blbl[40]; sprintf(_blbl,"%d: 16 bit output", Patch[g]);
-            Rect Band( Vec2D(xl, ytop+25), Vec2D(xr-xl, 13) );
+            Rect Band( Vec2D(xl, ytop+26), Vec2D(xr-xl, 13) );
             Band.SetRoundness(6);
             Band.Draw(CouleurGreen.WithAlpha(0.85));
-            petitpetitchiffre.Print(_blbl, xl+5, ytop+35);
+            petitpetitchiffre.Print(_blbl, xl+5, ytop+36);
         }
     }
 }
