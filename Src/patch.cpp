@@ -11,6 +11,7 @@ float Patch_Scroll_Factor = 25.0;
 int iddim = 0;
 bool index_affect_patch = 0;
 bool index_affect_patch_16bit = 0;   // [2b] mode patch 16 bit (coarse + fine=coarse+1)
+bool index_affect_patch_device = 0;  // [devices] mode : clic sur un output -> device RGB (3 outputs) sur le circuit selectionne
 bool index_menu_curve = 0;
 bool index_reset_curve = 0;
 bool index_square_curve = 0;

@@ -188,6 +188,47 @@ return(0);
 
 
 
+// [devices] Dessine un bandeau nomme au-dessus des outputs [omin..omax] dans la grille du patch,
+// EN GERANT LE SAUT DE LIGNE (6 outputs/ligne) : un segment par ligne couverte. Label sur le 1er segment.
+static void wc_draw_output_bandeau(int XChan, int YChan, float scroll_chan, int omin, int omax, const char* label, const Rgba& col)
+{
+    if(omin<1) omin=1;
+    if(omax>512) omax=512;
+    if(omax<omin) return;
+    int Lstart=(omin-1)/6, Lend=(omax-1)/6;
+    const int R=6;
+    int consumed=0;                                        // largeur de label deja affichee (segments precedents)
+    int base_x = XChan-5+(45*(((omin-1)%6)+1)) + 5;        // x du 1er caractere du label (sur le 1er segment)
+    for(int L=Lstart; L<=Lend; L++)
+    {
+        int lo = (omin > L*6+1) ? omin : (L*6+1);   // 1er output de la ligne dans [omin..omax]
+        int hi = (omax < L*6+6) ? omax : (L*6+6);   // dernier
+        int cc = ((lo-1)%6)+1;
+        int cf = ((hi-1)%6)+1;
+        int xl = XChan-5+(45*cc);
+        int xr = XChan+35+(45*cf);
+        int ytop = YChan+85+(L*60) - (int)(scroller_patch* scroll_chan);
+        bool visible = (YChan+100+(L*60) - (int)(scroller_patch* scroll_chan))>YChan+30
+                    && (YChan+90 +(L*60) - (int)(scroller_patch* scroll_chan))<YChan+570;
+        if(visible)
+        {
+            // Bord ARRONDI aux vraies extremites (1er segment a gauche, dernier a droite), DROIT aux
+            // jointures : le rect arrondi DEPASSE du cote "coupe" (l'arrondi tombe hors du clip -> bord droit).
+            int dl = (L==Lstart) ? xl : (xl - R - 2);
+            int dr = (L==Lend)   ? xr : (xr + R + 2);
+            Canvas::SetClipping(xl, ytop+26, xr-xl, 13);   // (x, y, LARGEUR, HAUTEUR) -> clippe le segment
+            Rect Band( Vec2D(dl, ytop+26), Vec2D(dr-dl, 13) );
+            Band.SetRoundness(R);
+            Band.Draw(col);                                // OPAQUE (couvre le numero de circuit dessous)
+            // Le label COULE d'un segment a l'autre : chaque segment reprend le texte la ou le precedent l'a coupe.
+            int draw_x = (L==Lstart) ? base_x : (xl - consumed);
+            petitpetitchiffre.Print(label, draw_x, ytop+36);
+            Canvas::SetClipping(XChan+30, YChan+50, 280, 445);   // restaure le clip de la grille
+        }
+        consumed += (L==Lstart) ? (xr - base_x) : (xr - xl);
+    }
+}
+
 int PatchBox(int XChan, int YChan, float scroll_chan)
 {
 Rect PatchSpace( Vec2D((XChan),(YChan)),Vec2D(450,600));
@@ -277,6 +318,13 @@ petitchiffre.Print("Link LightPlot",XChan+350,YChan+512);
 petitchiffre.Print("Show 1st Dimmer",XChan+350,YChan+542);
 petitchiffre.Print("Patch 16 bit",XChan+350,YChan+572);
 
+// [devices] bouton echafaudage : mode "patch device RGB" (clic ensuite sur un output). Clignote si actif.
+Rect AddDevBtn(Vec2D(XChan+345,YChan+583),Vec2D(90,16));
+AddDevBtn.SetRoundness(5);
+if(index_affect_patch_device==1){ AddDevBtn.Draw(CouleurBlind.WithAlpha(alpha_blinker)); }
+AddDevBtn.DrawOutline(CouleurLigne);
+petitpetitchiffre.Print("+ RGB device",XChan+352,YChan+594);
+
 
 
 Canvas::SetClipping(XChan+30,YChan+50,XChan+30+280,YChan+495);
@@ -334,22 +382,35 @@ for(int g=1; g<512; g++)
     if(output_fine[g]!=0)
     {
         int fin = output_fine[g];
-        int lc=(g-1)/6;   int cc=((g-1)%6)+1;   // ligne/colonne du coarse
-        int lf=(fin-1)/6; int cf=((fin-1)%6)+1; // ligne/colonne du fine
-        int ytop = YChan+85+(lc*60) - (int)(scroller_patch* scroll_chan);
-        if( (YChan+100+(lc*60) - (int)(scroller_patch* scroll_chan))>YChan+30
-         && (YChan+90 +(lc*60) - (int)(scroller_patch* scroll_chan))<YChan+570 )
+        int omin = (g<fin)?g:fin;
+        int omax = (g>fin)?g:fin;
+        char _blbl[40]; sprintf(_blbl,"%d: 16 bit output", Patch[g]);
+        wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _blbl, CouleurGreen);
+    }
+}
+
+// [devices] Bandeau des vrais devices multi-parametres : Fixtures a >1 channel dans wc_patch (source
+// de verite). Un dimmer (1 channel, meme 16 bit) est traite par le pass vert ci-dessus ; ici RGB/etc.
+for(size_t fi=0; fi<wc_patch.size(); fi++)
+{
+    const wc::Fixture& fx = wc_patch[fi];
+    if(fx.channels.size() <= 1) continue;
+    int omin=99999, omax=0, ncount=0, circ=0;
+    for(size_t c=0; c<fx.channels.size(); c++)
+    {
+        int co=(int)fx.channels[c].coarse_addr;
+        if(co<=0 || co>=514) continue;
+        if(circ==0) circ=(int)fx.channels[c].circuit;
+        if(co<omin) omin=co;  if(co>omax) omax=co;  ncount++;
+        if(fx.channels[c].resolution==wc::RES_16BIT && fx.channels[c].fine_addr!=0)
         {
-            int xl = XChan-5+(45*cc);
-            int xr = (lf==lc) ? (XChan+35+(45*cf)) : (XChan+35+(45*cc)); // meme ligne -> jusqu'au fine ; sinon coarse seul
-            // bandeau au-dessus du numero de circuit (Patch), en vert : "<circuit>: 16 bit output"
-            char _blbl[40]; sprintf(_blbl,"%d: 16 bit output", Patch[g]);
-            Rect Band( Vec2D(xl, ytop+26), Vec2D(xr-xl, 13) );
-            Band.SetRoundness(6);
-            Band.Draw(CouleurGreen.WithAlpha(0.85));
-            petitpetitchiffre.Print(_blbl, xl+5, ytop+36);
+            int fo=(int)fx.channels[c].fine_addr;
+            if(fo<omin) omin=fo;  if(fo>omax) omax=fo;  ncount++;
         }
     }
+    if(ncount<2 || omax<omin) continue;
+    char _dl[64]; sprintf(_dl,"%d: %s (%d outputs)", circ, fx.name.empty()?"device":fx.name.c_str(), ncount);
+    wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _dl, CouleurNiveau);   // bleu = device
 }
 Canvas::DisableClipping();
 

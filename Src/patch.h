@@ -7,6 +7,8 @@
 int rebuild_patch_from_fixtures();
 // [Fixtures] Reconstruit wc_patch depuis les tableaux legacy courants (démarrage + chargement vieux show).
 int synthesize_fixtures_from_legacy();
+// [devices] Échafaudage : crée un device RGB de test (3 outputs base..base+2) sur un circuit, dans wc_patch.
+int create_rgb_device_at(int base, int circuit);
 // [Fixtures] Persistance texte du patch fixtures (dans le dossier du show).
 int save_patch_fixtures_text(const char* file);
 int load_patch_fixtures_text(const char* file);   // 0 = OK, 1 = absent (vieux show), 2 = format invalide
@@ -19,6 +21,7 @@ extern float Patch_Scroll_Factor;
 extern int iddim;
 extern bool index_affect_patch;
 extern bool index_affect_patch_16bit;   // [2b] mode patch 16 bit
+extern bool index_affect_patch_device;   // [devices] mode patch device RGB
 extern bool index_menu_curve;
 extern bool index_reset_curve;
 extern bool index_square_curve;

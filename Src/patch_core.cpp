@@ -107,6 +107,51 @@ int synthesize_fixtures_from_legacy()
     return 0;
 }
 
+// [devices] ECHAFAUDAGE (test) : cree un device RGB (3 channels ColorAdd R/G/B) sur les outputs
+// base..base+2, controle par <circuit>, dans le modele wc_patch, puis regenere les tableaux legacy.
+// Appele quand on est en mode "patch device" et qu'on clique un output. A remplacer par la vraie
+// creation de device (choix du type/personality) plus tard.
+int create_rgb_device_at(int base, int circuit)
+{
+    if(base<1 || base>510) return -1;
+    if(circuit<1 || circuit>512) circuit=1;
+
+    // capturer l'etat legacy dans le modele (wc_patch etait peut-etre perime)
+    synthesize_fixtures_from_legacy();
+
+    // retirer les fixtures existantes qui occupent base..base+2 (le device les remplace)
+    for(int k=0;k<3;k++)
+    {
+        int out=base+k;
+        for(size_t f=0; f<wc_patch.size(); )
+        {
+            bool hit=false;
+            for(size_t c=0;c<wc_patch[f].channels.size();c++)
+                if((int)wc_patch[f].channels[c].coarse_addr==out || (int)wc_patch[f].channels[c].fine_addr==out){ hit=true; break; }
+            if(hit) wc_patch.erase(wc_patch.begin()+f); else f++;
+        }
+    }
+
+    // la Fixture RGB (3 channels ColorAdd R/G/B sur base..base+2, LTP 8 bit)
+    wc::Fixture fx;
+    fx.name = "RGB test";
+    wc::AttrId rgb[3] = { wc::ATTR_COLORADD_R, wc::ATTR_COLORADD_G, wc::ATTR_COLORADD_B };
+    for(int k=0;k<3;k++)
+    {
+        wc::Channel ch;
+        ch.attribute   = (uint8_t)rgb[k];
+        ch.combine     = wc::COMBINE_LTP;
+        ch.resolution  = wc::RES_8BIT;
+        ch.coarse_addr = (uint16_t)(base+k);
+        ch.circuit     = (uint16_t)circuit;
+        fx.channels.push_back(ch);
+    }
+    wc_patch.push_back(fx);
+
+    rebuild_patch_from_fixtures();   // modele -> tableaux legacy (le rendu balaie ceux-ci)
+    return 0;
+}
+
 // ---------------------------------------------------------------------------
 // Persistance TEXTE du patch fixtures (format maison versionne, lisible).
 // 1 fichier patch_fixtures.whc dans le dossier du show. Petit -> non compresse.
@@ -405,6 +450,14 @@ switch(o)
 
 }
 
+// [devices] bouton "device" (test) : entre en mode "patch device" (clic ensuite sur un output)
+if(mouse_x>XChan+345 && mouse_x<XChan+435 && mouse_y>YChan+583 && mouse_y<YChan+599)
+{
+    index_affect_patch_device=toggle(index_affect_patch_device);
+    if(index_affect_patch_device){ index_affect_patch=0; index_affect_patch_16bit=0; }
+    mouse_released=1;
+}
+
 
 int maxchan_per_ligne=7;
 int grad=0;
@@ -451,6 +504,17 @@ for (int ci=1;ci<514;ci++)
 {Selected_Channel[ci]=0;}
 index_type=0;index_level_attribue=0;
 index_affect_patch_16bit=0;
+}
+if(index_affect_patch_device==1)//[devices] clic sur output -> device RGB (grad..grad+2) sur le circuit selectionne
+{
+create_rgb_device_at(grad, last_ch_selected);
+sprintf(string_Last_Order,">> RGB device (outputs %d-%d) patched to Channel %d",grad, grad+2, last_ch_selected);
+sprintf(string_monitor_patch,">> RGB device (outputs %d-%d) patched to Channel %d",grad, grad+2, last_ch_selected);
+patch_unselect_all_dimmers();
+for (int ci=1;ci<514;ci++)
+{Selected_Channel[ci]=0;}
+index_type=0;index_level_attribue=0;
+index_affect_patch_device=0;
 }
 generate_channel_view_list_from_patched_circuits();
 mouse_released=1;
