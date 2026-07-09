@@ -231,7 +231,6 @@ bool index_ask_clear_a_move = 0;
 unsigned char buffer_moving_head[512];
 int previous_mem_before_one = 0;
 int mem_after_one = 0;
-bool someone_changed_in_sequences = 0;
 bool someone_changed_in_time_sequences = 0; // specifique affichage du temps de crossfade
 int go_channel_is = 0;
 int pause_channel_is = 0; // pause channel blink on pause in cuelist

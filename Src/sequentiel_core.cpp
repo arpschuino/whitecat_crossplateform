@@ -77,7 +77,6 @@ sprintf(string_Last_Order,"Mem 0.0 can't be loaded on Stage");
 }
 }
 reset_numeric_entry();
-someone_changed_in_sequences=1;//icat
 return(0);
 }
 
@@ -93,7 +92,6 @@ for(int ty=0;ty<4;ty++)
  {Times_Memoires[mem_to_set_time][ty]= (time_minutes*60)+time_secondes+ ((float)time_centiemes)/100; }
 }
 show_im_recording_a_time=1;
-someone_changed_in_sequences=1;//icat
  return(0);
 }
 
@@ -120,7 +118,6 @@ if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
 }
 }
 reset_numeric_entry();
-someone_changed_in_sequences=1;//icat
 
 return(0);
 }
@@ -142,7 +139,6 @@ refresh_mem_onpreset(position_preset);
 detect_mem_before_one();
 niveauX1=255; niveauX2=0;
 if(midi_send_out[493]==1){index_send_midi_out[493]=1;}
-someone_changed_in_sequences=1;//icat
 return(0);
 }
 
@@ -321,7 +317,6 @@ annotation_memoires[position_onstage][49]='\0';
 }
 
 reset_numeric_entry();numeric_postext=0;
-someone_changed_in_sequences=1;//icat
 mouse_released=1;
 }
 else if (mouse_double_click) {
@@ -423,7 +418,6 @@ else
 strncpy(annotation_memoires[position_preset], numeric, 49);
 annotation_memoires[position_preset][49]='\0';
 }
-someone_changed_in_sequences=1;//icat
 reset_numeric_entry();numeric_postext=0;if(index_text_auto_close==1){index_type=0;}
 mouse_released=1;
 }

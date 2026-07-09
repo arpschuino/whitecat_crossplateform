@@ -26,6 +26,12 @@
 
 - **Fix : avec un damper actif, le fader ne redescendait pas complètement** (ex. piloté par LFO : il restait un poil au-dessus de 0). La glisse exponentielle du damper est asymptotique → elle n'atteint jamais la cible pile. Ajout d'un accrochage exact à la cible (snap) quand l'écart devient négligeable. Corrige aussi une initialisation manquante (`_damper_blocking_mode`/`_damper_accel`) qui pouvait figer le damper.
 
+### Séquentiel — temps (affichage + saisie)
+
+- **Fix : temps affichés en retard.** En enregistrant un temps (Up/Down/délai) de cue, l'écran gardait l'ancienne valeur jusqu'à un mouvement de souris (rendu en cap idle). `affect_time_entry_to_mem` recalcule maintenant les chaînes (`do_sprintf_job`) et **force le rafraîchissement** (`wc_request_refresh`) ; idem après les paires délai/temps de la touche « L » (écrites après coup). Même classe de bug que echo/faders/grid players.
+- **Fix : saisie de temps > 59 s.** Taper « 80 » donne désormais **1 min 20 s** (report des secondes ≥ 60 sur les minutes) au lieu d'être clampé à 59 s. Plafond 59:59.
+- **Nettoyage** : suppression du flag mort `someone_changed_in_sequences` (écrit ~20 fois, jamais lu — vestige iCat).
+
 ### Espace circuits — Vue Classical
 
 - **Fix : le premier circuit d'une page (1-12, 49-60, …) caché sous la barre « Ch.View ».** L'auto-scroll à la sélection (`set_channel_scroll`) plaçait la 1re rangée de chaque page de 48 trop haut (Y=36, sous le clip à ~53). Offset -3 appliqué à tous les paliers (= valeur déjà validée au démarrage).

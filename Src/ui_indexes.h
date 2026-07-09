@@ -256,7 +256,6 @@ extern unsigned char buffer_moving_head[512];
 
 extern int previous_mem_before_one;
 extern int mem_after_one;
-extern bool someone_changed_in_sequences;
 extern bool someone_changed_in_time_sequences;
 
 extern int go_channel_is;

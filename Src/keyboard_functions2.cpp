@@ -1308,6 +1308,10 @@ int key_time_in_out()
             }
 
            }
+ // Les paires [2]=[0]/[3]=[1] sont ecrites APRES affect_time_entry_to_mem (qui a deja rafraichi) :
+ // on recalcule + refresh une derniere fois pour que ces valeurs s'affichent sans retard.
+ do_sprintf_job();
+ wc_request_refresh();
  return(0);
 }
 
@@ -1414,7 +1418,6 @@ int key_backward()
            niveauX2=0;
            }
            strcpy(string_time_left_is,"");
-           someone_changed_in_sequences=1;//icat
 return(0);
 }
 
@@ -1444,7 +1447,6 @@ int key_forward()
            niveauX2=0;
            }
            strcpy(string_time_left_is,"");
-           someone_changed_in_sequences=1;//icat
  return(0);
 }
 
