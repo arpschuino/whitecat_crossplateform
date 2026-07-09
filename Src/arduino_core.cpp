@@ -500,7 +500,6 @@ detect_mem_preset_previous();
 refresh_mem_onpreset(position_preset);
 niveauX2=0;
 previous_digital_data_from_arduino[p]=toggle(previous_digital_data_from_arduino[p]);
-someone_changed_in_sequences=1;//icat
 }
 break;
 case 16://Seq: SHIFT-X
@@ -511,7 +510,6 @@ detect_next_preset();
 refresh_mem_onpreset(position_preset);
 niveauX2=0;
 previous_digital_data_from_arduino[p]=toggle(previous_digital_data_from_arduino[p]);
-someone_changed_in_sequences=1;//icat
 }
 break;
 case 17:////As Key-On CH0 P:

@@ -537,7 +537,6 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                     strncpy(descriptif_memoires[seq_editing_mem], confirm_name_buf, 49);
                     descriptif_memoires[seq_editing_mem][49] = '\0';
                 }
-                someone_changed_in_sequences = 1;
                 seq_editing_mem = -1;
                 seq_editing_annotation = false;
                 confirm_name_buf[0] = '\0';
@@ -571,7 +570,6 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
                     strncpy(descriptif_memoires[seq_editing_mem], confirm_name_buf, 49);
                     descriptif_memoires[seq_editing_mem][49] = '\0';
                 }
-                someone_changed_in_sequences = 1;
                 seq_editing_mem = -1;
                 seq_editing_annotation = false;
                 confirm_name_buf[0] = '\0';

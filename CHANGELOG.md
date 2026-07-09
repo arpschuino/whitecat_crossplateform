@@ -47,6 +47,9 @@
 - **Grid players — fix plantage (thread ticker)** : dans `gridder_prepare_cross()` (calcul du fondu, 50×/s), les indices `grid_in_preset` (grille/pas du pas suivant) pouvaient sortir des bornes (goto avec `grid_goto` corrompu passant le test `>= 0` sans borne haute, séquentiel, ou `pas+1 = 1024`) → accès `grid_times`/`grid_levels` hors bornes → plantage (access violation), **d'autant plus en 16 bit** (débordement de bloc). Indices bornés (grille 0-127, pas 0-1023) ; 1re occurrence loguée dans `wc_debug.txt`. *(Même correctif backporté en 0.9.2.)*
 - **Rapport save/reload** : la ligne « audio_conf.txt readed » ne s'affiche plus en rouge à tort (slot de rapport partagé).
 - **Bangers — vestige iCat retiré** : la fenêtre iCat ayant été supprimée, la **catégorie « iCat »** (et son action « iCAT Builder » dans la catégorie Windows) subsistait dans le sélecteur d'événements banger. Catégorie rendue inatteignable (défilement haut/bas + chargement) et code mort retiré.
+- **Séquentiel — temps affichés en retard** : en enregistrant un temps (Up/Down/délai) de cue, l'écran gardait l'ancienne valeur jusqu'à un mouvement de souris (rendu en cap idle). `affect_time_entry_to_mem` recalcule maintenant les chaînes (`do_sprintf_job`) et **force le rafraîchissement** (`wc_request_refresh`) ; idem après les paires délai/temps de la touche « L » (écrites après coup). *(Corrige la même classe de bug que echo/faders/grid players.)*
+- **Séquentiel — saisie de temps > 59 s** : taper « 80 » donne désormais **1 min 20 s** (report des secondes ≥ 60 sur les minutes) au lieu d'être clampé à 59 s. Plafond 59:59.
+- **Nettoyage** : suppression du flag mort `someone_changed_in_sequences` (écrit ~20 fois, jamais lu — vestige iCat).
 
 ### Interface
 

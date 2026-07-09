@@ -2871,8 +2871,9 @@ time_centiemes = (frac_len == 1) ? frac_val * 10 : frac_val;
 sprintf(string_Last_Order,"Your entry: %d min %d sec %d 1/100", time_minutes, time_secondes, time_centiemes);
 reset_numeric_entry();
 
-if(time_minutes>59){time_minutes=59;}
-if(time_secondes>59){time_secondes=59;}
+// Report des secondes >= 60 sur les minutes (ex. saisie "80" -> 1 min 20 sec) au lieu de clamper a 59.
+if(time_secondes>=60){ time_minutes += time_secondes/60; time_secondes = time_secondes%60; }
+if(time_minutes>59){time_minutes=59; time_secondes=59;}   // plafond 59:59
 if(time_centiemes>99){time_centiemes=99;}
 
 //report des angles popur garder la mesure en fin de chrono.
@@ -4839,7 +4840,11 @@ int affect_time_entry_to_mem(int index_t,int mem_set_to_time)
         Times_Memoires[mem_set_to_time][index_t]=(time_minutes*60)+time_secondes+(0.01*time_centiemes);
     }
 
-    someone_changed_in_sequences=1;
+    // Affiche le nouveau temps tout de suite : les chaines d'affichage sont recalculees par
+    // do_sprintf_job() (boucle 10Hz) et le rendu est en cap idle -> sans ca, l'ecran garde l'ancienne
+    // valeur jusqu'a un mouvement souris. On recalcule + on force un refresh du rendu.
+    do_sprintf_job();
+    wc_request_refresh();
     return(0);
 }
 

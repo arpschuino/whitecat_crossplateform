@@ -1456,7 +1456,6 @@ refresh_mem_onpreset(position_preset);
 niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
-someone_changed_in_sequences=1;//icat
 }
 if(control==771)// stage plus
 {
@@ -1473,7 +1472,6 @@ refresh_mem_onpreset(position_preset);
 niveauX1=65535; niveauX2=0;
 refresh_banger_wx();
 refresh_integrated_gridplayer1();
-someone_changed_in_sequences=1;//icat
 }
 if(control==772)// preset minus
 {
@@ -1481,7 +1479,6 @@ index_go=0;index_pause=0; index_go_back=0;
 detect_mem_preset_previous();
 refresh_mem_onpreset(position_preset);
 niveauX2=0;
-someone_changed_in_sequences=1;//icat
 }
 if(control==773)// preset plus
 {
@@ -1489,7 +1486,6 @@ index_go=0;index_pause=0; index_go_back=0;
 detect_next_preset();
 refresh_mem_onpreset(position_preset);
 niveauX2=0;
-someone_changed_in_sequences=1;//icat
 }
 
 

@@ -1,5 +1,9 @@
 # WhiteCat — TODO
 
+## 🐞 Bugs à corriger
+
+- [x] **Latence dans l'affichage des temps de la séquence** — CORRIGÉ (09/07) : le rendu était en cap idle → `affect_time_entry_to_mem` recalcule (`do_sprintf_job`) + force le refresh (`wc_request_refresh`), et idem après les paires délai/temps de la touche « L ». Au passage : saisie « 80 » → 1:20 (report des secondes ≥ 60 sur les minutes) et nettoyage du flag mort `someone_changed_in_sequences`.
+
 ## ⚠️ À faire avant chaque release
 
 - [ ] **Sync doc/** : copier `whitecatbuild/build/white_cat_for_mingw/doc/` → `doc/` (racine du repo) avant de committer/pusher la release.

@@ -818,7 +818,6 @@ int operations_confirmation()
        descriptif_memoires[mem_to_rec][49] = '\0';
    }
    refresh_mem_onpreset(position_preset);
-   someone_changed_in_sequences=1;
    }
 
    else if(index_do_create_mem_plus_faders==1)
@@ -857,7 +856,7 @@ int operations_confirmation()
      strcpy(numeric,"");
      numeric_postext=0;
     }
-    refresh_mem_onpreset(position_preset);someone_changed_in_sequences=1;//icat
+    refresh_mem_onpreset(position_preset);
    }
 
 
@@ -879,19 +878,16 @@ int operations_confirmation()
    else if(index_do_link_memonstage==1)
    {
    Links_Memoires[position_onstage]=toggle(Links_Memoires[position_onstage]);
-   someone_changed_in_sequences=1;//icat
    }
 
    else if(index_do_link_memonpreset==1)
    {
    Links_Memoires[position_preset]=toggle(Links_Memoires[position_preset]);
-   someone_changed_in_sequences=1;//icat
    }
 
     else if(index_do_link_membefore==1)
    {
    Links_Memoires[mem_before_one]=toggle(Links_Memoires[mem_before_one]);
-   someone_changed_in_sequences=1;//icat
    }
 
    else if(index_do_link_memother==1)
@@ -899,7 +895,6 @@ int operations_confirmation()
    Links_Memoires[other_mem_in_loop]=toggle(Links_Memoires[other_mem_in_loop]);
    if(other_mem_in_loop==mem_after_one)
    {
-    someone_changed_in_sequences=1;//icat
    }
    }
 
