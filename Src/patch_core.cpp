@@ -59,6 +59,7 @@ int rebuild_patch_from_fixtures()
         is_fine[o]=0;
         curves[o]=0;
         dimmer_type[o]=0;
+        output_attribute[o]=wc::ATTR_DIMMER;   // [devices] defaut = gradateur (rendu legacy inverse+courbe)
     }
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -67,15 +68,17 @@ int rebuild_patch_from_fixtures()
             const wc::Channel& ch = wc_patch[f].channels[c];
             int co = (int)ch.coarse_addr;
             if(co<=0 || co>=514) continue;
-            Patch[co]       = (int)ch.circuit;
-            curves[co]      = (int)ch.curve;
-            dimmer_type[co] = (ch.combine==wc::COMBINE_LTP) ? 1 : 0;
+            Patch[co]            = (int)ch.circuit;
+            curves[co]           = (int)ch.curve;
+            dimmer_type[co]      = (ch.combine==wc::COMBINE_LTP) ? 1 : 0;
+            output_attribute[co] = ch.attribute;   // [devices] attribut GDTF -> rendu (Dimmer inverse+courbe, autre lineaire)
             if(ch.resolution==wc::RES_16BIT && ch.fine_addr!=0 && (int)ch.fine_addr<514)
             {
-                output_fine[co]          = (int)ch.fine_addr;
-                is_fine[ch.fine_addr]    = 1;
-                Patch[ch.fine_addr]      = (int)ch.circuit;   // l'output fine pointe le meme circuit
-                curves[ch.fine_addr]     = (int)ch.curve;
+                output_fine[co]              = (int)ch.fine_addr;
+                is_fine[ch.fine_addr]        = 1;
+                Patch[ch.fine_addr]          = (int)ch.circuit;   // l'output fine pointe le meme circuit
+                curves[ch.fine_addr]         = (int)ch.curve;
+                output_attribute[ch.fine_addr] = ch.attribute;
             }
         }
     }
@@ -149,6 +152,57 @@ int create_rgb_device_at(int base, int circuit)
     wc_patch.push_back(fx);
 
     rebuild_patch_from_fixtures();   // modele -> tableaux legacy (le rendu balaie ceux-ci)
+    return 0;
+}
+
+// [devices] ECHAFAUDAGE (test) : cree un device en forme de MAC Aura (mode Standard 14 ch) a partir de
+// l'adresse <base> (= adresse de patch de la fixture, offset 1), pilote par des circuits successifs
+// depuis <circuit>. Seuls les attributs deja definis sont poses (Shutter/Zoom/Control/Color1/CTC differes) :
+//   circuit+0 = Dimmer   addr base+1    (8 bit, HTP, courbe = rendu legacy)
+//   circuit+1 = Pan      addr base+3/+4 (16 bit, LTP, lineaire)
+//   circuit+2 = Tilt     addr base+5/+6 (16 bit, LTP, lineaire)
+//   circuit+3..6 = R/G/B/W addr base+9/10/11/12 (8 bit, LTP, lineaire)
+// Cf. docs/mac_aura_standard.md. A remplacer par l'import d'une personality + UI plus tard.
+int create_mac_aura_at(int base, int circuit)
+{
+    if(base<1 || base+12>513) return -1;             // W = base+12 doit rester dans 1..513
+    if(circuit<1)   circuit=1;
+    if(circuit>506) circuit=506;                     // circuit+6 <= 512 (indices MergerArray valides)
+
+    synthesize_fixtures_from_legacy();               // capturer l'etat legacy dans le modele
+
+    // retirer les fixtures existantes qui occupent l'empreinte base..base+13
+    for(int out=base; out<=base+13 && out<514; out++)
+    {
+        for(size_t f=0; f<wc_patch.size(); )
+        {
+            bool hit=false;
+            for(size_t c=0;c<wc_patch[f].channels.size();c++)
+                if((int)wc_patch[f].channels[c].coarse_addr==out || (int)wc_patch[f].channels[c].fine_addr==out){ hit=true; break; }
+            if(hit) wc_patch.erase(wc_patch.begin()+f); else f++;
+        }
+    }
+
+    wc::Fixture fx;
+    fx.name = "MAC Aura (test)";
+
+    // Dimmer (8 bit, HTP, rendu gradateur)
+    { wc::Channel ch; ch.attribute=wc::ATTR_DIMMER; ch.combine=wc::COMBINE_HTP; ch.resolution=wc::RES_8BIT;
+      ch.coarse_addr=(uint16_t)(base+1);  ch.circuit=(uint16_t)(circuit+0); fx.channels.push_back(ch); }
+    // Pan (16 bit, LTP, lineaire)
+    { wc::Channel ch; ch.attribute=wc::ATTR_PAN;  ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_16BIT;
+      ch.coarse_addr=(uint16_t)(base+3); ch.fine_addr=(uint16_t)(base+4); ch.circuit=(uint16_t)(circuit+1); fx.channels.push_back(ch); }
+    // Tilt (16 bit, LTP, lineaire)
+    { wc::Channel ch; ch.attribute=wc::ATTR_TILT; ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_16BIT;
+      ch.coarse_addr=(uint16_t)(base+5); ch.fine_addr=(uint16_t)(base+6); ch.circuit=(uint16_t)(circuit+2); fx.channels.push_back(ch); }
+    // R / G / B / W (8 bit, LTP, lineaire)
+    wc::AttrId rgbw[4] = { wc::ATTR_COLORADD_R, wc::ATTR_COLORADD_G, wc::ATTR_COLORADD_B, wc::ATTR_COLORADD_W };
+    for(int k=0;k<4;k++)
+    { wc::Channel ch; ch.attribute=(uint8_t)rgbw[k]; ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_8BIT;
+      ch.coarse_addr=(uint16_t)(base+9+k); ch.circuit=(uint16_t)(circuit+3+k); fx.channels.push_back(ch); }
+
+    wc_patch.push_back(fx);
+    rebuild_patch_from_fixtures();
     return 0;
 }
 
@@ -505,11 +559,11 @@ for (int ci=1;ci<514;ci++)
 index_type=0;index_level_attribue=0;
 index_affect_patch_16bit=0;
 }
-if(index_affect_patch_device==1)//[devices] clic sur output -> device RGB (grad..grad+2) sur le circuit selectionne
+if(index_affect_patch_device==1)//[devices] clic sur output -> device MAC Aura (grad = adresse) piloté par circuit..circuit+6
 {
-create_rgb_device_at(grad, last_ch_selected);
-sprintf(string_Last_Order,">> RGB device (outputs %d-%d) patched to Channel %d",grad, grad+2, last_ch_selected);
-sprintf(string_monitor_patch,">> RGB device (outputs %d-%d) patched to Channel %d",grad, grad+2, last_ch_selected);
+create_mac_aura_at(grad, last_ch_selected);
+sprintf(string_Last_Order,">> MAC Aura device @%d (Dim/Pan/Tilt/RGBW) on Channels %d-%d",grad, last_ch_selected, last_ch_selected+6);
+sprintf(string_monitor_patch,">> MAC Aura device @%d (Dim/Pan/Tilt/RGBW) on Channels %d-%d",grad, last_ch_selected, last_ch_selected+6);
 patch_unselect_all_dimmers();
 for (int ci=1;ci<514;ci++)
 {Selected_Channel[ci]=0;}

@@ -73,12 +73,13 @@ struct Channel {
     //   dmx        : DmxBlock (unsigned char[513])
     //   curve_lut  : curve_report (int[16][256]) passé en (*)[256]
     //
-    // 8 bit  : reproduit AU BIT PRÈS le calcul historique du circuit :
-    //            DmxBlock[output] = 255 - curve_report[courbe][niveau 8 bit]
-    //            (l'inversion "255 -" et la LUT 256 sont la convention WhiteCat actuelle).
+    // 8 bit  : le rendu dépend de l'ATTRIBUT (Phase devices) :
+    //   - Dimmer : convention historique  DmxBlock[output] = 255 - curve_report[courbe][niveau 8 bit]
+    //              (l'inversion "255 -" et la LUT 256 sont la convention WhiteCat des gradateurs).
+    //   - autre (Color/Pan/Tilt… = paramètre de device) : LINÉAIRE, sans inversion ni courbe —
+    //              la valeur du paramètre est écrite telle quelle (octet fort).
     // 16 bit : déplie la valeur haute résolution sur deux outputs — MSB sur coarse_addr,
-    //            LSB sur fine_addr. Courbe LINÉAIRE pour l'instant ; les courbes haute
-    //            résolution (interpolation de la LUT 8 bit) arrivent en étape 2d.
+    //            LSB sur fine_addr. Linéaire (ni inversion ni courbe), valable Dimmer ET Pan/Tilt.
     void render(unsigned char* dmx, const int (*curve_lut)[256]) const {
         if (coarse_addr == 0) return;                 // non patché
 
@@ -89,7 +90,11 @@ struct Channel {
         }
 
         const uint8_t lvl8 = static_cast<uint8_t>(value >> 8);   // HR -> 8 bit (octet fort)
-        dmx[coarse_addr] = static_cast<unsigned char>(255 - curve_lut[curve][lvl8]);
+        if (attribute == ATTR_DIMMER) {
+            dmx[coarse_addr] = static_cast<unsigned char>(255 - curve_lut[curve][lvl8]);
+        } else {
+            dmx[coarse_addr] = static_cast<unsigned char>(lvl8);   // paramètre device : linéaire
+        }
     }
 };
 

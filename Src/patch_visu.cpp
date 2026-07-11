@@ -318,12 +318,12 @@ petitchiffre.Print("Link LightPlot",XChan+350,YChan+512);
 petitchiffre.Print("Show 1st Dimmer",XChan+350,YChan+542);
 petitchiffre.Print("Patch 16 bit",XChan+350,YChan+572);
 
-// [devices] bouton echafaudage : mode "patch device RGB" (clic ensuite sur un output). Clignote si actif.
+// [devices] bouton echafaudage : mode "patch device MAC Aura" (clic ensuite sur un output = adresse). Clignote si actif.
 Rect AddDevBtn(Vec2D(XChan+345,YChan+583),Vec2D(90,16));
 AddDevBtn.SetRoundness(5);
 if(index_affect_patch_device==1){ AddDevBtn.Draw(CouleurBlind.WithAlpha(alpha_blinker)); }
 AddDevBtn.DrawOutline(CouleurLigne);
-petitpetitchiffre.Print("+ RGB device",XChan+352,YChan+594);
+petitpetitchiffre.Print("+ MAC Aura",XChan+352,YChan+594);
 
 
 

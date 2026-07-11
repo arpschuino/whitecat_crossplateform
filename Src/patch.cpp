@@ -23,6 +23,7 @@ bool dimmer_type[514]; // 0=HTP 1=LTP
 unsigned short MergerArray[514];   // [2c-2B] 16 bit pleine echelle (x257)
 int output_fine[514];   // [2b] pour un output coarse : son output fine (LSB) ; 0 = output 8 bit
 bool is_fine[514];      // [2b] cet output est le LSB d'un canal 16 bit (rendu par son coarse)
+unsigned char output_attribute[514];   // [devices] attribut GDTF de l'output (wc::AttrId) ; rempli par rebuild_patch_from_fixtures
 std::vector<wc::Fixture> wc_patch;   // [Fixtures] SOURCE DE VERITE du patch (tableaux ci-dessus = cache derive)
 char string_monitor_patch[1024];
 bool index_patch_affect_is_done = 0;

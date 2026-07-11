@@ -1295,11 +1295,16 @@ int Merger() {
             unsigned short lvl16 = MergerArray[circrootpatch];
             DmxBlockPatch[i] = wc::lvl_to_dmx8(lvl16);
 
+            // [devices] attribut de l'output (Dimmer -> rendu legacy ; Color/Pan/Tilt -> lineaire).
+            // Garde : ATTR_NONE (tableau non encore regenere) retombe sur Dimmer = comportement historique.
+            uint8_t out_attr = output_attribute[i];
+            if (out_attr == wc::ATTR_NONE) out_attr = wc::ATTR_DIMMER;
+
             if (output_fine[i] != 0) {
                 // [Phase 2b] canal 16 bit : i = coarse (MSB), output_fine[i] = fine (LSB).
                 // value = niveau 16 bit REEL : coarse et fine distincts des que la saisie/molette
                 // fine (Ctrl) ou le crossfade apportent de la resolution sous l'octet fort.
-                wc_outputs[i].attribute   = wc::ATTR_DIMMER;
+                wc_outputs[i].attribute   = out_attr;
                 wc_outputs[i].resolution  = wc::RES_16BIT;
                 wc_outputs[i].coarse_addr = (uint16_t)i;
                 wc_outputs[i].fine_addr   = (uint16_t)output_fine[i];
@@ -1307,8 +1312,8 @@ int Merger() {
                 wc_outputs[i].render(DmxBlock, curve_report);
             }
             else if (curves[i] >= 0 && curves[i] < 16) {
-                // 8 bit (reproduit l'ancien calcul : 255 - curve_report[curve][value>>8]).
-                wc_outputs[i].attribute   = wc::ATTR_DIMMER;
+                // 8 bit : Dimmer = 255 - courbe ; parametre device = lineaire (cf. Channel::render).
+                wc_outputs[i].attribute   = out_attr;
                 wc_outputs[i].resolution  = wc::RES_8BIT;
                 wc_outputs[i].coarse_addr = (uint16_t)i;
                 wc_outputs[i].fine_addr   = 0;
