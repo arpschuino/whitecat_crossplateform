@@ -36,8 +36,10 @@ enum AttrId : uint8_t {
     ATTR_COLORADD_W,
     ATTR_PAN,           // Position
     ATTR_TILT,
+    ATTR_SHUTTER1,      // Beam — obturateur/strobe (rendu linéaire brut pour l'instant)
+    ATTR_ZOOM,          // Beam — angle du faisceau
     // --- réservé (vagues suivantes) : ColorAdd_A/UV/Lime…, ColorSub_C/M/Y,
-    //     CTO/CTC, Shutter1, Iris, Zoom, Focus1, Gobo1(+rot), Prism1, Frost1,
+    //     CTO/CTC, Iris, Focus1, Gobo1(+rot), Prism1, Frost1,
     //     Color1 (roue), Function/Control … ---
     ATTR_COUNT
 };
