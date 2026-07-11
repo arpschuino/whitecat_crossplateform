@@ -832,6 +832,10 @@ case 24://grider
 break;
 case 25://BazooKAT (supprimé)
 break;
+case 26://control fixtures (devices)
+ if(index_window_fixturectl==0){add_a_window(W_FIXTURECTL);substract_a_window(W_MAINMENU);}
+ else {substract_a_window(W_FIXTURECTL);}
+break;
 
 
 //4eme colonne

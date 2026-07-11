@@ -134,6 +134,8 @@ for (int a=0;a<514;a++)
 {
 bufferSaisie[a]=bufferBlind[a];
 }
+// [devices] la cue qui arrive sur scene impose ses attributs devices (LTP snap en fin de GO)
+for (int o=1;o<514;o++) { output_devval[o]=Memoires_devval[mem_is_now_onstage][o]; }
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
 detect_mem_before_one();

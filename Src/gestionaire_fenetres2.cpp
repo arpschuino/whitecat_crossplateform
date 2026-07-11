@@ -247,6 +247,9 @@ int add_a_window(int id)
       for(int i=0;i<4;i++)
       {grid_affect_to_dock[i]=0;}
  break;
+ case W_FIXTURECTL:
+      index_window_fixturectl=1;
+ break;
  default:
  break;
 }

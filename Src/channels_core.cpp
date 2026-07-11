@@ -358,6 +358,42 @@ int DoMouseLevel()
    last_scroll_mouse_for_grid = mouse_z; // hors edition/Ctrl : garde la baseline fraiche
  }
 
+ // [devices] molette sur les faders de la fenetre Control Fixtures :
+ //   coarse = 1 DMX (257) ; Ctrl+molette = fin (1/65535), meme courbe veloce que les autres faders.
+ //   Cible publiee par fixturectl_window : -1 aucun / 0 intensite (bufferSaisie[circuit]) / >=1 output (output_devval).
+ {
+   static int last_scroll_mouse_for_fxc = 0;
+   if (win_under == W_FIXTURECTL && fixturectl_wheel_hover >= 0) {
+       int _delta = mouse_z - last_scroll_mouse_for_fxc;
+       if (_delta != 0) {
+           int _absd  = _delta > 0 ? _delta : -_delta;
+           int _d     = _absd > 2 ? _absd - 2 : 0;
+           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
+           if (_steps > 45) _steps = 45;
+           bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
+           int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
+           int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
+           if (fixturectl_wheel_hover == 0) {       // intensite -> circuit selectionne
+               if (last_ch_selected > 0 && last_ch_selected < 514) {
+                   int v = (int)bufferSaisie[last_ch_selected] + change;
+                   if (v < 0)     v = 0;
+                   if (v > 65535) v = 65535;
+                   bufferSaisie[last_ch_selected] = (unsigned short)v;
+               }
+           } else if (fixturectl_wheel_hover >= 1 && fixturectl_wheel_hover < 514) {   // attribut -> output_devval
+               int v = (int)output_devval[fixturectl_wheel_hover] + change;
+               if (v < 0)     v = 0;
+               if (v > 65535) v = 65535;
+               output_devval[fixturectl_wheel_hover] = (unsigned short)v;
+           }
+           last_scroll_mouse_for_fxc  = mouse_z;
+           last_scroll_mouse_for_chan = mouse_z; // empeche le bloc circuit de refirer sur ce scroll
+       }
+       return (0); // molette consommee par la fenetre Control Fixtures
+   }
+   last_scroll_mouse_for_fxc = mouse_z; // hors survol : garde la baseline fraiche
+ }
+
  {
  int _delta = mouse_z - last_scroll_mouse_for_chan;
  if (_delta != 0) {

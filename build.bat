@@ -73,7 +73,7 @@ exit /b %ERRORLEVEL%
 :compile_legacy
 if not exist "%OUT%" mkdir "%OUT%"
 
-:: En-tete precompile (PCH) — compile une seule fois, reutilise par tous les TUs
+:: En-tete precompile (PCH) ï¿½ compile une seule fois, reutilise par tous les TUs
 set PCH_RSP=%OUT%\wc_pch.rsp
 echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g > "%PCH_RSP%"
 echo -I%SDL2_F%/include >> "%PCH_RSP%"
@@ -139,6 +139,7 @@ echo %SRC_F%/theme.cpp >> "%RSP%"
 echo %SRC_F%/banger.cpp >> "%RSP%"
 echo %SRC_F%/arduino.cpp >> "%RSP%"
 echo %SRC_F%/grider.cpp >> "%RSP%"
+echo %SRC_F%/fixturectl.cpp >> "%RSP%"
 echo %SRC_F%/plot.cpp >> "%RSP%"
 echo %SRC_F%/draw.cpp >> "%RSP%"
 echo %SRC_F%/echo.cpp >> "%RSP%"
@@ -152,6 +153,7 @@ echo %SRC_F%/grand_master.cpp >> "%RSP%"
 echo %SRC_F%/grider_calcul.cpp >> "%RSP%"
 echo %SRC_F%/grider_core.cpp >> "%RSP%"
 echo %SRC_F%/grider_visu.cpp >> "%RSP%"
+echo %SRC_F%/fixturectl_visu.cpp >> "%RSP%"
 echo %SRC_F%/gestionaire_fenetres2.cpp >> "%RSP%"
 echo %SRC_F%/saves_export_import.cpp >> "%RSP%"
 echo %SRC_F%/faders_operations.cpp >> "%RSP%"

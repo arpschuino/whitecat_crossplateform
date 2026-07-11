@@ -1350,7 +1350,7 @@ sprintf(list_midi_affect[1337],"Call Chaser window");
 sprintf(list_midi_affect[1338],"Call Numeric pad");
 sprintf(list_midi_affect[1339],"Call Mover window");
 sprintf(list_midi_affect[1340],"Call Grider window");
-sprintf(list_midi_affect[1341],"Call iCat builder");
+sprintf(list_midi_affect[1341],"Call Control Fixtures window");
 sprintf(list_midi_affect[1342],"Call Help window");
 sprintf(list_midi_affect[1594],"Call Plot window");
 sprintf(list_midi_affect[1659],"Call Draw window");

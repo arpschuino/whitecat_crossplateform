@@ -224,6 +224,7 @@ const char file_mem_existantes[24]={"memories_exists.whc"};
 unsigned int mem_existantes_size=10000;
 const char file_memories[24]={"memories.whc"};        // [mem16] ancien format 8 bit (fallback lecture des vieux shows)
 const char file_memories16[24]={"memories16.whc"};    // [mem16] nouveau format 16 bit (unsigned short)
+const char file_memories_devval[24]={"mem_devval.whc"}; // [devices] attributs devices par cue (gzip) ; absent = vieux show (0)
 unsigned int memories_size=10000*514;                 // nombre d'elements (Memoires[10000][514])
 const char file_text_mems[24]={"memories_txt.whc"};
 unsigned int text_mems_size=10000*50;
@@ -1805,6 +1806,21 @@ sprintf(string_save_load_report[idf],"Opened file %s",  file_memories16);
 if (gzwrite(gzfp, Memoires, _msz16) != (int)_msz16)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_memories16); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_memories16);
+gzclose(gzfp);
+}
+}
+ idf++;
+
+{ // [devices] attributs devices par cue -> mem_devval.whc (gzip). Fichier separe = compat totale (vieux show sans).
+gzFile gzfp;
+unsigned int _dsz = memories_size*2; // octets (unsigned short)
+if ((gzfp=gzopen( file_memories_devval, "wb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s", file_memories_devval); b_report_error[idf]=1;}
+else
+{
+if (gzwrite(gzfp, Memoires_devval, _dsz) != (int)_dsz)
+{ sprintf(string_save_load_report[idf],"Error writting %s", file_memories_devval); b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Saved file %s", file_memories_devval);
 gzclose(gzfp);
 }
 }
@@ -4349,6 +4365,20 @@ free(_tmp8);
 gzclose(gzold);
 }
 }
+}
+idf++;
+{ // [devices] Charge mem_devval.whc (attributs devices par cue). Absent (vieux show) -> tout a 0.
+gzFile gzfp;
+unsigned int _dsz = memories_size*2;
+if ((gzfp=gzopen( file_memories_devval, "rb"))!=NULL)
+{
+if (gzread(gzfp, Memoires_devval, _dsz) != (int)_dsz)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_memories_devval);b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Loaded file %s", file_memories_devval);
+gzclose(gzfp);
+}
+else
+{ memset(Memoires_devval, 0, _dsz); sprintf(string_save_load_report[idf],"No %s (old show) - devices cleared", file_memories_devval); }
 }
 idf++;
 { // [compression] text_mems : si gzip (nouveau, format 50) -> gz_load_block ; sinon ancien code (detection 25/50)

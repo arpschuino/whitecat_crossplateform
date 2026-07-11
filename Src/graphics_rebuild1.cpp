@@ -247,6 +247,10 @@ int Boxes() {
             Grider_Box(grider_window_x, grider_window_y);
             MoveCloseBox(grider_window_x + 20, grider_window_y + 20, W_GRID);
             break;
+        case W_FIXTURECTL:
+            fixturectl_window(fixturectl_window_x, fixturectl_window_y);
+            MoveCloseBox(fixturectl_window_x + 20, fixturectl_window_y + 20, W_FIXTURECTL);
+            break;
         default:
             break;
         }

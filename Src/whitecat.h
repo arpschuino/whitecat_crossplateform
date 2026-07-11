@@ -102,7 +102,10 @@ WWWWWWWW           C  WWWWWWWW   |
 
 
 // grider -> grider.h
-#include "grider.h" 
+#include "grider.h"
+
+// control fixtures (devices) -> fixturectl.h
+#include "fixturectl.h"
 
 // light plot -> plot.h
 #include "plot.h"

@@ -9,8 +9,9 @@ int rebuild_patch_from_fixtures();
 int synthesize_fixtures_from_legacy();
 // [devices] Échafaudage : crée un device RGB de test (3 outputs base..base+2) sur un circuit, dans wc_patch.
 int create_rgb_device_at(int base, int circuit);
-// [devices] Échafaudage : crée un device en forme de MAC Aura (Dimmer+Pan16+Tilt16+RGBW) à l'adresse base,
-// piloté par les circuits circuit..circuit+6. Cf. docs/mac_aura_standard.md.
+// [devices] Échafaudage : crée un device en forme de MAC Aura (Shutter+Dimmer+Zoom+Pan16+Tilt16+RGBW) à
+// l'adresse base, entièrement rattaché à UN circuit (1 device = 1 circuit). Le circuit porte l'intensité ;
+// les autres attributs vivent dans output_devval[output]. Cf. docs/mac_aura_standard.md.
 int create_mac_aura_at(int base, int circuit);
 // [Fixtures] Persistance texte du patch fixtures (dans le dossier du show).
 int save_patch_fixtures_text(const char* file);
@@ -37,6 +38,13 @@ extern unsigned short MergerArray[514];   // [2c-2A] 16 bit
 extern int output_fine[514];   // [2b] patch 16 bit : output coarse -> son output fine
 extern bool is_fine[514];       // [2b] output = LSB d'un canal 16 bit
 extern unsigned char output_attribute[514];   // [devices] attribut GDTF de l'output (wc::AttrId) ; défaut Dimmer
+extern unsigned short output_devval[514];      // [devices] valeur vivante 16 bit par output pour les attributs NON-Dimmer
+                                               //           (Pan/Tilt/RGBW/Zoom/Shutter...) ; l'intensite reste dans MergerArray[circuit].
+                                               //           = endpoint "plateau/live" du crossfade devices (analogue de bufferSaisie).
+                                               //           Ecrit par l'editeur de la fenetre Control Fixtures + palettes.
+extern unsigned short devval_preset[514];      // [devices] endpoint "cue entrante" du crossfade (analogue de bufferBlind) ;
+                                               //           rempli par refresh_mem_onpreset depuis Memoires_devval[preset].
+                                               //           Le hot path interpole output_devval -> devval_preset via niveauX2.
 extern char string_monitor_patch[1024];
 extern bool index_patch_affect_is_done;
 extern int last_dim_selected;

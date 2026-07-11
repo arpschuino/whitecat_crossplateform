@@ -156,20 +156,22 @@ int create_rgb_device_at(int base, int circuit)
 }
 
 // [devices] ECHAFAUDAGE (test) : cree un device en forme de MAC Aura (mode Standard 14 ch) a partir de
-// l'adresse <base> (= adresse de patch de la fixture, offset 1), pilote par des circuits successifs
-// depuis <circuit>. Seuls les attributs deja definis sont poses (Shutter/Zoom/Control/Color1/CTC differes) :
-//   circuit+0 = Shutter  addr base+0    (8 bit, LTP, lineaire brut ; ~22 = ouvert)
-//   circuit+1 = Dimmer   addr base+1    (8 bit, HTP, courbe = rendu legacy)
-//   circuit+2 = Zoom     addr base+2    (8 bit, LTP, lineaire)
-//   circuit+3 = Pan      addr base+3/+4 (16 bit, LTP, lineaire)
-//   circuit+4 = Tilt     addr base+5/+6 (16 bit, LTP, lineaire)
-//   circuit+5..8 = R/G/B/W addr base+9/10/11/12 (8 bit, LTP, lineaire)
+// l'adresse <base> (= adresse de patch de la fixture, offset 1). MODELE 1 DEVICE = 1 CIRCUIT :
+// TOUS les channels sont rattaches au MEME <circuit>, qui porte l'INTENSITE (Dimmer) et sert de selection.
+// Les attributs non-Dimmer ne consomment PAS de circuit : leur valeur vit dans output_devval[output],
+// reglee par la fenetre Control Fixtures. Seuls les attributs deja definis sont poses (Control/Color1/CTC differes) :
+//   Shutter  addr base+0    (8 bit, LTP, lineaire brut ; ~22 = ouvert)
+//   Dimmer   addr base+1    (8 bit, HTP, courbe = rendu legacy)  <- INTENSITE, depuis MergerArray[circuit]
+//   Zoom     addr base+2    (8 bit, LTP, lineaire)
+//   Pan      addr base+3/+4 (16 bit, LTP, lineaire)
+//   Tilt     addr base+5/+6 (16 bit, LTP, lineaire)
+//   R/G/B/W  addr base+9/10/11/12 (8 bit, LTP, lineaire)
 // Cf. docs/mac_aura_standard.md. A remplacer par l'import d'une personality + UI plus tard.
 int create_mac_aura_at(int base, int circuit)
 {
     if(base<1 || base+12>513) return -1;             // W = base+12 doit rester dans 1..513
     if(circuit<1)   circuit=1;
-    if(circuit>504) circuit=504;                     // circuit+8 <= 512 (indices MergerArray valides)
+    if(circuit>512) circuit=512;                     // circuit unique (indice MergerArray valide)
 
     synthesize_fixtures_from_legacy();               // capturer l'etat legacy dans le modele
 
@@ -188,29 +190,42 @@ int create_mac_aura_at(int base, int circuit)
     wc::Fixture fx;
     fx.name = "MAC Aura (test)";
 
-    // Shutter (8 bit, LTP, lineaire brut ; le circuit pose la valeur, ~22 = ouvert sur du vrai materiel)
+    // [devices] 1 device = 1 circuit : TOUS les channels sur le meme <circuit>.
+    // Shutter (8 bit, LTP, lineaire brut ; ~22 = ouvert sur du vrai materiel) -> output_devval
     { wc::Channel ch; ch.attribute=wc::ATTR_SHUTTER1; ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_8BIT;
-      ch.coarse_addr=(uint16_t)(base+0);  ch.circuit=(uint16_t)(circuit+0); fx.channels.push_back(ch); }
-    // Dimmer (8 bit, HTP, rendu gradateur)
+      ch.coarse_addr=(uint16_t)(base+0);  ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
+    // Dimmer (8 bit, HTP, rendu gradateur) -> INTENSITE depuis MergerArray[circuit]
     { wc::Channel ch; ch.attribute=wc::ATTR_DIMMER; ch.combine=wc::COMBINE_HTP; ch.resolution=wc::RES_8BIT;
-      ch.coarse_addr=(uint16_t)(base+1);  ch.circuit=(uint16_t)(circuit+1); fx.channels.push_back(ch); }
-    // Zoom (8 bit, LTP, lineaire)
+      ch.coarse_addr=(uint16_t)(base+1);  ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
+    // Zoom (8 bit, LTP, lineaire) -> output_devval
     { wc::Channel ch; ch.attribute=wc::ATTR_ZOOM;  ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_8BIT;
-      ch.coarse_addr=(uint16_t)(base+2);  ch.circuit=(uint16_t)(circuit+2); fx.channels.push_back(ch); }
-    // Pan (16 bit, LTP, lineaire)
+      ch.coarse_addr=(uint16_t)(base+2);  ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
+    // Pan (16 bit, LTP, lineaire) -> output_devval
     { wc::Channel ch; ch.attribute=wc::ATTR_PAN;  ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_16BIT;
-      ch.coarse_addr=(uint16_t)(base+3); ch.fine_addr=(uint16_t)(base+4); ch.circuit=(uint16_t)(circuit+3); fx.channels.push_back(ch); }
-    // Tilt (16 bit, LTP, lineaire)
+      ch.coarse_addr=(uint16_t)(base+3); ch.fine_addr=(uint16_t)(base+4); ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
+    // Tilt (16 bit, LTP, lineaire) -> output_devval
     { wc::Channel ch; ch.attribute=wc::ATTR_TILT; ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_16BIT;
-      ch.coarse_addr=(uint16_t)(base+5); ch.fine_addr=(uint16_t)(base+6); ch.circuit=(uint16_t)(circuit+4); fx.channels.push_back(ch); }
-    // R / G / B / W (8 bit, LTP, lineaire)
+      ch.coarse_addr=(uint16_t)(base+5); ch.fine_addr=(uint16_t)(base+6); ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
+    // R / G / B / W (8 bit, LTP, lineaire) -> output_devval
     wc::AttrId rgbw[4] = { wc::ATTR_COLORADD_R, wc::ATTR_COLORADD_G, wc::ATTR_COLORADD_B, wc::ATTR_COLORADD_W };
     for(int k=0;k<4;k++)
     { wc::Channel ch; ch.attribute=(uint8_t)rgbw[k]; ch.combine=wc::COMBINE_LTP; ch.resolution=wc::RES_8BIT;
-      ch.coarse_addr=(uint16_t)(base+9+k); ch.circuit=(uint16_t)(circuit+5+k); fx.channels.push_back(ch); }
+      ch.coarse_addr=(uint16_t)(base+9+k); ch.circuit=(uint16_t)circuit; fx.channels.push_back(ch); }
 
     wc_patch.push_back(fx);
     rebuild_patch_from_fixtures();
+
+    // [devices] valeurs vivantes de test (echelle 16 bit x257) : la lyre est visible tout de suite
+    // dans le visualiseur (blanc plein, Pan/Tilt centres, shutter/zoom ouverts). L'intensite reste
+    // pilotee par le circuit. Ces valeurs seront ecrasees par les faders de la fenetre Control Fixtures.
+    output_devval[base+0]  = 0;      // Shutter (Blender : 0 = ouvert)
+    output_devval[base+2]  = 0;      // Zoom
+    output_devval[base+3]  = 32768;  // Pan  centre (16 bit)
+    output_devval[base+5]  = 32768;  // Tilt centre (16 bit)
+    output_devval[base+9]  = 65535;  // R plein
+    output_devval[base+10] = 65535;  // G plein
+    output_devval[base+11] = 65535;  // B plein
+    output_devval[base+12] = 65535;  // W plein
     return 0;
 }
 

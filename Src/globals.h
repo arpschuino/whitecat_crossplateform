@@ -77,7 +77,8 @@ enum WINDOW {
     W_WIZARD = 921,
     W_MINIFADERS = 922,
     W_CHASERS = 923,
-    W_GRID = 926
+    W_GRID = 926,
+    W_FIXTURECTL = 927   // [devices] Control Fixtures
 };
 extern int max_window_identity_is;
 extern int index_to_navigate_between_window;

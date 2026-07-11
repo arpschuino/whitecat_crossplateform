@@ -2273,6 +2273,8 @@ int refresh_stage()
     {
         bufferSaisie[l]=Memoires[position_onstage][l];   // [mem16] rappel 16 bit direct
     }
+    // [devices] rappel des attributs devices de la cue onstage
+    for (int o=1; o<514; o++) { output_devval[o]=Memoires_devval[position_onstage][o]; }
     return(0);
 }
 
@@ -2598,6 +2600,7 @@ int snapshot_windows()
     recall_windows_onoff[11]=index_show_banger_window;
     recall_windows_onoff[12]=index_menu_save;
     recall_windows_onoff[13]=index_grider_window;
+    recall_windows_onoff[18]=index_window_fixturectl;
     recall_windows_onoff[14]=index_show_minifaders;
     recall_windows_onoff[15]=index_window_chasers;
     recall_windows_onoff[16]=index_plot_window;
@@ -2632,6 +2635,7 @@ int close_all_windows()
     index_show_minifaders=0;
     index_window_chasers=0;
     index_grider_window=0;
+    index_window_fixturectl=0;
     index_plot_window=0;
     index_show_main_menu=0;
     index_show_echo_window=0;
@@ -2716,6 +2720,9 @@ int write_window_indexes_from_list_of_windows()
         case W_GRID:
             index_grider_window=1;
             break;
+        case W_FIXTURECTL:
+            index_window_fixturectl=1;
+            break;
         default:
             break;
         }
@@ -2753,6 +2760,7 @@ int recall_windows()
     index_show_banger_window=recall_windows_onoff[11];
     index_menu_save=recall_windows_onoff[12];
     index_grider_window=recall_windows_onoff[13];
+    index_window_fixturectl=recall_windows_onoff[18];
     index_show_minifaders=recall_windows_onoff[14];
     index_window_chasers=recall_windows_onoff[15];
     index_plot_window=recall_windows_onoff[16];
@@ -3552,6 +3560,8 @@ int record_memory(int mem_is)
         }
         Selected_Channel[u]=0;
     }
+    // [devices] capture des valeurs d'attributs devices (par output) avec la cue
+    for (int o=1; o<514; o++) { Memoires_devval[mem_is][o]=output_devval[o]; }
     ratio_cross_manuel[mem_is]=ratio_X1X2_together;
     return(0);
 }
@@ -3563,6 +3573,8 @@ int refresh_mem_onstage(int mem_is)
     {
         bufferSaisie[u]=Memoires[mem_is][u];   // [mem16] rappel 16 bit direct
     }
+    // [devices] rappel des attributs devices de la cue -> buffer vivant (LTP snap)
+    for (int o=1; o<514; o++) { output_devval[o]=Memoires_devval[mem_is][o]; }
     return(0);
 }
 
@@ -3584,6 +3596,8 @@ int record_memory_plus_faders(int mem_is)
             }
             Selected_Channel[u]=0;
         }
+        // [devices] capture des attributs devices (par output) avec la cue
+        for (int o=1; o<514; o++) { Memoires_devval[mem_is][o]=output_devval[o]; }
 //refresh stage
         refresh_mem_onstage(mem_is);
 
@@ -3618,6 +3632,8 @@ int overrecord_memory_plus_faders(int mem_is)
             }
             Selected_Channel[u]=0;
         }
+        // [devices] capture des attributs devices (par output) avec la cue
+        for (int o=1; o<514; o++) { Memoires_devval[mem_is][o]=output_devval[o]; }
 //refresh stage
         refresh_mem_onstage(mem_is);
 
@@ -3792,6 +3808,8 @@ int refresh_mem_onpreset(int mem_is)
     {
         bufferBlind[u]=Memoires[mem_is][u];   // [mem16] rappel 16 bit direct
     }
+    // [devices] endpoint "cue entrante" du crossfade : le hot path interpolera output_devval -> devval_preset (niveauX2)
+    for (int o=1; o<514; o++) { devval_preset[o]=Memoires_devval[mem_is][o]; }
     ratio_X1X2_together=ratio_cross_manuel[mem_is];
     if(ratio_X1X2_together > 0)    ratio_X1X2_together = 0;
     if(ratio_X1X2_together < -255) ratio_X1X2_together = -255;
@@ -5334,6 +5352,9 @@ int substract_a_window(int id)
             grid_affect_to_dock[i]=0;
         }
         break;
+    case W_FIXTURECTL:
+        index_window_fixturectl=0;
+        break;
     default:
         break;
     }
@@ -5386,6 +5407,7 @@ int GlobInit()
             for(int i=0; i<514; i++)
             {
                 Memoires[m][i]=0;
+                Memoires_devval[m][i]=0;   // [devices] reset attributs devices de la cue
             }
         }
         position_onstage=10;

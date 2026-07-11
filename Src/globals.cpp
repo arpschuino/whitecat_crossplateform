@@ -47,7 +47,7 @@ bool right_click_for_menu = 0;
 int index_liste_kbd_custom = 0;
 char kbd_custom[256][2];
 /////////////////////////////////////////////////////////////////////////////////
-int max_window_identity_is = 926;
+int max_window_identity_is = 927;
 int index_to_navigate_between_window = 0;
 int window_opened[72]; // la liste des fenetres ouvertes modification en 0.4.1 d un size 64 en size 72,
 // y compris dans save_show.cpp

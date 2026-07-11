@@ -1290,15 +1290,32 @@ int Merger() {
         // coarse, on ne le rend pas separement.
         if (!is_fine[i]) {
             circrootpatch = Patch[i];
-            // [2c-2B] MergerArray est desormais en pleine echelle 16 bit (x257). On lit le
-            // niveau 16 bit du circuit patche directement ; DmxBlockPatch garde le MSB 8 bit.
-            unsigned short lvl16 = MergerArray[circrootpatch];
-            DmxBlockPatch[i] = wc::lvl_to_dmx8(lvl16);
 
             // [devices] attribut de l'output (Dimmer -> rendu legacy ; Color/Pan/Tilt -> lineaire).
             // Garde : ATTR_NONE (tableau non encore regenere) retombe sur Dimmer = comportement historique.
             uint8_t out_attr = output_attribute[i];
             if (out_attr == wc::ATTR_NONE) out_attr = wc::ATTR_DIMMER;
+
+            // [devices] SOURCE du niveau 16 bit :
+            //   - Dimmer  : intensite du circuit patche (MergerArray, pilotee par circuits/cues/faders) ;
+            //   - autre attribut (Pan/Tilt/RGBW/Zoom/Shutter...) : CROSSFADE LTP entre le plateau/live
+            //     (output_devval, regle par la fenetre Control Fixtures) et la cue entrante (devval_preset,
+            //     charge par refresh_mem_onpreset), pilote par niveauX2 (fraction fade-in). A niveauX2=0 :
+            //     output_devval (live) ; a 65535 : cible -> les tetes mobiles fondent avec la cue.
+            //     1 device = 1 circuit : les attributs non-Dimmer ne consomment PAS de circuit.
+            // [2c-2B] pleine echelle 16 bit (x257) ; DmxBlockPatch garde le MSB 8 bit.
+            unsigned short lvl16;
+            if (out_attr == wc::ATTR_DIMMER) {
+                lvl16 = MergerArray[circrootpatch];
+            } else {
+                int from = output_devval[i];
+                int to   = devval_preset[i];
+                int v = from + (int)((long long)(to - from) * niveauX2 / wc::LVL_MAX);
+                if (v < 0)     v = 0;
+                if (v > 65535) v = 65535;
+                lvl16 = (unsigned short)v;
+            }
+            DmxBlockPatch[i] = wc::lvl_to_dmx8(lvl16);
 
             if (output_fine[i] != 0) {
                 // [Phase 2b] canal 16 bit : i = coarse (MSB), output_fine[i] = fine (LSB).

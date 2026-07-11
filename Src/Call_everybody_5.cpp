@@ -47,15 +47,15 @@ WWWWWWWW           C  WWWWWWWW   |
 
 int reset_other_index_cfg()
 {
-index_config_dmx=0;
-index_config_midi=0;
-index_config_arduino=0;
-index_setup_gfx=0;
-index_do_affect_net_to_dock=0;
-index_config_network=0;
-receive_from_trichro=0;
-index_show_config_window=0;
-return(0);
+  index_config_dmx=0;
+  index_config_midi=0;
+  index_config_arduino=0;
+  index_setup_gfx=0;
+  index_do_affect_net_to_dock=0;
+  index_config_network=0;
+  receive_from_trichro=0;
+  index_show_config_window=0;
+  return(0);
 }
 
 
@@ -190,7 +190,7 @@ return(0);
 // idcmd = action (toggle fenêtre), fixe par entrée ; la position x/y est purement visuelle.
 struct MenuItem { const char* name; const char* sc; int idmidi; int idcmd; };
 // Ordre demandé : 4 colonnes de 4 + 1 colonne de 5 (remplissage colonne par colonne).
-static const MenuItem g_menu_items[21] = {
+static const MenuItem g_menu_items[22] = {
   // colonne 1
   {"CUELIST","F9",751,0},{"TIME","F6",748,1},{"WIZARD","",1329,3},{"SAVE","",1330,4},
   // colonne 2
@@ -200,10 +200,11 @@ static const MenuItem g_menu_items[21] = {
   // colonne 4
   {"BANGER","F11",753,2},{"N-Pad","P",1338,41},{"AUDIO PL.","Ctrl-A",756,33},{"ECHO","",1662,32},
   // colonne 5
-  {"CFG-Menu","Shift-F11",755,40},{"NAME","F5",747,34},{"Trichromy","F7",749,22},{"LIGHT PLOT","",1594,12},{"QUIT","Ctrl-F12",757,43}
+  {"CFG-Menu","Shift-F11",755,40},{"NAME","F5",747,34},{"Trichromy","F7",749,22},{"LIGHT PLOT","",1594,12},{"QUIT","Ctrl-F12",757,43},
+  {"CTRL FIXT.","",1341,26}
 };
 static const int g_menu_col_x[5] = {10,80,150,220,290};
-static const int g_menu_col_n[5] = {4,4,4,4,5};
+static const int g_menu_col_n[5] = {4,4,4,4,6};
 static inline bool g_menu_state(int i){
   switch(i){
     // colonne 1
@@ -221,6 +222,7 @@ static inline bool g_menu_state(int i){
     // colonne 5
     case 16:return index_show_config_window; case 17:return index_type; case 18:return index_trichro_window;
     case 19:return index_plot_window; case 20:return index_do_quit_with_save;
+    case 21:return index_window_fixturectl;
   }
   return false;
 }
