@@ -2601,6 +2601,7 @@ int snapshot_windows()
     recall_windows_onoff[12]=index_menu_save;
     recall_windows_onoff[13]=index_grider_window;
     recall_windows_onoff[18]=index_window_fixturectl;
+    recall_windows_onoff[19]=index_window_devicepatch;
     recall_windows_onoff[14]=index_show_minifaders;
     recall_windows_onoff[15]=index_window_chasers;
     recall_windows_onoff[16]=index_plot_window;
@@ -2636,6 +2637,7 @@ int close_all_windows()
     index_window_chasers=0;
     index_grider_window=0;
     index_window_fixturectl=0;
+    index_window_devicepatch=0;
     index_plot_window=0;
     index_show_main_menu=0;
     index_show_echo_window=0;
@@ -2723,6 +2725,9 @@ int write_window_indexes_from_list_of_windows()
         case W_FIXTURECTL:
             index_window_fixturectl=1;
             break;
+        case W_DEVICEPATCH:
+            index_window_devicepatch=1;
+            break;
         default:
             break;
         }
@@ -2761,6 +2766,7 @@ int recall_windows()
     index_menu_save=recall_windows_onoff[12];
     index_grider_window=recall_windows_onoff[13];
     index_window_fixturectl=recall_windows_onoff[18];
+    index_window_devicepatch=recall_windows_onoff[19];
     index_show_minifaders=recall_windows_onoff[14];
     index_window_chasers=recall_windows_onoff[15];
     index_plot_window=recall_windows_onoff[16];
@@ -3140,20 +3146,36 @@ int patch_straight()
     return(0);
 }
 
-// [devices] Retire de wc_patch les fixtures device qui occupent au moins un output selectionne
-// (Dimmers_selected). Utilise par clear/default selected pour que le modele suive le legacy.
+// [devices] Un device est ATOMIQUE : depatcher un seul de ses outputs efface TOUT le device.
+// Pour chaque fixture DEVICE (>1 channel) qui occupe au moins un output selectionne (Dimmers_selected),
+// on efface TOUS ses outputs dans les tableaux plats (sinon synthesize les ressuscite en dimmers
+// autonomes, ex. Pan/Tilt 16 bit -> bannieres "16 bit output"), puis on la retire de wc_patch.
 static void patch_forget_devices_on_selected()
 {
     for(size_t f=0; f<wc_patch.size(); )
     {
+        const wc::Fixture& fx = wc_patch[f];
+        bool is_device = fx.channels.size()>1;
+        for(size_t c=0;c<fx.channels.size();c++) if(fx.channels[c].attribute!=wc::ATTR_DIMMER) is_device=true;
         bool touched=false;
-        for(size_t c=0;c<wc_patch[f].channels.size() && !touched;c++)
+        for(size_t c=0;c<fx.channels.size() && !touched;c++)
         {
-            int co=(int)wc_patch[f].channels[c].coarse_addr;
-            int fi=(int)wc_patch[f].channels[c].fine_addr;
+            int co=(int)fx.channels[c].coarse_addr;
+            int fi=(int)fx.channels[c].fine_addr;
             if((co>0&&co<513&&Dimmers_selected[co])||(fi>0&&fi<513&&Dimmers_selected[fi])) touched=true;
         }
-        if(touched) wc_patch.erase(wc_patch.begin()+f); else ++f;
+        if(is_device && touched)
+        {
+            for(size_t c=0;c<fx.channels.size();c++)   // effacer tout le footprint du device dans le legacy
+            {
+                int co=(int)fx.channels[c].coarse_addr;
+                int fo=(int)fx.channels[c].fine_addr;
+                if(co>0&&co<514){ Patch[co]=0; output_fine[co]=0; is_fine[co]=0; curves[co]=0; }
+                if(fo>0&&fo<514){ Patch[fo]=0; output_fine[fo]=0; is_fine[fo]=0; curves[fo]=0; }
+            }
+            wc_patch.erase(wc_patch.begin()+f);
+        }
+        else ++f;
     }
 }
 
@@ -5380,6 +5402,9 @@ int substract_a_window(int id)
         break;
     case W_FIXTURECTL:
         index_window_fixturectl=0;
+        break;
+    case W_DEVICEPATCH:
+        index_window_devicepatch=0;
         break;
     default:
         break;

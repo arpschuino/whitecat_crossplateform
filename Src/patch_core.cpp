@@ -43,6 +43,8 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include "wc_tus.h"
 #include "patch_splines.h"
+#include "gdtf_import.h"   // [devices] import GDTF -> wc::Fixture
+#include "gestionaire_fenetres2.h"   // [devices] add_a_window / substract_a_window (bouton Patch device)
 
 // ============================================================================
 // [Fixtures] Pont entre le modele wc_patch (source de verite) et les tableaux
@@ -256,6 +258,59 @@ int create_mac_aura_at(int base, int circuit)
     output_devval[base+10] = 65535;  // G plein
     output_devval[base+11] = 65535;  // B plein
     output_devval[base+12] = 65535;  // W plein
+    return 0;
+}
+
+// [devices] Cree un device a partir d'un GDTF (description.xml deja extrait) : mode <mode_index>,
+// adresse de depart <base>, circuit <circuit>. Retire les fixtures qui chevauchent l'empreinte,
+// pousse la fixture GDTF dans wc_patch, regenere le legacy, et seme des valeurs de test visibles.
+// Retour : 0 OK ; 1 fichier absent ; 2 GDTF invalide ; 3 mode hors bornes ; -1 base invalide.
+int create_device_from_gdtf_at(const char* xmlpath, int mode_index, int base, int circuit)
+{
+    if(base<1 || base>512) return -1;
+    if(circuit<1)   circuit=1;
+    if(circuit>512) circuit=512;
+
+    wc::Fixture fx;
+    std::string mode_name; int footprint=0;
+    int r = wcgdtf::build_fixture(xmlpath, mode_index, base, circuit, fx, mode_name, footprint);
+    if(r!=0) return r;                                // 1 absent / 2 invalide / 3 mode hors bornes
+    if(base+footprint-1>512) return 2;               // depasse l'univers
+
+    synthesize_fixtures_from_legacy();               // capturer l'etat courant dans le modele
+
+    // retirer les fixtures existantes qui occupent base..base+footprint-1
+    for(int out=base; out<base+footprint && out<514; out++)
+    {
+        for(size_t f=0; f<wc_patch.size(); )
+        {
+            bool hit=false;
+            for(size_t c=0;c<wc_patch[f].channels.size();c++)
+                if((int)wc_patch[f].channels[c].coarse_addr==out || (int)wc_patch[f].channels[c].fine_addr==out){ hit=true; break; }
+            if(hit) wc_patch.erase(wc_patch.begin()+f); else f++;
+        }
+    }
+
+    wc_patch.push_back(fx);
+    rebuild_patch_from_fixtures();
+
+    // valeurs vivantes de test (visibles tout de suite) : Pan/Tilt centres, couleurs pleines, reste 0.
+    for(size_t c=0;c<fx.channels.size();c++)
+    {
+        const wc::Channel& ch = fx.channels[c];
+        if(ch.coarse_addr<1 || ch.coarse_addr>512) continue;
+        unsigned short v = 0;
+        switch(ch.attribute){
+            case wc::ATTR_PAN: case wc::ATTR_TILT: v=32768; break;
+            case wc::ATTR_COLORADD_R: case wc::ATTR_COLORADD_G:
+            case wc::ATTR_COLORADD_B: case wc::ATTR_COLORADD_W: v=65535; break;
+            default: v=0; break;   // Dimmer (pilote par circuit), Shutter/Zoom = 0
+        }
+        if(ch.attribute!=wc::ATTR_DIMMER) output_devval[ch.coarse_addr]=v;
+    }
+
+    sprintf(string_Last_Order, ">> GDTF: %.24s [%s] %d ch, %d addr @%d",
+            fx.name.c_str(), mode_name.c_str(), (int)fx.channels.size(), footprint, base);
     return 0;
 }
 
@@ -545,9 +600,9 @@ switch(o)
  index_show_first_dim=toggle(index_show_first_dim);
  break;
  case 9:
- // [2b] mode patch 16 bit : ensuite, clic sur l'output coarse (fine = coarse+1)
- index_affect_patch_16bit=toggle(index_affect_patch_16bit);
- if(index_affect_patch_16bit==1){index_affect_patch=0;}
+ // [devices] "Patch device" : ouvre/ferme la fenetre W_DEVICEPATCH (recherche biblio + patch)
+ if(index_window_devicepatch==0){ add_a_window(W_DEVICEPATCH); }
+ else { substract_a_window(W_DEVICEPATCH); }
  break;
  default:
  break;
@@ -557,13 +612,6 @@ switch(o)
 
 }
 
-// [devices] bouton "device" (test) : entre en mode "patch device" (clic ensuite sur un output)
-if(mouse_x>XChan+345 && mouse_x<XChan+435 && mouse_y>YChan+583 && mouse_y<YChan+599)
-{
-    index_affect_patch_device=toggle(index_affect_patch_device);
-    if(index_affect_patch_device){ index_affect_patch=0; index_affect_patch_16bit=0; }
-    mouse_released=1;
-}
 
 
 int maxchan_per_ligne=7;
@@ -612,11 +660,21 @@ for (int ci=1;ci<514;ci++)
 index_type=0;index_level_attribue=0;
 index_affect_patch_16bit=0;
 }
-if(index_affect_patch_device==1)//[devices] clic sur output -> device MAC Aura (grad = adresse) piloté par circuit..circuit+6
+if(index_affect_patch_device==1)//[devices] clic sur output -> device (grad = adresse de depart) sur last_ch_selected
 {
-create_mac_aura_at(grad, last_ch_selected);
-sprintf(string_Last_Order,">> MAC Aura device @%d (Shut/Dim/Zoom/Pan/Tilt/RGBW) on Channels %d-%d",grad, last_ch_selected, last_ch_selected+8);
-sprintf(string_monitor_patch,">> MAC Aura device @%d (Shut/Dim/Zoom/Pan/Tilt/RGBW) on Channels %d-%d",grad, last_ch_selected, last_ch_selected+8);
+// [devices] tenter d'abord un GDTF depose dans user/gdtf.xml (1er mode) ; sinon fallback echafaudage MAC Aura.
+int gr = create_device_from_gdtf_at("user/gdtf.xml", 0, grad, last_ch_selected);
+if(gr==0)
+{
+    sprintf(string_monitor_patch,"%.1000s", string_Last_Order);   // message rempli par create_device_from_gdtf_at
+}
+else
+{
+    create_mac_aura_at(grad, last_ch_selected);
+    const char* why = (gr==1)?"user/gdtf.xml absent":(gr==2)?"GDTF invalide":(gr==3)?"mode absent":"adresse invalide";
+    sprintf(string_Last_Order,">> MAC Aura test @%d (fallback GDTF: %s)",grad, why);
+    sprintf(string_monitor_patch,">> MAC Aura test @%d (fallback GDTF: %s)",grad, why);
+}
 patch_unselect_all_dimmers();
 for (int ci=1;ci<514;ci++)
 {Selected_Channel[ci]=0;}

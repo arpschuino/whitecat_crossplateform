@@ -96,6 +96,8 @@ SRC_CPPS := \
     $(SRC)/arduino.cpp \
     $(SRC)/grider.cpp \
     $(SRC)/fixturectl.cpp \
+    $(SRC)/devicepatch.cpp \
+    $(SRC)/gdtf_import.cpp \
     $(SRC)/plot.cpp \
     $(SRC)/draw.cpp \
     $(SRC)/echo.cpp \
@@ -110,6 +112,7 @@ SRC_CPPS := \
     $(SRC)/grider_core.cpp \
     $(SRC)/grider_visu.cpp \
     $(SRC)/fixturectl_visu.cpp \
+    $(SRC)/devicepatch_visu.cpp \
     $(SRC)/gestionaire_fenetres2.cpp \
     $(SRC)/saves_export_import.cpp \
     $(SRC)/saves_menu.cpp \

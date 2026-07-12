@@ -251,6 +251,10 @@ int Boxes() {
             fixturectl_window(fixturectl_window_x, fixturectl_window_y);
             MoveCloseBox(fixturectl_window_x + 20, fixturectl_window_y + 20, W_FIXTURECTL);
             break;
+        case W_DEVICEPATCH:
+            devicepatch_window(devicepatch_window_x, devicepatch_window_y);
+            MoveCloseBox(devicepatch_window_x + 20, devicepatch_window_y + 20, W_DEVICEPATCH);
+            break;
         default:
             break;
         }

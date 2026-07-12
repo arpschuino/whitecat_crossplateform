@@ -179,6 +179,7 @@ END_OF_FUNCTION(ticker_midi_clock);
 
 #include "grider_visu.h"
 #include "fixturectl_visu.h"
+#include "devicepatch_visu.h"
 #include "sequentiel_visu.h"
 #include "Draw3.h"
 #include "echo3.h"

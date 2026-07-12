@@ -107,6 +107,9 @@ WWWWWWWW           C  WWWWWWWW   |
 // control fixtures (devices) -> fixturectl.h
 #include "fixturectl.h"
 
+// patch a device (devices) -> devicepatch.h
+#include "devicepatch.h"
+
 // light plot -> plot.h
 #include "plot.h"
 

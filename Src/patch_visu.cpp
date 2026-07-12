@@ -253,7 +253,7 @@ PatchSpace.DrawOutline(CouleurLigne);
 
 Line( Vec2D( XChan+420, YChan+50 ), Vec2D( XChan+420,YChan+260)).Draw( CouleurLigne );
 
-neuro.Print("DIMMERS",XChan+330,YChan+30);
+neuro.Print("OUTPUTS",XChan+330,YChan+30);
 
 Line( Vec2D( XChan+410, YChan+51+12 ), Vec2D( XChan+420,YChan+51+12)).Draw( CouleurLigne );
 Line( Vec2D( XChan+410, YChan+73+12 ), Vec2D( XChan+420,YChan+73+12)).Draw( CouleurLigne );
@@ -289,7 +289,7 @@ petitpetitchiffre.Print("493-512",XChan+350,YChan+247+12);
  Rect SelectPatch16bit(Vec2D(XChan+345, YChan+560),Vec2D(90,20));
  SelectPatch16bit.SetRoundness(7.5);
  SelectPatch16bit.SetLineWidth(epaisseur_ligne_fader);
- if(index_affect_patch_16bit==1){SelectPatch16bit.Draw(CouleurFader);}
+ if(index_window_devicepatch==1){SelectPatch16bit.Draw(CouleurFader);}   // [devices] bouton "Patch device" -> fenetre W_DEVICEPATCH
 
  Rect SelectPatchActionCurv(Vec2D(XChan+345, YChan+440),Vec2D(90,20));
  SelectPatchActionCurv.SetRoundness(7.5);
@@ -316,14 +316,7 @@ petitchiffre.Print("Curve",XChan+350,YChan+452);
 petitchiffre.Print("Check Dimmers",XChan+350,YChan+482);
 petitchiffre.Print("Link LightPlot",XChan+350,YChan+512);
 petitchiffre.Print("Show 1st Dimmer",XChan+350,YChan+542);
-petitchiffre.Print("Patch 16 bit",XChan+350,YChan+572);
-
-// [devices] bouton echafaudage : mode "patch device MAC Aura" (clic ensuite sur un output = adresse). Clignote si actif.
-Rect AddDevBtn(Vec2D(XChan+345,YChan+583),Vec2D(90,16));
-AddDevBtn.SetRoundness(5);
-if(index_affect_patch_device==1){ AddDevBtn.Draw(CouleurBlind.WithAlpha(alpha_blinker)); }
-AddDevBtn.DrawOutline(CouleurLigne);
-petitpetitchiffre.Print("+ MAC Aura",XChan+352,YChan+594);
+petitchiffre.Print("Patch device",XChan+350,YChan+572);   // [devices] ouvre la fenetre Patch a device
 
 
 
@@ -374,12 +367,25 @@ petitpetitchiffre.Print(ol::ToString(curves[grad]+1),(XChan + (45*c))+5,(YChan+1
 }
 }
 
-// [devices] Bandeau sur les channels multi-outputs, inspire de l'Output Editor de Cobalt :
-// une barre nommee enjambe la plage d'outputs de l'appareil. v1 : les dimmers 16 bit (coarse+fine,
-// reperes par output_fine[g]) -> premier "device" a 2 outputs, pour valider le rendu de la barre.
+// [devices] marquer les outputs appartenant a un vrai device (>1 channel) : la banniere "16 bit output"
+// ci-dessous ne doit PAS s'y appliquer (le Pan/Tilt 16 bit d'un device est deja couvert par SA banniere).
+bool _in_device[514]; for(int i=0;i<514;i++) _in_device[i]=false;
+for(size_t fi=0; fi<wc_patch.size(); fi++)
+{
+    if(wc_patch[fi].channels.size()<=1) continue;
+    for(size_t c=0;c<wc_patch[fi].channels.size();c++)
+    {
+        int co=(int)wc_patch[fi].channels[c].coarse_addr, fo=(int)wc_patch[fi].channels[c].fine_addr;
+        if(co>0&&co<514) _in_device[co]=true;
+        if(fo>0&&fo<514) _in_device[fo]=true;
+    }
+}
+
+// [devices] Bandeau sur les DIMMERS 16 bit AUTONOMES (coarse+fine, reperes par output_fine[g]).
+// Les canaux 16 bit d'un device (Pan/Tilt...) sont exclus via _in_device[].
 for(int g=1; g<512; g++)
 {
-    if(output_fine[g]!=0)
+    if(output_fine[g]!=0 && !_in_device[g])
     {
         int fin = output_fine[g];
         int omin = (g<fin)?g:fin;
@@ -410,7 +416,7 @@ for(size_t fi=0; fi<wc_patch.size(); fi++)
     }
     if(ncount<2 || omax<omin) continue;
     char _dl[64]; sprintf(_dl,"%d: %s (%d outputs)", circ, fx.name.empty()?"device":fx.name.c_str(), ncount);
-    wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _dl, CouleurNiveau);   // bleu = device
+    wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _dl, CouleurGreen);   // [devices] vert = tout device (sauf dimmer 8 bit : pas de bandeau)
 }
 Canvas::DisableClipping();
 

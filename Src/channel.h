@@ -41,6 +41,8 @@ enum AttrId : uint8_t {
     // --- réservé (vagues suivantes) : ColorAdd_A/UV/Lime…, ColorSub_C/M/Y,
     //     CTO/CTC, Iris, Focus1, Gobo1(+rot), Prism1, Frost1,
     //     Color1 (roue), Function/Control … ---
+    ATTR_RAW,           // [devices] canal GDTF non encore gere : RESERVE le footprint, sortie lineaire 0
+                        //           (rendu comme un attribut non-Dimmer ; non pilotable dans Control Fixtures)
     ATTR_COUNT
 };
 

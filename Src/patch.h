@@ -13,6 +13,8 @@ int create_rgb_device_at(int base, int circuit);
 // l'adresse base, entièrement rattaché à UN circuit (1 device = 1 circuit). Le circuit porte l'intensité ;
 // les autres attributs vivent dans output_devval[output]. Cf. docs/mac_aura_standard.md.
 int create_mac_aura_at(int base, int circuit);
+// [devices] Crée un device depuis un GDTF (description.xml extrait). Cf. gdtf_import.h.
+int create_device_from_gdtf_at(const char* xmlpath, int mode_index, int base, int circuit);
 // [Fixtures] Persistance texte du patch fixtures (dans le dossier du show).
 int save_patch_fixtures_text(const char* file);
 int load_patch_fixtures_text(const char* file);   // 0 = OK, 1 = absent (vieux show), 2 = format invalide

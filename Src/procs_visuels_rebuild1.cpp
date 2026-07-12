@@ -57,6 +57,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gestionaire_fenetres2.h"
 #include "grider_core.h"
 #include "fixturectl_visu.h"
+#include "devicepatch_visu.h"
 #include "minifaders_core.h"
 #include "channels_core.h"
 #include "grand_master.h"
@@ -193,6 +194,10 @@ switch(window_opened[i])
         break;
         case W_FIXTURECTL:
         if( mouse_x>=fixturectl_window_x && mouse_x<=fixturectl_window_x+fixturectl_window_w && mouse_y>=fixturectl_window_y && mouse_y<=fixturectl_window_y+fixturectl_window_h)
+        {window_is=window_opened[i];stop_detect=1;}
+        break;
+        case W_DEVICEPATCH:
+        if( mouse_x>=devicepatch_window_x && mouse_x<=devicepatch_window_x+devicepatch_window_w && mouse_y>=devicepatch_window_y && mouse_y<=devicepatch_window_y+devicepatch_window_h)
         {window_is=window_opened[i];stop_detect=1;}
         break;
         default:
@@ -373,6 +378,11 @@ if(mouse_button==1 && window_focus_id==idwindowis && mouse_y>hauteur_ChannelMenu
  case W_FIXTURECTL://control fixtures
  fixturectl_window_x=mouse_x-(40+15);
  fixturectl_window_y=mouse_y-25;
+ im_moving_a_window=1;
+ break;
+ case W_DEVICEPATCH://patch a device
+ devicepatch_window_x=mouse_x-(40+15);
+ devicepatch_window_y=mouse_y-25;
  im_moving_a_window=1;
  break;
  case W_DRAW:
@@ -600,6 +610,10 @@ break;
 case W_FIXTURECTL:
      do_logical_fixturectl(fixturectl_window_x, fixturectl_window_y);
      do_logical_MoveCloseBox( fixturectl_window_x+20,fixturectl_window_y+20,W_FIXTURECTL);
+break;
+case W_DEVICEPATCH:
+     do_logical_devicepatch(devicepatch_window_x, devicepatch_window_y);
+     do_logical_MoveCloseBox( devicepatch_window_x+20,devicepatch_window_y+20,W_DEVICEPATCH);
 break;
 default:
 break;

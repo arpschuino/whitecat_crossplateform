@@ -250,6 +250,9 @@ int add_a_window(int id)
  case W_FIXTURECTL:
       index_window_fixturectl=1;
  break;
+ case W_DEVICEPATCH:
+      index_window_devicepatch=1;
+ break;
  default:
  break;
 }
