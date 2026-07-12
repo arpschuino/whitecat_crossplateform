@@ -3129,11 +3129,32 @@ int patch_straight()
         output_fine[i]=0;   // [Fixtures] patch droit : pas de 16 bit residuel
         is_fine[i]=0;
     }
+    // [devices] patch droit = remplacement total "tout dimmer" : on lache tous les devices,
+    // puis on resynthetise wc_patch depuis les tableaux plats (dimmers simples).
+    wc_patch.clear();
+    synthesize_fixtures_from_legacy();
     if(index_build_patch_from_plot==1)
     {
         reconstruct_plot_dimmer_list_from_patch();
     }
     return(0);
+}
+
+// [devices] Retire de wc_patch les fixtures device qui occupent au moins un output selectionne
+// (Dimmers_selected). Utilise par clear/default selected pour que le modele suive le legacy.
+static void patch_forget_devices_on_selected()
+{
+    for(size_t f=0; f<wc_patch.size(); )
+    {
+        bool touched=false;
+        for(size_t c=0;c<wc_patch[f].channels.size() && !touched;c++)
+        {
+            int co=(int)wc_patch[f].channels[c].coarse_addr;
+            int fi=(int)wc_patch[f].channels[c].fine_addr;
+            if((co>0&&co<513&&Dimmers_selected[co])||(fi>0&&fi<513&&Dimmers_selected[fi])) touched=true;
+        }
+        if(touched) wc_patch.erase(wc_patch.begin()+f); else ++f;
+    }
 }
 
 
@@ -3172,7 +3193,9 @@ int  patch_clear_selected()
             }
         }
     }
-
+    // [devices] les outputs effaces peuvent appartenir a un device -> le retirer du modele, puis resync
+    patch_forget_devices_on_selected();
+    synthesize_fixtures_from_legacy();
     return(0);
 }
 
@@ -3191,6 +3214,9 @@ int patch_to_default_selected()
             is_fine[i]=0;
         }
     }
+    // [devices] les outputs redevenus dimmers droits peuvent appartenir a un device -> le retirer, puis resync
+    patch_forget_devices_on_selected();
+    synthesize_fixtures_from_legacy();
     if(index_build_patch_from_plot==1)
     {
         reconstruct_plot_dimmer_list_from_patch();
@@ -5533,6 +5559,9 @@ int GlobInit()
             }
             show_first_dim_array[i][0]=i;
         }
+        // [devices] reset du patch = tout dimmer droit : on lache les devices et on resynchronise le modele
+        wc_patch.clear();
+        synthesize_fixtures_from_legacy();
     }
 
     if(specify_who_to_save_load[9]==1)//patch HTP/LTP//////////////////////////////

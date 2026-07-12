@@ -525,6 +525,9 @@ fclose(f);
 // Sans cet appel, le modele Fixture wc_patch (source de verite) ignore le patch importe, et le
 // prochain rebuild_patch_from_fixtures() (chargement patch, refresh...) ecrase Patch[] au patch
 // du modele (droit/defaut). On capture donc le patch importe DANS le modele -> il survit et se sauve.
+// [devices] import ASCII = remplacement "tout dimmer" : on vide d'abord wc_patch pour que
+// synthesize (qui preserve les devices) ne conserve pas de device fantome d'une session precedente.
+wc_patch.clear();
 synthesize_fixtures_from_legacy();
 // [fix affichage patch] rafraichir le cache "premier gradateur par circuit" (chiffres rouges
 // "show first dimmer") depuis Patch[] : sinon il reste sur l'ancien patch (droit) apres import,

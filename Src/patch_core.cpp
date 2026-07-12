@@ -85,13 +85,43 @@ int rebuild_patch_from_fixtures()
     return 0;
 }
 
-// Reconstruit wc_patch depuis les tableaux plats courants (1 fixture = 1 dimmer).
+// Resynchronise wc_patch avec l'etat courant.
+// [devices] wc_patch est la SOURCE DE VERITE pour les DEVICES (fixtures multi-canaux ou portant un
+// attribut non-Dimmer) : on les PRESERVE tels quels. Seuls les DIMMERS SIMPLES (1 canal Dimmer) sont
+// re-synthetises depuis les tableaux plats (encore edites par l'UI patch), pour les outputs NON deja
+// possedes par un device. Ainsi un device patche survit au save/reload (sans quoi il etait aplati).
+static inline bool fixture_is_device(const wc::Fixture& fx)
+{
+    if(fx.channels.size()>1) return true;
+    for(size_t c=0;c<fx.channels.size();c++)
+        if(fx.channels[c].attribute!=wc::ATTR_DIMMER) return true;
+    return false;
+}
+
 int synthesize_fixtures_from_legacy()
 {
+    // 1) extraire les devices existants (a preserver) et marquer les outputs qu'ils occupent
+    std::vector<wc::Fixture> devices;
+    bool owned[514]; for(int i=0;i<514;i++) owned[i]=false;
+    for(size_t f=0; f<wc_patch.size(); f++)
+    {
+        if(!fixture_is_device(wc_patch[f])) continue;
+        devices.push_back(wc_patch[f]);
+        for(size_t c=0;c<wc_patch[f].channels.size();c++)
+        {
+            int co=(int)wc_patch[f].channels[c].coarse_addr;
+            int fi=(int)wc_patch[f].channels[c].fine_addr;
+            if(co>0 && co<514) owned[co]=true;
+            if(fi>0 && fi<514) owned[fi]=true;
+        }
+    }
+
+    // 2) reconstruire : devices preserves + dimmers simples depuis le legacy (hors outputs des devices)
     wc_patch.clear();
+    for(size_t d=0; d<devices.size(); d++) wc_patch.push_back(devices[d]);
     for(int o=1;o<514;o++)
     {
-        if(Patch[o]>0 && is_fine[o]==0)
+        if(Patch[o]>0 && is_fine[o]==0 && !owned[o])
         {
             wc::Channel ch;
             ch.attribute   = wc::ATTR_DIMMER;
