@@ -13,6 +13,6 @@ extern const int fixturectl_window_w;
 extern const int fixturectl_window_h;
 
 // [devices] cible de la molette publiee chaque frame par fixturectl_window (lue par DoMouseLevel) :
-//   -1 = aucun fader survole ; 0 = fader d'INTENSITE (nudge bufferSaisie[circuit]) ;
-//   >=1 = output d'un attribut (nudge output_devval[output]).
+//   = l'ATTRIBUT (wc::AttrId) de l'encodeur survole (0 = ATTR_NONE = aucun). La molette applique
+//   alors un delta relatif a cet attribut sur TOUTE la selection (fxc_apply_delta).
 extern int fixturectl_wheel_hover;

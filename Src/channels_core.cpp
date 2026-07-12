@@ -43,6 +43,7 @@ WWWWWWWW           C  WWWWWWWW   |
 
 #include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
+#include "fixturectl_visu.h"   // [devices] fxc_apply_delta (molette encodeurs)
 int key_up();
 int key_down();
 int add_channel_selection_to_layers_plot();
@@ -358,12 +359,12 @@ int DoMouseLevel()
    last_scroll_mouse_for_grid = mouse_z; // hors edition/Ctrl : garde la baseline fraiche
  }
 
- // [devices] molette sur les faders de la fenetre Control Fixtures :
- //   coarse = 1 DMX (257) ; Ctrl+molette = fin (1/65535), meme courbe veloce que les autres faders.
- //   Cible publiee par fixturectl_window : -1 aucun / 0 intensite (bufferSaisie[circuit]) / >=1 output (output_devval).
+ // [devices] molette sur un encodeur de la fenetre Control Fixtures = DELTA RELATIF de l'attribut
+ //   survole (fixturectl_wheel_hover) applique a TOUTE la selection (fxc_apply_delta) -> preserve les
+ //   ecarts entre lyres. Coarse = 1 DMX (257) ; Ctrl+molette = fin (1/65535), meme courbe veloce.
  {
    static int last_scroll_mouse_for_fxc = 0;
-   if (win_under == W_FIXTURECTL && fixturectl_wheel_hover >= 0) {
+   if (win_under == W_FIXTURECTL && fixturectl_wheel_hover != wc::ATTR_NONE) {
        int _delta = mouse_z - last_scroll_mouse_for_fxc;
        if (_delta != 0) {
            int _absd  = _delta > 0 ? _delta : -_delta;
@@ -373,19 +374,7 @@ int DoMouseLevel()
            bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
            int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
            int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
-           if (fixturectl_wheel_hover == 0) {       // intensite -> circuit selectionne
-               if (last_ch_selected > 0 && last_ch_selected < 514) {
-                   int v = (int)bufferSaisie[last_ch_selected] + change;
-                   if (v < 0)     v = 0;
-                   if (v > 65535) v = 65535;
-                   bufferSaisie[last_ch_selected] = (unsigned short)v;
-               }
-           } else if (fixturectl_wheel_hover >= 1 && fixturectl_wheel_hover < 514) {   // attribut -> output_devval
-               int v = (int)output_devval[fixturectl_wheel_hover] + change;
-               if (v < 0)     v = 0;
-               if (v > 65535) v = 65535;
-               output_devval[fixturectl_wheel_hover] = (unsigned short)v;
-           }
+           fxc_apply_delta((unsigned char)fixturectl_wheel_hover, change);
            last_scroll_mouse_for_fxc  = mouse_z;
            last_scroll_mouse_for_chan = mouse_z; // empeche le bloc circuit de refirer sur ce scroll
        }
