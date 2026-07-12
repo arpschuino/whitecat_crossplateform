@@ -44,6 +44,7 @@ WWWWWWWW           C  WWWWWWWW   |
  **/
 
 #include "wc_tus.h"
+#include "devicepatch_visu.h"   // [devices] panneau compte GDTF Share (option Config)
 #include "dmx_functions.h"
 #include "network_artnet_3.h"
 #include "network_MAC_adress_3.h"
@@ -414,6 +415,10 @@ int do_network_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteu
     do_artnet_affect_config(x_cfg_sc + 20, y_cfg_sc + 250);
 
     Box_artnet_udpport(x_cfg_sc + 240, y_cfg_sc + 40);
+
+    // [devices] compte GDTF Share (option 1 : dans Config > Network). Meme panneau que la popup de la fenetre Patch.
+    gdtf_account_draw(x_cfg_sc + 480, y_cfg_sc + 60);
+    gdtf_account_logical(x_cfg_sc + 480, y_cfg_sc + 60);
 
     Canvas::DisableClipping();
     return (0);

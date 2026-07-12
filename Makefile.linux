@@ -72,6 +72,8 @@ SRC_CPPS := \
     $(SRC)/fixturectl.cpp \
     $(SRC)/devicepatch.cpp \
     $(SRC)/gdtf_import.cpp \
+    $(SRC)/wc_http.cpp \
+    $(SRC)/gdtf_share.cpp \
     $(SRC)/plot.cpp \
     $(SRC)/draw.cpp \
     $(SRC)/echo.cpp \

@@ -44,6 +44,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "wc_tus.h"
 #include "gui_boutons_rebuild1.h"
 #include "fixturectl_visu.h"   // [devices] fxc_apply_delta (molette encodeurs)
+#include "devicepatch_visu.h"  // [devices] molette sur les colonnes Patch device
 int key_up();
 int key_down();
 int add_channel_selection_to_layers_plot();
@@ -381,6 +382,23 @@ int DoMouseLevel()
        return (0); // molette consommee par la fenetre Control Fixtures
    }
    last_scroll_mouse_for_fxc = mouse_z; // hors survol : garde la baseline fraiche
+ }
+
+ // [devices] molette sur les colonnes de la fenetre "Patch a device" (Manufacturer/Fixture/Mode).
+ {
+   static int last_scroll_mouse_for_dp = 0;
+   if (win_under == W_DEVICEPATCH && devicepatch_wheel_col()!=0) {
+       int _delta = mouse_z - last_scroll_mouse_for_dp;
+       if (_delta != 0) {
+           int _absd = _delta>0?_delta:-_delta;
+           int _mult = _absd>2 ? _absd-1 : 1; if(_mult>5) _mult=5;   // acceleration douce
+           devicepatch_wheel((_delta>0?-1:1)*_mult);   // molette vers le haut = remonte la liste
+           last_scroll_mouse_for_dp = mouse_z;
+           last_scroll_mouse_for_chan = mouse_z;
+       }
+       return (0); // molette consommee par les colonnes
+   }
+   last_scroll_mouse_for_dp = mouse_z;
  }
 
  {

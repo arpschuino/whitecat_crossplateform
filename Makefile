@@ -45,7 +45,7 @@ LDFLAGS := -mwindows \
             -L$(WC)/lib/windows/compiledlibsforGCC4_8_1/x86/mingw/lib \
             -L$(WC)/lib/windows/compiledlibsforGCC4_8_1/lib \
             -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer \
-            -luser32 -lgdi32 -lwsock32 -liphlpapi \
+            -luser32 -lgdi32 -lwsock32 -liphlpapi -lwininet \
             -lkernel32 -lcomctl32 -lwinmm -lole32 -lopengl32 \
             $(WC)/lib/windows/odmxusb_terry/FTD2XX.lib \
             $(WC)/lib/windows/enttec_pro/ftd2xx.lib \
@@ -98,6 +98,8 @@ SRC_CPPS := \
     $(SRC)/fixturectl.cpp \
     $(SRC)/devicepatch.cpp \
     $(SRC)/gdtf_import.cpp \
+    $(SRC)/wc_http.cpp \
+    $(SRC)/gdtf_share.cpp \
     $(SRC)/plot.cpp \
     $(SRC)/draw.cpp \
     $(SRC)/echo.cpp \

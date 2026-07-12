@@ -7,4 +7,4 @@ int  devicepatch_window_x = 260;
 int  devicepatch_window_y = 140;
 
 const int devicepatch_window_w = 560;
-const int devicepatch_window_h = 330;
+const int devicepatch_window_h = 400;
