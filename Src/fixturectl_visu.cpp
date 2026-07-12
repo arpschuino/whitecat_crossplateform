@@ -179,8 +179,20 @@ static void fxc_draw_encoder(int cx, int cy, uint8_t attr, int refval, bool hove
     Rect Body(Vec2D(left, top), Vec2D(w, h));
     Body.SetRoundness(3);                                            // bords a peine arrondis
     Body.SetLineWidth(epaisseur_ligne_fader);
-    Body.Draw(hovered ? CouleurGrisMoyen : CouleurGrisAnthracite);   // corps du rouleau (gris)
-    Body.DrawOutline(CouleurLigne);
+    Body.Draw(CouleurGrisAnthracite);                               // base sombre (bords du cylindre)
+
+    // degrade en bandes HORIZONTALES : reflet clair a mi-hauteur -> plus sombre vers le haut/bas
+    // (rondeur d'un cylindre a axe horizontal, qu'on fait tourner de haut en bas)
+    int halfh = h/2;
+    float peak = 0.55f;   // reflet constant ; le survol surbrille le CONTOUR (cf. DrawOutline)
+    for(int y=1; y<h-1; y++)
+    {
+        int dy = y-halfh; if(dy<0) dy=-dy;
+        float a = 1.0f - (float)dy/(float)halfh;                    // 1 a mi-hauteur .. 0 en haut/bas
+        if(a<0) a=0;
+        Line(Vec2D(left+1, top+y), Vec2D(left+w-1, top+y)).Draw(CouleurGrisClair.WithAlpha(a*a*a*peak)); // a^3 : reflet resserre au centre
+    }
+    Body.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);   // survol = contour blanc ; sinon gris clair
 
     // crans horizontaux (gris clair) qui defilent selon la valeur -> le rouleau "tourne"
     const int spacing = 11;
@@ -189,7 +201,7 @@ static void fxc_draw_encoder(int cx, int cy, uint8_t attr, int refval, bool hove
         if(y > top + 2) Line(Vec2D(left+3, y), Vec2D(left+w-3, y)).Draw(CouleurGrisClair);
 
     // repere de lecture au centre
-    Line(Vec2D(left, cy), Vec2D(left+w, cy)).Draw(CouleurFader);
+    Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);
 
     petitchiffre.Print(ol::ToString((int)(refval >> 8)), cx - 8, top - 6);   // valeur DMX 8 bit au-dessus
     petitchiffre.Print(fxc_attr_label(attr), cx - 10, top + h + 16);         // libelle en dessous
