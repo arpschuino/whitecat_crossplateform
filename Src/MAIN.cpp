@@ -1295,6 +1295,10 @@ int main(int /*argc*/, char ** /*argv*/) {
                 DoMouseLevel();
                 if ((mouse_button == 1 && mouse_released == 0) || wc_click_pending) {
                     wc_click_pending = false;
+                    // [inline ergonomie] tout clic VALIDE d'abord la saisie inline en cours (cliquer
+                    // ailleurs ou dans une autre case ne perd plus le texte ; Enter reste optionnel,
+                    // Echap annule). Si le clic ouvre un autre champ, wc_inline_begin re-committe deja.
+                    if (wc_inline_active()) wc_inline_commit();
                     if (!im_moving_a_window)
                     {
                         check_graphics_mouse_handling();

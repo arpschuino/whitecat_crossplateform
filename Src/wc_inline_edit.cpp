@@ -12,6 +12,9 @@ static void (*s_on_commit)() = 0;
 void wc_inline_begin(char* target, int target_cap, int max_px, void (*on_commit)())
 {
     if (!target) return;
+    // [inline ergonomie] si une autre saisie est en cours, on la VALIDE (pas de perte de texte)
+    // avant de basculer sur ce champ (ex. passer d'une case a l'autre).
+    if (s_target && s_target != target) wc_inline_commit();
     s_target = target; s_cap = target_cap; s_max_px = max_px; s_on_commit = on_commit;
 
     // charge la valeur actuelle dans le buffer d'edition (on edite, on ne repart pas de zero)
