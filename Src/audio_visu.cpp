@@ -113,6 +113,11 @@ int lecteur_audio(int xp, int yp, int numero) {
                 ratio = 0.0f;
             if (ratio > 1.0f)
                 ratio = 1.0f;
+            // [seekbar] En fin de piste, la derniere position echantillonnee peut rester un cheveu
+            // sous length (la barre "s'arrete juste avant la fin"). Si le lecteur est arrete et la
+            // barre quasi pleine, on la cale a fond. Cosmetique : sans effet en lecture ni au drag.
+            if (!audio_seekbar_dragging[numero] && !player_is_playing[numero] && ratio >= 0.96f)
+                ratio = 1.0f;
             int fill_w = (int)(ratio * seekbar_w);
             if (fill_w > 0) {
                 Rect SeekFill(Vec2D(xp, yp + 23), Vec2D(fill_w, seekbar_h));
