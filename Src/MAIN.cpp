@@ -329,10 +329,21 @@ void ticker() {
         }
         // — au moins un lecteur audio en lecture : la seekbar avance en continu. Sans refresh, le
         //   rendu fige en idle et la barre de defilement sacade (fluide seulement si on bouge la
-        //   souris). Meme cause/patron que l'echo et les grid players. player_is_playing[] repasse
-        //   a 0 des l'arret/la fin de piste (audio_core.cpp) -> retour a l'idle automatique.
-        for (int i = 0; i < 4; i++) {
-            if (player_is_playing[i]) { wc_request_refresh(); break; }
+        //   souris). Meme cause/patron que l'echo et les grid players.
+        //   En FIN de piste, player_is_playing[] repasse a 0 pile au dernier instant : sans marge,
+        //   le rendu retombe en idle AVANT de dessiner la position finale -> la barre "s'arrete juste
+        //   avant la fin". On garde donc le rendu actif quelques frames apres l'arret (comme le flash).
+        //   Un rare micro-decrochage de player_is_playing[] pendant la lecture peut vider le hold :
+        //   la boucle glisse alors dans l'attente stable 1000ms (Canvas::Refresh) et la barre gele
+        //   ~1s (elle repart au mouvement souris). Marge d'~1s + audio_active nourrit wc_blink_needed
+        //   (attente stable ramenee a 40ms) = filet de securite si ca glisse quand meme.
+        static int audio_refresh_hold = 0;
+        bool audio_active = false;
+        {
+            bool any_playing = false;
+            for (int i = 0; i < 4; i++) { if (player_is_playing[i]) { any_playing = true; break; } }
+            if (any_playing) audio_refresh_hold = 25; // ~1s a 25fps : update final + micro-decrochages
+            if (audio_refresh_hold > 0) { wc_request_refresh(); audio_refresh_hold--; audio_active = true; }
         }
         // — au moins un fader en flash : le flash force le niveau pendant qu'on maintient le bouton.
         //   Sans refresh, l'affichage fige durant le flash (fluide seulement si on bouge la souris).
@@ -371,7 +382,8 @@ void ticker() {
                     has_popup = true; break;
                 }
             }
-            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1);
+            // audio_active : garde l'attente stable a 40ms pendant la lecture (anti-gel seekbar).
+            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1) || audio_active;
         }
 
         // — popup_alert_alpha : blink × 3 puis stable 0.5 pour W_ALARM / W_ASKCONFIRM.
