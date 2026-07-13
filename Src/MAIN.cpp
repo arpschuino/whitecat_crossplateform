@@ -47,6 +47,7 @@ WWWWWWWW           C  WWWWWWWW   |
 //  --- Migration SDL2 (2026) : Allegro4 + OpenLayer + Audiere → SDL2 ---
 #include "graphics_backend.h" // remplace allegro.h + winalleg.h + OpenLayer.hpp
 #include "audio_backend.h"    // remplace audiere.h
+#include "audio.h"            // player_is_playing[] : reveil du rendu quand la seekbar avance
 
 #include <stdio.h>
 #include <assert.h>
@@ -323,6 +324,13 @@ void ticker() {
             for (int i = 0; i < core_user_define_nb_gridplayers; i++) {
                 if (grider_is_playing[i]) { wc_request_refresh(); break; }
             }
+        }
+        // — au moins un lecteur audio en lecture : la seekbar avance en continu. Sans refresh, le
+        //   rendu fige en idle et la barre de defilement sacade (fluide seulement si on bouge la
+        //   souris). Meme cause/patron que l'echo et les grid players. player_is_playing[] repasse
+        //   a 0 des l'arret/la fin de piste (audio_core.cpp) -> retour a l'idle automatique.
+        for (int i = 0; i < 4; i++) {
+            if (player_is_playing[i]) { wc_request_refresh(); break; }
         }
         // — au moins un fader en flash : le flash force le niveau pendant qu'on maintient le bouton.
         //   Sans refresh, l'affichage fige durant le flash (fluide seulement si on bouge la souris).
