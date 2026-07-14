@@ -375,15 +375,21 @@ void ticker() {
         // comme W_FADERS, W_CFGMENU... ne blinkent pas : pas besoin de les réveiller).
         {
             bool has_popup = false;
+            bool report_open = false;
             for (int _wi = 0; _wi < 72 && window_opened[_wi] != 0; _wi++) {
                 int _w = window_opened[_wi];
                 if (_w == W_ASKCONFIRM || _w == W_NUMPAD ||
-                    _w == W_SAVE || _w == W_ALARM) {
-                    has_popup = true; break;
+                    _w == W_SAVE || _w == W_ALARM || _w == W_SAVEREPORT) {
+                    has_popup = true;                         // refresh 40ms -> tooltip ne traine pas au survol
+                    if (_w == W_SAVEREPORT) report_open = true;
                 }
             }
             // audio_active : garde l'attente stable a 40ms pendant la lecture (anti-gel seekbar).
             wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1) || audio_active;
+            // L'info-bulle du rapport (chemin de sauvegarde) deborde hors de la fenetre : repeindre le
+            // fond persistant chaque frame tant qu'elle est ouverte, sinon un "ghost" du texte reste
+            // hors fenetre apres le survol (dirty-rects Phase 6).
+            if (report_open) wc_bg_dirty = true;
         }
 
         // — popup_alert_alpha : blink × 3 puis stable 0.5 pour W_ALARM / W_ASKCONFIRM.

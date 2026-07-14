@@ -686,6 +686,21 @@ return(0);
 }
 
 
+// Tronque `full` pour tenir dans maxw pixels (petitchiffre) et ajoute "…". true si tronque.
+// (meme principe que les colonnes de "Patch a device")
+static bool sl_fit_ellipsis(const char* full, int maxw, std::string& out)
+{
+    out = full ? full : "";
+    if(petitchiffre.TextWidth(out.c_str()) <= maxw) return false;
+    const char* ell = "\xE2\x80\xA6";   // … (UTF-8)
+    while(!out.empty()){
+        out.pop_back();
+        std::string cand = out + ell;
+        if(petitchiffre.TextWidth(cand.c_str()) <= maxw){ out = cand; return true; }
+    }
+    out = ell; return true;
+}
+
 int Show_report_save_load()
 {
 Rect Report_Save_Load(Vec2D(report_SL_X, report_SL_Y), Vec2D( 350,160));
@@ -758,8 +773,25 @@ petitchiffre.Print("line +",report_SL_X+300, report_SL_Y+120);
 
 
 
-petitchiffre.Print( mondirectory,(report_SL_X+10+90), (report_SL_Y+20));
-petitchiffre.Print( nomduspectacle,(report_SL_X+10+90), (report_SL_Y+35));
+// adresse de sauvegarde + nom du spectacle : troncature au pixel (evite le debordement) + tooltip au survol
+{
+    int _dx = report_SL_X+100, _dw = 240;   // zone texte jusqu'au bord droit de la fenetre (350 large)
+    std::string _dir, _spec;
+    bool _tdir  = sl_fit_ellipsis(mondirectory,   _dw, _dir);
+    bool _tspec = sl_fit_ellipsis(nomduspectacle, _dw, _spec);
+    petitchiffre.Print(_dir.c_str(),  _dx, report_SL_Y+20);
+    petitchiffre.Print(_spec.c_str(), _dx, report_SL_Y+35);
+    const char* _tip=0; int _ty=0;
+    if(_tdir  && mouse_x>_dx && mouse_x<_dx+_dw && mouse_y>report_SL_Y+12 && mouse_y<report_SL_Y+24){ _tip=mondirectory;   _ty=report_SL_Y+20; }
+    if(_tspec && mouse_x>_dx && mouse_x<_dx+_dw && mouse_y>report_SL_Y+27 && mouse_y<report_SL_Y+39){ _tip=nomduspectacle; _ty=report_SL_Y+35; }
+    if(_tip){
+        int tw = petitchiffre.TextWidth(_tip)+10;
+        int tx = _dx; if(tx+tw>SCREEN_W-8) tx=SCREEN_W-8-tw; if(tx<4) tx=4;
+        Rect Tip(Vec2D(tx,_ty-10), Vec2D(tw,15)); Tip.SetRoundness(3);   // +2px vers le haut
+        Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
+        petitchiffre.Print(_tip, tx+4, _ty);
+    }
+}
 
 
 return(0);
