@@ -325,11 +325,13 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 2\n");   // v2 : champ home (valeur par defaut) en fin de ligne
+    fprintf(fp, "WCPATCH 3\n");   // v3 : nom de la fixture (longueur-prefixe) avant les canaux ; v2 : champ home
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
         const wc::Fixture& fx = wc_patch[f];
+        // nom (bandeau device) : longueur puis texte -> gere espaces et nom vide sans ambiguite de parsing
+        fprintf(fp, "%u %s\n", (unsigned)fx.name.size(), fx.name.c_str());
         fprintf(fp, "%u\n", (unsigned)fx.channels.size());
         for(size_t c=0; c<fx.channels.size(); c++)
         {
@@ -355,9 +357,16 @@ int load_patch_fixtures_text(const char* file)
     wc_patch.clear();
     for(unsigned f=0; f<nfix; f++)
     {
+        wc::Fixture fx;
+        if(ver>=3){   // v3 : nom de la fixture (longueur-prefixe -> gere espaces et nom vide)
+            int nlen=0;
+            if(fscanf(fp, " %d", &nlen)!=1){ fclose(fp); return 2; }
+            if(nlen<0) nlen=0; if(nlen>200) nlen=200;
+            fgetc(fp);   // consomme l'unique espace separateur avant le texte du nom
+            if(nlen>0){ std::string nm; nm.resize(nlen); if(fread(&nm[0],1,(size_t)nlen,fp)==(size_t)nlen) fx.name.swap(nm); }
+        }
         unsigned nch=0;
         if(fscanf(fp, " %u", &nch)!=1) { fclose(fp); return 2; }
-        wc::Fixture fx;
         for(unsigned c=0; c<nch; c++)
         {
             int attr=0,comb=0,res=8,curve=0,uni=0,coarse=0,fine=0,circ=0,home=0;
