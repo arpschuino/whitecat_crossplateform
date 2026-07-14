@@ -199,3 +199,9 @@ Cibles :
 - [ ] Compiler sur macOS (Homebrew : `brew install sdl2 sdl2_ttf sdl2_image sdl2_mixer`)
 - [ ] Valider RtMidi CoreMIDI, Art-Net POSIX, audio SDL_mixer
 - [ ] Tester sur Intel et Apple Silicon (arm64)
+
+## Devices — Control Fixtures (attributs GDTF)
+- [ ] Ascenseur HORIZONTAL des rouleaux (device à >9 canaux : ne tiennent pas dans la fenêtre)
+- [ ] Classer les attributs par CATÉGORIE GDTF (Feature : Position / Color / Beam / Gobo / Control…) — sections/onglets
+- [ ] COLOR PICKER pour les attributs couleur (ColorAdd R/G/B/W, ColorSub C/M/Y) au lieu de rouleaux séparés
+- [ ] Slots nommés (roue de gobo/couleur, prisme) : lire les ChannelFunction/ranges GDTF -> menu de slots

@@ -191,8 +191,9 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         if(co>footprint) footprint=co;
         if(fi>footprint) footprint=fi;
 
-        uint8_t attr = attr_from_gdtf(channel_attribute(dc));
-        if(attr==wc::ATTR_NONE) attr = wc::ATTR_RAW;    // attribut non gere : RESERVE (footprint complet), sortie 0
+        const char* gname = channel_attribute(dc);      // nom d'attribut GDTF (ex. "Pan", "Gobo1", "Prism1")
+        uint8_t attr = attr_from_gdtf(gname);
+        if(attr==wc::ATTR_NONE) attr = wc::ATTR_RAW;    // attribut non mappe : pilotable en generique via son nom
 
         int coarse_addr = base + co - 1;
         int fine_addr   = fi>0 ? base + fi - 1 : 0;
@@ -209,6 +210,7 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         ch.fine_addr   = (uint16_t)fine_addr;
         ch.circuit     = (uint16_t)circuit;
         ch.home        = (uint16_t)channel_default(dc);   // valeur par defaut GDTF (16 bit) -> persistee dans le patch
+        if(gname){ strncpy(ch.name, gname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0; }  // nom GDTF -> pilotage generique
         fx.channels.push_back(ch);
     }
     return fx.channels.empty() ? 2 : 0;

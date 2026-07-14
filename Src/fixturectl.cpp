@@ -6,7 +6,7 @@ bool index_window_fixturectl = 0;
 int  fixturectl_window_x = 320;
 int  fixturectl_window_y = 180;
 
-const int fixturectl_window_w = 670;   // meme largeur que la cue list (Sequenciel_Window : 670 de base)
-const int fixturectl_window_h = 360;   // hauteur pour loger des faders style master (course 255)
+int fixturectl_window_w = 670;   // largeur (redimensionnable via la poignee coin bas-droit)
+int fixturectl_window_h = 360;   // hauteur (redimensionnable)
 
-int fixturectl_wheel_hover = -1;       // cible molette (cf. fixturectl.h)
+char fixturectl_wheel_hover[24] = {0};  // cible molette : nom de l'attribut survole ("" = aucun ; "\x01" = Int) (cf. fixturectl.h)

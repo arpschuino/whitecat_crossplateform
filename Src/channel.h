@@ -73,6 +73,7 @@ struct Channel {
     uint8_t  resolution  = RES_8BIT;      // 8 ou 16
     uint16_t circuit     = 0;             // circuit de contrôle (source du niveau). Côté patch : render() l'ignore.
     uint16_t home        = 0;             // [devices] valeur "home" (défaut GDTF, 16 bit) de ce canal (bouton home)
+    char     name[24]    = {0};           // [devices] nom d'attribut GDTF (ex. "Pan", "Gobo1", "Prism1") -> libellé + pilotage générique
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])

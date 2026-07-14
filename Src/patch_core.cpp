@@ -42,6 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 #include "wc_tus.h"
+#include <cstring>          // strlen / strncpy (nom d'attribut par canal, WCPATCH 4)
 #include "patch_splines.h"
 #include "gdtf_import.h"   // [devices] import GDTF -> wc::Fixture
 #include "gestionaire_fenetres2.h"   // [devices] add_a_window / substract_a_window (bouton Patch device)
@@ -325,7 +326,7 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 3\n");   // v3 : nom de la fixture (longueur-prefixe) avant les canaux ; v2 : champ home
+    fprintf(fp, "WCPATCH 4\n");   // v4 : nom d'attribut GDTF par canal (fin de ligne) ; v3 : nom fixture ; v2 : home
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -336,9 +337,11 @@ int save_patch_fixtures_text(const char* file)
         for(size_t c=0; c<fx.channels.size(); c++)
         {
             const wc::Channel& ch = fx.channels[c];
-            fprintf(fp, "%d %d %d %d %d %d %d %d %d\n",
+            // 9 champs + nom d'attribut GDTF (longueur-prefixe -> gere nom vide) en fin de ligne
+            fprintf(fp, "%d %d %d %d %d %d %d %d %d %u %s\n",
                     (int)ch.attribute, (int)ch.combine, (int)ch.resolution, (int)ch.curve,
-                    (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit, (int)ch.home);
+                    (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit, (int)ch.home,
+                    (unsigned)strlen(ch.name), ch.name);
         }
     }
     fclose(fp);
@@ -374,6 +377,16 @@ int load_patch_fixtures_text(const char* file)
                       &attr,&comb,&res,&curve,&uni,&coarse,&fine,&circ)!=8)
             { fclose(fp); return 2; }
             if(ver>=2){ if(fscanf(fp, " %d", &home)!=1) home=0; }   // v2 : home (compat v1 : 0)
+            char cname[24]; cname[0]=0;
+            if(ver>=4){   // v4 : nom d'attribut GDTF (longueur-prefixe -> gere nom vide)
+                int nl=0;
+                if(fscanf(fp, " %d", &nl)==1){
+                    if(nl<0) nl=0; if(nl>23) nl=23;
+                    fgetc(fp);                                     // espace separateur avant le nom
+                    if(nl>0 && fread(cname,1,(size_t)nl,fp)!=(size_t)nl) nl=0;
+                    cname[nl]=0;
+                }
+            }
             wc::Channel ch;
             ch.attribute   = (uint8_t)attr;
             ch.combine     = (uint8_t)comb;
@@ -384,6 +397,7 @@ int load_patch_fixtures_text(const char* file)
             ch.fine_addr   = (uint16_t)fine;
             ch.circuit     = (uint16_t)circ;
             ch.home        = (uint16_t)home;
+            strncpy(ch.name, cname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0;
             fx.channels.push_back(ch);
         }
         wc_patch.push_back(fx);

@@ -365,7 +365,7 @@ int DoMouseLevel()
  //   ecarts entre lyres. Coarse = 1 DMX (257) ; Ctrl+molette = fin (1/65535), meme courbe veloce.
  {
    static int last_scroll_mouse_for_fxc = 0;
-   if (win_under == W_FIXTURECTL && fixturectl_wheel_hover != wc::ATTR_NONE) {
+   if (win_under == W_FIXTURECTL && fixturectl_wheel_hover[0] != 0) {
        int _delta = mouse_z - last_scroll_mouse_for_fxc;
        if (_delta != 0) {
            int _absd  = _delta > 0 ? _delta : -_delta;
@@ -375,7 +375,7 @@ int DoMouseLevel()
            bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
            int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
            int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
-           fxc_apply_delta((unsigned char)fixturectl_wheel_hover, change);
+           fxc_apply_delta(fixturectl_wheel_hover, change);
            last_scroll_mouse_for_fxc  = mouse_z;
            last_scroll_mouse_for_chan = mouse_z; // empeche le bloc circuit de refirer sur ce scroll
        }
