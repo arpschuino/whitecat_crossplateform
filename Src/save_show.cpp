@@ -1152,8 +1152,11 @@ else
 	{
      sprintf(string_save_load_report[idf],"Error reading config_windows.txt");
 	}
-    { int _dummy1=0, _dummy2=0;
-    fscanf( cfg_file ,"%d %d / %d %d / %d %d / %d %d / %d %d /\n",&Xwizard,&Ywizard,&xMinifaders,&yMinifaders, &Xlistproj, &Ylistproj, &Xchasers, &Ychasers,&_dummy1, &_dummy2); }
+    // [devices] les 2 derniers slots (ex-dummy) = position de la fenetre Control Fixtures (W_FIXTURECTL)
+    fscanf( cfg_file ,"%d %d / %d %d / %d %d / %d %d / %d %d /\n",&Xwizard,&Ywizard,&xMinifaders,&yMinifaders, &Xlistproj, &Ylistproj, &Xchasers, &Ychasers,&fixturectl_window_x, &fixturectl_window_y);
+    // garde-fou : vieux show (0,0) ou position hors ecran / trop haute (poignee sous le menu) -> defaut valide
+    if(fixturectl_window_x<10 || fixturectl_window_x>1200) fixturectl_window_x=320;
+    if(fixturectl_window_y<50 || fixturectl_window_y>800)  fixturectl_window_y=180;
 
 //6eme ligne
 	if( !fgets( read_buff_winfil, sizeof( read_buff_winfil ) ,cfg_file ) )
@@ -1574,7 +1577,7 @@ fprintf(fpi,"%d / %d %d / %d %d /\n",YFader, XConfirm, YConfirm,xsave_window, ys
 fprintf(fpi,"#arguments: X Y position of windows: Help Window / Alarm window / Config window / Banger\n");
 fprintf(fpi,"%d %d / %d %d / %d %d / %d %d /\n",XAlarm,YAlarm,XAudio,YAudio, window_cfgX, window_cfgY, X_banger,Y_banger);
 fprintf(fpi,"#arguments: X Y position of windows: Wizard window/ Minifaders / List / Chasers\n");
-fprintf(fpi,"%d %d / %d  %d / %d %d / %d %d / %d %d /\n",Xwizard,Ywizard,xMinifaders, yMinifaders, Xlistproj, Ylistproj, Xchasers, Ychasers, 0, 0);
+fprintf(fpi,"%d %d / %d  %d / %d %d / %d %d / %d %d /\n",Xwizard,Ywizard,xMinifaders, yMinifaders, Xlistproj, Ylistproj, Xchasers, Ychasers, fixturectl_window_x, fixturectl_window_y);
 fprintf(fpi,"#arguments: X Y position of windows: (reserved) / Grider / Plot / Main Menu / Draw / Echo /\n");
 fprintf(fpi,"%d %d / %d %d / %d %d / %d %d / %d %d / %d %d /\n",0,0,grider_window_x,grider_window_y, x_plot, y_plot, x_mainmenu, y_mainmenu, x_Wdraw,y_Wdraw,x_echo,y_echo);
 
@@ -7187,6 +7190,19 @@ rest(10);
 
 refresh_mem_onstage(position_onstage);
 refresh_mem_onpreset(position_preset);
+
+// [devices] Home de secours : pour tout output device dont AUCUNE cue de la liste n'enregistre
+// de valeur, restaurer la valeur par defaut (output_devdefault, lue du patch/GDTF). Si au moins
+// une cue enregistre l'output, c'est la cue list qui gouverne (via refresh_mem_onstage ci-dessus).
+for(int _o=1;_o<514;_o++)
+{
+    if(output_devdefault[_o]==0) continue;                 // pas d'attribut device avec defaut a restaurer
+    bool _recorded=false;
+    for(int _m=0;_m<(int)mem_existantes_size && !_recorded;_m++)
+        if(MemoiresExistantes[_m] && Memoires_devval[_m][_o]!=0) _recorded=true;
+    if(!_recorded) output_devval[_o]=output_devdefault[_o];
+}
+
 detect_mem_before_one();
 detect_error_on_save_load();
 Show_report_save_load();

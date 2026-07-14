@@ -62,6 +62,7 @@ int rebuild_patch_from_fixtures()
         curves[o]=0;
         dimmer_type[o]=0;
         output_attribute[o]=wc::ATTR_DIMMER;   // [devices] defaut = gradateur (rendu legacy inverse+courbe)
+        output_devdefault[o]=0;                // [devices] valeur home, remplie depuis ch.home ci-dessous
     }
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -74,6 +75,7 @@ int rebuild_patch_from_fixtures()
             curves[co]           = (int)ch.curve;
             dimmer_type[co]      = (ch.combine==wc::COMBINE_LTP) ? 1 : 0;
             output_attribute[co] = ch.attribute;   // [devices] attribut GDTF -> rendu (Dimmer inverse+courbe, autre lineaire)
+            output_devdefault[co]= ch.home;        // [devices] valeur home (bouton home), persistee via ch.home
             if(ch.resolution==wc::RES_16BIT && ch.fine_addr!=0 && (int)ch.fine_addr<514)
             {
                 output_fine[co]              = (int)ch.fine_addr;
@@ -294,19 +296,15 @@ int create_device_from_gdtf_at(const char* xmlpath, int mode_index, int base, in
     wc_patch.push_back(fx);
     rebuild_patch_from_fixtures();
 
-    // valeurs vivantes de test (visibles tout de suite) : Pan/Tilt centres, couleurs pleines, reste 0.
+    // [devices] valeurs par defaut GDTF (Default de chaque canal) posees dans output_devval :
+    // shutter ouvert, control idle, position home, couleur ouverte... telles que definies par le fabricant.
+    // Le Dimmer (intensite) reste pilote par le circuit (on n'y pose pas le defaut).
     for(size_t c=0;c<fx.channels.size();c++)
     {
         const wc::Channel& ch = fx.channels[c];
         if(ch.coarse_addr<1 || ch.coarse_addr>512) continue;
-        unsigned short v = 0;
-        switch(ch.attribute){
-            case wc::ATTR_PAN: case wc::ATTR_TILT: v=32768; break;
-            case wc::ATTR_COLORADD_R: case wc::ATTR_COLORADD_G:
-            case wc::ATTR_COLORADD_B: case wc::ATTR_COLORADD_W: v=65535; break;
-            default: v=0; break;   // Dimmer (pilote par circuit), Shutter/Zoom = 0
-        }
-        if(ch.attribute!=wc::ATTR_DIMMER) output_devval[ch.coarse_addr]=v;
+        if(ch.attribute==wc::ATTR_DIMMER) continue;
+        output_devval[ch.coarse_addr] = ch.home;   // valeur vivante initiale = home (output_devdefault vient de rebuild)
     }
 
     sprintf(string_Last_Order, ">> GDTF: %.24s [%s] %d ch, %d addr @%d",
@@ -327,7 +325,7 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 1\n");
+    fprintf(fp, "WCPATCH 2\n");   // v2 : champ home (valeur par defaut) en fin de ligne
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -336,9 +334,9 @@ int save_patch_fixtures_text(const char* file)
         for(size_t c=0; c<fx.channels.size(); c++)
         {
             const wc::Channel& ch = fx.channels[c];
-            fprintf(fp, "%d %d %d %d %d %d %d %d\n",
+            fprintf(fp, "%d %d %d %d %d %d %d %d %d\n",
                     (int)ch.attribute, (int)ch.combine, (int)ch.resolution, (int)ch.curve,
-                    (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit);
+                    (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit, (int)ch.home);
         }
     }
     fclose(fp);
@@ -362,10 +360,11 @@ int load_patch_fixtures_text(const char* file)
         wc::Fixture fx;
         for(unsigned c=0; c<nch; c++)
         {
-            int attr=0,comb=0,res=8,curve=0,uni=0,coarse=0,fine=0,circ=0;
+            int attr=0,comb=0,res=8,curve=0,uni=0,coarse=0,fine=0,circ=0,home=0;
             if(fscanf(fp, " %d %d %d %d %d %d %d %d",
                       &attr,&comb,&res,&curve,&uni,&coarse,&fine,&circ)!=8)
             { fclose(fp); return 2; }
+            if(ver>=2){ if(fscanf(fp, " %d", &home)!=1) home=0; }   // v2 : home (compat v1 : 0)
             wc::Channel ch;
             ch.attribute   = (uint8_t)attr;
             ch.combine     = (uint8_t)comb;
@@ -375,12 +374,16 @@ int load_patch_fixtures_text(const char* file)
             ch.coarse_addr = (uint16_t)coarse;
             ch.fine_addr   = (uint16_t)fine;
             ch.circuit     = (uint16_t)circ;
+            ch.home        = (uint16_t)home;
             fx.channels.push_back(ch);
         }
         wc_patch.push_back(fx);
     }
     fclose(fp);
     rebuild_patch_from_fixtures();   // modele -> tableaux legacy (que le rendu balaie)
+    // [devices] etat vivant initial des attributs = home (sinon rouleaux a 0 apres reload) ;
+    // une cue rappelee ensuite (refresh_mem_onstage) l'ecrasera avec ses valeurs.
+    for(int o=1;o<514;o++) output_devval[o]=output_devdefault[o];
     return 0;
 }
 

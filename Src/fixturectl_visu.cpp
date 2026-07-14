@@ -154,6 +154,27 @@ void fxc_apply_delta(uint8_t attr, int delta)
     }
 }
 
+// Remet l'attribut <attr> a sa valeur "home" (defaut GDTF) sur tous les devices selectionnes.
+// Int (Dimmer) : home = 0 (intensite eteinte).
+static void fxc_apply_home(uint8_t attr)
+{
+    if(attr==wc::ATTR_DIMMER){
+        for(int c=1;c<514;c++) if(Selected_Channel[c]==1) bufferSaisie[c]=0;
+        return;
+    }
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            if(wc_patch[f].channels[c].attribute!=attr) continue;
+            int o=(int)wc_patch[f].channels[c].coarse_addr;
+            if(o>0&&o<514) output_devval[o]=output_devdefault[o];
+            break;
+        }
+    }
+}
+
 // Attribut de l'encodeur situe sous le point (px,py), ou 0 (ATTR_NONE) si aucun.
 static uint8_t fxc_attr_at_point(int xf, int yf, int px, int py)
 {
@@ -243,9 +264,29 @@ int fixturectl_window(int xf, int yf)
                     mouse_x>cx-FXC_ROL_W/2 && mouse_x<cx+FXC_ROL_W/2 && mouse_y>cy-FXC_ROL_H/2 && mouse_y<cy+FXC_ROL_H/2);
         fxc_draw_encoder(cx, cy, disp[s], fxc_reference_value(disp[s]), hov);
         if(hov) fixturectl_wheel_hover = disp[s];   // publie l'attribut survole (pour la molette)
+        // bouton home sous le rouleau
+        int hy = cy + FXC_ROL_H/2 + 26;
+        Rect Home(Vec2D(cx-16, hy), Vec2D(32,14)); Home.SetRoundness(3);
+        Home.Draw(CouleurGrisAnthracite);     // fond gris fonce
+        Home.DrawOutline(CouleurGrisClair);   // bordure gris clair
+        petitpetitchiffre.Print("home", cx-15, hy+11);
     }
 
     return(0);
+}
+
+// Attribut du bouton home situe sous (px,py), ou ATTR_NONE.
+static uint8_t fxc_home_at_point(int xf, int yf, int px, int py)
+{
+    uint8_t disp[FXC_MAXENC];
+    int n = fxc_build_display(disp, FXC_MAXENC);
+    int cy = yf + FXC_ENC_CY;
+    int hy = cy + FXC_ROL_H/2 + 26;
+    for(int s=0;s<n;s++){
+        int cx = xf + FXC_ENC_X0 + s*FXC_ENC_DX;
+        if(px>cx-16 && px<cx+16 && py>hy && py<hy+14) return disp[s];
+    }
+    return wc::ATTR_NONE;
 }
 
 // Logique : drag vertical d'un encodeur = delta relatif (spin). Appelee bouton maintenu.
@@ -259,7 +300,10 @@ int do_logical_fixturectl(int xf, int yf)
     if(mouse_click_x != last_click_x || mouse_click_y != last_click_y)
     {
         last_click_x = mouse_click_x; last_click_y = mouse_click_y;
-        drag_attr    = fxc_attr_at_point(xf, yf, mouse_click_x, mouse_click_y);
+        // bouton home ? -> remet le defaut une fois, pas de drag
+        uint8_t home_attr = fxc_home_at_point(xf, yf, mouse_click_x, mouse_click_y);
+        if(home_attr != wc::ATTR_NONE){ fxc_apply_home(home_attr); drag_attr = wc::ATTR_NONE; }
+        else { drag_attr = fxc_attr_at_point(xf, yf, mouse_click_x, mouse_click_y); }
         drag_prev_y  = mouse_y;
     }
 

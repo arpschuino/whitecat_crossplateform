@@ -72,6 +72,7 @@ struct Channel {
     uint16_t fine_addr   = 0;             // output LSB. 0 = pas de fine (8 bit).
     uint8_t  resolution  = RES_8BIT;      // 8 ou 16
     uint16_t circuit     = 0;             // circuit de contrôle (source du niveau). Côté patch : render() l'ignore.
+    uint16_t home        = 0;             // [devices] valeur "home" (défaut GDTF, 16 bit) de ce canal (bouton home)
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])

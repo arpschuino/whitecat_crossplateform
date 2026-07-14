@@ -40,6 +40,7 @@ extern unsigned short MergerArray[514];   // [2c-2A] 16 bit
 extern int output_fine[514];   // [2b] patch 16 bit : output coarse -> son output fine
 extern bool is_fine[514];       // [2b] output = LSB d'un canal 16 bit
 extern unsigned char output_attribute[514];   // [devices] attribut GDTF de l'output (wc::AttrId) ; défaut Dimmer
+extern unsigned short output_devdefault[514];  // [devices] valeur "home" (défaut GDTF) par output (bouton home)
 extern unsigned short output_devval[514];      // [devices] valeur vivante 16 bit par output pour les attributs NON-Dimmer
                                                //           (Pan/Tilt/RGBW/Zoom/Shutter...) ; l'intensite reste dans MergerArray[circuit].
                                                //           = endpoint "plateau/live" du crossfade devices (analogue de bufferSaisie).

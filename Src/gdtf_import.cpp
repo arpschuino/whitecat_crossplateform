@@ -68,6 +68,29 @@ static void parse_offset(const char* s, int& coarse, int& fine)
     if(comma) fine = atoi(comma+1);
 }
 
+// DMXValue GDTF "X/n" (X sur n octets) -> valeur 16 bit (0..65535). "22/1"->22*257 ; "32768/2"->32768.
+static int parse_dmxvalue(const char* s)
+{
+    if(!s || !*s) return 0;
+    long v = atol(s);
+    const char* slash = strchr(s,'/');
+    int bytes = slash ? atoi(slash+1) : 1;
+    if(bytes<=1) return (int)(v*257);                       // 8 bit -> 16 bit (x257)
+    while(bytes>2){ v>>=8; bytes--; }                       // >2 octets : garder les 16 bits de poids fort
+    if(v<0) v=0; if(v>65535) v=65535;
+    return (int)v;
+}
+
+// Valeur par defaut d'un DMXChannel (16 bit) = Default de sa 1re ChannelFunction (fonction "home").
+static int channel_default(const wcxml::Node& dmxch)
+{
+    const wcxml::Node* lc = dmxch.child("LogicalChannel");
+    if(!lc) return 0;
+    const wcxml::Node* cf = lc->child("ChannelFunction");
+    if(!cf) return 0;
+    return parse_dmxvalue(cf->attr("Default"));
+}
+
 // Attribut d'un DMXChannel : LogicalChannel[Attribute], sinon 1er ChannelFunction[Attribute].
 static const char* channel_attribute(const wcxml::Node& dmxch)
 {
@@ -185,6 +208,7 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         ch.coarse_addr = (uint16_t)coarse_addr;
         ch.fine_addr   = (uint16_t)fine_addr;
         ch.circuit     = (uint16_t)circuit;
+        ch.home        = (uint16_t)channel_default(dc);   // valeur par defaut GDTF (16 bit) -> persistee dans le patch
         fx.channels.push_back(ch);
     }
     return fx.channels.empty() ? 2 : 0;

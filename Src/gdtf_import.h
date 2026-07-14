@@ -25,6 +25,7 @@ int list_modes(const char* xmlpath, std::vector<ModeInfo>& modes, std::string& f
 // Construit une wc::Fixture depuis le mode <mode_index> a l'adresse de depart <base>
 // (1..512, adresse DMX du 1er canal) sur le circuit <circuit>. footprint renseigne le
 // nb d'adresses occupees. Retour : 0 OK ; 1 absent ; 2 invalide ; 3 mode hors bornes.
+// Chaque canal recoit sa valeur "home" (defaut GDTF, 16 bit) dans wc::Channel.home.
 int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
                   wc::Fixture& fx, std::string& mode_name, int& footprint);
 
