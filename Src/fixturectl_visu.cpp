@@ -33,7 +33,7 @@ static const int FXC_ENC_CY = 150;   // y du centre des rouleaux, relatif a yf
 static const int FXC_ENC_DX = 68;    // pas horizontal
 static const int FXC_ROL_W  = 30;    // largeur d'un rouleau
 static const int FXC_ROL_H  = 130;   // hauteur d'un rouleau
-static const int FXC_MAXENC = 24;    // nb max de rouleaux enumeres (ascenseur horizontal a venir)
+static const int FXC_MAXENC = 64;    // nb max de rouleaux enumeres (gros devices : Robin T.5 = ~39) ; ascenseur H pour parcourir
 
 // Sentinelle "intensite" (Int) : un octet 0x01, jamais un nom d'attribut GDTF.
 static const char FXC_INT[] = "\x01";
