@@ -378,11 +378,34 @@ static void autofill_fields()
     strcpy(g_offset_s, "0");
 }
 
-// dessine une colonne-liste simple ; renvoie l'index (dans items) clique en mode logique via helper.
+// Tronque `full` pour tenir dans maxw pixels (police petitchiffre) et ajoute "…". Renvoie true si tronque.
+static bool fit_ellipsis(const char* full, int maxw, std::string& out)
+{
+    out = full ? full : "";
+    if(petitchiffre.TextWidth(out.c_str()) <= maxw) return false;
+    const char* ell = "\xE2\x80\xA6";   // … (UTF-8)
+    while(!out.empty()){
+        out.pop_back();
+        std::string cand = out + ell;
+        if(petitchiffre.TextWidth(cand.c_str()) <= maxw){ out = cand; return true; }
+    }
+    out = ell; return true;
+}
+
+// nom complet de la ligne survolee (si tronquee) -> affiche en tooltip apres les colonnes
+static std::string g_tip; static int g_tip_x=0, g_tip_y=0;
+
+// dessine une colonne-liste simple ; tronque au pixel avec "…" et memorise le tooltip au survol.
 static void draw_list_row(int x, int y, int w, const char* text, bool selected)
 {
     if(selected){ Rect hl(Vec2D(x-2, y-2), Vec2D(w, ROWH)); hl.SetRoundness(3); hl.Draw(CouleurConfig); }
-    petitchiffre.Print(text, x+2, y+12);
+    std::string shown;
+    bool trunc = fit_ellipsis(text, w - 14, shown);   // -14 : padding + place de l'ascenseur
+    petitchiffre.Print(shown.c_str(), x+2, y+12);
+    if(trunc && window_focus_id==W_DEVICEPATCH &&
+       mouse_x>x-2 && mouse_x<x-2+w && mouse_y>y-2 && mouse_y<y-2+ROWH){
+        g_tip = text; g_tip_x = x; g_tip_y = y;
+    }
 }
 
 static const int SBW = 10;   // largeur de l'ascenseur
@@ -513,6 +536,8 @@ int devicepatch_window(int xd, int yd)
         else if(mouse_x>xd+COL_FIX_X && mouse_x<xd+COL_FIX_X+COL_FIX_W) g_wheel_col=2;
         else if(mouse_x>xd+COL_MOD_X && mouse_x<xd+COL_MOD_X+COL_MOD_W) g_wheel_col=3; } }
 
+    g_tip.clear();   // tooltip recalcule a chaque frame selon le survol
+
     // Manufacturer
     for(int i=0;i<NVIS && i+g_man_scroll<g_man_count; ++i){
         int gi=i+g_man_scroll;
@@ -523,8 +548,7 @@ int devicepatch_window(int xd, int yd)
     // Fixture
     for(int i=0;i<NVIS && i+g_fix_scroll<g_fix_count; ++i){
         int gi=fixlist[i+g_fix_scroll];
-        char row[64]; sprintf(row, "%.30s", g_lib[gi].model.c_str());
-        draw_list_row(xd+COL_FIX_X, yd+LIST_Y+i*ROWH, COL_FIX_W, row, gi==g_sel_fix);
+        draw_list_row(xd+COL_FIX_X, yd+LIST_Y+i*ROWH, COL_FIX_W, g_lib[gi].model.c_str(), gi==g_sel_fix);
     }
     draw_scrollbar(xd+COL_FIX_X+COL_FIX_W, yd+LIST_Y, g_fix_count, g_fix_scroll);
 
@@ -532,10 +556,21 @@ int devicepatch_window(int xd, int yd)
     if(seld){
         for(int i=0;i<NVIS && i+g_mode_scroll<g_mode_count; ++i){
             int m=i+g_mode_scroll;
-            char mr[48]; sprintf(mr, "%.16s (%d)", seld->modes[m].name.c_str(), seld->modes[m].footprint);
+            char mr[128]; snprintf(mr, sizeof(mr), "%s (%d)", seld->modes[m].name.c_str(), seld->modes[m].footprint);
             draw_list_row(xd+COL_MOD_X, yd+LIST_Y+i*ROWH, COL_MOD_W, mr, m==g_sel_mode);
         }
         draw_scrollbar(xd+COL_MOD_X+COL_MOD_W, yd+LIST_Y, g_mode_count, g_mode_scroll);
+    }
+
+    // tooltip : nom complet de la ligne survolee si elle est tronquee (par-dessus les colonnes)
+    if(!g_tip.empty()){
+        int tw = petitchiffre.TextWidth(g_tip.c_str()) + 10;
+        int tx = g_tip_x, ty = g_tip_y;
+        if(tx+tw > xd+devicepatch_window_w-8) tx = xd+devicepatch_window_w-8-tw;
+        if(tx < xd+4) tx = xd+4;
+        Rect Tip(Vec2D(tx, ty-2), Vec2D(tw, ROWH)); Tip.SetRoundness(3);
+        Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
+        petitchiffre.Print(g_tip.c_str(), tx+4, ty+12);
     }
 
     // --- champs de patch + bouton PATCH ---
