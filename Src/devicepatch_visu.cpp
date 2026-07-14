@@ -173,6 +173,25 @@ static void rebuild_lib()
         g_lib.push_back(d);
     }
     std::sort(g_lib.begin(), g_lib.end(), devfix_less);
+
+    // dedoublonnage local + en ligne, INSENSIBLE A LA CASSE, sur (fabricant, modele) :
+    // "Colorsource PAR" / "Colorsource Par" / la copie locale = une seule entree. On garde en
+    // priorite la version LOCALE (path non vide -> patchable hors-ligne), sinon le rid le plus recent.
+    // g_lib est trie par (manuf, model) insensible a la casse -> les doublons sont contigus.
+    std::vector<DevFix> ded; ded.reserve(g_lib.size());
+    for(size_t i=0;i<g_lib.size();++i){
+        if(!ded.empty() && ci_cmp(ded.back().manuf, g_lib[i].manuf)==0
+                        && ci_cmp(ded.back().model, g_lib[i].model)==0){
+            DevFix& keep = ded.back();
+            bool cur_local = !g_lib[i].path.empty(), keep_local = !keep.path.empty();
+            if((cur_local && !keep_local) || (cur_local==keep_local && g_lib[i].rid>keep.rid))
+                keep = g_lib[i];   // le courant est meilleur (local > en ligne ; sinon rid plus recent)
+            continue;
+        }
+        ded.push_back(g_lib[i]);
+    }
+    g_lib.swap(ded);
+
     rebuild_manufs();
 }
 
