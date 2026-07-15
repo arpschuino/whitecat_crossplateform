@@ -17,7 +17,10 @@
 * pas par un AttrId fige -> TOUT canal non-Dimmer est pilotable (gobo, prisme, roue, CTC, iris...).
 * Le sentinelle "\x01" designe l'intensite (Int), traitee a part : delta sur bufferSaisie[circuit].
 * Les autres attributs vivent dans output_devval[output] (endpoint live du crossfade LTP, cf. dmx_functions).
-* La valeur affichee sur chaque rouleau = celle du DERNIER device selectionne (reference).
+*
+* Rouleaux REGROUPES par CATEGORIE (Intensity/Position/Color/Gobo/Beam/Framing/Control/Other) avec
+* en-tetes + separateurs ; colonne de FILTRES a gauche (afficher/masquer par categorie) ; defilement
+* horizontal FLUIDE (offset au pixel + clipping) ; fenetre redimensionnable (poignee coin bas-droit).
  **/
 
 #include "wc_tus.h"
@@ -25,15 +28,26 @@
 #include "fixturectl_visu.h"
 #include <cmath>
 #include <cstring>
+#include <cctype>
 #include <string>
+#include <algorithm>
 
 // --- Geometrie des rouleaux (thumbwheels verticaux) : partagee rendu <-> logique ---
-static const int FXC_ENC_X0 = 45;    // x du centre du 1er rouleau, relatif a xf
-static const int FXC_ENC_CY = 150;   // y du centre des rouleaux, relatif a yf
-static const int FXC_ENC_DX = 68;    // pas horizontal
+static const int FXC_ENC_X0 = 125;   // x du centre du 1er rouleau (scroll=0), relatif a xf (colonne de filtres a gauche)
+static const int FXC_ENC_CY = 175;   // y du centre des rouleaux, relatif a yf (place les en-tetes de categorie au-dessus)
+static const int FXC_ENC_DX = 68;    // pas horizontal de BASE (module par +/-3 selon la categorie)
 static const int FXC_ROL_W  = 30;    // largeur d'un rouleau
 static const int FXC_ROL_H  = 130;   // hauteur d'un rouleau
-static const int FXC_MAXENC = 64;    // nb max de rouleaux enumeres (gros devices : Robin T.5 = ~39) ; ascenseur H pour parcourir
+static const int FXC_MAXENC = 64;    // nb max de rouleaux (gros devices : Robin T.5 = ~39)
+static const int FXC_GAP_SAME = 3;   // dans une meme categorie : rouleaux plus SERRES (pas = FXC_ENC_DX - FXC_GAP_SAME)
+static const int FXC_GAP_CAT  = 18;  // entre deux categories : ecart NETTEMENT plus large (pas = FXC_ENC_DX + FXC_GAP_CAT)
+
+// Colonne de boutons "filtres de categorie" a gauche (afficher/masquer par categorie).
+static const int FXC_LEFT_X  = 8;    // x des boutons (relatif a xf)
+static const int FXC_LEFT_W  = 74;   // largeur d'un bouton (le 1er rouleau demarre a FXC_ENC_X0 -> ~28px de marge)
+static const int FXC_BTN_Y0  = 96;   // y du 1er bouton (relatif a yf)
+static const int FXC_BTN_H   = 18;   // hauteur d'un bouton
+static const int FXC_BTN_GAP = 4;    // espace vertical entre boutons
 
 // Sentinelle "intensite" (Int) : un octet 0x01, jamais un nom d'attribut GDTF.
 static const char FXC_INT[] = "\x01";
@@ -52,6 +66,20 @@ static std::string fxc_label(const std::string& key)
     if(key=="ColorSub_Y")   return "Y";
     if(key=="Shutter1")     return "Shut";
     return key;   // nom GDTF tel quel (tronque au dessin s'il est trop long)
+}
+
+// Libelle ajuste a la largeur d'un rouleau : tronque avec "…" si trop long. true si tronque.
+static bool fxc_fit_label(const std::string& key, std::string& out)
+{
+    out = fxc_label(key);
+    if(petitchiffre.TextWidth(out.c_str()) <= FXC_ENC_DX-4) return false;
+    const char* ell = "\xE2\x80\xA6";
+    while(!out.empty()){
+        out.pop_back();
+        std::string cand = out + ell;
+        if(petitchiffre.TextWidth(cand.c_str()) <= FXC_ENC_DX-4){ out = cand; return true; }
+    }
+    out = ell; return true;
 }
 
 // Un circuit est-il un device selectionne ? (selectionne ET porte au moins un channel)
@@ -85,13 +113,74 @@ static inline std::string fxc_chan_key(const wc::Channel& ch)
     return cn[0] ? std::string(cn) : std::string("?");
 }
 
+// --- Categories d'attributs (regroupement + filtres) ---
+enum { FXC_CAT_INT=0, FXC_CAT_POS, FXC_CAT_COLOR, FXC_CAT_GOBO, FXC_CAT_BEAM, FXC_CAT_FRAMING, FXC_CAT_CONTROL, FXC_CAT_OTHER, FXC_CAT_N };
+static bool g_fxc_cat_hidden[FXC_CAT_N] = {false};   // filtres afficher/masquer
+
+static bool ci_contains(const std::string& hay, const char* needle)
+{
+    std::string h=hay, n=needle;
+    for(size_t i=0;i<h.size();++i) h[i]=(char)tolower((unsigned char)h[i]);
+    for(size_t i=0;i<n.size();++i) n[i]=(char)tolower((unsigned char)n[i]);
+    return h.find(n)!=std::string::npos;
+}
+
+// Categorie d'un attribut d'apres son nom GDTF (ordre des tests = priorite).
+static int fxc_category(const std::string& key)
+{
+    if(fxc_is_int(key)) return FXC_CAT_INT;
+    if(ci_contains(key,"pan")||ci_contains(key,"tilt")||ci_contains(key,"position")) return FXC_CAT_POS;
+    if(ci_contains(key,"color")||ci_contains(key,"cto")||ci_contains(key,"ctc")||ci_contains(key,"ctb")
+       ||ci_contains(key,"tint")||ci_contains(key,"cri")||ci_contains(key,"hue")||ci_contains(key,"saturation")) return FXC_CAT_COLOR;
+    if(ci_contains(key,"gobo")||ci_contains(key,"animation")) return FXC_CAT_GOBO;
+    if(ci_contains(key,"blade")||ci_contains(key,"shaper")||ci_contains(key,"fram")||ci_contains(key,"knife")) return FXC_CAT_FRAMING;
+    if(ci_contains(key,"zoom")||ci_contains(key,"focus")||ci_contains(key,"iris")||ci_contains(key,"frost")
+       ||ci_contains(key,"prism")||ci_contains(key,"shutter")||ci_contains(key,"strobe")||ci_contains(key,"beam")) return FXC_CAT_BEAM;
+    if(ci_contains(key,"control")||ci_contains(key,"function")||ci_contains(key,"led")||ci_contains(key,"macro")
+       ||ci_contains(key,"reset")||ci_contains(key,"lamp")||ci_contains(key,"fan")||ci_contains(key,"speed")) return FXC_CAT_CONTROL;
+    return FXC_CAT_OTHER;
+}
+static const char* fxc_category_name(int c)
+{
+    switch(c){
+        case FXC_CAT_INT:     return "Intensity";
+        case FXC_CAT_POS:     return "Position";
+        case FXC_CAT_COLOR:   return "Color";
+        case FXC_CAT_GOBO:    return "Gobo";
+        case FXC_CAT_BEAM:    return "Beam";
+        case FXC_CAT_FRAMING: return "Framing";
+        case FXC_CAT_CONTROL: return "Control";
+    }
+    return "Other";
+}
+
+// Liste ordonnee des categories PRESENTES dans la selection (filtres ignores). Retourne le nombre.
+static int fxc_present_cats(int* out)
+{
+    bool pres[FXC_CAT_N]; for(int c=0;c<FXC_CAT_N;c++) pres[c]=false;
+    for(int c=1;c<514;c++) if(Selected_Channel[c]==1){ pres[FXC_CAT_INT]=true; break; }
+    for(size_t f=0;f<wc_patch.size();f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER) continue;
+            pres[fxc_category(fxc_chan_key(ch))]=true;
+        }
+    }
+    int n=0; for(int c=0;c<FXC_CAT_N;c++) if(pres[c]) out[n++]=c;
+    return n;
+}
+
 // Liste des attributs (clefs) presents dans la selection : Int d'abord (si un circuit selectionne),
-// puis les noms d'attributs NON-Dimmer des devices selectionnes, dedupliques, en ordre de rencontre
-// (ordre DMX du device). Retourne le nombre (<= maxn).
+// puis les noms d'attributs NON-Dimmer des devices selectionnes, dedupliques, puis REGROUPES par
+// categorie (stable : ordre DMX conserve dans chaque groupe). Retourne le nombre (<= maxn).
 static int fxc_build_display(std::string* out, int maxn)
 {
     int n=0;
-    for(int c=1;c<514 && n<maxn;c++) if(Selected_Channel[c]==1){ out[n++]=FXC_INT; break; }
+    if(!g_fxc_cat_hidden[FXC_CAT_INT])
+        for(int c=1;c<514 && n<maxn;c++) if(Selected_Channel[c]==1){ out[n++]=FXC_INT; break; }
     for(size_t f=0; f<wc_patch.size() && n<maxn; f++)
     {
         if(wc_patch[f].channels.empty()) continue;
@@ -102,41 +191,38 @@ static int fxc_build_display(std::string* out, int maxn)
             const wc::Channel& ch = wc_patch[f].channels[c];
             if(ch.attribute==wc::ATTR_DIMMER) continue;      // l'intensite est portee par Int
             std::string key = fxc_chan_key(ch);
+            if(g_fxc_cat_hidden[fxc_category(key)]) continue;   // categorie masquee (filtre gauche)
             bool seen=false; for(int k=0;k<n;k++) if(out[k]==key){ seen=true; break; }
             if(!seen) out[n++]=key;
         }
     }
+    std::stable_sort(out, out+n, [](const std::string& a, const std::string& b){ return fxc_category(a) < fxc_category(b); });
     return n;
 }
 
-// Valeur de reference d'un attribut = valeur du dernier device selectionne (last_ch_selected) s'il
-// porte l'attribut, sinon du 1er device selectionne. Pour Int : bufferSaisie[circuit].
-static int fxc_reference_value(const std::string& key)
+// Valeur affichee d'un attribut + drapeau "mixte" (plusieurs devices selectionnes aux valeurs
+// differentes -> le nombre n'a plus de sens, on affichera "..."). Pour Int : bufferSaisie[circuit].
+static void fxc_value_and_mixed(const std::string& key, int& val, bool& mixed)
 {
-    if(fxc_is_int(key))   // level : tout circuit selectionne (classique ou device)
-    {
-        if(last_ch_selected>0 && last_ch_selected<514 && Selected_Channel[last_ch_selected]==1)
-            return (int)bufferSaisie[last_ch_selected];
-        for(int c=1;c<514;c++) if(Selected_Channel[c]==1) return (int)bufferSaisie[c];
-        return 0;
+    mixed=false; int first=-1;
+    if(fxc_is_int(key)){
+        for(int c=1;c<514;c++) if(Selected_Channel[c]==1){ int v=(int)bufferSaisie[c]; if(first<0)first=v; else if(v!=first) mixed=true; }
+        val = first<0?0:first; return;
     }
-    int fallback = -1;
-    for(size_t f=0; f<wc_patch.size(); f++)
-    {
+    for(size_t f=0; f<wc_patch.size(); f++){
         if(wc_patch[f].channels.empty()) continue;
-        int circ = (int)wc_patch[f].channels[0].circuit;
+        int circ=(int)wc_patch[f].channels[0].circuit;
         if(!fxc_circuit_selected_device(circ)) continue;
-        for(size_t c=0;c<wc_patch[f].channels.size();c++)
-        {
-            const wc::Channel& ch = wc_patch[f].channels[c];
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
             if(ch.attribute==wc::ATTR_DIMMER) continue;
             if(fxc_chan_key(ch)!=key) continue;
-            int val = (int)output_devval[ch.coarse_addr];
-            if(circ==last_ch_selected) return val;   // priorite au dernier selectionne
-            if(fallback<0) fallback=val;
+            int v=(int)output_devval[ch.coarse_addr];
+            if(first<0)first=v; else if(v!=first) mixed=true;
+            break;
         }
     }
-    return fallback<0 ? 0 : fallback;
+    val = first<0?0:first;
 }
 
 // Applique un DELTA (16 bit) a l'attribut <key> de TOUS les devices selectionnes.
@@ -191,81 +277,95 @@ static void fxc_apply_home(const std::string& key)
     }
 }
 
-// --- ascenseur horizontal (device a plus de canaux que la fenetre n'affiche) ---
-static int g_fxc_hscroll = 0;   // index du 1er rouleau visible
+// ============================================================================
+// Layout horizontal + defilement FLUIDE au pixel.
+//   cx_rel[i] = decalage du centre du rouleau i par rapport au centre du 1er (cx_rel[0]=0).
+//   ecart = FXC_ENC_DX +FXC_GAP entre deux categories, -FXC_GAP dans une meme categorie.
+//   screen center = xf + FXC_ENC_X0 + cx_rel[i] - g_fxc_scroll_px.
+// ============================================================================
+static int g_fxc_scroll_px = 0;   // offset de defilement, en pixels
 
-static int fxc_visible_count(){ int v=(fixturectl_window_w - FXC_ENC_X0 - 20)/FXC_ENC_DX; return v<1?1:v; }
-static void fxc_clamp_hscroll(int n){ int m=n-fxc_visible_count(); if(m<0)m=0; if(g_fxc_hscroll>m)g_fxc_hscroll=m; if(g_fxc_hscroll<0)g_fxc_hscroll=0; }
+static void fxc_layout(const std::string* disp, int n, int* cx_rel, int& content_w)
+{
+    int prev_cat=-1, x=0;
+    for(int i=0;i<n;i++){
+        int cat = fxc_category(disp[i]);
+        if(i>0) x += (cat!=prev_cat) ? (FXC_ENC_DX + FXC_GAP_CAT) : (FXC_ENC_DX - FXC_GAP_SAME);
+        cx_rel[i]=x; prev_cat=cat;
+    }
+    content_w = (n>0) ? (x + FXC_ROL_W) : 0;   // du bord gauche du 1er au bord droit du dernier
+}
+static inline int fxc_view_left (int xf){ return xf + FXC_ENC_X0 - 18; }   // -18 : loge le bouton home (32 de large) sans rognage
+static inline int fxc_view_right(int xf){ return xf + fixturectl_window_w - 12; }
+static inline int fxc_view_w    (int xf){ return fxc_view_right(xf) - fxc_view_left(xf); }
+static inline int fxc_scx(int xf, int i, const int* cx_rel){ return xf + FXC_ENC_X0 + cx_rel[i] - g_fxc_scroll_px; }
+static void fxc_clamp_scroll(int content_w, int xf){ int m=content_w - fxc_view_w(xf); if(m<0)m=0; if(g_fxc_scroll_px>m)g_fxc_scroll_px=m; if(g_fxc_scroll_px<0)g_fxc_scroll_px=0; }
 
-// Geometrie de la barre ; renvoie true si un ascenseur est necessaire (n > rouleaux visibles).
-static bool fxc_scrollbar_geom(int xf, int yf, int n, int& x0, int& sbY, int& trackw, int& thumbx, int& thumbw)
+// Geometrie de la barre (pixel) ; renvoie true si un ascenseur est necessaire.
+static bool fxc_scrollbar_geom(int xf, int yf, int content_w, int& x0, int& sbY, int& trackw, int& thumbx, int& thumbw)
 {
     x0     = xf + FXC_ENC_X0 - 15;
     sbY    = yf + fixturectl_window_h - 28;
     trackw = (xf + fixturectl_window_w - 25) - x0;
-    int vis = fxc_visible_count();
-    if(n<=vis){ thumbw=trackw; thumbx=x0; return false; }
-    thumbw = trackw*vis/n; if(thumbw<20) thumbw=20;
-    thumbx = x0 + (trackw-thumbw)*g_fxc_hscroll/(n-vis);
+    int vw = fxc_view_w(xf);
+    if(content_w<=vw){ thumbw=trackw; thumbx=x0; return false; }
+    thumbw = (int)((long)trackw*vw/content_w); if(thumbw<20) thumbw=20;
+    int maxs = content_w - vw;
+    thumbx = x0 + (int)((long)(trackw-thumbw)*g_fxc_scroll_px/maxs);
     return true;
 }
 
-// Attribut (clef) de l'encodeur VISIBLE situe sous le point (px,py), ou "" si aucun.
+// Attribut (clef) de l'encodeur VISIBLE situe sous (px,py), ou "" si aucun.
 static std::string fxc_attr_at_point(int xf, int yf, int px, int py)
 {
-    std::string disp[FXC_MAXENC];
-    int n = fxc_build_display(disp, FXC_MAXENC);
-    fxc_clamp_hscroll(n);
-    int vis = fxc_visible_count();
-    int cy = yf + FXC_ENC_CY;
-    for(int p=0; p<vis && p+g_fxc_hscroll<n; p++)
-    {
-        int cx = xf + FXC_ENC_X0 + p*FXC_ENC_DX;
-        if(px>cx-FXC_ROL_W/2 && px<cx+FXC_ROL_W/2 && py>cy-FXC_ROL_H/2 && py<cy+FXC_ROL_H/2)
-            return disp[p+g_fxc_hscroll];
+    std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
+    int cy = yf + FXC_ENC_CY, VL = fxc_view_left(xf), VR = fxc_view_right(xf);
+    for(int i=0;i<n;i++){
+        int scx = fxc_scx(xf, i, cx_rel);
+        if(scx+FXC_ROL_W/2 < VL || scx-FXC_ROL_W/2 > VR) continue;   // hors viewport
+        if(px>scx-FXC_ROL_W/2 && px<scx+FXC_ROL_W/2 && py>cy-FXC_ROL_H/2 && py<cy+FXC_ROL_H/2) return disp[i];
     }
     return std::string();
 }
 
-// Dessine un rouleau vertical (thumbwheel) : corps gris + crans horizontaux qui defilent avec la
-// valeur (effet de cylindre qui tourne) + repere de lecture central + libelle + valeur.
-static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval, bool hovered)
+// Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + valeur + libelle (centres).
+// mixed = plusieurs devices aux valeurs differentes -> "..." au lieu du nombre.
+static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval, bool mixed, bool hovered)
 {
     int w = FXC_ROL_W, h = FXC_ROL_H;
     int left = cx - w/2, top = cy - h/2;
 
     Rect Body(Vec2D(left, top), Vec2D(w, h));
-    Body.SetRoundness(3);                                            // bords a peine arrondis
+    Body.SetRoundness(3);
     Body.SetLineWidth(epaisseur_ligne_fader);
-    Body.Draw(CouleurGrisAnthracite);                               // base sombre (bords du cylindre)
+    Body.Draw(CouleurGrisAnthracite);
 
-    // degrade en bandes HORIZONTALES : reflet clair a mi-hauteur -> plus sombre vers le haut/bas
     int halfh = h/2;
-    float peak = 0.55f;   // reflet constant ; le survol surbrille le CONTOUR (cf. DrawOutline)
+    float peak = 0.55f;
     for(int y=1; y<h-1; y++)
     {
         int dy = y-halfh; if(dy<0) dy=-dy;
-        float a = 1.0f - (float)dy/(float)halfh;                    // 1 a mi-hauteur .. 0 en haut/bas
+        float a = 1.0f - (float)dy/(float)halfh;
         if(a<0) a=0;
-        Line(Vec2D(left+1, top+y), Vec2D(left+w-1, top+y)).Draw(CouleurGrisClair.WithAlpha(a*a*a*peak)); // a^3 : reflet resserre au centre
+        Line(Vec2D(left+1, top+y), Vec2D(left+w-1, top+y)).Draw(CouleurGrisClair.WithAlpha(a*a*a*peak));
     }
-    Body.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);   // survol = contour blanc ; sinon gris clair
+    Body.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);
 
-    // crans horizontaux (gris clair) qui defilent selon la valeur -> le rouleau "tourne"
     const int spacing = 11;
-    int scroll = (int)(((long)(refval >> 8)) % spacing);            // 0..spacing-1
+    int scroll = (int)(((long)(refval >> 8)) % spacing);
     for(int y = top + spacing - scroll; y < top + h - 2; y += spacing)
         if(y > top + 2) Line(Vec2D(left+3, y), Vec2D(left+w-3, y)).Draw(CouleurGrisClair);
 
-    // repere de lecture au centre
-    Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);
+    Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);   // repere de lecture central
 
-    petitchiffre.Print(ol::ToString((int)(refval >> 8)), cx - 8, top - 6);   // valeur DMX 8 bit au-dessus
+    // valeur (centree) : "..." si plusieurs fixtures aux valeurs differentes
+    std::string vs = mixed ? std::string("\xE2\x80\xA6") : ol::ToString((int)(refval >> 8));
+    petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, top - 6);
 
-    // libelle (tronque au pixel pour tenir sous le rouleau)
-    std::string lab = fxc_label(key);
-    while(lab.size()>3 && petitchiffre.TextWidth(lab.c_str()) > FXC_ENC_DX-10) lab.erase(lab.size()-1);
-    petitchiffre.Print(lab.c_str(), cx - 10, top + h + 16);                  // libelle en dessous
+    // libelle (centre, tronque avec "…" si trop long ; nom complet en info-bulle au survol, cf. boucle)
+    std::string lab; fxc_fit_label(key, lab);
+    petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, top + h + 16);
 }
 
 // Rendu de la fenetre. xf/yf = coin haut-gauche.
@@ -282,7 +382,6 @@ int fixturectl_window(int xf, int yf)
 
     fixturectl_wheel_hover[0] = 0;   // cible molette republiee chaque frame ("" = aucun encodeur survole)
 
-    // compte des circuits selectionnes (pour l'en-tete)
     int nsel=0;
     for(int c=1;c<514;c++) if(Selected_Channel[c]==1) nsel++;
 
@@ -291,37 +390,101 @@ int fixturectl_window(int xf, int yf)
 
     char hdr[96];
     if(nsel==0) sprintf(hdr, "Select one or more channels");
-    else        sprintf(hdr, "%d channel(s) selected  -  wheel / drag = relative (Ctrl = fine)", nsel);
+    else        sprintf(hdr, "%d channel(s) selected", nsel);
     petitchiffre.Print(hdr, xf + 30, yf + 52);
+
+    // colonne de filtres de categorie a gauche (afficher/masquer par categorie)
+    {
+        int pc[FXC_CAT_N]; int npc = fxc_present_cats(pc);
+        for(int i=0;i<npc;i++){
+            int cat = pc[i];
+            int by = yf + FXC_BTN_Y0 + i*(FXC_BTN_H+FXC_BTN_GAP);
+            Rect B(Vec2D(xf+FXC_LEFT_X, by), Vec2D(FXC_LEFT_W, FXC_BTN_H)); B.SetRoundness(4);
+            B.Draw(g_fxc_cat_hidden[cat] ? CouleurGrisAnthracite : CouleurGrisMoyen);   // actif = plus clair
+            B.DrawOutline(CouleurGrisClair);
+            petitchiffre.Print(fxc_category_name(cat), xf+FXC_LEFT_X+8, by+13);
+        }
+    }
 
     if(n<=0) return(0);
 
-    fxc_clamp_hscroll(n);
-    int vis = fxc_visible_count();
-    int cy = yf + FXC_ENC_CY;
-    for(int p=0; p<vis && p+g_fxc_hscroll<n; p++)
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
+    int cy = yf + FXC_ENC_CY, VL = fxc_view_left(xf), VR = fxc_view_right(xf);
+
+    // clip : borne gauche juste APRES les boutons (pas VL) -> le texte (en-tetes) peut s'afficher dans
+    // la zone libre entre les boutons et la 1re roue ; borne droite = bord fenetre.
+    int clipLeft = xf + FXC_LEFT_X + FXC_LEFT_W + 3;
+    int clipTop = cy - FXC_ROL_H/2 - 36, clipBot = cy + FXC_ROL_H/2 + 44;   // au-dessus des en-tetes de categorie
+    Canvas::SetClipping(clipLeft, clipTop, VR-clipLeft, clipBot-clipTop);
+
+    int prev_cat_all=-1, prev_scx_all=0, prev_vis_cat=-1;
+    std::string hov_key; int hov_scx=0;   // rouleau survole (pour l'info-bulle du nom complet)
+    for(int i=0;i<n;i++)
     {
-        int gi = p+g_fxc_hscroll;
-        int cx = xf + FXC_ENC_X0 + p*FXC_ENC_DX;
-        bool hov = (window_focus_id==W_FIXTURECTL &&
-                    mouse_x>cx-FXC_ROL_W/2 && mouse_x<cx+FXC_ROL_W/2 && mouse_y>cy-FXC_ROL_H/2 && mouse_y<cy+FXC_ROL_H/2);
-        fxc_draw_encoder(cx, cy, disp[gi], fxc_reference_value(disp[gi]), hov);
-        if(hov){ strncpy(fixturectl_wheel_hover, disp[gi].c_str(), 23); fixturectl_wheel_hover[23]=0; }  // publie l'attribut survole
-        // bouton home sous le rouleau
-        int hy = cy + FXC_ROL_H/2 + 26;
-        Rect Home(Vec2D(cx-16, hy), Vec2D(32,14)); Home.SetRoundness(3);
-        Home.Draw(CouleurGrisAnthracite);     // fond gris fonce
-        Home.DrawOutline(CouleurGrisClair);   // bordure gris clair
-        petitpetitchiffre.Print("home", cx-15, hy+11);
+        int scx = fxc_scx(xf, i, cx_rel);
+        int cat = fxc_category(disp[i]);
+
+        // separateur 2px au milieu du gap entre deux categories (clip gere les bords)
+        if(prev_cat_all>=0 && cat!=prev_cat_all){
+            int sx = (prev_scx_all + scx)/2;
+            Rect Sep(Vec2D(sx-1, cy-FXC_ROL_H/2-4), Vec2D(2, FXC_ROL_H+8)); Sep.Draw(CouleurGrisClair);
+        }
+
+        bool culled = (scx+FXC_ROL_W/2+2 < VL || scx-FXC_ROL_W/2-2 > VR);
+        if(!culled){
+            // en-tete de categorie (centre) au 1er rouleau VISIBLE de chaque groupe
+            if(cat != prev_vis_cat){
+                const char* cn = fxc_category_name(cat); int cnw = petitchiffre.TextWidth(cn);
+                int htx = scx - cnw/2;
+                if(htx < clipLeft+1) htx = clipLeft+1;         // peut deborder dans la zone entre boutons et 1re roue
+                if(htx + cnw > VR-1) htx = VR-1 - cnw;
+                petitchiffre.Print(cn, htx, cy - FXC_ROL_H/2 - 24);
+            }
+            prev_vis_cat = cat;
+
+            bool hov = (window_focus_id==W_FIXTURECTL &&
+                        mouse_x>scx-FXC_ROL_W/2 && mouse_x<scx+FXC_ROL_W/2 && mouse_y>cy-FXC_ROL_H/2 && mouse_y<cy+FXC_ROL_H/2);
+            int val; bool mixed; fxc_value_and_mixed(disp[i], val, mixed);
+            fxc_draw_encoder(scx, cy, disp[i], val, mixed, hov);
+            if(hov){ strncpy(fixturectl_wheel_hover, disp[i].c_str(), 23); fixturectl_wheel_hover[23]=0; }
+            // survol du LABEL (sous le rouleau) -> info-bulle du nom complet
+            if(window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
+               && mouse_y>cy+FXC_ROL_H/2+6 && mouse_y<cy+FXC_ROL_H/2+22){ hov_key=disp[i]; hov_scx=scx; }
+
+            int hy = cy + FXC_ROL_H/2 + 26;
+            Rect Home(Vec2D(scx-16, hy), Vec2D(32,14)); Home.SetRoundness(3);
+            Home.Draw(CouleurGrisAnthracite);
+            Home.DrawOutline(CouleurGrisClair);
+            petitpetitchiffre.Print("home", scx - petitpetitchiffre.TextWidth("home")/2, hy+11);
+        }
+        prev_cat_all = cat; prev_scx_all = scx;
     }
 
-    // ascenseur horizontal (si plus de rouleaux que de place)
+    Canvas::DisableClipping();
+
+    // ascenseur horizontal (hors clip)
     {
         int x0, sbY, trackw, thumbx, thumbw;
-        if(fxc_scrollbar_geom(xf, yf, n, x0, sbY, trackw, thumbx, thumbw))
+        if(fxc_scrollbar_geom(xf, yf, content_w, x0, sbY, trackw, thumbx, thumbw))
         {
             Rect Track(Vec2D(x0, sbY), Vec2D(trackw, 8)); Track.SetRoundness(3); Track.Draw(CouleurGrisAnthracite);
             Rect Thumb(Vec2D(thumbx, sbY), Vec2D(thumbw, 8)); Thumb.SetRoundness(3); Thumb.Draw(CouleurGrisMoyen);
+        }
+    }
+
+    // info-bulle : nom complet de l'attribut survole si son libelle est tronque
+    if(!hov_key.empty()){
+        std::string tmp;
+        if(fxc_fit_label(hov_key, tmp)){   // tronque -> montre le nom complet
+            std::string full = fxc_label(hov_key);
+            int tw = petitchiffre.TextWidth(full.c_str())+10;
+            int tx = hov_scx - tw/2;
+            if(tx < xf+4) tx = xf+4;
+            if(tx+tw > xf+fixturectl_window_w-4) tx = xf+fixturectl_window_w-4-tw;
+            int ty = cy + FXC_ROL_H/2 + 52;   // sous le bouton home
+            Rect Tip(Vec2D(tx, ty-11), Vec2D(tw,14)); Tip.SetRoundness(3);
+            Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
+            petitchiffre.Print(full.c_str(), tx+5, ty);
         }
     }
 
@@ -334,20 +497,29 @@ int fixturectl_window(int xf, int yf)
     return(0);
 }
 
-// Attribut (clef) du bouton home situe sous (px,py), ou "" si aucun.
+// Attribut (clef) du bouton home VISIBLE situe sous (px,py), ou "" si aucun.
 static std::string fxc_home_at_point(int xf, int yf, int px, int py)
 {
-    std::string disp[FXC_MAXENC];
-    int n = fxc_build_display(disp, FXC_MAXENC);
-    fxc_clamp_hscroll(n);
-    int vis = fxc_visible_count();
-    int cy = yf + FXC_ENC_CY;
-    int hy = cy + FXC_ROL_H/2 + 26;
-    for(int p=0; p<vis && p+g_fxc_hscroll<n; p++){
-        int cx = xf + FXC_ENC_X0 + p*FXC_ENC_DX;
-        if(px>cx-16 && px<cx+16 && py>hy && py<hy+14) return disp[p+g_fxc_hscroll];
+    std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
+    int cy = yf + FXC_ENC_CY, hy = cy + FXC_ROL_H/2 + 26, VL = fxc_view_left(xf), VR = fxc_view_right(xf);
+    for(int i=0;i<n;i++){
+        int scx = fxc_scx(xf, i, cx_rel);
+        if(scx+16 < VL || scx-16 > VR) continue;
+        if(px>scx-16 && px<scx+16 && py>hy && py<hy+14) return disp[i];
     }
     return std::string();
+}
+
+// Bouton de filtre de categorie sous (px,py), ou -1.
+static int fxc_button_at_point(int xf, int yf, int px, int py)
+{
+    int pc[FXC_CAT_N]; int npc = fxc_present_cats(pc);
+    for(int i=0;i<npc;i++){
+        int by = yf + FXC_BTN_Y0 + i*(FXC_BTN_H+FXC_BTN_GAP);
+        if(px>xf+FXC_LEFT_X && px<xf+FXC_LEFT_X+FXC_LEFT_W && py>by && py<by+FXC_BTN_H) return pc[i];
+    }
+    return -1;
 }
 
 // Logique : drag vertical d'un encodeur = delta relatif (spin). Appelee bouton maintenu.
@@ -355,28 +527,36 @@ int do_logical_fixturectl(int xf, int yf)
 {
     // detection d'un NOUVEAU grab via l'identite du clic (mouse_click_x/y fige a l'appui)
     static int         last_click_x = -999999, last_click_y = -999999;
-    static std::string drag_key;         // "" = pas de drag d'encodeur
+    static std::string drag_key;              // "" = pas de drag d'encodeur
     static bool        drag_scroll = false;   // drag de la barre horizontale
     static bool        drag_resize = false;   // drag de la poignee de redimensionnement
     static int         drag_prev_y = 0;
+
+    // filtres de categorie : clic SIMPLE fiable -> on consomme le clic (mouse_released=1) pour ne pas
+    // dependre du deplacement de la souris (sinon re-cliquer au meme pixel ne re-declenchait pas).
+    {
+        int bc = fxc_button_at_point(xf, yf, mouse_x, mouse_y);
+        if(bc>=0){ g_fxc_cat_hidden[bc] = !g_fxc_cat_hidden[bc]; mouse_released=1; return(0); }
+    }
 
     if(mouse_click_x != last_click_x || mouse_click_y != last_click_y)
     {
         last_click_x = mouse_click_x; last_click_y = mouse_click_y;
         drag_key.clear(); drag_scroll = false; drag_resize = false;
-        // poignee de redimensionnement (coin bas-droit) ? -> priorite
+
         bool in_grip = mouse_click_x>xf+fixturectl_window_w-16 && mouse_click_x<xf+fixturectl_window_w+4
                     && mouse_click_y>yf+fixturectl_window_h-16 && mouse_click_y<yf+fixturectl_window_h+4;
         std::string home_key = in_grip ? std::string() : fxc_home_at_point(xf, yf, mouse_click_x, mouse_click_y);
+
         if(in_grip){ drag_resize = true; }
-        // bouton home ? -> remet le defaut une fois, pas de drag
         else if(!home_key.empty()){ fxc_apply_home(home_key); }
         else
         {
             // ascenseur horizontal ?
-            std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC); fxc_clamp_hscroll(n);
+            std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC);
+            int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
             int x0, sbY, trackw, thumbx, thumbw;
-            bool has_sb = fxc_scrollbar_geom(xf, yf, n, x0, sbY, trackw, thumbx, thumbw);
+            bool has_sb = fxc_scrollbar_geom(xf, yf, content_w, x0, sbY, trackw, thumbx, thumbw);
             if(has_sb && mouse_click_x>x0 && mouse_click_x<x0+trackw && mouse_click_y>sbY-5 && mouse_click_y<sbY+13)
                 drag_scroll = true;
             else
@@ -388,21 +568,22 @@ int do_logical_fixturectl(int xf, int yf)
     if(drag_resize)   // redimensionner : coin bas-droit suit la souris (bornes mini/ecran)
     {
         int nw = mouse_x - xf, nh = mouse_y - yf;
-        if(nw<340) nw=340; if(nh<240) nh=240;
+        if(nw<340) nw=340; if(nh<340) nh=340;   // hauteur mini : loge en-tetes + rouleaux + home + tooltip + scrollbar
         if(nw>SCREEN_W-xf-8) nw=SCREEN_W-xf-8;
         if(nh>SCREEN_H-yf-8) nh=SCREEN_H-yf-8;
         fixturectl_window_w = nw; fixturectl_window_h = nh;
     }
-    else if(drag_scroll)   // suivre le pouce sous la souris
+    else if(drag_scroll)   // defilement fluide : le pouce (au pixel) suit la souris
     {
         std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC);
-        int vis = fxc_visible_count(); int maxs = n-vis; if(maxs<0) maxs=0;
-        int x0, sbY, trackw, thumbx, thumbw; fxc_scrollbar_geom(xf, yf, n, x0, sbY, trackw, thumbx, thumbw);
+        int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w);
+        int x0, sbY, trackw, thumbx, thumbw; fxc_scrollbar_geom(xf, yf, content_w, x0, sbY, trackw, thumbx, thumbw);
+        int maxs = content_w - fxc_view_w(xf); if(maxs<0) maxs=0;
         if(trackw>thumbw){
             int rel = mouse_x - x0 - thumbw/2;
-            int s = rel*maxs/(trackw-thumbw);
-            if(s<0) s=0; if(s>maxs) s=maxs;
-            g_fxc_hscroll = s;
+            int px  = (int)((long)rel*maxs/(trackw-thumbw));
+            if(px<0) px=0; if(px>maxs) px=maxs;
+            g_fxc_scroll_px = px;
         }
     }
     else if(!drag_key.empty())
