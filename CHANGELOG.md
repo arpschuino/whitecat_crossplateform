@@ -72,6 +72,19 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 - **Masters / submasters importés.** Masters Congo (`$MASTPAGEITEM` + `CHAN`) et submasters Eos (`Sub` + `Text`/`Chan`) versés dans les docks de faders (page/n° → dock, item/n° → fader), niveaux `@H` (Eos) comme `/H` (WhiteCat).
 - **Niveaux 16 bit d'Eos** (`$$ChanMove`, notation `@Hxxxx`) lus en prenant l'**octet de poids fort** (0.9.2 = moteur 8 bit). *(Le vrai 16 bit — dimmers `Dimmer_16B`, devices — reste réservé à la 0.10.)*
 
+### Plan de feux (Light plot) — rotations, shapes et nouveaux symboles
+
+- **Fix : rotation des symboles inopérante.** Depuis la migration SDL2, `Poly::RotateBy()` accumulait bien l'angle mais `Poly::Draw()`/`Fill()` dessinaient les sommets bruts sans jamais l'appliquer. Comme `Poly` est le corps de **tous** les symboles de projecteurs (carcasse, poignée, ponts…), la rotation ne se voyait plus. La rotation est maintenant réellement appliquée autour du pivot.
+- **Fix : rotation des shapes.** Même cause pour les shapes **rectangle** et **polygone** (`Poly`) → corrigées par le même correctif.
+- **`Circle::DrawSlice` réimplémenté** (part de tarte pleine + contour, avec rotation). Depuis SDL2, `DrawSlice` dessinait un cercle plein en ignorant les angles et `Circle::RotateBy` était un no-op. Convention rétablie : `DrawSlice(couleur, angle_départ, amplitude)`. Corrige la shape **cône/slice** (ouverture + rotation) **et** les **lentilles** de tous les symboles (demi-disque orienté indiquant le projecteur). Remplissage **scanline** sans trous.
+- **Fix : shape « curtain ».** Les demi-cercles alternés (dessus/dessous de la ligne) s'affichent enfin correctement et **restent alignés sur la ligne quel que soit l'angle** du shape (conversion d'angle écran → repère de `DrawSlice`).
+- **5 nouveaux symboles** : **Moving Head Wash / Beam / Spot** (silhouette de lyre commune : embase + bras + tête + lentille, tête différenciée), **LED Par** (corps cylindrique en perspective + face à 7 LEDs, orientable) et **Scanner** (corps avec encoche + miroir diagonal). Types 67 → 71. *Migration* : les shows enregistrés avant l'ajout rechargeaient une taille nulle pour ces symboles (tableau `size_symbol` sérialisé) → désinfection au chargement (taille/nom par défaut rétablis).
+- **Fix : « 999 » à la sélection.** Un clic près de l'origine du plan pouvait « sélectionner » un emplacement de symbole vide (type 999), affiché dans la fenêtre des symboles. Les emplacements vides ne sont plus sélectionnables (évite aussi une lecture hors-limites de `symbol_nickname`).
+
+### Thème — garde-fou lisibilité
+
+- **Fix : thème « Couleurs au choix » illisible (écran tout noir).** Choisir un fond et un texte de teintes trop proches (ex. les deux noirs) rendait l'interface illisible, sans moyen de revenir en arrière. Le chargement du thème *user* force désormais une couleur de texte lisible (`CouleurLigne`, et `CouleurSelection`) quand son contraste avec le fond est insuffisant (blanc sur fond sombre, noir sur fond clair). S'applique à l'écran de config, au démarrage et au chargement de show.
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)

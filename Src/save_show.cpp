@@ -6718,6 +6718,14 @@ else sprintf(string_save_load_report[idf],"Loaded file %s", file_lib_names_symbo
 }
 idf++;
 
+// Migration : symboles ajoutes apres la sauvegarde du show (taille 0 dans les vieux fichiers)
+// New symbols added after the show was saved read back as size 0 in old files
+if(size_symbol[67]<0.1){ size_symbol[67]=0.7; sprintf(symbol_nickname[67],"Moving Head Wash"); }
+if(size_symbol[68]<0.1){ size_symbol[68]=0.7; sprintf(symbol_nickname[68],"Moving Head Beam"); }
+if(size_symbol[69]<0.1){ size_symbol[69]=0.7; sprintf(symbol_nickname[69],"Moving Head Spot"); }
+if(size_symbol[70]<0.1){ size_symbol[70]=0.6; sprintf(symbol_nickname[70],"LED Par"); }
+if(size_symbol[71]<0.1){ size_symbol[71]=0.7; sprintf(symbol_nickname[71],"Scanner"); }
+
 if ((fp=fopen(file_plot_angles, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s",file_plot_angles);b_report_error[idf]=1;}
 else
