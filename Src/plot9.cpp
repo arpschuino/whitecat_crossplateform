@@ -2399,6 +2399,204 @@ return(0);
 }
 
 
+// Silhouette commune des lyres (vue de cote) : embase + 2 bras + tete + lentille.
+// lens_r = rayon lentille, head_style : 0=wash (anneau fresnel), 1=beam (nu), 2=spot (gobo).
+// Common moving-head silhouette (side view): base + 2 yoke arms + head + lens.
+int plot_draw_movinghead_body(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is, float lens_r, int head_style)
+{
+float t=40.0*size_symbol;
+int selected=(symbol_is_selected[plot_calc_number_is][num_symbol]==1);
+
+// embase / base
+Poly base;
+base.Add(Vec2D(plotx-0.42*t,ploty+0.34*t));
+base.Add(Vec2D(plotx-0.42*t,ploty+0.52*t));
+base.Add(Vec2D(plotx+0.42*t,ploty+0.52*t));
+base.Add(Vec2D(plotx+0.42*t,ploty+0.34*t));
+base.SetPivot(Vec2D(plotx,ploty));
+base.RotateBy(angle_pc*(6.5));
+
+// bras de lyre gauche / left yoke arm
+Poly armL;
+armL.Add(Vec2D(plotx-0.44*t,ploty+0.36*t));
+armL.Add(Vec2D(plotx-0.44*t,ploty-0.24*t));
+armL.Add(Vec2D(plotx-0.34*t,ploty-0.24*t));
+armL.Add(Vec2D(plotx-0.34*t,ploty+0.36*t));
+armL.SetPivot(Vec2D(plotx,ploty));
+armL.RotateBy(angle_pc*(6.5));
+
+// bras de lyre droit / right yoke arm
+Poly armR;
+armR.Add(Vec2D(plotx+0.34*t,ploty+0.36*t));
+armR.Add(Vec2D(plotx+0.34*t,ploty-0.24*t));
+armR.Add(Vec2D(plotx+0.44*t,ploty-0.24*t));
+armR.Add(Vec2D(plotx+0.44*t,ploty+0.36*t));
+armR.SetPivot(Vec2D(plotx,ploty));
+armR.RotateBy(angle_pc*(6.5));
+
+// tete (bloc lampe) plus grosse / bigger head (lamp body)
+Poly head;
+head.Add(Vec2D(plotx-0.34*t,ploty+0.28*t));
+head.Add(Vec2D(plotx-0.34*t,ploty-0.40*t));
+head.Add(Vec2D(plotx+0.34*t,ploty-0.40*t));
+head.Add(Vec2D(plotx+0.34*t,ploty+0.28*t));
+head.SetPivot(Vec2D(plotx,ploty));
+head.RotateBy(angle_pc*(6.5));
+
+// lentille a l'avant de la tete, position tournee autour du pivot / lens at head front
+float ang=angle_pc*6.5;
+float cs=cos(ang), sn=sin(ang);
+float lx=plotx + (0.40*t)*sn;   // (dx=0,dy=-0.40t) tourne / rotated
+float ly=ploty - (0.40*t)*cs;
+Circle lens(Vec2D(lx,ly),lens_r);
+
+// remplissages / fills
+base.Draw(CouleurPlotFill);
+armL.Draw(CouleurPlotFill);
+armR.Draw(CouleurPlotFill);
+head.Draw(CouleurPlotFill);
+lens.Draw(CouleurPlotFill);
+if(selected)
+{
+base.Draw(CouleurFader);
+armL.Draw(CouleurFader);
+armR.Draw(CouleurFader);
+head.Draw(CouleurFader);
+lens.Draw(CouleurFader);
+}
+// contours / outlines
+base.DrawOutline(CouleurPlotLine);
+armL.DrawOutline(CouleurPlotLine);
+armR.DrawOutline(CouleurPlotLine);
+head.DrawOutline(CouleurPlotLine);
+lens.DrawOutline(CouleurPlotLine);
+
+// detail de tete selon le type / head detail per type
+if(head_style==0)// wash : anneau fresnel
+{
+Circle fres(Vec2D(lx,ly),lens_r*0.6);
+fres.DrawOutline(CouleurPlotLine);
+}
+else if(head_style==2)// spot : gobo central
+{
+Circle gobo(Vec2D(lx,ly),lens_r*0.4);
+gobo.Draw(CouleurPlotLine);
+}
+
+return(0);
+}
+
+int plot_draw_symbol_movinghead_wash(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is)
+{// grosse lentille fresnel / large fresnel lens
+return plot_draw_movinghead_body(plotx,ploty,size_symbol,angle_pc,num_symbol,plot_calc_number_is, 0.31*40.0*size_symbol, 0);
+}
+
+int plot_draw_symbol_movinghead_beam(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is)
+{// petite lentille nette / small tight lens
+return plot_draw_movinghead_body(plotx,ploty,size_symbol,angle_pc,num_symbol,plot_calc_number_is, 0.18*40.0*size_symbol, 1);
+}
+
+int plot_draw_symbol_movinghead_spot(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is)
+{// lentille moyenne + gobo / medium lens + gobo
+return plot_draw_movinghead_body(plotx,ploty,size_symbol,angle_pc,num_symbol,plot_calc_number_is, 0.25*40.0*size_symbol, 2);
+}
+
+int plot_draw_symbol_ledpar(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is)
+{
+float taille_x=40.0*size_symbol;
+float r=taille_x/2;
+float d=0.9*r;// profondeur du corps (cylindre) / body depth
+int selected=(symbol_is_selected[plot_calc_number_is][num_symbol]==1);
+
+// corps cylindrique (can) vu en perspective : 2 cotes + jante arriere bombee.
+// La face ronde (opaque) recouvre l'arete du haut. / cylinder body; face hides top edge.
+Poly carcasse;
+carcasse.Add(Vec2D(plotx-r,ploty));// haut gauche
+const int arc_seg=16;
+for(int k=0;k<=arc_seg;k++)
+{
+double a=PI-(PI*(double)k/(double)arc_seg);// de PI a 0 -> jante bombee vers le bas
+carcasse.Add(Vec2D(plotx+r*cos(a),ploty+d+r*sin(a)));
+}
+carcasse.Add(Vec2D(plotx+r,ploty));// haut droit
+carcasse.SetPivot(Vec2D(plotx,ploty));
+carcasse.RotateBy(angle_pc*(6.5));
+carcasse.Fill(CouleurPlotFill);
+carcasse.DrawOutline(CouleurPlotLine);
+
+// face LED (ronde, opaque) a l'avant / round opaque LED face at front
+Circle lentille(Vec2D(plotx,ploty),r);
+lentille.Draw(CouleurPlotFill);
+if(selected)
+{
+carcasse.Fill(CouleurFader);
+lentille.Draw(CouleurFader);
+}
+lentille.DrawOutline(CouleurPlotLine);
+
+// 7 LEDs : centre + couronne de 6 / center + ring of 6
+float dot=0.16*r; if(dot<1.5){dot=1.5;}
+Circle led(Vec2D(plotx,ploty),dot);
+led.Draw(CouleurPlotFill);
+led.DrawOutline(CouleurPlotLine);
+for(int k=0;k<6;k++)
+{
+float a=k*(PI/3.0);
+led.MoveTo(Vec2D(plotx+cos(a)*r*0.52,ploty+sin(a)*r*0.52));
+led.Draw(CouleurPlotFill);
+led.DrawOutline(CouleurPlotLine);
+}
+
+return(0);
+}
+
+int plot_draw_symbol_scan(int plotx, int ploty, float size_symbol, float  angle_pc, int num_symbol, int plot_calc_number_is)
+{
+float W=28.0*size_symbol;// largeur / width
+float H=95.0*size_symbol;// hauteur / height (corps haut)
+int selected=(symbol_is_selected[plot_calc_number_is][num_symbol]==1);
+
+float left=plotx-W/2.0, right=plotx+W/2.0, top=ploty-H/2.0, bottom=ploty+H/2.0;
+float notch_right=left+0.75*W;// encoche : 75% de la largeur
+float notch_top=top+0.078*H;
+float notch_bottom=top+0.379*H;
+
+// corps en L (encoche rectangulaire en haut a gauche) / stepped body with top-left notch
+Poly carcasse;
+carcasse.Add(Vec2D(left,top));
+carcasse.Add(Vec2D(right,top));
+carcasse.Add(Vec2D(right,bottom));
+carcasse.Add(Vec2D(left,bottom));
+carcasse.Add(Vec2D(left,notch_bottom));
+carcasse.Add(Vec2D(notch_right,notch_bottom));
+carcasse.Add(Vec2D(notch_right,notch_top));
+carcasse.Add(Vec2D(left,notch_top));
+carcasse.SetPivot(Vec2D(plotx,ploty));
+carcasse.RotateBy(angle_pc*(6.5));
+
+// miroir en diagonale dans l'encoche / diagonal mirror in the notch
+float ax=left+0.10*W, ay=top+0.094*H;
+float bx=left+0.667*W, by=top+0.348*H;
+float mdx=bx-ax, mdy=by-ay;
+float mlen=sqrt(mdx*mdx+mdy*mdy); if(mlen<0.01){mlen=0.01;}
+float px=-mdy/mlen, py=mdx/mlen;// perpendiculaire unitaire
+float h=1.8*size_symbol; if(h<1.0){h=1.0;}
+Poly mirror;
+mirror.Add(Vec2D(ax+px*h,ay+py*h));
+mirror.Add(Vec2D(bx+px*h,by+py*h));
+mirror.Add(Vec2D(bx-px*h,by-py*h));
+mirror.Add(Vec2D(ax-px*h,ay-py*h));
+mirror.SetPivot(Vec2D(plotx,ploty));
+mirror.RotateBy(angle_pc*(6.5));
+
+carcasse.DrawOutline(CouleurPlotLine);
+if(selected){carcasse.Draw(CouleurFader);}
+mirror.DrawOutline(CouleurPlotLine);
+
+return(0);
+}
+
+
 int plot_print_neutral_symbol(int s, int plotx, int ploty)
 {
 
@@ -2606,6 +2804,21 @@ plot_draw_symbol_pont30_3m(plotx, ploty , size_symbol[s], 0, 0, 0);
 break;
 case 66://pont 30 jonction
 plot_draw_symbol_pont30_jonction(plotx, ploty , size_symbol[s], 0, 0, 0);
+break;
+case 67://moving head wash
+plot_draw_symbol_movinghead_wash(plotx, ploty , size_symbol[s], 0, 0, 0);
+break;
+case 68://moving head beam
+plot_draw_symbol_movinghead_beam(plotx, ploty , size_symbol[s], 0, 0, 0);
+break;
+case 69://moving head spot
+plot_draw_symbol_movinghead_spot(plotx, ploty , size_symbol[s], 0, 0, 0);
+break;
+case 70://led par
+plot_draw_symbol_ledpar(plotx, ploty , size_symbol[s], 0, 0, 0);
+break;
+case 71://scan
+plot_draw_symbol_scan(plotx, ploty , size_symbol[s], 0, 0, 0);
 break;
 default:
 break;
@@ -2934,7 +3147,7 @@ for(int i=0;i<nbre_de_cercles;i++)
 inversion=toggle(inversion);
 Circle ourlet(0, 0, sizeshape);
 ourlet.MoveTo(Vec2D(plotx1+cos(angle_ligne)*sizeshape+(correctionx*i),ploty1+sin(angle_ligne)*sizeshape+(correctiony*i)));
-ourlet.RotateBy(angle_ligne + PI*inversion);
+ourlet.RotateBy(-angle_ligne + PI*inversion);// -angle_ligne : DrawSlice tourne en Y-up, angle_ligne est en Y-ecran
 Rgba TmpColor;
 
 if (!isselected)
@@ -4817,6 +5030,21 @@ plot_draw_symbol_pont30_3m(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+po
 break;
 case 66://pont 30 jonction
 plot_draw_symbol_pont30_jonction(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
+break;
+case 67://moving head wash
+plot_draw_symbol_movinghead_wash(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
+break;
+case 68://moving head beam
+plot_draw_symbol_movinghead_beam(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
+break;
+case 69://moving head spot
+plot_draw_symbol_movinghead_spot(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
+break;
+case 70://led par
+plot_draw_symbol_ledpar(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
+break;
+case 71://scan
+plot_draw_symbol_scan(plotx+pos_symbol[plot_calc_number_is][i][0], ploty+pos_symbol[plot_calc_number_is][i][1], size_symbol[(symbol_type[plot_calc_number_is][i])]*global_symbol_size,  angle_symbol[plot_calc_number_is][i], i, plot_calc_number_is);
 break;
 
 default:

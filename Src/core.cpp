@@ -3579,6 +3579,27 @@ int LoadWhiteCatColorProfil()
         CouleurBlind=CouleurUser11;
         CouleurLock=CouleurUser12;
     }
+
+    // Garde-fou thème "Couleurs au choix" (user) : empecher un rendu illisible.
+    // Si le texte/les traits (CouleurLigne) sont trop proches du fond, forcer une
+    // couleur lisible (blanc sur fond sombre, noir sur fond clair) : evite l'ecran
+    // "tout noir" dont on ne pouvait plus ressortir.
+    // Safeguard for the user color theme: keep text legible against the background.
+    if(config_color_style_is==5)
+    {
+        float lum_fond =0.299f*CouleurFond.r +0.587f*CouleurFond.g +0.114f*CouleurFond.b;
+        float lum_ligne=0.299f*CouleurLigne.r+0.587f*CouleurLigne.g+0.114f*CouleurLigne.b;
+        float diff=lum_ligne-lum_fond; if(diff<0.0f){diff=-diff;}
+        if(diff<0.22f)
+        {
+            CouleurLigne = (lum_fond<0.5f) ? CouleurBlanc : CouleurNoir;
+        }
+        // Selection/Niveau/Level servent aussi de texte lisible (readouts) : meme garde.
+        float lum_sel=0.299f*CouleurSelection.r+0.587f*CouleurSelection.g+0.114f*CouleurSelection.b;
+        float dsel=lum_sel-lum_fond; if(dsel<0.0f){dsel=-dsel;}
+        if(dsel<0.15f){ CouleurSelection = (lum_fond<0.5f) ? CouleurBlanc : CouleurNoir; }
+    }
+
     doom.SetColor( CouleurLigne );
     doomblanc.SetColor( CouleurLigne );
     petitdoomblanc.SetColor( CouleurLigne );
@@ -6236,6 +6257,22 @@ int GlobInit()
         size_symbol[66]=0.5;//Pont solo 50
         sprintf(symbol_nickname[66],"Truss Junction diam 30cm");
         plot_ecartement_legende[66]=22;
+
+        size_symbol[67]=0.7;//Moving Head Wash
+        sprintf(symbol_nickname[67],"Moving Head Wash");
+        plot_ecartement_legende[67]=40;
+        size_symbol[68]=0.7;//Moving Head Beam
+        sprintf(symbol_nickname[68],"Moving Head Beam");
+        plot_ecartement_legende[68]=40;
+        size_symbol[69]=0.7;//Moving Head Spot
+        sprintf(symbol_nickname[69],"Moving Head Spot");
+        plot_ecartement_legende[69]=40;
+        size_symbol[70]=0.6;//LED Par
+        sprintf(symbol_nickname[70],"LED Par");
+        plot_ecartement_legende[70]=40;
+        size_symbol[71]=0.7;//Scanner
+        sprintf(symbol_nickname[71],"Scanner");
+        plot_ecartement_legende[71]=40;
 
 
 

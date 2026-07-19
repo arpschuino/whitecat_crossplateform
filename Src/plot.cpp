@@ -22,7 +22,7 @@ int plot_viewpoint_xy[2];
 Rgba CouleurPlotLine(0.0, 0.0, 0.0);
 Rgba CouleurPlotFill(1.0, 1.0, 1.0);
 int symbol_selected_type = 0;
-int max_symbol_type = 66;
+int max_symbol_type = 71;
 float size_symbol[127];
 char symbol_nickname[127][25];
 float angle_projo_selectionne = 0.0;

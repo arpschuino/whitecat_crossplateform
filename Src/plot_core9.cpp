@@ -1378,7 +1378,8 @@ if(show_calc_number[calc]==1)
 {
 for(int i=nbre_symbols_on_plot[calc]+1;i>0 ;i--)
 {
-if(mouse_x>posx+pos_symbol[calc][i][0]-10 && mouse_x<posx+pos_symbol[calc][i][0]+10
+if(symbol_type[calc][i]!=999 // emplacement vide non selectionnable / empty slot not selectable
+&& mouse_x>posx+pos_symbol[calc][i][0]-10 && mouse_x<posx+pos_symbol[calc][i][0]+10
 && mouse_y>posy+pos_symbol[calc][i][1]-10 && mouse_y<posy+pos_symbol[calc][i][1]+10)
 {
 symbol_is_selected[calc][i]=toggle(symbol_is_selected[calc][i]);

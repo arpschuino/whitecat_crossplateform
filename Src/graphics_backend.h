@@ -1641,15 +1641,16 @@ class Circle {
     Vec2D center;
     float radius;
     float line_width;
+    float rot_angle;// rotation courante en radians (RotateBy) / current rotation in radians
 
   public:
-    Circle(Vec2D c, float r) : center(c), radius(r), line_width(1.0f) {
+    Circle(Vec2D c, float r) : center(c), radius(r), line_width(1.0f), rot_angle(0.0f) {
     }
-    Circle(int cx, int cy, int r) : center((float)cx, (float)cy), radius((float)r), line_width(1.0f) {
+    Circle(int cx, int cy, int r) : center((float)cx, (float)cy), radius((float)r), line_width(1.0f), rot_angle(0.0f) {
     }
     // 4 args (cx, cy, inner_r, outer_r) — dessine anneau / draws ring
     Circle(int cx, int cy, double r1, double r2)
-        : center((float)cx, (float)cy), radius((float)r2), line_width((float)(r2 - r1)) {
+        : center((float)cx, (float)cy), radius((float)r2), line_width((float)(r2 - r1)), rot_angle(0.0f) {
     }
 
     void SetLineWidth(float w) {
@@ -1673,20 +1674,90 @@ class Circle {
         center.x += d.x;
         center.y += d.y;
     }
-    void RotateBy(float) {
-    } // no-op pour cercle
+    void RotateBy(float da) {
+        rot_angle += da;
+    }
+    // Coeur : part de tarte pleine (fill) + contour optionnel (outline).
+    // start = angle de depart, sweep = amplitude (radians), + rotation courante.
+    // Core: filled pie slice (fill) + optional outline. start = start angle,
+    // sweep = extent (radians), plus current rotation.
+    void _drawSliceCore(const Rgba &fill, const Rgba *outline, double start, double sweep) const {
+        if (!wc_sdl_renderer)
+            return;
+        double a0 = start + rot_angle;
+        // segments de l'arc / arc segments
+        int n = (int)(fabsf((float)sweep) * (radius + 2.0f) / 4.0f);
+        if (n < 6)
+            n = 6;
+        if (n > 96)
+            n = 96;
+        float cx = center.x, cy = center.y, r = radius;
+        // Sommets du secteur : centre + points d'arc. Y ecran inverse (cy - sin)
+        // pour rester coherent avec OpenLayer et le sens de rotation de Poly.
+        // Sector vertices: center + arc points. Screen Y flipped (cy - sin).
+        SDL_Point vx[100];
+        int vn = 0;
+        vx[vn].x = (int)cx;
+        vx[vn].y = (int)cy;
+        vn++;
+        for (int i = 0; i <= n; i++) {
+            double a = a0 + sweep * (double)i / (double)n;
+            vx[vn].x = (int)(cx + r * cosf((float)a));
+            vx[vn].y = (int)(cy - r * sinf((float)a));
+            vn++;
+        }
+        // Remplissage scanline du polygone (sans trous) / gapless scanline fill
+        _setcolor(fill);
+        int ymin = vx[0].y, ymax = vx[0].y;
+        for (int i = 1; i < vn; i++) {
+            if (vx[i].y < ymin)
+                ymin = vx[i].y;
+            if (vx[i].y > ymax)
+                ymax = vx[i].y;
+        }
+        for (int y = ymin; y <= ymax; y++) {
+            int xs[128];
+            int xc = 0;
+            for (int i = 0; i < vn; i++) {
+                SDL_Point a = vx[i], b = vx[(i + 1) % vn];
+                if ((a.y <= y && b.y > y) || (b.y <= y && a.y > y)) {
+                    int x = a.x + (int)((long)(y - a.y) * (b.x - a.x) / (b.y - a.y));
+                    if (xc < 128)
+                        xs[xc++] = x;
+                }
+            }
+            for (int i = 0; i < xc - 1; i++)
+                for (int j = i + 1; j < xc; j++)
+                    if (xs[j] < xs[i]) {
+                        int t = xs[i];
+                        xs[i] = xs[j];
+                        xs[j] = t;
+                    }
+            for (int i = 0; i + 1 < xc; i += 2)
+                SDL_RenderDrawLine(wc_sdl_renderer, xs[i], y, xs[i + 1], y);
+        }
+        // Contour = toutes les aretes du polygone (2 rayons + arc)
+        // Outline = every polygon edge (2 radii + arc)
+        if (outline) {
+            _setcolor(*outline);
+            for (int i = 0; i < vn; i++) {
+                SDL_Point a = vx[i], b = vx[(i + 1) % vn];
+                SDL_RenderDrawLine(wc_sdl_renderer, a.x, a.y, b.x, b.y);
+            }
+        }
+    }
     // DrawSlice : plusieurs signatures possibles / multiple possible signatures
-    void DrawSlice(const Rgba &color, double /*a1*/, double /*a2*/) const {
-        Draw(color);
+    void DrawSlice(const Rgba &color, double a1, double a2) const {
+        _drawSliceCore(color, nullptr, a1, a2);
     }
-    void DrawSlice(const Rgba &color, int /*a1*/, double /*a2*/) const {
-        Draw(color);
+    void DrawSlice(const Rgba &color, int a1, double a2) const {
+        _drawSliceCore(color, nullptr, (double)a1, a2);
     }
-    void DrawSlice(const Rgba &color, int /*a1*/, float /*a2*/) const {
-        Draw(color);
+    void DrawSlice(const Rgba &color, int a1, float a2) const {
+        _drawSliceCore(color, nullptr, (double)a1, (double)a2);
     }
-    void DrawSlice(const Rgba &c1, const Rgba & /*c2*/, int a1, float a2) const {
-        DrawSlice(c1, a1, (double)a2);
+    void DrawSlice(const Rgba &c1, const Rgba &c2, int a1, float a2) const {
+        _drawSliceCore(c1, &c2, (double)a1, (double)a2);
     }
 
     // OpenLayer: Draw() = filled circle, DrawOutline() = contour seulement
@@ -1828,6 +1899,14 @@ class Poly {
     void RotateBy(float da) {
         angle += da;
     }
+    // Applique la rotation courante (radians) autour du pivot / applies current rotation
+    Vec2D _xform(const Vec2D &v) const {
+        if (angle == 0.0f)
+            return v;
+        float s = sinf(angle), c = cosf(angle);
+        float dx = v.x - pivot.x, dy = v.y - pivot.y;
+        return Vec2D(pivot.x + dx * c - dy * s, pivot.y + dx * s + dy * c);
+    }
     void DrawOutline(const Rgba &color) const {
         Draw(color);
     }
@@ -1837,8 +1916,8 @@ class Poly {
             return;
         _setcolor(color);
         for (size_t i = 0; i < vertices.size(); i++) {
-            const Vec2D &a = vertices[i];
-            const Vec2D &b = vertices[(i + 1) % vertices.size()];
+            Vec2D a = _xform(vertices[i]);
+            Vec2D b = _xform(vertices[(i + 1) % vertices.size()]);
             SDL_RenderDrawLine(wc_sdl_renderer, (int)a.x, (int)a.y, (int)b.x, (int)b.y);
         }
     }
@@ -1850,9 +1929,12 @@ class Poly {
         // Simple fan triangulation from first vertex
         for (size_t i = 1; i + 1 < vertices.size(); i++) {
             // Scanline fill each triangle
-            int x1 = (int)vertices[0].x, y1 = (int)vertices[0].y;
-            int x2 = (int)vertices[i].x, y2 = (int)vertices[i].y;
-            int x3 = (int)vertices[i + 1].x, y3 = (int)vertices[i + 1].y;
+            Vec2D v0 = _xform(vertices[0]);
+            Vec2D vi = _xform(vertices[i]);
+            Vec2D vi1 = _xform(vertices[i + 1]);
+            int x1 = (int)v0.x, y1 = (int)v0.y;
+            int x2 = (int)vi.x, y2 = (int)vi.y;
+            int x3 = (int)vi1.x, y3 = (int)vi1.y;
             if (y1 > y2) {
                 std::swap(x1, x2);
                 std::swap(y1, y2);
