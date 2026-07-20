@@ -36,6 +36,10 @@
 
 - **Fix : le premier circuit d'une page (1-12, 49-60, …) caché sous la barre « Ch.View ».** L'auto-scroll à la sélection (`set_channel_scroll`) plaçait la 1re rangée de chaque page de 48 trop haut (Y=36, sous le clip à ~53). Offset -3 appliqué à tous les paliers (= valeur déjà validée au démarrage).
 
+### Channel Views — numéro dans les popups
+
+- **Fix : numéro de vue décalé de +1 dans les popups de confirmation.** Enregistrer/modifier la Channel View 14 affichait « RECORD Channel View 15 ? ». Les popups (RECORD/MODIFY/CLEAR/REPORT/Build…) ajoutaient `+1` au numéro alors que le carré de la vue et l'index interne utilisent déjà le même numéro (1-15) — vestige de la refonte des Channel Views (ex-index 0-based). `+1` retiré.
+
 ### Echo — Affichage
 
 - **Fix : animation de l'echo saccadée à l'écran** (fluide seulement en bougeant la souris). Le « ticker intelligent » ne détectait pas les echos en cours de rebond : ajoutés à la détection d'activité du rendu (même correctif que les bangers en boucle). La sortie DMX, elle, était correcte.

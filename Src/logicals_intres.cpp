@@ -665,24 +665,24 @@ sprintf(string_confirmation,"MODIFY this relativ XY preset ? ");
 
 else if(index_ask_record_selection_of_view==1)
 {
-sprintf(string_confirmation,"RECORD Channel View %d ? ",channel_view_is+1);
+sprintf(string_confirmation,"RECORD Channel View %d ? ",channel_view_is);
 }
 
 
 else if(index_ask_modify_selection_of_view==1)
 {
-sprintf(string_confirmation,"MODIFY Channel View %d ? ",channel_view_is+1);
+sprintf(string_confirmation,"MODIFY Channel View %d ? ",channel_view_is);
 }
 
 
 else if(index_ask_clear_selection_of_view==1)
 {
-sprintf(string_confirmation,"CLEAR Channel View %d ? ",channel_view_is+1);
+sprintf(string_confirmation,"CLEAR Channel View %d ? ",channel_view_is);
 }
 
 else if(index_ask_report_selection_of_view==1)
 {
-sprintf(string_confirmation,"REPORT Selected CH to Channel View %d ? ",channel_view_is+1);
+sprintf(string_confirmation,"REPORT Selected CH to Channel View %d ? ",channel_view_is);
 }
 else if(index_ask_build_view==1)
 {
@@ -698,7 +698,7 @@ case 0:
 
       if(MemoiresExistantes[nummem]==1)
        {
-      sprintf(string_confirmation,"Build Channel View %d from Mem %d.%d ? ",channel_view_is+1, nummem/10,nummem%10);
+      sprintf(string_confirmation,"Build Channel View %d from Mem %d.%d ? ",channel_view_is, nummem/10,nummem%10);
        }
        else {sprintf(string_confirmation,"Mem %d.%d doesn't exist ! ",nummem/10,nummem%10);}
       }
@@ -707,7 +707,7 @@ case 0:
      fader_selected_for_record=nummem/10;
      if(fader_selected_for_record>0 && fader_selected_for_record<49)
      {
-     sprintf(string_confirmation,"Build Channel View %d from Fader %d ? ",channel_view_is+1,fader_selected_for_record );
+     sprintf(string_confirmation,"Build Channel View %d from Fader %d ? ",channel_view_is,fader_selected_for_record );
      }
      else {   sprintf(string_confirmation,"Fader number must be between 1 and 48 ! "); }
      }
@@ -716,16 +716,16 @@ case 1:
        if(channel_view_type_of_behaviour[channel_view_is]==0)//mem + faders
      {
      	//sab 02/03/2014 impact ajout %d
-      sprintf(string_confirmation,"Build Channel View %d from ALL mems and faders? ",channel_view_is+1);
+      sprintf(string_confirmation,"Build Channel View %d from ALL mems and faders? ",channel_view_is);
       }
       else if(channel_view_type_of_behaviour[channel_view_is]==1)//mem
      {
      	//sab 02/03/2014 impact ajout %d
-      sprintf(string_confirmation,"Build Channel View %d from ALL mems ? ",channel_view_is+1);
+      sprintf(string_confirmation,"Build Channel View %d from ALL mems ? ",channel_view_is);
       }
      else if(channel_view_type_of_behaviour[channel_view_is]==2)//fader
      {
-     sprintf(string_confirmation,"Build Channel View %d from ALL Faders ? ",channel_view_is+1 );
+     sprintf(string_confirmation,"Build Channel View %d from ALL Faders ? ",channel_view_is );
      }
 break;
 }
