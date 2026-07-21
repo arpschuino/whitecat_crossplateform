@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"d:\\\\nextCloud\\\\ARPSCHUINO_PARTAGE\\\\codes\\\\whitecat_crossplateform\"; $env:PATH = \"d:\\\\nextCloud\\\\ARPSCHUINO_PARTAGE\\\\codes\\\\whitecat_crossplateform\\\\tools\\\\MinGW\\\\bin;$env:PATH\"; mingw32-make -j4 2>&1 | Select-String -Pattern \"error:\" | Select-Object -Last 20)",
+      "PowerShell(cmd /c \"d:\\\\nextCloud\\\\ARPSCHUINO_PARTAGE\\\\codes\\\\whitecat_crossplateform\\\\build.bat\" 2>&1 | Where-Object { $_ -match \"error:|undefined|multiple\" } | Select-Object -First 20)",
+      "Bash(wsl.exe -e bash -lc \"sudo umount /opt/wcfocal/proj 2>/dev/null; sudo umount /opt/wcfocal/proc 2>/dev/null; sudo umount -l /opt/wcfocal/dev 2>/dev/null; sudo umount -l /opt/wcfocal/sys 2>/dev/null; mount | grep -c wcfocal; echo done\")"
+    ]
+  }
+}
