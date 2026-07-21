@@ -13,6 +13,11 @@
 - **Fix : la mise en boucle ne fonctionnait pas**. L'intervalle de relance utilisait un facteur `×10000` hérité du timer Allegro : à 50 Hz, un réglage de « 2 s » donnait ~400 s avant relance. Corrigé en `×50` (`do_loop_bang()` tourne à 50 Hz → `time_loop_banger` est réellement en secondes).
 - **Fix : affichage figé pendant une boucle**. Le « ticker intelligent » (cap fps d'économie CPU) détecte les LFO/chasers/GO/dampers mais pas les bangers : un banger en boucle laissait WhiteCat passer en veille d'affichage → les événements paraissaient désynchronisés/manquants **à l'écran** (la sortie DMX/MIDI restait correcte ; bouger la souris « réparait »). Les bangers en boucle sont ajoutés à la détection d'activité du rendu. Aucun surcoût au repos.
 
+### Banger — paramètres écrasés au chargement du show
+
+- **Fix : les paramètres des bangers Cues et Windows étaient tronqués à chaque chargement.** `sanitize_banger_params()`, appelée juste après la relecture de `banger_values`, bornait le paramètre principal des bangers de **type 6 (Cues)** à `core_user_define_nb_bangers` (128 par défaut) : un banger appelant la cue 250 revenait à 128. Bornes corrigées — partie entière 0-999 et partie décimale 0-9, cette dernière n'étant jusque-là pas bornée du tout. Même erreur pour le **type 3 (Windows)**, dont le paramètre dépend de l'action (numéro de banger pour l'action 4, groupe de faders max 48 pour l'action 2) et qui était borné au nombre de bangers dans tous les cas.
+- **Fix : le 128e banger ne se déclenchait jamais.** `do_bang()` testait `banger_is<127` au lieu de `<128`.
+
 ### Faders — Lock
 
 - **Fix : un clic sur Lock mettait le fader à zéro.** Le toggle Lock était inversé/incomplet et `locklevel` valait 0 par défaut : sans master lock actif, le déverrouillage restaurait `niveau_sauvé × locklevel = 0`. Toggle corrigé et `locklevel` par défaut = plein (255).
