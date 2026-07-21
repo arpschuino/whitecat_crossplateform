@@ -27,7 +27,7 @@ export TMP  := $(subst /,\,$(TMPDIR))
 export PATH := $(subst /,\,$(CURDIR_F)/tools/MinGW/bin);$(PATH)
 
 CFLAGS  := -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ \
-            -std=c++11 -O2 -g -mwindows
+            -std=c++11 -O2 -mwindows
 
 INCS    := -I$(SDL2)/include \
             -I$(WC)/lib/windows/Cserial \
