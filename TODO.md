@@ -4,6 +4,23 @@
 
 - [x] **Latence dans l'affichage des temps de la séquence** — CORRIGÉ (09/07) : le rendu était en cap idle → `affect_time_entry_to_mem` recalcule (`do_sprintf_job`) + force le refresh (`wc_request_refresh`), et idem après les paires délai/temps de la touche « L ». Au passage : saisie « 80 » → 1:20 (report des secondes ≥ 60 sur les minutes) et nettoyage du flag mort `someone_changed_in_sequences`.
 
+- [ ] **Accès hors limites démontrés par GCC** — réapparus au rebuild complet du 21/07 (les builds incrémentaux les masquaient). Ce ne sont pas des avertissements de style : avec `-Waggressive-loop-optimizations`, GCC affirme avoir *prouvé* le débordement, et peut optimiser en s'appuyant dessus. Même famille que l'access violation des grid players.
+  - `video_tracking_core.cpp:396` — `for (int co=1;co<513;co++)` sur `show_who_is_in_FADER_DOCK[co]` → déborde à l'itération 511
+  - `procs_visuels_rebuild1.cpp:448` — `for(int i=0;i<=nbre_de_vues_circuits;i++)` sur `Channel_View_MODE[i]` → déborde à l'itération 16 (le `<=` part d'un cran trop loin, cf. le `+1` des popups Channel View corrigé le 21/07)
+
+## 🖥 Environnement / postes de travail
+
+- [ ] **Refaire le réglage Nextcloud sur les autres postes** (fait sur ce poste le 21/07). Ajouter ces motifs à `%APPDATA%\Nextcloud\sync-exclude.lst`, puis **redémarrer le client Nextcloud** :
+  ```
+  last_save
+  wc_debug.txt
+  *.o
+  *.d
+  *.gch
+  *.ii
+  ```
+  Sans ça, l'autre poste continue d'envoyer son `last_save` (83 Mo réécrits à **chaque** fermeture de WhiteCat) et les conflits de synchro reviennent — 79 fichiers « conflicted copy » accumulés avant le nettoyage du 21/07. Les shows nommés, `doc/` et `audio/` restent synchronisés.
+
 ## ⚠️ À faire avant chaque release
 
 - [ ] **Sync doc/** : copier `whitecatbuild/build/white_cat_for_mingw/doc/` → `doc/` (racine du repo) avant de committer/pusher la release.
