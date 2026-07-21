@@ -18,8 +18,17 @@
 #define WC_CHANNEL_H
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 namespace wc {
+
+// [devices] Slot nommé (GDTF ChannelSet) : une plage nommée d'un canal à crans
+// (roue de gobos/couleur, prisme, canal de mode...). from16 = début de plage en 16 bit.
+struct ChannelSlot {
+    uint16_t    from16 = 0;   // valeur DMX 16 bit de début de plage
+    std::string name;         // libellé GDTF ("Open", "Gobo 3", "Prism 3-facet"...)
+};
 
 // ---------------------------------------------------------------------------
 // Taxonomie d'attributs — noms canoniques GDTF (Phase 0).
@@ -74,6 +83,7 @@ struct Channel {
     uint16_t circuit     = 0;             // circuit de contrôle (source du niveau). Côté patch : render() l'ignore.
     uint16_t home        = 0;             // [devices] valeur "home" (défaut GDTF, 16 bit) de ce canal (bouton home)
     char     name[24]    = {0};           // [devices] nom d'attribut GDTF (ex. "Pan", "Gobo1", "Prism1") -> libellé + pilotage générique
+    std::vector<ChannelSlot> slots;       // [devices] plages nommées (GDTF ChannelSet) ; vide = paramètre continu (encodeur seul)
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])

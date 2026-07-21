@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <algorithm>
 
 namespace wcgdtf {
 
@@ -211,6 +212,29 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         ch.circuit     = (uint16_t)circuit;
         ch.home        = (uint16_t)channel_default(dc);   // valeur par defaut GDTF (16 bit) -> persistee dans le patch
         if(gname){ strncpy(ch.name, gname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0; }  // nom GDTF -> pilotage generique
+
+        // [devices] slots nommes : LogicalChannel > ChannelFunction > ChannelSet (Name + DMXFrom)
+        {
+            const wcxml::Node* lc2 = dc.child("LogicalChannel");
+            if(lc2){
+                for(size_t k=0;k<lc2->children.size();++k){
+                    const wcxml::Node& cf = lc2->children[k];
+                    if(cf.name != "ChannelFunction") continue;
+                    for(size_t s=0;s<cf.children.size();++s){
+                        const wcxml::Node& cs = cf.children[s];
+                        if(cs.name != "ChannelSet") continue;
+                        const char* snm = cs.attr("Name");
+                        if(!snm || !*snm) continue;                       // ignore les sets sans nom
+                        wc::ChannelSlot slot;
+                        slot.from16 = (uint16_t)parse_dmxvalue(cs.attr("DMXFrom"));
+                        slot.name   = snm;
+                        ch.slots.push_back(slot);
+                    }
+                }
+                std::sort(ch.slots.begin(), ch.slots.end(),
+                          [](const wc::ChannelSlot& a, const wc::ChannelSlot& b){ return a.from16 < b.from16; });
+            }
+        }
         fx.channels.push_back(ch);
     }
     return fx.channels.empty() ? 2 : 0;
