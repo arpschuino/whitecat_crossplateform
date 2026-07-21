@@ -26,8 +26,10 @@ export TMP  := $(subst /,\,$(TMPDIR))
 # Assure que tools/MinGW/bin est dans le PATH (DLLs pour mingw32/bin/as.exe)
 export PATH := $(subst /,\,$(CURDIR_F)/tools/MinGW/bin);$(PATH)
 
+STRIP   := $(CURDIR_F)/tools/MinGW/bin/strip.exe
+
 CFLAGS  := -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ \
-            -std=c++11 -O2 -mwindows
+            -std=c++11 -O2 -mwindows -fno-ident
 
 INCS    := -I$(SDL2)/include \
             -I$(WC)/lib/windows/Cserial \
@@ -185,6 +187,7 @@ all: dirs $(PCH) $(EXE)
 $(EXE): $(OBJS) $(RES)
 	@echo [link] Whitecat_Crossplatform.exe ...
 	$(GCC) $^ $(LDFLAGS) -o $@
+	$(STRIP) --strip-all $@
 
 # En-tete precompile
 $(PCH): $(SRC)/wc_tus.h $(SRC)/graphics_backend.h $(SRC)/wc_platform.h
