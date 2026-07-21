@@ -1228,15 +1228,12 @@ int generate_channel_view_list_from_patched_circuits()
         {
             if(Patch[i]==ch)
             {
-                for(int v=0; v<nbre_de_vues_circuits && nopatchit==0; v++)
-                {
-                    for(int u=0; u<513; u++)
+                for(int u=0; u<513; u++)   // [patched] dedoublon contre la vue Patched (vue 0) SEULE :
+                {                          // la vue Patched liste TOUS les circuits patches, meme ceux ranges dans une autre vue
+                    if(Channel_View_ROUTING[0][u]==ch)
                     {
-                        if(Channel_View_ROUTING[v][u]==ch)
-                        {
-                            nopatchit=1;
-                            break;
-                        }
+                        nopatchit=1;
+                        break;
                     }
                 }
                 if(nopatchit==0)

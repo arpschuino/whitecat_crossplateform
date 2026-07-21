@@ -752,6 +752,7 @@ int do_logical_devicepatch(int xd, int yd)
             sprintf(g_circuit_s, "%d", circ+done);
             sprintf(g_address_s, "%d", addr+done*step);
             sprintf(string_Last_Order, ">> patched %d x %.24s @%d ch%d", done, g_lib[g_sel_fix].model.c_str(), addr, circ);
+            if(done>0) generate_channel_view_list_from_patched_circuits();   // [devices] rafraichir la vue "Patched channels"
         }
         mouse_released=1;
     }
