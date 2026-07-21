@@ -67,9 +67,12 @@ void sanitize_banger_params(){
         switch(btype){
             case 1:  max1=core_user_define_nb_faders;   break;
             case 2:  max1=(act<=4)?15:127;               break;
-            case 3:  max1=core_user_define_nb_bangers;  break;
+            case 3:  // Windows : val1 = numéro de banger (act 4) ou groupe faders (act 2) ou non utilisé
+                     if(act==4) max1=core_user_define_nb_bangers;
+                     else if(act==2) max1=48;
+                     break;
             case 5:  max1=index_nbre_players_visibles;  break;
-            case 6:  max1=core_user_define_nb_bangers;  break;
+            case 6:  max1=999;                          break;  // Cues : partie entière 0-999
             case 7:  max1=core_user_define_nb_chasers;  break;
             case 8:  max1=core_user_define_nb_faders;   break;
             case 10: max1=2;                             break;
@@ -93,6 +96,7 @@ void sanitize_banger_params(){
                 else if(act==6||act==9||act==10) max2=127;
                 else                             max2=1;
                 break;
+            case 6:  max2=9;   break;  // Cues : partie décimale 0-9
             case 8:  max2=1;   break;
             case 12: max2=1;   break;
             case 13: max2=1;   break;
@@ -4731,7 +4735,7 @@ if(do_loop_banger[banger_is]==1 && time_loop_banger[banger_is]>0.0 && ticker_loo
 
 int do_bang(int banger_is)
 {
-if( bang_is_sended[banger_is]==0 && banger_is<127)
+if( bang_is_sended[banger_is]==0 && banger_is<128)
 {
 end_time_for_banger[banger_is]=0;//reinit pour pierre groupe laps
 //calcul bang time de fin
