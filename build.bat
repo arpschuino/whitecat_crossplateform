@@ -75,7 +75,7 @@ if not exist "%OUT%" mkdir "%OUT%"
 
 :: En-tete precompile (PCH) — compile une seule fois, reutilise par tous les TUs
 set PCH_RSP=%OUT%\wc_pch.rsp
-echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g > "%PCH_RSP%"
+echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 > "%PCH_RSP%"
 echo -I%SDL2_F%/include >> "%PCH_RSP%"
 echo -I%WC_F%/lib/windows/Cserial >> "%PCH_RSP%"
 echo -I%WC_F%/lib/windows/dashard >> "%PCH_RSP%"
@@ -111,7 +111,7 @@ echo [build] Compilation en cours...
 :: Response file pour contourner la limite de 8191 chars de CMD
 set RSP=%OUT%\wc_build.rsp
 
-echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 -g > "%RSP%"
+echo -D_GLIBCXX_USE_CXX11_ABI=0 -D_TIMESPEC_DEFINED -D__WINDOWS_MM__ -std=c++11 > "%RSP%"
 echo -I%SDL2_F%/include >> "%RSP%"
 echo -I%WC_F%/lib/windows/Cserial >> "%RSP%"
 echo -I%WC_F%/lib/windows/dashard >> "%RSP%"
