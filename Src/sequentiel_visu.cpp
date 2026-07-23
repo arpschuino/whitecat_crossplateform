@@ -379,12 +379,9 @@ int refresh_vision_memories(int x_seq, int y_seq) {
     // LES MEMOIRES SUIVANTES USER DEFINED
     int index_nbre_mem_visues = 0;
     // sab 03/04/2014 unused var int last_mem_visue=0;
-    bool turn = 0;
-    for (int memsearch = position_preset + 1; memsearch < 10000; memsearch++) {
-        if (memsearch >= 9999 && turn == 0) {
-            memsearch = 0;
-            turn = 1;
-        }
+    // [bouclage] modulo : parcourt tous les index une fois (0.0 et 999.9 compris) ; evite aussi la boucle infinie quand moins de cues que de lignes
+    for (int step = 1; step < 10000; step++) {
+        int memsearch = (position_preset + step) % 10000;
         if (MemoiresExistantes[memsearch] == 1 && index_nbre_mem_visues < nbre_memoires_visualisables_en_preset) {
             index_nbre_mem_visues++;
 
