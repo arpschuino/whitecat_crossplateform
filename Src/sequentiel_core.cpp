@@ -514,9 +514,10 @@ mouse_released = 1;
 //LES MEMOIRES SUIVANTES USER DEFINED
 int index_nbre_mem_visues=0;
 //sab 02/03/2014  unused var int last_mem_visue=0;
-for(int memsearch=position_preset+1; memsearch<10000;memsearch++)
+// [bouclage] modulo : parcourt tous les index une fois (0.0 et 999.9 compris) ; l'ancienne garde sans turn bouclait a l'infini si moins de cues que de lignes
+for(int step=1; step<10000; step++)
 {
-if(memsearch>=9999){memsearch=0;}
+int memsearch=(position_preset+step)%10000;
 if(MemoiresExistantes[memsearch]==1 && index_nbre_mem_visues<nbre_memoires_visualisables_en_preset)
 {
 index_nbre_mem_visues++;

@@ -3796,14 +3796,10 @@ int prepare_crossfade()
 
 int detect_mem_before_one()
 {
-    bool turn=0;
-    for (int k=position_onstage-1; k>=0; k--)
+    // [bouclage] modulo : parcourt les 9999 autres index exactement une fois, bornes 0.0 et 999.9 comprises
+    for (int step=1; step<10000; step++)
     {
-        if(k==0  && turn==0)
-        {
-            k=9999;
-            turn=1;
-        }
+        int k = (position_onstage - step + 10000) % 10000;
         if(MemoiresExistantes[k]==1 && MemoiresExclues[k]==0)
         {
             mem_before_one=k;
@@ -3816,14 +3812,10 @@ int detect_mem_before_one()
 
 int detect_mem_preset()
 {
-    bool turn=0;
-    for (int k=position_onstage+1; k<10000; k++)
+    // [bouclage] modulo : bornes 0.0 et 999.9 comprises (l'ancienne garde sautait 999.9)
+    for (int step=1; step<10000; step++)
     {
-        if(k>=9999 && turn==0)
-        {
-            k=0;
-            turn=1;
-        }
+        int k = (position_onstage + step) % 10000;
         if(MemoiresExistantes[k]==1 && MemoiresExclues[k]==0)
         {
             position_preset=k;
@@ -3835,14 +3827,10 @@ int detect_mem_preset()
 
 int detect_mem_preset_previous()
 {
-    bool turn=0;
-    for (int p=(position_preset-1); p>=0; p--)
+    // [bouclage] modulo : bornes 0.0 et 999.9 comprises (n.b. ne saute pas les mems exclues, cf. detect_next_preset)
+    for (int step=1; step<10000; step++)
     {
-        if(p==0 && turn==0)
-        {
-            p=9999;
-            turn=1;
-        }
+        int p = (position_preset - step + 10000) % 10000;
         if (MemoiresExistantes[p]==1)
         {
             position_preset=p;
@@ -3854,14 +3842,10 @@ int detect_mem_preset_previous()
 
 int detect_next_preset()
 {
-    bool turn=0;
-    for (int p=(position_preset+1); p<10000; p++)
+    // [bouclage] modulo : bornes 0.0 et 999.9 comprises (l'ancienne garde sautait 999.9)
+    for (int step=1; step<10000; step++)
     {
-        if(p>=9999 && turn==0)
-        {
-            p=0;
-            turn=1;
-        }
+        int p = (position_preset + step) % 10000;
         if (MemoiresExistantes[p]==1 && MemoiresExclues[p]==0)
         {
             position_preset=p;
@@ -4049,12 +4033,10 @@ int do_double_go_function()
     niveauX2=0;
     crossfade_speed=64;
     reset_modified_levels_in_crossfade();
-    for(int ipo=position_preset+1; ipo<10000; ipo++)
+    // [bouclage] modulo : borne 999.9 comprise + evite la boucle infinie (ancienne garde sans turn)
+    for(int step=1; step<10000; step++)
     {
-        if(ipo>=9999)
-        {
-            ipo=0;
-        }
+        int ipo = (position_preset + step) % 10000;
         if(MemoiresExistantes[ipo]==1)
         {
             position_preset=ipo;
