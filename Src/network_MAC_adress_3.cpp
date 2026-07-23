@@ -208,7 +208,7 @@ AffectD.Draw(CouleurFond.WithAlpha(0.5));
 
 petitchiffre.Print(ol::ToString(select_artnet_to_listen),cfgnetw_X+160, cfgnetw_Y+27);
 
-if(window_focus_id==W_CFGMENU && mouse_x>cfgnetw_X+140 && mouse_x<cfgnetw_X+190 && mouse_y>cfgnetw_Y+25 && mouse_y<cfgnetw_Y+47 )
+if(window_focus_id==W_CFGMENU && mouse_x>cfgnetw_X+140 && mouse_x<cfgnetw_X+190 && mouse_y>cfgnetw_Y+12 && mouse_y<cfgnetw_Y+37 )   // zone de clic alignee sur le cadre AffectD (etait +25..+47 -> decalee vers le bas/sous la case)
 {
 AffectD.DrawOutline(CouleurLigne.WithAlpha(0.6));
 if(mouse_button==1 && mouse_released==0   )
