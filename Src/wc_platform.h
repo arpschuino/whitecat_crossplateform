@@ -9,8 +9,9 @@
  *   - helpers portables : wc_get_exe_dir(), wc_get_temp_dir()
  */
 
-#include <stdlib.h>  // getenv
+#include <stdlib.h>  // getenv, system
 #include <string.h>  // strncpy, strlen
+#include <stdio.h>   // snprintf (wc_open_path)
 
 // ============================================================
 // Windows
@@ -77,6 +78,23 @@
     #define WC_DIRSEP     "/"
     #define WC_DIRSEP_C   '/'
 #endif
+
+// ============================================================
+// wc_open_path — ouvre un fichier/URL avec l'application par defaut de l'OS.
+// Win32: 'start' (interne cmd) ; Linux: xdg-open ; macOS: open.
+// ('start' n'existe QUE sous cmd.exe -> "Help inactif" signale sous Linux.)
+// ============================================================
+static inline void wc_open_path(const char* path) {
+    char _wc_ocmd[1200];
+#ifdef _WIN32
+    snprintf(_wc_ocmd, sizeof(_wc_ocmd), "start \"\" \"%s\"", path);   // 1er "" = titre de fenetre
+#elif defined(__APPLE__)
+    snprintf(_wc_ocmd, sizeof(_wc_ocmd), "open \"%s\"", path);
+#else
+    snprintf(_wc_ocmd, sizeof(_wc_ocmd), "xdg-open \"%s\" >/dev/null 2>&1 &", path);
+#endif
+    system(_wc_ocmd);
+}
 
 // ============================================================
 // wc_get_exe_dir — dossier de l'exécutable, sans slash/backslash final

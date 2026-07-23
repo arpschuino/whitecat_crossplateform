@@ -643,7 +643,7 @@ switch(IDmidi)
 {
 case 754: //Blind
 if(isstate==1)
-{Command.Draw(CouleurSurvol.WithAlpha(alpha_blinker));}
+{Command.Draw(CouleurSurvol);}   // [ui] allume fixe : alpha_blinker n'avance qu'au reveil du rendu (souris) -> paraissait "parasite" par la souris
 Command.DrawOutline(CouleurBlind);
 break;
 case 1335://freeze
@@ -658,7 +658,7 @@ Command.DrawOutline(CouleurBlind);
 break;
 case 1277: //MIdi Mute
 if(isstate==1)
-{Command.Draw(CouleurFader.WithAlpha(alpha_blinker));}
+{Command.Draw(CouleurFader);}   // [ui] allume fixe (cf. Blind)
 Command.DrawOutline(CouleurLigne);
 Command.DrawOutline(CouleurBleuProcedure.WithAlpha(0.5));
 break;
@@ -675,7 +675,7 @@ Command.DrawOutline(CouleurFader);
 break;
 case 1542://hipass
 if( index_do_hipass==1)
-{Command.Draw(CouleurFader.WithAlpha(alpha_blinker));}
+{Command.Draw(CouleurFader);}   // [ui] allume fixe (cf. Blind)
 Command.DrawOutline(CouleurFader);
 break;
 case 1592://Fgroup
@@ -687,12 +687,11 @@ case 1625: //MIdi affect
 switch(isstate)
 {
 case 1:
-Command.Draw(CouleurLigne);
-Command.Draw(CouleurBleuProcedure.WithAlpha(alpha_blinker));
+Command.Draw(CouleurBleu10);   // [ui] allume fixe + bleu vif (couleur fixe) : distinct du voisin CouleurFader et de l'etat 2 (rouge) ; CouleurBleuProcedure etait noir dans certains themes
 break;
 case 2:
 Command.Draw(CouleurLigne);
-Command.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+Command.Draw(CouleurBlind);   // [ui] allume fixe (cf. Blind)
 break;
 default:
 Command.DrawOutline(CouleurLigne);
@@ -880,8 +879,11 @@ index_call_help=toggle(index_call_help);
 if(index_call_help==1)
 {
    char txtsp[1024];
-   sprintf(txtsp,"start file://%sdoc/introduction.html",mondirectory);
-   system(txtsp);
+   // [cross-platform] chemin simple joint par WC_DIRSEP (mondirectory SANS separateur final)
+   // + wc_open_path (start/xdg-open/open). Ancien code : "start file://%sdoc/..." -> separateur
+   // manquant ET 'start' Windows-only -> Help inactif sous Linux (signale par Olivier).
+   snprintf(txtsp,sizeof(txtsp),"%s%sdoc%sintroduction.html",mondirectory,WC_DIRSEP,WC_DIRSEP);
+   wc_open_path(txtsp);
    index_call_help=0;substract_a_window(W_MAINMENU);
 }
 break;
