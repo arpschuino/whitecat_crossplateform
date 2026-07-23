@@ -31,11 +31,19 @@
 
 - **Fix : avec un damper actif, le fader ne redescendait pas complètement** (ex. piloté par LFO : il restait un poil au-dessus de 0). La glisse exponentielle du damper est asymptotique → elle n'atteint jamais la cible pile. Ajout d'un accrochage exact à la cible (snap) quand l'écart devient négligeable. Corrige aussi une initialisation manquante (`_damper_blocking_mode`/`_damper_accel`) qui pouvait figer le damper.
 
+### Faders — crash à l'ouverture (Linux)
+
+- **Fix : ouvrir la fenêtre Faders (F10 ou clic) faisait quitter WhiteCat instantanément** avec certains shows (signalé par un beta sous Linux). `detect_dock_used()` renvoyait une variable **non initialisée** quand aucun dock sélectionné n'était atteint dans `[0, nb_docks[` (ex. un fader dont l'unique dock sélectionné est au-delà de `nb_docks`) → index de dock poubelle → lecture hors-bornes dans le rendu des faders. Bénin sous Windows (pile souvent 0-5), **fatal sous Linux** (segfault) — d'où le fait qu'il ne se reproduisait pas sous Windows. Fallback sur le dock 0. *(Les minifaders n'étaient pas touchés : ils ne dessinent pas la pile de docks.)*
+
 ### Séquentiel — temps (affichage + saisie)
 
 - **Fix : temps affichés en retard.** En enregistrant un temps (Up/Down/délai) de cue, l'écran gardait l'ancienne valeur jusqu'à un mouvement de souris (rendu en cap idle). `affect_time_entry_to_mem` recalcule maintenant les chaînes (`do_sprintf_job`) et **force le rafraîchissement** (`wc_request_refresh`) ; idem après les paires délai/temps de la touche « L » (écrites après coup). Même classe de bug que echo/faders/grid players.
 - **Fix : saisie de temps > 59 s.** Taper « 80 » donne désormais **1 min 20 s** (report des secondes ≥ 60 sur les minutes) au lieu d'être clampé à 59 s. Plafond 59:59.
 - **Nettoyage** : suppression du flag mort `someone_changed_in_sequences` (écrit ~20 fois, jamais lu — vestige iCat).
+
+### Séquentiel — bouclage stage/preset +/-
+
+- **Fix : les boutons stage/preset +/- sautaient les mémoires limites 0.0 et 999.9 au bouclage** (signalé par un beta). En montant, la 999.9 n'était jamais atteinte ; en descendant, la 0.0 — la garde de bouclage renvoyait à l'autre bout **avant** de tester la valeur limite. Remplacé par un parcours modulo (chaque numéro visité une fois, bornes comprises). Corrige au passage un **gel possible** (boucle infinie) de la liste des cues à venir et du double-GO quand le show contient moins de cues que de lignes affichables (garde sans drapeau `turn`).
 
 ### Espace circuits — Vue Classical
 
@@ -70,6 +78,8 @@
 - **Noms éditables au double-clic** (nom de show — Save *Binary* et *Import/Export* —, nom de **banger**, nom de **grid player**, nom de **chaser** et de ses **pistes**) : double-cliquer sur un champ de nom permet de le saisir **directement**, sans passer par la fenêtre texte F5 (curseur blanc, flèches, backspace, UTF-8) ; Entrée valide, Échap annule, un clic sur le bouton d'action valide aussi le nom en cours (et re-détecte le format à l'import). Repose sur un **composant d'édition inline réutilisable** (`wc_inline_edit`). Le nom des pistes de chaser était même **introuvable** avant (F5 + clic sur le bouton ON en mode edit) — désormais découvrable par double-clic direct. Cohérence visuelle : les boîtes de nom (banger, grid, chaser) passent au **bleu** standard ; les repères de ligne de la grille des bangers passent en **blanc**.
 - **Fenêtre principale redimensionnable à la souris** : on peut désormais agrandir / rétrécir la fenêtre en tirant ses bords. L'interface garde ses coordonnées fixes — agrandir donne plus d'espace vide autour, rétrécir rogne le bas / la droite. *(Sous Windows, le contenu peut apparaître étiré pendant le glissement de bordure — boucle de redimensionnement modale de l'OS — puis redevient net au relâché ; sous Linux/X11 c'est en principe plus fluide.)*
 - **Fix : nom (F5) — chiffres du pavé numérique comptés double** (« 01 » donnait « 0101 »). Les touches du pavé numérique portent le bit `SDLK_SCANCODE_MASK` : elles échappaient au filtre qui laisse la saisie texte à `SDL_TEXTINPUT` en mode nom → elles étaient ajoutées deux fois (file de touches + `SDL_TEXTINPUT`). Traitées comme les chiffres de la rangée du haut.
+- **Boutons du menu haut allumés fixes** (Blind, HiPass, MidiAffect, MidiMute) : leur état actif clignotait via l'alpha du « blinker », qui n'avance qu'au réveil du rendu (souris) → le clignotement se figeait souris immobile et « repartait » au moindre mouvement (signalé « parasité par la souris » par un beta). Passés en **allumé fixe**. MidiAffect état 1 remplissait avec une couleur **noire dans certains thèmes** (invisible) → passé en **bleu vif**, distinct du voisin.
+- **Fix : bouton Help inactif sous Linux.** Il lançait `start file://…doc/introduction.html` — `start` est une commande **interne à cmd.exe** (inexistante sous Linux), et le chemin était en plus **mal formé** (séparateur manquant). Remplacé par un helper portable `wc_open_path()` (`start` Windows / `xdg-open` Linux / `open` macOS), chemin joint par le séparateur de la plateforme.
 
 ### Interopérabilité — import ASCII (ETC Eos / Cobalt / Congo)
 
