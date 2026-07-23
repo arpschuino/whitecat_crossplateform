@@ -1,5 +1,31 @@
 # WhiteCat — TODO
 
+## 🔄 REPRISE DE SESSION (23/07/2026 — poste Windows → atelier Linux)
+
+**Contexte** : session de debug multi-sujets. Reprise prévue sur un AUTRE poste (Linux, atelier).
+Tout est poussé sur GitHub (`arpschuino`) — canal fiable entre postes. **Ne pas se fier à Nextcloud pour le dépôt git** (risque de conflit `.git`) : faire `git pull` / `git push`.
+
+### État du travail
+- **Fix crash faders (BUG_FADER, Olivier, Linux)** — `detect_dock_used()` (core.cpp) renvoyait une variable NON initialisée quand aucun dock sélectionné n'est atteint dans `[0, nb_docks[` → index poubelle → OOB, **fatal sous Linux, bénin sous Windows**. Fix = `int thedockused=0;`. Cause pour BUG_FADER : le fader 9 a son unique dock sélectionné en position 6, inatteignable si `nb_docks<6`. **Commité sur 0.10** (voir git log). À faire : **backport 0.9.2** + binaire Linux pour Olivier confirme.
+  - Défense en profondeur écartée : la sentinelle `ChaserAffectedToDck=999` (init "dock vide", faders_operations.cpp:140) est LÉGITIME, pas une corruption — la borner casserait des données saines. Le vrai blindage serait de garder à la *lecture* (~15 sites faders_visuels/minifaders) — chantier séparé si besoin.
+- **Slots nommés (devices)** — WIP non commité : `channel.h`, `gdtf_import.cpp`, `patch_core.cpp`, `fixturectl_visu.cpp`. Sauvegardé sur la branche GitHub **`backup-wip-0.10-slots`**. **À tester à froid** (import GDTF à crans → roller + nom de slot + ◄►).
+- **Fix bouclage séquence +/- (Olivier)** — commité 0.10 `b592eb04` (7 boucles, modulo, 0.0/999.9 + gel possible). **À backporter en 0.9.2**.
+
+### 🐧 Bug À TRAITER DEMAIN SUR LINUX (ne se reproduit pas sous Windows)
+- [ ] **Faders : progression saccadée au début d'un saw (LFO) et au clic sur Loop (1 ou tous docks), y compris sur une tranche non concernée. Moindre avec plusieurs cœurs. Sortie DMX OK (cosmétique).**
+  - Diagnostic : problème de **cadence de rendu / ordonnancement de threads**, pas de logique. L'`ticker()` (do_lfos, chasers, grids) tourne sur un **thread de timer SDL** (`install_int_ex`→`SDL_AddTimer`, graphics_backend.h:242) ; le rendu dort dans `SDL_WaitEventTimeout` et est réveillé par `SDL_PushEvent` de `wc_request_refresh()`. Sur peu de cœurs, contention thread ticker/rendu → réveil tardif → saccade. « Au début » = latence transition idle(10fps)→actif(25/30fps).
+  - **À tester sur Linux** (instrumenter les temps de frame) — 3 suspects :
+    1. **vsync** : renderer tente `SDL_RENDERER_PRESENTVSYNC` d'abord (graphics_backend.h:2472) ; comportement Mesa/Linux ≠ Windows. Tester vsync OFF ou délai de frame fixe.
+    2. **flood d'événements** : ticker pousse ~50 `SDL_PushEvent`/s → engorge la queue du thread principal sous peu de cœurs.
+    3. **ordonnancement timer SDL** vs rendu piloté par horloge sur le thread principal.
+  - Priorité BASSE (cosmétique, Linux-only, dépend de la charge).
+
+### Rappels environnement (à refaire sur le poste Linux atelier)
+- Ajouter les exclusions Nextcloud (`%APPDATA%`/`~/.config/Nextcloud/sync-exclude.lst`) : `last_save`, `wc_debug.txt`, `*.o *.d *.gch *.ii` — sinon conflits de synchro. Cf. section "Environnement" plus bas.
+- Token GitHub en clair dans `.git/config` — à révoquer/remplacer (credential helper).
+
+---
+
 ## 🐞 Bugs à corriger
 
 - [x] **Latence dans l'affichage des temps de la séquence** — CORRIGÉ (09/07) : le rendu était en cap idle → `affect_time_entry_to_mem` recalcule (`do_sprintf_job`) + force le refresh (`wc_request_refresh`), et idem après les paires délai/temps de la touche « L ». Au passage : saisie « 80 » → 1:20 (report des secondes ≥ 60 sur les minutes) et nettoyage du flag mort `someone_changed_in_sequences`.
