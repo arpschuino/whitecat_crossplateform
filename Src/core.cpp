@@ -4355,7 +4355,8 @@ int scan_for_free_dock()
 
 int detect_dock_used(int numfad)
 {
-    int thedockused;
+    int thedockused=0;   // fallback sur si aucun dock selectionne n'est atteint dans [0,nb_docks[
+                         // (sinon valeur de pile non initialisee -> index poubelle -> crash, fatal sous Linux)
     for (int tt=0; tt<core_user_define_nb_docks; tt++)
     {
         if ( DockIsSelected[numfad][tt]==1)
