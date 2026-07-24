@@ -5356,10 +5356,10 @@ return(0);
 int GlobInit()
 {
     index_menu_save=1;
-    for(int i=0; i<24; i++)
-    {
-        core_do_calculations[i]=1;
-    }
+    // [do_calc] NE PLUS reinitialiser core_do_calculations ici : c'est une preference globale
+    // (config_core.txt), pas un reglage par-show. GlobInit est appele par Load_Show -> sinon les
+    // choix "do calculation" etaient perdus a chaque ouverture (signale par Olivier). Defaut a 1
+    // desormais a la declaration (ui_indexes.cpp).
 
     clear_ip_artnet();
 /////////////////////////////////////////

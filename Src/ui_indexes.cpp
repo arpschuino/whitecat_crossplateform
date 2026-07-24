@@ -246,7 +246,10 @@ int core_user_define_nb_chasers = 128;
 int core_user_define_nb_tracks_per_chasers = 24;
 int core_user_define_nb_gridplayers = 4;
 int core_user_define_nb_bangers = 128;
-int core_do_calculations[24];
+// Familles de calcul actives (indices 0-8 utilises) : ON par defaut au demarrage a froid,
+// PUIS ecrasees par config_core.txt (load_core_config). Preference GLOBALE, comme les compteurs
+// nb_faders/nb_docks... -> n'est PLUS reinitialisee par GlobInit (sinon perdue a chaque Load_Show).
+int core_do_calculations[24] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 //////////////////////////////////////
 int mouse_level_for_banger = 0;
 int mouse_level_for_event = 0;
