@@ -1097,11 +1097,20 @@ inline void wc_notify_midi_activity() {
 // Appelé par les automations (LFO, crossfade, chasers...) pour maintenir le rendu actif.
 // N'update PAS wc_last_input_ms : seule l'entrée utilisateur réelle garde le cap 60fps.
 // L'automation seule utilise le cap 25fps (40ms), plus doux pour le GPU.
+// Pousse un SDL_USEREVENT throttlé pour réveiller SDL_WaitEventTimeout si le thread
+// principal est en mode idle (sinon première frame LFO retardée jusqu'à 1000ms sur Linux).
 inline void wc_request_refresh() {
     wc_dirty = true;
     wc_automation_active = true;
     wc_bg_dirty = true;
     wc_win_dirty = true;
+    static volatile Uint32 wc_last_wake_push = 0;
+    Uint32 now = SDL_GetTicks();
+    if (now - wc_last_wake_push >= 38) {   // ~26 wakeups/s max — aligne sur le cap 25fps
+        wc_last_wake_push = now;
+        SDL_Event we; SDL_zero(we); we.type = SDL_USEREVENT;
+        SDL_PushEvent(&we);
+    }
 }
 
 // Diagnostic freeze : s'active quand W_FADERS s'ouvre, log les etapes cles
@@ -1317,9 +1326,9 @@ static void wc_handle_event(const SDL_Event &e) {
         break;
 
     case SDL_USEREVENT:
-        // Réveillé par wc_notify_midi_activity() depuis le thread MIDI.
-        // wc_dirty est static-par-TU : on le positionne ici, dans le contexte
-        // de MAIN.cpp, pour que la boucle principale voie le changement.
+        // Réveillé par wc_notify_midi_activity() (thread MIDI) ou wc_request_refresh()
+        // (thread ticker — LFO, chasers, crossfade). wc_dirty est static-par-TU :
+        // positionné ici, dans le contexte de MAIN.cpp, pour que la boucle voie le changement.
         wc_dirty = true;
         wc_bg_dirty = true;
         wc_win_dirty = true;
