@@ -694,6 +694,7 @@ int Control_Audio_thruth_faders(int ff, int dd, int typ) // typ 0 vol / 1 pan / 
     switch (typ) {
     case 0: // VOLUME
         player_to_remote = DockHasAudioVolume[ff][dd] - 1;
+        if (player_to_remote < 0 || player_to_remote >= 4) return 0;
         player_niveauson[player_to_remote] = vol_to_send;
         midi_levels[616 + player_to_remote] = vol_to_send;
         if (player_ignited[player_to_remote] == 1 && index_loading_a_sound_file == 0) {
@@ -715,6 +716,7 @@ int Control_Audio_thruth_faders(int ff, int dd, int typ) // typ 0 vol / 1 pan / 
         break;
     case 1: // PAN
         player_to_remote = DockHasAudioPan[ff][dd] - 1;
+        if (player_to_remote < 0 || player_to_remote >= 4) return 0;
         player_pan[player_to_remote] = vol_to_send;
         midi_levels[620 + player_to_remote] = vol_to_send;
         if (player_ignited[player_to_remote] == 1 && index_loading_a_sound_file == 0) {
@@ -737,6 +739,7 @@ int Control_Audio_thruth_faders(int ff, int dd, int typ) // typ 0 vol / 1 pan / 
         break;
     case 2: // PITCH
         player_to_remote = DockHasAudioPitch[ff][dd] - 1;
+        if (player_to_remote < 0 || player_to_remote >= 4) return 0;
         player_pitch[player_to_remote] = vol_to_send;
         midi_levels[624 + player_to_remote] = vol_to_send;
         if (player_ignited[player_to_remote] == 1 && index_loading_a_sound_file == 0) {

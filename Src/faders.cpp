@@ -40,7 +40,7 @@ char string_docktypaudiovol[8];
 char string_docktypaudiopan[8];
 char string_docktypaudiopicth[8];
 char string_docktypdchan[8];
-char string_docktypfx[8];
+char string_docktypfx[16];
 int ChaserAffectedToDck[48][6];
 int actual_master_lock = 0;
 int colorpreset_linked_to_dock[8][2];

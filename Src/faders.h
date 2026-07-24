@@ -42,7 +42,7 @@ extern char string_docktypaudiovol[8];
 extern char string_docktypaudiopan[8];
 extern char string_docktypaudiopicth[8];
 extern char string_docktypdchan[8];
-extern char string_docktypfx[8];
+extern char string_docktypfx[16];
 
 extern int ChaserAffectedToDck[48][6];
 extern int actual_master_lock;
