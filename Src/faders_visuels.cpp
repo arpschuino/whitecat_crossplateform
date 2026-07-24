@@ -682,19 +682,24 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                 default:
                     FaderNiveau.Draw(CouleurFader.WithAlpha(myalpha));
                     break;
-                case 11: // Fx
-                    if (chaser_is_playing[ChaserAffectedToDck[cmptfader][dock_used_by_fader_is[cmptfader]]] == 0)
+                case 11: { // Fx
+                    int _ci = ChaserAffectedToDck[cmptfader][dock_used_by_fader_is[cmptfader]];
+                    if (_ci < 0 || _ci >= 128) break; // sentinel 999 ou non assigné
+                    if (chaser_is_playing[_ci] == 0)
                         FaderNiveau.Draw(CouleurGreen);
                     else
                         FaderNiveau.Draw(CouleurGreen.WithAlpha(alpha_blinker));
                     break;
-                case 12: // Grid
-                    if (grider_is_playing[faders_dock_grid_affectation[cmptfader][dock_used_by_fader_is[cmptfader]]] ==
-                        0)
+                }
+                case 12: { // Grid
+                    int _gi = faders_dock_grid_affectation[cmptfader][dock_used_by_fader_is[cmptfader]];
+                    if (_gi < 0 || _gi >= 4) break; // sentinel -1 ou non assigné
+                    if (grider_is_playing[_gi] == 0)
                         FaderNiveau.Draw(CouleurBlind);
                     else
                         FaderNiveau.Draw(CouleurBlind.WithAlpha(alpha_blinker));
                     break;
+                }
                 case 13: // Fgroup
                     FaderNiveau.Draw(CouleurYellowFgroup);
                     break;
@@ -769,12 +774,16 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                         }
                     } else if (DockTypeIs[cmptfader][dd] == 11) // chaser
                     {
-                        strncpy(DockName[cmptfader][dd], chaser_name[(ChaserAffectedToDck[cmptfader][dd])], 49);
+                        int _ci = ChaserAffectedToDck[cmptfader][dd];
+                        if (_ci >= 0 && _ci < 128)
+                            strncpy(DockName[cmptfader][dd], chaser_name[_ci], 49);
                         DockName[cmptfader][dd][49] = '\0';
                         Dock.Draw(CouleurGreen);
                     } else if (DockTypeIs[cmptfader][dd] == 12) // Grid
                     {
-                        strncpy(DockName[cmptfader][dd], grider_name[index_grider_selected[faders_dock_grid_affectation[cmptfader][dd]]], 49);
+                        int _gi = faders_dock_grid_affectation[cmptfader][dd];
+                        if (_gi >= 0 && _gi < 4)
+                            strncpy(DockName[cmptfader][dd], grider_name[index_grider_selected[_gi]], 49);
                         DockName[cmptfader][dd][49] = '\0';
                         Dock.Draw(CouleurBlind);
                     } else if (DockTypeIs[cmptfader][dd] == 13) // Fgroup
@@ -970,71 +979,53 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                 DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]] == 7 ||
                 DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]] == 8) {
                 switch (DockTypeIs[cmptfader][dock_used_by_fader_is[cmptfader]]) {
-                case 6: // VOLUME
-                    // Play
-                    play_button_view(
-                        x + (cmptfader * espacement) + 20, y + 410,
-                        player_is_playing[DockHasAudioVolume[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // Seek to Beg
+                case 6: { // VOLUME
+                    int _pv = DockHasAudioVolume[cmptfader][dock_used_by_fader_is[cmptfader]] - 1;
+                    if (_pv < 0 || _pv >= 4) break; // player non assigné ou hors limites
+                    play_button_view(x + (cmptfader * espacement) + 20, y + 410, player_is_playing[_pv]);
                     if (mouse_x > x + (cmptfader * espacement) + 45 && mouse_x < x + (cmptfader * espacement) + 70 &&
                         mouse_y > y + 410 && mouse_y < y + 430 && mouse_button == 1 && mouse_released == 0) {
-                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410,
-                                         1); // seek , affichage avant le bouton
+                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 1);
                         mouse_released = 1;
                     }
                     seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 0);
-                    // LOOP chaser
-                    loop_button_view(
-                        x + (cmptfader * espacement) + 70, y + 410,
-                        player_is_onloop[DockHasAudioVolume[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // autolaunch chaser
+                    loop_button_view(x + (cmptfader * espacement) + 70, y + 410, player_is_onloop[_pv]);
                     autolaunch_button_view(x + (cmptfader * espacement) + 95, y + 410, autolaunch[cmptfader]);
                     break;
-                case 7: // PAN
-                    // Play
-                    play_button_view(
-                        x + (cmptfader * espacement) + 20, y + 410,
-                        player_is_playing[DockHasAudioPan[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // Seek to Beg
+                }
+                case 7: { // PAN
+                    int _pp = DockHasAudioPan[cmptfader][dock_used_by_fader_is[cmptfader]] - 1;
+                    if (_pp < 0 || _pp >= 4) break;
+                    play_button_view(x + (cmptfader * espacement) + 20, y + 410, player_is_playing[_pp]);
                     if (mouse_x > x + (cmptfader * espacement) + 45 && mouse_x < x + (cmptfader * espacement) + 70 &&
                         mouse_y > y + 410 && mouse_y < y + 430 && mouse_button == 1 && mouse_released == 0) {
-                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410,
-                                         1); // seek , affichage avant le bouton
+                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 1);
                         mouse_released = 1;
                     }
                     seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 0);
-                    // LOOP chaser
-                    loop_button_view(
-                        x + (cmptfader * espacement) + 70, y + 410,
-                        player_is_onloop[DockHasAudioPan[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // autolaunch chaser
+                    loop_button_view(x + (cmptfader * espacement) + 70, y + 410, player_is_onloop[_pp]);
                     autolaunch_button_view(x + (cmptfader * espacement) + 95, y + 410, autolaunch[cmptfader]);
                     break;
-                case 8: // PITCH
-                    // Play
-                    play_button_view(
-                        x + (cmptfader * espacement) + 20, y + 410,
-                        player_is_playing[DockHasAudioPitch[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // Seek to Beg
+                }
+                case 8: { // PITCH
+                    int _pi = DockHasAudioPitch[cmptfader][dock_used_by_fader_is[cmptfader]] - 1;
+                    if (_pi < 0 || _pi >= 4) break;
+                    play_button_view(x + (cmptfader * espacement) + 20, y + 410, player_is_playing[_pi]);
                     if (mouse_x > x + (cmptfader * espacement) + 45 && mouse_x < x + (cmptfader * espacement) + 70 &&
                         mouse_y > y + 410 && mouse_y < y + 410 + 20 && mouse_button == 1 && mouse_released == 0) {
-                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410,
-                                         1); // seek , affichage avant le bouton
+                        seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 1);
                         mouse_released = 1;
                     }
                     seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 0);
-                    // LOOP chaser
-                    loop_button_view(
-                        x + (cmptfader * espacement) + 70, y + 410,
-                        player_is_onloop[DockHasAudioPitch[cmptfader][dock_used_by_fader_is[cmptfader]] - 1]);
-                    // autolaunch chaser
+                    loop_button_view(x + (cmptfader * espacement) + 70, y + 410, player_is_onloop[_pi]);
                     autolaunch_button_view(x + (cmptfader * espacement) + 95, y + 410, autolaunch[cmptfader]);
                     break;
-                case 11: // CHASERS
+                }
+                case 11: { // CHASERS
+                    int _ci = ChaserAffectedToDck[cmptfader][dock_used_by_fader_is[cmptfader]];
+                    if (_ci < 0 || _ci >= 128) break; // sentinel 999 ou non assigné
                     // Play
-                    play_button_view(
-                        x + (cmptfader * espacement) + 20, y + 410,
-                        chaser_is_playing[ChaserAffectedToDck[cmptfader][dock_used_by_fader_is[cmptfader]]]);
+                    play_button_view(x + (cmptfader * espacement) + 20, y + 410, chaser_is_playing[_ci]);
                     // Seek to Beg
                     if (mouse_x > x + (cmptfader * espacement) + 45 && mouse_x < x + (cmptfader * espacement) + 70 &&
                         mouse_y > y + 410 && mouse_y < y + 430 && mouse_button == 1 && mouse_released == 0) {
@@ -1044,16 +1035,15 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                     }
                     seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 0);
                     // LOOP chaser
-                    loop_button_view(
-                        x + (cmptfader * espacement) + 70, y + 410,
-                        chaser_is_in_loop[ChaserAffectedToDck[cmptfader][dock_used_by_fader_is[cmptfader]]]);
+                    loop_button_view(x + (cmptfader * espacement) + 70, y + 410, chaser_is_in_loop[_ci]);
                     // autolaunch chaser
                     autolaunch_button_view(x + (cmptfader * espacement) + 95, y + 410, autolaunch[cmptfader]);
                     break;
-                case 12: // GRIDPLAYER
-                    play_button_view(
-                        x + (cmptfader * espacement) + 20, y + 410,
-                        grider_is_playing[faders_dock_grid_affectation[cmptfader][dock_used_by_fader_is[cmptfader]]]);
+                }
+                case 12: { // GRIDPLAYER
+                    int _gi = faders_dock_grid_affectation[cmptfader][dock_used_by_fader_is[cmptfader]];
+                    if (_gi < 0 || _gi >= 4) break; // sentinel -1 ou non assigné
+                    play_button_view(x + (cmptfader * espacement) + 20, y + 410, grider_is_playing[_gi]);
                     // Seek to Beg
                     if (mouse_x > x + (cmptfader * espacement) + 45 && mouse_x < x + (cmptfader * espacement) + 70 &&
                         mouse_y > y + 410 && mouse_y < y + 410 + 20 && mouse_button == 1 && mouse_released == 0) {
@@ -1063,12 +1053,11 @@ int FaderSpace(int x, int y, int espacement, int nbr_fader) {
                     }
                     seek_button_view(x + (cmptfader * espacement) + 45, y + 410, 0);
                     // StopPlay
-                    playstop_button_view(
-                        x + (cmptfader * espacement) + 70, y + 410,
-                        grider_autostopmode[faders_dock_grid_affectation[cmptfader][dock_used_by_fader_is[cmptfader]]]);
+                    playstop_button_view(x + (cmptfader * espacement) + 70, y + 410, grider_autostopmode[_gi]);
                     // autolaunch chaser
                     autolaunch_button_view(x + (cmptfader * espacement) + 95, y + 410, autolaunch[cmptfader]);
                     break;
+                }
                 default:
                     break;
                 }
