@@ -875,12 +875,12 @@ index_call_help=toggle(index_call_help);
 if(index_call_help==1)
 {
    char txtsp[1024];
-   // [cross-platform] chemin simple joint par WC_DIRSEP (mondirectory SANS separateur final)
-   // + wc_open_path (start/xdg-open/open). Ancien code : "start file://%sdoc/..." -> separateur
-   // manquant ET 'start' Windows-only -> Help inactif sous Linux (signale par Olivier).
    snprintf(txtsp,sizeof(txtsp),"%s%sdoc%sintroduction.html",mondirectory,WC_DIRSEP,WC_DIRSEP);
+   // Fallback en ligne si doc/ absent (package Linux sans doc/)
+   { FILE* _chk=fopen(txtsp,"r"); if(_chk){fclose(_chk);} else { snprintf(txtsp,sizeof(txtsp),"https://arpschuino.github.io/whitecat_crossplateform/doc/introduction.html"); } }
    wc_open_path(txtsp);
-   index_call_help=0;substract_a_window(W_MAINMENU);
+   // index_call_help reste à 1 → bouton allumé ~1s (auto-reset dans channels_core)
+   substract_a_window(W_MAINMENU);
 }
 break;
 case 43://quit
