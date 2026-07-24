@@ -956,6 +956,7 @@ static void wc_atexit_handler() {
 
 int main(int /*argc*/, char ** /*argv*/) {
     wc_get_exe_dir(mondirectory, 512);
+    if (mondirectory[0] != '\0') chdir(mondirectory); // assets (Fonts/, gfx/, user/) à côté de l'exe
     {
         char _tmp[512] = "";
         wc_get_temp_dir(_tmp, 512);
