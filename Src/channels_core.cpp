@@ -801,6 +801,10 @@ command_button_logical(chx+840,chy+1,index_do_report,"REPORT","F3",745,104);
 command_button_logical(chx+910,chy+1,index_main_clear,"CLEAR","F4",746,105);
 command_button_logical(chx+980,chy+1,index_show_main_menu,"MENUS","RIGHT CLICK",1626,108);
 command_button_logical(chx+1050,chy+1,index_call_help,"Help","",1342,42);
+// Allumage momentané ~1s puis auto-reset
+static Uint32 _help_lit = 0;
+if (index_call_help && _help_lit == 0) _help_lit = SDL_GetTicks();
+if (_help_lit && SDL_GetTicks() - _help_lit > 1200) { index_call_help=0; _help_lit=0; }
 }
 //fin windows focus
 return(0);
