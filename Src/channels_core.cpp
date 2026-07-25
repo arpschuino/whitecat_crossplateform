@@ -365,6 +365,12 @@ int DoMouseLevel()
  //   ecarts entre lyres. Coarse = 1 DMX (257) ; Ctrl+molette = fin (1/65535), meme courbe veloce.
  {
    static int last_scroll_mouse_for_fxc = 0;
+   // menu de modes ouvert : la molette DEFILE la liste (prioritaire sur le delta d'attribut)
+   if (win_under == W_FIXTURECTL && fxc_dropdown_open()) {
+       int _delta = mouse_z - last_scroll_mouse_for_fxc;
+       if (_delta != 0) { fxc_dropdown_wheel(_delta > 0 ? 1 : -1); last_scroll_mouse_for_fxc = mouse_z; last_scroll_mouse_for_chan = mouse_z; }
+       return (0);
+   }
    if (win_under == W_FIXTURECTL && fixturectl_wheel_hover[0] != 0) {
        int _delta = mouse_z - last_scroll_mouse_for_fxc;
        if (_delta != 0) {

@@ -382,6 +382,11 @@ static void fxc_apply_home(const std::string& key)
 //   screen center = xf + FXC_ENC_X0 + cx_rel[i] - g_fxc_scroll_px.
 // ============================================================================
 static int g_fxc_scroll_px = 0;   // offset de defilement, en pixels
+static std::string g_fxc_drop_key;    // [devices] canal dont le menu de modes (dropdown) est ouvert ("" = aucun)
+static int         g_fxc_drop_scroll = 0;   // 1er mode visible dans le menu
+static int         g_fxc_drop_saved_h = 0;  // hauteur fenetre avant agrandissement auto (0 = pas agrandie)
+static const int   FXC_DROP_MAXVIS = 14;    // nb max de modes visibles (la fenetre s'agrandit pour les loger)
+static void fxc_close_dropdown();           // ferme le menu + restaure la hauteur (defini plus bas)
 
 static void fxc_layout(const std::string* disp, int n, int* cx_rel, int& content_w)
 {
@@ -391,10 +396,12 @@ static void fxc_layout(const std::string* disp, int n, int* cx_rel, int& content
         if(i>0) x += (cat!=prev_cat) ? (FXC_ENC_DX + FXC_GAP_CAT) : (FXC_ENC_DX - FXC_GAP_SAME);
         cx_rel[i]=x; prev_cat=cat;
     }
-    content_w = (n>0) ? (x + FXC_ROL_W) : 0;   // du bord gauche du 1er au bord droit du dernier
+    // On reserve FXC_ENC_DX (largeur de l'ETIQUETTE, 68px) et non FXC_ROL_W (rouleau, 30px) : sinon
+    // l'etiquette du dernier circuit debordait du clip au defilement max. Laisse ~16px d'air a droite.
+    content_w = (n>0) ? (x + FXC_ENC_DX) : 0;
 }
 static inline int fxc_view_left (int xf){ return xf + FXC_ENC_X0 - 18; }   // -18 : loge le bouton home (32 de large) sans rognage
-static inline int fxc_view_right(int xf){ return xf + fixturectl_window_w - 12; }
+static inline int fxc_view_right(int xf){ return xf + fixturectl_window_w - 6; }   // -6 (et non -12) : le dernier rouleau debordait de ~3px du clip
 static inline int fxc_view_w    (int xf){ return fxc_view_right(xf) - fxc_view_left(xf); }
 static inline int fxc_scx(int xf, int i, const int* cx_rel){ return xf + FXC_ENC_X0 + cx_rel[i] - g_fxc_scroll_px; }
 static void fxc_clamp_scroll(int content_w, int xf){ int m=content_w - fxc_view_w(xf); if(m<0)m=0; if(g_fxc_scroll_px>m)g_fxc_scroll_px=m; if(g_fxc_scroll_px<0)g_fxc_scroll_px=0; }
@@ -428,11 +435,11 @@ static std::string fxc_attr_at_point(int xf, int yf, int px, int py)
 }
 
 // Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + textes (centres).
-// mixed = plusieurs devices aux valeurs differentes -> "..." au lieu du nombre.
-// slotted = parametre a crans -> haut = nom d'attribut, bas = "< nom_slot >" (fleches de navigation).
-// Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + textes.
-// slotted (canal a modes) = "both" facon EOS : la molette reste (plage continue) ET on ajoute
-// en bas  < nom_du_mode >  avec fleches de navigation entre crans. mixed = valeurs differentes.
+// Convention "fonction en haut" (coherente avec les rouleaux simples) :
+//   HAUT = nom d'attribut (fonction) pour TOUS les rouleaux.
+//   BAS  = valeur DMX (continu) OU declencheur du menu de modes " nom v " (slotted).
+// slotted (canal a modes) = facon EOS : la molette reste (plage continue) ET un declencheur de menu
+// en bas. mixed = plusieurs devices aux valeurs differentes -> "..." au lieu du nombre/mode.
 static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval, bool mixed, bool hovered,
                              bool slotted, const std::string& slotName)
 {
@@ -462,36 +469,37 @@ static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval,
 
     Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);   // repere de lecture central
 
-    // HAUT : libelle d'attribut (a crans) ou valeur DMX (continu)
-    if(slotted){
+    // HAUT : libelle d'attribut (fonction) -- IDENTIQUE pour les deux types (convention "fonction en haut")
+    {
         std::string lab; fxc_fit_label(key, lab);
         petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, top - 6);
-    } else {
-        std::string vs = mixed ? std::string("\xE2\x80\xA6") : ol::ToString((int)(refval >> 8));
-        petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, top - 6);
     }
 
-    // BAS : libelle (continu) ou  BOUTON DE MODE  < nom >  (a crans, facon EOS "molette + bouton")
+    // BAS : valeur DMX (continu) ou  DECLENCHEUR DU MENU DE MODES  " nom v "  (grosses roues)
     int by = top + h + 16;
     if(slotted){
-        int bw = FXC_ENC_DX, bh = 18;                 // bouton de mode sous la molette
+        int bw = FXC_ENC_DX, bh = 18;                 // declencheur du menu deroulant sous la molette
         Rect Btn(Vec2D(cx - bw/2, by - 13), Vec2D(bw, bh));
         Btn.SetRoundness(4);
         Btn.SetLineWidth(epaisseur_ligne_fader);
         Btn.Draw(CouleurGrisMoyen);
         Btn.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);
-        petitchiffre.Print("<", cx - FXC_ENC_DX/2 + 4, by);
-        petitchiffre.Print(">", cx + FXC_ENC_DX/2 - 9, by);
+        petitchiffre.Print("v", cx + FXC_ENC_DX/2 - 9, by);   // indicateur "deroulant"
         std::string sn = mixed ? std::string("\xE2\x80\xA6") : slotName;
-        int maxw = FXC_ENC_DX - 24;
+        int maxw = FXC_ENC_DX - 20;
         if(petitchiffre.TextWidth(sn.c_str())>maxw){
             const char* ell="\xE2\x80\xA6";
             while(!sn.empty()){ sn.pop_back(); std::string c=sn+ell; if(petitchiffre.TextWidth(c.c_str())<=maxw){ sn=c; break; } }
         }
-        petitchiffre.Print(sn.c_str(), cx - petitchiffre.TextWidth(sn.c_str())/2, by);
+        petitchiffre.Print(sn.c_str(), cx - 6 - petitchiffre.TextWidth(sn.c_str())/2, by);
     } else {
-        std::string lab; fxc_fit_label(key, lab);
-        petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, by);
+        std::string vs;
+        if(mixed) vs = "\xE2\x80\xA6";
+        else {
+            int d8 = (int)(refval >> 8);                       // 8 bit (0..255)
+            vs = ol::ToString(dmx_view ? d8 : (int)(d8/2.55)); // dmx_view : 1 = DMX 0..255, 0 = pourcentage 0..100
+        }
+        petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, by);
     }
 }
 
@@ -524,6 +532,85 @@ static void fxc_draw_buttonlist(int cx, int cy, const std::string& key, const wc
             while(!sn.empty()){ sn.pop_back(); std::string c=sn+ell; if(petitchiffre.TextWidth(c.c_str())<=maxw){ sn=c; break; } }
         }
         petitchiffre.Print(sn.c_str(), cx - petitchiffre.TextWidth(sn.c_str())/2, y0 + bh/2 + 4);
+    }
+}
+
+// Geometrie du menu de modes ouvert (partagee dessin/clic). false si aucun / introuvable.
+static bool fxc_dropdown_geom(int xf, int yf, const wc::Channel*& ch,
+                              int& left, int& top, int& w, int& lw, int& row_h,
+                              int& vis, int& nb, bool& has_sc, int& maxsc, int& active)
+{
+    if(g_fxc_drop_key.empty()) return false;
+    ch = fxc_ref_channel(g_fxc_drop_key);
+    if(!ch || ch->slots.empty()) return false;
+    std::string disp[FXC_MAXENC]; int n=fxc_build_display(disp,FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp,n,cx_rel,content_w); fxc_clamp_scroll(content_w,xf);
+    int idxCol=-1; for(int i=0;i<n;i++){ if(disp[i]==g_fxc_drop_key){ idxCol=i; break; } }
+    if(idxCol<0) return false;
+    int scx=fxc_scx(xf,idxCol,cx_rel), cy=yf+FXC_ENC_CY;
+    nb=(int)ch->slots.size();
+    row_h=16; const int max_vis=FXC_DROP_MAXVIS; w=130;
+    left = scx - w/2;                          // borne FENETRE (la fenetre s'est agrandie pour loger le menu)
+    if(left < xf+4) left=xf+4;
+    if(left+w > xf+fixturectl_window_w-4) left=xf+fixturectl_window_w-4-w;
+
+    vis = nb<max_vis ? nb : max_vis;
+    int winBot = yf + fixturectl_window_h - 6;
+    int winTop = yf + FXC_ENC_CY - FXC_ROL_H/2 - 28;   // sous les en-tetes de categorie
+    int below  = cy + FXC_ROL_H/2 + 24;        // ancrage sous le declencheur
+    if(below + vis*row_h + 4 <= winBot){
+        top = below;
+    } else {                                    // pas la place en bas : au-dessus, sinon clampe
+        int aboveBot = cy + FXC_ROL_H/2 - 2;
+        int fitUp = (aboveBot - winTop - 4)/row_h;
+        int fitDn = (winBot - below - 4)/row_h;
+        if(fitUp >= fitDn){ if(vis>fitUp)vis=fitUp; if(vis<1)vis=1; top = aboveBot - (vis*row_h+4); }
+        else             { if(vis>fitDn)vis=fitDn; if(vis<1)vis=1; top = below; }
+    }
+    has_sc = nb > vis;
+    maxsc = nb - vis; if(maxsc<0) maxsc=0;
+    if(g_fxc_drop_scroll>maxsc)g_fxc_drop_scroll=maxsc; if(g_fxc_drop_scroll<0)g_fxc_drop_scroll=0;
+    lw = has_sc ? w-16 : w-4;
+    int o=(ch->coarse_addr>0 && ch->coarse_addr<514) ? (int)output_devval[ch->coarse_addr] : 0;
+    active = fxc_slot_index(ch, o);
+    return true;
+}
+
+// Dessine le menu de modes ouvert (appele en DERNIER, par-dessus les colonnes).
+static void fxc_draw_dropdown(int xf, int yf)
+{
+    const wc::Channel* ch; int left,top,w,lw,row_h,vis,nb,maxsc,active; bool has_sc;
+    if(!fxc_dropdown_geom(xf,yf,ch,left,top,w,lw,row_h,vis,nb,has_sc,maxsc,active)){ fxc_close_dropdown(); return; }
+    Rect Box(Vec2D(left,top),Vec2D(w,vis*row_h+4)); Box.SetRoundness(4);
+    Box.Draw(CouleurFond); Box.DrawOutline(CouleurFader);
+    for(int v=0;v<vis;v++){
+        int fi=v+g_fxc_drop_scroll; if(fi>=nb) break;
+        int ry=top+2+v*row_h;
+        bool hov=(window_focus_id==W_FIXTURECTL && mouse_x>left+2 && mouse_x<left+2+lw && mouse_y>ry && mouse_y<ry+row_h);
+        Rect Row(Vec2D(left+2,ry),Vec2D(lw,row_h)); Row.SetRoundness(2);
+        if(fi==active) Row.Draw(CouleurFader.WithAlpha(0.5f));
+        else if(hov)   Row.Draw(CouleurGrisMoyen.WithAlpha(0.5f));
+        Canvas::SetClipping(left+4,ry,lw-4,row_h);
+        petitpetitchiffre.Print(ch->slots[fi].name.c_str(), left+6, ry+11);
+        Canvas::DisableClipping();
+    }
+    if(has_sc){
+        int bx=left+w-14, boxH=vis*row_h;
+        Rect Up(Vec2D(bx,top+2),Vec2D(12,12)); Up.SetRoundness(2);
+        Up.Draw(g_fxc_drop_scroll>0 ? CouleurGrisAnthracite : CouleurGrisMoyen.WithAlpha(0.3f));
+        petitpetitchiffre.Print("^", bx+4, top+11);
+        int dyb=top+boxH-10;
+        Rect Dn(Vec2D(bx,dyb),Vec2D(12,12)); Dn.SetRoundness(2);
+        Dn.Draw(g_fxc_drop_scroll<maxsc ? CouleurGrisAnthracite : CouleurGrisMoyen.WithAlpha(0.3f));
+        petitpetitchiffre.Print("v", bx+4, dyb+9);
+        // piste + pouce (ascenseur)
+        int trTop=top+16, trH=boxH-32;
+        if(trH>6){
+            Rect Track(Vec2D(bx+3,trTop),Vec2D(6,trH)); Track.SetRoundness(2); Track.Draw(CouleurGrisAnthracite.WithAlpha(0.5f));
+            int thumbH = trH*vis/nb; if(thumbH<8)thumbH=8; if(thumbH>trH)thumbH=trH;
+            int thumbY = trTop + (maxsc>0 ? g_fxc_drop_scroll*(trH-thumbH)/maxsc : 0);
+            Rect Thumb(Vec2D(bx+3,thumbY),Vec2D(6,thumbH)); Thumb.SetRoundness(2); Thumb.Draw(CouleurGrisMoyen);
+        }
     }
 }
 
@@ -659,6 +746,7 @@ int fixturectl_window(int xf, int yf)
         for(int i=4;i<=12;i+=4) Line(Vec2D(gx-i-2, gy-4), Vec2D(gx-4, gy-i-2)).Draw(CouleurGrisClair);
     }
 
+    fxc_draw_dropdown(xf, yf);   // menu de modes ouvert : par-dessus les colonnes
     return(0);
 }
 
@@ -731,6 +819,91 @@ static std::string fxc_modebtn_at_point(int xf, int yf, int px, int py, int& out
     return std::string();
 }
 
+// Declencheur du menu de modes ("nom v") sous (px,py) pour une grosse roue VISIBLE : renvoie la clef, ou "".
+static std::string fxc_trigger_at_point(int xf, int yf, int px, int py)
+{
+    std::string disp[FXC_MAXENC]; int n=fxc_build_display(disp,FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp,n,cx_rel,content_w); fxc_clamp_scroll(content_w,xf);
+    int cy=yf+FXC_ENC_CY, VL=fxc_view_left(xf), VR=fxc_view_right(xf);
+    int by = cy + FXC_ROL_H/2 + 16;
+    if(py<by-13 || py>by+5) return std::string();
+    for(int i=0;i<n;i++){
+        int scx=fxc_scx(xf,i,cx_rel);
+        if(scx+FXC_ROL_W/2<VL || scx-FXC_ROL_W/2>VR) continue;
+        const wc::Channel* ch=fxc_ref_channel(disp[i]);
+        if(!fxc_is_slotted(ch) || fxc_is_buttonlist(ch)) continue;   // seules les grosses roues ont un menu
+        if(px>scx-FXC_ENC_DX/2 && px<scx+FXC_ENC_DX/2) return disp[i];
+    }
+    return std::string();
+}
+
+// Ouvre le menu de modes pour <key> et AGRANDIT la fenetre (si besoin) pour loger la liste :
+// le menu reste ainsi DANS la fenetre -> les clics sont traites normalement (pas de bagarre de focus).
+static void fxc_open_dropdown(const std::string& key, int yf)
+{
+    g_fxc_drop_key = key; g_fxc_drop_scroll = 0;
+    int needH = FXC_ENC_CY + FXC_ROL_H/2 + 24 + FXC_DROP_MAXVIS*16 + 10;
+    int maxH  = SCREEN_H - 8 - yf; if(needH > maxH) needH = maxH;
+    if(fixturectl_window_h < needH){
+        if(g_fxc_drop_saved_h==0) g_fxc_drop_saved_h = fixturectl_window_h;   // memorise la taille d'origine
+        fixturectl_window_h = needH;
+    }
+}
+// Ferme le menu et RESTAURE la hauteur de la fenetre.
+static void fxc_close_dropdown()
+{
+    g_fxc_drop_key.clear();
+    if(g_fxc_drop_saved_h>0){ fixturectl_window_h = g_fxc_drop_saved_h; g_fxc_drop_saved_h = 0; }
+}
+
+// Clic quand le menu de modes est ouvert : ligne -> selection+ferme ; fleches -> defilement.
+// Renvoie 1 si le clic est DANS le cadre (consomme), 0 sinon (laisse la fermeture aux autres handlers).
+static int fxc_dropdown_click(int xf, int yf, int px, int py)
+{
+    const wc::Channel* ch; int left,top,w,lw,row_h,vis,nb,maxsc,active; bool has_sc;
+    if(!fxc_dropdown_geom(xf,yf,ch,left,top,w,lw,row_h,vis,nb,has_sc,maxsc,active)) return 0;
+    if(has_sc){
+        int bx=left+w-14;
+        if(px>bx && px<bx+12 && py>top+2 && py<top+14){ if(g_fxc_drop_scroll>0)g_fxc_drop_scroll--; return 1; }
+        int dyb=top+vis*row_h-10;
+        if(px>bx && px<bx+12 && py>dyb && py<dyb+12){ if(g_fxc_drop_scroll<maxsc)g_fxc_drop_scroll++; return 1; }
+    }
+    for(int v=0;v<vis;v++){
+        int fi=v+g_fxc_drop_scroll; if(fi>=nb) break;
+        int ry=top+2+v*row_h;
+        if(px>left+2 && px<left+2+lw && py>ry && py<ry+row_h){ fxc_set_slot(g_fxc_drop_key, fi); fxc_close_dropdown(); return 1; }
+    }
+    if(px>=left && px<=left+w && py>=top && py<=top+vis*row_h+4) return 1;   // marge du cadre : consomme, reste ouvert
+    fxc_close_dropdown();   // clic hors du menu -> fermer
+    return 1;
+}
+
+// Ascenseur du menu : true si (px,py) est dans la PISTE. Si setScroll, positionne g_fxc_drop_scroll d'apres py.
+static bool fxc_dropdown_scrollbar(int xf, int yf, int px, int py, bool setScroll)
+{
+    const wc::Channel* ch; int left,top,w,lw,row_h,vis,nb,maxsc,active; bool has_sc;
+    if(!fxc_dropdown_geom(xf,yf,ch,left,top,w,lw,row_h,vis,nb,has_sc,maxsc,active)) return false;
+    if(!has_sc) return false;
+    int bx=left+w-14, boxH=vis*row_h, trTop=top+16, trH=boxH-32;
+    if(trH<=6) return false;
+    if(px<bx || px>bx+12 || py<trTop || py>trTop+trH) return false;   // hors piste (les fleches sont gerees a part)
+    if(setScroll){
+        int thumbH=trH*vis/nb; if(thumbH<8)thumbH=8; if(thumbH>trH)thumbH=trH;
+        int sc = (trH-thumbH>0) ? (py - trTop - thumbH/2)*maxsc/(trH-thumbH) : 0;
+        if(sc<0)sc=0; if(sc>maxsc)sc=maxsc;
+        g_fxc_drop_scroll=sc;
+    }
+    return true;
+}
+
+// Etat du menu de modes (utilise par MAIN pour verrouiller le focus, et channels_core pour la molette).
+bool fxc_dropdown_open(){ return !g_fxc_drop_key.empty(); }
+bool fxc_dropdown_wheel(int delta){   // delta>0 = molette vers le haut ; renvoie true si consomme
+    if(g_fxc_drop_key.empty()) return false;
+    g_fxc_drop_scroll -= delta; if(g_fxc_drop_scroll<0) g_fxc_drop_scroll=0;   // borne haute clampee par fxc_dropdown_geom
+    return true;
+}
+
 // Logique : drag vertical d'un encodeur = delta relatif (spin). Appelee bouton maintenu.
 int do_logical_fixturectl(int xf, int yf)
 {
@@ -741,16 +914,30 @@ int do_logical_fixturectl(int xf, int yf)
     static bool        drag_resize = false;   // drag de la poignee de redimensionnement
     static int         drag_prev_y = 0;
 
+    // menu de modes ouvert. On teste CHAQUE FRAME si le CLIC D'ORIGINE (mouse_click, fige a l'appui et
+    // stable pendant tout le drag) etait sur la PISTE de l'ascenseur -> drag du pouce ; sinon clic normal
+    // (ligne / fleche / dehors). Pas de drapeau persistant (qui restait colle a true apres un drag).
+    if(!g_fxc_drop_key.empty()){
+        if(mouse_button==1 && fxc_dropdown_scrollbar(xf, yf, mouse_click_x, mouse_click_y, false)){
+            fxc_dropdown_scrollbar(xf, yf, mouse_x, mouse_y, true);   // suit la souris (pas de mouse_released : rappel chaque frame)
+            return(0);
+        }
+        if(fxc_dropdown_click(xf, yf, mouse_x, mouse_y)){ mouse_released=1; return(0); }
+    }
     // filtres de categorie : clic SIMPLE fiable -> on consomme le clic (mouse_released=1) pour ne pas
     // dependre du deplacement de la souris (sinon re-cliquer au meme pixel ne re-declenchait pas).
     {
         int bc = fxc_button_at_point(xf, yf, mouse_x, mouse_y);
         if(bc>=0){ g_fxc_cat_hidden[bc] = !g_fxc_cat_hidden[bc]; mouse_released=1; return(0); }
     }
-    // fleches "<" ">" des parametres a crans : clic simple -> slot precedent/suivant (consomme)
+    // declencheur du menu de modes (grosses roues) : clic -> ouvrir / fermer (consomme)
     {
-        int dir=0; std::string ak = fxc_arrow_at_point(xf, yf, mouse_x, mouse_y, dir);
-        if(!ak.empty()){ fxc_step_slot(ak, dir); mouse_released=1; return(0); }
+        std::string tk = fxc_trigger_at_point(xf, yf, mouse_x, mouse_y);
+        if(!tk.empty()){
+            if(g_fxc_drop_key==tk) fxc_close_dropdown();
+            else                   fxc_open_dropdown(tk, yf);
+            mouse_released=1; return(0);
+        }
     }
     // boutons de modes empiles : clic simple -> aller directement au mode (consomme)
     {
