@@ -225,6 +225,104 @@ static void fxc_value_and_mixed(const std::string& key, int& val, bool& mixed)
     val = first<0?0:first;
 }
 
+// --- Slots nommes (parametres a crans : gobo, roue de couleur, prisme, modes...) ---
+
+// Canal de reference pour <key> (dernier device selectionne en priorite, sinon le 1er). NULL si aucun.
+static const wc::Channel* fxc_ref_channel(const std::string& key)
+{
+    const wc::Channel* fallback=nullptr;
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER) continue;
+            if(fxc_chan_key(ch)!=key) continue;
+            if(circ==last_ch_selected) return &ch;   // priorite au dernier selectionne
+            if(!fallback) fallback=&ch;
+            break;
+        }
+    }
+    return fallback;
+}
+// "slotted" = on AJOUTE un bouton de mode (< nom >) sous la molette (modele EOS "molette + bouton").
+// Regle derivee du GDTF (phys_hint), pas du seul nombre de crans :
+//   CONTINUOUS (PhysicalUnit Angle/ColorComponent...) -> molette SEULE (Pan/Tilt/Zoom/RGBW/rotations)
+//   MODE       (Feature Control.*)                    -> bouton des qu'il y a des crans (PositionMSpeed...)
+//   PLAIN      (None, autre)                          -> bouton si BEAUCOUP de crans (roues gobo/couleur/prisme, Iris...)
+// Les canaux legacy (shows < WCPATCH v6) ont phys_hint=PLAIN -> repli sur le nombre de crans.
+static const size_t FXC_SLOT_MIN = 6;
+static inline bool fxc_is_slotted(const wc::Channel* ch){
+    if(!ch) return false;
+    if(ch->phys_hint == wc::PHYS_CONTINUOUS) return false;
+    if(ch->phys_hint == wc::PHYS_MODE)       return ch->slots.size() >= 2;
+    return ch->slots.size() >= FXC_SLOT_MIN;
+}
+
+// Index du slot contenant la valeur 16 bit <val> (le plus grand from16 <= val), -1 si aucun.
+static int fxc_slot_index(const wc::Channel* ch, int val)
+{
+    if(!ch) return -1;
+    int idx=-1;
+    for(size_t i=0;i<ch->slots.size();i++){ if((int)ch->slots[i].from16 <= val) idx=(int)i; else break; }
+    return idx;
+}
+
+// Saute au slot precedent/suivant (dir = -1/+1) sur CHAQUE device selectionne, chacun dans SA table.
+static void fxc_step_slot(const std::string& key, int dir)
+{
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER) continue;
+            if(fxc_chan_key(ch)!=key) continue;
+            if(ch.slots.size()>=2){
+                int o=(int)ch.coarse_addr;
+                if(o>0 && o<514){
+                    int idx=fxc_slot_index(&ch,(int)output_devval[o]); if(idx<0) idx=0;
+                    idx+=dir; if(idx<0)idx=0; if(idx>=(int)ch.slots.size())idx=(int)ch.slots.size()-1;
+                    output_devval[o]=ch.slots[idx].from16;
+                }
+            }
+            break;
+        }
+    }
+}
+
+// Va DIRECTEMENT au slot d'index <idx> (clic sur un bouton de mode) sur chaque device selectionne.
+static void fxc_set_slot(const std::string& key, int idx)
+{
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER) continue;
+            if(fxc_chan_key(ch)!=key) continue;
+            if(!ch.slots.empty()){
+                int o=(int)ch.coarse_addr;
+                if(o>0 && o<514){
+                    int i2=idx; if(i2<0)i2=0; if(i2>=(int)ch.slots.size())i2=(int)ch.slots.size()-1;
+                    output_devval[o]=ch.slots[i2].from16;
+                }
+            }
+            break;
+        }
+    }
+}
+
+// Affichage "boutons empiles" (tous les modes visibles) plutot que molette+bouton :
+// reserve aux canaux a PEU de modes (les grosses roues -> menu deroulant, chantier suivant).
+static const size_t FXC_BTNLIST_MAX = 6;
+static inline bool fxc_is_buttonlist(const wc::Channel* ch){
+    return fxc_is_slotted(ch) && ch->slots.size() <= FXC_BTNLIST_MAX;
+}
+
 // Applique un DELTA (16 bit) a l'attribut <key> de TOUS les devices selectionnes.
 // Preserve les ecarts entre lyres (chaque valeur += meme delta, clampee).
 void fxc_apply_delta(const char* name, int delta)
@@ -329,9 +427,14 @@ static std::string fxc_attr_at_point(int xf, int yf, int px, int py)
     return std::string();
 }
 
-// Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + valeur + libelle (centres).
+// Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + textes (centres).
 // mixed = plusieurs devices aux valeurs differentes -> "..." au lieu du nombre.
-static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval, bool mixed, bool hovered)
+// slotted = parametre a crans -> haut = nom d'attribut, bas = "< nom_slot >" (fleches de navigation).
+// Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + textes.
+// slotted (canal a modes) = "both" facon EOS : la molette reste (plage continue) ET on ajoute
+// en bas  < nom_du_mode >  avec fleches de navigation entre crans. mixed = valeurs differentes.
+static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval, bool mixed, bool hovered,
+                             bool slotted, const std::string& slotName)
 {
     int w = FXC_ROL_W, h = FXC_ROL_H;
     int left = cx - w/2, top = cy - h/2;
@@ -359,13 +462,69 @@ static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval,
 
     Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);   // repere de lecture central
 
-    // valeur (centree) : "..." si plusieurs fixtures aux valeurs differentes
-    std::string vs = mixed ? std::string("\xE2\x80\xA6") : ol::ToString((int)(refval >> 8));
-    petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, top - 6);
+    // HAUT : libelle d'attribut (a crans) ou valeur DMX (continu)
+    if(slotted){
+        std::string lab; fxc_fit_label(key, lab);
+        petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, top - 6);
+    } else {
+        std::string vs = mixed ? std::string("\xE2\x80\xA6") : ol::ToString((int)(refval >> 8));
+        petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, top - 6);
+    }
 
-    // libelle (centre, tronque avec "…" si trop long ; nom complet en info-bulle au survol, cf. boucle)
-    std::string lab; fxc_fit_label(key, lab);
-    petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, top + h + 16);
+    // BAS : libelle (continu) ou  BOUTON DE MODE  < nom >  (a crans, facon EOS "molette + bouton")
+    int by = top + h + 16;
+    if(slotted){
+        int bw = FXC_ENC_DX, bh = 18;                 // bouton de mode sous la molette
+        Rect Btn(Vec2D(cx - bw/2, by - 13), Vec2D(bw, bh));
+        Btn.SetRoundness(4);
+        Btn.SetLineWidth(epaisseur_ligne_fader);
+        Btn.Draw(CouleurGrisMoyen);
+        Btn.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);
+        petitchiffre.Print("<", cx - FXC_ENC_DX/2 + 4, by);
+        petitchiffre.Print(">", cx + FXC_ENC_DX/2 - 9, by);
+        std::string sn = mixed ? std::string("\xE2\x80\xA6") : slotName;
+        int maxw = FXC_ENC_DX - 24;
+        if(petitchiffre.TextWidth(sn.c_str())>maxw){
+            const char* ell="\xE2\x80\xA6";
+            while(!sn.empty()){ sn.pop_back(); std::string c=sn+ell; if(petitchiffre.TextWidth(c.c_str())<=maxw){ sn=c; break; } }
+        }
+        petitchiffre.Print(sn.c_str(), cx - petitchiffre.TextWidth(sn.c_str())/2, by);
+    } else {
+        std::string lab; fxc_fit_label(key, lab);
+        petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, by);
+    }
+}
+
+// Rendu "boutons de modes empiles" (tous les modes visibles) : occupe la colonne de la molette.
+// Chaque mode = un bouton ; l'actif surligne. Reserve aux canaux a PEU de modes (fxc_is_buttonlist).
+static void fxc_draw_buttonlist(int cx, int cy, const std::string& key, const wc::Channel* ch,
+                                int activeIdx, bool mixed, bool hovered)
+{
+    int nb = (int)ch->slots.size();
+    if(nb<1) return;
+    int w = FXC_ENC_DX - 6, left = cx - w/2;
+    int top = cy - FXC_ROL_H/2;
+    int bh = FXC_ROL_H / nb;
+
+    std::string lab; fxc_fit_label(key, lab);   // libelle d'attribut en haut (aligne avec les molettes)
+    petitchiffre.Print(lab.c_str(), cx - petitchiffre.TextWidth(lab.c_str())/2, top - 6);
+
+    for(int i=0;i<nb;i++){
+        int y0 = top + i*bh;
+        Rect Btn(Vec2D(left, y0+1), Vec2D(w, bh-2));
+        Btn.SetRoundness(3);
+        Btn.SetLineWidth(epaisseur_ligne_fader);
+        bool act = (!mixed && i==activeIdx);
+        Btn.Draw(act ? CouleurFader : CouleurGrisAnthracite);       // mode actif surligne
+        Btn.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);
+        std::string sn = ch->slots[i].name;
+        int maxw = w - 8;
+        if(petitchiffre.TextWidth(sn.c_str())>maxw){
+            const char* ell="\xE2\x80\xA6";
+            while(!sn.empty()){ sn.pop_back(); std::string c=sn+ell; if(petitchiffre.TextWidth(c.c_str())<=maxw){ sn=c; break; } }
+        }
+        petitchiffre.Print(sn.c_str(), cx - petitchiffre.TextWidth(sn.c_str())/2, y0 + bh/2 + 4);
+    }
 }
 
 // Rendu de la fenetre. xf/yf = coin haut-gauche.
@@ -418,7 +577,7 @@ int fixturectl_window(int xf, int yf)
     Canvas::SetClipping(clipLeft, clipTop, VR-clipLeft, clipBot-clipTop);
 
     int prev_cat_all=-1, prev_scx_all=0, prev_vis_cat=-1;
-    std::string hov_key; int hov_scx=0;   // rouleau survole (pour l'info-bulle du nom complet)
+    std::string hov_full; int hov_scx=0; bool hov_trunc=false;   // label/slot survole (info-bulle du texte complet)
     for(int i=0;i<n;i++)
     {
         int scx = fxc_scx(xf, i, cx_rel);
@@ -445,11 +604,21 @@ int fixturectl_window(int xf, int yf)
             bool hov = (window_focus_id==W_FIXTURECTL &&
                         mouse_x>scx-FXC_ROL_W/2 && mouse_x<scx+FXC_ROL_W/2 && mouse_y>cy-FXC_ROL_H/2 && mouse_y<cy+FXC_ROL_H/2);
             int val; bool mixed; fxc_value_and_mixed(disp[i], val, mixed);
-            fxc_draw_encoder(scx, cy, disp[i], val, mixed, hov);
+            const wc::Channel* refCh = fxc_ref_channel(disp[i]);
+            bool slotted = fxc_is_slotted(refCh);
+            bool btnlist = fxc_is_buttonlist(refCh);
+            std::string slotName;
+            if(slotted){ int si=fxc_slot_index(refCh, val); if(si>=0) slotName=refCh->slots[si].name; }
+            if(btnlist) fxc_draw_buttonlist(scx, cy, disp[i], refCh, fxc_slot_index(refCh, val), mixed, hov);
+            else        fxc_draw_encoder(scx, cy, disp[i], val, mixed, hov, slotted, slotName);
             if(hov){ strncpy(fixturectl_wheel_hover, disp[i].c_str(), 23); fixturectl_wheel_hover[23]=0; }
-            // survol du LABEL (sous le rouleau) -> info-bulle du nom complet
+            // survol du LABEL/slot (sous le rouleau) -> info-bulle du texte complet
             if(window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
-               && mouse_y>cy+FXC_ROL_H/2+6 && mouse_y<cy+FXC_ROL_H/2+22){ hov_key=disp[i]; hov_scx=scx; }
+               && mouse_y>cy+FXC_ROL_H/2+6 && mouse_y<cy+FXC_ROL_H/2+22){
+                hov_scx=scx;
+                if(slotted){ hov_full = mixed?std::string():slotName; hov_trunc = petitchiffre.TextWidth(hov_full.c_str())>FXC_ENC_DX-24; }
+                else { std::string tmp; hov_trunc=fxc_fit_label(disp[i],tmp); hov_full=fxc_label(disp[i]); }
+            }
 
             int hy = cy + FXC_ROL_H/2 + 26;
             Rect Home(Vec2D(scx-16, hy), Vec2D(32,14)); Home.SetRoundness(3);
@@ -472,20 +641,16 @@ int fixturectl_window(int xf, int yf)
         }
     }
 
-    // info-bulle : nom complet de l'attribut survole si son libelle est tronque
-    if(!hov_key.empty()){
-        std::string tmp;
-        if(fxc_fit_label(hov_key, tmp)){   // tronque -> montre le nom complet
-            std::string full = fxc_label(hov_key);
-            int tw = petitchiffre.TextWidth(full.c_str())+10;
-            int tx = hov_scx - tw/2;
-            if(tx < xf+4) tx = xf+4;
-            if(tx+tw > xf+fixturectl_window_w-4) tx = xf+fixturectl_window_w-4-tw;
-            int ty = cy + FXC_ROL_H/2 + 52;   // sous le bouton home
-            Rect Tip(Vec2D(tx, ty-11), Vec2D(tw,14)); Tip.SetRoundness(3);
-            Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
-            petitchiffre.Print(full.c_str(), tx+5, ty);
-        }
+    // info-bulle : texte complet (nom d'attribut ou de slot) survole s'il est tronque
+    if(!hov_full.empty() && hov_trunc){
+        int tw = petitchiffre.TextWidth(hov_full.c_str())+10;
+        int tx = hov_scx - tw/2;
+        if(tx < xf+4) tx = xf+4;
+        if(tx+tw > xf+fixturectl_window_w-4) tx = xf+fixturectl_window_w-4-tw;
+        int ty = cy + FXC_ROL_H/2 + 52;   // sous le bouton home
+        Rect Tip(Vec2D(tx, ty-11), Vec2D(tw,14)); Tip.SetRoundness(3);
+        Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
+        petitchiffre.Print(hov_full.c_str(), tx+5, ty);
     }
 
     // poignee de redimensionnement (coin bas-droit) : 3 petits traits diagonaux
@@ -522,6 +687,50 @@ static int fxc_button_at_point(int xf, int yf, int px, int py)
     return -1;
 }
 
+// Fleche de slot ("<" ou ">") sous (px,py) pour un rouleau a crans VISIBLE : renvoie la clef + dir (-1/+1), ou "".
+static std::string fxc_arrow_at_point(int xf, int yf, int px, int py, int& dir)
+{
+    dir=0;
+    std::string disp[FXC_MAXENC]; int n=fxc_build_display(disp,FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp,n,cx_rel,content_w); fxc_clamp_scroll(content_w,xf);
+    int cy=yf+FXC_ENC_CY, VL=fxc_view_left(xf), VR=fxc_view_right(xf);
+    int by = cy + FXC_ROL_H/2 + 16;   // ligne  < nom_du_mode >  sous le rouleau (cf. fxc_draw_encoder)
+    if(py<by-10 || py>by+4) return std::string();
+    for(int i=0;i<n;i++){
+        int scx=fxc_scx(xf,i,cx_rel);
+        if(scx+FXC_ROL_W/2<VL || scx-FXC_ROL_W/2>VR) continue;
+        const wc::Channel* ch=fxc_ref_channel(disp[i]);
+        if(!fxc_is_slotted(ch) || fxc_is_buttonlist(ch)) continue;   // button-list = boutons empiles, pas de fleches
+        if(px>scx-FXC_ENC_DX/2 && px<scx-FXC_ENC_DX/2+14){ dir=-1; return disp[i]; }
+        if(px>scx+FXC_ENC_DX/2-14 && px<scx+FXC_ENC_DX/2){ dir=+1; return disp[i]; }
+    }
+    return std::string();
+}
+
+// Bouton de mode empile sous (px,py) : renvoie la clef du canal + l'index du mode clique, ou "".
+static std::string fxc_modebtn_at_point(int xf, int yf, int px, int py, int& outIdx)
+{
+    outIdx=-1;
+    std::string disp[FXC_MAXENC]; int n=fxc_build_display(disp,FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp,n,cx_rel,content_w); fxc_clamp_scroll(content_w,xf);
+    int cy=yf+FXC_ENC_CY, VL=fxc_view_left(xf), VR=fxc_view_right(xf);
+    int top = cy - FXC_ROL_H/2;
+    if(py<top || py>top+FXC_ROL_H) return std::string();
+    for(int i=0;i<n;i++){
+        int scx=fxc_scx(xf,i,cx_rel);
+        if(scx+FXC_ROL_W/2<VL || scx-FXC_ROL_W/2>VR) continue;
+        const wc::Channel* ch=fxc_ref_channel(disp[i]);
+        if(!fxc_is_buttonlist(ch)) continue;
+        int w=FXC_ENC_DX-6, left=scx-w/2;
+        if(px<left || px>left+w) continue;
+        int nb=(int)ch->slots.size(); if(nb<1) continue;
+        int bh=FXC_ROL_H/nb;
+        int idx=(py-top)/bh; if(idx<0)idx=0; if(idx>=nb)idx=nb-1;
+        outIdx=idx; return disp[i];
+    }
+    return std::string();
+}
+
 // Logique : drag vertical d'un encodeur = delta relatif (spin). Appelee bouton maintenu.
 int do_logical_fixturectl(int xf, int yf)
 {
@@ -537,6 +746,16 @@ int do_logical_fixturectl(int xf, int yf)
     {
         int bc = fxc_button_at_point(xf, yf, mouse_x, mouse_y);
         if(bc>=0){ g_fxc_cat_hidden[bc] = !g_fxc_cat_hidden[bc]; mouse_released=1; return(0); }
+    }
+    // fleches "<" ">" des parametres a crans : clic simple -> slot precedent/suivant (consomme)
+    {
+        int dir=0; std::string ak = fxc_arrow_at_point(xf, yf, mouse_x, mouse_y, dir);
+        if(!ak.empty()){ fxc_step_slot(ak, dir); mouse_released=1; return(0); }
+    }
+    // boutons de modes empiles : clic simple -> aller directement au mode (consomme)
+    {
+        int si=-1; std::string bk = fxc_modebtn_at_point(xf, yf, mouse_x, mouse_y, si);
+        if(!bk.empty()){ fxc_set_slot(bk, si); mouse_released=1; return(0); }
     }
 
     if(mouse_click_x != last_click_x || mouse_click_y != last_click_y)

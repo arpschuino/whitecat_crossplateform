@@ -326,7 +326,7 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 4\n");   // v4 : nom d'attribut GDTF par canal (fin de ligne) ; v3 : nom fixture ; v2 : home
+    fprintf(fp, "WCPATCH 6\n");   // v6 : phys_hint (molette/mode) par canal ; v5 : slots nommes ; v4 : nom attribut ; v3 : nom fixture ; v2 : home
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -337,11 +337,16 @@ int save_patch_fixtures_text(const char* file)
         for(size_t c=0; c<fx.channels.size(); c++)
         {
             const wc::Channel& ch = fx.channels[c];
-            // 9 champs + nom d'attribut GDTF (longueur-prefixe -> gere nom vide) en fin de ligne
-            fprintf(fp, "%d %d %d %d %d %d %d %d %d %u %s\n",
+            // 9 champs + nom d'attribut GDTF (longueur-prefixe) + slots nommes en fin de ligne
+            fprintf(fp, "%d %d %d %d %d %d %d %d %d %u %s",
                     (int)ch.attribute, (int)ch.combine, (int)ch.resolution, (int)ch.curve,
                     (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit, (int)ch.home,
                     (unsigned)strlen(ch.name), ch.name);
+            fprintf(fp, " %u", (unsigned)ch.phys_hint);      // v6 : indice molette/mode (GDTF PhysicalUnit+Feature)
+            fprintf(fp, " %u", (unsigned)ch.slots.size());   // nb de slots, puis <from16> <len> <nom> par slot
+            for(size_t s=0;s<ch.slots.size();s++)
+                fprintf(fp, " %u %u %s", (unsigned)ch.slots[s].from16, (unsigned)ch.slots[s].name.size(), ch.slots[s].name.c_str());
+            fprintf(fp, "\n");
         }
     }
     fclose(fp);
@@ -387,6 +392,24 @@ int load_patch_fixtures_text(const char* file)
                     cname[nl]=0;
                 }
             }
+            int phys_hint = (int)wc::PHYS_PLAIN;
+            if(ver>=6){ if(fscanf(fp, " %d", &phys_hint)!=1) phys_hint=(int)wc::PHYS_PLAIN; }   // v6 : molette/mode
+            std::vector<wc::ChannelSlot> cslots;
+            if(ver>=5){   // v5 : slots nommes : <nb> puis <from16> <len> <nom> par slot
+                unsigned nslots=0;
+                if(fscanf(fp, " %u", &nslots)==1){
+                    for(unsigned s=0; s<nslots; s++){
+                        unsigned from16=0, snl=0;
+                        if(fscanf(fp, " %u %u", &from16, &snl)!=2) break;
+                        if(snl>200) snl=200;
+                        fgetc(fp);                                 // espace avant le nom
+                        std::string snm; snm.resize(snl);
+                        if(snl>0 && fread(&snm[0],1,(size_t)snl,fp)!=(size_t)snl){ snl=0; snm.clear(); }
+                        wc::ChannelSlot slot; slot.from16=(uint16_t)from16; slot.name.swap(snm);
+                        cslots.push_back(slot);
+                    }
+                }
+            }
             wc::Channel ch;
             ch.attribute   = (uint8_t)attr;
             ch.combine     = (uint8_t)comb;
@@ -398,6 +421,8 @@ int load_patch_fixtures_text(const char* file)
             ch.circuit     = (uint16_t)circ;
             ch.home        = (uint16_t)home;
             strncpy(ch.name, cname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0;
+            ch.phys_hint   = (uint8_t)phys_hint;
+            ch.slots.swap(cslots);
             fx.channels.push_back(ch);
         }
         wc_patch.push_back(fx);

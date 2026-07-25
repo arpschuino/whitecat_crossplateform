@@ -18,8 +18,25 @@
 #define WC_CHANNEL_H
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 namespace wc {
+
+// [devices] Slot nommé (GDTF ChannelSet) : une plage nommée d'un canal à crans
+// (roue de gobos/couleur, prisme, canal de mode...). from16 = début de plage en 16 bit.
+struct ChannelSlot {
+    uint16_t    from16 = 0;   // valeur DMX 16 bit de début de plage
+    std::string name;         // libellé GDTF ("Open", "Gobo 3", "Prism 3-facet"...)
+};
+
+// [devices] Indice d'affichage dérivé du GDTF (AttributeDefinitions : PhysicalUnit + Feature).
+// Décide molette (continu) vs bouton de mode (à crans), façon EOS. Cf. fxc_is_slotted.
+enum PhysHint : uint8_t {
+    PHYS_CONTINUOUS = 0,  // grandeur physique continue (PhysicalUnit != None : Angle, ColorComponent...) -> MOLETTE
+    PHYS_MODE       = 1,  // canal de mode (PhysicalUnit None + Feature "Control.*") -> BOUTON (ex. PositionMSpeed)
+    PHYS_PLAIN      = 2    // None + autre -> BOUTON si beaucoup de crans nommés, sinon molette (défaut / shows legacy)
+};
 
 // ---------------------------------------------------------------------------
 // Taxonomie d'attributs — noms canoniques GDTF (Phase 0).
@@ -74,6 +91,8 @@ struct Channel {
     uint16_t circuit     = 0;             // circuit de contrôle (source du niveau). Côté patch : render() l'ignore.
     uint16_t home        = 0;             // [devices] valeur "home" (défaut GDTF, 16 bit) de ce canal (bouton home)
     char     name[24]    = {0};           // [devices] nom d'attribut GDTF (ex. "Pan", "Gobo1", "Prism1") -> libellé + pilotage générique
+    uint8_t  phys_hint   = PHYS_PLAIN;    // [devices] molette/bouton (dérivé GDTF PhysicalUnit+Feature) ; défaut = règle au nombre de crans
+    std::vector<ChannelSlot> slots;       // [devices] plages nommées (GDTF ChannelSet) ; vide = paramètre continu (encodeur seul)
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])

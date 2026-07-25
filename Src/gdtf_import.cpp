@@ -15,6 +15,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <algorithm>
+#include <map>
 
 namespace wcgdtf {
 
@@ -116,6 +118,31 @@ static const wcxml::Node* find_dmxmodes(const wcxml::Node& root, std::string& fi
     return ft->child("DMXModes");
 }
 
+// [devices] AttributeDefinitions > Attributes : indice molette/bouton par nom d'attribut GDTF.
+//   PhysicalUnit != None (Angle, ColorComponent...) -> continu (molette seule)
+//   None + Feature "Control.*"                       -> mode (molette + selecteur de crans, ex. PositionMSpeed)
+//   sinon                                            -> neutre (selecteur ajoute si beaucoup de crans nommes)
+static void build_phys_hints(const wcxml::Node& root, std::map<std::string,uint8_t>& out)
+{
+    out.clear();
+    const wcxml::Node* gdtf = root.child("GDTF");                 if(!gdtf)  return;
+    const wcxml::Node* ft   = gdtf->child("FixtureType");         if(!ft)    return;
+    const wcxml::Node* adef = ft->child("AttributeDefinitions");  if(!adef)  return;
+    const wcxml::Node* attrs= adef->child("Attributes");          if(!attrs) return;
+    for(size_t i=0;i<attrs->children.size();++i){
+        const wcxml::Node& a = attrs->children[i];
+        if(a.name != "Attribute") continue;
+        const char* nm = a.attr("Name"); if(!nm||!*nm) continue;
+        const char* pu = a.attr("PhysicalUnit");
+        const char* fe = a.attr("Feature");
+        uint8_t hint;
+        if(pu && *pu && strcmp(pu,"None")!=0)     hint = wc::PHYS_CONTINUOUS;
+        else if(fe && strncmp(fe,"Control",7)==0) hint = wc::PHYS_MODE;
+        else                                      hint = wc::PHYS_PLAIN;
+        out[nm] = hint;
+    }
+}
+
 int list_modes(const char* xmlpath, std::vector<ModeInfo>& modes, std::string& fixture_name, std::string& manufacturer)
 {
     modes.clear(); fixture_name.clear(); manufacturer.clear();
@@ -180,6 +207,9 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
     const wcxml::Node* chans = mode->child("DMXChannels");
     if(!chans) return 2;
 
+    std::map<std::string,uint8_t> phys_hints;
+    build_phys_hints(root, phys_hints);   // nom d'attribut GDTF -> molette/mode (cf. PhysicalUnit + Feature)
+
     for(size_t c=0;c<chans->children.size();++c)
     {
         const wcxml::Node& dc = chans->children[c];
@@ -211,6 +241,31 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         ch.circuit     = (uint16_t)circuit;
         ch.home        = (uint16_t)channel_default(dc);   // valeur par defaut GDTF (16 bit) -> persistee dans le patch
         if(gname){ strncpy(ch.name, gname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0; }  // nom GDTF -> pilotage generique
+        if(gname){ std::map<std::string,uint8_t>::const_iterator it=phys_hints.find(gname);      // molette/mode (GDTF PhysicalUnit+Feature)
+                   ch.phys_hint = (it!=phys_hints.end()) ? it->second : (uint8_t)wc::PHYS_PLAIN; }
+
+        // [devices] slots nommes : LogicalChannel > ChannelFunction > ChannelSet (Name + DMXFrom)
+        {
+            const wcxml::Node* lc2 = dc.child("LogicalChannel");
+            if(lc2){
+                for(size_t k=0;k<lc2->children.size();++k){
+                    const wcxml::Node& cf = lc2->children[k];
+                    if(cf.name != "ChannelFunction") continue;
+                    for(size_t s=0;s<cf.children.size();++s){
+                        const wcxml::Node& cs = cf.children[s];
+                        if(cs.name != "ChannelSet") continue;
+                        const char* snm = cs.attr("Name");
+                        if(!snm || !*snm) continue;                       // ignore les sets sans nom
+                        wc::ChannelSlot slot;
+                        slot.from16 = (uint16_t)parse_dmxvalue(cs.attr("DMXFrom"));
+                        slot.name   = snm;
+                        ch.slots.push_back(slot);
+                    }
+                }
+                std::sort(ch.slots.begin(), ch.slots.end(),
+                          [](const wc::ChannelSlot& a, const wc::ChannelSlot& b){ return a.from16 < b.from16; });
+            }
+        }
         fx.channels.push_back(ch);
     }
     return fx.channels.empty() ? 2 : 0;
