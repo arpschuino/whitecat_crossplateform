@@ -271,29 +271,67 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
             const wcxml::Node* lc2 = dc.child("LogicalChannel");
             if(lc2){
                 bool got_phys=false; int cfCount=0;
+                struct CFInfo { uint16_t dmx_from; float rf, rt; int named; std::string name; };
+                std::vector<CFInfo> cfinfo;
                 for(size_t k=0;k<lc2->children.size();++k){
                     const wcxml::Node& cf = lc2->children[k];
                     if(cf.name != "ChannelFunction") continue;
-                    cfCount++;                                           // nb de ChannelFunction : 1 = proportionnel
-                    if(!got_phys){                                       // 1re ChannelFunction : plage physique du canal
-                        const char* pf=cf.attr("PhysicalFrom"); const char* pt=cf.attr("PhysicalTo");
-                        ch.phys_from = pf ? (float)atof(pf) : 0.0f;      // defauts GDTF : From=0, To=1
-                        ch.phys_to   = pt ? (float)atof(pt) : 1.0f;
-                        got_phys=true;
-                    }
+                    cfCount++;
+                    const char* pf=cf.attr("PhysicalFrom"); const char* pt=cf.attr("PhysicalTo");
+                    float rf = pf ? (float)atof(pf) : 0.0f;              // defauts GDTF : From=0, To=1
+                    float rt = pt ? (float)atof(pt) : 1.0f;
+                    if(!got_phys){ ch.phys_from=rf; ch.phys_to=rt; got_phys=true; }   // 1re CF : plage physique du canal (legacy)
+
+                    int cfNamed=0;                                       // ChannelSet nommes de CETTE ChannelFunction
                     for(size_t s=0;s<cf.children.size();++s){
                         const wcxml::Node& cs = cf.children[s];
                         if(cs.name != "ChannelSet") continue;
                         const char* snm = cs.attr("Name");
                         if(!snm || !*snm) continue;                       // ignore les sets sans nom
+                        cfNamed++;
                         wc::ChannelSlot slot;
                         slot.from16 = (uint16_t)parse_dmxvalue(cs.attr("DMXFrom"));
                         slot.name   = snm;
                         ch.slots.push_back(slot);
                     }
+                    CFInfo ci; ci.dmx_from=(uint16_t)parse_dmxvalue(cf.attr("DMXFrom"));
+                    ci.rf=rf; ci.rt=rt; ci.named=cfNamed;
+                    const char* cfn=cf.attr("Name"); ci.name=(cfn&&*cfn)?cfn:(gname?gname:"");
+                    cfinfo.push_back(ci);
                 }
                 std::sort(ch.slots.begin(), ch.slots.end(),
                           [](const wc::ChannelSlot& a, const wc::ChannelSlot& b){ return a.from16 < b.from16; });
+                std::sort(cfinfo.begin(), cfinfo.end(),
+                          [](const CFInfo& a, const CFInfo& b){ return a.dmx_from < b.dmx_from; });
+
+                // [devices] tranches (modele "par tranches") : proportional = vrai balayage, sinon step.
+                //  - valeur physique fixe (from==to)          -> step (mode/gobo/macro)
+                //  - vraie plage non normalisee (deg/K/Hz...) -> proportional
+                //  - plage 0..1 avec BEAUCOUP de reperes      -> step (liste discrete : gobos, filtres)
+                //  - plage 0..1 sinon : LARGE = balayage (iris/dimmer/%), ETROITE = commande (reset/mode) -> span
+                const unsigned SPAN_MIN = 6144;   // ~24 valeurs 8 bit : seuil balayage vs commande
+                const unsigned GAP_MIN  = 2560;   // ~10 valeurs 8 bit : ecart moyen mini entre reperes pour une rampe
+                for(size_t i=0;i<cfinfo.size();++i){
+                    const CFInfo& ci=cfinfo[i];
+                    unsigned span=(i+1<cfinfo.size()?cfinfo[i+1].dmx_from:65536u)-ci.dmx_from;
+                    wc::ChannelRange rg;
+                    rg.dmx_from=ci.dmx_from; rg.phys_from=ci.rf; rg.phys_to=ci.rt; rg.unit=ch.phys_unit; rg.name=ci.name;
+                    float lo=ci.rf<ci.rt?ci.rf:ci.rt, hi=ci.rf<ci.rt?ci.rt:ci.rf;
+                    bool norm01  = (lo>-0.001f&&lo<0.001f&&hi>0.999f&&hi<1.001f);
+                    bool norm100 = (lo>-0.1f  &&lo<0.1f  &&hi>99.9f &&hi<100.1f);
+                    bool realrange = (ci.rf!=ci.rt) && !norm01 && !norm100;
+                    // reperes SERRES (ecart moyen faible) = liste discrete ; ESPACES = rampe a reperes.
+                    bool dense = (ci.named>=2) && (span/(unsigned)ci.named < GAP_MIN);
+                    // Ordre = inference geometrique (aucun champ GDTF ne donne prop/step) :
+                    if(ci.rf==ci.rt)                   rg.proportional=false;   // 0) valeur physique fixe -> mode/step
+                    else if(realrange)                 rg.proportional=true;    // 1) vraie plage physique (CTO/CTC/CRI) : les reperes sont des etiquettes
+                    else if(dense)                     rg.proportional=false;   // 2) reperes serres -> liste discrete (gobos, modes)
+                    else if(ci.named==0)               rg.proportional=false;   // 3) AUCUN repere + normalise -> zone reservee/passe-plat (LED freq reservee)
+                    else if(ch.phys_unit!=wc::PU_NONE) rg.proportional=true;    // 4) unite dimensionnelle + repere -> balayage (Angle-pos, RGB)
+                    else if(cfCount==1)                rg.proportional=true;    // 5) canal a fonction UNIQUE -> parametre continu (Tint)
+                    else                               rg.proportional=(span>=SPAN_MIN); // 6) None multi-CF, avec repere : large=balayage, etroit=commande
+                    ch.ranges.push_back(rg);
+                }
 
                 // [devices] Une SEULE ChannelFunction = fonction continue = PROPORTIONNEL -> molette, meme si
                 // PhysicalUnit=None et crans nommes (ex. CTO 8000..2700K, CRI 80..90).

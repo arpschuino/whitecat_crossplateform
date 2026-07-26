@@ -131,8 +131,8 @@ static int fxc_category(const std::string& key)
 {
     if(fxc_is_int(key)) return FXC_CAT_INT;
     if(ci_contains(key,"pan")||ci_contains(key,"tilt")||ci_contains(key,"position")) return FXC_CAT_POS;
-    if(ci_contains(key,"color")||ci_contains(key,"cto")||ci_contains(key,"ctc")||ci_contains(key,"ctb")
-       ||ci_contains(key,"tint")||ci_contains(key,"cri")||ci_contains(key,"hue")||ci_contains(key,"saturation")) return FXC_CAT_COLOR;
+    if(ci_contains(key,"color")||ci_contains(key,"colour")||ci_contains(key,"cto")||ci_contains(key,"ctc")||ci_contains(key,"ctb")
+       ||ci_contains(key,"tint")||ci_contains(key,"cri")||ci_contains(key,"hue")||ci_contains(key,"saturation")) return FXC_CAT_COLOR;  // "colour" = repli orthographe britannique
     if(ci_contains(key,"gobo")||ci_contains(key,"animation")) return FXC_CAT_GOBO;
     if(ci_contains(key,"blade")||ci_contains(key,"shaper")||ci_contains(key,"fram")||ci_contains(key,"knife")) return FXC_CAT_FRAMING;
     if(ci_contains(key,"zoom")||ci_contains(key,"focus")||ci_contains(key,"iris")||ci_contains(key,"frost")
@@ -267,14 +267,21 @@ static bool fxc_show_physical(const wc::Channel* ch)
     }
 }
 
-// "slotted" = on AJOUTE un bouton/menu de mode sous la molette (modele EOS "molette + bouton").
-// Regle : "proportionnel seul = molette". Un canal avec une VRAIE plage physique (fxc_show_physical) est
-// proportionnel -> molette SEULE, meme s'il a des crans nommes aux bornes (CRI 80..90, CTO 8000..2700K).
-// Sinon on retombe sur phys_hint (Control.* -> bouton ; sinon bouton si BEAUCOUP de crans : gobo/couleur...).
+// Nb de tranches STEP (non proportionnelles) d'un canal (modele "par tranches", patch v8+).
+static int fxc_step_ranges(const wc::Channel* ch){
+    int n=0; if(ch) for(size_t i=0;i<ch->ranges.size();++i) if(!ch->ranges[i].proportional) n++;
+    return n;
+}
+// "slotted" = on AJOUTE un menu de modes sous la molette (modele EOS "molette + menu").
+// Modele PAR TRANCHES (v8+) : slotted <=> le canal a au moins une tranche STEP (et des reperes a lister).
+//   -> que du proportionnel (Pan, CRI, CTO, vitesse gobo, RGB...) = molette seule ;
+//   -> tranches step (gobos, couleurs, macros, pulses...) = menu ; mixte (Iris, Shutter, Gobo) = molette + menu.
+// Repli (patch < v8, sans tranches) : ancienne heuristique phys_hint / nombre de crans.
 static const size_t FXC_SLOT_MIN = 6;
 static inline bool fxc_is_slotted(const wc::Channel* ch){
     if(!ch) return false;
-    if(fxc_show_physical(ch))                return false;   // plage physique reelle = proportionnel = molette
+    if(!ch->ranges.empty()) return fxc_step_ranges(ch) > 0 && !ch->slots.empty();
+    if(fxc_show_physical(ch))                return false;   // (legacy) plage physique reelle = molette
     if(ch->phys_hint == wc::PHYS_CONTINUOUS) return false;
     if(ch->phys_hint == wc::PHYS_MODE)       return ch->slots.size() >= 2;
     return ch->slots.size() >= FXC_SLOT_MIN;
@@ -340,7 +347,11 @@ static void fxc_set_slot(const std::string& key, int idx)
 // reserve aux canaux a PEU de modes (les grosses roues -> menu deroulant, chantier suivant).
 static const size_t FXC_BTNLIST_MAX = 6;
 static inline bool fxc_is_buttonlist(const wc::Channel* ch){
-    return fxc_is_slotted(ch) && ch->slots.size() <= FXC_BTNLIST_MAX;
+    // boutons-SEULS uniquement pour un canal PUR step (aucune tranche proportionnelle) et peu de modes.
+    // Un hybride (au moins une tranche proportionnelle) garde toujours sa molette -> molette + menu.
+    if(!fxc_is_slotted(ch)) return false;
+    if(!ch->ranges.empty()){ for(size_t i=0;i<ch->ranges.size();++i) if(ch->ranges[i].proportional) return false; }
+    return ch->slots.size() <= FXC_BTNLIST_MAX;
 }
 
 // Applique un DELTA (16 bit) a l'attribut <key> de TOUS les devices selectionnes.

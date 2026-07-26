@@ -30,6 +30,19 @@ struct ChannelSlot {
     std::string name;         // libellé GDTF ("Open", "Gobo 3", "Prism 3-facet"...)
 };
 
+// [devices] Une "tranche" d'un canal = une plage DMX homogène (issue d'une GDTF ChannelFunction).
+// proportional = balayage continu (vitesse, angle, %, K, Hz, temps...) -> pilotée à la molette ;
+// sinon = step (mode / gobo / macro fixe) -> entrée d'un menu. Base du rendu "molette + menu" façon EOS.
+// Un canal = liste de tranches : que du proportional -> molette seule ; que du step -> menu seul ; mixte -> les deux.
+struct ChannelRange {
+    uint16_t    dmx_from     = 0;      // début de plage, 16 bit (DMXFrom de la ChannelFunction)
+    float       phys_from    = 0.0f;   // valeur physique au début de la plage
+    float       phys_to      = 0.0f;   // valeur physique à la fin de la plage
+    uint8_t     unit         = 0;      // PhysUnit (voir enum PhysUnit)
+    bool        proportional = false;  // true = balayage continu ; false = step (valeur/mode fixe)
+    std::string name;                  // libellé (nom de la ChannelFunction GDTF, sinon de l'attribut)
+};
+
 // [devices] Indice d'affichage dérivé du GDTF (AttributeDefinitions : PhysicalUnit + Feature).
 // Décide molette (continu) vs bouton de mode (à crans), façon EOS. Cf. fxc_is_slotted.
 enum PhysHint : uint8_t {
@@ -112,7 +125,8 @@ struct Channel {
     float    phys_from   = 0.0f;          // [devices] valeur physique a DMX min (GDTF ChannelFunction PhysicalFrom)
     float    phys_to     = 0.0f;          // [devices] valeur physique a DMX max (PhysicalTo) ; from==to => pas de plage physique
     uint8_t  phys_unit   = PU_NONE;       // [devices] unite physique (GDTF PhysicalUnit) -> affichage physique/level + suffixe
-    std::vector<ChannelSlot> slots;       // [devices] plages nommées (GDTF ChannelSet) ; vide = paramètre continu (encodeur seul)
+    std::vector<ChannelSlot>  slots;      // [devices] plages nommées (GDTF ChannelSet) ; vide = paramètre continu (encodeur seul)
+    std::vector<ChannelRange> ranges;     // [devices] tranches prop/step (modèle "par tranches", rendu molette+menu façon EOS)
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
     //   dmx        : DmxBlock (unsigned char[513])

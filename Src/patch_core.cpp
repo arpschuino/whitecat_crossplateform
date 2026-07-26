@@ -326,7 +326,7 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 7\n");   // v7 : plage physique (phys_from/to/unit) ; v6 : phys_hint ; v5 : slots nommes ; v4 : nom attribut ; v3 : nom fixture ; v2 : home
+    fprintf(fp, "WCPATCH 8\n");   // v8 : tranches prop/step ; v7 : plage physique ; v6 : phys_hint ; v5 : slots ; v4 : nom attribut ; v3 : nom fixture ; v2 : home
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -347,6 +347,12 @@ int save_patch_fixtures_text(const char* file)
             fprintf(fp, " %u", (unsigned)ch.slots.size());   // nb de slots, puis <from16> <len> <nom> par slot
             for(size_t s=0;s<ch.slots.size();s++)
                 fprintf(fp, " %u %u %s", (unsigned)ch.slots[s].from16, (unsigned)ch.slots[s].name.size(), ch.slots[s].name.c_str());
+            fprintf(fp, " %u", (unsigned)ch.ranges.size());  // v8 : tranches, puis <dmx_from> <physFrom> <physTo> <unit> <prop> <len> <nom> par tranche
+            for(size_t r=0;r<ch.ranges.size();r++){
+                const wc::ChannelRange& rg=ch.ranges[r];
+                fprintf(fp, " %u %g %g %u %d %u %s", (unsigned)rg.dmx_from, rg.phys_from, rg.phys_to,
+                        (unsigned)rg.unit, rg.proportional?1:0, (unsigned)rg.name.size(), rg.name.c_str());
+            }
             fprintf(fp, "\n");
         }
     }
@@ -415,6 +421,23 @@ int load_patch_fixtures_text(const char* file)
                     }
                 }
             }
+            std::vector<wc::ChannelRange> cranges;
+            if(ver>=8){   // v8 : tranches : <nb> puis <dmx_from> <physFrom> <physTo> <unit> <prop> <len> <nom>
+                unsigned nr=0;
+                if(fscanf(fp, " %u", &nr)==1){
+                    for(unsigned r=0; r<nr; r++){
+                        unsigned df=0, un=0, rnl=0; float pfr=0.0f, ptr=0.0f; int prop=0;
+                        if(fscanf(fp, " %u %g %g %u %d %u", &df, &pfr, &ptr, &un, &prop, &rnl)!=6) break;
+                        if(rnl>200) rnl=200;
+                        fgetc(fp);                                 // espace avant le nom
+                        std::string rnm; rnm.resize(rnl);
+                        if(rnl>0 && fread(&rnm[0],1,(size_t)rnl,fp)!=(size_t)rnl){ rnl=0; rnm.clear(); }
+                        wc::ChannelRange rg; rg.dmx_from=(uint16_t)df; rg.phys_from=pfr; rg.phys_to=ptr;
+                        rg.unit=(uint8_t)un; rg.proportional=(prop!=0); rg.name.swap(rnm);
+                        cranges.push_back(rg);
+                    }
+                }
+            }
             wc::Channel ch;
             ch.attribute   = (uint8_t)attr;
             ch.combine     = (uint8_t)comb;
@@ -431,6 +454,7 @@ int load_patch_fixtures_text(const char* file)
             ch.phys_to     = phys_to;
             ch.phys_unit   = (uint8_t)phys_unit;
             ch.slots.swap(cslots);
+            ch.ranges.swap(cranges);
             fx.channels.push_back(ch);
         }
         wc_patch.push_back(fx);
