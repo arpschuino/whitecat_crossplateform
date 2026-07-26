@@ -43,6 +43,7 @@ static std::vector<DevFix>      g_local;    // fixtures des fichiers locaux (fix
 static std::vector<DevFix>      g_lib;      // liste fusionnee (local + index en ligne) affichee
 static std::vector<std::string> g_manufs;   // fabricants distincts (colonne de gauche)
 static bool g_scanned = false;
+static bool g_scan_pending = false;         // scan differe d'une frame (afficher "Chargement" avant de bloquer)
 static char g_search[64] = "";
 static bool g_filter_local = false;   // filtre All (false) / Local (true : seulement les fixtures avec fichier local)
 // compte GDTF Share + etat
@@ -217,6 +218,9 @@ static void account_save()
 static void draw_field(int x, int y, int w, char* buf, bool mask);   // defini plus bas
 static bool g_show_account = false;   // popup ouverte dans la fenetre Patch
 static bool g_pass_show    = false;   // oeil : afficher le mot de passe en clair
+static Uint32 g_update_flash_ms = 0;  // bouton Update : flash orange ~1,2 s au clic
+static bool   g_update_pending  = false;
+static bool   g_update_started  = false;
 
 // applique login + getList + save + rebuild (partage par la popup et Config)
 static void gdtf_do_update()
@@ -256,10 +260,19 @@ void gdtf_account_draw(int x, int y)
         if(!g_pass_show) Line(Vec2D(ex-10,ey+7),Vec2D(ex+10,ey-7)).Draw(CouleurLigne);   // barre = masque
     }
     Rect Upd(Vec2D(x, y+72), Vec2D(90, 22)); Upd.SetRoundness(5);
-    if(gdtfshare::logged_in()) Upd.Draw(CouleurConfig);
+    bool upd_flash = g_update_pending || (SDL_GetTicks() - g_update_flash_ms < 1200);   // orange ~1,2 s au clic
+    if(upd_flash){ Upd.Draw(CouleurFader); wc_request_refresh(); }   // refresh -> retour a l'etat normal apres le flash
+    else if(gdtfshare::logged_in()) Upd.Draw(CouleurConfig);
     Upd.DrawOutline(CouleurLigne);
     petitchiffre.Print("Update", x+18, y+87);
     if(g_status[0]) petitpetitchiffre.Print(g_status, x, y+112);
+
+    // update DIFFERE d'une frame : la 1re frame montre le bouton orange (deja presente), la 2e lance
+    // l'update reseau (bloquant) -> le bouton reste orange pendant l'operation.
+    if(g_update_pending){
+        if(!g_update_started){ g_update_started=true; wc_request_refresh(); }
+        else { g_update_started=false; g_update_pending=false; gdtf_do_update(); }
+    }
 }
 
 void gdtf_account_logical(int x, int y)
@@ -273,7 +286,9 @@ void gdtf_account_logical(int x, int y)
         g_pass_show=!g_pass_show; mouse_released=1;
     }
     if(mouse_released==0 && mouse_x>x && mouse_x<x+90 && mouse_y>y+72 && mouse_y<y+94){
-        gdtf_do_update(); mouse_released=1;
+        // arme le flash + update differe (le rendu allume le bouton puis lance l'update a la frame suivante)
+        g_update_pending=true; g_update_started=false; g_update_flash_ms=SDL_GetTicks();
+        wc_request_refresh(); mouse_released=1;
     }
 }
 
@@ -510,7 +525,18 @@ int devicepatch_window(int xd, int yd)
 
     neuro.Print("PATCH A DEVICE", xd + 100, yd + 30);
 
-    if(!g_scanned) devlib_scan();
+    // Scan DIFFERE : la 1re frame affiche "Chargement" et rend la main (bouton orange immediat, pas de blocage
+    // d'une seconde) ; le scan reel (fixtures/ + cache en ligne) se fait a la frame suivante.
+    if(!g_scanned){
+        if(!g_scan_pending){
+            g_scan_pending = true;
+            neuromoyen.Print("Loading fixture library", xd + 40, yd + devicepatch_window_h/2);
+            wc_request_refresh();          // provoque la frame suivante qui fera le scan
+            return 0;
+        }
+        devlib_scan();                     // 2e frame : scan effectif ("Chargement" deja affiche a la frame precedente)
+        g_scan_pending = false;
+    }
 
     // --- bouton GDTF Share (ouvre la popup compte) ---
     {
@@ -564,10 +590,11 @@ int devicepatch_window(int xd, int yd)
     }
     draw_scrollbar(xd+COL_MAN_X+COL_MAN_W, yd+LIST_Y, g_man_count, g_man_scroll);
 
-    // Fixture
+    // Fixture (en recherche : prefixe le fabricant -> "Fabricant - Modele" pour retrouver par fabricant OU par modele)
     for(int i=0;i<NVIS && i+g_fix_scroll<g_fix_count; ++i){
         int gi=fixlist[i+g_fix_scroll];
-        draw_list_row(xd+COL_FIX_X, yd+LIST_Y+i*ROWH, COL_FIX_W, g_lib[gi].model.c_str(), gi==g_sel_fix);
+        std::string row = (g_search[0]!=0) ? (g_lib[gi].manuf + " - " + g_lib[gi].model) : g_lib[gi].model;
+        draw_list_row(xd+COL_FIX_X, yd+LIST_Y+i*ROWH, COL_FIX_W, row.c_str(), gi==g_sel_fix);
     }
     draw_scrollbar(xd+COL_FIX_X+COL_FIX_W, yd+LIST_Y, g_fix_count, g_fix_scroll);
 
@@ -640,7 +667,7 @@ int devicepatch_window(int xd, int yd)
 
 int do_logical_devicepatch(int xd, int yd)
 {
-    if(!g_scanned) devlib_scan();
+    if(!g_scanned) return 0;   // biblio pas encore chargee (le rendu affiche "Chargement" + declenche le scan) -> pas d'interaction
 
     // bouton GDTF Share -> ouvre/ferme la popup compte
     if(mouse_released==0 && mouse_x>xd+devicepatch_window_w-135 && mouse_x<xd+devicepatch_window_w-15 && mouse_y>yd+18 && mouse_y<yd+40)

@@ -413,6 +413,10 @@ static void fxc_apply_home(const std::string& key)
 //   screen center = xf + FXC_ENC_X0 + cx_rel[i] - g_fxc_scroll_px.
 // ============================================================================
 static int g_fxc_scroll_px = 0;   // offset de defilement, en pixels
+static std::string g_fxc_turning;         // [devices] molette en cours de manipulation -> info-bulle de valeur
+static Uint32      g_fxc_turning_ms = 0;  // horodatage du dernier mouvement (info-bulle affichee ~0,6 s apres)
+// [devices] marque la molette <key> comme actionnee (drag OU molette souris) -> affiche sa valeur en info-bulle
+void fxc_mark_turning(const char* key){ g_fxc_turning = key ? key : ""; g_fxc_turning_ms = SDL_GetTicks(); }
 static std::string g_fxc_drop_key;    // [devices] canal dont le menu de modes (dropdown) est ouvert ("" = aucun)
 static int         g_fxc_drop_scroll = 0;   // 1er mode visible dans le menu
 static int         g_fxc_drop_saved_h = 0;  // hauteur fenetre avant agrandissement auto (0 = pas agrandie)
@@ -522,10 +526,21 @@ static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval,
     }
     Body.DrawOutline(hovered ? Rgba(1,1,1) : CouleurGrisClair);
 
-    const int spacing = 11;
-    int scroll = (int)(((long)(refval >> 8)) % spacing);
-    for(int y = top + spacing - scroll; y < top + h - 2; y += spacing)
-        if(y > top + 2) Line(Vec2D(left+3, y), Vec2D(left+w-3, y)).Draw(CouleurGrisClair);
+    // crans projetes sur un CYLINDRE (tambour) : la position verticale suit sin(angle) -> les crans se
+    // resserrent et s'attenuent vers les bords, s'ecartent et se detachent au centre ; la phase tourne avec
+    // la valeur -> illusion d'une vraie molette qui roule.
+    {
+        const int   N = 7;                                   // nb de crans sur un demi-tour visible
+        const float R = (float)(h/2 - 2);
+        float phase = ((float)(refval >> 8) / 255.0f) * 6.2831853f;   // 1 tour complet sur la plage
+        for(int i=0;i<2*N;i++){
+            float th = phase + (float)i * (3.14159265f / N);
+            float c  = cosf(th);
+            if(c <= 0.06f) continue;                         // face arriere du cylindre : cachee
+            int yy = cy - (int)(R * sinf(th));
+            Line(Vec2D(left+3, yy), Vec2D(left+w-3, yy)).Draw(CouleurGrisClair.WithAlpha(c*c*0.85f));
+        }
+    }
 
     Line(Vec2D(left, cy), Vec2D(left+w-1, cy)).Draw(CouleurFader);   // repere de lecture central
 
@@ -707,6 +722,16 @@ int fixturectl_window(int xf, int yf)
         }
     }
 
+    // poignee de redimensionnement (coin bas-droit) : petit triangle PLEIN, MEME couleur que le cadre
+    // (CouleurFader si la fenetre est active, sinon CouleurLigne). Dessinee AVANT le retour "aucun device".
+    {
+        int gx = xf+fixturectl_window_w-1, gy = yf+fixturectl_window_h-1;   // aligne sur le cadre (coin bas-droit)
+        const int S = 18;                                                   // taille du triangle
+        for(int k=0;k<=S;k++)                                               // k=0 : base (large) en bas ; k=S : pointe en haut
+            Line(Vec2D(gx-(S-k), gy-k), Vec2D(gx, gy-k))
+                .Draw(window_focus_id==W_FIXTURECTL ? CouleurFader : CouleurLigne);
+    }
+
     if(n<=0) return(0);
 
     int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
@@ -720,6 +745,7 @@ int fixturectl_window(int xf, int yf)
 
     int prev_cat_all=-1, prev_scx_all=0, prev_vis_cat=-1;
     std::string hov_full; int hov_scx=0; bool hov_trunc=false, hov_top=false;   // label/slot survole (info-bulle) ; hov_top = libelle du haut
+    bool fxc_actuating = !g_fxc_turning.empty() && (SDL_GetTicks()-g_fxc_turning_ms < 600);  // drag/molette en cours -> on ignore le survol
     for(int i=0;i<n;i++)
     {
         int scx = fxc_scx(xf, i, cx_rel);
@@ -754,14 +780,24 @@ int fixturectl_window(int xf, int yf)
             if(btnlist) fxc_draw_buttonlist(scx, cy, disp[i], refCh, fxc_slot_index(refCh, val), mixed, hov);
             else        fxc_draw_encoder(scx, cy, disp[i], val, mixed, hov, slotted, slotName);
             if(hov){ strncpy(fixturectl_wheel_hover, disp[i].c_str(), 23); fixturectl_wheel_hover[23]=0; }
+            // roue a crans actionnee (drag/molette souris) : montrer le NOM DE MODE sous la roue en info-bulle,
+            // UNIQUEMENT s'il est trop long et rogne dans le declencheur -- exactement comme au survol.
+            if(slotted && disp[i]==g_fxc_turning && (SDL_GetTicks()-g_fxc_turning_ms<600)){
+                std::string sn = mixed ? std::string() : slotName;
+                if(petitchiffre.TextWidth(sn.c_str()) > FXC_ENC_DX-24){   // meme seuil que l'info-bulle au survol
+                    hov_full = sn; hov_trunc = true; hov_scx = scx; hov_top = false;
+                    wc_request_refresh();
+                }
+            }
             // survol du LIBELLE D'ATTRIBUT (au-DESSUS du rouleau, "fonction en haut") -> info-bulle du nom complet
             // (les deux types : molette et canaux a modes -- ce sont ces libelles qui sont tronques a l'ecran)
-            if(window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
+            // Ignore pendant un drag/molette (fxc_actuating) : la souris ne doit pas declencher le survol.
+            if(!fxc_actuating && window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
                && mouse_y>cy-FXC_ROL_H/2-16 && mouse_y<=cy-FXC_ROL_H/2){
                 std::string tmp; hov_trunc=fxc_fit_label(disp[i],tmp); hov_full=fxc_label(disp[i]); hov_scx=scx; hov_top=true;
             }
             // survol du DECLENCHEUR de mode (SOUS le rouleau) -> info-bulle du nom de mode complet
-            if(slotted && window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
+            if(!fxc_actuating && slotted && window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
                && mouse_y>cy+FXC_ROL_H/2+6 && mouse_y<cy+FXC_ROL_H/2+22){
                 hov_full = mixed?std::string():slotName; hov_trunc = petitchiffre.TextWidth(hov_full.c_str())>FXC_ENC_DX-24; hov_scx=scx; hov_top=false;
             }
@@ -799,12 +835,6 @@ int fixturectl_window(int xf, int yf)
         Rect Tip(Vec2D(tx, ty-11), Vec2D(tw,14)); Tip.SetRoundness(3);
         Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
         petitchiffre.Print(hov_full.c_str(), tx+5, ty);
-    }
-
-    // poignee de redimensionnement (coin bas-droit) : 3 petits traits diagonaux
-    {
-        int gx = xf+fixturectl_window_w, gy = yf+fixturectl_window_h;
-        for(int i=4;i<=12;i+=4) Line(Vec2D(gx-i-2, gy-4), Vec2D(gx-4, gy-i-2)).Draw(CouleurGrisClair);
     }
 
     fxc_draw_dropdown(xf, yf);   // menu de modes ouvert : par-dessus les colonnes
@@ -985,6 +1015,15 @@ int do_logical_fixturectl(int xf, int yf)
         }
         if(fxc_dropdown_click(xf, yf, mouse_x, mouse_y)){ mouse_released=1; return(0); }
     }
+    // Pendant un drag DEJA EN COURS (molette / ascenseur / redimensionnement), la souris ne doit RIEN
+    // declencher d'autre : on saute les handlers de clic (categories, declencheurs, boutons de mode) qui
+    // testent la position COURANTE de la souris. (Meme principe que le verrou du volume des audio players.)
+    // Le test "clic inchange" evite de sauter le tout premier frame d'un nouveau clic.
+    bool dragging_now = (mouse_button==1)
+                     && (mouse_click_x==last_click_x && mouse_click_y==last_click_y)
+                     && (!drag_key.empty() || drag_scroll || drag_resize);
+    if(!dragging_now)
+    {
     // filtres de categorie : clic SIMPLE fiable -> on consomme le clic (mouse_released=1) pour ne pas
     // dependre du deplacement de la souris (sinon re-cliquer au meme pixel ne re-declenchait pas).
     {
@@ -1005,6 +1044,7 @@ int do_logical_fixturectl(int xf, int yf)
         int si=-1; std::string bk = fxc_modebtn_at_point(xf, yf, mouse_x, mouse_y, si);
         if(!bk.empty()){ fxc_set_slot(bk, si); mouse_released=1; return(0); }
     }
+    }   // fin if(!dragging_now)
 
     if(mouse_click_x != last_click_x || mouse_click_y != last_click_y)
     {
@@ -1063,6 +1103,7 @@ int do_logical_fixturectl(int xf, int yf)
             fxc_apply_delta(drag_key.c_str(), dy * unit);
             drag_prev_y = mouse_y;
         }
+        fxc_mark_turning(drag_key.c_str());   // valeur en info-bulle pendant tout le drag (meme tenu immobile)
     }
     return(0);
 }

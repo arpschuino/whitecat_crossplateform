@@ -754,7 +754,12 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_F:
-            if(index_type==0)
+            if ((key_shifts & KB_CTRL_FLAG) || index_false_control==1)
+            {   // Ctrl+F : ouvre/ferme la fenetre Control Fixtures
+                if(index_window_fixturectl==0){ add_a_window(W_FIXTURECTL); substract_a_window(W_MAINMENU); }
+                else                          { substract_a_window(W_FIXTURECTL); }
+            }
+            else if(index_type==0)
             {
                 key_roi(3);
             }

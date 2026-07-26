@@ -16,3 +16,7 @@ void fxc_apply_delta(const char* name, int delta);
 bool fxc_dropdown_open();
 // Defile le menu ouvert a la molette (delta>0 = vers le haut). true si consomme (channels_core.cpp).
 bool fxc_dropdown_wheel(int delta);
+
+// [devices] Marque la molette <key> comme actionnee (drag OU molette souris) -> sa valeur s'affiche en
+// info-bulle ~0,6 s. Appelee par channels_core.cpp au scroll.
+void fxc_mark_turning(const char* key);

@@ -391,7 +391,7 @@ for(int g=1; g<512; g++)
         int omin = (g<fin)?g:fin;
         int omax = (g>fin)?g:fin;
         char _blbl[40]; sprintf(_blbl,"%d: 16 bit output", Patch[g]);
-        wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _blbl, CouleurGreen);
+        wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _blbl, CouleurGrisMoyen);
     }
 }
 
@@ -416,7 +416,7 @@ for(size_t fi=0; fi<wc_patch.size(); fi++)
     }
     if(ncount<2 || omax<omin) continue;
     char _dl[64]; sprintf(_dl,"%d: %s (%d outputs)", circ, fx.name.empty()?"device":fx.name.c_str(), ncount);
-    wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _dl, CouleurGreen);   // [devices] vert = tout device (sauf dimmer 8 bit : pas de bandeau)
+    wc_draw_output_bandeau(XChan,YChan,scroll_chan, omin,omax, _dl, CouleurGrisMoyen);   // [devices] gris = tout device (sauf dimmer 8 bit : pas de bandeau)
 }
 Canvas::DisableClipping();
 

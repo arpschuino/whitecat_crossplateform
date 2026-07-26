@@ -382,6 +382,7 @@ int DoMouseLevel()
            int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
            int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
            fxc_apply_delta(fixturectl_wheel_hover, change);
+           fxc_mark_turning(fixturectl_wheel_hover);   // valeur en info-bulle pendant l'actionnement molette souris
            last_scroll_mouse_for_fxc  = mouse_z;
            last_scroll_mouse_for_chan = mouse_z; // empeche le bloc circuit de refirer sur ce scroll
        }
