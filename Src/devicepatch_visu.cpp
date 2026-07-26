@@ -316,6 +316,21 @@ static bool ci_contains(const std::string& hay, const char* needle)
     return H.find(N)!=std::string::npos;
 }
 
+// vrai si TOUS les mots de <needle> (separes par des espaces) sont presents dans <hay>, ordre libre,
+// insensible a la casse. Ex. "led beam" matche "Robe LEDBeam 150" et "LED ... Beam ...".
+static bool ci_contains_words(const std::string& hay, const char* needle)
+{
+    if(!needle || !*needle) return true;
+    std::string n=needle; size_t i=0;
+    while(i<n.size()){
+        while(i<n.size() && n[i]==' ') ++i;             // saute les espaces
+        size_t j=i; while(j<n.size() && n[j]!=' ') ++j; // mot [i,j)
+        if(j>i && !ci_contains(hay, n.substr(i,j-i).c_str())) return false;
+        i=j;
+    }
+    return true;
+}
+
 // indices de g_lib a montrer dans la colonne Fixture : resultats de recherche (si recherche active),
 // sinon fixtures du fabricant selectionne.
 static void build_fixlist(std::vector<int>& out)
@@ -327,7 +342,7 @@ static void build_fixlist(std::vector<int>& out)
         if(g_filter_local && g_lib[i].path.empty()) continue;    // filtre Local : seulement les fixtures a fichier local
         if(searching){
             std::string key = g_lib[i].manuf + " " + g_lib[i].model;
-            if(ci_contains(key, g_search)) out.push_back((int)i);
+            if(ci_contains_words(key, g_search)) out.push_back((int)i);   // tous les mots presents (ordre libre)
         } else if(g_sel_manuf>=0 && g_sel_manuf<(int)g_manufs.size() && g_lib[i].manuf==g_manufs[g_sel_manuf]){
             out.push_back((int)i);
         }
