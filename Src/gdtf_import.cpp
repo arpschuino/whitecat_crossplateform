@@ -122,9 +122,27 @@ static const wcxml::Node* find_dmxmodes(const wcxml::Node& root, std::string& fi
 //   PhysicalUnit != None (Angle, ColorComponent...) -> continu (molette seule)
 //   None + Feature "Control.*"                       -> mode (molette + selecteur de crans, ex. PositionMSpeed)
 //   sinon                                            -> neutre (selecteur ajoute si beaucoup de crans nommes)
-static void build_phys_hints(const wcxml::Node& root, std::map<std::string,uint8_t>& out)
+// [devices] GDTF PhysicalUnit (chaine) -> code wc::PhysUnit (affichage physique/level + suffixe).
+static uint8_t phys_unit_from_gdtf(const char* pu)
 {
-    out.clear();
+    if(!pu || !*pu)                  return wc::PU_NONE;
+    if(!strcmp(pu,"None"))           return wc::PU_NONE;
+    if(!strcmp(pu,"Percent"))        return wc::PU_PERCENT;
+    if(!strcmp(pu,"ColorComponent")) return wc::PU_COLORCOMPONENT;
+    if(!strcmp(pu,"Angle"))          return wc::PU_ANGLE;
+    if(!strcmp(pu,"AngularSpeed"))   return wc::PU_ANGULARSPEED;
+    if(!strcmp(pu,"Frequency"))      return wc::PU_FREQUENCY;
+    if(!strcmp(pu,"Time"))           return wc::PU_TIME;
+    if(!strcmp(pu,"Length"))         return wc::PU_LENGTH;
+    if(!strcmp(pu,"Temperature"))    return wc::PU_TEMPERATURE;
+    if(!strcmp(pu,"Speed"))          return wc::PU_SPEED;
+    return wc::PU_OTHER;             // autre unite dimensionnelle (Power, Voltage...) -> physique, sans suffixe connu
+}
+
+static void build_phys_hints(const wcxml::Node& root, std::map<std::string,uint8_t>& out,
+                             std::map<std::string,uint8_t>& units_out)
+{
+    out.clear(); units_out.clear();
     const wcxml::Node* gdtf = root.child("GDTF");                 if(!gdtf)  return;
     const wcxml::Node* ft   = gdtf->child("FixtureType");         if(!ft)    return;
     const wcxml::Node* adef = ft->child("AttributeDefinitions");  if(!adef)  return;
@@ -140,6 +158,7 @@ static void build_phys_hints(const wcxml::Node& root, std::map<std::string,uint8
         else if(fe && strncmp(fe,"Control",7)==0) hint = wc::PHYS_MODE;
         else                                      hint = wc::PHYS_PLAIN;
         out[nm] = hint;
+        units_out[nm] = phys_unit_from_gdtf(pu);
     }
 }
 
@@ -207,8 +226,8 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
     const wcxml::Node* chans = mode->child("DMXChannels");
     if(!chans) return 2;
 
-    std::map<std::string,uint8_t> phys_hints;
-    build_phys_hints(root, phys_hints);   // nom d'attribut GDTF -> molette/mode (cf. PhysicalUnit + Feature)
+    std::map<std::string,uint8_t> phys_hints, phys_units;
+    build_phys_hints(root, phys_hints, phys_units);   // nom d'attribut GDTF -> molette/mode + unite physique
 
     for(size_t c=0;c<chans->children.size();++c)
     {
@@ -242,15 +261,26 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
         ch.home        = (uint16_t)channel_default(dc);   // valeur par defaut GDTF (16 bit) -> persistee dans le patch
         if(gname){ strncpy(ch.name, gname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0; }  // nom GDTF -> pilotage generique
         if(gname){ std::map<std::string,uint8_t>::const_iterator it=phys_hints.find(gname);      // molette/mode (GDTF PhysicalUnit+Feature)
-                   ch.phys_hint = (it!=phys_hints.end()) ? it->second : (uint8_t)wc::PHYS_PLAIN; }
+                   ch.phys_hint = (it!=phys_hints.end()) ? it->second : (uint8_t)wc::PHYS_PLAIN;
+                   std::map<std::string,uint8_t>::const_iterator itu=phys_units.find(gname);     // unite physique (GDTF PhysicalUnit)
+                   ch.phys_unit = (itu!=phys_units.end()) ? itu->second : (uint8_t)wc::PU_NONE; }
 
         // [devices] slots nommes : LogicalChannel > ChannelFunction > ChannelSet (Name + DMXFrom)
+        // + borne physique : PhysicalFrom/To de la 1re ChannelFunction (modele "un canal = une plage physique").
         {
             const wcxml::Node* lc2 = dc.child("LogicalChannel");
             if(lc2){
+                bool got_phys=false; int cfCount=0;
                 for(size_t k=0;k<lc2->children.size();++k){
                     const wcxml::Node& cf = lc2->children[k];
                     if(cf.name != "ChannelFunction") continue;
+                    cfCount++;                                           // nb de ChannelFunction : 1 = proportionnel
+                    if(!got_phys){                                       // 1re ChannelFunction : plage physique du canal
+                        const char* pf=cf.attr("PhysicalFrom"); const char* pt=cf.attr("PhysicalTo");
+                        ch.phys_from = pf ? (float)atof(pf) : 0.0f;      // defauts GDTF : From=0, To=1
+                        ch.phys_to   = pt ? (float)atof(pt) : 1.0f;
+                        got_phys=true;
+                    }
                     for(size_t s=0;s<cf.children.size();++s){
                         const wcxml::Node& cs = cf.children[s];
                         if(cs.name != "ChannelSet") continue;
@@ -264,6 +294,21 @@ int build_fixture(const char* xmlpath, int mode_index, int base, int circuit,
                 }
                 std::sort(ch.slots.begin(), ch.slots.end(),
                           [](const wc::ChannelSlot& a, const wc::ChannelSlot& b){ return a.from16 < b.from16; });
+
+                // [devices] Une SEULE ChannelFunction = fonction continue = PROPORTIONNEL -> molette, meme si
+                // PhysicalUnit=None et crans nommes (ex. CTO 8000..2700K, CRI 80..90).
+                //  - PLAIN (None neutre)          : promu toujours.
+                //  - MODE  (Control.*)            : promu seulement si VRAIE plage physique non normalisee, pour
+                //    distinguer CRIMode (80..90 -> molette) d'un vrai selecteur (PositionMSpeed 0..1 -> boutons).
+                if(cfCount == 1){
+                    if(ch.phys_hint == wc::PHYS_PLAIN) ch.phys_hint = wc::PHYS_CONTINUOUS;
+                    else if(ch.phys_hint == wc::PHYS_MODE){
+                        float lo=ch.phys_from, hi=ch.phys_to; if(lo>hi){ float t=lo; lo=hi; hi=t; }
+                        bool real = (hi>lo) && !(lo>-0.001f&&lo<0.001f&&hi>0.999f&&hi<1.001f)
+                                             && !(lo>-0.1f&&lo<0.1f&&hi>99.9f&&hi<100.1f);
+                        if(real) ch.phys_hint = wc::PHYS_CONTINUOUS;
+                    }
+                }
             }
         }
         fx.channels.push_back(ch);

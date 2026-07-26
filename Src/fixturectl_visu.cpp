@@ -27,6 +27,7 @@
 #include "gui_boutons_rebuild1.h"
 #include "fixturectl_visu.h"
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 #include <cctype>
 #include <string>
@@ -246,15 +247,34 @@ static const wc::Channel* fxc_ref_channel(const std::string& key)
     }
     return fallback;
 }
-// "slotted" = on AJOUTE un bouton de mode (< nom >) sous la molette (modele EOS "molette + bouton").
-// Regle derivee du GDTF (phys_hint), pas du seul nombre de crans :
-//   CONTINUOUS (PhysicalUnit Angle/ColorComponent...) -> molette SEULE (Pan/Tilt/Zoom/RGBW/rotations)
-//   MODE       (Feature Control.*)                    -> bouton des qu'il y a des crans (PositionMSpeed...)
-//   PLAIN      (None, autre)                          -> bouton si BEAUCOUP de crans (roues gobo/couleur/prisme, Iris...)
-// Les canaux legacy (shows < WCPATCH v6) ont phys_hint=PLAIN -> repli sur le nombre de crans.
+// [devices] Affichage "physique" facon EOS = aussi le signal "PROPORTIONNEL". true si l'attribut a une
+// plage physique parlante (Angle, Hz, K°, ou None NON normalise comme CRI 80..90). Percent/ColorComponent
+// et plage normalisee 0..1 (0..100) -> level. Donnee dispo a l'import ET au chargement (patch v7).
+static bool fxc_show_physical(const wc::Channel* ch)
+{
+    if(!ch) return false;
+    if(ch->phys_from == ch->phys_to) return false;                // pas de plage -> level
+    switch(ch->phys_unit){
+        case wc::PU_PERCENT:
+        case wc::PU_COLORCOMPONENT: return false;                 // = level (suit dmx_view)
+        case wc::PU_NONE: {                                        // None : physique si plage non normalisee
+            float lo=ch->phys_from, hi=ch->phys_to; if(lo>hi){ float t=lo; lo=hi; hi=t; }
+            bool n01 =(lo>-0.001f&&lo<0.001f&&hi>0.999f&&hi<1.001f);
+            bool n100=(lo>-0.1f  &&lo<0.1f  &&hi>99.9f &&hi<100.1f);
+            return !(n01 || n100);
+        }
+        default: return true;                                     // unite dimensionnelle -> physique
+    }
+}
+
+// "slotted" = on AJOUTE un bouton/menu de mode sous la molette (modele EOS "molette + bouton").
+// Regle : "proportionnel seul = molette". Un canal avec une VRAIE plage physique (fxc_show_physical) est
+// proportionnel -> molette SEULE, meme s'il a des crans nommes aux bornes (CRI 80..90, CTO 8000..2700K).
+// Sinon on retombe sur phys_hint (Control.* -> bouton ; sinon bouton si BEAUCOUP de crans : gobo/couleur...).
 static const size_t FXC_SLOT_MIN = 6;
 static inline bool fxc_is_slotted(const wc::Channel* ch){
     if(!ch) return false;
+    if(fxc_show_physical(ch))                return false;   // plage physique reelle = proportionnel = molette
     if(ch->phys_hint == wc::PHYS_CONTINUOUS) return false;
     if(ch->phys_hint == wc::PHYS_MODE)       return ch->slots.size() >= 2;
     return ch->slots.size() >= FXC_SLOT_MIN;
@@ -434,6 +454,35 @@ static std::string fxc_attr_at_point(int xf, int yf, int px, int py)
     return std::string();
 }
 
+static const char* fxc_unit_suffix(uint8_t u)
+{
+    switch(u){
+        case wc::PU_ANGLE:        return "\xC2\xB0";              // degre
+        case wc::PU_ANGULARSPEED: return "\xC2\xB0/s";
+        case wc::PU_FREQUENCY:    return "Hz";
+        case wc::PU_TIME:         return "s";
+        case wc::PU_LENGTH:       return "m";
+        case wc::PU_TEMPERATURE:  return "K";
+        case wc::PU_SPEED:        return "m/s";
+        default:                  return "";
+    }
+}
+// Texte de la valeur d'un rouleau : physique (avec unite) si "il y a lieu", sinon dmx_view (%/DMX).
+static std::string fxc_value_text(const std::string& key, int refval, bool mixed)
+{
+    if(mixed) return "\xE2\x80\xA6";
+    const wc::Channel* ch = fxc_ref_channel(key);
+    if(fxc_show_physical(ch)){
+        float phys = ch->phys_from + (refval/65535.0f)*(ch->phys_to - ch->phys_from);
+        float av = phys<0?-phys:phys;
+        char buf[32];
+        snprintf(buf,sizeof buf, av>=100.0f?"%.0f%s":"%.1f%s", phys, fxc_unit_suffix(ch->phys_unit));
+        return buf;
+    }
+    int d8 = (int)(refval >> 8);                                  // level : octet fort
+    return ol::ToString(dmx_view ? d8 : (int)(d8/2.55));          // dmx_view : 1 = DMX 0..255, 0 = % 0..100
+}
+
 // Dessine un rouleau vertical (thumbwheel) : corps + crans defilants + repere + textes (centres).
 // Convention "fonction en haut" (coherente avec les rouleaux simples) :
 //   HAUT = nom d'attribut (fonction) pour TOUS les rouleaux.
@@ -493,12 +542,7 @@ static void fxc_draw_encoder(int cx, int cy, const std::string& key, int refval,
         }
         petitchiffre.Print(sn.c_str(), cx - 6 - petitchiffre.TextWidth(sn.c_str())/2, by);
     } else {
-        std::string vs;
-        if(mixed) vs = "\xE2\x80\xA6";
-        else {
-            int d8 = (int)(refval >> 8);                       // 8 bit (0..255)
-            vs = ol::ToString(dmx_view ? d8 : (int)(d8/2.55)); // dmx_view : 1 = DMX 0..255, 0 = pourcentage 0..100
-        }
+        std::string vs = fxc_value_text(key, refval, mixed);   // physique (unite) si pertinent, sinon %/DMX
         petitchiffre.Print(vs.c_str(), cx - petitchiffre.TextWidth(vs.c_str())/2, by);
     }
 }
@@ -664,7 +708,7 @@ int fixturectl_window(int xf, int yf)
     Canvas::SetClipping(clipLeft, clipTop, VR-clipLeft, clipBot-clipTop);
 
     int prev_cat_all=-1, prev_scx_all=0, prev_vis_cat=-1;
-    std::string hov_full; int hov_scx=0; bool hov_trunc=false;   // label/slot survole (info-bulle du texte complet)
+    std::string hov_full; int hov_scx=0; bool hov_trunc=false, hov_top=false;   // label/slot survole (info-bulle) ; hov_top = libelle du haut
     for(int i=0;i<n;i++)
     {
         int scx = fxc_scx(xf, i, cx_rel);
@@ -699,12 +743,16 @@ int fixturectl_window(int xf, int yf)
             if(btnlist) fxc_draw_buttonlist(scx, cy, disp[i], refCh, fxc_slot_index(refCh, val), mixed, hov);
             else        fxc_draw_encoder(scx, cy, disp[i], val, mixed, hov, slotted, slotName);
             if(hov){ strncpy(fixturectl_wheel_hover, disp[i].c_str(), 23); fixturectl_wheel_hover[23]=0; }
-            // survol du LABEL/slot (sous le rouleau) -> info-bulle du texte complet
+            // survol du LIBELLE D'ATTRIBUT (au-DESSUS du rouleau, "fonction en haut") -> info-bulle du nom complet
+            // (les deux types : molette et canaux a modes -- ce sont ces libelles qui sont tronques a l'ecran)
             if(window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
+               && mouse_y>cy-FXC_ROL_H/2-16 && mouse_y<=cy-FXC_ROL_H/2){
+                std::string tmp; hov_trunc=fxc_fit_label(disp[i],tmp); hov_full=fxc_label(disp[i]); hov_scx=scx; hov_top=true;
+            }
+            // survol du DECLENCHEUR de mode (SOUS le rouleau) -> info-bulle du nom de mode complet
+            if(slotted && window_focus_id==W_FIXTURECTL && mouse_x>scx-FXC_ENC_DX/2 && mouse_x<scx+FXC_ENC_DX/2
                && mouse_y>cy+FXC_ROL_H/2+6 && mouse_y<cy+FXC_ROL_H/2+22){
-                hov_scx=scx;
-                if(slotted){ hov_full = mixed?std::string():slotName; hov_trunc = petitchiffre.TextWidth(hov_full.c_str())>FXC_ENC_DX-24; }
-                else { std::string tmp; hov_trunc=fxc_fit_label(disp[i],tmp); hov_full=fxc_label(disp[i]); }
+                hov_full = mixed?std::string():slotName; hov_trunc = petitchiffre.TextWidth(hov_full.c_str())>FXC_ENC_DX-24; hov_scx=scx; hov_top=false;
             }
 
             int hy = cy + FXC_ROL_H/2 + 26;
@@ -728,13 +776,15 @@ int fixturectl_window(int xf, int yf)
         }
     }
 
-    // info-bulle : texte complet (nom d'attribut ou de slot) survole s'il est tronque
+    // info-bulle FIXE : texte complet survole s'il est tronque. Ancree sur le rouleau, AU-DESSUS pour un
+    // libelle du haut (s'il y a la place), sinon SOUS le bouton home.
     if(!hov_full.empty() && hov_trunc){
         int tw = petitchiffre.TextWidth(hov_full.c_str())+10;
         int tx = hov_scx - tw/2;
         if(tx < xf+4) tx = xf+4;
         if(tx+tw > xf+fixturectl_window_w-4) tx = xf+fixturectl_window_w-4-tw;
-        int ty = cy + FXC_ROL_H/2 + 52;   // sous le bouton home
+        int ty = cy + FXC_ROL_H/2 + 52;                          // defaut : sous le bouton home
+        if(hov_top && cy - FXC_ROL_H/2 - 41 >= yf + 18) ty = cy - FXC_ROL_H/2 - 30;   // libelle du haut : au-dessus
         Rect Tip(Vec2D(tx, ty-11), Vec2D(tw,14)); Tip.SetRoundness(3);
         Tip.Draw(CouleurGrisAnthracite); Tip.DrawOutline(CouleurFader);
         petitchiffre.Print(hov_full.c_str(), tx+5, ty);

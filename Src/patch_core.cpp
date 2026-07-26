@@ -326,7 +326,7 @@ int save_patch_fixtures_text(const char* file)
     synthesize_fixtures_from_legacy();   // capture l'etat patch courant (tableaux legacy -> modele)
     FILE* fp = fopen(file, "wt");
     if(!fp) return 1;
-    fprintf(fp, "WCPATCH 6\n");   // v6 : phys_hint (molette/mode) par canal ; v5 : slots nommes ; v4 : nom attribut ; v3 : nom fixture ; v2 : home
+    fprintf(fp, "WCPATCH 7\n");   // v7 : plage physique (phys_from/to/unit) ; v6 : phys_hint ; v5 : slots nommes ; v4 : nom attribut ; v3 : nom fixture ; v2 : home
     fprintf(fp, "%u\n", (unsigned)wc_patch.size());
     for(size_t f=0; f<wc_patch.size(); f++)
     {
@@ -343,6 +343,7 @@ int save_patch_fixtures_text(const char* file)
                     (int)ch.universe, (int)ch.coarse_addr, (int)ch.fine_addr, (int)ch.circuit, (int)ch.home,
                     (unsigned)strlen(ch.name), ch.name);
             fprintf(fp, " %u", (unsigned)ch.phys_hint);      // v6 : indice molette/mode (GDTF PhysicalUnit+Feature)
+            fprintf(fp, " %g %g %u", ch.phys_from, ch.phys_to, (unsigned)ch.phys_unit);  // v7 : plage physique + unite
             fprintf(fp, " %u", (unsigned)ch.slots.size());   // nb de slots, puis <from16> <len> <nom> par slot
             for(size_t s=0;s<ch.slots.size();s++)
                 fprintf(fp, " %u %u %s", (unsigned)ch.slots[s].from16, (unsigned)ch.slots[s].name.size(), ch.slots[s].name.c_str());
@@ -394,6 +395,10 @@ int load_patch_fixtures_text(const char* file)
             }
             int phys_hint = (int)wc::PHYS_PLAIN;
             if(ver>=6){ if(fscanf(fp, " %d", &phys_hint)!=1) phys_hint=(int)wc::PHYS_PLAIN; }   // v6 : molette/mode
+            float phys_from=0.0f, phys_to=0.0f; int phys_unit=(int)wc::PU_NONE;
+            if(ver>=7){   // v7 : plage physique + unite (defauts si absent : 0/0/None)
+                if(fscanf(fp, " %g %g %d", &phys_from, &phys_to, &phys_unit)!=3){ phys_from=0.0f; phys_to=0.0f; phys_unit=(int)wc::PU_NONE; }
+            }
             std::vector<wc::ChannelSlot> cslots;
             if(ver>=5){   // v5 : slots nommes : <nb> puis <from16> <len> <nom> par slot
                 unsigned nslots=0;
@@ -422,6 +427,9 @@ int load_patch_fixtures_text(const char* file)
             ch.home        = (uint16_t)home;
             strncpy(ch.name, cname, sizeof(ch.name)-1); ch.name[sizeof(ch.name)-1]=0;
             ch.phys_hint   = (uint8_t)phys_hint;
+            ch.phys_from   = phys_from;
+            ch.phys_to     = phys_to;
+            ch.phys_unit   = (uint8_t)phys_unit;
             ch.slots.swap(cslots);
             fx.channels.push_back(ch);
         }

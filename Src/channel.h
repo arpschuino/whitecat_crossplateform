@@ -38,6 +38,23 @@ enum PhysHint : uint8_t {
     PHYS_PLAIN      = 2    // None + autre -> BOUTON si beaucoup de crans nommés, sinon molette (défaut / shows legacy)
 };
 
+// [devices] Unite physique d'un attribut (GDTF PhysicalUnit) : sert au choix "affichage physique vs level"
+// et au suffixe. Les unites DIMENSIONNELLES -> affichage physique ; PERCENT/COLORCOMPONENT -> level (dmx_view).
+// NONE : physique seulement si la plage n'est pas normalisee 0..1 (ex. CRI 80..90).
+enum PhysUnit : uint8_t {
+    PU_NONE = 0,        // sans dimension
+    PU_PERCENT,         // %      -> level
+    PU_COLORCOMPONENT,  // (RGB)  -> level
+    PU_ANGLE,           // deg
+    PU_ANGULARSPEED,    // deg/s
+    PU_FREQUENCY,       // Hz
+    PU_TIME,            // s
+    PU_LENGTH,          // m
+    PU_TEMPERATURE,     // K
+    PU_SPEED,           // m/s
+    PU_OTHER            // autre unite dimensionnelle -> physique, sans suffixe connu
+};
+
 // ---------------------------------------------------------------------------
 // Taxonomie d'attributs — noms canoniques GDTF (Phase 0).
 // VAGUE 1 (implémentée) : Dimmer, ColorAdd R/G/B/W, Pan, Tilt.
@@ -92,6 +109,9 @@ struct Channel {
     uint16_t home        = 0;             // [devices] valeur "home" (défaut GDTF, 16 bit) de ce canal (bouton home)
     char     name[24]    = {0};           // [devices] nom d'attribut GDTF (ex. "Pan", "Gobo1", "Prism1") -> libellé + pilotage générique
     uint8_t  phys_hint   = PHYS_PLAIN;    // [devices] molette/bouton (dérivé GDTF PhysicalUnit+Feature) ; défaut = règle au nombre de crans
+    float    phys_from   = 0.0f;          // [devices] valeur physique a DMX min (GDTF ChannelFunction PhysicalFrom)
+    float    phys_to     = 0.0f;          // [devices] valeur physique a DMX max (PhysicalTo) ; from==to => pas de plage physique
+    uint8_t  phys_unit   = PU_NONE;       // [devices] unite physique (GDTF PhysicalUnit) -> affichage physique/level + suffixe
     std::vector<ChannelSlot> slots;       // [devices] plages nommées (GDTF ChannelSet) ; vide = paramètre continu (encodeur seul)
 
     // Écrit la valeur sur l'output DMX (buffer indices 1..512 ; 0 = start code).
