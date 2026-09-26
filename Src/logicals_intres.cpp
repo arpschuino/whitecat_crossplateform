@@ -55,6 +55,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "save_show.h"
 #include "saves_menu.h"
 #include "wizard_operations.h"
+#include "wizard.h"
 #include "grider_calcul.h"
 #include "gestionaire_fenetres2.h"
 #include "chasers_core.h"
@@ -82,7 +83,15 @@ int entetes_confirmation()
    break;
    }
    }
- sprintf(string_confirmation,"Delete Mem %d.%d?", mem_to_delete/10,mem_to_delete%10);
+   if(mem_to_delete<0||mem_to_delete>9999||MemoiresExistantes[mem_to_delete]==0)
+   {
+     snprintf(string_confirmation,128,"Mem %d.%d does not exist", mem_to_delete/10,mem_to_delete%10);
+     index_do_delete_mem=0;
+   }
+   else
+   {
+     sprintf(string_confirmation,"Delete Mem %d.%d?", mem_to_delete/10,mem_to_delete%10);
+   }
  }
 
  else if(index_do_create_mem==1)
@@ -457,14 +466,33 @@ else if( index_do_banger_membeforeone==1)
 
 else if(index_do_wizard_mem==1)
 {
- switch((int)wizard_amplitude_is_global)
+ if(wizard_action_mem==5) // restore deleted mems
  {
- case 0:
- sprintf(string_confirmation,"Do Wizard MEM from Mem %d.%d to Mem %d.%d ?",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
- break;
- case 1:
- sprintf(string_confirmation,"Do Wizard MEM Action on ALL memories ?");
- break;
+  wizard_calcul_nbre_de_mem_deleted();
+  if(nbre_de_mems_manipulees==0)
+  {
+   snprintf(string_confirmation,128,"No deleted Mem in range %d.%d - %d.%d",
+            wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
+   index_do_wizard_mem=0;
+  }
+  else
+  {
+   snprintf(string_confirmation,128,"Restore %d deleted Mem (%d.%d - %d.%d) ?",
+            nbre_de_mems_manipulees,
+            wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
+  }
+ }
+ else
+ {
+  switch((int)wizard_amplitude_is_global)
+  {
+  case 0:
+  sprintf(string_confirmation,"Do Wizard MEM from Mem %d.%d to Mem %d.%d ?",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
+  break;
+  case 1:
+  sprintf(string_confirmation,"Do Wizard MEM Action on ALL memories ?");
+  break;
+  }
  }
 }
 else if(index_wizard_do_reload_from_disk==1)

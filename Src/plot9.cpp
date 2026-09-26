@@ -137,7 +137,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=40.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -147,7 +147,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 carcasse.DrawOutline(CouleurPlotLine);
 lentille.SetRadius((taille_x/2)-(4*size_symbol));
@@ -183,7 +183,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2)-(30.0*size_symbol),ploty));
 carcasse.Add(Vec2D(plotx+(taille_x/2)-(35.0*size_symbol),ploty-(5*size_symbol)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 carcasse.DrawOutline(CouleurPlotLine);
 
@@ -208,11 +208,11 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 
 
@@ -244,11 +244,11 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 
 
@@ -260,7 +260,7 @@ foc.Add(Vec2D(plotx,ploty-(taille_x/2)-(10*size_symbol)));
 
 
 foc.SetPivot(Vec2D(plotx,ploty));
-foc.RotateBy(angle_pc*(6.5));
+foc.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 
@@ -289,10 +289,10 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 
 Poly foc;
@@ -301,7 +301,7 @@ foc.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty-(25*size_symbol)));
 foc.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty-(10*size_symbol)));
 foc.Add(Vec2D(plotx-(taille_x/2)+(10*size_symbol),ploty-(10*size_symbol)));
 foc.SetPivot(Vec2D(plotx,ploty));
-foc.RotateBy(angle_pc*(6.5));
+foc.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 
@@ -327,13 +327,13 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly fenetre;
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty+(12*size_symbol)));
 fenetre.Add(Vec2D(plotx+(taille_x/2),ploty+(17*size_symbol)));
 fenetre.SetPivot(Vec2D(plotx,ploty));
-fenetre.RotateBy(angle_pc*(6.5));
+fenetre.RotateBy(-angle_pc*(6.283185f));
 
 Poly poignee;
 poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)));
@@ -341,7 +341,7 @@ poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)));
 poignee.SetPivot(Vec2D(plotx,ploty));
-poignee.RotateBy(angle_pc*(6.5));
+poignee.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -369,13 +369,13 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly fenetre;
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty+(12*size_symbol)));
 fenetre.Add(Vec2D(plotx+(taille_x/2),ploty+(17*size_symbol)));
 fenetre.SetPivot(Vec2D(plotx,ploty));
-fenetre.RotateBy(angle_pc*(6.5));
+fenetre.RotateBy(-angle_pc*(6.283185f));
 
 Poly poignee;
 poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)));
@@ -383,7 +383,7 @@ poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)));
 poignee.SetPivot(Vec2D(plotx,ploty));
-poignee.RotateBy(angle_pc*(6.5));
+poignee.RotateBy(-angle_pc*(6.283185f));
 
 Poly foc;
 foc.Add(Vec2D(plotx-(taille_x/2)+(10*size_symbol),ploty-(10*size_symbol)));
@@ -391,7 +391,7 @@ foc.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty-(10*size_symbol)));
 foc.Add(Vec2D(plotx,ploty-(taille_x/2)-(10*size_symbol)));
 
 foc.SetPivot(Vec2D(plotx,ploty));
-foc.RotateBy(angle_pc*(6.5));
+foc.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 poignee.Draw(CouleurPlotFill);
@@ -422,13 +422,13 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly fenetre;
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty+(12*size_symbol)));
 fenetre.Add(Vec2D(plotx+(taille_x/2),ploty+(17*size_symbol)));
 fenetre.SetPivot(Vec2D(plotx,ploty));
-fenetre.RotateBy(angle_pc*(6.5));
+fenetre.RotateBy(-angle_pc*(6.283185f));
 
 Poly poignee;
 poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)));
@@ -436,7 +436,7 @@ poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)));
 poignee.SetPivot(Vec2D(plotx,ploty));
-poignee.RotateBy(angle_pc*(6.5));
+poignee.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly foc;
@@ -445,7 +445,7 @@ foc.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty-(25*size_symbol)));
 foc.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty-(10*size_symbol)));
 foc.Add(Vec2D(plotx-(taille_x/2)+(10*size_symbol),ploty-(10*size_symbol)));
 foc.SetPivot(Vec2D(plotx,ploty));
-foc.RotateBy(angle_pc*(6.5));
+foc.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -469,7 +469,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=40.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -479,7 +479,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.Add(Vec2D(plotx,ploty+(taille_y)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 
@@ -504,7 +504,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=40.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -514,7 +514,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.Add(Vec2D(plotx,ploty+(taille_y)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.DrawOutline(CouleurPlotLine);
 carcasse.Draw(CouleurPlotFill);
 
@@ -537,7 +537,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=40.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -547,7 +547,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.Add(Vec2D(plotx,ploty+(taille_y)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.DrawOutline(CouleurPlotLine);
 carcasse.Draw(CouleurPlotFill);
 
@@ -566,7 +566,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=40.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -575,7 +575,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.Add(Vec2D(plotx,ploty+(taille_y)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotLine);
 
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -599,7 +599,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
 {
@@ -613,7 +613,7 @@ lampe.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty+(taille_y/2)-(10*size_
 lampe.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty+(taille_y/2)-(8*size_symbol)));
 lampe.Add(Vec2D(plotx-(taille_x/2)+(10*size_symbol),ploty+(taille_y/2)-(8*size_symbol)));
 lampe.SetPivot(Vec2D(plotx,ploty));
-lampe.RotateBy(angle_pc*(6.5));
+lampe.RotateBy(-angle_pc*(6.283185f));
 lampe.Draw(CouleurPlotLine);
 
  return(0);
@@ -630,7 +630,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
 {
@@ -645,7 +645,7 @@ lampe.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty));
 lampe.Add(Vec2D(plotx+(taille_x/2)-(10*size_symbol),ploty+(2*size_symbol)));
 lampe.Add(Vec2D(plotx-(taille_x/2)+(10*size_symbol),ploty+(2*size_symbol)));
 lampe.SetPivot(Vec2D(plotx,ploty));
-lampe.RotateBy(angle_pc*(6.5));
+lampe.RotateBy(-angle_pc*(6.283185f));
 lampe.Draw(CouleurPlotLine);
 
  return(0);
@@ -658,7 +658,7 @@ float taille_y=40.0*size_symbol;
 
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -668,7 +668,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotLine);
 lentille.SetRadius((taille_x)-(4*size_symbol));
@@ -695,7 +695,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 carcasse.DrawOutline(CouleurPlotLine);
 
@@ -709,8 +709,8 @@ double tycl=0;
 float rayon=taille_x/16;
 for (int r=-3;r<5;r++)
 {
- txcl= cos(angle_pc*-6.5)*(rayon+(18*size_symbol));
- tycl = sin(angle_pc*-6.5)*(rayon+(18*size_symbol));
+ txcl= cos(angle_pc*-(6.283185f))*(rayon+(18*size_symbol));
+ tycl = sin(angle_pc*-(6.283185f))*(rayon+(18*size_symbol));
 Circle ourlet(0, 0, rayon);
 ourlet.MoveTo(Vec2D(plotx+(txcl*r/2),ploty+(tycl*r/2)));
 ourlet.DrawOutline(CouleurPlotLine);
@@ -733,7 +733,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotLine);
 
 
@@ -746,8 +746,8 @@ double txcl=0;
 double tycl=0;
 float rayon=taille_x/8;
 
-txcl= cos(angle_pc*-6.5)*(rayon);
-tycl = sin(angle_pc*-6.5)*(rayon);
+txcl= cos(angle_pc*-(6.283185f))*(rayon);
+tycl = sin(angle_pc*-(6.283185f))*(rayon);
 Circle ourlet(0, 0, rayon);
 
 ourlet.MoveTo(Vec2D(plotx+(txcl),ploty+(tycl)));
@@ -772,7 +772,7 @@ svobe.Add(Vec2D(plotx+(taille_x/2),ploty));
 svobe.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 
 svobe.SetPivot(Vec2D(plotx,ploty));
-svobe.RotateBy(angle_pc*(6.5));
+svobe.RotateBy(-angle_pc*(6.283185f));
 svobe.Draw(CouleurPlotLine);
 
 Poly svobe2;
@@ -782,7 +782,7 @@ svobe2.Add(Vec2D(plotx-(taille_x/2.5),ploty+(taille_y/2)));
 svobe2.Add(Vec2D(plotx+(taille_x/2.5),ploty+(taille_y/2)));
 svobe2.Add(Vec2D(plotx+(taille_x/2.5),ploty));
 svobe2.SetPivot(Vec2D(plotx,ploty));
-svobe2.RotateBy(angle_pc*(6.5));
+svobe2.RotateBy(-angle_pc*(6.283185f));
 svobe2.Draw(CouleurPlotLine);
 
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -808,8 +808,8 @@ double tycl=0;
 float rayon=taille_x/3;
 for (int r=-2;r<2;r++)
 {
-txcl= cos(angle_pc*-6.5)*(rayon+(18*size_symbol));
-tycl = sin(angle_pc*-6.5)*(rayon+(18*size_symbol));
+txcl= cos(angle_pc*-(6.283185f))*(rayon+(18*size_symbol));
+tycl = sin(angle_pc*-(6.283185f))*(rayon+(18*size_symbol));
 plot_draw_symbol_Par_4((int)(plotx+(txcl*r/2)), (int)(ploty+(tycl*r/2)),size_symbol,  angle_pc, num_symbol, plot_calc_number_is);
 }
 
@@ -828,7 +828,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side1;
 Side1.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)));
@@ -836,7 +836,7 @@ Side1.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/2)-(10*size_symbol),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/2)-(10*size_symbol),ploty-(taille_y/2)));
 Side1.SetPivot(Vec2D(plotx,ploty));
-Side1.RotateBy(angle_pc*(6.5));
+Side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side2;
 Side2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
@@ -844,7 +844,7 @@ Side2.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/2)+(10*size_symbol),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/2)+(10*size_symbol),ploty-(taille_y/2)));
 Side2.SetPivot(Vec2D(plotx,ploty));
-Side2.RotateBy(angle_pc*(6.5));
+Side2.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -874,7 +874,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side1;
 Side1.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)));
@@ -882,7 +882,7 @@ Side1.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/2)-(10*size_symbol),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/2)-(10*size_symbol),ploty-(taille_y/2)));
 Side1.SetPivot(Vec2D(plotx,ploty));
-Side1.RotateBy(angle_pc*(6.5));
+Side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side2;
 Side2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
@@ -890,7 +890,7 @@ Side2.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/2)+(10*size_symbol),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/2)+(10*size_symbol),ploty-(taille_y/2)));
 Side2.SetPivot(Vec2D(plotx,ploty));
-Side2.RotateBy(angle_pc*(6.5));
+Side2.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -919,7 +919,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly fenetre;
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(18*size_symbol)));
@@ -928,7 +928,7 @@ fenetre.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(22*size_symbol)));
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(22*size_symbol)));
 
 fenetre.SetPivot(Vec2D(plotx,ploty));
-fenetre.RotateBy(angle_pc*(6.5));
+fenetre.RotateBy(-angle_pc*(6.283185f));
 
 Poly poignee;
 poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)));
@@ -936,7 +936,7 @@ poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)));
 poignee.SetPivot(Vec2D(plotx,ploty));
-poignee.RotateBy(angle_pc*(6.5));
+poignee.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -965,7 +965,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly fenetre;
 fenetre.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(18*size_symbol)));
@@ -976,7 +976,7 @@ fenetre.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(24*size_symbol)));
 fenetre.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(24*size_symbol)));
 fenetre.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(18*size_symbol)));
 fenetre.SetPivot(Vec2D(plotx,ploty));
-fenetre.RotateBy(angle_pc*(6.5));
+fenetre.RotateBy(-angle_pc*(6.283185f));
 
 Poly poignee;
 poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)));
@@ -984,7 +984,7 @@ poignee.Add(Vec2D(plotx-(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)+(8*size_symbol)));
 poignee.Add(Vec2D(plotx+(12*size_symbol),ploty+(taille_y/2)));
 poignee.SetPivot(Vec2D(plotx,ploty));
-poignee.RotateBy(angle_pc*(6.5));
+poignee.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -1014,7 +1014,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 
@@ -1025,7 +1025,7 @@ objectif.Add(Vec2D(plotx+(20*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
 objectif.Add(Vec2D(plotx,ploty-(taille_y/2)-(4*size_symbol)));
 
 objectif.SetPivot(Vec2D(plotx,ploty));
-objectif.RotateBy(angle_pc*(6.5));
+objectif.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -1055,7 +1055,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly tirroir;
 tirroir.Add(Vec2D(plotx-(taille_x/4),ploty-(taille_y/2)));
@@ -1064,7 +1064,7 @@ tirroir.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)+(15*size_symbol)));
 tirroir.Add(Vec2D(plotx-(taille_x/4),ploty-(taille_y/2)+(15*size_symbol)));
 
 tirroir.SetPivot(Vec2D(plotx,ploty));
-tirroir.RotateBy(angle_pc*(6.5));
+tirroir.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly objectif;
@@ -1074,7 +1074,7 @@ objectif.Add(Vec2D(plotx+(10*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
 objectif.Add(Vec2D(plotx-(10*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
 
 objectif.SetPivot(Vec2D(plotx,ploty));
-objectif.RotateBy(angle_pc*(6.5));
+objectif.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -1103,7 +1103,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly objectif;
@@ -1113,7 +1113,7 @@ objectif.Add(Vec2D(plotx+(15*size_symbol),ploty-(taille_y/2)-(8*size_symbol)));
 objectif.Add(Vec2D(plotx+(5*size_symbol),ploty-(taille_y/2)-(8*size_symbol)));
 
 objectif.SetPivot(Vec2D(plotx,ploty));
-objectif.RotateBy(angle_pc*(6.5));
+objectif.RotateBy(-angle_pc*(6.283185f));
 
 Circle Panier(Vec2D(plotx,ploty),(taille_x/2)-(5*size_symbol));
 
@@ -1145,7 +1145,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly mirroir;
@@ -1155,7 +1155,7 @@ mirroir.Add(Vec2D(plotx+(25*size_symbol),ploty-(25*size_symbol)));
 mirroir.Add(Vec2D(plotx,ploty-(25*size_symbol)));
 
 mirroir.SetPivot(Vec2D(plotx,ploty));
-mirroir.RotateBy(angle_pc*(6.5));
+mirroir.RotateBy(-angle_pc*(6.283185f));
 
 Poly bras;
 bras.Add(Vec2D(plotx,ploty+(5*size_symbol)));
@@ -1163,13 +1163,13 @@ bras.Add(Vec2D(plotx+(taille_x/2),ploty+(5*size_symbol)));
 bras.Add(Vec2D(plotx+(taille_x/2),ploty));
 bras.Add(Vec2D(plotx,ploty));
 bras.SetPivot(Vec2D(plotx,ploty));
-bras.RotateBy(angle_pc*(6.5));
+bras.RotateBy(-angle_pc*(6.283185f));
 
 
 angle_pc+=0.125;
 
-double txcl= cos(angle_pc*-6.5)*(taille_x/3);
-double tycl = sin(angle_pc*-6.5)*(taille_x/3);
+double txcl= cos(angle_pc*-(6.283185f))*(taille_x/3);
+double tycl = sin(angle_pc*-(6.283185f))*(taille_x/3);
 
 
 Circle Lentille(Vec2D(plotx+txcl,ploty+tycl),(8*size_symbol));
@@ -1206,7 +1206,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/3),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/3),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side1;
 Side1.Add(Vec2D(plotx-(taille_x/1.6),ploty-(taille_y/2)));
@@ -1214,7 +1214,7 @@ Side1.Add(Vec2D(plotx-(taille_x/3),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/3)-(5*size_symbol),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx-(taille_x/1.6)-(5*size_symbol),ploty-(taille_y/2)));
 Side1.SetPivot(Vec2D(plotx,ploty));
-Side1.RotateBy(angle_pc*(6.5));
+Side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side2;
 Side2.Add(Vec2D(plotx+(taille_x/1.6),ploty-(taille_y/2)));
@@ -1222,7 +1222,7 @@ Side2.Add(Vec2D(plotx+(taille_x/3),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/3)+(5*size_symbol),ploty+(taille_y/2)));
 Side2.Add(Vec2D(plotx+(taille_x/1.6)+(5*size_symbol),ploty-(taille_y/2)));
 Side2.SetPivot(Vec2D(plotx,ploty));
-Side2.RotateBy(angle_pc*(6.5));
+Side2.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -1251,7 +1251,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse2;
 carcasse2.Add(Vec2D(plotx-(taille_x/4),ploty+(taille_y/2)));
@@ -1259,7 +1259,7 @@ carcasse2.Add(Vec2D(plotx-(taille_x/4),ploty-(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y/2)));
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 carcasse2.Draw(CouleurPlotFill);
 
@@ -1287,7 +1287,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse2;
 carcasse2.Add(Vec2D(plotx-(taille_x/4),ploty+(taille_y/2)));
@@ -1295,7 +1295,7 @@ carcasse2.Add(Vec2D(plotx-(taille_x/4),ploty-(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y/2)));
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly carcasse3;
@@ -1304,7 +1304,7 @@ carcasse3.Add(Vec2D(plotx-(taille_x/4),ploty-(taille_y/3)));
 carcasse3.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/3)));
 carcasse3.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)));
 carcasse3.SetPivot(Vec2D(plotx,ploty));
-carcasse3.RotateBy(angle_pc*(6.5));
+carcasse3.RotateBy(-angle_pc*(6.283185f));
 
 carcasse2.Draw(CouleurPlotFill);
 
@@ -1333,7 +1333,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side1;
 Side1.Add(Vec2D(plotx-(taille_x/3),ploty-(taille_y/2)));
@@ -1341,7 +1341,7 @@ Side1.Add(Vec2D(plotx-(taille_x/3),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx+(taille_x/3),ploty+(taille_y/2)));
 Side1.Add(Vec2D(plotx+(taille_x/3),ploty-(taille_y/2)));
 Side1.SetPivot(Vec2D(plotx,ploty));
-Side1.RotateBy(angle_pc*(6.5));
+Side1.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -1366,7 +1366,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 Poly Side1;
 for(int i=0;i<3;i++)
@@ -1386,9 +1386,9 @@ Side2.Add(Vec2D(plotx+((taille_x/4)*i)-(size_symbol*4),ploty+(taille_y/2)));
 }
 
 Side1.SetPivot(Vec2D(plotx,ploty));
-Side1.RotateBy(angle_pc*(6.5));
+Side1.RotateBy(-angle_pc*(6.283185f));
 Side2.SetPivot(Vec2D(plotx,ploty));
-Side2.RotateBy(angle_pc*(6.5));
+Side2.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -1417,7 +1417,7 @@ iris.Add(Vec2D(plotx+(6*size_symbol),ploty));
 iris.Add(Vec2D(plotx+(taille_x/3)+(6*size_symbol),ploty-(taille_x/3)));
 iris.Add(Vec2D(plotx+(taille_x/3),ploty-(taille_x/3)));
 iris.SetPivot(Vec2D(plotx,ploty));
-iris.RotateBy(angle_pc*(6.5));
+iris.RotateBy(-angle_pc*(6.283185f));
 iris.Draw(CouleurPlotLine);
 
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
@@ -1449,7 +1449,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/4),ploty-(taille_y/2)-(taille_y/3)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotLine);
 
@@ -1484,7 +1484,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/6),ploty-(taille_y/2)-(taille_y/3)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotLine);
 
@@ -1495,7 +1495,7 @@ carcasse2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)-(taille_y/4)));
 carcasse2.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)-(taille_y/4)));
 
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 carcasse2.Draw(CouleurPlotLine);
 
@@ -1525,7 +1525,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly carcasse2;
@@ -1535,7 +1535,7 @@ carcasse2.Add(Vec2D(plotx+(taille_x/3)-(size_symbol*6),ploty));
 carcasse2.Add(Vec2D(plotx-(taille_x/3)+(size_symbol*6),ploty));
 
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly carcasse3;
@@ -1545,7 +1545,7 @@ carcasse3.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse3.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 
 carcasse3.SetPivot(Vec2D(plotx,ploty));
-carcasse3.RotateBy(angle_pc*(6.5));
+carcasse3.RotateBy(-angle_pc*(6.283185f));
 
 
 
@@ -1577,7 +1577,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.Draw(CouleurPlotFill);
 
@@ -1601,7 +1601,7 @@ tourelle.Add(Vec2D(plotx+(12*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
 tourelle.Add(Vec2D(plotx+(12*size_symbol),ploty-(taille_y/2)));
 tourelle.Add(Vec2D(plotx-(12*size_symbol),ploty-(taille_y/2)));
 tourelle.SetPivot(Vec2D(plotx,ploty));
-tourelle.RotateBy(angle_pc*(6.5));
+tourelle.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse1;
 carcasse1.Add(Vec2D(plotx-(4*size_symbol),ploty-(taille_y/2)));
@@ -1609,7 +1609,7 @@ carcasse1.Add(Vec2D(plotx+(4*size_symbol),ploty-(taille_y/2)));
 carcasse1.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse1.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse1.SetPivot(Vec2D(plotx,ploty));
-carcasse1.RotateBy(angle_pc*(6.5));
+carcasse1.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse2;
 carcasse2.Add(Vec2D(plotx-(taille_x/4)-(4*size_symbol),ploty+(taille_y/3)));
@@ -1617,7 +1617,7 @@ carcasse2.Add(Vec2D(plotx-(taille_x/4)+(4*size_symbol),ploty+(taille_y/3)));
 carcasse2.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse2.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse3;
 carcasse3.Add(Vec2D(plotx+(taille_x/4)-(4*size_symbol),ploty+(taille_y/3)));
@@ -1625,7 +1625,7 @@ carcasse3.Add(Vec2D(plotx+(taille_x/4)+(4*size_symbol),ploty+(taille_y/3)));
 carcasse3.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse3.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse3.SetPivot(Vec2D(plotx,ploty));
-carcasse3.RotateBy(angle_pc*(6.5));
+carcasse3.RotateBy(-angle_pc*(6.283185f));
 
 tourelle.Draw(CouleurPlotLine);
 carcasse1.Draw(CouleurPlotLine);
@@ -1655,7 +1655,7 @@ tourelle.Add(Vec2D(plotx+(18*size_symbol),ploty-(taille_y)-(4*size_symbol)));
 tourelle.Add(Vec2D(plotx+(18*size_symbol),ploty-(taille_y)));
 tourelle.Add(Vec2D(plotx-(18*size_symbol),ploty-(taille_y)));
 tourelle.SetPivot(Vec2D(plotx,ploty));
-tourelle.RotateBy(angle_pc*(6.5));
+tourelle.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse1;
 carcasse1.Add(Vec2D(plotx-(4*size_symbol),ploty-(taille_y)));
@@ -1663,7 +1663,7 @@ carcasse1.Add(Vec2D(plotx+(4*size_symbol),ploty-(taille_y)));
 carcasse1.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse1.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse1.SetPivot(Vec2D(plotx,ploty));
-carcasse1.RotateBy(angle_pc*(6.5));
+carcasse1.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse2;
 carcasse2.Add(Vec2D(plotx-(taille_x/3)-(4*size_symbol),ploty+(taille_y/2)));
@@ -1671,7 +1671,7 @@ carcasse2.Add(Vec2D(plotx-(taille_x/3)+(4*size_symbol),ploty+(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse2.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse3;
 carcasse3.Add(Vec2D(plotx+(taille_x/3)-(4*size_symbol),ploty+(taille_y/2)));
@@ -1679,7 +1679,7 @@ carcasse3.Add(Vec2D(plotx+(taille_x/3)+(4*size_symbol),ploty+(taille_y/2)));
 carcasse3.Add(Vec2D(plotx+(4*size_symbol),ploty));
 carcasse3.Add(Vec2D(plotx-(4*size_symbol),ploty));
 carcasse3.SetPivot(Vec2D(plotx,ploty));
-carcasse3.RotateBy(angle_pc*(6.5));
+carcasse3.RotateBy(-angle_pc*(6.283185f));
 
 tourelle.Draw(CouleurPlotLine);
 carcasse1.Draw(CouleurPlotLine);
@@ -1707,7 +1707,7 @@ tourelle.Add(Vec2D(plotx+(taille_x/2),ploty-(10*size_symbol)));
 tourelle.Add(Vec2D(plotx+(taille_x/2),ploty));
 tourelle.Add(Vec2D(plotx-(taille_x/2),ploty));
 tourelle.SetPivot(Vec2D(plotx,ploty));
-tourelle.RotateBy(angle_pc*(6.5));
+tourelle.RotateBy(-angle_pc*(6.283185f));
 
 tourelle.Draw(CouleurPlotLine);
 
@@ -1734,7 +1734,7 @@ tourelle.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size
 tourelle.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)+(4*size_symbol)));
 tourelle.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)+(4*size_symbol)));
 tourelle.SetPivot(Vec2D(plotx,ploty));
-tourelle.RotateBy(angle_pc*(6.5));
+tourelle.RotateBy(-angle_pc*(6.283185f));
 //pieds
 Poly carcasse1;
 carcasse1.Add(Vec2D(plotx-(4*size_symbol)+(taille_x/2),ploty-(taille_y/2)));
@@ -1742,7 +1742,7 @@ carcasse1.Add(Vec2D(plotx+(4*size_symbol)+(taille_x/2),ploty-(taille_y/2)));
 carcasse1.Add(Vec2D(plotx+(4*size_symbol)+(taille_x/2),ploty+(taille_y/2)));
 carcasse1.Add(Vec2D(plotx-(4*size_symbol)+(taille_x/2),ploty+(taille_y/2)));
 carcasse1.SetPivot(Vec2D(plotx,ploty));
-carcasse1.RotateBy(angle_pc*(6.5));
+carcasse1.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse2;
 carcasse2.Add(Vec2D(plotx-(4*size_symbol)-(taille_x/2),ploty-(taille_y/2)));
@@ -1750,7 +1750,7 @@ carcasse2.Add(Vec2D(plotx+(4*size_symbol)-(taille_x/2),ploty-(taille_y/2)));
 carcasse2.Add(Vec2D(plotx+(4*size_symbol)-(taille_x/2),ploty+(taille_y/2)));
 carcasse2.Add(Vec2D(plotx-(4*size_symbol)-(taille_x/2),ploty+(taille_y/2)));
 carcasse2.SetPivot(Vec2D(plotx,ploty));
-carcasse2.RotateBy(angle_pc*(6.5));
+carcasse2.RotateBy(-angle_pc*(6.283185f));
 
 //barreaux
 Poly carcasse3;
@@ -1759,7 +1759,7 @@ carcasse3.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/6)-(4*size_symbol)));
 carcasse3.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/6)+(4*size_symbol)));
 carcasse3.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/6)+(4*size_symbol)));
 carcasse3.SetPivot(Vec2D(plotx,ploty));
-carcasse3.RotateBy(angle_pc*(6.5));
+carcasse3.RotateBy(-angle_pc*(6.283185f));
 
 Poly carcasse4;
 carcasse4.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/5)-(4*size_symbol)));
@@ -1767,7 +1767,7 @@ carcasse4.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/5)-(4*size_symbol)));
 carcasse4.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/5)+(4*size_symbol)));
 carcasse4.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/5)+(4*size_symbol)));
 carcasse4.SetPivot(Vec2D(plotx,ploty));
-carcasse4.RotateBy(angle_pc*(6.5));
+carcasse4.RotateBy(-angle_pc*(6.283185f));
 
 tourelle.Draw(CouleurPlotLine);
 carcasse1.Draw(CouleurPlotLine);
@@ -1800,7 +1800,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -1808,7 +1808,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -1817,7 +1817,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -1826,7 +1826,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 //traverses
 Poly traverse;
@@ -1835,7 +1835,7 @@ traverse.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+(4*size
 traverse.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 traverse.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 traverse.SetPivot(Vec2D(plotx,ploty));
-traverse.RotateBy(angle_pc*(6.5));
+traverse.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -1869,7 +1869,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -1877,7 +1877,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -1886,7 +1886,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -1895,7 +1895,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 //traverses
 Poly traverse;
@@ -1904,7 +1904,7 @@ traverse.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+(4*size
 traverse.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse.SetPivot(Vec2D(plotx,ploty));
-traverse.RotateBy(angle_pc*(6.5));
+traverse.RotateBy(-angle_pc*(6.283185f));
 
 Poly traverse1;
 traverse1.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*2)+(4*size_symbol)));
@@ -1912,7 +1912,7 @@ traverse1.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((tail
 traverse1.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse1.Add(Vec2D(plotx-(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse1.SetPivot(Vec2D(plotx,ploty));
-traverse1.RotateBy(angle_pc*(6.5));
+traverse1.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly traverse2;
@@ -1921,7 +1921,7 @@ traverse2.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((tail
 traverse2.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*3)-(4*size_symbol)));
 traverse2.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*3)-(4*size_symbol)));
 traverse2.SetPivot(Vec2D(plotx,ploty));
-traverse2.RotateBy(angle_pc*(6.5));
+traverse2.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly barreau1;
@@ -1930,7 +1930,7 @@ barreau1.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(8*size_sy
 barreau1.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(8*size_symbol)));
 barreau1.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(4*size_symbol)));
 barreau1.SetPivot(Vec2D(plotx,ploty));
-barreau1.RotateBy(angle_pc*(6.5));
+barreau1.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly barreau2;
@@ -1939,7 +1939,7 @@ barreau2.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(8*siz
 barreau2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(8*size_symbol)));
 barreau2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(4*size_symbol)));
 barreau2.SetPivot(Vec2D(plotx,ploty));
-barreau2.RotateBy(angle_pc*(6.5));
+barreau2.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -1979,7 +1979,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -1987,7 +1987,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -1996,7 +1996,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2)-(8*size_symbol),ploty-(taille_y/2)+(8*s
 barreauhaut.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -2005,7 +2005,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2)-(8*size_symbol),ploty+(taille_y/2)-(8*si
 barreaubas.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -2036,7 +2036,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -2044,7 +2044,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -2053,7 +2053,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -2062,7 +2062,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 //traverses
 Poly traverse;
@@ -2071,7 +2071,7 @@ traverse.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+(4*size
 traverse.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 traverse.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 traverse.SetPivot(Vec2D(plotx,ploty));
-traverse.RotateBy(angle_pc*(6.5));
+traverse.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -2105,7 +2105,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -2113,7 +2113,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -2122,7 +2122,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -2131,7 +2131,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 //traverses
 Poly traverse;
@@ -2140,7 +2140,7 @@ traverse.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+(4*size
 traverse.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse.SetPivot(Vec2D(plotx,ploty));
-traverse.RotateBy(angle_pc*(6.5));
+traverse.RotateBy(-angle_pc*(6.283185f));
 
 Poly traverse1;
 traverse1.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*2)+(4*size_symbol)));
@@ -2148,7 +2148,7 @@ traverse1.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((tail
 traverse1.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse1.Add(Vec2D(plotx-(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3))-(4*size_symbol)));
 traverse1.SetPivot(Vec2D(plotx,ploty));
-traverse1.RotateBy(angle_pc*(6.5));
+traverse1.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly traverse2;
@@ -2157,7 +2157,7 @@ traverse2.Add(Vec2D(plotx-(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((tail
 traverse2.Add(Vec2D(plotx+(taille_x/2)+(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*3)-(4*size_symbol)));
 traverse2.Add(Vec2D(plotx+(taille_x/2)-(3*size_symbol),ploty-(taille_y/2)+((taille_y/3)*3)-(4*size_symbol)));
 traverse2.SetPivot(Vec2D(plotx,ploty));
-traverse2.RotateBy(angle_pc*(6.5));
+traverse2.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly barreau1;
@@ -2166,7 +2166,7 @@ barreau1.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(8*size_sy
 barreau1.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(8*size_symbol)));
 barreau1.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+(taille_y/3)-(4*size_symbol)));
 barreau1.SetPivot(Vec2D(plotx,ploty));
-barreau1.RotateBy(angle_pc*(6.5));
+barreau1.RotateBy(-angle_pc*(6.283185f));
 
 
 Poly barreau2;
@@ -2175,7 +2175,7 @@ barreau2.Add(Vec2D(plotx-(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(8*siz
 barreau2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(8*size_symbol)));
 barreau2.Add(Vec2D(plotx+(taille_x/2),ploty-(taille_y/2)+((taille_y/3)*2)-(4*size_symbol)));
 barreau2.SetPivot(Vec2D(plotx,ploty));
-barreau2.RotateBy(angle_pc*(6.5));
+barreau2.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -2215,7 +2215,7 @@ side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side1.Add(Vec2D(plotx-(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.Add(Vec2D(plotx-(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side1.SetPivot(Vec2D(plotx,ploty));
-side1.RotateBy(angle_pc*(6.5));
+side1.RotateBy(-angle_pc*(6.283185f));
 
 Poly side2;
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty-(taille_y/2)-(4*size_symbol)));
@@ -2223,7 +2223,7 @@ side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty-(taille_y/2)-(4*size_sy
 side2.Add(Vec2D(plotx+(taille_x/2)+(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.Add(Vec2D(plotx+(taille_x/2)-(4*size_symbol),ploty+(taille_y/2)+(4*size_symbol)));
 side2.SetPivot(Vec2D(plotx,ploty));
-side2.RotateBy(angle_pc*(6.5));
+side2.RotateBy(-angle_pc*(6.283185f));
 
 //barreau haut
 Poly barreauhaut;
@@ -2232,7 +2232,7 @@ barreauhaut.Add(Vec2D(plotx-(taille_x/2)-(8*size_symbol),ploty-(taille_y/2)+(8*s
 barreauhaut.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty-(taille_y/2)+(8*size_symbol)));
 barreauhaut.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty-(taille_y/2)+(4*size_symbol)));
 barreauhaut.SetPivot(Vec2D(plotx,ploty));
-barreauhaut.RotateBy(angle_pc*(6.5));
+barreauhaut.RotateBy(-angle_pc*(6.283185f));
 
 //barreau bas
 Poly barreaubas;
@@ -2241,7 +2241,7 @@ barreaubas.Add(Vec2D(plotx-(taille_x/2)-(8*size_symbol),ploty+(taille_y/2)-(8*si
 barreaubas.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty+(taille_y/2)-(8*size_symbol)));
 barreaubas.Add(Vec2D(plotx+(taille_x/2)+(8*size_symbol),ploty+(taille_y/2)-(4*size_symbol)));
 barreaubas.SetPivot(Vec2D(plotx,ploty));
-barreaubas.RotateBy(angle_pc*(6.5));
+barreaubas.RotateBy(-angle_pc*(6.283185f));
 
 barreauhaut.Draw(CouleurPlotLine);
 side1.Draw(CouleurPlotLine);
@@ -2278,7 +2278,7 @@ carcasse.Add(Vec2D(plotx+(taille_x/2)+(15*size_symbol),ploty));
 carcasse.Add(Vec2D(plotx+(taille_x/2)+(15*size_symbol),ploty+(taille_y)));
 carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y)));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 
 carcasse.Draw(CouleurPlotFill);
@@ -2301,7 +2301,7 @@ float taille_x=40.0*size_symbol;
 float taille_y=20.0*size_symbol;
 
 Circle lentille(Vec2D(plotx,ploty),taille_x);
-lentille.RotateBy(-angle_pc*6.5);
+lentille.RotateBy(angle_pc*(6.283185f));
 lentille.SetRadius(taille_x/2);
 lentille.DrawSlice(CouleurPlotLine,0, PI);
 
@@ -2313,7 +2313,7 @@ carcasse.Add(Vec2D(plotx-(taille_x/2),ploty+(taille_y)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty+(taille_y)));
 carcasse.Add(Vec2D(plotx+(taille_x/2),ploty));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Draw(CouleurPlotFill);
 carcasse.DrawOutline(CouleurPlotLine);
 lentille.SetRadius((taille_x/2)-(4*size_symbol));
@@ -2325,7 +2325,7 @@ Carre.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y)));
 Carre.Add(Vec2D(plotx+(taille_x/4),ploty+(taille_y)-( size_symbol*10)));
 Carre.Add(Vec2D(plotx-(taille_x/4),ploty+(taille_y)-( size_symbol*10)));
 Carre.SetPivot(Vec2D(plotx,ploty));
-Carre.RotateBy(angle_pc*(6.5));
+Carre.RotateBy(-angle_pc*(6.283185f));
 
 if( symbol_is_selected[plot_calc_number_is][num_symbol]==1)
 {
@@ -2414,7 +2414,7 @@ base.Add(Vec2D(plotx-0.42*t,ploty+0.52*t));
 base.Add(Vec2D(plotx+0.42*t,ploty+0.52*t));
 base.Add(Vec2D(plotx+0.42*t,ploty+0.34*t));
 base.SetPivot(Vec2D(plotx,ploty));
-base.RotateBy(angle_pc*(6.5));
+base.RotateBy(-angle_pc*(6.283185f));
 
 // bras de lyre gauche / left yoke arm
 Poly armL;
@@ -2423,7 +2423,7 @@ armL.Add(Vec2D(plotx-0.44*t,ploty-0.24*t));
 armL.Add(Vec2D(plotx-0.34*t,ploty-0.24*t));
 armL.Add(Vec2D(plotx-0.34*t,ploty+0.36*t));
 armL.SetPivot(Vec2D(plotx,ploty));
-armL.RotateBy(angle_pc*(6.5));
+armL.RotateBy(-angle_pc*(6.283185f));
 
 // bras de lyre droit / right yoke arm
 Poly armR;
@@ -2432,7 +2432,7 @@ armR.Add(Vec2D(plotx+0.34*t,ploty-0.24*t));
 armR.Add(Vec2D(plotx+0.44*t,ploty-0.24*t));
 armR.Add(Vec2D(plotx+0.44*t,ploty+0.36*t));
 armR.SetPivot(Vec2D(plotx,ploty));
-armR.RotateBy(angle_pc*(6.5));
+armR.RotateBy(-angle_pc*(6.283185f));
 
 // tete (bloc lampe) plus grosse / bigger head (lamp body)
 Poly head;
@@ -2441,10 +2441,10 @@ head.Add(Vec2D(plotx-0.34*t,ploty-0.40*t));
 head.Add(Vec2D(plotx+0.34*t,ploty-0.40*t));
 head.Add(Vec2D(plotx+0.34*t,ploty+0.28*t));
 head.SetPivot(Vec2D(plotx,ploty));
-head.RotateBy(angle_pc*(6.5));
+head.RotateBy(-angle_pc*(6.283185f));
 
 // lentille a l'avant de la tete, position tournee autour du pivot / lens at head front
-float ang=angle_pc*6.5;
+float ang=-angle_pc*(6.283185f);
 float cs=cos(ang), sn=sin(ang);
 float lx=plotx + (0.40*t)*sn;   // (dx=0,dy=-0.40t) tourne / rotated
 float ly=ploty - (0.40*t)*cs;
@@ -2520,7 +2520,7 @@ carcasse.Add(Vec2D(plotx+r*cos(a),ploty+d+r*sin(a)));
 }
 carcasse.Add(Vec2D(plotx+r,ploty));// haut droit
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 carcasse.Fill(CouleurPlotFill);
 carcasse.DrawOutline(CouleurPlotLine);
 
@@ -2572,7 +2572,7 @@ carcasse.Add(Vec2D(notch_right,notch_bottom));
 carcasse.Add(Vec2D(notch_right,notch_top));
 carcasse.Add(Vec2D(left,notch_top));
 carcasse.SetPivot(Vec2D(plotx,ploty));
-carcasse.RotateBy(angle_pc*(6.5));
+carcasse.RotateBy(-angle_pc*(6.283185f));
 
 // miroir en diagonale dans l'encoche / diagonal mirror in the notch
 float ax=left+0.10*W, ay=top+0.094*H;
@@ -2587,7 +2587,7 @@ mirror.Add(Vec2D(bx+px*h,by+py*h));
 mirror.Add(Vec2D(bx-px*h,by-py*h));
 mirror.Add(Vec2D(ax-px*h,ay-py*h));
 mirror.SetPivot(Vec2D(plotx,ploty));
-mirror.RotateBy(angle_pc*(6.5));
+mirror.RotateBy(-angle_pc*(6.283185f));
 
 carcasse.DrawOutline(CouleurPlotLine);
 if(selected){carcasse.Draw(CouleurFader);}
@@ -2875,7 +2875,7 @@ Line(Vec2D(plotx+28,ploty+69),Vec2D(plotx+20,ploty+83)).Draw(CouleurBlind);
 show_type_midi(1597,"Plot List Up");
 }
 Rect SliderSel(Vec2D(plotx+3,ploty+30),Vec2D(5,64));
-Rect SliderVel(Vec2D(plotx+3,ploty+30+(64-(symbol_selected_type/2))),Vec2D(5,(symbol_selected_type/2)));
+Rect SliderVel(Vec2D(plotx+3,ploty+30+(64-(symbol_selected_type*64/71))),Vec2D(5,(symbol_selected_type*64/71)));
 SliderSel.DrawOutline(CouleurPlotLine.WithAlpha(0.5));
 SliderVel.Draw(CouleurFader);
 if(window_focus_id==W_PLOT && mouse_x>plotx+3 && mouse_x<plotx+8 && mouse_y>ploty+30 && mouse_y<ploty+94
@@ -3231,7 +3231,7 @@ int plot_draw_slice(int plotx1, int ploty1, float sizeshape, float opening_angle
 {
 
 Circle arcdecercle(Vec2D(plotx1,ploty1),sizeshape);
-arcdecercle.RotateBy(shaperotation*6.5);
+arcdecercle.RotateBy(shaperotation);
 arcdecercle.SetRadius(sizeshape/2);
 
 if(isselected==1)
@@ -3282,7 +3282,7 @@ ployy = ploty1 + sizeshape * cos(2.0*PI*i/numPoints);
 mypoly.Add(Vec2D(ployx,ployy));
 }
 mypoly.SetPivot(Vec2D(plotx1,ploty1));
-mypoly.RotateBy(shaperotation*6.5);
+mypoly.RotateBy(shaperotation);
 
 if(isselected==1)
 {
@@ -3515,16 +3515,16 @@ case 6:     //stripline 5
 plot_draw_shape_stripline(plotx+50, ploty+55 , plotx+200, ploty+55, general_shape_size_to_apply/10 ,1.0, 4,  color_pattern_selected ,0, 1);
 break;
 case 7://plot_draw_rectangle(int plotx1, int ploty1, int shapesizex, int shapesizey, float shaperotation, float alphashape,  int colorpattern, bool isselected)
-plot_draw_rectangle(plotx+120,ploty+60, 40, 20, angle_shape_selected, 1.0, color_pattern_selected , 0);
+plot_draw_rectangle(plotx+120,ploty+60, 40, 20, angle_shape_selected*(6.283185f), 1.0, color_pattern_selected , 0);
 break;
 case 8://plot_draw_circle(int plotx1, int ploty1, float sizeshape,  float alphashape,   int colorpattern, bool isselected)
 plot_draw_circle(plotx+120,ploty+60, 20, 1.0, color_pattern_selected , 0);
 break;
 case 9://plot_draw_slice(int plotx1, int ploty1, float sizeshape, float opening_angle, float shaperotation, float alphashape,   int colorpattern, bool isselected)
-plot_draw_slice(plotx+120,ploty+60, 40,opening_angle_selected*6.5, angle_shape_selected,1.0, color_pattern_selected,0);
+plot_draw_slice(plotx+120,ploty+60, 40,opening_angle_selected*(6.283185f), angle_shape_selected*(6.283185f),1.0, color_pattern_selected,0);
 break;
 case 10://polygon int plotx1, int ploty1, float sizeshape, float shaperotation,int numPoints,  float alphashape,   int colorpattern, bool isselected)
-plot_draw_polygon(plotx+120,ploty+60, 40,angle_shape_selected,nbre_branches_polygon, 1.0, color_pattern_selected,0);
+plot_draw_polygon(plotx+120,ploty+60, 40,angle_shape_selected*(6.283185f),nbre_branches_polygon, 1.0, color_pattern_selected,0);
 break;
 case 11://(int plotx,int ploty, float fontsize,int fonttype,  char *text,float alphatext, bool isselected)
 plot_draw_text(plotx+120,ploty+60,(int)general_shape_size_to_apply,fonttype_selected,"TEXT",1.0, 0);
@@ -3559,7 +3559,7 @@ Line(Vec2D(plotx+10,ploty+20),Vec2D(plotx+130,ploty+20)).Draw(CouleurPlotLine);
 
 //rotation
 petitchiffrenoir.Print("Rotate",plotx+10,ploty+33);
-petitchiffrenoir.Print(ol::ToString(angle_shape_selected),plotx+80,ploty+33);
+petitchiffrenoir.Print(ol::ToString((int)(angle_shape_selected*360))+"°",plotx+80,ploty+33);
 Rect RotateFrame(Vec2D(plotx+10,ploty+40),Vec2D(100,10));
 Rect RotateLevel(Vec2D(plotx+10,ploty+40),Vec2D((angle_shape_selected*100),10));
 RotateLevel.Draw(CouleurGreen);
@@ -3796,6 +3796,7 @@ break;
 }
 break;
 case 9://arc
+{
 petitchiffrenoir.Print("Color Pattern",plotx+10,ploty+185);
 petitchiffrenoir.Print(ol::ToString(color_pattern_selected),plotx+100,ploty+185);
 MySHBox.MoveTo(Vec2D(plotx+10,ploty+190));
@@ -3819,10 +3820,14 @@ default:
 break;
 }
 petitchiffrenoir.Print("Opening angle:",plotx+10,ploty+225);
-petitchiffrenoir.Print(ol::ToString( opening_angle_selected),plotx+120,ploty+225);
+petitchiffrenoir.Print(ol::ToString((int)(opening_angle_selected*360))+"°",plotx+120,ploty+225);
+Rect OverOpening(Vec2D(plotx+116,ploty+213),Vec2D(70,15));
+OverOpening.SetRoundness(4);
+OverOpening.DrawOutline(CouleurPlotLine.WithAlpha(0.5));
 OpeningLevel.Draw(CouleurGreen);
 OpeningFrame.DrawOutline(CouleurPlotLine);
 break;
+}
 case 10://polygon
 petitchiffrenoir.Print("Color Pattern",plotx+10,ploty+185);
 petitchiffrenoir.Print(ol::ToString(color_pattern_selected),plotx+100,ploty+185);
@@ -4217,7 +4222,7 @@ Line(Vec2D(plotx+10,ploty+20),Vec2D(plotx+130,ploty+20)).Draw(CouleurPlotLine);
 
 //rotation
 petitchiffrenoir.Print("Rotate",plotx+10,ploty+33);
-petitchiffrenoir.Print(ol::ToString(angle_projo_selectionne),plotx+80,ploty+33);
+petitchiffrenoir.Print(ol::ToString((int)(angle_projo_selectionne*360))+"°",plotx+80,ploty+33);
 Rect RotateFrame(Vec2D(plotx+10,ploty+40),Vec2D(100,10));
 Rect RotateLevel(Vec2D(plotx+10,ploty+40),Vec2D((angle_projo_selectionne*100),10));
 RotateLevel.Draw(CouleurGreen);
@@ -4794,7 +4799,7 @@ case 8://plot_draw_circle(int plotx1, int ploty1, float sizeshape,  float alphas
 plot_draw_circle(plotx+shape_position[i][0],  ploty+shape_position[i][1] ,5*shape_attributes[i][0], general_alpha_for_shape,shape_color_type[i],shape_selected[i]);
 break;
 case 9://plot_draw_slice(int plotx1, int ploty1, float sizeshape, float opening_angle, float shaperotation, float alphashape,   int colorpattern, bool isselected)
-plot_draw_slice(plotx+shape_position[i][0],  ploty+shape_position[i][1] ,5*shape_attributes[i][0], shape_attributes[i][4]*6.5,shape_attributes[i][1],general_alpha_for_shape,shape_color_type[i],shape_selected[i]);
+plot_draw_slice(plotx+shape_position[i][0],  ploty+shape_position[i][1] ,5*shape_attributes[i][0], shape_attributes[i][4]*(6.283185f),shape_attributes[i][1],general_alpha_for_shape,shape_color_type[i],shape_selected[i]);
 break;
 case 10://polygon int plotx1, int ploty1, float sizeshape, float shaperotation,int numPoints,  float alphashape,   int colorpattern, bool isselected)
 plot_draw_polygon(plotx+shape_position[i][0],  ploty+shape_position[i][1], shape_attributes[i][0]*5,shape_attributes[i][1],(int)shape_attributes[i][2], general_alpha_for_shape,shape_color_type[i],shape_selected[i]);

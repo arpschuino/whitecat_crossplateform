@@ -974,7 +974,7 @@ int refresh_positions_preset_view_poignee()
     {
         if(Channel_View_MODE[i]==1)
         {
-            total_pixel_vision+=(70*channel_number_of_lines[i])+ hauteur_preset_titre;
+            total_pixel_vision+=(70*channel_number_of_lines[i])+ hauteur_preset_titre + 60;
             scroll_pos_preset[i]= total_pixel_vision;
         }
     }

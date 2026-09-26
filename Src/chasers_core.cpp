@@ -1380,7 +1380,7 @@ if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(0) ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
@@ -1390,7 +1390,7 @@ if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
 {player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(1) )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
@@ -1400,7 +1400,7 @@ if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(2) )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
@@ -1410,7 +1410,7 @@ if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
 {player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(3) )) player_op_play(3);
 break;
 }
 }
@@ -1429,7 +1429,7 @@ if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(0) ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
@@ -1439,7 +1439,7 @@ if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
 {player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(1) )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
@@ -1449,7 +1449,7 @@ if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(2) )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
@@ -1459,7 +1459,7 @@ if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
 {player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(3) )) player_op_play(3);
 break;
 }
 }
@@ -1479,7 +1479,7 @@ if(player_is_onloopCue[0]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(0, player_seek_position[0]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] ))  player_op_play(0);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(0) ))  player_op_play(0);
 break;
 case 1://player 2
 if  (Fader[cmptfader]==0)
@@ -1489,7 +1489,7 @@ if(player_is_onloopCue[1]==0  ){player_op_set_position(1, 0);}
 else
 {player_op_set_position(1, player_seek_position[1]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(1);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(1) )) player_op_play(1);
 break;
 case 2://player 3
 if  (Fader[cmptfader]==0)
@@ -1499,7 +1499,7 @@ if(player_is_onloopCue[2]==0  ){player_op_set_position(0, 0);}
 else
 {player_op_set_position(2, player_seek_position[2]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(2);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(2) )) player_op_play(2);
 break;
 case 3://PLAYER 4
 if  (Fader[cmptfader]==0)
@@ -1509,7 +1509,7 @@ if(player_is_onloopCue[3]==0  ){player_op_set_position(3, 0);}
 else
 {player_op_set_position(3, player_seek_position[3]);}
 }
-if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] )) player_op_play(3);
+if((Fader_previous[cmptfader]==0 && Fader[cmptfader]>0 )|| ( previous_dock_used[cmptfader]!=dock_used_by_fader_is[cmptfader] && !player_op_is_playing(3) )) player_op_play(3);
 break;
 }
 }

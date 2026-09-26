@@ -214,6 +214,7 @@ struct WCStreamState {
     // ---- Mode FLAC streaming (dr_flac depuis RAM) ----
     drflac*       flac_dec;
     Uint8*        flac_buf;      // fichier entier en RAM (requis par dr_flac)
+    size_t        flac_buf_size; // taille de flac_buf en octets
     int           flac_channels, flac_hz;
 
     // ---- Mode Chunk (formats rares décodés via Mix_LoadWAV) ----
@@ -246,7 +247,7 @@ struct WCStreamState {
         if (ogg)      { stb_vorbis_close(ogg);       ogg      = nullptr; }
         if (ogg_buf)  { SDL_free(ogg_buf);           ogg_buf  = nullptr; }
         if (flac_dec) { drflac_close(flac_dec);      flac_dec = nullptr; }
-        if (flac_buf) { SDL_free(flac_buf);          flac_buf = nullptr; }
+        if (flac_buf) { SDL_free(flac_buf);          flac_buf = nullptr; flac_buf_size = 0; }
         playing = false;
         cur_byte = 0; chunk_pos = 0; data_start = 0; data_size = 0;
         mp3_buf_fill = 0; mp3_eof = false;
@@ -265,11 +266,12 @@ struct WCStreamState {
         if (ogg)      { stb_vorbis_close(ogg);  ogg      = nullptr; }
         if (ogg_buf)  { SDL_free(ogg_buf);       ogg_buf  = nullptr; }
         if (flac_dec) { drflac_close(flac_dec);  flac_dec = nullptr; }
-        if (flac_buf) { SDL_free(flac_buf);      flac_buf = nullptr; }
+        if (flac_buf) { SDL_free(flac_buf);      flac_buf = nullptr; flac_buf_size = 0; }
         playing = false;
         cur_byte = 0; chunk_pos = 0; data_start = 0; data_size = 0;
         mp3_buf_fill = 0; mp3_eof = false;
         paused_position_ms = 0;
+        pitch = 1.0f;
     }
 };
 
@@ -592,6 +594,8 @@ static void wc_fill_ogg(WCStreamState& s, int need) {
         int n = stb_vorbis_get_samples_short_interleaved(
             s.ogg, s.ogg_channels, pcm_buf, 4096);
         if (n <= 0) {
+            wc_audio_logf("[wc_fill_ogg] EOF OGG: paused_ms=%u length_ms=%u\r\n",
+                          s.paused_position_ms, s.length_ms);
             if (s.looping) { stb_vorbis_seek_start(s.ogg); SDL_AudioStreamClear(s.conv); break; }
             else           { s.paused_position_ms = s.length_ms; s.playing = false; break; }
         }
@@ -605,9 +609,47 @@ static void wc_fill_flac(WCStreamState& s, int need) {
     while (SDL_AudioStreamAvailable(s.conv) < need) {
         int frames_req = 4096 / (s.flac_channels > 0 ? s.flac_channels : 1);
         drflac_uint64 n = drflac_read_pcm_frames_s16(s.flac_dec, (drflac_uint64)frames_req, pcm_buf);
-        if (n <= 0) {
-            if (s.looping) { drflac_seek_to_pcm_frame(s.flac_dec, 0); SDL_AudioStreamClear(s.conv); break; }
-            else           { s.paused_position_ms = s.length_ms; s.playing = false; break; }
+        if (n == 0) {
+            wc_audio_logf("[wc_fill_flac] EOF FLAC: cur=%u paused_ms=%u length_ms=%u\r\n",
+                          (unsigned int)s.flac_dec->currentPCMFrame,
+                          s.paused_position_ms, s.length_ms);
+            // EOF parasite (bug seek dr_flac) : loin de la fin déclarée → rouvrir le décodeur
+            // Ce test passe AVANT le check looping pour couvrir les deux modes.
+            if (s.flac_buf && s.flac_buf_size > 0 &&
+                s.paused_position_ms + 5000 < s.length_ms)
+            {
+                drflac_uint64 target_fr = (s.flac_hz > 0)
+                    ? (drflac_uint64)((double)s.paused_position_ms / 1000.0 * (double)s.flac_hz)
+                    : 0;
+                drflac* new_dec = drflac_open_memory(s.flac_buf, s.flac_buf_size, nullptr);
+                if (new_dec) {
+                    drflac_seek_to_pcm_frame(new_dec, target_fr);
+                    static short verify[16];
+                    int vch = s.flac_channels > 0 ? s.flac_channels : 2;
+                    drflac_uint64 vn = drflac_read_pcm_frames_s16(new_dec, 1, verify);
+                    if (vn > 0) {
+                        drflac_close(s.flac_dec);
+                        s.flac_dec = new_dec;
+                        if (s.conv) SDL_AudioStreamClear(s.conv);
+                        SDL_AudioStreamPut(s.conv, verify, (int)vn * vch * (int)sizeof(short));
+                        wc_audio_logf("[wc_fill_flac] FLAC reopen OK fr=%u\r\n",
+                                      (unsigned int)target_fr);
+                        break; // reprend au prochain callback depuis le décodeur propre
+                    }
+                    drflac_close(new_dec);
+                    wc_audio_logf("[wc_fill_flac] FLAC reopen ECHEC fr=%u\r\n",
+                                  (unsigned int)target_fr);
+                }
+            }
+            // Vrai EOF (fin réelle du fichier) ou récupération impossible
+            if (s.looping) {
+                drflac_seek_to_pcm_frame(s.flac_dec, 0);
+                SDL_AudioStreamClear(s.conv);
+            } else {
+                s.paused_position_ms = s.length_ms;
+                s.playing = false;
+            }
+            break;
         }
         SDL_AudioStreamPut(s.conv, pcm_buf, (int)n * s.flac_channels * (int)sizeof(short));
     }
@@ -993,6 +1035,7 @@ public:
                             S().steal_locked(o_rw, o_mp3_rw, o_conv, o_chunk, o_wav_ram);
                             S().flac_dec      = flac;
                             S().flac_buf      = fbuf;
+                            S().flac_buf_size = (size_t)nread;
                             S().flac_channels = (int)flac->channels;
                             S().flac_hz       = (int)flac->sampleRate;
                             S().conv          = conv;
@@ -1127,6 +1170,9 @@ public:
     void setPosition(float pos_samples) {
         SDL_LockAudio();
         WCStreamState& s = S();
+        // Annule tout seek différé (loopBackTo) pour éviter qu'il écrase le seek direct
+        s.pending_seek_ms = -1.0f;
+        s.fade_out_frames = 0;
         int hz = s.sample_hz > 0 ? s.sample_hz : 44100;
         float pos_ms = pos_samples * 1000.0f / hz;
         if (pos_ms <= 0.0f) {
@@ -1202,14 +1248,20 @@ public:
             s.paused_position_ms = (Uint32)pos_ms;
         } else if (s.ogg && s.ogg_hz > 0) {
             unsigned int samp = (unsigned int)((double)pos_ms / 1000.0 * s.ogg_hz);
-            stb_vorbis_seek(s.ogg, samp);
+            unsigned int total_samp = stb_vorbis_stream_length_in_samples(s.ogg);
+            if (total_samp > 0 && samp >= total_samp) samp = total_samp - 1;
+            int seek_ok = stb_vorbis_seek(s.ogg, samp);
+            if (!seek_ok) stb_vorbis_seek_start(s.ogg);
             if (s.conv) SDL_AudioStreamClear(s.conv);
             float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
             s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
             s.paused_position_ms = (Uint32)pos_ms;
         } else if (s.flac_dec && s.flac_hz > 0) {
             drflac_uint64 fr = (drflac_uint64)((double)pos_ms / 1000.0 * s.flac_hz);
-            drflac_seek_to_pcm_frame(s.flac_dec, fr);
+            if (s.flac_dec->totalPCMFrameCount > 0 && fr >= s.flac_dec->totalPCMFrameCount)
+                fr = s.flac_dec->totalPCMFrameCount - 1;
+            drflac_bool32 seek_ok = drflac_seek_to_pcm_frame(s.flac_dec, fr);
+            if (!seek_ok) drflac_seek_to_pcm_frame(s.flac_dec, 0);
             if (s.conv) SDL_AudioStreamClear(s.conv);
             float p = (s.pitch > 0.0f) ? s.pitch : 1.0f;
             s.start_tick = SDL_GetTicks() - (Uint32)(pos_ms / p);
@@ -1281,6 +1333,14 @@ public:
         } else if (s.chunk) {
             new_conv = SDL_NewAudioStream(WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS,
                                          (int)(WC_AUDIO_FREQUENCY * ratio),
+                                         WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+        } else if (s.ogg && s.ogg_hz > 0) {
+            new_conv = SDL_NewAudioStream(AUDIO_S16LSB, (Uint8)s.ogg_channels,
+                                         (int)(s.ogg_hz * ratio),
+                                         WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
+        } else if (s.flac_dec && s.flac_hz > 0) {
+            new_conv = SDL_NewAudioStream(AUDIO_S16LSB, (Uint8)s.flac_channels,
+                                         (int)(s.flac_hz * ratio),
                                          WC_AUDIO_FORMAT, WC_AUDIO_CHANNELS, WC_AUDIO_FREQUENCY);
         }
         if (new_conv) {
