@@ -1502,6 +1502,15 @@ line_list_is=index_report_customs[55];
 //index_show_mover_window=index_report_customs[57];
 //index_window_gui_iCat=index_report_customs[58];
 //iCatPageis=index_report_customs[59]; // iCat removed
+// [fix relecture] 62-68 supprimes par erreur avec iCat (e79fb36, 60-61 seuls etaient iCat) :
+// sauvegardes mais jamais relus -> ces reglages revenaient a leur defaut a chaque ouverture.
+index_midi_auto_demute=index_report_customs[62];
+index_midi_mute_on_lfo=index_report_customs[63];
+index_text_auto_close=index_report_customs[64];
+index_config_core=index_report_customs[65];
+show_gridplayer_in_seq=index_report_customs[66];
+index_auto_mute_cuelist_speed=index_report_customs[67];
+Midi_Force_Go=index_report_customs[68];
 
 if(niveauGMaster<65535){midi_levels[615]=(wc::lvl_to_dmx8(niveauGMaster)/2);}
 else if(niveauGMaster==65535){midi_levels[615]=127;}
