@@ -34,6 +34,7 @@
 
 - [ ] **Simplifier l'écran d'accueil / l'affichage de la version au démarrage** : le splash défile trop vite, le numéro de version (`versionis`) n'est pas lisible humainement. Repenser durée / lisibilité / position (cf. `show_title()` dans core.cpp et le splash de chargement `save_load_print_to_screen`).
 - [ ] Réorganiser la fenêtre MENUS (Call_everybody_5.cpp → Menus()) : Freeze et Exclude retirés, Help retiré → revoir la mise en page des colonnes restantes
+- [ ] **Doc Keyboard Mapping à mettre à jour** (FR `doc/configuration_generale.html` § Keyboard Mapping + EN `configuration_generale_eng.html`, puis copier dans `whitecatbuild/.../doc/`) : (1) l'affichage est désormais `Asc= xx KEY= xx` (« Allg » retiré) ; (2) **défauts** des nouveaux shows : **THRU = 42** (`*` du pavé) et **CLEAR = 47** (`/` du pavé), touches sans raccourci WhiteCat ; (3) Échap/Entrée/pavé numérique à nouveau mappables (codes ASCII façon 0.8) ; (4) le mapping **s'ajoute** au raccourci existant (éviter `+` `-` du pavé = sélection circuits, et les lettres) et est **inactif pendant une saisie de texte** ; (5) touches non mappables : F1-F12, flèches, Origine/Fin/PgPréc/PgSuiv/Inser, pavé sans Verr. Num., accentuées AZERTY (é è ç à ù), chiffres de la rangée du haut en AZERTY.
 
 ---
 
