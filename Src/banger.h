@@ -39,6 +39,7 @@ extern int XAlarm;
 extern int YAlarm;
 extern bool index_click_move_alarm;
 extern int index_alarm_from_banger_num;
+extern char string_info_popup[3][64]; // [popup info] titre + 2 lignes (alarme generique)
 extern int previous_preset_color;
 extern int previous_preset_video;
 extern int affect_banger_number;

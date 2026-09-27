@@ -289,6 +289,11 @@ int do_core_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteur_c
         if (window_focus_id == 920 && mouse_x > x_cfg_sc + 305 && mouse_x < x_cfg_sc + 305 + 50 &&
             mouse_y > y_cfg_sc + 60 + (l * 25) && mouse_y < y_cfg_sc + 60 + (l * 25) + 20 && mouse_released == 0) {
             core_do_calculations[l] = toggle(core_do_calculations[l]);
+            // [faders off] faders coupes -> fermer les fenetres faders (leurres : plus de calcul ni sortie)
+            if (l == 0 && core_do_calculations[0] == 0) {
+                if (index_show_faders == 1) substract_a_window(W_FADERS);
+                if (index_show_minifaders == 1) substract_a_window(W_MINIFADERS);
+            }
             mouse_released = 1;
         }
     }

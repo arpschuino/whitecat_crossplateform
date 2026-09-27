@@ -36,6 +36,8 @@ int XAlarm = 300;
 int YAlarm = 200;
 bool index_click_move_alarm = 0;
 int index_alarm_from_banger_num = 0;
+// [popup info] alarme generique (index_alarm_from_banger_num = -1) : titre + 2 lignes
+char string_info_popup[3][64];
 int previous_preset_color = 0;
 int previous_preset_video = 0;
 int affect_banger_number = 0;
