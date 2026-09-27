@@ -172,6 +172,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : « Text AutoClose » se décochait à chaque redémarrage** (signalé par un beta) — et six autres réglages avec lui : MIDI *auto demute*, MIDI *mute on LFO*, affichage du *grid player dans le séquentiel*, *auto mute cuelist speed*, MIDI *Force Go* et la page *core* de la config. Lors du retrait du code iCat (0.9.x), leur relecture avait été supprimée par erreur : ils étaient toujours **enregistrés** dans le show mais plus **relus**. Relecture rétablie ; les shows sauvés en 0.9 retrouvent leurs réglages à la prochaine ouverture.
 
+### Plein écran — touche Windows
+
+- **Fix : en mode Fullscreen, la touche Windows semblait inopérante** (signalé par un beta, Windows 11). SDL2 plaçait la fenêtre plein écran « toujours au premier plan » : le menu Démarrer et la barre des tâches s'ouvraient **derrière** WhiteCat. La fenêtre n'est plus forcée au premier plan, et WhiteCat ne se réduit plus en perdant le focus (il reste affiché derrière l'application active). Aucun changement sous Windows 10.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.

@@ -2456,6 +2456,11 @@ inline void SetupProgram(int /*flags*/) {
 
 inline void SetupScreen(int w, int h, int mode, int /*color_depth*/) {
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // moins de travail DWM qu'avec D3D11
+    // [fullscreen] pas de fenetre "toujours au premier plan" en plein ecran : sinon (Windows 11
+    // notamment) le menu Demarrer / la barre des taches s'ouvrent DERRIERE WhiteCat -> la touche
+    // Windows semble inoperante. Et ne pas se reduire en perdant le focus (reste visible derriere).
+    SDL_SetHint(SDL_HINT_ALLOW_TOPMOST, "0");
+    SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
     // [resize] fenetre redimensionnable a la souris. L'UI garde ses coordonnees fixes (largeur_ecran)
     // -> agrandir donne "plus de vide" (fond), retrecir rogne l'UI. La texture est recreee a la taille
