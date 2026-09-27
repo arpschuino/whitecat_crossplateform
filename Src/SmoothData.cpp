@@ -140,7 +140,9 @@ if(_damper_do_calculation==1)
 }
 
 
-_dampered_data=_damper_val*255;
+// [fix damper] arrondi (et non troncature) : 254.9 donnait 254 -> un fader avec damper n'atteignait
+// jamais 255 (alors que 0.9 donnait 0 : le bas, lui, atteignait 0).
+_dampered_data=(int)(_damper_val*255.0f+0.5f);
 }
 
 float SmoothData::getvalue_dampered()

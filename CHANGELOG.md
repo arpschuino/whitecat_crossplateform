@@ -186,6 +186,7 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 ### Divers
 
+- **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.
 - **Fix : minifaders — bouclage `<` / `>`** : passait par un numéro de fader inexistant (hors bornes) avant de revenir au premier / dernier.
 - **Espace circuits** : repères du scroller (vue Classical) alignés sur les vraies positions de défilement (1, 49, 97… 481) ; noms des vues mieux placés ; espacement entre vues ajusté.
