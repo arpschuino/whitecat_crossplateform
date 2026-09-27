@@ -180,6 +180,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : le macro « Fader Level » laissait le fader WhiteCat à 0 quand son damper était actif** (signalé par un beta : le fader motorisé bougeait via le MIDI out, mais pas le fader à l'écran). Le macro écrivait le niveau directement, sans passer par le damper, qui l'écrasait aussitôt par sa propre valeur. Le macro passe désormais par la même fonction que la souris : avec damper, le niveau devient la cible du damper (glisse lissée) ; sans damper, rien ne change.
 
+### Faders — calcul désactivé (CFG > core > Do Calculations)
+
+- **Plus de fenêtres Faders « leurres ».** Quand « Faders » est coupé dans *CFG > core > Do Calculations*, les faders ne calculent plus rien (ni LFO, ni sortie DMX) : les boutons LFO s'allumaient mais rien ne bougeait, sans aucune explication. Désormais les fenêtres **Faders** et **Minifaders** ne s'ouvrent plus dans ce mode (F10, menu, bangers, MIDI) : un **popup** indique où réactiver le calcul. Couper « Faders » ferme aussi ces fenêtres si elles sont ouvertes.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.

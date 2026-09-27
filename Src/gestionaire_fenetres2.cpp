@@ -93,8 +93,26 @@ nbre_windows++;
  return(nbre_windows);
 }
 
+int add_a_window(int id);
+// [popup info] ouvre la fenetre d'alarme en mode message WhiteCat (titre + 2 lignes)
+void wc_info_popup(const char* title, const char* line1, const char* line2)
+{
+    snprintf(string_info_popup[0], sizeof(string_info_popup[0]), "%s", title);
+    snprintf(string_info_popup[1], sizeof(string_info_popup[1]), "%s", line1);
+    snprintf(string_info_popup[2], sizeof(string_info_popup[2]), "%s", line2);
+    index_alarm_from_banger_num = -1;
+    add_a_window(W_ALARM);
+}
+
 int add_a_window(int id)
 {
+// [faders off] "Faders" coupe dans CFG core > Do Calculations : les faders ne calculent ni ne
+// sortent rien -> ne pas ouvrir des fenetres leurres, expliquer pourquoi.
+if((id==W_FADERS || id==W_MINIFADERS) && core_do_calculations[0]==0)
+{
+    wc_info_popup("Faders disabled", "Enable \"Faders\" in CFG > core", "> Do Calculations");
+    return(0);
+}
 /* sab 05/03/2014 begin replace */
     int push_front_into_window_opened[72];
     int next_free_pos;

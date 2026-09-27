@@ -53,6 +53,13 @@ windowAlarm.Draw(CouleurBlind.WithAlpha(popup_alert_alpha));
 if(window_focus_id==918)
 {windowAlarm.DrawOutline(CouleurFader);}
 else{windowAlarm.DrawOutline(CouleurLigne);}
+if(index_alarm_from_banger_num<0)// [popup info] message WhiteCat (pas un banger)
+{
+neuromoyen.Print(string_info_popup[0],XAlarm+80,YAlarm+30);
+petitchiffre.Print(string_info_popup[1],XAlarm+20,YAlarm+65);
+petitchiffre.Print(string_info_popup[2],XAlarm+20,YAlarm+85);
+return(0);
+}
 char title_alarm[32];
 sprintf(title_alarm,"Alarm from banger number %d",index_alarm_from_banger_num+1);
 neuromoyen.Print(title_alarm,XAlarm+80,YAlarm+30);
