@@ -164,6 +164,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : après un CHECK depuis la fenêtre Npad, WhiteCat restait « bloqué en Ctrl »** (signalé par un beta). Les boutons CHECK ± simulaient Ctrl+flèche en allumant le **Ctrl virtuel** sans jamais l'éteindre : ensuite, impossible de donner des niveaux aux circuits, la barre d'espace enchaînait GO mémoire précédente / GO back / pause, et Shift+− / Ctrl+− ne donnaient plus que stage ±, jamais preset ±. CHECK ± effectue maintenant le check de circuit directement, sans toucher au Ctrl / Shift virtuels. Même correctif pour les commandes MIDI / TouchOSC CHECK ± (1825 / 1826).
 
+### Séquentiel — saisie des temps au clavier
+
+- **Fix : « 1.. » (une minute) donnait 1 min 1 s** (signalé par un beta). Après les minutes, rien ne restait à lire pour les secondes et WhiteCat lisait un tableau non initialisé (souvent un reste de la saisie précédente). Même défaut pour les centièmes quand on ne tapait que des secondes. Secondes et centièmes partent désormais de zéro ; une saisie mal formée (« 1.2.3 ») ne déborde plus.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.
