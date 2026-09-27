@@ -91,7 +91,7 @@ int do_keyboard_conf(int cfgnetw_X, int cfgnetw_Y) // ancienne version
 
     petitchiffre.Print("Keyboard Mapping: ", cfgnetw_X, cfgnetw_Y);
     Line(Vec2D(cfgnetw_X, cfgnetw_Y + 5), Vec2D(cfgnetw_X + 90, cfgnetw_Y + 5)).Draw(CouleurLigne);
-    sprintf(string_clavier_is, "Asc= %d Allg= %d KEY= %s ", scan_ascii_is, scan_allegro_key_is, string_key_id);
+    sprintf(string_clavier_is, "Asc= %d KEY= %s ", scan_ascii_is, string_key_id);
     petitchiffre.Print(string_clavier_is, cfgnetw_X, cfgnetw_Y + 20);
     char str_iskeyfunct[25];
     for (int oi = 0; oi < nbre_key_persos; oi++) {

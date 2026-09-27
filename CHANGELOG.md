@@ -153,6 +153,12 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 - **Touche Suppr** : après une saisie numérique (numéro de mémoire tapé), Suppr lance directement la suppression de cette mémoire, sans Shift.
 - **Wizard — restaurer les mémoires supprimées** : la confirmation indique le nombre de mémoires restaurables dans la plage (« Restore N deleted Mem ») ou « No deleted Mem in range ».
 
+### Clavier — mapping des touches (CFG)
+
+- **Fix : le keyboard mapping ne fonctionnait plus** (signalé par un beta). Le mapping compare le code ASCII de la touche aux valeurs réglées ; depuis la migration SDL2, cet ASCII valait 0 pour Échap, Entrée, Tab, Backspace, Suppr et **tout le pavé numérique** → ces touches étaient impossibles à mapper. Valeurs Allegro rétablies : Échap = 27, Entrée = 13, Backspace = 8, Tab = 9, Suppr = 127, pavé `/` = 47, `*` = 42, `-` = 45, `+` = 43, chiffres `0`-`9` et `.` (verr. num. actif). Les valeurs de mapping des shows 0.8 redeviennent valides. *Conseil : `/` et `*` du pavé n'ont aucun raccourci WhiteCat — idéaux pour le mapping (le mapping s'ajoute au raccourci existant, il ne le remplace pas).*
+- **Mapping inactif pendant une saisie de texte** (nom F5, nom à confirmer) : taper `/` ou `*` au pavé dans un nom ne déclenche plus la fonction mappée.
+- L'affichage de la zone Keyboard Mapping n'indique plus « Allg » (scancode Allegro, purement informatif et devenu trompeur depuis SDL2) : `Asc= 27 KEY= ESC`.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.

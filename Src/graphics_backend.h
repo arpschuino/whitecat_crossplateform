@@ -1261,6 +1261,23 @@ static void wc_handle_event(const SDL_Event &e) {
         }
         if ((mod & KMOD_CTRL) && sym >= SDLK_a && sym <= SDLK_z)
             ascii = (int)(sym - SDLK_a + 1);
+        // [keyboard mapping] ASCII comme Allegro 4 pour les touches de controle et le pave numerique :
+        // le mapping clavier (CFG) compare cet octet aux valeurs reglees -> 0 rendait ces touches
+        // impossibles a mapper (Esc=27, Enter=13, Backspace=8, Tab=9, Del=127, pave '0'-'9' . / * - +).
+        if (sym == SDLK_ESCAPE || sym == SDLK_RETURN || sym == SDLK_BACKSPACE ||
+            sym == SDLK_TAB || sym == SDLK_DELETE)
+            ascii = (int)sym;
+        else if (scancode == SDL_SCANCODE_KP_ENTER)  ascii = 13;
+        else if (scancode == SDL_SCANCODE_KP_DIVIDE) ascii = '/';
+        else if (scancode == SDL_SCANCODE_KP_MULTIPLY) ascii = '*';
+        else if (scancode == SDL_SCANCODE_KP_MINUS)  ascii = '-';
+        else if (scancode == SDL_SCANCODE_KP_PLUS)   ascii = '+';
+        else if (mod & KMOD_NUM) {
+            if (scancode >= SDL_SCANCODE_KP_1 && scancode <= SDL_SCANCODE_KP_9)
+                ascii = '1' + (scancode - SDL_SCANCODE_KP_1);
+            else if (scancode == SDL_SCANCODE_KP_0)      ascii = '0';
+            else if (scancode == SDL_SCANCODE_KP_PERIOD) ascii = '.';
+        }
 
         // Ne pas queuer les modificateurs : leur état est dans key_shifts via SDL_GetModState().
         // Sans ce filtre, tenir Shift inonde la queue de key-repeats et retarde les lettres.
