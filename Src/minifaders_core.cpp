@@ -196,7 +196,7 @@ if( Midi_Faders_Affectation_Type!=0)
 else
 {
 position_minifader_selected--;
-if(position_minifader_selected<0){position_minifader_selected=core_user_define_nb_faders;}
+if(position_minifader_selected<0){position_minifader_selected=core_user_define_nb_faders-1;}
 refresh_minifader_state_view_core(position_minifader_selected);
 mouse_released=1;
 }
@@ -211,7 +211,7 @@ attribute_midi_solo_affectation(775,1);
 else
 {
 position_minifader_selected++;
-if(position_minifader_selected>core_user_define_nb_faders){position_minifader_selected=0;}
+if(position_minifader_selected>=core_user_define_nb_faders){position_minifader_selected=0;}
 refresh_minifader_state_view_core(position_minifader_selected);
 mouse_released=1;
 }

@@ -65,7 +65,7 @@ int ChannelScroller( int ScrollX, int ScrollY)
             if(Channel_View_MODE[i]==1)
             {
                 Line( Vec2D(ScrollX,ScrollY+positiony), Vec2D( ScrollX+5,ScrollY+positiony)).Draw( CouleurLigne );
-                minichiffre.Print( channel_view_Name[i],ScrollX+6,(int)(ScrollY+positiony));
+                minichiffre.Print( channel_view_Name[i],ScrollX+7,(int)(ScrollY+positiony+3));
                 positiony=(ratioview*scroll_pos_preset[i]);
 
             }
@@ -75,28 +75,29 @@ int ChannelScroller( int ScrollX, int ScrollY)
     }
     else
     {
-        Line( Vec2D(ScrollX,ScrollY), Vec2D( ScrollX+10,ScrollY)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "  1 -48" ,ScrollX+25,ScrollY );
-        Line( Vec2D(ScrollX,ScrollY+25), Vec2D( ScrollX+10,ScrollY+25)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( " 49 -96" ,ScrollX+25,ScrollY+25 );
-        Line( Vec2D(ScrollX,ScrollY+50), Vec2D( ScrollX+10,ScrollY+50)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( " 97-144" ,ScrollX+25,ScrollY+50 );
-        Line( Vec2D(ScrollX,ScrollY+75), Vec2D( ScrollX+10,ScrollY+75)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "145-192" ,ScrollX+25,ScrollY+75 );
-        Line( Vec2D(ScrollX,ScrollY+100), Vec2D( ScrollX+10,ScrollY+100)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "193-240" ,ScrollX+25,ScrollY+100 );
-        Line( Vec2D(ScrollX,ScrollY+125), Vec2D( ScrollX+10,ScrollY+125)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "241-288" ,ScrollX+25,ScrollY+125 );
-        Line( Vec2D(ScrollX,ScrollY+150), Vec2D( ScrollX+10,ScrollY+150)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "289-336" ,ScrollX+25,ScrollY+150 );
-        Line( Vec2D(ScrollX,ScrollY+175), Vec2D( ScrollX+10,ScrollY+175)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "337-384" ,ScrollX+25,ScrollY+175 );
-        Line( Vec2D(ScrollX,ScrollY+200), Vec2D( ScrollX+10,ScrollY+200)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "385-432" ,ScrollX+25,ScrollY+200 );
-        Line( Vec2D(ScrollX,ScrollY+225), Vec2D( ScrollX+10,ScrollY+225)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "433-480" ,ScrollX+25,ScrollY+225 );
-        Line( Vec2D(ScrollX,ScrollY+250), Vec2D( ScrollX+10,ScrollY+250)).Draw( CouleurLigne );
-        petitpetitchiffre.Print( "  ->512" ,ScrollX+25,ScrollY+250 );
+        // marques alignées sur les vraies valeurs de scroll_channelspace (set_channel_scroll)
+        Line( Vec2D(ScrollX,ScrollY+0),   Vec2D( ScrollX+10,ScrollY+0  )).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "  1" ,ScrollX+25,ScrollY+3   );
+        Line( Vec2D(ScrollX,ScrollY+20),  Vec2D( ScrollX+10,ScrollY+20 )).Draw( CouleurLigne );
+        petitpetitchiffre.Print( " 49" ,ScrollX+25,ScrollY+23  );
+        Line( Vec2D(ScrollX,ScrollY+44),  Vec2D( ScrollX+10,ScrollY+44 )).Draw( CouleurLigne );
+        petitpetitchiffre.Print( " 97" ,ScrollX+25,ScrollY+47  );
+        Line( Vec2D(ScrollX,ScrollY+67),  Vec2D( ScrollX+10,ScrollY+67 )).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "145" ,ScrollX+25,ScrollY+70  );
+        Line( Vec2D(ScrollX,ScrollY+92),  Vec2D( ScrollX+10,ScrollY+92 )).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "193" ,ScrollX+25,ScrollY+95  );
+        Line( Vec2D(ScrollX,ScrollY+114), Vec2D( ScrollX+10,ScrollY+114)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "241" ,ScrollX+25,ScrollY+117 );
+        Line( Vec2D(ScrollX,ScrollY+138), Vec2D( ScrollX+10,ScrollY+138)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "289" ,ScrollX+25,ScrollY+141 );
+        Line( Vec2D(ScrollX,ScrollY+160), Vec2D( ScrollX+10,ScrollY+160)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "337" ,ScrollX+25,ScrollY+163 );
+        Line( Vec2D(ScrollX,ScrollY+184), Vec2D( ScrollX+10,ScrollY+184)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "385" ,ScrollX+25,ScrollY+187 );
+        Line( Vec2D(ScrollX,ScrollY+207), Vec2D( ScrollX+10,ScrollY+207)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "433" ,ScrollX+25,ScrollY+210 );
+        Line( Vec2D(ScrollX,ScrollY+233), Vec2D( ScrollX+10,ScrollY+233)).Draw( CouleurLigne );
+        petitpetitchiffre.Print( "481" ,ScrollX+25,ScrollY+236 );
     }
 
     Rect Curseur_ScrollChannel(Vec2D(ScrollX-10,ScrollY+scroll_channelspace-10),Vec2D(100,20));
@@ -338,16 +339,22 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                         }
                     }
 
-                    if(num_circ==go_channel_is && index_go==1 && index_pause==0)
+                    if(num_circ==go_channel_is && go_channel_is>0)
                     {
-                        ChannelRect.Draw(CouleurGreen.WithAlpha(alpha_blinker));
+                        if(index_go==1 && index_pause==0)
+                            ChannelRect.Draw(CouleurGreen.WithAlpha(alpha_blinker));
+                        else
+                            ChannelRect.DrawOutline(CouleurGreen);
                         minidoomblanc.Print("GO",(xchan + (xposch)),((ypos_l) + 80 - ypos_ch),CENTER );
                     }
 
-                    if(num_circ==pause_channel_is && index_go==1 && index_pause==1)
+                    if(num_circ==pause_channel_is && pause_channel_is>0)
                     {
-                        ChannelRect.Draw(CouleurYellow.WithAlpha(alpha_blinker));
-                        minidoomblanc.Print("PAUSE",(xchan + (xposch))-10,((ypos_l) + 80 - ypos_ch),CENTER );
+                        if(index_go==1 && index_pause==1)
+                            ChannelRect.Draw(CouleurYellow.WithAlpha(alpha_blinker));
+                        else
+                            ChannelRect.DrawOutline(CouleurYellow);
+                        minidoomblanc.Print("PAUSE",(xchan + (xposch))-6,((ypos_l) + 80 - ypos_ch),CENTER );
                     }
 
 //exclude from GM action
@@ -782,16 +789,22 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
                         }
                     }
 
-                    if(num_circ==go_channel_is && index_go==1 && index_pause==0)
+                    if(num_circ==go_channel_is && go_channel_is>0)
                     {
-                        ChannelRect.Draw(CouleurGreen.WithAlpha(alpha_blinker));
+                        if(index_go==1 && index_pause==0)
+                            ChannelRect.Draw(CouleurGreen.WithAlpha(alpha_blinker));
+                        else
+                            ChannelRect.DrawOutline(CouleurGreen);
                         minidoomblanc.Print("GO",(xchan + (xposch)),ypos_ch+40,CENTER );
                     }
 
-                    if(num_circ==pause_channel_is && index_go==1 && index_pause==1)
+                    if(num_circ==pause_channel_is && pause_channel_is>0)
                     {
-                        ChannelRect.Draw(CouleurYellow.WithAlpha(alpha_blinker));
-                        minidoomblanc.Print("PAUSE",(xchan + (xposch))-10,ypos_ch+40,CENTER );
+                        if(index_go==1 && index_pause==1)
+                            ChannelRect.Draw(CouleurYellow.WithAlpha(alpha_blinker));
+                        else
+                            ChannelRect.DrawOutline(CouleurYellow);
+                        minidoomblanc.Print("PAUSE",(xchan + (xposch))-6,ypos_ch+40,CENTER );
                     }
 
 //exclude from GM action

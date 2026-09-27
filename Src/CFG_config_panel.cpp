@@ -751,6 +751,23 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     }
     petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 100);
 
+    petitchiffre.Print("Bang Banger:", cfgnetw_X + 430, cfgnetw_Y + 130);
+    Rect BangOnOpen(Vec2D(cfgnetw_X + 525, cfgnetw_Y + 115), Vec2D(50, 20));
+    BangOnOpen.SetRoundness(7.5);
+    BangOnOpen.SetLineWidth(epaisseur_ligne_fader);
+    BangOnOpen.Draw(CouleurFond.WithAlpha(0.5));
+    if (window_focus_id == W_CFGMENU && mouse_x > cfgnetw_X + 525 && mouse_x < cfgnetw_X + 575 &&
+        mouse_y > cfgnetw_Y + 115 && mouse_y < cfgnetw_Y + 135) {
+        BangOnOpen.DrawOutline(CouleurLevel);
+        if (mouse_button == 1 && mouse_released == 0) {
+            bang_on_open = atoi(numeric);
+            if (bang_on_open < 0 || bang_on_open > core_user_define_nb_bangers) bang_on_open = 0;
+            mouse_released = 1;
+        }
+    }
+    sprintf(string_cfg_main, "/%d", bang_on_open);
+    petitchiffre.Print(string_cfg_main, cfgnetw_X + 540, cfgnetw_Y + 130);
+
     // PROCESS ACCESS>>multicore
 
     Rect ProcessB(Vec2D(cfgnetw_X + 525, cfgnetw_Y + 190), Vec2D(50, 20));

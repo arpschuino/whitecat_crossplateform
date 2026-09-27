@@ -234,6 +234,7 @@ int mem_after_one = 0;
 bool someone_changed_in_time_sequences = 0; // specifique affichage du temps de crossfade
 int go_channel_is = 0;
 int pause_channel_is = 0; // pause channel blink on pause in cuelist
+int bang_on_open = 0; // numéro de banger à déclencher au démarrage (1-based, 0=désactivé)
 bool index_monitor_key_esc = 0;
 //////////////////
 bool index_show_shortcuts = 1;

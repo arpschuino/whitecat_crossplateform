@@ -818,7 +818,7 @@ int load_onstart_config()
      sprintf(string_save_load_report[idf],"! config_onstart.txt");
 	}
 
-	fscanf( cfg_file , "%d / %d / %d /\n" ,  &camera_on_open, &open_arduino_on_open , &expert_mode);
+	fscanf( cfg_file , "%d / %d / %d / %d /\n" ,  &camera_on_open, &open_arduino_on_open , &expert_mode, &bang_on_open);
 
 	fclose( cfg_file );
     }
@@ -943,8 +943,8 @@ int Save_onstart_Config()
 FILE *fpp;
 if((fpp=fopen("user/config_onstart.txt","w")))//etait wb
 {
-fprintf(fpp,"#arguments:values 0-1: open camera / open arduino / expert_mode /\n");
-fprintf(fpp, "%d / %d / %d /\n" ,  camera_on_open, open_arduino_on_open , expert_mode);
+fprintf(fpp,"#arguments:values 0-1: open camera / open arduino / expert_mode / bang on open (0=off) /\n");
+fprintf(fpp, "%d / %d / %d / %d /\n" ,  camera_on_open, open_arduino_on_open , expert_mode, bang_on_open);
 fclose(fpp);  sprintf(string_save_load_report[idf],"Saved config_onstart.txt");
 }
 

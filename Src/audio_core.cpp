@@ -1151,7 +1151,7 @@ int do_logical_lecteur_audio(int xp, int yp, int numero) {
                     player2->setPosition(position_of_file_in_player[numero] - 100000);
                     break;
                 case 2: // PLAYER 3
-                    player3->setPosition(position_of_file_in_player[numero] - 1000000);
+                    player3->setPosition(position_of_file_in_player[numero] - 100000);
                     break;
                 case 3: // PLAYER 4
                     player4->setPosition(position_of_file_in_player[numero] - 100000);
@@ -1189,7 +1189,7 @@ int do_logical_lecteur_audio(int xp, int yp, int numero) {
         else {
 
             if (player_ignited[numero] == 1 &&
-                position_of_file_in_player[numero] + 100000 < length_of_file_in_player[numero]) {
+                position_of_file_in_player[numero] + 200000 < length_of_file_in_player[numero]) {
                 switch (numero) {
                 case 0: // PLAYER 1
                     player1->setPosition(position_of_file_in_player[numero] + 100000);

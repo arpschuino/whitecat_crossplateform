@@ -955,6 +955,11 @@ static void wc_atexit_handler() {
 }
 
 int main(int /*argc*/, char ** /*argv*/) {
+#ifdef _WIN32
+    // Supprime le popup Windows "L'instruction à XXX..." sur PC sans certain matériel
+    // (carte son, FTDI...). Les exceptions restent attrapées par le try/catch de WCat.
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+#endif
     wc_get_exe_dir(mondirectory, 512);
     if (mondirectory[0] != '\0') chdir(mondirectory); // assets (Fonts/, gfx/, user/) à côté de l'exe
     {
@@ -1229,6 +1234,12 @@ int main(int /*argc*/, char ** /*argv*/) {
     recalculate_draw_sizes(draw_preset_selected);
     // init du flash de bang en cours
     bang_is_sended[index_banger_selected] = 1;
+    if (bang_on_open > 0 && bang_on_open <= core_user_define_nb_bangers) {
+        int b = bang_on_open - 1;
+        for (int y = 0; y < 6; y++) event_sended[b][y] = 0;
+        bang_is_sended[b] = 0;
+        start_time_for_banger[b] = actual_time;
+    }
     rest(100);
     starting_wcat = 1;
     for (int i = 0; i < 4; i++) {

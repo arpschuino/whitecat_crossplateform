@@ -403,7 +403,7 @@ int affect_angle_to_shapes(float a)
 {
 for(int i=1;i<=nbre_shapes_on_plot;i++)
 {
-if(shape_selected[i]==1){shape_attributes[i][1]=a*6.5;}
+if(shape_selected[i]==1){shape_attributes[i][1]=a*6.283185f;}
 }
 
  return(0);
@@ -1913,9 +1913,9 @@ if(Midi_Faders_Affectation_Type!=0)
  else
  {
 set_mouse_range(plotx+3,ploty+26 , plotx+8, ploty+30+70);//pour pas deborder
-symbol_selected_type= 127-((mouse_y-(ploty+30))*2);
+symbol_selected_type= 71-((mouse_y-(ploty+30))*71)/70;
 if(symbol_selected_type<0){symbol_selected_type=0;}
-else if(symbol_selected_type>126){symbol_selected_type=126;}
+else if(symbol_selected_type>71){symbol_selected_type=71;}
 }
 }
 
@@ -2120,10 +2120,10 @@ affect_angle_to_shapes(angle_shape_selected);
 //entree rotation Rect OverRot(Vec2D(plotx+76,ploty+22),Vec2D(60,15));
 if(mouse_x>plotx+76 && mouse_x<plotx+76+60 && mouse_y>ploty+22 && mouse_y<ploty+22+15 && index_adjusting_shape_x==0 && index_adjusting_shape_y==0 && index_click_inside_relativ_xy==0 && mouse_released==0)
 {
-float numof=atof(numeric);
+float numof=atof(numeric)/360.0f;
 angle_shape_selected=numof;
-if(angle_shape_selected<0.0){angle_shape_selected=0.0;}
-else if(angle_shape_selected>1.0){angle_shape_selected=1.0;}
+if(angle_shape_selected<0.0f){angle_shape_selected=0.0f;}
+else if(angle_shape_selected>1.0f){angle_shape_selected=1.0f;}
 affect_angle_to_shapes(angle_shape_selected);
 mouse_released=1;
 reset_numeric_entry();
@@ -2141,31 +2141,31 @@ if( mouse_x>plotx+140+(c*15) && mouse_x<plotx+140+(c*15)+10 && mouse_y>ploty+10+
 switch(pos2)
 {
 case 0:
-     angle_shape_selected=0.12;
+     angle_shape_selected=0.125; // NW = 45°
 break;
 case 1:
-    angle_shape_selected=0.0;
+    angle_shape_selected=0.0;    // N = 0°
 break;
 case 2:
-    angle_shape_selected=0.84;
+    angle_shape_selected=0.875;  // NE = 315°
 break;
 case 3:
-     angle_shape_selected=0.24;
+     angle_shape_selected=0.25;  // W = 90°
 break;
 case 4:
     //nothing
 break;
 case 5:
-     angle_shape_selected=0.725;
+     angle_shape_selected=0.75;  // E = 270°
 break;
 case 6:
-     angle_shape_selected=0.36;
+     angle_shape_selected=0.375; // SW = 135°
 break;
 case 7:
-     angle_shape_selected=0.485;
+     angle_shape_selected=0.5;   // S = 180°
 break;
 case 8:
-     angle_shape_selected=0.59;
+     angle_shape_selected=0.625; // SE = 225°
 break;
 default:
 break;
@@ -2339,6 +2339,19 @@ opening_angle_selected=((float)(mouse_x-plotx))/180;
 if(opening_angle_selected<0.0){opening_angle_selected=0.001;}
 else if(opening_angle_selected>1.0){opening_angle_selected=1.0;}
 refresh_opening_angle(opening_angle_selected);
+}
+// saisie clavier opening angle (zone OverOpening)
+if( shape_selected_type==9 && mouse_released==0 && index_adjusting_shape_x==0 && index_adjusting_shape_y==0 && index_click_inside_relativ_xy==0 &&
+mouse_x>plotx+116 && mouse_x<plotx+116+70 && mouse_y>ploty+213 && mouse_y<ploty+213+15)
+{
+float numof=atof(numeric)/360.0f;
+if(numof<0.0f){numof=0.0f;}
+else if(numof>1.0f){numof=1.0f;}
+opening_angle_selected=numof;
+refresh_opening_angle(opening_angle_selected);
+mouse_released=1;
+reset_numeric_entry();
+numeric_postext=0;
 }
 
 
@@ -2844,10 +2857,10 @@ affect_angle_to_symbols(view_plot_calc_number_is,angle_projo_selectionne);
 //entree rotation
 if(mouse_x>plotx+76 && mouse_x<plotx+76+60 && mouse_y>ploty+22 && mouse_y<ploty+22+15 && index_click_inside_relativ_xy==0 && mouse_released==0)
 {
-float numof=atof(numeric);
+float numof=atof(numeric)/360.0f;
 angle_projo_selectionne=numof;
-if(angle_projo_selectionne<0.0){angle_projo_selectionne=0.0;}
-else if(angle_projo_selectionne>1.0){angle_projo_selectionne=1.0;}
+if(angle_projo_selectionne<0.0f){angle_projo_selectionne=0.0f;}
+else if(angle_projo_selectionne>1.0f){angle_projo_selectionne=1.0f;}
 affect_angle_to_symbols(view_plot_calc_number_is,angle_projo_selectionne);
 mouse_released=1;
 reset_numeric_entry();
@@ -2866,31 +2879,31 @@ if( mouse_x>plotx+140+(c*15) && mouse_x<plotx+140+(c*15)+10 && mouse_y>ploty+10+
 switch(pos2)
 {
 case 0:
-     angle_projo_selectionne=0.12;
+     angle_projo_selectionne=0.125; // NW = 45°
 break;
 case 1:
-     angle_projo_selectionne=0.0;
+     angle_projo_selectionne=0.0;   // N = 0°
 break;
 case 2:
-     angle_projo_selectionne=0.84;
+     angle_projo_selectionne=0.875; // NE = 315°
 break;
 case 3:
-     angle_projo_selectionne=0.242;
+     angle_projo_selectionne=0.25;  // W = 90°
 break;
 case 4:
     //nothing
 break;
 case 5:
-     angle_projo_selectionne=0.725;
+     angle_projo_selectionne=0.75;  // E = 270°
 break;
 case 6:
-     angle_projo_selectionne=0.36;
+     angle_projo_selectionne=0.375; // SW = 135°
 break;
 case 7:
-     angle_projo_selectionne=0.483;
+     angle_projo_selectionne=0.5;   // S = 180°
 break;
 case 8:
-     angle_projo_selectionne=0.605;
+     angle_projo_selectionne=0.625; // SE = 225°
 break;
 default:
 break;

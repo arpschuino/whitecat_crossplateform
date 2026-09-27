@@ -1927,7 +1927,7 @@ class Poly {
         for (size_t i = 0; i < vertices.size(); i++) {
             Vec2D a = _xform(vertices[i]);
             Vec2D b = _xform(vertices[(i + 1) % vertices.size()]);
-            SDL_RenderDrawLine(wc_sdl_renderer, (int)a.x, (int)a.y, (int)b.x, (int)b.y);
+            SDL_RenderDrawLine(wc_sdl_renderer, (int)roundf(a.x), (int)roundf(a.y), (int)roundf(b.x), (int)roundf(b.y));
         }
     }
 
@@ -1941,9 +1941,9 @@ class Poly {
             Vec2D v0 = _xform(vertices[0]);
             Vec2D vi = _xform(vertices[i]);
             Vec2D vi1 = _xform(vertices[i + 1]);
-            int x1 = (int)v0.x, y1 = (int)v0.y;
-            int x2 = (int)vi.x, y2 = (int)vi.y;
-            int x3 = (int)vi1.x, y3 = (int)vi1.y;
+            int x1 = (int)roundf(v0.x), y1 = (int)roundf(v0.y);
+            int x2 = (int)roundf(vi.x), y2 = (int)roundf(vi.y);
+            int x3 = (int)roundf(vi1.x), y3 = (int)roundf(vi1.y);
             if (y1 > y2) {
                 std::swap(x1, x2);
                 std::swap(y1, y2);

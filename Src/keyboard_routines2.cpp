@@ -1177,7 +1177,7 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
             break;
 
         case KEY_DEL:
-            if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1)
+            if (key_shifts & KB_SHIFT_FLAG || index_false_shift==1 || numeric_postext > 0)
             {
                 reset_indexs_confirmation();
                 index_do_delete_mem=1;

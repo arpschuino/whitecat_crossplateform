@@ -474,7 +474,7 @@ do_logical_ClassicalChannelSpace(XChannels, YChannels,  scroll_channelspace);
 else
 {
 int pos_y_vision=0;
-for(int i=0;i<=nbre_de_vues_circuits;i++)
+for(int i=0;i<nbre_de_vues_circuits;i++)
 {
 if(Channel_View_MODE[i]==1)
 {

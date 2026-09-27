@@ -260,6 +260,7 @@ extern bool someone_changed_in_time_sequences;
 
 extern int go_channel_is;
 extern int pause_channel_is;
+extern int bang_on_open;
 
 extern bool index_monitor_key_esc;
 

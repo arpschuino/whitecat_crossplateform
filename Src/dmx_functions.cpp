@@ -1245,6 +1245,18 @@ int Merger() {
         Merger_Faders();                    // buffer fader general
     }
 
+    // go/pause channels hors GO : bloquer faders et saisie pour cohérence affichage/sortie
+    if (index_go == 0 && index_pause == 0) {
+        if (go_channel_is > 0 && go_channel_is < 513) {
+            bufferSaisie[go_channel_is] = 0;
+            bufferFaders[go_channel_is] = 0;
+        }
+        if (pause_channel_is > 0 && pause_channel_is < 513) {
+            bufferSaisie[pause_channel_is] = 0;
+            bufferFaders[pause_channel_is] = 0;
+        }
+    }
+
     int circrootpatch = 0;
     for (int i = 1; i < 514; i++) {
         std::map<int, unsigned char>::const_iterator frz = freeze_levels.find(i);
