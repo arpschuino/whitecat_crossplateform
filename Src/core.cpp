@@ -2850,13 +2850,15 @@ for(int i=0;i<(24-position_minutes);i++)
 str_tmp[i]=numeric[position_minutes+i];
 }
 //report secondes centiemes
-char chaine_multiple[2][8];
+// [fix temps] initialise a vide : "1.." (minutes seules) ne laisse aucun morceau apres les
+// minutes -> secondes/centiemes etaient lus dans un tableau non initialise (ex. 1..1 au lieu de 1..0).
+char chaine_multiple[2][8] = {"", ""};
 char *pch;
 pch = strtok (str_tmp,".");
 int pass=0;
- while (pch != NULL)
+ while (pch != NULL && pass < 2)// [fix temps] borne : "1.2.3" debordait le tableau
   {
-    sprintf(chaine_multiple[pass],pch);
+    snprintf(chaine_multiple[pass], sizeof(chaine_multiple[pass]), "%s", pch);
     pch = strtok (NULL, ".");
     pass++;
   }
