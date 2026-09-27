@@ -184,6 +184,11 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Plus de fenêtres Faders « leurres ».** Quand « Faders » est coupé dans *CFG > core > Do Calculations*, les faders ne calculent plus rien (ni LFO, ni sortie DMX) : les boutons LFO s'allumaient mais rien ne bougeait, sans aucune explication. Désormais les fenêtres **Faders** et **Minifaders** ne s'ouvrent plus dans ce mode (F10, menu, bangers, MIDI) : un **popup** indique où réactiver le calcul. Couper « Faders » ferme aussi ces fenêtres si elles sont ouvertes.
 
+### Patch — courbes
+
+- **Fix : à FF, les circuits pouvaient s'éteindre alors que le point 5 de la courbe était en haut** (signalé par un beta). À chaque déplacement d'un point, le calcul ajoutait des segments parasites au-delà du point 5 (nœuds « fantômes », voire données périmées hors tableau), qui retombaient tous sur la case de FF : sa valeur dépendait de ces restes. Seuls les 4 vrais segments sont désormais calculés, et **du point 5 jusqu'à FF la sortie vaut la valeur du point 5** (aussi au chargement). L'aperçu vert inclut maintenant FF. Corrige au passage une lecture hors tableau et des segments de taille nulle ou négative (points confondus ou croisés).
+- **Édition des points plus fiable** : un point saisi reste accroché à la souris tant que le bouton est enfoncé (il décrochait lors des mouvements rapides) ; il reste dans le cadre et ne peut plus croiser ses voisins ; deux points collés sur la même verticale restent saisissables (c'est le plus proche de la souris qui réagit).
+
 ### Divers
 
 - **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*
