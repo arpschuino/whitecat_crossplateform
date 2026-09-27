@@ -141,7 +141,9 @@ if(_damper_do_calculation==1)
 }
 
 
-_dampered_data=_damper_val*65535; // [fader 16 bit]
+// [fix damper] arrondi (et non troncature) : la troncature defavorisait le haut de course
+// (65534.9 -> 65534 : un fader avec damper n'atteignait jamais le plein).
+_dampered_data=(int)(_damper_val*65535.0f+0.5f); // [fader 16 bit]
 }
 
 float SmoothData::getvalue_dampered()
