@@ -118,16 +118,25 @@ index_writing_curve=1;
  int points[MAX_curve_nodeS ];// etait [8] le 24 aout
 
 
+ // [fix courbe FF] curve_calc_tangents() incremente curve_node_count a CHAQUE appel : appele ici
+ // pendant un glisser, il faisait calculer des segments parasites au-dela du point 5 (noeuds
+ // fantomes, voire perimes / hors tableau), clampes sur l'index 255 -> la valeur de FF dependait
+ // de ces restes (ex. circuits eteints a FF). On fige le compteur (5 points reels + fantomes),
+ // on ne calcule que les 4 vrais segments, et on le restaure ensuite.
+ int save_node_count = curve_node_count;
+ curve_node_count = 6;
  curve_curviness = ftofix(curve_spline_level);
- curve_calc_tangents();
+ curve_calc_tangents();// noeuds fantomes 0 et 6, curve_node_count -> 7
 
- for(int nio=1;nio<(curve_node_count-1);nio++)
+ for(int nio=1;nio<5;nio++)
  {
  curve_get_control_points(curve_nodes[nio],curve_nodes[nio+1],points);
 
  int resolu= (curve_nodes[nio+1].x) - (curve_nodes[nio].x);
- int temp_curve_x[resolu];
- int temp_curve_y[resolu];
+ if(resolu<1){continue;}// points confondus / croises : pas de segment (evitait un tableau de taille <= 0)
+ if(resolu>300){resolu=300;}
+ int temp_curve_x[301];
+ int temp_curve_y[301];
  calc_spline(points,resolu,  temp_curve_x, temp_curve_y);
 
  int index_sp=0;
@@ -146,6 +155,18 @@ index_writing_curve=1;
 
  }
  }
+ // [fix courbe FF] du point 5 jusqu'a 255 inclus : valeur du point 5 (jamais ecrite avant ->
+ // FF gardait un reste d'un etat anterieur de la courbe).
+ {
+ int last_y=curve_ctrl_pt[curve_selected][5][1];
+ if(last_y<0){last_y=0;}
+ if(last_y>255){last_y=255;}
+ int from_x=curve_ctrl_pt[curve_selected][5][0];
+ if(from_x<0){from_x=0;}
+ if(from_x>255){from_x=255;}
+ for(int ix=from_x;ix<=255;ix++){curve_report[curve_selected][ix]=last_y;}
+ }
+ curve_node_count = save_node_count;
 index_writing_curve=0;
  return(0);
 }
@@ -162,30 +183,66 @@ int draw_curve_node(int n)
    }
 
 
-   if( window_focus_id==W_PATCH && mouse_x>=((curve_nodes[n].x)-(diam_curve_node/2)) && mouse_x<=((curve_nodes[n].x)+(diam_curve_node/2))
-   && mouse_x>=xpatch_window+30+455 && mouse_x<=xpatch_window+30+455+255
-   && mouse_x>(curve_nodes[n-1].x+(diam_curve_node/2)) && mouse_x<(curve_nodes[n+1].x-(diam_curve_node/2))
-   && mouse_y>=ypatch_window+50 && mouse_y<=ypatch_window+255+50    )
+   // [fix courbe drag] capture : le point saisi suit la souris tant que le bouton est enfonce,
+   // meme si un mouvement rapide la fait sortir de la petite zone de survol (le point "decrochait").
+   static int s_curve_drag_node = 0; // 0 = aucun point saisi
+   if(!(mouse_b&1)){ s_curve_drag_node = 0; }
+
+   // [fix courbe drag] survol = le point le plus proche de la souris parmi ceux dont la colonne
+   // (+/- diam/2) est sous la souris : le plus proche en hauteur, puis en largeur. Avant, il fallait
+   // aussi etre a diam/2 au-dela des voisins -> deux points colles sur la meme verticale devenaient
+   // impossibles a saisir.
+   int curve_hover_n = 0;
+   if( window_focus_id==W_PATCH
+   && mouse_x>=xpatch_window+30+455-(diam_curve_node/2) && mouse_x<=xpatch_window+30+455+255+(diam_curve_node/2)
+   && mouse_y>=ypatch_window+50 && mouse_y<=ypatch_window+255+50 )
+   {
+     int best_dy=100000, best_dx=100000;
+     for(int k=1;k<=5;k++)
+     {
+       int dx=mouse_x-curve_nodes[k].x; if(dx<0){dx=-dx;}
+       if(dx>(diam_curve_node/2)){continue;}
+       int dy=mouse_y-curve_nodes[k].y; if(dy<0){dy=-dy;}
+       if(dy<best_dy || (dy==best_dy && dx<best_dx)){best_dy=dy; best_dx=dx; curve_hover_n=k;}
+     }
+   }
+   bool curve_node_hover = (curve_hover_n==n);
+
+   if(curve_node_hover && (mouse_b&1) && index_enable_curve_editing==1 && s_curve_drag_node==0 && n>=1 && n<=5)
+   { s_curve_drag_node = n; }
+
+   bool curve_node_dragged = (s_curve_drag_node==n && (mouse_b&1) && index_enable_curve_editing==1 && window_focus_id==W_PATCH);
+
+   if( curve_node_hover || curve_node_dragged )
    {
      Line( Vec2D( curve_nodes[n].x, ypatch_window+50 ), Vec2D(curve_nodes[n].x,ypatch_window+255+50)).Draw(Rgba::YELLOW);
      Circle(curve_nodes[n].x, curve_nodes[n].y, 6).Draw(CouleurBlind);
 
-    if(mouse_b&1 && index_enable_curve_editing==1 )
+    if( curve_node_dragged )
     {
+    // position locale bornee : y dans le cadre, x entre les voisins (pas de croisement de points)
+    int loc_y=mouse_y-(ypatch_window+50);
+    if(loc_y<0){loc_y=0;}
+    if(loc_y>255){loc_y=255;}
     if(n>1 && n<5)
     {
-    curve_ctrl_pt[curve_selected][n][0]=mouse_x-(xpatch_window+30+455);
-    curve_ctrl_pt[curve_selected][n][1]=mouse_y-(ypatch_window+50);
+    int loc_x=mouse_x-(xpatch_window+30+455);
+    int min_x=curve_ctrl_pt[curve_selected][n-1][0]+1;
+    int max_x=curve_ctrl_pt[curve_selected][n+1][0]-1;
+    if(loc_x<min_x){loc_x=min_x;}
+    if(loc_x>max_x){loc_x=max_x;}
+    curve_ctrl_pt[curve_selected][n][0]=loc_x;
+    curve_ctrl_pt[curve_selected][n][1]=loc_y;
     }
     if(n==1)
     {
     curve_ctrl_pt[curve_selected][n][0]=0;
-    curve_ctrl_pt[curve_selected][n][1]=mouse_y-(ypatch_window+50);
+    curve_ctrl_pt[curve_selected][n][1]=loc_y;
     }
     if(n==5)
     {
     curve_ctrl_pt[curve_selected][n][0]=255;
-    curve_ctrl_pt[curve_selected][n][1]=mouse_y-(ypatch_window+50);
+    curve_ctrl_pt[curve_selected][n][1]=loc_y;
     }
 
     write_curve();//ecriture des niveaux
@@ -218,7 +275,8 @@ int draw_curve_node(int n)
 int curve_draw_splines()
 {
     int io;
-     curve_nodes[0] = dummy_curve_node(curve_nodes[curve_node_count+1], curve_nodes[curve_node_count]);//curve_node et previous
+     // [fix courbe FF] le noeud fantome 0 est deja pose par curve_calc_tangents() ; l ancienne ligne
+     // lisait curve_nodes[curve_node_count+1] = case 8, hors du tableau (MAX_curve_nodeS = 8).
    for (io=1; io<curve_node_count-1; io++)
    {
       curve_nodes[io].x=(curve_ctrl_pt[curve_selected][io][0]+xpatch_window+30+455);
@@ -232,7 +290,7 @@ return(0);
 
 int view_curve_after_draw()//verif du report de ma courbe
 {
-for (int d=0; d<255;d++)
+for (int d=0; d<=255;d++)// [fix courbe FF] inclut 255 (FF) dans l apercu
 {
  Point(xpatch_window+30+455+d,ypatch_window+50+curve_report[curve_selected][d] ).Draw(Rgba::GREEN);
 }
@@ -398,7 +456,16 @@ static void compute_curve_report_local(int c)
             curve_report[c][idx] = val;
         }
     }
-    curve_report[c][255] = 0;   // niveau max -> sortie full (255 - 0)
+    // [fix courbe FF] du point 5 jusqu a 255 inclus : valeur du point 5 (comme write_curve)
+    {
+        int last_y = curve_ctrl_pt[c][5][1];
+        if (last_y < 0)   last_y = 0;
+        if (last_y > 255) last_y = 255;
+        int from_x = curve_ctrl_pt[c][5][0];
+        if (from_x < 0)   from_x = 0;
+        if (from_x > 255) from_x = 255;
+        for (int ix = from_x; ix <= 255; ix++) curve_report[c][ix] = last_y;
+    }
 
     // restauration de l'etat global
     curve_selected     = save_sel;
