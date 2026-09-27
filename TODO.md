@@ -6,7 +6,7 @@
 
 - [ ] **Accès hors limites démontrés par GCC** — réapparus au rebuild complet du 21/07 (les builds incrémentaux les masquaient). Ce ne sont pas des avertissements de style : avec `-Waggressive-loop-optimizations`, GCC affirme avoir *prouvé* le débordement, et peut optimiser en s'appuyant dessus. Même famille que l'access violation des grid players.
   - `video_tracking_core.cpp:396` — `for (int co=1;co<513;co++)` sur `show_who_is_in_FADER_DOCK[co]` → déborde à l'itération 511
-  - `procs_visuels_rebuild1.cpp:448` — `for(int i=0;i<=nbre_de_vues_circuits;i++)` sur `Channel_View_MODE[i]` → déborde à l'itération 16 (le `<=` part d'un cran trop loin, cf. le `+1` des popups Channel View corrigé le 21/07)
+  - ~~`procs_visuels_rebuild1.cpp:448` — `for(int i=0;i<=nbre_de_vues_circuits;i++)` sur `Channel_View_MODE[i]` → déborde à l'itération 16 (le `<=` part d'un cran trop loin, cf. le `+1` des popups Channel View corrigé le 21/07)~~ — CORRIGÉ (août 2026)
 
 ## 🖥 Environnement / postes de travail
 

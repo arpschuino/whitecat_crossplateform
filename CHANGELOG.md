@@ -117,6 +117,48 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : thème « Couleurs au choix » illisible (écran tout noir).** Choisir un fond et un texte de teintes trop proches (ex. les deux noirs) rendait l'interface illisible, sans moyen de revenir en arrière. Le chargement du thème *user* force désormais une couleur de texte lisible (`CouleurLigne`, et `CouleurSelection`) quand son contraste avec le fond est insuffisant (blanc sur fond sombre, noir sur fond clair). S'applique à l'écran de config, au démarrage et au chargement de show.
 
+### Audio — Pitch (OGG / FLAC)
+
+- **Fix : le pitch était sans effet sur les fichiers OGG et FLAC.** `setPitchShift()` recrée le `SDL_AudioStream` avec une fréquence source multipliée par le ratio (effet bande magnétique), mais les cas OGG (`stb_vorbis`) et FLAC (`dr_flac`) étaient absents de ce branchement — seuls WAV, MP3 et chunk étaient traités. Le pitch était bien mémorisé mais le converter gardait la fréquence d'origine → lecture à vitesse et tonalité fixes quelle que soit la valeur du slider. Signalé par un beta (Linux et Windows).
+- **Fix : le pitch était ignoré s'il était réglé avant de lancer le morceau.** `steal_locked()` (appelé à chaque chargement de fichier) ne réinitialisait pas `s.pitch`. Lors du chargement suivant, `setPitchShift()` voyait `old_pitch == ratio` et retournait immédiatement sans recréer le converter — le nouveau fichier démarrait donc toujours à pitch 1,0 même si le slider avait été bougé. `steal_locked` remet maintenant `pitch = 1.0f`, garantissant que `setPitchShift` reconstruira le converter au prochain appel.
+
+### Audio — Boutons `>>` / `<<` (avance / retour rapide)
+
+- **Fix : des appuis répétés sur `>>` ou `<<` arrêtaient la lecture (OGG / FLAC).** La garde `position + 100 000 < length_of_file_in_player` pouvait laisser passer un seek vers une position dépassant le nombre réel de samples : `length_of_file_in_player` est calculé depuis `length_ms × hz / 1000`, mais `length_ms` provient d'une division entière `total_samp × 1000 / hz` arrondie vers le bas — la reconversion en samples donnait une valeur légèrement *supérieure* au total réel. `stb_vorbis_seek` / `drflac_seek_to_pcm_frame` était alors appelé hors limites, mettant le décodeur en état d'EOF ; le remplissage suivant du `SDL_AudioStream` renvoyait 0 sample → `s.playing = false`. `setPosition` borne désormais le seek à `[0, total_samp − 1]` (OGG) / `[0, totalPCMFrameCount − 1]` (FLAC) et vérifie le code de retour de `stb_vorbis_seek` avant de mettre à jour l'état de lecture. Signalé par un beta (Linux, fichiers OGG et FLAC).
+- **Fix : player 3 reculait dix fois trop loin** avec `<<`. Le seek du player 3 utilisait `position − 1 000 000` (7 zéros) au lieu de `position − 100 000` (6 zéros) — typo d'une lettre.
+- **Fix : FLAC — fausse fin de fichier après un seek.** Après certains seeks, `dr_flac` pouvait renvoyer 0 frame loin de la fin réelle du morceau → lecture arrêtée. Si l'EOF survient à plus de 5 s de la durée déclarée, le décodeur est rouvert depuis le fichier en RAM et repositionné (le vrai EOF, lui, boucle ou arrête normalement). Un seek direct annule aussi un éventuel retour de boucle différé qui pouvait l'écraser.
+- **Fix : un changement de dock relançait un player déjà en lecture.** Sur un fader piloté par un chaser, passer d'un dock à l'autre rappelait `play` sur le player audio même s'il jouait déjà. La relance n'a plus lieu que si le player est à l'arrêt.
+
+### Démarrage — Bang Banger à l'ouverture
+
+- **Nouveau : déclencher un banger au démarrage.** Réglage *CFG menu → main → Bang Banger* : taper le numéro du banger puis cliquer la case (0 = désactivé). Le banger est lancé à l'ouverture de WhiteCat, une fois le show chargé. Sauvegardé dans `user/config_onstart.txt` (4ᵉ valeur, à côté de camera / arduino / expert mode).
+- **Windows : plus de popup système** (« L'instruction à … ») sur un PC dépourvu de certains matériels (carte son, FTDI…) : `SetErrorMode` au lancement ; les erreurs restent gérées par WhiteCat.
+
+### Plan de feux (Light plot) — angles en degrés
+
+- **Angles saisis et affichés en degrés** (0-360°) pour la rotation des symboles et des shapes, et pour l'**ouverture** des cônes/slices (nouvelle zone de saisie clavier). Auparavant valeur brute 0-1.
+- **Fix : rotation sur un tour exact.** Le facteur de conversion était `6.5` au lieu de 2π (`6.283185`) → une rotation « pleine » dépassait le tour. Sens de rotation carcasse/lentille harmonisé.
+- **Fix : boutons de direction (boussole)** : N/NE/E/SE/S/SW/W/NW donnent maintenant exactement 0/315/270/225/180/135/90/45° (valeurs approximatives auparavant).
+- **Fix : curseur de choix de symbole** calé sur les 72 types réels (0-71) au lieu de 0-126.
+- Tracé des polygones arrondi au pixel le plus proche (au lieu d'une troncature) → contours plus nets après rotation.
+
+### Séquentiel — GO / PAUSE channels
+
+- **Les circuits GO et PAUSE sont toujours repérés** dans l'espace circuits (vue Classical et vues) : contour vert / jaune au repos, clignotement plein pendant le GO / la pause (auparavant visibles uniquement pendant l'action).
+- **Fix : cohérence affichage / sortie** : hors GO en cours, ces circuits sont forcés à 0 dans la saisie et les faders, pour ne pas envoyer de niveau parasite sur le canal de déclenchement.
+
+### Mémoires — suppression et Wizard
+
+- **Delete Mem sur une mémoire inexistante** : la confirmation affiche « Mem x.x does not exist » au lieu de proposer une suppression vide.
+- **Touche Suppr** : après une saisie numérique (numéro de mémoire tapé), Suppr lance directement la suppression de cette mémoire, sans Shift.
+- **Wizard — restaurer les mémoires supprimées** : la confirmation indique le nombre de mémoires restaurables dans la plage (« Restore N deleted Mem ») ou « No deleted Mem in range ».
+
+### Divers
+
+- **Fix : minifaders — bouclage `<` / `>`** : passait par un numéro de fader inexistant (hors bornes) avant de revenir au premier / dernier.
+- **Espace circuits** : repères du scroller (vue Classical) alignés sur les vraies positions de défilement (1, 49, 97… 481) ; noms des vues mieux placés ; espacement entre vues ajusté.
+- **Fix : accès hors limites** `Channel_View_MODE[16]` (boucle `<=` au lieu de `<` dans le rendu des vues, `procs_visuels_rebuild1.cpp`) — signalé par GCC.
+
 ---
 
 ## Version 0.9.1 (28 mai 2026 — Jacques Bouault)
@@ -364,3 +406,4 @@ Fichiers non extractibles (contraintes techniques) :
 - Intégration VSCode (build `Ctrl+Shift+B`, debug F5).
 - **Signatures** : les 10 fichiers modifiés portent la signature `Jacques Bouault - arpschuino.fr - 2026` dans leur en-tête.
 - **Indentation** : reformatage clang-format (4 espaces, style LLVM, col. 120) sur les 10 fichiers modifiés.
+
