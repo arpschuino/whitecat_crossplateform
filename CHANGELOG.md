@@ -155,6 +155,7 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 ### Divers
 
+- **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.
 - **Fix : minifaders — bouclage `<` / `>`** : passait par un numéro de fader inexistant (hors bornes) avant de revenir au premier / dernier.
 - **Espace circuits** : repères du scroller (vue Classical) alignés sur les vraies positions de défilement (1, 49, 97… 481) ; noms des vues mieux placés ; espacement entre vues ajusté.
 - **Fix : accès hors limites** `Channel_View_MODE[16]` (boucle `<=` au lieu de `<` dans le rendu des vues, `procs_visuels_rebuild1.cpp`) — signalé par GCC.
