@@ -1286,7 +1286,9 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
 
             break;
         }
-        for(int u=0; u<nbre_key_persos; u++)
+        // [keyboard mapping] inactif pendant une saisie de texte (nom F5, nom a confirmer) :
+        // sinon '/' ou '*' du pave tapes dans un nom declenchaient aussi la fonction mappee.
+        for(int u=0; u<nbre_key_persos && index_type==0 && !index_confirm_name_active; u++)
         {
 //keys persos
             if( (int)(chi & 0xff)==mapping_temporaire[u])
