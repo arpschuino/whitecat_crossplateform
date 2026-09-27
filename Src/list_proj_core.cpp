@@ -42,6 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
  **/
 
 #include "wc_tus.h"
+#include "core.h"
 #include "audio_core.h"
 #include "channels_core.h"
 #include "plot_core.h"
@@ -358,16 +359,12 @@ case 14://FADER LEVEL
 if((channel_macro_reaction[the_chan][num_macro]==7 || channel_macro_reaction[the_chan][num_macro]==8) && channel_macro_val[the_chan][num_macro][1]>0 && channel_macro_val[the_chan][num_macro][1]<49 )//follow pur
 {
 int num_f=(channel_macro_val[the_chan][num_macro][1]-1);
-Fader[ num_f]=MergerArray[the_chan];
-midi_levels[ num_f]=(int)(MergerArray[the_chan]/2);
-if(channel_macro_reaction[the_chan][num_macro]==8)
-{
-Fader[ num_f]=255-Fader[ num_f];
-midi_levels[ num_f]=127-midi_levels[ num_f];
-}
-
-if(midi_send_out[num_f]==1)
-{ index_send_midi_out[num_f]=1;}
+int val=MergerArray[the_chan];
+if(channel_macro_reaction[the_chan][num_macro]==8){val=255-val;}
+// [fix macro fader level] via fader_set_level : avec le damper actif, l'ecriture directe de
+// Fader[] etait ecrasee a chaque tour par la valeur du damper (restee a 0) -> fader fige.
+// fader_set_level donne la cible au damper (ou ecrit direct sans damper) + MIDI out.
+fader_set_level(num_f,val);
 }
 break;
 case 15://FADER SPEED

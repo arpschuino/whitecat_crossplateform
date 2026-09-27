@@ -176,6 +176,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : en mode Fullscreen, la touche Windows semblait inopérante** (signalé par un beta, Windows 11). SDL2 plaçait la fenêtre plein écran « toujours au premier plan » : le menu Démarrer et la barre des tâches s'ouvraient **derrière** WhiteCat. La fenêtre n'est plus forcée au premier plan, et WhiteCat ne se réduit plus en perdant le focus (il reste affiché derrière l'application active). Aucun changement sous Windows 10.
 
+### Channel macros — Fader Level
+
+- **Fix : le macro « Fader Level » laissait le fader WhiteCat à 0 quand son damper était actif** (signalé par un beta : le fader motorisé bougeait via le MIDI out, mais pas le fader à l'écran). Le macro écrivait le niveau directement, sans passer par le damper, qui l'écrasait aussitôt par sa propre valeur. Le macro passe désormais par la même fonction que la souris : avec damper, le niveau devient la cible du damper (glisse lissée) ; sans damper, rien ne change.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.
