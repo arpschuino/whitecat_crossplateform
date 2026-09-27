@@ -159,6 +159,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 - **Mapping inactif pendant une saisie de texte** (nom F5, nom à confirmer) : taper `/` ou `*` au pavé dans un nom ne déclenche plus la fonction mappée.
 - L'affichage de la zone Keyboard Mapping n'indique plus « Allg » (scancode Allegro, purement informatif et devenu trompeur depuis SDL2) : `Asc= 27 KEY= ESC`.
 
+### Fenêtre Npad — CHECK − / CHECK +
+
+- **Fix : après un CHECK depuis la fenêtre Npad, WhiteCat restait « bloqué en Ctrl »** (signalé par un beta). Les boutons CHECK ± simulaient Ctrl+flèche en allumant le **Ctrl virtuel** sans jamais l'éteindre : ensuite, impossible de donner des niveaux aux circuits, la barre d'espace enchaînait GO mémoire précédente / GO back / pause, et Shift+− / Ctrl+− ne donnaient plus que stage ±, jamais preset ±. CHECK ± effectue maintenant le check de circuit directement, sans toucher au Ctrl / Shift virtuels. Même correctif pour les commandes MIDI / TouchOSC CHECK ± (1825 / 1826).
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.

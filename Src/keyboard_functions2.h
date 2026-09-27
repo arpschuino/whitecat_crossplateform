@@ -27,4 +27,6 @@ int key_forward();
 int key_select_all();
 int key_left();
 int key_right();
+int key_check_minus();
+int key_check_plus();
 int key_printscreen();

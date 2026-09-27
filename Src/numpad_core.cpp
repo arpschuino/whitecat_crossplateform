@@ -42,6 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 #include "wc_tus.h"
+#include "keyboard_functions2.h"
 #define PIknob 3.14159265358979323846264338327950288419716939937510
 
 int do_wheel_level_job(int levelwheelis)
@@ -456,9 +457,7 @@ if( Midi_Faders_Affectation_Type!=0)//config midi
 }
 else
 {
-     index_false_control= 1;
-     index_false_shift=0;
-     simulate_keypress(KEY_LEFT<<8);
+     key_check_minus();
 
 mouse_released=1;
 }
@@ -482,9 +481,7 @@ if( Midi_Faders_Affectation_Type!=0)//config midi
 }
 else
 {
-     index_false_control= 1;
-     index_false_shift=0;
-     simulate_keypress(KEY_RIGHT<<8);
+     key_check_plus();
 mouse_released=1;
 }
 }

@@ -1493,6 +1493,23 @@ int key_left()
  return(0);
 }
 
+// [fix Npad CHECK] check circuit -/+ direct (fenetre Npad, MIDI/TouchOSC 1825/1826).
+// Remplace l'ancien index_false_control=1 + simulate_keypress(fleche) qui laissait le
+// Ctrl virtuel allume : ensuite toutes les touches se comportaient comme avec Ctrl.
+int key_check_minus()
+{
+       check_channel_minus();
+       add_channel_selection_to_layers_plot();substract_channel_selection_to_layers_plot();
+ return(0);
+}
+
+int key_check_plus()
+{
+       check_channel_plus();
+       add_channel_selection_to_layers_plot();substract_channel_selection_to_layers_plot();
+ return(0);
+}
+
 int key_right()
 {
 if (key_shifts & KB_CTRL_FLAG || index_false_control==1)

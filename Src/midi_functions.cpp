@@ -59,6 +59,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "numpad_core.h"
 #include "time_core.h"
 #include "midi_13.h"
+#include "keyboard_functions2.h"
 extern bool midi_changesignal_scroll_dragging;
 extern int  midi_changesignal_scroll_drag_start_y;
 extern int  midi_changesignal_scroll_drag_start_scroll;
@@ -3234,15 +3235,11 @@ break;
 //Christoph Touch OSC remote control
 if(control == 1825 )//check minus
 {
-     index_false_control= 1;
-     index_false_shift=0;
-     simulate_keypress(KEY_LEFT<<8);
+     key_check_minus();
 }
 if( control == 1826 )//check plus
 {
-     index_false_control= 1;
-     index_false_shift=0;
-     simulate_keypress(KEY_RIGHT<<8);
+     key_check_plus();
 }
 if(control == 1827 )//at full
 {
