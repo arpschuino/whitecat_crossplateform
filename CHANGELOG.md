@@ -168,6 +168,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : « 1.. » (une minute) donnait 1 min 1 s** (signalé par un beta). Après les minutes, rien ne restait à lire pour les secondes et WhiteCat lisait un tableau non initialisé (souvent un reste de la saisie précédente). Même défaut pour les centièmes quand on ne tapait que des secondes. Secondes et centièmes partent désormais de zéro ; une saisie mal formée (« 1.2.3 ») ne déborde plus.
 
+### Sauvegarde / Chargement — réglages perdus à chaque ouverture
+
+- **Fix : « Text AutoClose » se décochait à chaque redémarrage** (signalé par un beta) — et six autres réglages avec lui : MIDI *auto demute*, MIDI *mute on LFO*, affichage du *grid player dans le séquentiel*, *auto mute cuelist speed*, MIDI *Force Go* et la page *core* de la config. Lors du retrait du code iCat (0.9.x), leur relecture avait été supprimée par erreur : ils étaient toujours **enregistrés** dans le show mais plus **relus**. Relecture rétablie ; les shows sauvés en 0.9 retrouvent leurs réglages à la prochaine ouverture.
+
 ### Divers
 
 - **Édition inline des noms** : passer d'un champ de nom à un autre (double-clic sur un autre champ pendant une saisie) **valide** la saisie en cours au lieu de la perdre.
