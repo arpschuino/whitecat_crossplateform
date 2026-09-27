@@ -5936,6 +5936,9 @@ int GlobInit()
         {
             mapping_temporaire[map]=999;
         }
+        // [keyboard mapping] defauts : '*' et '/' du pave numerique (aucun raccourci WhiteCat)
+        mapping_temporaire[3]=42;//THRU  = '*' pave
+        mapping_temporaire[4]=47;//CLEAR = '/' pave
     }
 
 
