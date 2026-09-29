@@ -245,3 +245,6 @@ pip-log.txt
 
 # compilateur portable (ne pas commiter les binaires)
 tools/
+
+# kit de build Windows (telecharge par setup_windows.bat)
+whitecat-windows-buildkit-*.zip

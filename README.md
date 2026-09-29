@@ -44,19 +44,46 @@ Open [`doc/introduction.html`](doc/introduction.html) locally in a browser — t
 
 ## Build — Windows
 
-### Requirements / Prérequis
-
-- MinGW GCC 5.1.0 — included in `tools/MinGW/` (not tracked by git, download separately)
-- SDL2, SDL2_mixer, SDL2_ttf, SDL2_image — included in `whitecatlib/`
-- RtMidi — included in `whitecatlib/lib/sources_of_libs/rtmidi/`
-
-### Build
+The compiler, the libraries and the runtime files are not in git: they come in a **build kit**
+(~80 MB) downloaded by `setup_windows.bat`.
+*Le compilateur, les bibliothèques et les fichiers d'exécution ne sont pas dans git : ils sont
+fournis par un **kit de build** (~80 Mo) que télécharge `setup_windows.bat`.*
 
 ```bat
+git clone https://github.com/arpschuino/whitecat_crossplateform.git
+cd whitecat_crossplateform
+setup_windows.bat
 build.bat
 ```
 
-Output: `whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe`
+Output / Sortie : `whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe`
+
+The kit installs / Le kit installe :
+- `tools/MinGW/` — TDM-GCC 5.1.0 (32 bit)
+- `whitecatlib/` — SDL2 2.30.8, SDL2_ttf 2.24.0, SDL2_image 2.8.8, SDL2_mixer 2.8.1, RtMidi 6.0.0,
+  OpenCV 2.4.8, libharu, zlib, FTDI D2XX (reduced copy of
+  [ChristophGuillermet/whitecatlib](https://github.com/ChristophGuillermet/whitecatlib) + SDL2 + RtMidi)
+- `whitecatbuild/build/white_cat_for_mingw/` — DLLs, fonts, resources, default configuration
+
+`setup_windows.bat` never overwrites an existing file (your `user/` and `saves/` are kept).
+Offline: download the kit from the
+[Releases](https://github.com/arpschuino/whitecat_crossplateform/releases) page, put the zip next to
+`setup_windows.bat` and run it.
+*`setup_windows.bat` n'écrase jamais un fichier existant. Hors ligne : téléchargez le kit depuis la
+page Releases, posez le zip à côté de `setup_windows.bat` et lancez-le.*
+
+## Build — Linux (x86_64, Raspberry Pi)
+
+```bash
+sudo apt install build-essential libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
+                 libhpdf-dev libasound2-dev libftdi1-dev zlib1g-dev
+make -f Makefile.linux -j4
+```
+
+Output / Sortie : `whitecatbuild/build/linux/Whitecat_Crossplatform`.
+Runtime files (`Fonts/`, `gfx/`, `ressources/`, `user/`…): copy them next to the executable from
+the Linux archive of the latest [release](https://github.com/arpschuino/whitecat_crossplateform/releases).
+*Fichiers d'exécution : copiez-les à côté de l'exécutable depuis l'archive Linux de la dernière release.*
 
 ### VSCode
 
@@ -86,9 +113,10 @@ Open the project folder in VSCode:
 ```
 whitecat_crossplateform/
 ├── Src/               — C++ source files
-├── whitecatlib/       — Libraries (SDL2, RtMidi, OpenCV…)
-├── whitecatbuild/     — Build output and runtime resources
-├── tools/             — Portable MinGW compiler (not in git)
+├── whitecatlib/       — Libraries: SDL2, RtMidi, OpenCV… (build kit, not in git)
+├── whitecatbuild/     — Build output + runtime resources (build kit, not in git)
+├── tools/             — Portable MinGW compiler (build kit, not in git)
+├── setup_windows.bat  — Downloads and installs the Windows build kit
 └── build.bat          — Build script
 ```
 
