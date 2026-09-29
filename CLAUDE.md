@@ -8,7 +8,7 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - Compiler: GCC 5.1.0 (MinGW portable dans `tools/MinGW/` ou détecté automatiquement)
 - Build script: `build.bat` (chemins 100% relatifs via `%~dp0`, portable)
 - Output: `whitecatbuild/build/white_cat_for_mingw/Whitecat_Crossplatform.exe`
-- Libraries: `whitecatlib/` — dans le repo, synchronisé via Nextcloud
+- Libraries: `whitecatlib/` + `tools/MinGW/` + dossier d exécution — hors git, fournis par le **kit de build** (`setup_windows.bat`, Release GitHub `buildkit-windows-v1`)
 - Build depuis VSCode : **Ctrl+Shift+B**
 ## Completed Work
 - ✅ Compiled with GCC 5.1.0 (was GCC 4.8.1)
@@ -21,7 +21,7 @@ WhiteCat is an open-source stage lighting console (console d'éclairage scéniqu
 - ✅ SDL2 migration complete (Allegro + OpenLayer + Audiere remplacés)
 - ✅ Process terminates cleanly after quit
 - ✅ Build system fully portable (relative paths, MinGW in tools/)
-- ✅ whitecatlib moved into repo (Nextcloud-synced)
+- ✅ Kit de build Windows (Release `buildkit-windows-v1`) + `setup_windows.bat` : clone → setup → build.bat
 - ✅ Phase 4 TU extraction (6 TUs extraits, PCH Makefile, WC_SKIP_GLOBALS pattern)
 - ✅ Ticker intelligent — cap 3 niveaux (60/25/idle fps), détection LFO/chasers/GO/dampers
 - ✅ wc_cache/wc_cache_mutex globaux (WC_SKIP_GLOBALS) — rendu texte stable dans tous les TUs
