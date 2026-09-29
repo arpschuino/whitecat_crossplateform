@@ -26,7 +26,7 @@ set KIT_ZIP=%ROOT%\%KIT_NAME%
 if exist "%KIT_ZIP%" (
     echo [setup] Kit trouve : %KIT_ZIP%
 ) else (
-    echo [setup] Telechargement du kit ^(~100 Mo^) :
+    echo [setup] Telechargement du kit ^(~80 Mo^) :
     echo         %KIT_URL%
     powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri '%KIT_URL%' -OutFile '%KIT_ZIP%'"
     if not exist "%KIT_ZIP%" goto :download_failed
