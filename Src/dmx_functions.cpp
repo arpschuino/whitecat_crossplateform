@@ -333,8 +333,12 @@ int do_crossfade() {
                 do_send_bang();
                 // integration du gridplayer 1
                 if (show_gridplayer_in_seq == 1) {
-                    grid_in_preset[0][0] = index_grider_selected[0];
-                    grid_in_preset[0][1] = set_from_seq_gridplayer1_next_step[position_preset] - 1;
+                    // [fix grid -1] memoire sans pas (-1) : ne pas ecrire -1-1 = -2 comme destination
+                    // (le grid player y atterrissait a la fin d'un fondu en cours -> case pas "-1")
+                    if (set_from_seq_gridplayer1_next_step[position_preset] != -1) {
+                        grid_in_preset[0][0] = index_grider_selected[0];
+                        grid_in_preset[0][1] = set_from_seq_gridplayer1_next_step[position_preset] - 1;
+                    }
                     if (set_from_seq_gridplayer1_next_step[position_preset] != -1 &&
                         set_from_seq_gridplayer1_next_step[position_preset] != index_grider_step_is[0]) {
                         gridder_prepare_cross(0, index_grider_selected[0],
