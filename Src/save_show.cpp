@@ -1255,12 +1255,13 @@ int Load_setup_conf()
 	{
      sprintf(string_save_load_report[idf],"Error reading general_set_up.txt");
 	}
-    fscanf( cfg_file , "%d / %d / %d /\n",&automatic_time_for_save, &index_nbre_players_visibles, &LargeurEspaceFaderSize);
+    fscanf( cfg_file , "%d / %d / %d / %d /\n",&automatic_time_for_save, &index_nbre_players_visibles, &LargeurEspaceFaderSize, &wheel_accel_level);// [molette] 4e valeur absente des anciens fichiers -> reste au defaut (2)
 
 	fclose( cfg_file );
 	}
 
 if(LargeurEspaceFaderSize<1024 ){LargeurEspaceFaderSize=1024;}
+if(wheel_accel_level<0 || wheel_accel_level>3){wheel_accel_level=2;}// [molette] valeur hors plage -> Normal
 if(LargeurEspaceFaderSize>largeur_ecran){LargeurEspaceFaderSize=largeur_ecran;}
 
 return(0);
@@ -1274,8 +1275,8 @@ if((fpi=fopen("user/general_set_up.txt","w")))//etait wb
 fprintf(fpi,"#arguments: default step level / level wheel absolute mode / channel check level / dimmer check level / blink on mem change /  midi auto desaffect / dmx view / preloaded sounds / bang stay time\n");
 fprintf(fpi,"%d / %d / %d / %d / %d / %d / %d / %d / %.1f /\n",default_step_level, wheellevel_absolutemode, check_channel_level, dimmer_check_level,
                                                              index_blink_change_memories, index_midi_auto_desaffect, dmx_view, index_preloaded_sounds,  default_time_of_the_bang);
-fprintf(fpi,"#arguments: autosave time in sec / nbr audioplayers / fader space width /\n");
-fprintf(fpi,"%d / %d / %d /\n",automatic_time_for_save, index_nbre_players_visibles, LargeurEspaceFaderSize);
+fprintf(fpi,"#arguments: autosave time in sec / nbr audioplayers / fader space width / wheel acceleration (0 off 1 low 2 normal 3 high) /\n");
+fprintf(fpi,"%d / %d / %d / %d /\n",automatic_time_for_save, index_nbre_players_visibles, LargeurEspaceFaderSize, wheel_accel_level);
 fclose(fpi);
 }
 

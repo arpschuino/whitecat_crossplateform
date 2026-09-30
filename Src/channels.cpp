@@ -48,6 +48,7 @@ char string_last_over_dock[36];
 char string_secondary_feeback[64];
 bool index_ch_thruth = 0;
 int default_step_level = 1;
+int wheel_accel_level = 2; // [molette] acceleration molette -> niveaux circuits : 0 off, 1 low, 2 normal (historique), 3 high
 bool index_level_attribue = 0; // pour deselection lors d une resaisie nouvelle
 ///////////////////CHANNELS////////////////////////////////////////////////////
 int XChannels = -20, YChannels = 70;

@@ -1159,6 +1159,7 @@ sprintf(list_midi_affect[495],"GO BACK");
 sprintf(list_midi_affect[496],"DOUBLE GO");
 sprintf(list_midi_affect[768],"Create New Mem");
 sprintf(list_midi_affect[769],"Delete Mem");
+sprintf(list_midi_affect[2114],"Update Mem");// [update]
 sprintf(list_midi_affect[770],"Stage Minus");
 sprintf(list_midi_affect[771],"Stage Plus");
 sprintf(list_midi_affect[772],"Preset Minus");
@@ -4199,6 +4200,7 @@ for(int i=0;i<6;i++)
 {
 print_midi_command(i+768);
 }
+print_midi_command(2114);// [update] Update Mem
 print_midi_command(1591);
 print_midi_command(1645);
 

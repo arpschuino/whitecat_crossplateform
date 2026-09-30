@@ -45,6 +45,24 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "gui_boutons_rebuild1.h"
 #include "fixturectl_visu.h"   // [devices] fxc_apply_delta (molette encodeurs)
 #include "devicepatch_visu.h"  // [devices] molette sur les colonnes Patch device
+
+// [molette] nombre de pas pour |delta| crans de molette, selon l'acceleration reglee
+// (CFG main > Wheel acceleration). Utilise par TOUTES les molettes : circuits, crossfade,
+// Grand Master, faders, grilles fines 16 bit, Control Fixtures.
+//   Off    : 1 cran = 1 pas (pas d'acceleration)
+//   Low    : coef 2, plafond 20
+//   Normal : coef 5, plafond 45 (comportement historique : 1->1, 2->1, 3->5, 4->20, 5->45)
+//   High   : coef 10, plafond 90
+static int wc_wheel_steps(int absd)
+{
+    if (wheel_accel_level <= 0) return absd;
+    static const int coef[4] = {0, 2, 5, 10};
+    static const int cap[4]  = {0, 20, 45, 90};
+    int lvl = wheel_accel_level > 3 ? 3 : wheel_accel_level;
+    int d = absd > 2 ? absd - 2 : 0;
+    int steps = d > 0 ? d * d * coef[lvl] : 1;
+    return steps > cap[lvl] ? cap[lvl] : steps;
+}
 int key_up();
 int key_down();
 int add_channel_selection_to_layers_plot();
@@ -222,9 +240,7 @@ int DoMouseLevel()
        int _delta = mouse_z - last_scroll_mouse_for_xfade;
        if (_delta != 0) {
            int _absd  = _delta > 0 ? _delta : -_delta;
-           int _d     = _absd > 2 ? _absd - 2 : 0;
-           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique (sans inertie)
-           if (_steps > 45) _steps = 45;            // plafond
+           int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
            // etat Ctrl LIVE : key_shifts n'est rafraichi qu'aux events clavier, pas a la molette
            // -> il resterait colle a "fine" apres relachement du Ctrl. SDL_GetModState() est a jour.
            bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
@@ -275,9 +291,7 @@ int DoMouseLevel()
        int _delta = mouse_z - last_scroll_mouse_for_gm;
        if (_delta != 0) {
            int _absd  = _delta > 0 ? _delta : -_delta;
-           int _d     = _absd > 2 ? _absd - 2 : 0;
-           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
-           if (_steps > 45) _steps = 45;
+           int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
            bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
            int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
            niveauGMaster += (_delta > 0 ? 1 : -1) * _steps * unit;
@@ -311,9 +325,7 @@ int DoMouseLevel()
            if (cmptfader >= 0) {
                bool fine = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
                int _absd  = _delta > 0 ? _delta : -_delta;
-               int _d     = _absd > 2 ? _absd - 2 : 0;
-               int _steps = _d > 0 ? _d * _d * 5 : 1;       // courbe veloce dynamique
-               if (_steps > 45) _steps = 45;
+               int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
                int unit = fine ? 1 : 257;                   // [fader 16 bit] coarse = 1 DMX (257), fin = 1/65535
                int step = (_delta > 0 ? 1 : -1) * _steps * unit;
                int val = (int)Fader[cmptfader] + step;
@@ -345,9 +357,7 @@ int DoMouseLevel()
            int _gsel = index_grider_selected[grid_wheel_hover_player];
            int _step = index_grider_step_is[grid_wheel_hover_player];
            int _absd  = _delta > 0 ? _delta : -_delta;
-           int _d     = _absd > 2 ? _absd - 2 : 0;
-           int _steps = _d > 0 ? _d * _d * 5 : 1;   // 1 cran = 1/65535 ; coup vif jusqu'a 45
-           if (_steps > 45) _steps = 45;
+           int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
            int _val = (int)grid_levels[_gsel][_step][position_grid_editing] + (_delta > 0 ? _steps : -_steps);
            if (_val < 0)     _val = 0;
            if (_val > 65535) _val = 65535;
@@ -375,9 +385,7 @@ int DoMouseLevel()
        int _delta = mouse_z - last_scroll_mouse_for_fxc;
        if (_delta != 0) {
            int _absd  = _delta > 0 ? _delta : -_delta;
-           int _d     = _absd > 2 ? _absd - 2 : 0;
-           int _steps = _d > 0 ? _d * _d * 5 : 1;   // courbe veloce dynamique
-           if (_steps > 45) _steps = 45;
+           int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
            bool fine   = (SDL_GetModState() & KMOD_CTRL) || index_false_control == 1;
            int  unit   = fine ? 1 : 257;            // fin = 1/65535 ; coarse = 1 DMX (x257)
            int  change = (_delta > 0 ? 1 : -1) * _steps * unit;
@@ -412,9 +420,7 @@ int DoMouseLevel()
  int _delta = mouse_z - last_scroll_mouse_for_chan;
  if (_delta != 0) {
      int _absd = _delta > 0 ? _delta : -_delta;
-     int _d    = _absd > 2 ? _absd - 2 : 0;
-     int _steps = _d > 0 ? _d * _d * 5 : 1;  // 1→1, 2→1, 3→5, 4→20, 5→45
-     if (_steps > 45) _steps = 45;            // plafond
+     int _steps = wc_wheel_steps(_absd); // [molette] acceleration reglable (CFG main > Wheel acceleration)
      for (int _i = 0; _i < _steps; _i++) {
          if (_delta > 0) key_up();
          else            key_down();

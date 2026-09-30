@@ -582,7 +582,7 @@ int x1_x2(int x_seq, int y_seq) {
 
     Line(Vec2D(x_seq + 554, y_seq + 405), Vec2D(x_seq + 554, y_seq + 427)).Draw(CouleurLigne);
 
-    petitchiffre.Print(str_crossfade_speed_is, x_seq + 465, y_seq + 430);
+    petitchiffre.Print(str_crossfade_speed_is, x_seq + 490, y_seq + 447);// [update] sous l accelerometre (etait x+465 y+430 : cache par le bouton GOTO)
     SequencielSpeed.Draw(CouleurFader);
 
     // midi out des x1 et x2
@@ -726,53 +726,61 @@ int Sequenciel_Window(int xseq, int yseq, int largeur_seq, int hauteur_seq) {
     Rect SeqAction(Vec2D(xseq, yseq), Vec2D(53, 20));
     SeqAction.SetRoundness(7.5);
 
-    for (int op = 0; op < 7; op++) {
+    for (int op = 0; op < 8; op++) {// [update] 8e bouton : Update (= Ctrl+F1)
         // Rect SeqAction(Vec2D (xseq+20+(op*60), yseq+395 ), Vec2D ( 50,20));
         int rangee_y = yseq + 180 + (35 * (nbre_memoires_visualisables_en_preset + 1));
 
-        SeqAction.MoveTo(Vec2D(xseq + 20 + (op * 60), rangee_y));
+        SeqAction.MoveTo(Vec2D(xseq + 10 + (op * 59), rangee_y));
         // affichage
         SeqAction.DrawOutline(CouleurLigne);
-        if (window_focus_id == W_SEQUENCIEL && Midi_Faders_Affectation_Type != 0 && mouse_x > xseq + 20 + (op * 60) &&
-            mouse_x < xseq + 73 + (op * 60) && mouse_y > rangee_y && mouse_y < rangee_y + 20) // config midi
+        if (window_focus_id == W_SEQUENCIEL && Midi_Faders_Affectation_Type != 0 && mouse_x > xseq + 10 + (op * 59) &&
+            mouse_x < xseq + 63 + (op * 59) && mouse_y > rangee_y && mouse_y < rangee_y + 20) // config midi
         {
             SeqAction.DrawOutline(CouleurBlind);
         }
-        switch (op) {
+        // [update] ordre d affichage : Create, Update, Delete, Stage-, Stage+, Preset-, Preset+, GOTO
+        // (position op -> action ; les actions gardent leur numero et leur identifiant MIDI)
+        static const int seq_btn_action[8] = {0, 7, 1, 2, 3, 4, 5, 6};
+        switch (seq_btn_action[op]) {
         case 0:
-            petitchiffre.Print("Create", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Create", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(768, "CREATE MEM");
             break;
         case 1:
-            petitchiffre.Print("Delete", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Delete", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(769, "DELETE MEM");
             break;
         case 2:
-            petitchiffre.Print("Stage-", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Stage-", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(770, "STAGE MINUS");
             break;
         case 3:
-            petitchiffre.Print("Stage+", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Stage+", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(771, "STAGE PLUS");
             break;
         case 4:
-            petitchiffre.Print("Preset-", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Preset-", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(772, "PRESET MINUS");
             break;
         case 5:
-            petitchiffre.Print("Preset+", xseq + 23 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("Preset+", xseq + 13 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(773, "PRESET PLUS");
             break;
         case 6:
-            petitchiffre.Print("GOTO", xseq + 27 + (op * 60), rangee_y + 15);
+            petitchiffre.Print("GOTO", xseq + 17 + (op * 59), rangee_y + 15);
             if (Midi_Faders_Affectation_Type != 0)
                 show_type_midi(1645, "GOTO");
+            break;
+        case 7: // [update] re-enregistre la memoire (= Ctrl+F1) ; MIDI 2114
+            petitchiffre.Print("Update", xseq + 13 + (op * 59), rangee_y + 15);
+            if (Midi_Faders_Affectation_Type != 0)
+                show_type_midi(2114, "UPDATE MEM");
             break;
         default:
             break;
