@@ -2,26 +2,15 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>grandmaster_et_buffers</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2011-12-23T22:55:10+0100"/>
-<meta name="keywords" content="grandmaster_et_buffers"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="grandmaster_et_buffers.html"/>
-<link rel="contents" href="grandmaster_et_buffers.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="grandmaster_et_buffers.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="grandmaster_et_buffers.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=grandmaster_et_buffers"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"grandmaster_et_buffers","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Grand Master et buffers dmx — WhiteCat</title>
+  <meta name="date" content="2011-12-23"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="grandmaster_et_buffers_eng.html">🇬🇧 English</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
 <h3 class="toggle">Table des matières</h3>
@@ -44,32 +33,25 @@
 <h2 class="sectionedit2"><a name="grand_master" id="grand_master">Grand Master</a></h2>
 
 <p class="level2">
-Le Grand Master est un master général qui affecte l&#039;envoi du data à la carte dmx.
+Le Grand Master est un master général qui affecte l&#039;envoi du data à la carte dmx et/ou sur le réseau en Artnet.
 </p>
 
-<p class="level2">
-Il est situé en haut à droite, et pour les notebook à l&#039;affichage limité à 1024&times;600 il apparait après le fader 48 dans l&#039;espace faders.
-</p>
 
 <p class="level2">
-<div align="center" style="text-align: center"><img src="grandmaster.jpeg" class="mediacenter" title="grandmaster.jpg" alt="grandmaster.jpg" /></div>
+<div align="center" style="text-align: center"><img src="grandmaster.png" class="mediacenter" title="grandmaster.jpg" alt="grandmaster.jpg" /></div>
 </p>
 <!-- EDIT2 SECTION "Grand Master" [59-337] -->
 <h2 class="sectionedit3"><a name="affectation_midi_du_grand_master" id="affectation_midi_du_grand_master">Affectation Midi du Grand Master</a></h2>
 
 <p class="level2">
-Le Grand Master est pilotable en midi, ce qui vous permet de travailler avec des boites à boutons économiques:
+Le Grand Master est pilotable en midi :
 </p>
 <ul class="level2">
-<li class="level1"><div class="li"> clicker le menu [Midi CFG]</div>
+<li class="level1"><div class="li"> cliquer le menu [MidiAfect]</div>
 </li>
-<li class="level1"><div class="li"> séléctionner [Faders config]</div>
+<li class="level1"><div class="li"> bouger un potentiomètre midi</div>
 </li>
-<li class="level1"><div class="li"> sélectionner [Affect solo]</div>
-</li>
-<li class="level1"><div class="li"> bougez votre potentiomètre midi</div>
-</li>
-<li class="level1"><div class="li"> clickez le Grand Master</div>
+<li class="level1"><div class="li"> cliquer le Grand Master</div>
 </li>
 </ul>
 
@@ -78,7 +60,7 @@ Pour plus de précision sur le midi, voir : <a href="configuration_affectation_m
 </p>
 
 <p class="level2">
-En clickant la pastille vous émettez vers le sports midi out le signal midi affecté à ce grand master.
+En clickant la pastille vous émettez vers le port midi out le signal midi affecté à ce grand master.
 </p>
 <!-- EDIT3 SECTION "Affectation Midi du Grand Master" [338-891] -->
 <h2 class="sectionedit4"><a name="buffers_dmx" id="buffers_dmx">Buffers dmx</a></h2>
@@ -98,7 +80,7 @@ Un buffer est une mémoire tampon où sont stockés les états des 512 circuits.
 </p>
 
 <p class="level2">
-Ces deux buffers sont mergés en htp ( Highest Takes Preeminence ): le niveau le plus haut est pris.
+Ces deux buffers sont mergés en htp ( Highest Takes Precedence ): le niveau le plus haut est pris.
 Puis le résultat final est soumis à l&#039;action du Grand Master.
 </p>
 

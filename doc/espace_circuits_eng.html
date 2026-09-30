@@ -1,40 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>espace_circuits_eng</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2012-09-23T23:55:48+0200"/>
-<meta name="keywords" content="espace_circuits_eng"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="espace_circuits_eng.html"/>
-<link rel="contents" href="espace_circuits_eng.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="espace_circuits_eng.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="espace_circuits_eng.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=espace_circuits_eng"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"espace_circuits_eng","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Manipulating the channels — WhiteCat</title>
+  <meta name="date" content="2026-07-20"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="espace_circuits.html">🇫🇷 Français</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
-<h3 class="toggle">Table des matières</h3>
+<h3 class="toggle">Table of contents</h3>
 <div>
 
 <ul class="toc">
-<li class="level2"><div class="li"><a href="#manipulating_the_channels">MANIPULATING THE CHANNELS</a></div></li>
-<li class="level1"><div class="li"><a href="#select_a_channel">Select a Channel</a></div></li>
+<li class="level1"><div class="li"><a href="#manipulating_the_channels">MANIPULATING THE CHANNELS</a></div></li>
+<li class="level1"><div class="li"><a href="#select_a_channel">Select a channel</a></div></li>
 <li class="level1"><div class="li"><a href="#set_intensity_for_the_selected_channels">Set intensity for the selected channels</a></div></li>
 <li class="level1"><div class="li"><a href="#general_deselection">General deselection</a></div></li>
 <li class="level1"><div class="li"><a href="#next_channel">Next Channel</a></div></li>
 <li class="level1"><div class="li"><a href="#multiple_selections">Multiple selections</a></div></li>
-<li class="level1"><div class="li"><a href="#copy_paste_channels">Copy Paste Channels</a></div></li>
+<li class="level1"><div class="li"><a href="#copy_paste_channels">Copy Paste channels</a></div></li>
 <li class="level1"><div class="li"><a href="#recall_channel_settings_from_another_memory_get">Recall channel settings from another memory (GET)</a></div></li>
 <li class="level1"><div class="li"><a href="#information_about_what_will_happen_to_the_channels_in_the_next_memory_the_one_in_preset">Information about what will happen to the channels in the next memory (the one in preset)</a></div></li>
 <li class="level1"><div class="li"><a href="#manipulations_in_blind">Manipulations in Blind</a></div></li>
@@ -48,417 +37,352 @@
 </div>
 <!-- TOC END -->
 
-<h2 class="sectionedit1"><a name="manipulating_the_channels" id="manipulating_the_channels">MANIPULATING THE CHANNELS</a></h2>
-
-<p class="level2">
-Whether you are in [Classical] or [Channel Views] all these actions can be performed:
-</p>
-<!-- EDIT1 SECTION "MANIPULATING THE CHANNELS" [1-128] -->
-<h1 class="sectionedit2"><a name="select_a_channel" id="select_a_channel">Select a Channel</a></h1>
+<h1 class="sectionedit1"><a name="manipulating_the_channels" id="manipulating_the_channels">MANIPULATING THE CHANNELS</a></h1>
 
 <p class="level1">
-With the mouse:
+Whether you are in [Classical], [Patched] or [Channel Views] mode, all these actions can be performed.
 </p>
+
+<h1 class="sectionedit2"><a name="select_a_channel" id="select_a_channel">Select a channel</a></h1>
 <ul class="level1">
-<li class="level1"><div class="li"> To select or deselect a channel, click it</div>
+<li class="level1"><div class="li"> with the mouse :</div>
 </li>
 </ul>
 
 <p class="level1">
-with the keyboard:
+       To select or deselect a channel, click it.
+</p>
+<p class="level1">
+       Click and drag to select a series of channels.
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Selection: Enter the channel number and then press [+].</div>
+<li class="level1"><div class="li"> with the keyboard :</div>
 </li>
-<li class="level1"><div class="li"> Deselection: Enter the channel number and then press the [-].</div>
+</ul>
+<pre class="code">     Selection : enter the channel number then press [+].
+     Deselection : enter the channel number then press [-].</pre>
+<pre class="code">     ! Note that any string you type is displayed in the information feedback area. Here **145**.</pre>
+<pre class="code">     ! Note that channel 21 was called, so the feedback area says: **Last Channel Selected: 21**.</pre>
+
+<p class="level1">
+<img src="retour_circuits.PNG" class="media" alt="channel feedback" />
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> This syntax can also be used on a touch screen, using the <a href="num-pad_eng.html" class="wikilink1" title="Num-Pad_eng">Num-Pad</a> ( virtual keypad). </div>
 </li>
 </ul>
 
-<p class="level1">
-! Note that any string you type is displayed in the information feedback area. 145 <strong> here </strong>.
-</p>
-
-<p class="level1">
-! Note if channel 21 was called, the feedback area would say: <strong> Last Channel Selected: 21. </strong>
-</p>
-
-<p class="level1">
-<img src="retour_circuits.jpeg" class="media" alt="" />
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> The syntax of reverse Polish notation (RPN) is used to call channels and set intensities, and this can also be entered on a touch screen, using the Num-Pad (virtual keypad).</div>
-</li>
-</ul>
-<!-- EDIT2 SECTION "Select a Channel" [129-771] -->
 <h1 class="sectionedit3"><a name="set_intensity_for_the_selected_channels" id="set_intensity_for_the_selected_channels">Set intensity for the selected channels</a></h1>
-
-<p class="level1">
-with the mouse:
-</p>
 <ul class="level1">
-<li class="level1"><div class="li"> Roll the mouse wheel upward </div>
+<li class="level1"><div class="li"> with the mouse :</div>
 </li>
 </ul>
 
 <p class="level1">
-If you are in percentage mode, the selected channels will increase by 1% for each mouse click.  If you are in Dmx mode, it will increase by more than 1 dmx point.
+       Roll the mouse wheel up.
+       In percentage mode, the selected channels increase by 1%. In Dmx mode, they increase by 1 dmx step.
 </p>
-
 <p class="level1">
-with the keyboard:
+       Since version 0.9, the wheel is velocity-sensitive : the faster you roll it, the faster the level changes.
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Enter the desired intensity and press [ENTER]</div>
+<li class="level1"><div class="li"> with the keyboard :</div>
 </li>
 </ul>
-
-<p class="level1">
-! AT FULL keyboard shortcut: Press [I]
-</p>
-
-<p class="level1">
-! AT ZERO keyboard shortcut: [O]
-</p>
-
-<p class="level1">
-Think about it as an ON/OFF (I / O) switch <img src="lib/images/smileys/icon_wink.gif" class="icon" alt=";-)" />
-</p>
-
-<p class="level1">
-using both keyboard and mouse:
-</p>
+<pre class="code">   Enter the desired intensity then press [ENTER].</pre>
+<pre class="code">   ! AT FULL keyboard shortcut : key [I]
+   ! AT ZERO keyboard shortcut : key [O]
+   Think of it as ON / OFF ( I/O ) switches ;-)</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> Enter the desired intensity and click [AT]</div>
+<li class="level1"><div class="li"> keyboard and mouse :</div>
 </li>
 </ul>
-
-<p class="level1">
-using the level wheel (<a href="num-pad_eng.html" class="wikilink1" title="Num-Pad_eng">see Num-Pad </a>):
-</p>
+<pre class="code">   Enter the desired intensity then click [AT].</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> The wheel is controllable in midi.</div>
+<li class="level1"><div class="li"> level wheel : (<a href="num-pad_eng.html" class="wikilink1" title="Num-Pad_eng">see the Num-Pad </a>)</div>
 </li>
 </ul>
-<!-- EDIT3 SECTION "Set intensity for the selected channels" [772-1409] -->
+<pre class="code">  This level wheel is controlled over midi.</pre>
+
 <h1 class="sectionedit4"><a name="general_deselection" id="general_deselection">General deselection</a></h1>
 
 <p class="level1">
-You can deselect all selected channels at once:
-</p>
-
-<p class="level1">
-with the mouse:
+You can deselect all selected channels at once :
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Click [ESC]</div>
+<li class="level1"><div class="li"> with the mouse, from the Num-Pad :</div>
 </li>
 </ul>
-
-<p class="level1">
-with the keyboard:
-</p>
+<pre class="code">     Click [C] (same effect as [ESC])</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> Use the Escape key [ESC]</div>
+<li class="level1"><div class="li"> with the keyboard :</div>
 </li>
 </ul>
+<pre class="code">     Press the escape key : [ESC]</pre>
 
 <p class="level1">
-This feature is important because it also clears the entire chain of commands.
+This function is important because it also clears the chain of commands.
 </p>
-<!-- EDIT4 SECTION "General deselection" [1410-1658] -->
+
 <h1 class="sectionedit5"><a name="next_channel" id="next_channel">Next Channel</a></h1>
 
 <p class="level1">
-Use the [LEFT] and [RIGHT] arrows to select the previous or next channel.
+The [LEFT] and [RIGHT] keys select the previous or next channel.
 </p>
 
 <p class="level1">
-[CTRL][LEFT] or [CTRL][RIGHT] to select the previous or next channel and set to full.
+[CTRL][LEFT] or [CTRL][RIGHT] send the channel to Full.
 </p>
+<pre class="code">  If the Patch window is open, the dimmers assigned to this channel will be selected.</pre>
 
-<p class="level1">
-If the Patch window is open, dimmers assigned to this circuit will be selected.
-</p>
-<!-- EDIT5 SECTION "Next Channel" [1659-1929] -->
 <h1 class="sectionedit6"><a name="multiple_selections" id="multiple_selections">Multiple selections</a></h1>
 
 <p class="level1">
-<strong>Select all active channels</strong>
-</p>
-
-<p class="level1">
-with the mouse:
+<strong> Select all active channels </strong>
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Click [ALL].</div>
+<li class="level1"><div class="li"> with the mouse :</div>
 </li>
 </ul>
 
 <p class="level1">
-with the keyboard:
+       Click [ALL].
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Press [Y]</div>
+<li class="level1"><div class="li"> with the keyboard :</div>
+</li>
+</ul>
+<pre class="code">     Press the [Y] key</pre>
+
+<p class="level1">
+<strong> Inverted selection : select every channel that is active but not selected </strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> with the mouse :</div>
 </li>
 </ul>
 
 <p class="level1">
-<strong>Inverted selection: select all inactive channels</strong>
+       Click [INV].
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> with the keyboard :</div>
+</li>
+</ul>
+<pre class="code">     Press the [U] key</pre>
+
+<p class="level1">
+<strong> Linked selection : select a range of channels that follow one another</strong>
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> with the mouse :</div>
+</li>
+</ul>
+<pre class="code">     Click the first channel, then drag to the last one :
+     the whole range is selected.</pre>
+<ul class="level1">
+<li class="level1"><div class="li"> with the keyboard :</div>
+</li>
+</ul>
+<pre class="code">     Call and select a channel : [1][2] [+]
+     Type the number of the last channel of the selection : [1][8] then the [TAB] key
+     Channels 12 thru 18 are selected.</pre>
+
+<p class="level1">
+<strong> Create a hard blackout and deselect everything</strong>
 </p>
 
 <p class="level1">
-with the mouse:
+This function is mostly useful to clean up your channel space while setting up cues.
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Click [INV]</div>
+<li class="level1"><div class="li"> with the keyboard :</div>
+</li>
+</ul>
+<pre class="code">     Press [F12]</pre>
+
+<h1 class="sectionedit7"><a name="copy_paste_channels" id="copy_paste_channels">Copy Paste channels</a></h1>
+
+<p class="level1">
+channels can be copied and pasted on stage or in preset (BLIND mode, or if you want the buffer of the memory to come)
+</p>
+<ul class="level1">
+<li class="level1"><div class="li"> with the mouse, from the num-pad :</div>
 </li>
 </ul>
 
 <p class="level1">
-with the keyboard:
+    select the desired channels
 </p>
+<pre class="code">  click [COPY] to copy to memory
+  click [PASTE] to paste from memory to the chosen buffer ( on stage, or to BLIND)</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> Press [U]</div>
+<li class="level1"><div class="li"> with the keyboard ( to stage or Blind) :</div>
 </li>
 </ul>
+<pre class="code">    [CTRL][C] to copy to memory
+    [CTRL][V] to paste from memory to the chosen buffer ( on stage, or to BLIND)
 
-<p class="level1">
-<strong>Linked selection: select a continuous range of channels</strong>
-</p>
+   ! On stage you can copy to memory the channel values called from the keyboard, but also those coming from the Masters ( in orange).
+   ! In Blind, only values coming from Blind can be copied to memory.</pre>
 
-<p class="level1">
-with the mouse:
-</p>
+<h1 class="sectionedit8"><a name="recall_channel_settings_from_another_memory_get" id="recall_channel_settings_from_another_memory_get">Recall channel settings from another memory ( GET )</a></h1>
 <ul class="level1">
-<li class="level1"><div class="li"> Select the first channel</div>
-</li>
-<li class="level1"><div class="li"> Click [TO], it remains lit. Select the last channel in the selection</div>
+<li class="level1"><div class="li"> with the keyboard ( to stage or Blind) :</div>
 </li>
 </ul>
+<pre class="code">    Select the channels
+    Type the memory number
+    [CTRL][G]</pre>
 
-<p class="level1">
-with the keyboard:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> Call and select a channel [1] [2] [+]</div>
-</li>
-<li class="level1"><div class="li"> Type the number of the last channel of the selection: [1] [8] [TAB]</div>
-</li>
-</ul>
-
-<p class="level1">
-Now channels 12 thru 18 are selected
-</p>
-
-<p class="level1">
-<strong>Create a Blackout and deselect all</strong>
-</p>
-
-<p class="level1">
-This function is particularly useful for cleaning Channel Space when setting up cues.
-</p>
-
-<p class="level1">
-with the keyboard:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> Press [F12]</div>
-</li>
-</ul>
-<!-- EDIT6 SECTION "Multiple selections" [1930-2706] -->
-<h1 class="sectionedit7"><a name="copy_paste_channels" id="copy_paste_channels">Copy Paste Channels</a></h1>
-
-<p class="level1">
-Channels can be copied and pasted on Stage or in preset (mode BLIND, where you are changing the buffer of the memory to come)
-</p>
-
-<p class="level1">
-with the mouse on num-pad:
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> select the desired channels</div>
-</li>
-<li class="level1"><div class="li"> click [COPY] to copy to memory</div>
-</li>
-<li class="level1"><div class="li"> click [PASTE] to paste the selected memory to the buffer (Stage or Blind)</div>
-</li>
-</ul>
-
-<p class="level1">
-with the keyboard (to Stage or Blind):
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> [CTRL][C] to copy to memory</div>
-</li>
-<li class="level1"><div class="li"> [CTRL][V] to paste the selected memory to the buffer (Stage or Blind)</div>
-</li>
-</ul>
-
-<p class="level1">
-! On stage you can copy the values of the selected channels (from the memory buffer), and also those from the faders buffer (in orange).
-</p>
-
-<p class="level1">
-! In Blind, only values from the memory will be copied.
-</p>
-<!-- EDIT7 SECTION "Copy Paste Channels" [2707-3384] -->
-<h1 class="sectionedit8"><a name="recall_channel_settings_from_another_memory_get" id="recall_channel_settings_from_another_memory_get">Recall channel settings from another memory (GET)</a></h1>
-
-<p class="level1">
-with the keyboard (Stage or Blind):
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> Select channels</div>
-</li>
-<li class="level1"><div class="li"> Type the number of memory</div>
-</li>
-<li class="level1"><div class="li"> Press [CTRL][G]</div>
-</li>
-</ul>
-<!-- EDIT8 SECTION "Recall channel settings from another memory (GET)" [3385-3555] -->
 <h1 class="sectionedit9"><a name="information_about_what_will_happen_to_the_channels_in_the_next_memory_the_one_in_preset" id="information_about_what_will_happen_to_the_channels_in_the_next_memory_the_one_in_preset">Information about what will happen to the channels in the next memory (the one in preset)</a></h1>
 
 <p class="level1">
-A circuit whose intensity will rise in the next cue is assigned a small <strong>+</strong> . 
-</p>
-
-<p class="level1">
-In contrast, a circuit whose intensity will go down in the next cue is assigned a small <strong>-</strong> .
+A channel whose intensity will rise in BLIND is marked with a small <strong>+</strong>.
+Conversely, a channel whose intensity will go down in the preset is marked with a small <strong>-</strong>.
 </p>
 
 <p class="level1">
 <img src="affichage_-seq.jpeg" class="media" title="affichage_-seq.jpg" alt="affichage_-seq.jpg" />
 </p>
-<!-- EDIT9 SECTION "Information about what will happen to the channels in the next memory (the one in preset)" [3556-3863] -->
+
 <h1 class="sectionedit10"><a name="manipulations_in_blind" id="manipulations_in_blind">Manipulations in Blind</a></h1>
 
 <p class="level1">
-<strong>BLIND Buffer</strong>
+<strong> the BLIND buffer </strong>
 </p>
 
 <p class="level1">
-To access BLIND: 
-</p>
-<ul class="level1">
-<li class="level1"><div class="li"> Click [BLIND] at the top right or press [CTRL-F11].</div>
-</li>
-</ul>
-
-<p class="level1">
-<img src="click_blind.jpeg" class="media" title="click_blind.jpg" alt="click_blind.jpg" />
+Access BLIND : click [BLIND] from the main commands at the top right, or press [CTRL-F11].
 </p>
 
 <p class="level1">
-BLIND is the buffer where the lighting state of the 512 channels for the <strong>memory to come</strong> in the next cross-fade is stored.  You can also call any other memory into this editing area.
+<img src="click_blind.PNG" class="media" title="click_blind.PNG" alt="click_blind.PNG" />
 </p>
 
 <p class="level1">
-It is a space where you can manipulate all 512 channels of whatever memory you are working on. The result does not appear on stage, as it is done in this preset, which is why it is referred to as blind.
+The BLIND buffer is where the state of all the channels of <strong>the memory to come</strong> is stored for the next crossfade.
+It can also be called the Preset.
 </p>
 
 <p class="level1">
-<strong>If you do not use the CueList buffer, BLIND can be used to create faders blind</strong>
+It is a space where you can manipulate all the channels, as described on this page.
+The result does not appear on stage, because it is done in the Preset, therefore blind.
 </p>
-<!-- EDIT10 SECTION "Manipulations in Blind" [3864-4491] -->
+
+<p class="level1">
+<strong>If you do not work with the CueList, the BLIND buffer will be useful to create masters blind.</strong>
+</p>
+
 <h1 class="sectionedit11"><a name="go_to_the_patch" id="go_to_the_patch">Go to the Patch</a></h1>
 
 <p class="level1">
-See <a href="espace_circuits_patch_eng.html" class="wikilink1" title="Espace circuits Patch_eng">Patch</a>
-</p>
-<!-- EDIT11 SECTION "Go to the Patch" [4492-4563] -->
-<h1 class="sectionedit12"><a name="view_a_special_mode" id="view_a_special_mode">View, a special mode</a></h1>
-
-<p class="level1">
-<strong>VIEW</strong> is a mode that allows you to view the contents of a container (Fader dock, dock-color, memory, dock-tracker). It can also display which fader is responsible for the highest level on of that channel.
+There are now two Patch pages :
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Click [VIEW]</div>
+<li class="level1"><div class="li"> <a href="espace_circuits_patch_eng.html" class="wikilink1" title="espace_circuits_patch_eng">Patch dimmers</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_circuits_patch_devices_eng.html" class="wikilink1" title="espace_circuits_patch_devices_eng">Patching a moving fixture (devices)</a></div>
 </li>
 </ul>
+
+<h1 class="sectionedit12"><a name="view_a_special_mode" id="view_a_special_mode">View, a special mode</a></h1>
+<ul class="level1">
+<li class="level1"><div class="li"> <strong>VIEW</strong> is a mode that, when you hover over a container ( Fader dock, dock-color, memory, dock-tracker), displays its contents. It also shows where the highest level comes from for the channels driven by the masters.</div>
+</li>
+</ul>
+<pre class="code">   Click [View] or press [] on the keyboard</pre>
 
 <p class="level1">
 <img src="inspektor.jpeg" class="media" alt="" />
 </p>
 
 <p class="level1">
-As you can see in the image above:
+In the image you can see :
 </p>
 
 <p class="level1">
-You are viewing the contents of the dock (that the mouse most recently hovered over) showing its intensity and other attributes.
+-boxed, the contents of the last dock hovered over, with its intensity as a label.
 </p>
-<ul class="level1">
-<li class="level1"><div class="li"> That channels 1 and 2 are controlled by Fader 2, channels 3,4,6,8,19,21,23 are controlled by Fader 1, channel 7 by Fader 4.</div>
-</li>
-<li class="level1"><div class="li"> View shows which fader gives the highest level to the channels.</div>
-</li>
-</ul>
 
 <p class="level1">
-<strong>!Same channel can be controlled by various faders, only the level coming from the fader that gives it its highest level will be displayed</strong>
+-that channels 1 and 2 are controlled by Master 2, channels 3,4,6,8,19,21,23 come from Master 1, channel 7 from Master 4.
 </p>
-<!-- EDIT12 SECTION "View, a special mode" [4564-5357] -->
+
+<p class="level1">
+-View shows which Fader gives its highest level to the channels.
+</p>
+
+<p class="level1">
+<strong>! The same channel can be controlled by different Faders; only the Fader giving it its highest level is displayed.</strong>
+</p>
+
 <h1 class="sectionedit13"><a name="blackout" id="blackout">BlackOut</a></h1>
 
 <p class="level1">
 By pressing [F12]
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> you create a full blackout of everything that is on stage, from the CueList buffer.</div>
+<li class="level1"><div class="li"> you create a full blackout of everything on stage coming from the CueList.</div>
 </li>
-<li class="level1"><div class="li"> if you are in BLIND, it will clear all channels from the memory to come.</div>
+<li class="level1"><div class="li"> if you are in BLIND, you clear all the channels of the memory to come.</div>
 </li>
 </ul>
-<!-- EDIT13 SECTION "BlackOut" [5358-5566] -->
+
 <h1 class="sectionedit14"><a name="freeze_state_for_channels" id="freeze_state_for_channels">Freeze state for channels</a></h1>
 
 <p class="level1">
-It is possible to lock selected channels at their level (a projector that has come loose and is shining into the house, an encoding error, running lights backstage, music stand lights…).
+You can lock a selection of channels at a precise level ( a loose fixture drifting into the audience, an encoding error, …).
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Select channels to freeze</div>
+<li class="level1"><div class="li"> Select the channels to freeze</div>
 </li>
-<li class="level1"><div class="li"> The frozen level is the highest level found on either the Fader buffer or the CueList buffer.</div>
+<li class="level1"><div class="li"> The frozen level is the highest level found between the CueList buffer and the faders buffer.</div>
 </li>
 <li class="level1"><div class="li"> Click [Freeze] and confirm</div>
 </li>
-<li class="level1"><div class="li"> If the selection is already frozen, it will be unfrozen</div>
+<li class="level1"><div class="li"> If the selection is already frozen, it will be unfrozen.</div>
 </li>
 </ul>
 
 <p class="level1">
-<img src="channels_freeze.jpeg" class="media" title="channels_freeze.jpg" alt="channels_freeze.jpg" />
+<img src="channels_freeze.PNG" class="media" title="channels_freeze.PNG" alt="channels_freeze.PNG" />
 </p>
 
 <p class="level1">
-Channels that have been frozen appear as flashing red, and their levels appears in white.
+A frozen channel appears with a small red F, and the level at which it is frozen appears in white.
 </p>
 
 <p class="level1">
-<img src="channels_freezed.jpeg" class="media" title="channels_freezed.jpg" alt="channels_freezed.jpg" />
+<img src="channels_freezed.PNG" class="media" title="channels_freezed.PNG" alt="channels_freezed.PNG" />
 </p>
-<!-- EDIT14 SECTION "Freeze state for channels" [5567-6159] -->
+
 <h1 class="sectionedit15"><a name="exclude_channels_from_the_action_of_the_grand_master" id="exclude_channels_from_the_action_of_the_grand_master">Exclude channels from the action of the Grand Master</a></h1>
 
 <p class="level1">
-A selection of channels can be excluded from the actions of the Grand Master (color changers, blue running lights, etc …).
+A selection of channels can be excluded from the action of the Grand Master ( color changers in concert, blues, etc…).
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> Select channels to exclude from the action of the Grand Master</div>
+<li class="level1"><div class="li"> Select the channels to exclude from the action of the Grand Master</div>
 </li>
-<li class="level1"><div class="li"> Click  [Exclude] and confirm</div>
+<li class="level1"><div class="li"> Click [Exclude] and confirm</div>
 </li>
-<li class="level1"><div class="li"> If the selection is already excluded, it will be reincluded to be controlled by the Grand Master</div>
+<li class="level1"><div class="li"> As with Freeze, if the selection is already excluded, it will be brought back under the action of the Grand Master.</div>
 </li>
 </ul>
 
 <p class="level1">
-Channels excluded from the Grand Master appear with a red circle in the top right.
+<img src="channels_exclusion.PNG" class="media" title="channels_exclusion.PNG" alt="channels_exclusion.PNG" />
+</p>
+
+<p class="level1">
+A channel excluded from the Grand Master appears with a small red circle in the top right.
 </p>
 
 <p class="level1">
 <img src="channels_excluded.jpeg" class="media" title="channels_excluded.jpg" alt="channels_excluded.jpg" />
 </p>
-<!-- EDIT15 SECTION "Exclude channels from the action of the Grand Master" [6160-] --></div>
+
+</div>
 </body>
 </html>

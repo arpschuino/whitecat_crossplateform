@@ -1,34 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>espace_circuits_patch_eng</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2012-02-12T23:00:51+0100"/>
-<meta name="keywords" content="espace_circuits_patch_eng"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="espace_circuits_patch_eng.html"/>
-<link rel="contents" href="espace_circuits_patch_eng.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="espace_circuits_patch_eng.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="espace_circuits_patch_eng.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=espace_circuits_patch_eng"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"espace_circuits_patch_eng","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Patch dimmers — WhiteCat</title>
+  <meta name="date" content="2012-02-12"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="espace_circuits_patch.html">🇫🇷 Français</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
 <h3 class="toggle">Table des matières</h3>
 <div>
 
 <ul class="toc">
-<li class="level1"><div class="li"><a href="#patch">Patch</a></div>
+<li class="level1"><div class="li"><a href="#patch">Patch dimmers</a></div>
 <ul class="toc">
 <li class="clear">
 <ul class="toc">
@@ -41,7 +30,6 @@
 </ul>
 </li>
 <li class="level2"><div class="li"><a href="#how_to_read_the_patch_presentation">How to read the patch presentation</a></div></li>
-<li class="level2"><div class="li"><a href="#feedback_string">Feedback string</a></div></li>
 </ul>
 </li>
 <li class="level1"><div class="li"><a href="#assigning_one_or_more_dimmers_to_a_channel">Assigning one or more dimmers to a channel</a></div>
@@ -51,6 +39,8 @@
 <li class="level2"><div class="li"><a href="#unassigning">Unassigning</a></div></li>
 <li class="level2"><div class="li"><a href="#straight_patching_default_patching">Straight patching (default patching)</a></div></li>
 <li class="level2"><div class="li"><a href="#check_channel_function">Check Channel Function</a></div></li>
+<li class="level2"><div class="li"><a href="#show_first_dimmers">Showing the first dimmers under the channels</a></div></li>
+<li class="level2"><div class="li"><a href="#patching_from_the_light_plot">Patching from the light plot</a></div></li>
 </ul>
 </li>
 <li class="level1"><div class="li"><a href="#assigning_a_curve">Assigning a Curve</a></div>
@@ -73,7 +63,7 @@
 </div>
 <!-- TOC END -->
 
-<h1 class="sectionedit1"><a name="patch" id="patch">Patch</a></h1>
+<h1 class="sectionedit1"><a name="patch" id="patch">Patch dimmers</a></h1>
 <!-- EDIT1 SECTION "Patch" [1-20] -->
 <h4 class="sectionedit2"><a name="to_access_the_patch" id="to_access_the_patch">To access the Patch</a></h4>
 <ul class="level4">
@@ -82,7 +72,7 @@
 </ul>
 
 <p class="level4">
-<img src="click_patch.jpeg" class="media" title="click_patch.jpg" alt="click_patch.jpg" />
+<img src="click_patch.png" class="media" title="click_patch.jpg" alt="click_patch.jpg" />
 </p>
 <ul class="level4">
 <li class="level1"><div class="li"> keyboard: press [SHIFT][P]</div>
@@ -90,7 +80,7 @@
 </ul>
 
 <p class="level4">
-<img src="patch_seul.jpeg" class="media" alt="" />
+<img src="patch_seul.PNG" class="media" alt="" />
 </p>
 <!-- EDIT2 SECTION "To access the Patch" [21-148] -->
 <h3 class="sectionedit3"><a name="purpose_of_the_patch" id="purpose_of_the_patch">Purpose of the Patch</a></h3>
@@ -99,45 +89,41 @@
 An electronic patch (soft patch) makes it possible:
 </p>
 <ul class="level3">
-<li class="level1"><div class="li"> to assign more than one dimmer to a single channel.</div>
+<li class="level1"><div class="li"> to control one or more dimmers from a single channel — or a moving fixture (see <a href="espace_circuits_patch_devices_eng.html" class="wikilink1" title="espace_circuits_patch_devices_eng">Patching a moving fixture</a>).</div>
 </li>
-<li class="level1"><div class="li"> this routing of the signal enables the lighting designer to apply his own numeric logic to his light plot: channel 1 will be his daylight backlight despite the fact that the instruments are plugged into circuits 6, 24 and 77.  He now doesn&#039;t have to redo his cue sheet when the show moves from theatre to theatre because all the channels in his CueList will remain the same, even though the dimmer/circuit numbers controlled by that channel may be different from theatre to theatre. Once the patch is done, to light his daylight backlights he will use only channel number 1 in his CueList.</div>
+<li class="level1"><div class="li"> thanks to this <strong>re-routing</strong>, you number your channels however you like, regardless of the wiring: your backlights stay <strong>channel 1</strong> whether they are on dimmer 60 here, or dimmers 24 and 77 elsewhere. Once the patch is done, you only ever deal with <strong>your own</strong> channel numbers.</div>
 </li>
 </ul>
 
 <p class="level3">
-<strong>Patch is  the assignment of dimmers to a channel.</strong>
+<strong>Using curves.</strong> A curve reshapes the signal from within the software, to correct or work around a dimmer&#039;s response.
 </p>
 <ul class="level3">
-<li class="level1"><div class="li"> to deal with illuminating problems, which may be caused by various situations: </div>
+<li class="level1"><div class="li"> <strong>Correcting light responses.</strong> For example:</div>
 <ol class="level3">
-<li class="level2"><div class="li">the lamp of the spotlight takes time to heat and respond correctly to the electricity delivered, so its light output may cut out at 25% (typical of PAR can lamps)</div>
+<li class="level2"><div class="li">the <strong>PAR</strong>: the lamp is slow to heat, then flares up all at once around 25%.</div>
 </li>
-<li class="level2"><div class="li">dimmers in the theatre may be old, analog ones, with tired Triacs and hysteresis that respond very differently from one to another.  When set to the same intensity, their light output may be so horribly different from each other that you are obliged to set some channels at 80% while others are at 50% or 65% to obtain the same intensity of light. <strong>This will be resolved by using the curve function.</strong></div>
+<li class="level2"><div class="li"><strong>old dimmers</strong> (analog, tired triacs, varying hysteresis) that respond differently to the same signal: one curve per dimmer restores an even intensity, instead of compensating by hand (one wash at 80%, another at 50%, another at 65%…).</div>
 </li>
-<li class="level2"><div class="li">TV  are more sensitive to light variations in the range of 50-70%. You will want to use a different curve to compensate for this (TV curve is known as “Square”).</div>
+<li class="level2"><div class="li">in <strong>video / TV</strong>, cameras pick up fluctuations between 50 and 70%: smooth it out with a “Square” curve (the TV curve).</div>
 </li>
-<li class="level2"><div class="li">certain dimmers don&#039;t have curves built-in.</div>
+<li class="level2"><div class="li">to make up for <strong>dimmers with no built-in curve</strong>.</div>
 </li>
 </ol>
 </li>
 </ul>
 <ul class="level3">
-<li class="level1"><div class="li"> when trying to compensate (be very careful) certain hardware is problematic:</div>
-<ul class="level3">
-<li class="level2"><div class="li"> PARCANS in 110v without a physical serial shunt, you will need to set the curve limit to 50% to avoid the lamp  exploding on 220v (note that this is not recommended and pay attention to anyone who may be around because the glass can explode!)</div>
+<li class="level1"><div class="li"> <strong>Working around certain constraints</strong> — with the utmost care:</div>
+<ol class="level3">
+<li class="level2"><div class="li">a <strong>110 V PAR</strong> without adaptation: cap the curve at ~50% to keep the lamp from exploding (careful: a mistake can have serious consequences for anyone near the fixture).</div>
 </li>
-<li class="level2"><div class="li"> a video shutter in dmx, fixed inverted, where you need to give 0 for 100% and 100% to open it.</div>
+<li class="level2"><div class="li">a <strong>video shutter wired inverted in DMX</strong>: output 0 → 100% and 100 → 0%.</div>
 </li>
-<li class="level2"><div class="li"> to make a dimmer behave like a switch, as for a sodium lighting (ON/OFF, no dimming ).</div>
+<li class="level2"><div class="li">an <strong>on / off relay function</strong> (e.g. striking a sodium lamp).</div>
+</li>
+</ol>
 </li>
 </ul>
-</li>
-</ul>
-
-<p class="level3">
-<strong>That&#039;s the purpose of curves .</strong>
-</p>
 <!-- EDIT3 SECTION "Purpose of the Patch" [149-2377] -->
 <h2 class="sectionedit4"><a name="how_to_read_the_patch_presentation" id="how_to_read_the_patch_presentation">How to read the patch presentation</a></h2>
 
@@ -145,11 +131,11 @@ An electronic patch (soft patch) makes it possible:
 From Top to Bottom:
 </p>
 <ul class="level2">
-<li class="level1"><div class="li"> first is the Dimmer number</div>
+<li class="level1"><div class="li"> top: the <strong>DMX output</strong> (the dimmer number)</div>
 </li>
-<li class="level1"><div class="li"> second is the channel controlling the dimmer</div>
+<li class="level1"><div class="li"> below: the <strong>channel</strong> that controls it</div>
 </li>
-<li class="level1"><div class="li"> last is the curve number assigned to the dimmer</div>
+<li class="level1"><div class="li"> bottom: the assigned <strong>curve</strong></div>
 </li>
 </ul>
 
@@ -157,22 +143,6 @@ From Top to Bottom:
 <img src="convention_patch.jpeg" class="media" title="convention_patch.jpg" alt="convention_patch.jpg" />
 </p>
 <!-- EDIT4 SECTION "How to read the patch presentation" [2378-2609] -->
-<h2 class="sectionedit5"><a name="feedback_string" id="feedback_string">Feedback string</a></h2>
-
-<p class="level2">
-In the feedback area you can see:
-</p>
-<ul class="level2">
-<li class="level1"><div class="li"> last ch selected:  last channel selected will be the one to which a dimmer will be assigned.</div>
-</li>
-<li class="level1"><div class="li"> Dimmer&#039;s feedback string is shown while you are typing your commands, with selection, and assignments, under last ch. Here Dimmer 12 and 56 have been assigned to channel 45.</div>
-</li>
-</ul>
-
-<p class="level2">
-<div align="center" style="text-align: center"><img src="retour_patch.jpeg" class="mediacenter" title="retour_patch.jpg" alt="retour_patch.jpg" /></div>
-</p>
-<!-- EDIT5 SECTION "Feedback string" [2610-2977] -->
 <h1 class="sectionedit6"><a name="assigning_one_or_more_dimmers_to_a_channel" id="assigning_one_or_more_dimmers_to_a_channel">Assigning one or more dimmers to a channel</a></h1>
 <!-- EDIT6 SECTION "Assigning one or more dimmers to a channel" [2978-3035] -->
 <h2 class="sectionedit7"><a name="dimmer_selection" id="dimmer_selection">Dimmer selection</a></h2>
@@ -199,13 +169,13 @@ Dimmer selection is just the same as channel selection
 <ul class="level2">
 <li class="level2"><div class="li">  Ex: Dimmer 5 in channel 3:  [3][+] [5][SHIFT][ENTER]</div>
 </li>
-<li class="level2"><div class="li">  The level attribution key becames with SHIFT a dimmer assignment key.</div>
+<li class="level2"><div class="li">  The level attribution key becomes, with SHIFT, a dimmer assignment key.</div>
 </li>
 </ul>
 </li>
 </ul>
 <ul class="level2">
-<li class="level1"><div class="li"> keyboard: using exactly the same syntax as channel selection, but <strong>pressing the [SHIFT] key with the shortcut cammands</strong></div>
+<li class="level1"><div class="li"> keyboard: using exactly the same syntax as channel selection, but <strong>pressing the [SHIFT] key with the shortcut commands</strong></div>
 <ul class="level2">
 <li class="level2"><div class="li"> examples:</div>
 <ul class="level2">
@@ -245,7 +215,7 @@ Dimmer selection is just the same as channel selection
 <ul class="level2">
 <li class="level1"><div class="li"> keyboard:</div>
 <ul class="level2">
-<li class="level3"><div class="li"> sélect the desired channel in Channel space</div>
+<li class="level3"><div class="li"> select the desired channel in Channel space</div>
 </li>
 <li class="level3"><div class="li"> select the dimmer (s) </div>
 </li>
@@ -265,9 +235,6 @@ If you have a complete and complex series of patches to do, use a hard-copy patc
 </li>
 </ul>
 
-<p class="level2">
-<div align="center" style="text-align: center"><img src="patch_affect.jpeg" class="mediacenter" title="patch_affect.jpg" alt="patch_affect.jpg" /></div>
-</p>
 <!-- EDIT8 SECTION "Assigning a dimmer to a channel" [4008-4797] -->
 <h2 class="sectionedit9"><a name="unassigning" id="unassigning">Unassigning</a></h2>
 
@@ -341,6 +308,42 @@ Keys [LEFT] and [RIGHT] enable you to select the previous channel and the next c
 <strong>BUT if the Patch window is open, it will be dimmers that will be selected by [LEFT] and [RIGHT], not channels.</strong>
 </p>
 <!-- EDIT11 SECTION "Check Channel Function" [5517-5832] -->
+<h2 class="sectionedit11b"><a name="show_first_dimmers" id="show_first_dimmers">Showing the first dimmers under the channels</a></h2>
+
+<p class="level2">
+The <strong>[SHOW 1ST DIMMER]</strong> mode displays, in the channels area, the first 4 dimmers assigned to a channel. When more than 4 dimmers are assigned to a channel, a small [+] appears.
+</p>
+
+<p class="level2">
+To turn it on, click <strong>[SHOW 1ST DIMMER]</strong>.
+</p>
+
+<p class="level2">
+This option is especially useful with [LightPlot].
+</p>
+
+<p class="level2">
+<img src="patch_show1stdim.jpeg" class="media" title="patch_show1stdim.jpg" alt="patch_show1stdim.jpg" />
+</p>
+
+<h2 class="sectionedit11c"><a name="patching_from_the_light_plot" id="patching_from_the_light_plot">Patching from the light plot</a></h2>
+
+<p class="level2">
+The <strong>[LINK LIGHTPLOT]</strong> mode lets you patch and unpatch directly from the light plot, and reflects the changes made in the patch.
+</p>
+
+<p class="level2">
+To turn it on, click <strong>[LINK LIGHTPLOT]</strong>.
+</p>
+
+<p class="level2">
+See: <a href="plot_eng.html" class="wikilink1" title="plot_eng">Light Plot: the integrated light plan</a>
+</p>
+
+<p class="level2">
+<img src="patch_lightplot.jpeg" class="media" title="patch_lightplot.jpg" alt="patch_lightplot.jpg" />
+</p>
+
 <h1 class="sectionedit12"><a name="assigning_a_curve" id="assigning_a_curve">Assigning a Curve</a></h1>
 
 <p class="level1">
@@ -482,7 +485,7 @@ You need to click the <strong>[Check Dimmers]</strong> button to turn it ON
 <ul class="level2">
 <li class="level1"><div class="li"> Select a dimmer with the mouse</div>
 </li>
-<li class="level1"><div class="li"> Use <strong>[SHIFT][LEFT]</strong> or <strong>[SHIFT][RIGHT]</strong> to navigate thru the dimmers and set them directly at a certain level, while by-passing the patch.</div>
+<li class="level1"><div class="li"> Use <strong>[SHIFT][LEFT]</strong> or <strong>[SHIFT][RIGHT]</strong> to navigate thru the dimmers and set them directly at a certain level, while bypassing the patch.</div>
 </li>
 </ul>
 
@@ -509,7 +512,7 @@ Then with the arrow keys, do <strong> [CTRL][LEFT]</strong> or <strong>[CTRL][RI
 </p>
 
 <p class="level2">
-The 100% level in the Check Channel procedure is user definable by editing in  <a href="configuration_generale_eng.html" class="wikilink1" title="configuration_generale_eng">general configuration </a>).
+The 100% level in the Check Channel procedure is user definable by editing in <a href="configuration_generale_eng.html" class="wikilink1" title="configuration_generale_eng">general configuration</a>.
 This procedure is very useful for making a quick check before the house opens to the audience.
 </p>
 <!-- EDIT21 SECTION "Check channels" [9445-] --></div>

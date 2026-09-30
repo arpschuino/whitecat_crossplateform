@@ -2,26 +2,15 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>espace_circuits</title>
-<meta name="generator" content="DokuWiki"/>
-<meta name="robots" content="index,follow"/>
-<meta name="date" content="2012-07-08T08:18:56+0200"/>
-<meta name="keywords" content="espace_circuits"/>
-<link rel="search" type="application/opensearchdescription+xml" href="lib/exe/opensearch.html" title="White Cat lighting board"/>
-<link rel="start" href="espace_circuits.html"/>
-<link rel="contents" href="espace_circuits.html" title="Plan du site"/>
-<link rel="alternate" type="application/rss+xml" title="Derniers changements" />
-<link rel="alternate" type="application/rss+xml" title="Namespace actuel" />
-<link rel="alternate" type="text/html" title="HTML brut" href="espace_circuits.html"/>
-<link rel="alternate" type="text/plain" title="Wiki balise" href="espace_circuits.html"/>
-<link rel="canonical" href="http://www.le-chat-noir-numerique.fr/whitecat/dokuwiki/doku.php?id=espace_circuits"/>
-<link rel="stylesheet" type="text/css" href="lib/exe/css.php.t.dokuwiki.css"/>
-<script type="text/javascript">/*<![CDATA[*/var NS='';var JSINFO = {"id":"espace_circuits","namespace":""};
-/*!]]>*/</script>
-<script type="text/javascript" charset="utf-8" src="lib/exe/js.php.t.dokuwiki.js"></script>
+  <title>Manipuler les circuits — WhiteCat</title>
+  <meta name="date" content="2026-07-20"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
 </head>
 <body>
 <div class="dokuwiki export">
+
+<div class="lang-switch"><a href="espace_circuits_eng.html">🇬🇧 English</a></div>
+
 <!-- TOC START -->
 <div id="dw__toc">
 <h3 class="toggle">Table des matières</h3>
@@ -29,12 +18,12 @@
 
 <ul class="toc">
 <li class="level1"><div class="li"><a href="#manipulations_de_circuits">MANIPULATIONS DE CIRCUITS</a></div></li>
-<li class="level1"><div class="li"><a href="#selectionner_un_circuit">Sélectionner un circuit:</a></div></li>
+<li class="level1"><div class="li"><a href="#selectionner_un_circuit">Sélectionner un circuit</a></div></li>
 <li class="level1"><div class="li"><a href="#donner_une_intensite_lumineuse_aux_circuits_selectionnes">Donner une intensité lumineuse aux circuits sélectionnés</a></div></li>
-<li class="level1"><div class="li"><a href="#deselection_generale">Déselection générale</a></div></li>
+<li class="level1"><div class="li"><a href="#deselection_generale">Désélection générale</a></div></li>
 <li class="level1"><div class="li"><a href="#next_channel">Next Channel</a></div></li>
-<li class="level1"><div class="li"><a href="#selections_multiples">Sélections Multiples</a></div></li>
-<li class="level1"><div class="li"><a href="#copier_coller_des_circuits">Copier Coller des circuits</a></div></li>
+<li class="level1"><div class="li"><a href="#selections_multiples">Sélections multiples</a></div></li>
+<li class="level1"><div class="li"><a href="#copier_coller_des_circuits">Copier coller des circuits</a></div></li>
 <li class="level1"><div class="li"><a href="#rappeler_des_circuits_d_une_autre_memoire_get">Rappeler des circuits d&#039;une autre mémoire ( GET )</a></div></li>
 <li class="level1"><div class="li"><a href="#information_par_circuits_sur_la_memoire_en_preset">Information par circuits sur la mémoire en preset</a></div></li>
 <li class="level1"><div class="li"><a href="#manipulations_en_aveugle">Manipulations en aveugle</a></div></li>
@@ -51,84 +40,90 @@
 <h1 class="sectionedit1"><a name="manipulations_de_circuits" id="manipulations_de_circuits">MANIPULATIONS DE CIRCUITS</a></h1>
 
 <p class="level1">
-Que vous soyez en mode [Classical] ou [Channel Views] toutes ces manipulations sont valables.
+Que vous soyez en mode [Classical], [Patched] ou [Channel Views] toutes ces manipulations sont valables.
 </p>
-<!-- EDIT1 SECTION "MANIPULATIONS DE CIRCUITS" [1-137] -->
-<h1 class="sectionedit2"><a name="selectionner_un_circuit" id="selectionner_un_circuit">Sélectionner un circuit:</a></h1>
+
+<h1 class="sectionedit2"><a name="selectionner_un_circuit" id="selectionner_un_circuit">Sélectionner un circuit</a></h1>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris :</div>
 </li>
 </ul>
 
 <p class="level1">
-       Pour sélectionner / déselectionner un circuit, clicker dessus.
+       Pour sélectionner / désélectionner un circuit, cliquer dessus.
+</p>
+<p class="level1">
+       Cliquer, glisser pour sélectionner une série de circuits.
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
 <pre class="code">     Sélection : Taper le numéro de circuit puis la touche [+].
-     Déselection: Taper le numéro de circuit puis la touche [-].</pre>
+     Désélection : Taper le numéro de circuit puis la touche [-].</pre>
 <pre class="code">     ! noter que toute chaine de caractères en cours de frappe est affichée dans la fenêtre de retour d&#039;infos. Ici **145**.</pre>
-<pre class="code">     ! noter que le circuit 21 a été appelé et est donc notifié: **Last Channel Selected: 21**.</pre>
+<pre class="code">     ! noter que le circuit 21 a été appelé et est donc notifié : **Last Channel Selected: 21**.</pre>
 
 <p class="level1">
-<img src="retour_circuits.jpeg" class="media" alt="" />
+<img src="retour_circuits.PNG" class="media" alt="retour circuits" />
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> La syntaxe polonaise d&#039;appels de circuits et d&#039;intensités, peut être aussi utilisée avec écran tactile, en utilisant le <a href="num-pad.html" class="wikilink1" title="Num-Pad">Num-Pad</a> ( clavier numérique virtuel). </div>
+<li class="level1"><div class="li"> Cette syntaxe peut être aussi utilisée avec écran tactile, en utilisant le <a href="num-pad.html" class="wikilink1" title="Num-Pad">Num-Pad</a> ( clavier numérique virtuel). </div>
 </li>
 </ul>
-<!-- EDIT2 SECTION "Sélectionner un circuit:" [138-877] -->
+
 <h1 class="sectionedit3"><a name="donner_une_intensite_lumineuse_aux_circuits_selectionnes" id="donner_une_intensite_lumineuse_aux_circuits_selectionnes">Donner une intensité lumineuse aux circuits sélectionnés</a></h1>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris :</div>
 </li>
 </ul>
 
 <p class="level1">
-       Monter la molette de la souris. 
+       Monter la molette de la souris.
+       Si vous êtes en mode pourcentage, les circuits sélectionnés augmenteront de 1%. Si vous êtes en mode Dmx, ils augmenteront de 1 pas dmx.
 </p>
-<pre class="code">     Si vous êtes en mode pourcentage, les circuits sélectionnés augmenteront de 1%. Si vous êtes en mode Dmx, il augementeront de 1 pas dmx.</pre>
+<p class="level1">
+       Depuis la version 0.9, la molette est véloce : plus la molette tourne vite, plus le niveau change rapidement.
+</p>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
 <pre class="code">   Taper l&#039;intensité voulue puis la touche [ENTER].</pre>
-<pre class="code">   ! Raccourci clavier AT FULL: touche [I]
-   ! Raccourci clavier AT ZERO: touche [O]
+<pre class="code">   ! Raccourci clavier AT FULL : touche [I]
+   ! Raccourci clavier AT ZERO : touche [O]
    Y penser comme ON / OFF ( I/O ) sur les interrupteurs ;-)</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> clavier et souris:</div>
+<li class="level1"><div class="li"> clavier et souris :</div>
 </li>
 </ul>
-<pre class="code">   Taper l&#039;intensité voulue puis clicker [AT].</pre>
+<pre class="code">   Taper l&#039;intensité voulue puis cliquer [AT].</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> roue de niveau:(<a href="num-pad.html" class="wikilink1" title="Num-Pad">voir le Num-Pad </a>)</div>
+<li class="level1"><div class="li"> roue de niveau : (<a href="num-pad.html" class="wikilink1" title="Num-Pad">voir le Num-Pad </a>)</div>
 </li>
 </ul>
 <pre class="code">  Cette roue de niveau se pilote en midi.</pre>
-<!-- EDIT3 SECTION "Donner une intensité lumineuse aux circuits sélectionnés" [878-1570] -->
-<h1 class="sectionedit4"><a name="deselection_generale" id="deselection_generale">Déselection générale</a></h1>
+
+<h1 class="sectionedit4"><a name="deselection_generale" id="deselection_generale">Désélection générale</a></h1>
 
 <p class="level1">
-Vous pouvez déselectionner tous les circuist sélectionné en une seule fois:
+Vous pouvez désélectionner tous les circuits sélectionnés en une seule fois :
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris, depuis le Num-Pad :</div>
 </li>
 </ul>
-<pre class="code">     Clicker [ESC]</pre>
+<pre class="code">     Cliquer [C] (même effet que [ESC])</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
-<pre class="code">     Taper la touche d&#039;échappement: [ESC]</pre>
+<pre class="code">     Taper la touche d&#039;échappement : [ESC]</pre>
 
 <p class="level1">
 Cette fonction est importante car elle nettoie aussi la chaine de commandes.
 </p>
-<!-- EDIT4 SECTION "Déselection générale" [1571-1870] -->
+
 <h1 class="sectionedit5"><a name="next_channel" id="next_channel">Next Channel</a></h1>
 
 <p class="level1">
@@ -139,126 +134,118 @@ Les touches [GAUCHE] et [DROITE] permettent de sélectionner le circuit précéd
 [CTRL][GAUCHE] ou [CTRL][DROITE] envoient le circuit à Full.
 </p>
 <pre class="code">  Si la fenêtre de Patch est ouverte, les gradateurs affectés à ce circuit seront sélectionnés.</pre>
-<!-- EDIT5 SECTION "Next Channel" [1871-2174] -->
-<h1 class="sectionedit6"><a name="selections_multiples" id="selections_multiples">Sélections Multiples</a></h1>
+
+<h1 class="sectionedit6"><a name="selections_multiples" id="selections_multiples">Sélections multiples</a></h1>
 
 <p class="level1">
 <strong> Sélectionner tous les circuits allumés </strong>
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris :</div>
 </li>
 </ul>
 
 <p class="level1">
-       Clicker [ALL].
+       Cliquer [ALL].
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
 <pre class="code">     Taper la touche  [Y]</pre>
 
 <p class="level1">
-<strong> Sélection inversée: sélectionner tous les circuits allumés mais non sélectionnés </strong>
+<strong> Sélection inversée : sélectionner tous les circuits allumés mais non sélectionnés </strong>
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris :</div>
 </li>
 </ul>
 
 <p class="level1">
-       Clicker [INV].
+       Cliquer [INV].
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
 <pre class="code">     Taper la touche  [U]</pre>
 
 <p class="level1">
-<strong> Sélection chainée: sélectionner une suite de circuits concomittants</strong>
+<strong> Sélection chainée : sélectionner une plage de circuits qui se suivent</strong>
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> à la souris :</div>
 </li>
 </ul>
-
-<p class="level1">
-       Sélectionner le premier circuit de la sélection.
-</p>
-<pre class="code">     Clicker [TO], ce dernier reste allumé. Sélectionner le dernier circuit de la sélection. </pre>
+<pre class="code">     Cliquer le premier circuit, puis glisser jusqu&#039;au dernier :
+     toute la plage est sélectionnée.</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
 <pre class="code">     Appelez et sélectionnez un circuit : [1][2] [+]
-     Tapez le numéro du dernier circuit de la sélection: [1][8] puis la touche [TAB]
-     Les circuits de 12 à 18 sont sélectionés.</pre>
+     Tapez le numéro du dernier circuit de la sélection : [1][8] puis la touche [TAB]
+     Les circuits de 12 à 18 sont sélectionnés.</pre>
 
 <p class="level1">
-<strong> Faire un noir sec et tout déselectionner</strong>
+<strong> Faire un noir sec et tout désélectionner</strong>
 </p>
 
 <p class="level1">
 Cette fonction est surtout utile pour nettoyer son espace circuit lors d&#039;un encodage.
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris:</div>
+<li class="level1"><div class="li"> au clavier :</div>
 </li>
 </ul>
-<pre class="code">     Clicker [BlackOut]</pre>
-
-<p class="level1">
- * au clavier:
-</p>
 <pre class="code">     Taper [F12]</pre>
-<!-- EDIT6 SECTION "Sélections Multiples" [2175-3236] -->
-<h1 class="sectionedit7"><a name="copier_coller_des_circuits" id="copier_coller_des_circuits">Copier Coller des circuits</a></h1>
+
+<h1 class="sectionedit7"><a name="copier_coller_des_circuits" id="copier_coller_des_circuits">Copier coller des circuits</a></h1>
 
 <p class="level1">
 les circuits peuvent être copiés et collés sur scène ou en préset (mode BLIND, ou si on veut le buffer de la mémoire à venir)
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> à la souris, depuis le num-pad:</div>
+<li class="level1"><div class="li"> à la souris, depuis le num-pad :</div>
 </li>
 </ul>
 
 <p class="level1">
     sélectionner les circuits désirés
 </p>
-<pre class="code">  clicker [COPY] pour copier en mémoire
-  clicker[PASTE] pour coller de la mémoire vers le buffer choisi ( sur scène, ou vers BLIND)</pre>
+<pre class="code">  cliquer [COPY] pour copier en mémoire
+  cliquer [PASTE] pour coller de la mémoire vers le buffer choisi ( sur scène, ou vers BLIND)</pre>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier ( vers la scène ou le Blind):</div>
+<li class="level1"><div class="li"> au clavier ( vers la scène ou le Blind) :</div>
 </li>
 </ul>
 <pre class="code">    [CTRL][C] pour copier en mémoire
     [CTRL][V] pour coller de la mémoire vers le buffer choisi ( sur scène, ou vers BLIND)
- 
+
    ! Sur scène on peut copier en mémoire les valeurs des circuits appelées au clavier, mais aussi celles issues des Masters ( en orange).
    ! En Blind, seules les valeurs issues du Blind pourront être copiées en mémoire.</pre>
-<!-- EDIT7 SECTION "Copier Coller des circuits" [3237-4054] -->
+
 <h1 class="sectionedit8"><a name="rappeler_des_circuits_d_une_autre_memoire_get" id="rappeler_des_circuits_d_une_autre_memoire_get">Rappeler des circuits d&#039;une autre mémoire ( GET )</a></h1>
 <ul class="level1">
-<li class="level1"><div class="li"> au clavier ( vers la scène ou le Blind):</div>
+<li class="level1"><div class="li"> au clavier ( vers la scène ou le Blind) :</div>
 </li>
 </ul>
 <pre class="code">    Sélectionner les circuits
     Taper le numéro de mémoire
     [CTRL][G]</pre>
-<!-- EDIT8 SECTION "Rappeler des circuits d'une autre mémoire ( GET )" [4055-4252] -->
+
 <h1 class="sectionedit9"><a name="information_par_circuits_sur_la_memoire_en_preset" id="information_par_circuits_sur_la_memoire_en_preset">Information par circuits sur la mémoire en preset</a></h1>
 
 <p class="level1">
-Un circuit dont l&#039;intensité va monter dans le BLIND se voit affecter d&#039;un petit <strong>+</strong>.
-A l&#039;inverse, un circuit dont l&#039;intensité va descendre dans le preset se voit affecter d&#039;un petit <strong>-</strong>.
+Un circuit dont l&#039;intensité va monter dans le BLIND se voit affecté d&#039;un petit <strong>+</strong>.
+A l&#039;inverse, un circuit dont l&#039;intensité va descendre dans le preset se voit affecté d&#039;un petit <strong>-</strong>.
 </p>
 
 <p class="level1">
 <img src="affichage_-seq.jpeg" class="media" title="affichage_-seq.jpg" alt="affichage_-seq.jpg" />
 </p>
-<!-- EDIT9 SECTION "Information par circuits sur la mémoire en preset" [4253-4536] -->
+
 <h1 class="sectionedit10"><a name="manipulations_en_aveugle" id="manipulations_en_aveugle">Manipulations en aveugle</a></h1>
 
 <p class="level1">
@@ -266,46 +253,52 @@ A l&#039;inverse, un circuit dont l&#039;intensité va descendre dans le preset 
 </p>
 
 <p class="level1">
-Accéder à BLIND: vous pouvez accéder en clickant [BLIND] depuis les grandes commandes en haut à droite ou en tapant [CTRL-F11].
+Accéder à BLIND : vous pouvez accéder en cliquant [BLIND] depuis les grandes commandes en haut à droite ou en tapant [CTRL-F11].
 </p>
 
 <p class="level1">
-<img src="click_blind.jpeg" class="media" title="click_blind.jpg" alt="click_blind.jpg" />
+<img src="click_blind.PNG" class="media" title="click_blind.PNG" alt="click_blind.PNG" />
 </p>
 
 <p class="level1">
-Le buffer BLIND est l&#039;endroit où est stockée l&#039;état des 512 cicruits dans <strong>la mémoire à venir</strong> lors du prochain crossfade.
+Le buffer BLIND est l&#039;endroit où est stocké l&#039;état de l&#039;ensemble des circuits dans <strong>la mémoire à venir</strong> lors du prochain crossfade.
 On peut aussi l&#039;appeler Preset.
 </p>
 
 <p class="level1">
-C&#039;est un espace où l&#039;on peut manipuler comme vu dans cette page, tous les 512 circuits.
+C&#039;est un espace où l&#039;on peut manipuler, comme vu dans cette page, l&#039;ensemble des circuits.
 Le résultat n&#039;apparait pas sur scène, car il est fait dans le Preset, donc en aveugle.
 </p>
 
 <p class="level1">
-<strong>Si vous ne travaillez pas avec le séquentiel, le buffer BLIND vous interressera pour créer des masters en aveugle.</strong>
+<strong>Si vous ne travaillez pas avec le séquentiel, le buffer BLIND vous intéressera pour créer des masters en aveugle.</strong>
 </p>
-<!-- EDIT10 SECTION "Manipulations en aveugle" [4537-5222] -->
+
 <h1 class="sectionedit11"><a name="acceder_au_patch" id="acceder_au_patch">Accéder au Patch</a></h1>
 
 <p class="level1">
-voir le <a href="espace_circuits_patch.html" class="wikilink1" title="Espace circuits Patch">Patch</a>
+Il y a désormais deux pages de Patch :
 </p>
-<!-- EDIT11 SECTION "Accéder au Patch" [5223-5296] -->
+<ul class="level1">
+<li class="level1"><div class="li"> <a href="espace_circuits_patch.html" class="wikilink1" title="espace_circuits_patch">Patcher des gradateurs</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="espace_circuits_patch_devices.html" class="wikilink1" title="espace_circuits_patch_devices">Patcher un appareil asservi (devices)</a></div>
+</li>
+</ul>
+
 <h1 class="sectionedit12"><a name="view_un_mode_particulier" id="view_un_mode_particulier">View, un mode particulier</a></h1>
 <ul class="level1">
 <li class="level1"><div class="li"> <strong>VIEW</strong> est un mode qui permet au survol d&#039;un conteneur ( dock de Fader, dock-color, mémoire, dock-tracker) d&#039;en afficher le contenu. Il permet aussi d&#039;afficher de qui est issu le niveau le plus haut concernant les circuits manipulés par les masters.</div>
 </li>
 </ul>
-<pre class="code">   Clicker [VIEW] ou taper au clavier []</pre>
+<pre class="code">   Cliquer [VIEW] ou taper au clavier []</pre>
 
 <p class="level1">
 <img src="inspektor.jpeg" class="media" alt="" />
 </p>
 
 <p class="level1">
-On peut voir sur l&#039;image: 
+On peut voir sur l&#039;image :
 </p>
 
 <p class="level1">
@@ -317,25 +310,25 @@ On peut voir sur l&#039;image:
 </p>
 
 <p class="level1">
--View affiche quel Fader donne son plus haut niveau aux circuits. 
+-View affiche quel Fader donne son plus haut niveau aux circuits.
 </p>
 
 <p class="level1">
-<strong>! Un même circuit peut être contrôlé par différents Faders, seul le niveau le fader qui lui donne son niveau le plus haut sera affiché.</strong>
+<strong>! Un même circuit peut être contrôlé par différents Faders, seul le fader qui lui donne son niveau le plus haut sera affiché.</strong>
 </p>
-<!-- EDIT12 SECTION "View, un mode particulier" [5297-6134] -->
+
 <h1 class="sectionedit13"><a name="blackout" id="blackout">BlackOut</a></h1>
 
 <p class="level1">
 En tapant [F12]
 </p>
 <ul class="level1">
-<li class="level1"><div class="li"> vous faites un noir complet de tout ce qui est sur scène, issu du séquenciel.</div>
+<li class="level1"><div class="li"> vous faites un noir complet de tout ce qui est sur scène, issu du séquentiel.</div>
 </li>
 <li class="level1"><div class="li"> si vous êtes en BLIND, vous effacez tous les circuits de la mémoire à venir.</div>
 </li>
 </ul>
-<!-- EDIT13 SECTION "BlackOut" [6135-6344] -->
+
 <h1 class="sectionedit14"><a name="geler_l_etat_des_circuits" id="geler_l_etat_des_circuits">Geler l&#039;état des circuits</a></h1>
 
 <p class="level1">
@@ -344,26 +337,26 @@ Il est possible de bloquer à un niveau précis une sélection de circuits ( pro
 <ul class="level1">
 <li class="level1"><div class="li"> Sélectionner les circuits à geler</div>
 </li>
-<li class="level1"><div class="li"> Le niveau gelé est le plus haut niveau trouvé entre le buffer du séquenciel et le buffer des faders.</div>
+<li class="level1"><div class="li"> Le niveau gelé est le plus haut niveau trouvé entre le buffer du séquentiel et le buffer des faders.</div>
 </li>
-<li class="level1"><div class="li"> Clicker [Freeze] et confirmer</div>
+<li class="level1"><div class="li"> Cliquer [Freeze] et confirmer</div>
 </li>
 <li class="level1"><div class="li"> Si la sélection est déjà gelée, elle sera dégelée.</div>
 </li>
 </ul>
 
 <p class="level1">
-<img src="channels_freeze.jpeg" class="media" title="channels_freeze.jpg" alt="channels_freeze.jpg" />
+<img src="channels_freeze.PNG" class="media" title="channels_freeze.PNG" alt="channels_freeze.PNG" />
 </p>
 
 <p class="level1">
-Un circuit gelé apparait avec un clignotement rouge, le niveau où il est gelé apparait en blanc, en étiquette.
+Un circuit gelé apparait avec un petit F rouge, le niveau où il est gelé apparait en blanc.
 </p>
 
 <p class="level1">
-<img src="channels_freezed.jpeg" class="media" title="channels_freezed.jpg" alt="channels_freezed.jpg" />
+<img src="channels_freezed.PNG" class="media" title="channels_freezed.PNG" alt="channels_freezed.PNG" />
 </p>
-<!-- EDIT14 SECTION "Geler l'état des circuits" [6345-6955] -->
+
 <h1 class="sectionedit15"><a name="exclure_des_circuits_de_l_action_du_grand_master" id="exclure_des_circuits_de_l_action_du_grand_master">Exclure des circuits de l&#039;action du Grand Master</a></h1>
 
 <p class="level1">
@@ -372,14 +365,14 @@ On peut exclure de l&#039;action du Grand Master une sélection de circuits ( ch
 <ul class="level1">
 <li class="level1"><div class="li"> Sélectionner les circuits à exclure de l&#039;action du Grand Master</div>
 </li>
-<li class="level1"><div class="li"> Clicker [Exclude] et confirmer</div>
+<li class="level1"><div class="li"> Cliquer [Exclude] et confirmer</div>
 </li>
 <li class="level1"><div class="li"> Comme pour Freeze, si la sélection est déjà exclue, elle sera réintégrée dans l&#039;action du Grand Master.</div>
 </li>
 </ul>
 
 <p class="level1">
-<img src="channels_exclusion.jpeg" class="media" title="channels_exclusion.jpg" alt="channels_exclusion.jpg" />
+<img src="channels_exclusion.PNG" class="media" title="channels_exclusion.PNG" alt="channels_exclusion.PNG" />
 </p>
 
 <p class="level1">
@@ -389,6 +382,7 @@ Un circuit exclu du Grand Master apparait avec un petit cercle rouge en haut à 
 <p class="level1">
 <img src="channels_excluded.jpeg" class="media" title="channels_excluded.jpg" alt="channels_excluded.jpg" />
 </p>
-<!-- EDIT15 SECTION "Exclure des circuits de l'action du Grand Master" [6956-] --></div>
+
+</div>
 </body>
 </html>

@@ -75,7 +75,9 @@ Supported formats: <strong>.wav, .mp3, .ogg, .flac</strong>.
 </p>
 
 <p class="level2">
-Audio output uses your system sound card (single stereo output). For multi-channel playback, use a dedicated audio application alongside WhiteCat.
+Audio output uses the audio device selected by the operating system. 
+This may be the computer's built-in sound card or an external audio interface (USB, Thunderbolt, etc.). Output is limited to a single stereo stream. 
+For multi-channel playback, use dedicated audio software alongside the application.
 </p>
 
 <p class="level2">
@@ -194,7 +196,8 @@ A player's controls are only active when a file is loaded.
 <h3 class="sectionedit13"><a name="partie_gauche" id="partie_gauche">Left section — basic controls</a></h3>
 
 <ul class="level3">
-  <li class="level1"><div class="li"><strong>Loaded file name</strong> and progress bar (clickable seekbar)</div></li>
+  <li class="level1"><div class="li"><strong>Loaded file name</strong></div></li>
+  <li class="level1"><div class="li"><strong>Progress bar</strong> (clickable seekbar)</div></li>
   <li class="level1"><div class="li"><strong>Play / Pause</strong> — starts or pauses playback</div></li>
   <li class="level1"><div class="li"><strong>Stop / Return to start</strong> — stops and repositions to 0:00 (or to CUE IN if CUE mode is active)</div></li>
   <li class="level1"><div class="li"><strong>Loop</strong> — enables continuous looping</div></li>

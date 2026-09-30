@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Patcher un appareil asservi (devices) — WhiteCat</title>
+  <meta name="date" content="2026-07-16"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="espace_circuits_patch_devices_eng.html">🇬🇧 English</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table des matières</h3>
+<div>
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#patcher_un_appareil_asservi">Patcher un appareil asservi (devices)</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#ouvrir_patch_a_device">Ouvrir « Patch a device »</a></div></li>
+<li class="level2"><div class="li"><a href="#choisir_un_appareil">Choisir un appareil dans la bibliothèque</a></div></li>
+<li class="level2"><div class="li"><a href="#bibliotheque_gdtf_share">La bibliothèque en ligne GDTF Share</a></div></li>
+<li class="level2"><div class="li"><a href="#adresser_et_patcher">Adresser et patcher</a></div></li>
+<li class="level2"><div class="li"><a href="#depatcher_un_appareil">Dépatcher un appareil</a></div></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="patcher_un_appareil_asservi" id="patcher_un_appareil_asservi">Patcher un appareil asservi (devices)</a></h1>
+
+<p class="level1">
+Depuis la version 0.10, White Cat patche aussi les <strong>appareils asservis</strong> (lyres, wash à LED, découpes motorisées, etc.) décrits par un fichier <strong>GDTF</strong> (le standard d&#039;échange des projecteurs, utilisé par la plupart des consoles et visualiseurs).
+</p>
+
+<p class="level1">
+<strong>Modèle « 1 appareil = 1 circuit ».</strong> Un appareil entier est piloté par un <strong>seul circuit</strong> : ce circuit porte son <strong>intensité</strong> et sert à le <strong>sélectionner</strong>. Tous ses autres paramètres (position, couleur, gobo, prisme…) se règlent dans la fenêtre <strong>Control Fixtures</strong> (voir sa page dédiée). Dans l&#039;espace circuits, un appareil n&#039;occupe donc qu&#039;<strong>une seule case</strong>. 
+Dans la fenetre de patch, il est repéré par un <strong>bandeau vert</strong> (nom de l&#039;appareil + plage d&#039;adresses occupées).
+</p>
+
+<h2 class="sectionedit2"><a name="ouvrir_patch_a_device" id="ouvrir_patch_a_device">Ouvrir « Patch a device »</a></h2>
+<p class="level2">
+Dans l&#039;espace Patch, cliquer <strong>[Patch a device]</strong>. Une fenêtre de bibliothèque s&#039;ouvre.
+</p>
+
+<p>
+<a href="patch_a_device_windows.png" class="media" title="patch_a_device_windows.png"><img src="patch_a_device_windows.png" class="mediacenter" title="Fenêtre patch a device" alt="Fenêtre patch a device" /></a>
+</p>
+
+<h2 class="sectionedit3"><a name="choisir_un_appareil" id="choisir_un_appareil">Choisir un appareil dans la bibliothèque</a></h2>
+<p class="level2">
+La bibliothèque s&#039;affiche en <strong>trois colonnes</strong> :
+</p>
+<pre class="code">     Fabricant  ->  Modèle (Fixture)  ->  Mode DMX
+     (Generic / Martin / Robe / ETC …)      (Standard, Extended, RGB…)</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> La <strong>boîte de recherche</strong> filtre la liste au fur et à mesure de la saisie.</div></li>
+<li class="level1"><div class="li"> Le filtre <strong>All / Local</strong> permet de n&#039;afficher que les appareils déjà présents en local, ou la bibliothèque complète.</div></li>
+<li class="level1"><div class="li"> Chaque appareil peut avoir plusieurs <strong>modes</strong> (nombre de canaux DMX différent) : choisir celui qui correspond au réglage du projecteur.</div></li>
+</ul>
+
+<h2 class="sectionedit4"><a name="bibliotheque_gdtf_share" id="bibliotheque_gdtf_share">La bibliothèque en ligne GDTF Share</a></h2>
+<p class="level2">
+La liste mélange de façon transparente les projecteurs <strong>locaux</strong> (fichiers déjà présents) et les <strong>milliers de projecteurs en ligne</strong> de <strong>GDTF Share</strong>. Le téléchargement se fait automatiquement au moment du patch ; l&#039;appareil est ensuite mis en <strong>cache</strong> et réutilisable <strong>hors ligne</strong>.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> Il faut un <strong>compte gratuit</strong> sur <strong>gdtf-share.com</strong> (le même que pour le site).</div></li>
+<li class="level1"><div class="li"> Se connecter via le bouton de <strong>login</strong> (identifiant + mot de passe ; l&#039;œil permet d&#039;afficher le mot de passe). Les identifiants sont mémorisés localement.</div></li>
+<li class="level1"><div class="li"> <strong>[Update]</strong> rafraîchit l&#039;index des projecteurs disponibles en ligne.</div></li>
+<li class="level1"><div class="li"> Sans réseau, on travaille avec les appareils déjà en cache (filtre <strong>Local</strong>).</div></li>
+</ul>
+
+<p>
+<a href="GDTF_share_window.png" class="media" title="GDTF_share_window.png"><img src="GDTF_share_window.png" class="mediacenter" title="Fenêtre GDTF share" alt="Fenêtre GDTF share" /></a>
+</p>
+
+<h2 class="sectionedit5"><a name="adresser_et_patcher" id="adresser_et_patcher">Adresser et patcher</a></h2>
+<p class="level2">
+White Cat propose automatiquement la <strong>première adresse DMX</strong> et le <strong>premier circuit</strong> libres. On peut :
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> imposer une <strong>adresse</strong> de départ et un <strong>circuit</strong> ;</div></li>
+<li class="level1"><div class="li"> définir un <strong>offset</strong> et une <strong>quantité</strong> pour patcher plusieurs unités identiques, espacées régulièrement.</div></li>
+</ul>
+<p class="level2">
+Clicker <strong>[Patch]</strong> : l&#039;appareil (ou la série) est patché. Le bandeau vert apparaît dans l&#039;espace circuits.
+</p>
+
+<p>
+<a href="patch_window_device.png" class="media" title="patch_window_device.png"><img src="patch_window_device.png" class="mediacenter" title="Devices dans la fenêtre patch" alt="Devices dans la fenêtre patch" /></a>
+</p>
+
+<h2 class="sectionedit6"><a name="depatcher_un_appareil" id="depatcher_un_appareil">Dépatcher un appareil</a></h2>
+<p class="level2">
+Sélectionner l&#039;un des outputs de l&#039;appareil dans l&#039;espace patch, puis clicker <strong>[CLEAR]</strong> : tout l&#039;appareil (tous ses canaux) est retiré d&#039;un coup.
+</p>
+
+<p>
+<a href="unpatch_device.png" class="media" title="unpatch_device.png"><img src="unpatch_device.png" class="mediacenter" title="Depatcher un device" alt="Depatcher un device" /></a>
+</p>
+
+</div>
+</body>
+</html>

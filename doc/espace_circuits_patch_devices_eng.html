@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Patching a moving fixture (devices) — WhiteCat</title>
+  <meta name="date" content="2026-07-16"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="espace_circuits_patch_devices.html">🇫🇷 Français</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Table of contents</h3>
+<div>
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#patcher_un_appareil_asservi">Patching a moving fixture (devices)</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#ouvrir_patch_a_device">Opening « Patch a device »</a></div></li>
+<li class="level2"><div class="li"><a href="#choisir_un_appareil">Choosing a fixture from the library</a></div></li>
+<li class="level2"><div class="li"><a href="#bibliotheque_gdtf_share">The online GDTF Share library</a></div></li>
+<li class="level2"><div class="li"><a href="#adresser_et_patcher">Addressing and patching</a></div></li>
+<li class="level2"><div class="li"><a href="#depatcher_un_appareil">Unpatching a fixture</a></div></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="patcher_un_appareil_asservi" id="patcher_un_appareil_asservi">Patching a moving fixture (devices)</a></h1>
+
+<p class="level1">
+Since version 0.10, White Cat also patches <strong>moving fixtures</strong> (moving heads, LED washes, motorised profiles, etc.) described by a <strong>GDTF</strong> file (the fixture exchange standard, used by most consoles and visualisers).
+</p>
+
+<p class="level1">
+<strong>Model « 1 fixture = 1 channel ».</strong> A whole fixture is controlled by a <strong>single channel</strong>: this channel carries its <strong>intensity</strong> and is used to <strong>select</strong> it. All its other parameters (position, colour, gobo, prism…) are set in the <strong>Control Fixtures</strong> window (see its dedicated page). In the channels area, a fixture therefore takes up only <strong>one cell</strong>.
+In the patch window, it is marked by a <strong>green banner</strong> (fixture name + range of addresses used).
+</p>
+
+<h2 class="sectionedit2"><a name="ouvrir_patch_a_device" id="ouvrir_patch_a_device">Opening « Patch a device »</a></h2>
+<p class="level2">
+In the Patch area, click <strong>[Patch a device]</strong>. A library window opens.
+</p>
+
+<p>
+<a href="patch_a_device_windows.png" class="media" title="patch_a_device_windows.png"><img src="patch_a_device_windows.png" class="mediacenter" title="Patch a device window" alt="Patch a device window" /></a>
+</p>
+
+<h2 class="sectionedit3"><a name="choisir_un_appareil" id="choisir_un_appareil">Choosing a fixture from the library</a></h2>
+<p class="level2">
+The library is shown in <strong>three columns</strong>:
+</p>
+<pre class="code">     Manufacturer  ->  Model (Fixture)  ->  DMX Mode
+     (Generic / Martin / Robe / ETC …)      (Standard, Extended, RGB…)</pre>
+<ul class="level2">
+<li class="level1"><div class="li"> The <strong>search box</strong> filters the list as you type.</div></li>
+<li class="level1"><div class="li"> The <strong>All / Local</strong> filter lets you show only the fixtures already present locally, or the full library.</div></li>
+<li class="level1"><div class="li"> Each fixture can have several <strong>modes</strong> (different DMX channel counts): choose the one matching your fixture's setting.</div></li>
+</ul>
+
+<h2 class="sectionedit4"><a name="bibliotheque_gdtf_share" id="bibliotheque_gdtf_share">The online GDTF Share library</a></h2>
+<p class="level2">
+The list transparently mixes <strong>local</strong> fixtures (files already present) with the <strong>thousands of online fixtures</strong> from <strong>GDTF Share</strong>. Downloading happens automatically when you patch; the fixture is then <strong>cached</strong> and reusable <strong>offline</strong>.
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> You need a <strong>free account</strong> on <strong>gdtf-share.com</strong> (the same as for the website).</div></li>
+<li class="level1"><div class="li"> Log in via the <strong>login</strong> button (username + password; the eye reveals the password). Credentials are stored locally.</div></li>
+<li class="level1"><div class="li"> <strong>[Update]</strong> refreshes the index of fixtures available online.</div></li>
+<li class="level1"><div class="li"> Without a network, you work with the fixtures already cached (<strong>Local</strong> filter).</div></li>
+</ul>
+
+<p>
+<a href="GDTF_share_window.png" class="media" title="GDTF_share_window.png"><img src="GDTF_share_window.png" class="mediacenter" title="GDTF share window" alt="GDTF share window" /></a>
+</p>
+
+<h2 class="sectionedit5"><a name="adresser_et_patcher" id="adresser_et_patcher">Addressing and patching</a></h2>
+<p class="level2">
+White Cat automatically suggests the <strong>first free DMX address</strong> and the <strong>first free channel</strong>. You can:
+</p>
+<ul class="level2">
+<li class="level1"><div class="li"> set a start <strong>address</strong> and a <strong>channel</strong>;</div></li>
+<li class="level1"><div class="li"> define an <strong>offset</strong> and a <strong>quantity</strong> to patch several identical units, evenly spaced.</div></li>
+</ul>
+<p class="level2">
+Click <strong>[Patch]</strong>: the fixture (or the batch) is patched. The green banner appears in the channels area.
+</p>
+
+<p>
+<a href="patch_window_device.png" class="media" title="patch_window_device.png"><img src="patch_window_device.png" class="mediacenter" title="Devices in the patch window" alt="Devices in the patch window" /></a>
+</p>
+
+<h2 class="sectionedit6"><a name="depatcher_un_appareil" id="depatcher_un_appareil">Unpatching a fixture</a></h2>
+<p class="level2">
+Select one of the fixture's outputs in the patch area, then click <strong>[CLEAR]</strong>: the whole fixture (all its channels) is removed at once.
+</p>
+
+<p>
+<a href="unpatch_device.png" class="media" title="unpatch_device.png"><img src="unpatch_device.png" class="mediacenter" title="Unpatch a device" alt="Unpatch a device" /></a>
+</p>
+
+</div>
+</body>
+</html>
