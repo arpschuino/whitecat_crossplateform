@@ -129,7 +129,7 @@ click [CueList] or press [F9].
 <div class="level2">
 
 <p>
-<a href="sequentiel.jpeg" class="media" title="sequentiel.jpeg"><img src="sequentiel.jpeg" class="mediacenter" title="Cue List interface" alt="The Cue List window interface" /></a>
+<a href="sequentiel.png" class="media" title="sequentiel.png"><img src="sequentiel.png" class="mediacenter" title="Cue List interface" alt="The Cue List window interface" /></a>
 </p>
 
 <p>
@@ -180,13 +180,21 @@ These cues are shown, from left to right:
 <ul>
 <li class="level1"><div class="li"> the three Go buttons: Go Back, Go and DoubleGo;</div>
 </li>
-<li class="level1"><div class="li"> the crossfade accelerometer.</div>
+<li class="level1"><div class="li"> the crossfade accelerometer, with its value shown just below it.</div>
 </li>
 </ul>
 
 <p>
-<strong>4 — The operations area:</strong> creating / deleting a cue, and fast navigation on stage or in preset.
+<strong>4 — The operations area:</strong> a row of buttons, all of which can be assigned to MIDI:
 </p>
+<ul>
+<li class="level1"><div class="li"> [Create], [Update] and [Delete]: creating, re-recording and deleting a cue;</div>
+</li>
+<li class="level1"><div class="li"> [Stage-], [Stage+], [Preset-] and [Preset+]: fast navigation on stage or in preset;</div>
+</li>
+<li class="level1"><div class="li"> [GOTO]: loading into preset a cue typed on the keyboard.</div>
+</li>
+</ul>
 
 </div>
 
@@ -200,7 +208,7 @@ These cues are shown, from left to right:
 </li>
 <li class="level1"><div class="li"> Type a cue number (e.g. 27.5).</div>
 </li>
-<li class="level1"><div class="li"> Click [Create] or press [CTRL][F1].</div>
+<li class="level1"><div class="li"> Click [Create] or press [SHIFT][F1].</div>
 </li>
 <li class="level1"><div class="li"> In the confirmation window, you can enter a name or a description.</div>
 </li>
@@ -212,6 +220,10 @@ These cues are shown, from left to right:
 <a href="memory_confirm.png" class="media" title="memory_confirm.png"><img src="memory_confirm.png" class="mediacenter" title="Confirmation window" alt="Cue-creation confirmation window" /></a>
 </p>
 
+<p>
+If no number is typed, WhiteCat offers the next free whole-numbered cue after the cue in preset. If the typed number matches an existing cue, it offers to re-record it.
+</p>
+
 </div>
 
 <h2 class="sectionedit6" id="deleting_a_cue">Deleting a cue</h2>
@@ -219,7 +231,9 @@ These cues are shown, from left to right:
 <ol>
 <li class="level1"><div class="li"> Type the number of the cue to delete (e.g. 27.5).</div>
 </li>
-<li class="level1"><div class="li"> Click [Delete] or press [SHIFT][DEL].</div>
+<li class="level1"><div class="li"> Click [Delete] or press [SHIFT][DEL]. After typing a number, [DEL] alone is enough.</div>
+</li>
+<li class="level1"><div class="li"> Confirm. If the cue does not exist, the confirmation window says so (« Mem … does not exist »).</div>
 </li>
 </ol>
 
@@ -258,7 +272,9 @@ Re-recording the cue includes every channel present on stage, or in preset if yo
 <a href="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpeg"><img src="affect_time_preset.jpeg" class="mediacenter" title="Re-recording in preset" alt="Re-recording a cue in preset" /></a>
 </p>
 <ul>
-<li class="level1"><div class="li"> With the keyboard: press [CTRL][F1] to re-record the cue on stage, or in preset if you are in Blind mode.</div>
+<li class="level1"><div class="li"> With the button: click [Update], in the row of buttons of the cue list, then confirm. The cue re-recorded is the one on stage, or the one in preset if you are in Blind mode.</div>
+</li>
+<li class="level1"><div class="li"> With the keyboard: press [CTRL][F1], which does the same as [Update].</div>
 </li>
 </ul>
 
@@ -269,7 +285,7 @@ Re-recording the cue includes every channel present on stage, or in preset if yo
 <ul>
 <li class="level1"><div class="li"> Type the cue number.</div>
 </li>
-<li class="level1"><div class="li"> Press [SHIFT][F1] to re-record that cue on the fly.</div>
+<li class="level1"><div class="li"> Press [SHIFT][F1] (or click [Create]) to re-record that cue on the fly, after confirmation.</div>
 </li>
 </ul>
 </div>
@@ -525,6 +541,10 @@ This change of times can be done in two ways:
 </ul>
 
 <p>
+Input examples: <code>1..23</code> = 1 min 23 s; <code>1..</code> = exactly 1 min; <code>5</code> = 5 s; <code>2.5</code> = 2.5 s; <code>.25</code> = 0.25 s; <code>80</code> = 1 min 20 s (beyond 59 s, seconds carry over into minutes). The maximum time is 59 min 59 s.
+</p>
+
+<p>
 <a href="affcet_time_ch_preset.jpeg" class="media" title="affcet_time_ch_preset.jpeg"><img src="affcet_time_ch_preset.jpeg" class="mediacenter" title="Assigning a time on the keyboard" alt="Assigning a time by typing on the keyboard" /></a>
 </p>
 
@@ -658,6 +678,10 @@ The Go crossfade takes into account the times recorded in the preset, depending 
 
 <p>
 The times shown in preset are those modified by the accelerometer.
+</p>
+
+<p>
+The accelerometer value is shown just below it: <strong>0</strong> means the recorded times, a <strong>negative</strong> value slows the crossfade down, a <strong>positive</strong> value speeds it up.
 </p>
 
 <p>
@@ -831,7 +855,7 @@ See <a href="grid_eng.html" class="wikilink1" title="grid_eng">the GridPlayers d
 </p>
 
 <p>
-<a href="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpeg"><img src="cuelist_extended.jpeg" class="mediacenter" title="Extended CueList (GridPlayer 1)" alt="Extended CueList with GridPlayer 1 embedded" /></a>
+<a href="cuelist_extended.png" class="media" title="cuelist_extended.png"><img src="cuelist_extended.png" class="mediacenter" title="Extended CueList (GridPlayer 1)" alt="Extended CueList with GridPlayer 1 embedded" /></a>
 </p>
 
 </div>

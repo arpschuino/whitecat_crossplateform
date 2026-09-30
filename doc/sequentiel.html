@@ -129,7 +129,7 @@ cliquer [CueList] ou taper [F9].
 <div class="level2">
 
 <p>
-<a href="sequentiel.jpeg" class="media" title="sequentiel.jpeg"><img src="sequentiel.jpeg" class="mediacenter" title="Interface du Séquentiel" alt="Interface de la fenêtre Séquentiel" /></a>
+<a href="sequentiel.png" class="media" title="sequentiel.png"><img src="sequentiel.png" class="mediacenter" title="Interface du Séquentiel" alt="Interface de la fenêtre Séquentiel" /></a>
 </p>
 
 <p>
@@ -180,13 +180,21 @@ Ces mémoires sont affichées, de gauche à droite :
 <ul>
 <li class="level1"><div class="li"> les trois boutons de Go : Go Back, Go et DoubleGo ;</div>
 </li>
-<li class="level1"><div class="li"> l'accéléromètre du crossfade.</div>
+<li class="level1"><div class="li"> l'accéléromètre du crossfade, avec sa valeur affichée juste en dessous.</div>
 </li>
 </ul>
 
 <p>
-<strong>4 — L'espace des manipulations :</strong> création / destruction de mémoire, et navigation rapide sur scène ou en preset.
+<strong>4 — L'espace des manipulations :</strong> une rangée de boutons, tous affectables en midi :
 </p>
+<ul>
+<li class="level1"><div class="li"> [Create], [Update] et [Delete] : création, ré-enregistrement et destruction de mémoire ;</div>
+</li>
+<li class="level1"><div class="li"> [Stage-], [Stage+], [Preset-] et [Preset+] : navigation rapide sur scène ou en preset ;</div>
+</li>
+<li class="level1"><div class="li"> [GOTO] : chargement en preset d'une mémoire tapée au clavier.</div>
+</li>
+</ul>
 
 </div>
 
@@ -200,7 +208,7 @@ Ces mémoires sont affichées, de gauche à droite :
 </li>
 <li class="level1"><div class="li"> Taper un numéro de mémoire (par ex. 27.5).</div>
 </li>
-<li class="level1"><div class="li"> Cliquer [Create] ou taper [CTRL][F1].</div>
+<li class="level1"><div class="li"> Cliquer [Create] ou taper [SHIFT][F1].</div>
 </li>
 <li class="level1"><div class="li"> Dans la fenêtre de confirmation, on peut saisir un nom ou un descriptif.</div>
 </li>
@@ -212,6 +220,10 @@ Ces mémoires sont affichées, de gauche à droite :
 <a href="memory_confirm.png" class="media" title="memory_confirm.png"><img src="memory_confirm.png" class="mediacenter" title="Fenêtre de confirmation" alt="Fenêtre de confirmation de création de mémoire" /></a>
 </p>
 
+<p>
+Si aucun numéro n'est tapé, WhiteCat propose la prochaine mémoire entière libre après la mémoire en preset. Si le numéro tapé correspond à une mémoire existante, il propose de la ré-enregistrer.
+</p>
+
 </div>
 
 <h2 class="sectionedit6" id="destruction_de_memoire">Destruction de mémoire</h2>
@@ -219,7 +231,9 @@ Ces mémoires sont affichées, de gauche à droite :
 <ol>
 <li class="level1"><div class="li"> Taper le numéro de la mémoire à détruire (par ex. 27.5).</div>
 </li>
-<li class="level1"><div class="li"> Cliquer [Delete] ou taper [SHIFT][SUPPR].</div>
+<li class="level1"><div class="li"> Cliquer [Delete] ou taper [SHIFT][SUPPR]. Après avoir tapé un numéro, [SUPPR] seul suffit.</div>
+</li>
+<li class="level1"><div class="li"> Confirmer. Si la mémoire n'existe pas, la fenêtre de confirmation l'indique (« Mem … does not exist »).</div>
 </li>
 </ol>
 
@@ -258,7 +272,9 @@ Le ré-enregistrement de la mémoire comprend tous les circuits présents sur sc
 <a href="affect_time_preset.jpeg" class="media" title="affect_time_preset.jpeg"><img src="affect_time_preset.jpeg" class="mediacenter" title="Ré-enregistrement en preset" alt="Ré-enregistrement d'une mémoire en preset" /></a>
 </p>
 <ul>
-<li class="level1"><div class="li"> Au clavier : taper [CTRL][F1] pour ré-enregistrer la mémoire sur scène, ou en preset si vous êtes en mode Blind.</div>
+<li class="level1"><div class="li"> Au bouton : cliquer [Update], dans la rangée de boutons du séquentiel, puis confirmer. La mémoire ré-enregistrée est celle sur scène, ou celle en preset si vous êtes en mode Blind.</div>
+</li>
+<li class="level1"><div class="li"> Au clavier : taper [CTRL][F1], qui fait la même chose que [Update].</div>
 </li>
 </ul>
 
@@ -269,7 +285,7 @@ Le ré-enregistrement de la mémoire comprend tous les circuits présents sur sc
 <ul>
 <li class="level1"><div class="li"> Taper le numéro de mémoire.</div>
 </li>
-<li class="level1"><div class="li"> Taper [SHIFT][F1] pour ré-enregistrer cette mémoire à la volée.</div>
+<li class="level1"><div class="li"> Taper [SHIFT][F1] (ou cliquer [Create]) pour ré-enregistrer cette mémoire à la volée, après confirmation.</div>
 </li>
 </ul>
 </div>
@@ -525,6 +541,10 @@ Cette modification des temps peut se faire de deux manières :
 </ul>
 
 <p>
+Exemples de saisie : <code>1..23</code> = 1 min 23 s ; <code>1..</code> = 1 min pile ; <code>5</code> = 5 s ; <code>2.5</code> = 2,5 s ; <code>.25</code> = 0,25 s ; <code>80</code> = 1 min 20 s (au-delà de 59 s, les secondes passent en minutes). Le temps maximum est de 59 min 59 s.
+</p>
+
+<p>
 <a href="affcet_time_ch_preset.jpeg" class="media" title="affcet_time_ch_preset.jpeg"><img src="affcet_time_ch_preset.jpeg" class="mediacenter" title="Affecter un temps au clavier" alt="Affecter un temps en tapant au clavier" /></a>
 </p>
 
@@ -656,6 +676,10 @@ Le crossfade au Go prend en compte les temps enregistrés dans le preset, en fon
 
 <p>
 Les temps affichés en preset sont ceux modifiés par l'accéléromètre.
+</p>
+
+<p>
+La valeur de l'accéléromètre s'affiche juste sous lui : <strong>0</strong> correspond aux temps enregistrés, une valeur <strong>négative</strong> ralentit le crossfade, une valeur <strong>positive</strong> l'accélère.
 </p>
 
 <p>
@@ -829,7 +853,7 @@ Voir <a href="grid.html" class="wikilink1" title="grid">la documentation des Gri
 </p>
 
 <p>
-<a href="cuelist_extended.jpeg" class="media" title="cuelist_extended.jpeg"><img src="cuelist_extended.jpeg" class="mediacenter" title="CueList étendue (GridPlayer 1)" alt="CueList étendue avec le GridPlayer 1 enchâssé" /></a>
+<a href="cuelist_extended.png" class="media" title="cuelist_extended.png"><img src="cuelist_extended.png" class="mediacenter" title="CueList étendue (GridPlayer 1)" alt="CueList étendue avec le GridPlayer 1 enchâssé" /></a>
 </p>
 
 </div>
