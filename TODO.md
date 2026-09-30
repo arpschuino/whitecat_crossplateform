@@ -23,10 +23,12 @@
 
 ## ⚠️ À faire avant chaque release
 
-- [ ] **Sync doc/** : copier `whitecatbuild/build/white_cat_for_mingw/doc/` → `doc/` (racine du repo) avant de committer/pusher la release.
+- [ ] **Sync doc/** : la copie d'exécution (`whitecatbuild/build/white_cat_for_mingw/doc/`, hors git) est la doc de travail, **au niveau 0.10** (devices compris). Avant de committer/pusher, la refléter dans `doc/` (miroir : supprime aussi les fichiers retirés), puis vérifier les images cassées et la casse des noms (GitHub Pages est sensible à la casse) :
   ```
-  xcopy /E /Y /I whitecatbuild\build\white_cat_for_mingw\doc doc
+  robocopy whitecatbuild\build\white_cat_for_mingw\doc doc /MIR
   ```
+  **Branche 0.9.2** : ne PAS faire ce miroir tel quel. Reprendre le contenu sans les pages devices (`espace_circuits_patch_devices*.html`), leurs captures (`GDTF_share_window.png`, `patch_a_device_windows.png`, `patch_window_device.png`, `unpatch_device.png`) et les liens qui y mènent (`espace_circuits*.html`, `espace_circuits_patch*.html`) ; damper : pas de « 16 bits » (cf. commit `e725a50`). Pour une release 0.9.2, livrer la doc depuis `doc/` de la branche 0.9.2, pas depuis la copie d'exécution.
+
 
 ---
 
