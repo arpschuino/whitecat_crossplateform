@@ -198,6 +198,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Nouveau : accélération de la molette réglable** (*CFG > main > Wheel acceleration* : Off / Low / Normal / High). En **Off**, un cran de molette = un pas (« Default step level »), sans accélération — pratique pour un réglage fin façon « roue » de console. **Normal** reproduit le comportement précédent (valeur par défaut). Réglage conservé dans `user/general_set_up.txt`. Suggéré par un beta.
 
+### Grid player 1 intégré au séquentiel — case pas à « -1 »
+
+- **Fix : la case « pas » du grid player 1 affichait parfois « -1 »** (signalé par un beta). Au GO sur une mémoire sans pas de grid player, la destination du grid player était calculée à -2 ; si un fondu du grid player était en cours, il se terminait sur ce pas inexistant. La destination n'est plus modifiée par une mémoire sans pas ; une coquille (mémoire en scène lue au lieu de la mémoire en preset) est corrigée, et le pas ne peut plus devenir négatif.
+
 ### Divers
 
 - **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*

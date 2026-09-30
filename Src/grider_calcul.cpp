@@ -514,6 +514,7 @@ grid_delay_in[grid_pl]=0;
 grid_delay_out[grid_pl]=0;
 
 if(grid_in_preset[grid_pl][1]>1023){index_grider_step_is[grid_pl]=1023;}
+if(grid_in_preset[grid_pl][1]<0){index_grider_step_is[grid_pl]=0;}// [fix grid -1] filet : jamais de pas negatif (affichait "-1")
 gridder_prepare_cross(grid_pl,index_grider_selected[grid_pl],index_grider_step_is[grid_pl]);
 grid_niveauX1[grid_pl]=255;
 grid_niveauX2[grid_pl]=0;

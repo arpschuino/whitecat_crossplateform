@@ -4010,7 +4010,7 @@ int do_go_back_function()
         if(show_gridplayer_in_seq==1 && set_from_seq_gridplayer1_next_step[position_preset]!=-1 )
         {
             grid_in_preset[0][0]=index_grider_selected[0];
-            grid_in_preset[0][1]=set_from_seq_gridplayer1_next_step[position_onstage]-1;
+            grid_in_preset[0][1]=set_from_seq_gridplayer1_next_step[position_preset]-1;// [fix grid -1] etait position_onstage (coquille : le test et le prepare_cross du bloc lisent position_preset ; onstage sans pas -> -2)
             if(grider_is_playing[0]==0 && set_from_seq_gridplayer1_next_step[position_preset]!=-1 )
             {
                 gridder_prepare_cross(0,index_grider_selected[0],set_from_seq_gridplayer1_next_step[position_preset]-1);
@@ -4049,8 +4049,11 @@ int do_go_function()
 //integration du gridplayer 1
         if(show_gridplayer_in_seq==1)
         {
+            if(set_from_seq_gridplayer1_next_step[position_preset]!=-1)// [fix grid -1] memoire sans pas : pas de destination -2
+            {
             grid_in_preset[0][0]=index_grider_selected[0];
             grid_in_preset[0][1]=set_from_seq_gridplayer1_next_step[position_preset]-1;
+            }
             if(grider_is_playing[0]==0 && set_from_seq_gridplayer1_next_step[position_preset]!=-1
                     && set_from_seq_gridplayer1_next_step[position_preset]!=index_grider_step_is[0])
             {
