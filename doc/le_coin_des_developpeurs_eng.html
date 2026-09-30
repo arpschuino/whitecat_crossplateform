@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Developer corner — WhiteCat</title>
+  <meta name="date" content="2026-09-30"/>
+  <link rel="stylesheet" type="text/css" href="lib/exe/whitecat.css"/>
+</head>
+<body>
+<div class="dokuwiki export">
+
+<div class="lang-switch"><a href="le_coin_des_developpeurs.html">🇫🇷 Français</a></div>
+
+<!-- TOC START -->
+<div id="dw__toc" style="width:300px">
+<h3 class="toggle">Table of contents</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#developer_corner">Developer corner</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#talk">Talk with us</a></div></li>
+<li class="level2"><div class="li"><a href="#sources">Getting the sources</a></div></li>
+<li class="level2"><div class="li"><a href="#windows">Building on Windows</a></div></li>
+<li class="level2"><div class="li"><a href="#linux">Building on Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#code">Finding your way in the code</a></div></li>
+<li class="level2"><div class="li"><a href="#contribute">Proposing a change</a></div></li>
+<li class="level2"><div class="li"><a href="#doxygen">Commenting the code (Doxygen)</a></div></li>
+<li class="level2"><div class="li"><a href="#history">A bit of history</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1><a name="developer_corner" id="developer_corner">Developer corner</a></h1>
+
+<p class="level1">
+WhiteCat is free software, released under the <strong>GNU GPL v2</strong>. Created by Christoph Guillermet (2009-2016), it has been taken over and modernized since 2026 by Jacques Bouault (<a href="https://arpschuino.fr" class="urlextern" rel="nofollow">arpschuino.fr</a>): move to SDL2 and RtMidi, Linux and Raspberry Pi port, 16-bit engine, fixture (device) support.
+</p>
+
+<p class="level1">
+This page explains how to get the sources, build them and propose your changes. All contributions are welcome: bug fixes, new features, documentation, translation, testing.
+</p>
+
+<h2><a name="talk" id="talk">Talk with us</a></h2>
+
+<p class="level2">
+To report a bug, ask a question, suggest an idea or let us know you are working on something, head to the forum:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://forum.arpschuino.fr/viewforum.php?f=24" class="urlextern" rel="nofollow">https://forum.arpschuino.fr/viewforum.php?f=24</a></div></li>
+</ul>
+
+<p class="level2">
+For a bug, give the WhiteCat version (shown at startup), your system (Windows 10/11, Linux, Raspberry Pi), what you were doing, what you expected and what happened. If you cannot build, attach the full output of <code>build.bat</code>: it is often a small environment detail, quickly fixed.
+</p>
+
+<h2><a name="sources" id="sources">Getting the sources</a></h2>
+
+<p class="level2">
+The code is on GitHub: <a href="https://github.com/arpschuino/whitecat_crossplateform" class="urlextern" rel="nofollow">https://github.com/arpschuino/whitecat_crossplateform</a>
+</p>
+
+<pre class="code">git clone https://github.com/arpschuino/whitecat_crossplateform.git
+cd whitecat_crossplateform</pre>
+
+<p class="level2">
+Two main branches:
+</p>
+<ul>
+<li class="level1"><div class="li"> <strong>0.9.2</strong> (default branch): the stable version. Bug fixes start from here.</div></li>
+<li class="level1"><div class="li"> <strong>0.10-devices</strong>: the development version (16-bit patch, devices and GDTF import, Control Fixtures, 16-bit engine). New features start from here.</div></li>
+</ul>
+
+<p class="level2">
+Warning: a show saved with 0.10 does not reopen correctly with 0.9.2. Keep separate folders for each version.
+</p>
+
+<h2><a name="windows" id="windows">Building on Windows</a></h2>
+
+<p class="level2">
+The compiler, the libraries and the runtime files are not in git: they come in a <strong>build kit</strong> (about 80 MB), which a script downloads and installs for you.
+</p>
+
+<pre class="code">setup_windows.bat
+build.bat</pre>
+
+<p class="level2">
+The executable is built in <code>whitecatbuild\build\white_cat_for_mingw\Whitecat_Crossplatform.exe</code>, next to the DLLs, fonts and configuration.
+</p>
+
+<p class="level2">
+The kit installs:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>tools/MinGW/</code>: the <strong>TDM-GCC 5.1.0</strong> compiler (32 bit). Do not use another compiler: the provided libraries are built for this one.</div></li>
+<li class="level1"><div class="li"> <code>whitecatlib/</code>: SDL2 2.30.8, SDL2_ttf 2.24.0, SDL2_image 2.8.8, SDL2_mixer 2.8.1, RtMidi 6.0.0, OpenCV 2.4.8, libharu, zlib, FTDI D2XX. It is a reduced copy of Christoph's <a href="https://github.com/ChristophGuillermet/whitecatlib" class="urlextern" rel="nofollow">whitecatlib</a> repository, completed with SDL2 and RtMidi.</div></li>
+<li class="level1"><div class="li"> <code>whitecatbuild/build/white_cat_for_mingw/</code>: DLLs, fonts, resources and default configuration.</div></li>
+</ul>
+
+<p class="level2">
+Good to know:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>setup_windows.bat</code> never overwrites an existing file: your settings (<code>user/</code>) and your shows (<code>saves/</code>) are kept if you run it again.</div></li>
+<li class="level1"><div class="li"> If you had already rebuilt <code>whitecatlib/</code> or <code>tools/</code> yourself, rename them before running the script: otherwise it would complete your version instead of installing the kit's.</div></li>
+<li class="level1"><div class="li"> Offline: download the kit from the <a href="https://github.com/arpschuino/whitecat_crossplateform/releases/tag/buildkit-windows-v1" class="urlextern" rel="nofollow">Releases</a> page, put the zip next to <code>setup_windows.bat</code>, then run the script.</div></li>
+<li class="level1"><div class="li"> With <strong>VSCode</strong>: open the project folder, <strong>Ctrl+Shift+B</strong> builds, <strong>F5</strong> starts the debugger.</div></li>
+</ul>
+
+<h2><a name="linux" id="linux">Building on Linux</a></h2>
+
+<p class="level2">
+On Linux (x86_64 or Raspberry Pi), the libraries come from the system packages:
+</p>
+
+<pre class="code">sudo apt install build-essential libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
+                 libhpdf-dev libasound2-dev libftdi1-dev zlib1g-dev
+make -f Makefile.linux -j4</pre>
+
+<p class="level2">
+The executable is built in <code>whitecatbuild/build/linux/Whitecat_Crossplatform</code>. Copy the runtime folders (<code>Fonts/</code>, <code>gfx/</code>, <code>ressources/</code>, <code>user/</code>…) next to it, from the Linux archive of the latest <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">release</a>. On Linux, file name case matters: use the names from the Linux archive.
+</p>
+
+<h2><a name="code" id="code">Finding your way in the code</a></h2>
+
+<p class="level2">
+All the code is in <code>Src/</code>. A few entry points:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>MAIN.cpp</code>: initialization and main loop.</div></li>
+<li class="level1"><div class="li"> <code>graphics_backend.h</code>: the SDL2 layer that replaces Allegro and OpenLayer (window, drawing, keyboard, mouse).</div></li>
+<li class="level1"><div class="li"> <code>midi_backend.h</code> (RtMidi), <code>audio_backend.h</code> (SDL2_mixer, OGG/FLAC players), <code>wc_platform.h</code> (Windows / Linux differences).</div></li>
+<li class="level1"><div class="li"> <code>save_show.cpp</code>: saving and loading shows.</div></li>
+<li class="level1"><div class="li"> The <code>*_core.cpp</code> files hold the logic of a window, the <code>*_visu.cpp</code> files its drawing (cue list, faders, bangers, grid players, patch…).</div></li>
+</ul>
+
+<p class="level2">
+The legacy code is dense, with many global variables. Three pitfalls to know:
+</p>
+<ul>
+<li class="level1"><div class="li"> <strong>Precompiled header</strong>: if you change <code>graphics_backend.h</code>, or a header included by <code>whitecat.h</code>, delete <code>Src/wc_tus.h.gch</code> before building again.</div></li>
+<li class="level1"><div class="li"> <strong>New global variable in <code>graphics_backend.h</code></strong>: follow the <code>WC_SKIP_GLOBALS</code> pattern (<code>extern</code> declaration in the files, definition in <code>MAIN.cpp</code>). Otherwise each file would get its own copy, without any build error.</div></li>
+<li class="level1"><div class="li"> <strong>Switching branches</strong> (0.9.2 ↔ 0.10-devices): delete the <code>*.o</code> and <code>*.d</code> files in <code>whitecatbuild/build/white_cat_for_mingw/</code> and the <code>.gch</code> file, otherwise the executable would mix both versions.</div></li>
+</ul>
+
+<h2><a name="contribute" id="contribute">Proposing a change</a></h2>
+
+<p class="level2">
+We use a <strong>fork</strong> and a <strong>pull request</strong>:
+</p>
+<ol>
+<li class="level1"><div class="li"> On GitHub, click <strong>Fork</strong> at the top of the repository page: you get your own copy.</div></li>
+<li class="level1"><div class="li"> Clone your fork, and declare the original repository as <code>upstream</code>:
+<pre class="code">git clone https://github.com/YOUR_ACCOUNT/whitecat_crossplateform.git
+cd whitecat_crossplateform
+git remote add upstream https://github.com/arpschuino/whitecat_crossplateform.git</pre></div></li>
+<li class="level1"><div class="li"> Create a branch for your work, from <strong>0.9.2</strong> for a fix, or from <strong>0.10-devices</strong> for a new feature:
+<pre class="code">git checkout -b fix-crossfade-display upstream/0.9.2</pre></div></li>
+<li class="level1"><div class="li"> Work, build, test. Commit in small steps:
+<pre class="code">git status
+git add Src/modified_file.cpp
+git commit -m "Cue list: fix crossfade display after GO BACK"</pre></div></li>
+<li class="level1"><div class="li"> Before proposing, get the latest changes from the original repository:
+<pre class="code">git fetch upstream
+git rebase upstream/0.9.2</pre></div></li>
+<li class="level1"><div class="li"> Push your branch to your fork, then open a <strong>pull request</strong> on GitHub:
+<pre class="code">git push origin fix-crossfade-display</pre></div></li>
+</ol>
+
+<p class="level2">
+To make a pull request easy to review:
+</p>
+<ul>
+<li class="level1"><div class="li"> one topic per pull request, with short commits and a message that says <em>what</em> changes and <em>why</em>;</div></li>
+<li class="level1"><div class="li"> describe how you tested (Windows, Linux, with which DMX or MIDI hardware);</div></li>
+<li class="level1"><div class="li"> do not commit <code>whitecatlib/</code>, <code>tools/</code> or your shows: they are excluded by <code>.gitignore</code>, leave them out;</div></li>
+<li class="level1"><div class="li"> for a large change, talk about it first on the forum: we will avoid working twice on the same thing.</div></li>
+</ul>
+
+<p class="level2">
+Your contributions are released under the same license as WhiteCat, the GNU GPL v2.
+</p>
+
+<h2><a name="doxygen" id="doxygen">Commenting the code (Doxygen)</a></h2>
+
+<p class="level2">
+Part of the code is commented in the <a href="https://www.doxygen.nl" class="urlextern" rel="nofollow">Doxygen</a> format, which generates technical documentation from the comments. For a new function, please follow this format:
+</p>
+
+<pre class="code">/**
+ * \brief Plays an audio file from a given time
+ * \param file      full path of the file (wav, mp3, ogg, flac)
+ * \param startTime start of playback, in milliseconds
+ * \return number of the file in the playlist, -1 on error
+ */
+int play(const char* file, long startTime);</pre>
+
+<p class="level2">
+Comments starting with <code>//</code> remain ordinary comments, ignored by Doxygen. To generate the documentation (in <code>docAPIwhitecat/</code>, next to the repository):
+</p>
+
+<pre class="code">cd Src
+doxygen Doxyfile</pre>
+
+<h2><a name="history" id="history">A bit of history</a></h2>
+
+<p class="level2">
+WhiteCat went open source in June 2013. Georges Khaznadar, Anton Langhoff and RuiSerge then set up the Git repository, the Doxygen conventions and the first contribution rules, on Christoph Guillermet's repository. This page replaces their 2013-2014 pages, made obsolete by the modernization of the software, but the spirit remains the same: working together without ever losing a version that works.
+</p>
+
+</div>
+</body>
+</html>
