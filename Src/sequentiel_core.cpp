@@ -1051,12 +1051,14 @@ mouse_released=1;
 /////menus bas
 int rangee_y= yseq+180+(35*(nbre_memoires_visualisables_en_preset+1));
 int index_atoi=0;
-for (int op=0;op<7;op++)
+for (int op=0;op<8;op++)// [update] 8e bouton : Update (= Ctrl+F1)
 {
 ///actions mouse
-if(mouse_x>xseq+20+(op*60) && mouse_x<xseq+20+(op*60)+53 && mouse_y>rangee_y && mouse_y<rangee_y+20)
+if(mouse_x>xseq+10+(op*59) && mouse_x<xseq+10+(op*59)+53 && mouse_y>rangee_y && mouse_y<rangee_y+20)
 {
-switch(op)
+// [update] ordre d affichage : Create, Update, Delete, Stage-, Stage+, Preset-, Preset+, GOTO (position -> action)
+static const int seq_btn_action[8]={0,7,1,2,3,4,5,6};
+switch(seq_btn_action[op])
 {
 case 0:         //create
 if( Midi_Faders_Affectation_Type!=0)//config midi
@@ -1178,6 +1180,19 @@ reset_numeric_entry();
 numeric_postext=0;
 }
 }
+}
+break;
+case 7://update : re-enregistrement de la memoire (= Ctrl+F1), avec confirmation. MIDI 2114.
+if( Midi_Faders_Affectation_Type!=0)//config midi
+{
+attribute_midi_solo_affectation(2114,Midi_Faders_Affectation_Mode);
+mouse_released=1;
+}
+else
+{
+reset_indexs_confirmation();
+index_ask_confirm=1;
+index_do_overrecord_mem=1;
 }
 break;
 

@@ -1443,6 +1443,12 @@ reset_indexs_confirmation();
 index_do_delete_mem=1;
 index_ask_confirm=1;
 }
+if(control==2114)// [update] update mem = re-enregistrement (= Ctrl+F1). 2114 : 1er identifiant libre (768-773 et 1645 pris)
+{
+reset_indexs_confirmation();
+index_ask_confirm=1;
+index_do_overrecord_mem=1;
+}
 if(control==770)// stage minus
 {
 if(index_go==0 && index_go_back==0 && index_pause==0)

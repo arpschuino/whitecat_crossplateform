@@ -189,6 +189,15 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 - **Fix : à FF, les circuits pouvaient s'éteindre alors que le point 5 de la courbe était en haut** (signalé par un beta). À chaque déplacement d'un point, le calcul ajoutait des segments parasites au-delà du point 5 (nœuds « fantômes », voire données périmées hors tableau), qui retombaient tous sur la case de FF : sa valeur dépendait de ces restes. Seuls les 4 vrais segments sont désormais calculés, et **du point 5 jusqu'à FF la sortie vaut la valeur du point 5** (aussi au chargement). L'aperçu vert inclut maintenant FF. Corrige au passage une lecture hors tableau et des segments de taille nulle ou négative (points confondus ou croisés).
 - **Édition des points plus fiable** : un point saisi reste accroché à la souris tant que le bouton est enfoncé (il décrochait lors des mouvements rapides) ; il reste dans le cadre et ne peut plus croiser ses voisins ; deux points collés sur la même verticale restent saisissables (c'est le plus proche de la souris qui réagit).
 
+### Séquentiel — bouton Update
+
+- **Nouveau : bouton « Update »** dans le séquentiel, juste après « Create » : ré-enregistre la mémoire (équivalent de **Ctrl+F1**), avec confirmation. **Affectable en MIDI** comme les autres boutons (« Update Mem », aussi dans l'export PDF des affectations). Suggéré par un beta.
+- Rangée de boutons resserrée et décalée à gauche pour tenir dans la fenêtre ; la valeur de l'accéléromètre (vitesse de crossfade), qui était masquée, s'affiche désormais sous l'accéléromètre.
+
+### Circuits — accélération de la molette
+
+- **Nouveau : accélération de la molette réglable** (*CFG > main > Wheel acceleration* : Off / Low / Normal / High). En **Off**, un cran de molette = un pas (« Default step level »), sans accélération — pratique pour un réglage fin façon « roue » de console. **Normal** reproduit le comportement précédent (valeur par défaut). Réglage conservé dans `user/general_set_up.txt`. Suggéré par un beta.
+
 ### Divers
 
 - **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*

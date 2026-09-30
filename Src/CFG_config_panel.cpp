@@ -426,7 +426,7 @@ int do_network_config(int x_cfg_sc, int y_cfg_sc, int largeur_cfg_sc, int hauteu
 
 int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int hauteurCFGdmxwindow) {
     // config channels
-    for (int oi = 0; oi < 5; oi++) {
+    for (int oi = 0; oi < 6; oi++) {// [molette] 6 lignes : + Wheel acceleration en 3e position
         Rect UnderParam(Vec2D(cfgnetw_X + 155, cfgnetw_Y + 55 + (oi * 30)), Vec2D(50, 25));
         UnderParam.SetRoundness(7.5);
         UnderParam.SetLineWidth(epaisseur_ligne_fader);
@@ -457,13 +457,16 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
                 case 1:
                     default_step_level = param_data_in;
                     break;
-                case 2:
-                    check_channel_level = param_data_in;
+                case 2: // [molette] clic = niveau suivant : Off / Low / Normal / High
+                    wheel_accel_level = (wheel_accel_level + 1) % 4;
                     break;
                 case 3:
-                    dimmer_check_level = param_data_in;
+                    check_channel_level = param_data_in;
                     break;
                 case 4:
+                    dimmer_check_level = param_data_in;
+                    break;
+                case 5:
                     index_blink_change_memories = toggle(index_blink_change_memories);
                     break;
                 }
@@ -491,6 +494,14 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     petitchiffre.Print("Default step level:", (cfgnetw_X + 20), (cfgnetw_Y + 100));
     petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 100));
 
+    // [molette] acceleration molette -> niveaux circuits (sauve dans general_set_up.txt)
+    {
+        static const char *wheel_accel_names[4] = {"Off", "Low", "Normal", "High"};
+        int wa = (wheel_accel_level >= 0 && wheel_accel_level <= 3) ? wheel_accel_level : 2;
+        petitchiffre.Print("Wheel acceleration:", (cfgnetw_X + 20), (cfgnetw_Y + 130));
+        petitchiffre.Print(wheel_accel_names[wa], (cfgnetw_X + 162), (cfgnetw_Y + 130));
+    }
+
     if (!dmx_view)
     {
         sprintf(string_cfg_main, "%d", (int)(((float)check_channel_level) / 2.55));
@@ -499,8 +510,8 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     {
         sprintf(string_cfg_main, "%d", check_channel_level);
     }
-    petitchiffre.Print("Check channels level:", (cfgnetw_X + 20), (cfgnetw_Y + 130));
-    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 130));
+    petitchiffre.Print("Check channels level:", (cfgnetw_X + 20), (cfgnetw_Y + 160));
+    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 160));
 
     if (!dmx_view)
     {
@@ -510,8 +521,8 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     {
         sprintf(string_cfg_main, "%d", dimmer_check_level);
     }
-    petitchiffre.Print("Check dimmers level:", (cfgnetw_X + 20), (cfgnetw_Y + 160));
-    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 160));
+    petitchiffre.Print("Check dimmers level:", (cfgnetw_X + 20), (cfgnetw_Y + 190));
+    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 190));
 
     if (!index_blink_change_memories)
     {
@@ -521,18 +532,19 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
     {
         sprintf(string_cfg_main, "/On");
     }
-    petitchiffre.Print("Show Change/Mem:", (cfgnetw_X + 20), (cfgnetw_Y + 190));
-    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 190));
+    petitchiffre.Print("Show Change/Mem:", (cfgnetw_X + 20), (cfgnetw_Y + 220));
+    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 220));
 
     /////////////////////////NBRE AUDIO PLAYERS///////////////////////////////////////////////////
+    // [molette] bloc Audio decale de 30 px vers le bas (ligne Wheel acceleration inseree au-dessus)
 
-    Rect UnderParam(Vec2D(cfgnetw_X + 155, cfgnetw_Y + 235), Vec2D(50, 25));
+    Rect UnderParam(Vec2D(cfgnetw_X + 155, cfgnetw_Y + 265), Vec2D(50, 25));
     UnderParam.SetRoundness(7.5);
     UnderParam.SetLineWidth(epaisseur_ligne_fader);
     UnderParam.Draw(CouleurFond.WithAlpha(0.5));
 
     if (window_focus_id == W_CFGMENU && mouse_x > cfgnetw_X + 155 && mouse_x < cfgnetw_X + 155 + 50) {
-        if (mouse_y > cfgnetw_Y + 235 && mouse_y < cfgnetw_Y + 235 + 25) // nbre de channels audio
+        if (mouse_y > cfgnetw_Y + 265 && mouse_y < cfgnetw_Y + 265 + 25) // nbre de channels audio
         {
             UnderParam.DrawOutline(CouleurLevel);
             if (mouse_button == 1 && mouse_released == 0) {
@@ -551,12 +563,12 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
         }
     }
 
-    petitchiffre.Print("Audio: ", (cfgnetw_X + 10), (cfgnetw_Y + 220));
-    petitchiffre.Print(audio_device_name, (cfgnetw_X + 120), (cfgnetw_Y + 220));
-    Line(Vec2D(cfgnetw_X + 10, cfgnetw_Y + 225), Vec2D(cfgnetw_X + 100, cfgnetw_Y + 225)).Draw(CouleurLigne);
-    petitchiffre.Print("Number of Players:", (cfgnetw_X + 20), (cfgnetw_Y + 250));
+    petitchiffre.Print("Audio: ", (cfgnetw_X + 10), (cfgnetw_Y + 250));
+    petitchiffre.Print(audio_device_name, (cfgnetw_X + 120), (cfgnetw_Y + 250));
+    Line(Vec2D(cfgnetw_X + 10, cfgnetw_Y + 255), Vec2D(cfgnetw_X + 100, cfgnetw_Y + 255)).Draw(CouleurLigne);
+    petitchiffre.Print("Number of Players:", (cfgnetw_X + 20), (cfgnetw_Y + 280));
     sprintf(string_cfg_main, "%d", index_nbre_players_visibles);
-    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 250));
+    petitchiffre.Print(string_cfg_main, (cfgnetw_X + 170), (cfgnetw_Y + 280));
 
     ///////////////////DEUXIEME COLONNE
 

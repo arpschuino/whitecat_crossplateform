@@ -50,6 +50,7 @@ extern char string_last_over_dock[36];
 extern char string_secondary_feeback[64];
 extern bool index_ch_thruth;
 extern int default_step_level;
+extern int wheel_accel_level; // [molette] 0 off, 1 low, 2 normal, 3 high
 extern bool index_level_attribue;
 
 ///////////////////CHANNELS////////////////////////////////////////////////////

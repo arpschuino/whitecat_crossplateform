@@ -202,9 +202,18 @@ int DoMouseLevel()
  int _delta = mouse_z - last_scroll_mouse_for_chan;
  if (_delta != 0) {
      int _absd = _delta > 0 ? _delta : -_delta;
-     int _d    = _absd > 2 ? _absd - 2 : 0;
-     int _steps = _d > 0 ? _d * _d * 5 : 1;  // 1→1, 2→1, 3→5, 4→20, 5→45
-     if (_steps > 45) _steps = 45;            // plafond
+     int _steps;
+     if (wheel_accel_level <= 0) {
+         _steps = _absd;                       // [molette] Off : 1 cran = 1 pas, sans acceleration
+     } else {
+         // [molette] acceleration reglable (CFG main > Wheel accel.) : coef / plafond par niveau
+         static const int _coef[4] = {0, 2, 5, 10};   // Normal (2) = comportement historique
+         static const int _cap[4]  = {0, 20, 45, 90};
+         int _lvl = wheel_accel_level > 3 ? 3 : wheel_accel_level;
+         int _d   = _absd > 2 ? _absd - 2 : 0;
+         _steps = _d > 0 ? _d * _d * _coef[_lvl] : 1;  // Normal : 1→1, 2→1, 3→5, 4→20, 5→45
+         if (_steps > _cap[_lvl]) _steps = _cap[_lvl]; // plafond
+     }
      for (int _i = 0; _i < _steps; _i++) {
          if (_delta > 0) key_up();
          else            key_down();
