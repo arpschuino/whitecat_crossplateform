@@ -247,7 +247,7 @@ public:
             fd_ = wc_serial_open_dmx(path, 250000, true);
         }
         if (fd_ < 0) {
-            sprintf(string_display_dmx_params,
+            snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
                     "Enttec Open: aucun " WC_SERIAL_PORT_DESC " disponible");
             return 0;
         }
@@ -289,12 +289,12 @@ static int Detect_EnttecProOut() {
             close(fd);
             snprintf(DeviceName, sizeof(DeviceName), "%s", path);
             index_init_dmx_ok = 1;
-            sprintf(string_display_dmx_params,
+            snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
                     "ENTTEC PRO Out : %s", DeviceName);
             return 0;
         }
     }
-    sprintf(string_display_dmx_params, "ENTTEC PRO : aucun " WC_SERIAL_PORT_DESC " détecté.");
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params), "ENTTEC PRO : aucun " WC_SERIAL_PORT_DESC " détecté.");
     return 0;
 }
 
@@ -309,12 +309,12 @@ int Detect_EnttecProIn() {
             close(fd);
             snprintf(DeviceNameIN, sizeof(DeviceNameIN), "%s", path);
             index_init_EnttecPROIN_ok = 1;
-            sprintf(string_display_dmx_params,
+            snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
                     "ENTTEC PRO In : %s", DeviceNameIN);
             return 0;
         }
     }
-    sprintf(string_display_dmx_params, "ENTTEC PRO IN : aucun port détecté.");
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params), "ENTTEC PRO IN : aucun port détecté.");
     return 0;
 }
 
@@ -322,20 +322,20 @@ static int Open_EnttecProOut() {
     com_handle_ = wc_serial_open_dmx(DeviceName, 57600, false); // 8N1
     if (com_handle_ < 0) {
         index_init_dmx_ok = 0;
-        sprintf(string_display_dmx_params,
+        snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
                 "Impossible d'ouvrir %s — branché ?", DeviceName);
         return 0;
     }
     tcflush(com_handle_, TCIOFLUSH);
 
-    sprintf(string_display_dmx_params,
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
             "ENTTEC PRO Out open on %s", DeviceName);
     return 0;
 }
 
 static int Close_EnttecProOut() {
     if (com_handle_ >= 0) { close(com_handle_); com_handle_ = -1; }
-    sprintf(string_display_dmx_params, "ENTTEC PRO OUT : Fermé.");
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params), "ENTTEC PRO OUT : Fermé.");
     return 0;
 }
 
@@ -413,13 +413,13 @@ static int Enttec_Pro_ReceiveData(int label, unsigned char* data,
 int Open_ProIn() {
     com_handle_IN = wc_serial_open_dmx(DeviceNameIN, 57600, false);
     if (com_handle_IN < 0) {
-        sprintf(string_display_dmx_params,
+        snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
                 "Impossible d'ouvrir %s — branché ?", DeviceNameIN);
         return 0;
     }
     tcflush(com_handle_IN, TCIOFLUSH);
     index_init_EnttecPROIN_ok = 1;
-    sprintf(string_display_dmx_params,
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
             "Enttec Pro IN %s ouvert", DeviceNameIN);
     return 0;
 }
@@ -427,7 +427,7 @@ int Open_ProIn() {
 int Close_ProIn() {
     if (com_handle_IN >= 0) { close(com_handle_IN); com_handle_IN = -1; }
     index_init_EnttecPROIN_ok = 0;
-    sprintf(string_display_dmx_params,
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
             "Enttec Pro IN %s fermé", DeviceNameIN);
     return 0;
 }
@@ -436,7 +436,7 @@ int Close_ProIn() {
 // Interface 4 — Sunlite (DLL Windows propriétaire — non portable)
 // ============================================================
 static int open_sunlite() {
-    sprintf(string_display_dmx_params,
+    snprintf(string_display_dmx_params, sizeof(string_display_dmx_params),
             "Sunlite : non disponible sur Linux/macOS");
     return -1;
 }
