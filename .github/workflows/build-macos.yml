@@ -37,7 +37,7 @@ jobs:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       HOMEBREW_NO_ENV_HINTS: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Dépendances + fichiers d'exécution
         run: |
@@ -64,7 +64,7 @@ jobs:
           done
 
       - name: Publication de l'artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Whitecat_Crossplatform_macos_arm64
           path: whitecatbuild/dist/Whitecat_Crossplatform_macos_arm64.tar.gz
