@@ -85,6 +85,43 @@ Runtime files (`Fonts/`, `gfx/`, `ressources/`, `user/`…): copy them next to t
 the Linux archive of the latest [release](https://github.com/arpschuino/whitecat_crossplateform/releases).
 *Fichiers d'exécution : copiez-les à côté de l'exécutable depuis l'archive Linux de la dernière release.*
 
+## Build — macOS (Apple Silicon / Intel)
+
+Requires the Xcode Command Line Tools (`xcode-select --install`) and [Homebrew](https://brew.sh).
+*Prérequis : Command Line Tools Xcode (`xcode-select --install`) et [Homebrew](https://brew.sh).*
+
+```bash
+git clone https://github.com/arpschuino/whitecat_crossplateform.git
+cd whitecat_crossplateform
+./setup_macos.sh
+make -f Makefile.macos -j8
+cd whitecatbuild/build/macos && ./Whitecat_Crossplatform
+```
+
+Output / Sortie : `whitecatbuild/build/macos/Whitecat_Crossplatform`
+
+`setup_macos.sh` installs the libraries with Homebrew (`sdl2 sdl2_ttf sdl2_image sdl2_mixer libharu
+rtmidi`) and copies the runtime files (`Fonts/`, `gfx/`, `ressources/`, `user/`…) from the Linux
+release archive next to the executable. It never overwrites an existing file.
+*`setup_macos.sh` installe les bibliothèques via Homebrew et copie les fichiers d'exécution depuis
+l'archive Linux de la release, sans jamais écraser un fichier existant.*
+
+- MIDI: CoreMIDI (via RtMidi). / *MIDI : CoreMIDI (via RtMidi).*
+- DMX: Art-Net, and Enttec Open DMX / Enttec Pro through Apple's built-in FTDI driver
+  (`/dev/cu.usbserial-*`). Sunlite is not available. /
+  *DMX : Art-Net, Enttec Open / Pro via le pilote FTDI intégré à macOS. Sunlite non disponible.*
+- Video tracking (OpenCV) is disabled, as on Linux. / *Le tracking vidéo (OpenCV) est désactivé, comme sous Linux.*
+- Standalone package (bundled libraries, runs without Homebrew): `brew install dylibbundler`, then
+  `make -f Makefile.macos package` → `whitecatbuild/dist/Whitecat_Crossplatform_macos_<arch>.tar.gz`.
+  The GitHub Actions workflow `Build macOS` publishes the same package as an artifact. It is **not
+  signed by Apple** (no notarization): after downloading, run
+  `xattr -dr com.apple.quarantine Whitecat_Crossplatform_macos_arm64` before the first launch. /
+  *Paquet autonome : `make -f Makefile.macos package`. Le workflow `Build macOS` le publie en
+  artefact, **non signé** : après téléchargement, lancez `xattr -dr com.apple.quarantine` sur le dossier.*
+- The first time you launch it, macOS may ask for permission to receive incoming network
+  connections (Art-Net): accept it. /
+  *Au premier lancement, macOS peut demander l'autorisation des connexions réseau entrantes (Art-Net) : acceptez.*
+
 ### VSCode
 
 Open the project folder in VSCode:
@@ -117,6 +154,9 @@ whitecat_crossplateform/
 ├── whitecatbuild/     — Build output + runtime resources (build kit, not in git)
 ├── tools/             — Portable MinGW compiler (build kit, not in git)
 ├── setup_windows.bat  — Downloads and installs the Windows build kit
+├── setup_macos.sh     — Installs the macOS libraries (Homebrew) and runtime files
+├── Makefile.linux     — Linux / Raspberry Pi build
+├── Makefile.macos     — macOS build
 └── build.bat          — Build script
 ```
 

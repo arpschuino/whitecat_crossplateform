@@ -23,6 +23,7 @@
 <li class="level2"><div class="li"><a href="#sources">Getting the sources</a></div></li>
 <li class="level2"><div class="li"><a href="#windows">Building on Windows</a></div></li>
 <li class="level2"><div class="li"><a href="#linux">Building on Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#macos">Building on macOS</a></div></li>
 <li class="level2"><div class="li"><a href="#code">Finding your way in the code</a></div></li>
 <li class="level2"><div class="li"><a href="#contribute">Proposing a change</a></div></li>
 <li class="level2"><div class="li"><a href="#doxygen">Commenting the code (Doxygen)</a></div></li>
@@ -121,6 +122,20 @@ make -f Makefile.linux -j4</pre>
 
 <p class="level2">
 The executable is built in <code>whitecatbuild/build/linux/Whitecat_Crossplatform</code>. Copy the runtime folders (<code>Fonts/</code>, <code>gfx/</code>, <code>ressources/</code>, <code>user/</code>…) next to it, from the Linux archive of the latest <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">release</a>. On Linux, file name case matters: use the names from the Linux archive.
+</p>
+
+<h2><a name="macos" id="macos">Building on macOS</a></h2>
+
+<p class="level2">
+On macOS (Apple Silicon or Intel), you need the Xcode <strong>Command Line Tools</strong> (<code>xcode-select --install</code>) and <a href="https://brew.sh" class="urlextern" rel="nofollow">Homebrew</a>. The <code>setup_macos.sh</code> script installs the libraries (<code>sdl2 sdl2_ttf sdl2_image sdl2_mixer libharu rtmidi</code>) and copies the runtime folders (<code>Fonts/</code>, <code>gfx/</code>, <code>ressources/</code>, <code>user/</code>…) from the Linux release archive, never overwriting an existing file:
+</p>
+
+<pre class="code">./setup_macos.sh
+make -f Makefile.macos -j8
+cd whitecatbuild/build/macos &amp;&amp; ./Whitecat_Crossplatform</pre>
+
+<p class="level2">
+MIDI goes through CoreMIDI. For DMX: Art-Net, Enttec Open and Enttec Pro (Apple's built-in FTDI driver, <code>/dev/cu.usbserial-*</code> ports); Sunlite is not available and video tracking is disabled, as on Linux. On first launch, macOS may ask you to allow incoming network connections (Art-Net): accept it.
 </p>
 
 <h2><a name="code" id="code">Finding your way in the code</a></h2>

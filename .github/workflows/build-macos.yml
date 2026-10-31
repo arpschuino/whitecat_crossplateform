@@ -1,0 +1,71 @@
+# ============================================================
+# WhiteCat — build macOS (Apple Silicon), paquet NON signé
+# ------------------------------------------------------------
+# Aucun secret utilisé : pas de signature Developer ID ni de
+# notarisation (signature ad-hoc seulement). Le paquet produit
+# (exe + dylibs + fichiers d'exécution) est publié comme artefact.
+# ============================================================
+name: Build macOS
+
+on:
+  push:
+    paths:
+      - 'Src/**'
+      - 'Makefile.macos'
+      - 'setup_macos.sh'
+      - '.github/workflows/build-macos.yml'
+  pull_request:
+    paths:
+      - 'Src/**'
+      - 'Makefile.macos'
+      - 'setup_macos.sh'
+      - '.github/workflows/build-macos.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-macos-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest   # Apple Silicon (arm64)
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      HOMEBREW_NO_ENV_HINTS: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dépendances + fichiers d'exécution
+        run: |
+          ./setup_macos.sh
+          brew install dylibbundler
+
+      - name: Compilation
+        run: make -f Makefile.macos -j"$(sysctl -n hw.ncpu)"
+
+      - name: Paquet autonome
+        run: make -f Makefile.macos package
+
+      - name: Vérification du paquet (aucune dépendance Homebrew)
+        run: |
+          DIST=whitecatbuild/dist/Whitecat_Crossplatform_macos_arm64
+          test -f "$DIST/lib/libSDL3.dylib"
+          if otool -L "$DIST/Whitecat_Crossplatform" "$DIST"/lib/*.dylib \
+               | grep -E '^\s+(/opt/homebrew|/usr/local)/'; then
+            echo "::error::Le paquet référence encore des bibliothèques Homebrew"
+            exit 1
+          fi
+          for f in "$DIST/Whitecat_Crossplatform" "$DIST"/lib/*.dylib; do
+            codesign -v "$f"
+          done
+
+      - name: Publication de l'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Whitecat_Crossplatform_macos_arm64
+          path: whitecatbuild/dist/Whitecat_Crossplatform_macos_arm64.tar.gz
+          if-no-files-found: error
