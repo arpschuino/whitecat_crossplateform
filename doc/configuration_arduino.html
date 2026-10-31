@@ -599,6 +599,9 @@ C&#039;est le port série virtuel de communication avec Arduino, que vous avez n
 <p class="level4">
 C&#039;est sur ce port que WhiteCat va aller se brancher.
 </p>
+<p class="level4">
+<strong>Linux et macOS</strong> : il n&#039;y a pas de numéro COM. Le numéro tapé désigne le N-ième port série USB trouvé, dans cet ordre : <code>/dev/ttyACM*</code> puis <code>/dev/ttyUSB*</code> sous Linux ; <code>/dev/cu.usbmodem*</code>, <code>/dev/cu.usbserial*</code> puis <code>/dev/cu.wchusbserial*</code> sous macOS. Avec une seule carte branchée, tapez <strong>1</strong>. Le message d&#039;état affiche le port ouvert ou, en cas d&#039;échec, la liste des ports disponibles avec leur numéro. Sous Linux, l&#039;utilisateur doit appartenir au groupe <code>dialout</code> (<code>sudo usermod -aG dialout $USER</code>, puis se reconnecter).
+</p>
 <!-- EDIT23 SECTION "PORT COM" [12638-12884] -->
 <h4 class="sectionedit24"><a name="baud-rate" id="baud-rate">BAUD-RATE</a></h4>
 

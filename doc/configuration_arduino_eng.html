@@ -848,6 +848,9 @@ The COM PORT (virtual serial port) of the arduino, that you have taken from the 
 <p class="level4">
 White Cat will try to connect to it.
 </p>
+<p class="level4">
+<strong>Linux and macOS</strong>: there are no COM numbers. The number you type selects the Nth USB serial port found, in this order: <code>/dev/ttyACM*</code> then <code>/dev/ttyUSB*</code> on Linux; <code>/dev/cu.usbmodem*</code>, <code>/dev/cu.usbserial*</code> then <code>/dev/cu.wchusbserial*</code> on macOS. With a single board plugged in, type <strong>1</strong>. The status line shows the port that was opened or, if it fails, the available ports with their numbers. On Linux, your user must be in the <code>dialout</code> group (<code>sudo usermod -aG dialout $USER</code>, then log in again).
+</p>
 <!-- EDIT30 SECTION "PORT COM" [16322-16567] -->
 <h4 class="sectionedit31"><a name="baud-rate" id="baud-rate">BAUD-RATE</a></h4>
 
