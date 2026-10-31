@@ -32,7 +32,8 @@ WWWWWWWW           C  WWWWWWWW   |
  *   POSIX serial à 250000 baud, 8N2.
  *   Break via ioctl TIOCSBRK/TIOCCBRK.
  *   Thread pthread pour envoi continu ~40 fps.
- *   Baud 250000 via termios2/BOTHER (kernel Linux direct).
+ *   Baud 250000 via termios2/BOTHER (kernel Linux direct),
+ *   ou ioctl IOSSIOSPEED sur macOS.
  *
  *   Prérequis système :
  *     sudo usermod -aG dialout $USER
@@ -42,7 +43,7 @@ WWWWWWWW           C  WWWWWWWW   |
  * Interface 3 — Enttec Pro :
  *   POSIX serial à 57600 baud, 8N1.
  *   Même protocole qu'en Win32 (0x7E + label + len + data + 0xE7).
- *   Détection par scan /dev/ttyUSB0..9.
+ *   Détection par scan /dev/ttyUSB0..9 (macOS : /dev/cu.usbserial-*).
  *
  * Interface 4 — Sunlite :
  *   Non disponible (DLL Windows propriétaire). Stubs.
@@ -62,6 +63,17 @@ WWWWWWWW           C  WWWWWWWW   |
 #include <stdio.h>
 #include <pthread.h>
 
+#ifdef __APPLE__
+// ============================================================
+// macOS : baud non standard via IOSSIOSPEED (IOKit), appliqué
+// après tcsetattr(). Les adaptateurs FTDI (driver Apple intégré)
+// apparaissent en /dev/cu.usbserial-<numéro de série>.
+// ============================================================
+#include <IOKit/serial/ioss.h>
+#include <glob.h>
+#define WC_SERIAL_PORT_DESC "/dev/cu.usbserial-*"
+#else
+#define WC_SERIAL_PORT_DESC "/dev/ttyUSBx"
 // ============================================================
 // termios2 / BOTHER — baud rate 250000 (non standard POSIX)
 // Le kernel Linux expose TCGETS2/TCSETS2 via ioctl.
@@ -91,6 +103,31 @@ struct wc_termios2 {
 #undef TCSETS2
 #define TCGETS2 _IOR('T', 0x2A, struct wc_termios2)
 #define TCSETS2 _IOW('T', 0x2B, struct wc_termios2)
+#endif // __APPLE__
+
+// ============================================================
+// wc_serial_port_path — i-ème port série candidat (0..9).
+// Linux : /dev/ttyUSB<i> ; macOS : i-ème /dev/cu.usbserial-* (ordre alpha).
+// Retourne false s'il n'y a pas de i-ème port.
+// ============================================================
+static bool wc_serial_port_path(int i, char* out, size_t outlen)
+{
+#ifdef __APPLE__
+    glob_t g;
+    bool ok = false;
+    if (glob("/dev/cu.usbserial-*", 0, NULL, &g) == 0) {
+        if ((size_t)i < g.gl_pathc) {
+            snprintf(out, outlen, "%s", g.gl_pathv[i]);
+            ok = true;
+        }
+        globfree(&g);
+    }
+    return ok;
+#else
+    snprintf(out, outlen, "/dev/ttyUSB%d", i);
+    return true;
+#endif
+}
 
 // ============================================================
 // Variables globales (équivalent HANDLE Win32 → fd POSIX)
@@ -129,11 +166,15 @@ static int wc_serial_open_dmx(const char* path, int baud, bool stop2)
 
     if (baud == 250000) {
         // 250000 n'est pas une vitesse standard POSIX.
-        // On passe par termios2 + BOTHER (accès direct kernel Linux).
         cfsetispeed(&tio, B38400); // valeur intermédiaire — sera remplacée
         cfsetospeed(&tio, B38400);
         tcsetattr(fd, TCSANOW, &tio);
 
+#ifdef __APPLE__
+        speed_t speed = 250000;
+        ioctl(fd, IOSSIOSPEED, &speed);
+#else
+        // On passe par termios2 + BOTHER (accès direct kernel Linux).
         struct wc_termios2 tio2;
         if (ioctl(fd, TCGETS2, &tio2) == 0) {
             tio2.c_cflag &= ~CBAUD;
@@ -142,6 +183,7 @@ static int wc_serial_open_dmx(const char* path, int baud, bool stop2)
             tio2.c_ospeed = 250000;
             ioctl(fd, TCSETS2, &tio2);
         }
+#endif
     } else {
         // Vitesse standard (ex: 57600 pour Enttec Pro)
         cfsetispeed(&tio, B57600);
@@ -197,16 +239,16 @@ public:
     ~Open_USB_DMX() { close_dmx_devices(); }
 
     int open_dmx_devices() {
-        // Scan /dev/ttyUSB0..9 — prend le premier accessible à 250k baud
+        // Scan des ports série — prend le premier accessible à 250k baud
         fd_ = -1;
         for (int i = 0; i < 10 && fd_ < 0; i++) {
-            char path[32];
-            snprintf(path, sizeof(path), "/dev/ttyUSB%d", i);
+            char path[256];
+            if (!wc_serial_port_path(i, path, sizeof(path))) break;
             fd_ = wc_serial_open_dmx(path, 250000, true);
         }
         if (fd_ < 0) {
             sprintf(string_display_dmx_params,
-                    "Enttec Open: aucun /dev/ttyUSBx disponible");
+                    "Enttec Open: aucun " WC_SERIAL_PORT_DESC " disponible");
             return 0;
         }
         tcflush(fd_, TCIOFLUSH);
@@ -240,32 +282,32 @@ public:
 static int Detect_EnttecProOut() {
     com_handle_ = -1;
     for (int i = 0; i < 10; i++) {
-        char path[32];
-        snprintf(path, sizeof(path), "/dev/ttyUSB%d", i);
+        char path[256];
+        if (!wc_serial_port_path(i, path, sizeof(path))) break;
         int fd = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
         if (fd >= 0) {
             close(fd);
-            snprintf(DeviceName, sizeof(DeviceName), "/dev/ttyUSB%d", i);
+            snprintf(DeviceName, sizeof(DeviceName), "%s", path);
             index_init_dmx_ok = 1;
             sprintf(string_display_dmx_params,
                     "ENTTEC PRO Out : %s", DeviceName);
             return 0;
         }
     }
-    sprintf(string_display_dmx_params, "ENTTEC PRO : aucun /dev/ttyUSBx détecté.");
+    sprintf(string_display_dmx_params, "ENTTEC PRO : aucun " WC_SERIAL_PORT_DESC " détecté.");
     return 0;
 }
 
 int Detect_EnttecProIn() {
     com_handle_IN = -1;
-    // Commence à ttyUSB1 pour ne pas prendre le même que OUT
+    // Commence au 2e port pour ne pas prendre le même que OUT
     for (int i = 1; i < 10; i++) {
-        char path[32];
-        snprintf(path, sizeof(path), "/dev/ttyUSB%d", i);
+        char path[256];
+        if (!wc_serial_port_path(i, path, sizeof(path))) break;
         int fd = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
         if (fd >= 0) {
             close(fd);
-            snprintf(DeviceNameIN, sizeof(DeviceNameIN), "/dev/ttyUSB%d", i);
+            snprintf(DeviceNameIN, sizeof(DeviceNameIN), "%s", path);
             index_init_EnttecPROIN_ok = 1;
             sprintf(string_display_dmx_params,
                     "ENTTEC PRO In : %s", DeviceNameIN);

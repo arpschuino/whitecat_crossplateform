@@ -1,0 +1,196 @@
+# ============================================================
+# WhiteCat - Build macOS (Apple Clang, SDL2, CoreMIDI/RtMidi)
+# Usage : make -f Makefile.macos -j8
+#         make -f Makefile.macos clean
+#
+# Prerequis (Homebrew) :
+#   xcode-select --install
+#   brew install pkg-config sdl2 sdl2_ttf sdl2_image sdl2_mixer libharu rtmidi
+#
+# RtMidi : librairie Homebrew (backend CoreMIDI), pas les sources du kit Windows.
+# OpenGL : framework systeme (legacy 2.1, glLineStipple dans plot9.cpp).
+#          SDL_HINT_RENDER_DRIVER="opengl" est force dans graphics_backend.h
+#          (le defaut Metal casserait les appels GL directs).
+# DMX USB : Enttec Open / Pro via /dev/cu.usbserial-* (driver FTDI Apple integre).
+# OpenCV (video tracking) : desactive par #ifdef _WIN32 (stubs).
+# Pas de PCH : clang n'utilise pas wc_tus.h.gch sur un #include ordinaire.
+# ============================================================
+
+SRC     := $(CURDIR)/Src
+OUT     := $(CURDIR)/whitecatbuild/build/macos
+
+CXX     := clang++
+
+PKGS        := sdl2 SDL2_ttf SDL2_image SDL2_mixer rtmidi
+PKG_CFLAGS  := $(shell pkg-config --cflags $(PKGS) 2>/dev/null)
+PKG_LIBS    := $(shell pkg-config --libs   $(PKGS) 2>/dev/null)
+BREW_PREFIX := $(shell brew --prefix 2>/dev/null || echo /opt/homebrew)
+
+CFLAGS  := -D__POSIX__ \
+            -DGL_SILENCE_DEPRECATION \
+            -std=c++11 -O2 -g -w \
+            $(PKG_CFLAGS)
+
+INCS    := -I$(SRC) \
+            -I$(BREW_PREFIX)/include
+
+LDFLAGS := $(PKG_LIBS) \
+            -L$(BREW_PREFIX)/lib -lhpdf -lz -lpthread \
+            -framework OpenGL \
+            -framework CoreMIDI -framework CoreAudio -framework CoreFoundation \
+            -framework IOKit \
+            -Wl,-rpath,@executable_path/lib
+
+# ============================================================
+# Sources (identiques a Makefile.linux)
+# ============================================================
+
+SRC_CPPS := \
+    $(SRC)/MAIN.cpp \
+    $(SRC)/saveload.cpp \
+    $(SRC)/globals.cpp \
+    $(SRC)/display.cpp \
+    $(SRC)/channels.cpp \
+    $(SRC)/video.cpp \
+    $(SRC)/ui_indexes.cpp \
+    $(SRC)/wc_inline_edit.cpp \
+    $(SRC)/patch.cpp \
+    $(SRC)/audio.cpp \
+    $(SRC)/dmx.cpp \
+    $(SRC)/midi.cpp \
+    $(SRC)/network.cpp \
+    $(SRC)/chasers.cpp \
+    $(SRC)/faders.cpp \
+    $(SRC)/sequenciel.cpp \
+    $(SRC)/theme.cpp \
+    $(SRC)/banger.cpp \
+    $(SRC)/arduino.cpp \
+    $(SRC)/grider.cpp \
+    $(SRC)/plot.cpp \
+    $(SRC)/draw.cpp \
+    $(SRC)/echo.cpp \
+    $(SRC)/trichro.cpp \
+    $(SRC)/schwz.cpp \
+    $(SRC)/core.cpp \
+    $(SRC)/midi_CORE.cpp \
+    $(SRC)/patch_splines.cpp \
+    $(SRC)/SmoothData.cpp \
+    $(SRC)/grand_master.cpp \
+    $(SRC)/grider_calcul.cpp \
+    $(SRC)/grider_core.cpp \
+    $(SRC)/grider_visu.cpp \
+    $(SRC)/gestionaire_fenetres2.cpp \
+    $(SRC)/saves_export_import.cpp \
+    $(SRC)/saves_menu.cpp \
+    $(SRC)/banger_visu.cpp \
+    $(SRC)/chasers_visu.cpp \
+    $(SRC)/channels_visu.cpp \
+    $(SRC)/sequentiel_visu.cpp \
+    $(SRC)/trichro_core.cpp \
+    $(SRC)/banger_core.cpp \
+    $(SRC)/faders_core.cpp \
+    $(SRC)/arduino_core.cpp \
+    $(SRC)/arduino_visu.cpp \
+    $(SRC)/midi_functions.cpp \
+    $(SRC)/CFG_config_panel.cpp \
+    $(SRC)/faders_operations.cpp \
+    $(SRC)/minifaders_visu.cpp \
+    $(SRC)/minifaders_core.cpp \
+    $(SRC)/faders_visuels.cpp \
+    $(SRC)/sequentiel_core.cpp \
+    $(SRC)/keyboard_functions2.cpp \
+    $(SRC)/wizard_operations.cpp \
+    $(SRC)/wizard.cpp \
+    $(SRC)/logicals_intres.cpp \
+    $(SRC)/saves_export_pdf2.cpp \
+    $(SRC)/save_show.cpp \
+    $(SRC)/list_proj_core.cpp \
+    $(SRC)/gui_boutons_rebuild1.cpp \
+    $(SRC)/network_artnet_3.cpp \
+    $(SRC)/patch_core.cpp \
+    $(SRC)/patch_visu.cpp \
+    $(SRC)/list_proj_visu.cpp \
+    $(SRC)/midi_launchpad.cpp \
+    $(SRC)/CFG_screen.cpp \
+    $(SRC)/echo3.cpp \
+    $(SRC)/Draw3.cpp \
+    $(SRC)/arduino_device_core.cpp \
+    $(SRC)/network_MAC_adress_3.cpp \
+    $(SRC)/numpad_visuel.cpp \
+    $(SRC)/time_visu_3.cpp \
+    $(SRC)/trichro_visu2.cpp \
+    $(SRC)/numpad_core.cpp \
+    $(SRC)/time_core.cpp \
+    $(SRC)/channels_core.cpp \
+    $(SRC)/Call_everybody_5.cpp \
+    $(SRC)/video_tracking_core.cpp \
+    $(SRC)/video_tracking_visu.cpp \
+    $(SRC)/procs_visuels_rebuild1.cpp \
+    $(SRC)/dmx_functions.cpp \
+    $(SRC)/chasers_core.cpp
+
+# ============================================================
+# Objets et dependances
+# ============================================================
+
+OBJS := $(SRC_CPPS:$(SRC)/%.cpp=$(OUT)/%.o)
+DEPS := $(OBJS:.o=.d)
+
+EXE  := $(OUT)/Whitecat_Crossplatform
+
+# ============================================================
+# Cibles
+# ============================================================
+
+.PHONY: all clean dirs package
+
+all: dirs $(EXE)
+	@echo
+	@echo [OK] $(EXE)
+
+# ============================================================
+# Paquet autonome (non signe) : exe + dylibs Homebrew dans lib/ + fichiers
+# d'execution. Tourne sur un Mac sans Homebrew (meme architecture).
+# Prerequis : brew install dylibbundler ; ./setup_macos.sh (fichiers d'exec)
+# sdl2-compat charge SDL3 par dlopen (invisible pour dylibbundler) : on le
+# copie a cote (il cherche d'abord @loader_path/libSDL3.dylib).
+# ============================================================
+ARCH         := $(shell uname -m)
+DIST_NAME    := Whitecat_Crossplatform_macos_$(ARCH)
+DIST         := $(CURDIR)/whitecatbuild/dist/$(DIST_NAME)
+RUNTIME_DIRS := Fonts audio gfx import_export plans ressources saves user
+
+package: all
+	rm -rf $(DIST) $(DIST).tar.gz
+	mkdir -p $(DIST)/lib
+	cp $(EXE) $(DIST)/
+	for d in $(RUNTIME_DIRS); do \
+	    if [ -d $(OUT)/$$d ]; then cp -R $(OUT)/$$d $(DIST)/; \
+	    else echo "[package] $$d/ absent : lancez ./setup_macos.sh"; exit 1; fi; \
+	done
+	dylibbundler -of -b -x $(DIST)/Whitecat_Crossplatform -d $(DIST)/lib -p @executable_path/lib/
+	cp -L $(shell brew --prefix sdl3)/lib/libSDL3.dylib $(DIST)/lib/libSDL3.dylib
+	chmod u+w $(DIST)/lib/*.dylib
+	install_name_tool -id @executable_path/lib/libSDL3.dylib $(DIST)/lib/libSDL3.dylib
+	codesign --force -s - $(DIST)/lib/*.dylib
+	codesign --force -s - $(DIST)/Whitecat_Crossplatform
+	tar -C $(dir $(DIST)) -czf $(DIST).tar.gz $(DIST_NAME)
+	@echo
+	@echo [OK] $(DIST).tar.gz
+
+$(EXE): $(OBJS)
+	@echo [link] Whitecat_Crossplatform ...
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+$(OUT)/%.o: $(SRC)/%.cpp
+	@echo [cc] $(<F)
+	$(CXX) $(CFLAGS) $(INCS) -MMD -MP -c $< -o $@
+
+dirs:
+	mkdir -p $(OUT)
+
+clean:
+	rm -f $(OUT)/*.o $(OUT)/*.d $(EXE)
+	@echo [clean] OK
+
+-include $(DEPS)

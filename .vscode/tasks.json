@@ -11,6 +11,16 @@
                     "args": ["/c"]
                 }
             },
+            "osx": {
+                "command": "make -f Makefile.macos -j8",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "shell": {
+                        "executable": "/bin/bash",
+                        "args": ["-c"]
+                    }
+                }
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true

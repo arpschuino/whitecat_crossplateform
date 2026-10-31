@@ -64,6 +64,12 @@ Reprendre en **Phase 7G** :
   Transfert via SSH (scp). Assets (Fonts/, user/, saves/) à côté de l'exe.
   Lag visible — SDL2 GPU actif (software encore plus lent) — Pi 3 limite matérielle.
 - **7I** ← PROCHAINE : optimisation performances Pi 3 (FPS cap, rendu, profiling)
+- **7J** ✅ macOS (Apple Silicon, Apple Clang, Homebrew) — `Makefile.macos` + `setup_macos.sh`
+  RtMidi = lib Homebrew (CoreMIDI), pas de PCH (clang ignore wc_tus.h.gch sur #include)
+  `<OpenGL/gl.h>`, `get_executable_name()` via `_NSGetExecutablePath` (graphics_backend.h)
+  DMX série : `IOSSIOSPEED` pour 250000 baud + scan `/dev/cu.usbserial-*` (dmx_backend_linux.h)
+  Homebrew `sdl2` = sdl2-compat (SDL3 dessous) ; hint renderer "opengl" indispensable (glLineStipple plot9)
+  Non testé : fenêtre LIGHT PLOT (GL direct), DMX USB réel, MIDI réel
 - **7D-réseau** `Src/network_MAC_adress_3.cpp` — wrapper `#ifdef _WIN32` autour de `Iphlpapi.h` (à faire si révèle des erreurs de link)
 
 ## Key Context — Cross-platform
