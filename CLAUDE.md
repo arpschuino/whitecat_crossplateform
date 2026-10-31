@@ -68,6 +68,7 @@ Reprendre en **Phase 7G** :
 
 ## Key Context — Cross-platform
 - `Src/wc_platform.h` — abstraction OS : headers POSIX, types Winsock compat, `wc_get_exe_dir()`, `wc_get_temp_dir()`, `WC_DIRSEP`/`WC_DIRSEP_C`
+- `Src/Serial.h` — `CSerial` (Arduino) : Win32 COM, et POSIX hors Windows. PORT n = n-ième port série USB (Linux ttyACM*/ttyUSB* ; macOS cu.usbmodem*/cu.usbserial*/cu.wchusbserial*). TIOCEXCL : le scan DMX Enttec ne peut plus prendre le port Arduino. Testé sur pty, pas sur carte réelle
 - `ClassicalChannelView` : 0 = mode vues (thru filtre par vues actives), 1 = mode classique
 - `wc_key_queue` est `static` dans graphics_backend.h → keyboard_routines2.cpp doit rester `#include` dans MAIN.cpp (jamais TU séparée)
 - **WC_SKIP_GLOBALS** : tout nouveau global dans graphics_backend.h doit utiliser ce patron (extern dans TUs, définition dans MAIN.cpp) — sinon symbole dupliqué silencieux
