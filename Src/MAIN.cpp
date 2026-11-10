@@ -223,7 +223,7 @@ END_OF_FUNCTION(ticker_dmxIn);
 
 /////////////////////////////////////////////
 
-void ticker() {
+static void ticker_body() {
     time_doing();
 
     if (index_is_saving == 0 && init_done == 1 && index_writing_curve == 0 && index_quit == 0) {
@@ -459,6 +459,14 @@ void ticker() {
     }
 }
 
+// [save/load] enveloppe : compte le passage (wc_bg_busy) AVANT de tester index_is_saving,
+// pour que Save/Load puissent attendre la fin d'un passage deja commence.
+void ticker() {
+    wc_bg_busy++;
+    if (index_is_saving == 0) ticker_body();
+    else time_doing(); // l'horloge continue pendant save/load
+    wc_bg_busy--;
+}
 END_OF_FUNCTION(ticker);
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -598,7 +606,7 @@ END_OF_FUNCTION(my_callback);
 ////////////checks 10emes et souris/////////////////////////////////////////////////
 int ticker_dixiemes_de_secondes_check = BPS_TO_TIMER(10); // 10eme de secondes
 
-void dixiemes_de_secondes() {
+static void dixiemes_de_secondes_body() {
     ticks_dixieme_for_icat_and_draw++;
     if (index_is_saving == 0 && init_done == 1 && index_writing_curve == 0 && index_quit == 0) {
         get_current_time();
@@ -678,11 +686,16 @@ void dixiemes_de_secondes() {
     do_audio_midi_function_next_prev_track(); // christoph 22/04/14 debugging midi next prev function by outputting it
                                               // inside the 1/10th second loop
 }
+void dixiemes_de_secondes() { // [save/load] cf. ticker()
+    wc_bg_busy++;
+    if (index_is_saving == 0) dixiemes_de_secondes_body();
+    wc_bg_busy--;
+}
 END_OF_FUNCTION(dixiemes_de_secondes);
 
 ///////////////FULL LOOP FUNCTION/////////////////////////////////////////////
 int ticker_full_loop_rate = BPS_TO_TIMER(50); // 20ms - 50Hz, sufficient for keyboard/mouse/network
-void ticker_full_loop() {
+static void ticker_full_loop_body() {
 
     if (core_do_calculations[2] == 1 && starting_wcat == 0) {
         for (int i = 0; i < core_user_define_nb_bangers; i++) {
@@ -706,6 +719,11 @@ void ticker_full_loop() {
         }
         // commandes_clavier et DoMouseLevel déplacés dans le main loop (thread safety : wc_key_queue non protégée)
     }
+}
+void ticker_full_loop() { // [save/load] cf. ticker() ; bangers + audio ne tournaient pas sous garde
+    wc_bg_busy++;
+    if (index_is_saving == 0) ticker_full_loop_body();
+    wc_bg_busy--;
 }
 END_OF_FUNCTION(ticker_full_loop);
 
@@ -1307,6 +1325,7 @@ int main(int /*argc*/, char ** /*argv*/) {
             // [ctrl+S] sauvegarde rapide dans le thread principal (comme le Save de la fenetre Save)
             if (index_do_quick_save == 1 && index_is_saving == 0) {
                 index_is_saving = 1;
+                wc_wait_background_idle();
                 Save_Show();
                 chdir(mondirectory);
                 sprintf(string_Last_Order, ">> Show Saved at %s", tmp_time);

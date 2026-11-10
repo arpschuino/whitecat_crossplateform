@@ -232,6 +232,7 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 ### Sauvegarde rapide (Ctrl+S) — plantage
 
 - **Fix : Ctrl+S fermait parfois WhiteCat brutalement, sans rien enregistrer** (signalé par un beta sur trois PC Windows 10, reproduit après une vingtaine de Ctrl+S). La sauvegarde rapide pouvait être exécutée par deux chemins, le premier arrivé gagnant : la boucle principale (sans risque) ou le timer 10 Hz. Dans ce dernier cas, `Save_Show()` dessinait « Saving ... » depuis le thread du timer pendant que la boucle principale dessinait aussi — le rendu SDL n'est pas thread-safe → crash aléatoire. Un seul chemin désormais, dans la boucle principale, avec suspension des threads de fond pendant la sauvegarde et retour au dossier de WhiteCat (comme le Save de la fenêtre Save). Validé : 100 Ctrl+S sans plantage.
+- **Fix (probable) : plantage occasionnel au chargement d'une conduite.** Pendant un Load, les bangers (`do_bang`/`do_loop_bang`) et le suivi audio continuaient de tourner sans aucune garde, et un passage du ticker (crossfade, LFO, chasers, grids) déjà commencé allait au bout sur des données en cours de relecture. Les timers de fond comptent maintenant leurs passages en cours ; sauvegarde, chargement, rechargement wizard et imports ASCII attendent qu'ils soient terminés avant de toucher aux données, et les timers ne font plus rien tant que dure l'opération (bangers en boucle et suivi audio en pause une à deux secondes, comme les fondus l'étaient déjà).
 
 ### Séquentiel — temps décalés des numéros de mémoire
 

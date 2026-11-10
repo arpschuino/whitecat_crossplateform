@@ -1713,9 +1713,20 @@ return(0);
 }
 
 //save
+// [save/load] attend la fin des passages de timers de fond deja commences (ticker, 10e de s,
+// full loop) : ils testent index_is_saving en entree, mais un passage en cours au moment ou
+// on le pose continuerait sur des donnees en train d'etre ecrites/relues -> crash aleatoire.
+void wc_wait_background_idle()
+{
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    Uint32 t0 = SDL_GetTicks();
+    while (wc_bg_busy.load() > 0 && SDL_GetTicks() - t0 < 1000) { SDL_Delay(1); }
+}
+
 int Save_Show()
 {
 index_is_saving=1;
+wc_wait_background_idle();
 
 save_load_print_to_screen("Saving ...");
 
@@ -7104,6 +7115,7 @@ return(0);
 int load_the_show(char name_of_show[24])
 {
 index_is_saving=1;
+wc_wait_background_idle();
 char vieux_nomduspectacle[24];
 sprintf(vieux_nomduspectacle, nomduspectacle);
 sprintf(nomduspectacle,name_of_show);
@@ -7128,6 +7140,7 @@ specify_who_to_save_load[2]=1;
 specify_who_to_save_load[3]=1;
 specify_who_to_save_load[4]=1;
 index_is_saving=1;
+wc_wait_background_idle();
 Load_Show();
 timer_save_tmp=0;
 index_is_saving=0;
