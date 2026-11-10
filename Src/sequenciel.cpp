@@ -40,6 +40,7 @@ float Times_Memoires[10000][4]; // 0=DIN 1=IN 2=DOUT 3=OUT
 bool Links_Memoires[10000];
 bool index_link_is_on = 0;
 int index_blink_change_memories = 0;
+bool stage_is_crossfade_snapshot = 0; // [show change] scene = instantane de fondu (double GO / panic jump) -> pas de clignotement
 float default_time = 3.0;
 int niveauX1 = 255;
 int niveauX2 = 0;

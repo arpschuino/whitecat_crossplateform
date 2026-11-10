@@ -715,7 +715,7 @@ sprintf(string_confirmation,"REPORT Selected CH to Channel View %d ? ",channel_v
 else if(index_ask_build_view==1)
 {
 
-int nummem=(int)(atof(numeric)*10);
+int nummem=(numeric_postext>0) ? (int)(atof(numeric)*10+0.5) : -1;// arrondi (2.3 -> 23, pas 22) ; -1 = rien tape
 
 switch((int)channel_view_mode_builder[channel_view_is])//solo ou all
 {
@@ -724,7 +724,9 @@ case 0:
      if(channel_view_type_of_behaviour[channel_view_is]==1)//mem
      {
 
-      if(MemoiresExistantes[nummem]==1)
+      if(nummem<=0 || nummem>9999)
+       {sprintf(string_confirmation,"Type a memory number first ! ");}
+      else if(MemoiresExistantes[nummem]==1)
        {
       sprintf(string_confirmation,"Build Channel View %d from Mem %d.%d ? ",channel_view_is, nummem/10,nummem%10);
        }
@@ -1508,7 +1510,7 @@ index_ask_clear_selection_of_view=0;
 else if(index_ask_build_view==1)
 {
 
-int nummem=(int)(atof(numeric)*10);
+int nummem=(numeric_postext>0) ? (int)(atof(numeric)*10+0.5) : -1;// arrondi (2.3 -> 23, pas 22) ; -1 = rien tape
 
 switch((int)channel_view_mode_builder[channel_view_is])//all ou solo
 {

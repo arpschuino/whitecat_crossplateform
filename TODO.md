@@ -183,6 +183,7 @@ Cibles :
 - [ ] Compiler nativement sur Pi 3 (RPi OS Lite, `sudo apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev`)
 - [ ] Mesurer les temps de render réels (fond, fenêtres, hover)
 - [ ] Ajuster throttle / cap FPS si nécessaire pour le VideoCore IV
+- [ ] **Vérifier le coût de « Show Change/Mem » ON** (CFG > main) : tant qu'un circuit diffère de la mémoire en scène, le rendu reste éveillé pour le clignotement (`mem_change_blink` → `wc_blink_needed`, MAIN.cpp ; 100 ms en `WC_PI3`). Mesuré sur PC (10/11/2026) : CPU 0,5 → 2,5 %, GPU 0,1 → 1,3 %. Si trop lourd sur Pi : ralentir ce cas, ou remplacer le clignotement par un repère fixe (comme le F rouge des circuits gelés).
 - [ ] Valider : MIDI ALSA, DMX Art-Net, audio SDL_mixer
 
 ### 7h — Test macOS

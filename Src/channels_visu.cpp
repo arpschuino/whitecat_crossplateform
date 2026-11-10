@@ -196,7 +196,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     if(index_blind==0)//differencec avec mem enregistrée
                     {
 
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1 && !stage_is_crossfade_snapshot)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
@@ -292,8 +292,11 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 //freeze
                         if(freeze_array[num_circ]==1)
                         {
-                            ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
                             petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
+                            petitchiffre.SetColor(CouleurRougePur);
+                            petitchiffre.Print("F" ,(xchan + (xposch))+15,((ypos_l) + 50 - ypos_ch),CENTER );
+                            petitchiffre.SetColor(CouleurLigne);
                         }
 
 //affichage 255
@@ -328,8 +331,11 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
 //freeze
                         if(freeze_array[num_circ]==1)
                         {
-                            ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
                             petitchiffre.Print(ol::ToString((int)(freeze_state[num_circ])) ,(xchan + (xposch))+10,((ypos_l) + 70 - ypos_ch),CENTER );
+                            petitchiffre.SetColor(CouleurRougePur);
+                            petitchiffre.Print("F" ,(xchan + (xposch))+15,((ypos_l) + 50 - ypos_ch),CENTER );
+                            petitchiffre.SetColor(CouleurLigne);
                         }
                     }
 
@@ -641,7 +647,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 //BLIND
                     if(index_blind==0){//differencec avec mem enregistrée                    
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1 && !stage_is_crossfade_snapshot)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
@@ -737,8 +743,11 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 //freeze
                         if(freeze_array[num_circ]==1)
                         {
-                            ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
                             petitchiffre.Print(ol::ToString((int) (((float)(freeze_state[num_circ]) /2.55))) ,(xchan + (xposch))+10, ypos_ch+30,CENTER );
+                            petitchiffre.SetColor(CouleurRougePur);
+                            petitchiffre.Print("F" ,(xchan + (xposch))+15, ypos_ch+16,CENTER );
+                            petitchiffre.SetColor(CouleurLigne);
                         }
 
 //affichage 255
@@ -773,8 +782,11 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 //freeze
                         if(freeze_array[num_circ]==1)
                         {
-                            ChannelRect.Draw(CouleurBlind.WithAlpha(alpha_blinker));
+                            ChannelRect.Draw(Rgba::BLACK.WithAlpha(0.65));   // gele : estompe numero + niveaux (le F et la valeur gelee restent nets)
                             petitchiffre.Print(ol::ToString((int)(freeze_state[num_circ])) ,(xchan + (xposch))+10,ypos_ch+30,CENTER );
+                            petitchiffre.SetColor(CouleurRougePur);
+                            petitchiffre.Print("F" ,(xchan + (xposch))+15,ypos_ch+16,CENTER );
+                            petitchiffre.SetColor(CouleurLigne);
                         }
                     }
 

@@ -44,6 +44,7 @@ extern float Times_Memoires[10000][4];
 extern bool Links_Memoires[10000];
 extern bool index_link_is_on;
 extern int index_blink_change_memories;
+extern bool stage_is_crossfade_snapshot; // [show change] scene = instantane de fondu (double GO / panic jump) -> pas de clignotement
 extern float default_time;
 extern int niveauX1;
 extern int niveauX2;

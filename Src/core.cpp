@@ -995,188 +995,98 @@ int clear_selection_in(int view_is)//groupes de vues
     return(0);
 }
 
+// [channel views] remplit la vue a partir d'un tableau de presence (circuits 1-512) :
+// liste triee, sans doublon, reste du routage remis a 0, puis comptage.
+static void fill_view_from_presence(int view_is, const bool* present)
+{
+    int pos=0;
+    for (int l=1; l<=512; l++)
+    {
+        if(present[l]) { Channel_View_ROUTING[view_is][pos]=l; pos++; }
+    }
+    for (int k=pos; k<514; k++) { Channel_View_ROUTING[view_is][k]=0; }
+    count_number_of_channels_in_view(view_is);
+}
+
+static void add_mem_to_presence(int me, bool* present)
+{
+    if(me<0 || me>9999 || MemoiresExistantes[me]!=1) return;
+    for (int l=1; l<=512; l++) { if(Memoires[me][l]>0) present[l]=1; }
+}
+
+static void add_fader_dock_to_presence(int f, int dd, bool* present)// f : 0-47
+{
+    if(f<0 || f>47 || dd<0 || dd>5) return;
+    for (int l=1; l<=512; l++) { if(FaderDockContains[f][dd][l]>0) present[l]=1; }
+}
+
 int  build_preset_view_from_mem( int me, int view_is)
 {
-    if(MemoiresExistantes[me]==1)
+    if(me>0 && me<=9999 && MemoiresExistantes[me]==1)
     {
-        clear_selection_in( view_is) ;
-        int pos=0;
-        for (int l=1; l<512; l++)
-        {
-            if(Memoires[me][l]>0)
-            {
-                Channel_View_ROUTING[view_is][pos]=l;
-                pos++;
-            }
-        }
-        count_number_of_channels_in_view(view_is);
+        bool present[514]={0};
+        add_mem_to_presence(me, present);
+        fill_view_from_presence(view_is, present);
         sprintf(channel_view_Name[view_is],"Mem %d.%d", me/10,me%10);
+        Channel_View_MODE[view_is]=1;
     }
     return(0);
 }
 
-int build_preset_view_from_fader( int f, int view_is)
+int build_preset_view_from_fader( int f, int view_is)// f : 1-48, dock actif
 {
-    clear_selection_in( view_is) ;
-    int pos=0;
-    for (int l=1; l<512; l++)
-    {
-        if((int)(FaderDockContains[f-1][(dock_used_by_fader_is[f-1])][l])>0)
-        {
-            Channel_View_ROUTING[view_is][pos]=l;
-            pos++;
-        }
-    }
-
-    count_number_of_channels_in_view(view_is);
+    if(f<1 || f>48) return(0);
+    bool present[514]={0};
+    add_fader_dock_to_presence(f-1, dock_used_by_fader_is[f-1], present);
+    fill_view_from_presence(view_is, present);
     sprintf(channel_view_Name[view_is],"Fader %d", f);
+    Channel_View_MODE[view_is]=1;
     return(0);
 }
 
+// remet la liste d'une vue en ordre croissant, sans doublon ni trou
 int reorder_channel_view_list_of_channels(int view_is)
 {
-
-    bool presence_of_channel[513];
-    for (int l=0; l<=channel_number_in_View[view_is]; l++)
+    bool present[514]={0};
+    for (int l=0; l<514; l++)
     {
-        if(Channel_View_ROUTING[view_is][l]>0)
-        {
-            presence_of_channel[(Channel_View_ROUTING[view_is][l])]=1;
-        }
+        int ch=Channel_View_ROUTING[view_is][l];
+        if(ch>0 && ch<=512) present[ch]=1;
     }
-
-    int pos=0;
-    for (int l=0; l<=channel_number_in_View[view_is]; l++)
-    {
-        if(presence_of_channel[l]==1)
-        {
-            Channel_View_ROUTING[view_is][pos]=l;
-            pos++;
-        }
-    }
-
+    fill_view_from_presence(view_is, present);
     return(0);
 }
 
 int build_preset_view_from_all_existing_mems(int view_is)
 {
-
-
-    bool selectio_on[513];
-
-    for (int l=0; l<512; l++)
-    {
-        selectio_on[l]=0;
-    }
-
-    for(int me=0; me<9999; me++)
-    {
-        if(MemoiresExistantes[me]==1)
-        {
-
-            for (int l=1; l<512; l++)
-            {
-                if((int)(Memoires[me][l])!=0)
-                {
-                    selectio_on[l]=1;
-                }
-            }
-        }
-    }
-    clear_selection_in( view_is) ;
-    int pos=0;
-    for (int l=1; l<512; l++)
-    {
-        if(selectio_on[l]==1)
-        {
-            Channel_View_ROUTING[view_is][pos]=l;
-            pos++;
-        }
-    }
-    count_number_of_channels_in_view(view_is);
-    reorder_channel_view_list_of_channels(view_is);
+    bool present[514]={0};
+    for(int me=1; me<10000; me++) add_mem_to_presence(me, present);
+    fill_view_from_presence(view_is, present);
     sprintf(channel_view_Name[view_is],"All Mems");
+    Channel_View_MODE[view_is]=1;
     return(0);
 }
 
 int build_preset_view_from_all_faders(int view_is)
 {
-    clear_selection_in( view_is) ;
-    int pos=0;
+    bool present[514]={0};
     for(int f=0; f<48; f++)
-    {
-        for (int l=1; l<512; l++)
-        {
-            for(int dd=0; dd<6; dd++)
-            {
-                if((int)(FaderDockContains[f][dd][l])>0)
-                {
-                    Channel_View_ROUTING[view_is][pos]=l;
-                    pos++;
-                }
-            }
-        }
-    }
-
-    count_number_of_channels_in_view(view_is);
-    reorder_channel_view_list_of_channels(view_is);
+        for(int dd=0; dd<6; dd++) add_fader_dock_to_presence(f, dd, present);
+    fill_view_from_presence(view_is, present);
     sprintf(channel_view_Name[view_is],"All Faders");
+    Channel_View_MODE[view_is]=1;
     return(0);
 }
 
-
 int build_preset_view_from_all_existing_mems_and_faders(int view_is)
 {
-    clear_selection_in( view_is) ;
-
-    bool selectio_on[513];
-
-    for (int l=0; l<512; l++)
-    {
-        selectio_on[l]=0;
-    }
-//memoires
-    for(int me=0; me<9999; me++)
-    {
-        if(MemoiresExistantes[me]==1)
-        {
-
-            for (int l=1; l<512; l++)
-            {
-                if((int)(Memoires[me][l])!=0)
-                {
-                    selectio_on[l]=1;
-                }
-            }
-        }
-    }
-//faders
+    bool present[514]={0};
+    for(int me=1; me<10000; me++) add_mem_to_presence(me, present);
     for(int f=0; f<48; f++)
-    {
-        for (int l=1; l<512; l++)
-        {
-            for(int dd=0; dd<6; dd++)
-            {
-                if((int)(FaderDockContains[f][dd][l])>0)
-                {
-                    selectio_on[l]=1;
-                }
-            }
-        }
-    }
-
-    int pos=0;
-    for (int l=1; l<512; l++)
-    {
-        if(selectio_on[l]==1)
-        {
-            Channel_View_ROUTING[view_is][pos]=l;
-            pos++;
-        }
-    }
-    count_number_of_channels_in_view(view_is);
-    reorder_channel_view_list_of_channels(view_is);
+        for(int dd=0; dd<6; dd++) add_fader_dock_to_presence(f, dd, present);
+    fill_view_from_presence(view_is, present);
     sprintf(channel_view_Name[view_is],"All Mems and Faders");
+    Channel_View_MODE[view_is]=1;
     return(0);
 }
 
@@ -3935,6 +3845,7 @@ int do_load_mem_preset_while_crossfade(int mem_is)
     {
         bufferSaisie[op]=bufferSequenciel[op];
     }
+    stage_is_crossfade_snapshot=1;// [show change] scene = melange en cours, pas une modif manuelle
     niveauX1=255;
     niveauX2=0;
     crossfade_speed=64;
@@ -3957,6 +3868,7 @@ int do_double_go_function()
     {
         bufferSaisie[op]=bufferSequenciel[op];
     }
+    stage_is_crossfade_snapshot=1;// [show change] scene = melange en cours, pas une modif manuelle
     niveauX1=255;
     niveauX2=0;
     crossfade_speed=64;
@@ -5135,6 +5047,28 @@ int do_sprintf_job()//report du calcul des affichages de temps dans la boucle de
         _fmt(time_is_for_fileCueOut[numero], "Out:",   player_loop_out_position[numero], _hz);
         _fmt(time_is_for_filePos[numero],    "Pos:",   position_of_file_in_player[numero], _hz);
         _fmt(time_is_for_fileTotal[numero],  "Total:", length_of_file_in_player[numero], _hz);
+        }
+    }
+
+    // [sequentiel] ce calcul tourne dans le timer 10 Hz, apres le rendu : si les textes de temps
+    // du sequentiel ont change (GO, defilement de la liste...), demander un rafraichissement.
+    // Sinon, en veille d'affichage, les temps restent decales des numeros de memoire jusqu'au
+    // prochain reveil (souris, fader en boucle...).
+    {
+        static unsigned int last_seq_text_hash = 0;
+        unsigned int h = 2166136261u; // FNV-1a
+        auto _mix = [&h](const void* p, size_t n) {
+            const unsigned char* c = (const unsigned char*)p;
+            for (size_t i = 0; i < n; i++) { h ^= c[i]; h *= 16777619u; }
+        };
+        _mix(string_time_memonstage, sizeof(string_time_memonstage));
+        _mix(string_time_mem8after,  sizeof(string_time_mem8after));
+        _mix(string_mem_before_one,  sizeof(string_mem_before_one));
+        _mix(cross_in,  sizeof(cross_in));  _mix(cross_out,  sizeof(cross_out));
+        _mix(cross_din, sizeof(cross_din)); _mix(cross_dout, sizeof(cross_dout));
+        if (h != last_seq_text_hash) {
+            last_seq_text_hash = h;
+            wc_request_refresh();
         }
     }
 

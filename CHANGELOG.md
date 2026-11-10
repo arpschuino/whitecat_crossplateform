@@ -214,6 +214,25 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Nouveau : saisie directe du nom d'une Channel View** par double-clic sur son titre (Entrée valide, Échap annule). L'ancienne méthode (F5 + clic) reste disponible. Le nom est désormais borné à 25 caractères (un nom plus long débordait, un `%` dans le nom était interprété).
 
+### Channel Views — Build View depuis mémoires / faders (M, F, ALL)
+
+- **Fix : mauvaise mémoire** : le numéro tapé était converti sans arrondi (« 2.3 » construisait depuis la mémoire 2.2). Sans numéro tapé, la vue était vidée et renommée « Mem 0.0 » : un message « Type a memory number first ! » s'affiche désormais.
+- **Fix : les constructions « ALL » (mémoires, faders, les deux) donnaient des listes fausses** (circuits perdus, doublons, circuits fantômes) : la remise en ordre de la liste lisait un tableau non initialisé et ne parcourait les numéros de circuit que jusqu'au *nombre* de circuits de la vue. Réécrite (liste triée, sans doublon). « ALL faders » ajoutait un circuit autant de fois que de docks le contenant (débordement possible du tableau de la vue). Le circuit 512 était ignoré.
+- La vue construite est **activée** (comme après Store / Modify). Report (F3), qui utilise la même remise en ordre, ne laisse plus de trous dans les autres vues.
+
+### Circuits gelés (Freeze) — F rouge
+
+- Un circuit gelé n'est plus signalé par un clignotement mais par un **F rouge** fixe, la case estompée et le niveau gelé en blanc (espace circuits, vues, liste des projecteurs), comme décrit dans la doc. *(Fait sur 0.10 en juin, reporté en 0.9.2.)* Plus de rafraîchissement permanent de l'écran tant que des circuits sont gelés.
+
+### Show Change/Mem (CFG > main)
+
+- **Fix : le clignotement des circuits différents de la mémoire en scène n'était fluide que si autre chose animait l'écran** (un beta faisait tourner un fader vide en boucle). Le rendu reste maintenant éveillé tant qu'un circuit diffère (≈ +2 % CPU sur PC, uniquement dans ce cas ; à vérifier sur Raspberry Pi).
+- **Fix : tout clignotait parfois, « comme après un double GO »**. Un double GO — y compris un GO MIDI/Arduino/banger pendant un fondu avec *Midi Force GO*, Shift+GO, ou l'appel d'une mémoire en preset pendant un fondu — prend le mélange en cours comme nouvelle scène : tous les circuits différaient de la mémoire « en scène » jusqu'à la fin du fondu. Le clignotement est suspendu dans ce cas jusqu'à la fin du fondu.
+
+### Séquentiel — temps décalés des numéros de mémoire
+
+- **Fix : après un GO ou un défilement, les temps mettaient un moment à se recaler en face des numéros de mémoire** (sauf si un fader/grid en boucle animait l'écran). Les textes de temps sont calculés à 10 Hz après le rendu, sans redemander d'affichage : un rafraîchissement est maintenant demandé dès qu'ils changent.
+
 ### Divers
 
 - **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*
