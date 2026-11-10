@@ -2612,6 +2612,9 @@ case 11://set channel
       case 15:
       sprintf(header_banger_action,"FromTo Macro4 OFF");
       break;
+      case 16:
+      sprintf(header_banger_action,"Freeze");
+      break;
       default:
       break;
       }

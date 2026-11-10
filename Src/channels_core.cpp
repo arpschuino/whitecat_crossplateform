@@ -268,7 +268,7 @@ int DoMouseLevel()
                 bangers_type[index_banger_selected][ over_banger_event-1]++;
                 reset_banger_event(index_banger_selected, over_banger_event-1);
                 constrain_banger_type( over_banger_event-1);
-                position_mouse_z(0);  //reset
+                position_mouse_z(0); wc_request_refresh(); //reset ; redessin -> la case survolee se re-arme (sinon molette "bloquee")
                 mouse_level_for_event=mouse_z;
                 mouse_level_for_banger=mouse_z;
                 editing_banger_family=0;editing_banger_action=0;
@@ -284,7 +284,7 @@ int DoMouseLevel()
                     bangers_type[index_banger_selected][ over_banger_event-1]=8;
                 }
                 reset_banger_event(index_banger_selected, over_banger_event-1);
-                position_mouse_z(0);  //reset
+                position_mouse_z(0); wc_request_refresh(); //reset ; redessin -> la case survolee se re-arme (sinon molette "bloquee")
                 mouse_level_for_event=mouse_z;
                 mouse_level_for_banger=mouse_z;
                 editing_banger_family=0;editing_banger_action=0;
@@ -296,7 +296,7 @@ int DoMouseLevel()
         {
             if(mouse_z>mouse_level_for_banger)
             {
-                position_mouse_z(0);//reset
+                position_mouse_z(0); wc_request_refresh(); //reset ; redessin -> la case survolee se re-arme (sinon molette "bloquee")
                 mouse_level_for_banger=mouse_z;
                 mouse_level_for_event=mouse_z;
                 editing_banger_family=0;editing_banger_action=0;
@@ -306,12 +306,22 @@ int DoMouseLevel()
             }
             if(mouse_z<mouse_level_for_banger)
             {
-                position_mouse_z(0);//reset
+                position_mouse_z(0); wc_request_refresh(); //reset ; redessin -> la case survolee se re-arme (sinon molette "bloquee")
                 mouse_level_for_banger=mouse_z;
                 mouse_level_for_event=mouse_z;
                 bangers_action[index_banger_selected][over_banger_action-1]--;
                 if(bangers_action[index_banger_selected][over_banger_action-1]<0){
-                    bangers_action[index_banger_selected][over_banger_action-1]=0;
+                    // [molette] sous la 1re action : boucle sur la derniere (comme le clic boucle de
+                    // la derniere a la 1re). Derniere action trouvee via constrain_banger_param().
+                    int ev=over_banger_action-1, last=0;
+                    bangers_action[index_banger_selected][ev]=0;
+                    for(int k=0; k<64; k++){
+                        bangers_action[index_banger_selected][ev]++;
+                        constrain_banger_param(ev);
+                        if(bangers_action[index_banger_selected][ev]==0) break;
+                        last=bangers_action[index_banger_selected][ev];
+                    }
+                    bangers_action[index_banger_selected][ev]=last;
                 }
                 reset_banger_params(index_banger_selected,over_banger_action-1);
             }

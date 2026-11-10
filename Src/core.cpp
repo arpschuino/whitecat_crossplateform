@@ -985,6 +985,26 @@ int refresh_positions_preset_view_poignee()
 
 
 
+// [freeze] gele un circuit au niveau de sortie du moment (max sequentiel / faders), ou le degele
+// (le circuit garde alors en saisie le niveau gele). Utilise par le bouton Freeze et les bangers.
+void set_channel_freeze(int ch, bool on)
+{
+    if(ch<1 || ch>512) return;
+    if(on)
+    {
+        if(freeze_array[ch]==0)
+        {
+            freeze_state[ch]=(bufferFaders[ch]>bufferSequenciel[ch]) ? bufferFaders[ch] : bufferSequenciel[ch];
+            freeze_array[ch]=1;
+        }
+    }
+    else if(freeze_array[ch]==1)
+    {
+        bufferSaisie[ch]=freeze_state[ch];
+        freeze_array[ch]=0;
+    }
+}
+
 int clear_selection_in(int view_is)//groupes de vues
 {
     for(int i=0; i<513; i++)
@@ -1612,7 +1632,7 @@ int constrain_banger_param(int lp)
         }
         break;
     case 11://set channel
-        if(bangers_action[index_banger_selected][lp]>15)
+        if(bangers_action[index_banger_selected][lp]>16)// 16 = Freeze
         {
             bangers_action[index_banger_selected][lp]=0;
         }

@@ -53,6 +53,7 @@ int bounce(int b);
 int count_number_of_channels_in_view(int view_is);
 int refresh_positions_preset_view_poignee();
 int clear_selection_in(int view_is);
+void set_channel_freeze(int ch, bool on); // gele (niveau de sortie du moment) / degele un circuit 1-512
 int build_preset_view_from_mem(int me, int view_is);
 int build_preset_view_from_fader(int f, int view_is);
 int reorder_channel_view_list_of_channels(int view_is);

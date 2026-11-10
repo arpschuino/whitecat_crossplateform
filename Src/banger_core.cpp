@@ -804,6 +804,19 @@ param2_is=bangers_params[banger_num][event_num][1];
      }
 break;
 ///////////////FIN WINDOWS BACK/////////////////////////////////////////////////////////
+//SET CHANNEL BACK : seul Freeze a un retour (inverse)
+case 11:
+if(bangers_action[banger_num][event_num]==16)
+{
+param1_is=bangers_params[banger_num][event_num][0];
+param2_is=bangers_params[banger_num][event_num][1];
+if(param1_is>0 && param1_is<=512 && (param2_is==0 || param2_is==1))
+{
+set_channel_freeze(param1_is, param2_is==0);
+sprintf(string_event,"BACK: SetChan %d Freeze %s",param1_is,param2_is==0?"ON":"OFF");
+}
+}
+break;
 //ALARMES BACK
 case 4:
 param2_is=bangers_params[banger_num][event_num][1];
@@ -3724,6 +3737,13 @@ if(bang_the_chan_is>0 && bang_the_chan_is<513)
             sprintf(string_event,"SetFrom %d To %d Chan - Macro4 OFF",bang_the_chan_is,bang_val_the_chan_is);
             }
             break;
+      case 16://"Freeze" : val1 circuit, val2 1 = gele (niveau du moment) / 0 = degele
+            if(bang_val_the_chan_is==0 || bang_val_the_chan_is==1)
+            {
+            set_channel_freeze(bang_the_chan_is, bang_val_the_chan_is==1);
+            sprintf(string_event,"SetChan %d Freeze %s",bang_the_chan_is,bang_val_the_chan_is==1?"ON":"OFF");
+            }
+            break;
       default:
             break;
       }
@@ -5276,6 +5296,7 @@ switch(btype2){
     }
     case 6:  max2=9;  snprintf(popup2,64,"CueList dec part: 0 to 9");                    break;
     case 8:  max2=1;  snprintf(popup2,64,"val2 (MiniFader): 0 or 1"); break;
+    case 11: if(bangers_action[index_banger_selected][lp]==16){ max2=1; snprintf(popup2,64,"val2 (Freeze): 0 off / 1 on"); } break;
     case 12: max2=1;  snprintf(popup2,64,"val2 (SetBanger): 0 or 1"); break;
     case 13: max2=1;  snprintf(popup2,64,"val2 (MidiMute): 0 or 1");  break;
     case 15: max2=50; snprintf(popup2,64,"val2 (Hardware): 0 to 50"); break;

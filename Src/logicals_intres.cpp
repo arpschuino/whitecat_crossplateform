@@ -1158,19 +1158,7 @@ int operations_confirmation()
  {
  if(Selected_Channel[fz]==1)
  {
- if(freeze_array[fz]==0)
- {
-     if(bufferSequenciel[fz]>=bufferFaders[fz])
-    {
-      freeze_state[fz]=bufferSequenciel[fz];
-    }
-    if(bufferFaders[fz]>bufferSequenciel[fz])
-    {
-      freeze_state[fz]=bufferFaders[fz];
-    }
-}
- else {bufferSaisie[fz]=freeze_state[fz];}
- freeze_array[fz]=toggle(freeze_array[fz]);
+ set_channel_freeze(fz, freeze_array[fz]==0);// bascule (fonction commune avec les bangers)
  }
 
  }
