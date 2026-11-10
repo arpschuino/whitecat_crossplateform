@@ -612,15 +612,9 @@ void dixiemes_de_secondes() {
         match_minifaders();               // verif du preset en cours: correspond ou pas à un des 8 preset
         nbre_fenetre_actives = check_nbre_opened_windows();
 
-        if (index_do_quick_save == 1) {
-
-            index_is_saving = 1;
-            Save_Show();
-            chdir(mondirectory);
-            sprintf(string_Last_Order, ">> Show Saved at %s", tmp_time);
-            index_do_quick_save = 0;
-            index_is_saving = 0;
-        }
+        // [ctrl+S] la sauvegarde rapide n'est PLUS executee ici (thread timer) : Save_Show()
+        // dessine ("Saving ...") avec le renderer SDL, non thread-safe -> crash aleatoire si le
+        // rendu principal dessine en meme temps. Elle est faite dans la boucle principale.
 
         right_click_on_plot();
     }
@@ -1309,6 +1303,17 @@ int main(int /*argc*/, char ** /*argv*/) {
         while (index_quit != 1) {
             MemoiresExistantes[0] = 1;
             show_im_recording_a_time = 0; // met à zéro l'affichage du stock visuel du time
+
+            // [ctrl+S] sauvegarde rapide dans le thread principal (comme le Save de la fenetre Save)
+            if (index_do_quick_save == 1 && index_is_saving == 0) {
+                index_is_saving = 1;
+                Save_Show();
+                chdir(mondirectory);
+                sprintf(string_Last_Order, ">> Show Saved at %s", tmp_time);
+                index_do_quick_save = 0;
+                index_is_saving = 0;
+                wc_request_refresh();
+            }
 
             // must be in main loop to avoid freezing
             if (arduino_device_0_is_ignited == 1 && ticks_arduino != old_ticks_arduino && index_is_saving == 0 &&

@@ -229,6 +229,10 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 - **Fix : le clignotement des circuits différents de la mémoire en scène n'était fluide que si autre chose animait l'écran** (un beta faisait tourner un fader vide en boucle). Le rendu reste maintenant éveillé tant qu'un circuit diffère (≈ +2 % CPU sur PC, uniquement dans ce cas ; à vérifier sur Raspberry Pi).
 - **Fix : tout clignotait parfois, « comme après un double GO »**. Un double GO — y compris un GO MIDI/Arduino/banger pendant un fondu avec *Midi Force GO*, Shift+GO, ou l'appel d'une mémoire en preset pendant un fondu — prend le mélange en cours comme nouvelle scène : tous les circuits différaient de la mémoire « en scène » jusqu'à la fin du fondu. Le clignotement est suspendu dans ce cas jusqu'à la fin du fondu.
 
+### Sauvegarde rapide (Ctrl+S) — plantage
+
+- **Fix : Ctrl+S fermait parfois WhiteCat brutalement, sans rien enregistrer** (signalé par un beta sur trois PC Windows 10, reproduit après une vingtaine de Ctrl+S). La sauvegarde rapide pouvait être exécutée par deux chemins, le premier arrivé gagnant : la boucle principale (sans risque) ou le timer 10 Hz. Dans ce dernier cas, `Save_Show()` dessinait « Saving ... » depuis le thread du timer pendant que la boucle principale dessinait aussi — le rendu SDL n'est pas thread-safe → crash aléatoire. Un seul chemin désormais, dans la boucle principale, avec suspension des threads de fond pendant la sauvegarde et retour au dossier de WhiteCat (comme le Save de la fenêtre Save). Validé : 100 Ctrl+S sans plantage.
+
 ### Séquentiel — temps décalés des numéros de mémoire
 
 - **Fix : après un GO ou un défilement, les temps mettaient un moment à se recaler en face des numéros de mémoire** (sauf si un fader/grid en boucle animait l'écran). Les textes de temps sont calculés à 10 Hz après le rendu, sans redemander d'affichage : un rafraîchissement est maintenant demandé dès qu'ils changent.

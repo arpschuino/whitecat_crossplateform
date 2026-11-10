@@ -1338,13 +1338,9 @@ int commandes_clavier()//la fonction sprintf tue l acces clavier
     sprintf(string_numeric_entry,"<< %s",numeric);
 
 
-//CTRL-S
-    if(index_do_quick_save==1 )
-    {
-        Save_Show();
-        sprintf(string_Last_Order,">> Show Saved at %s", tmp_time);
-        index_do_quick_save=0;
-    }
+//CTRL-S : execute dans la boucle principale (MAIN.cpp, debut de boucle), avec index_is_saving
+//         et retour a mondirectory. Ici il n'y avait ni l'un ni l'autre, et la course avec le
+//         timer 10 Hz (qui sauvegardait aussi) faisait planter WhiteCat de temps en temps.
 
     poll_keyboard();
 
