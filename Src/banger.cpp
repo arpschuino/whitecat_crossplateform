@@ -36,6 +36,7 @@ int XAlarm = 300;
 int YAlarm = 200;
 bool index_click_move_alarm = 0;
 int index_alarm_from_banger_num = 0;
+int banger_alarm_edit_row = -1; // [inline edit] ligne d'evenement dont le texte d'alarme est en cours d'edition
 // [popup info] alarme generique (index_alarm_from_banger_num = -1) : titre + 2 lignes
 char string_info_popup[3][64];
 int previous_preset_color = 0;

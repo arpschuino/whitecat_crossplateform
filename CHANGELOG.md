@@ -202,6 +202,18 @@ Portage sur 0.9.2 de l'import ASCII amélioré (hors 16 bit, réservé à 0.10).
 
 - **Fix : la case « pas » du grid player 1 affichait parfois « -1 »** (signalé par un beta). Au GO sur une mémoire sans pas de grid player, la destination du grid player était calculée à -2 ; si un fondu du grid player était en cours, il se terminait sur ce pas inexistant. La destination n'est plus modifiée par une mémoire sans pas ; une coquille (mémoire en scène lue au lieu de la mémoire en preset) est corrigée, et le pas ne peut plus devenir négatif.
 
+### Bangers — édition (retours d'un beta)
+
+- **Fix : « Set Channel /100 Set At 0 » mettait le circuit à 1/255 au lieu de 0.** La conversion % → DMX ajoute 1 pour que le % s'affiche juste (50 % → 128 → « 50 »), mais l'ajoutait aussi à 0. Corrigé pour Set At, Set + et Set − (scène et blind) et pour l'End Pos d'un fader par banger. Même défaut corrigé hors bangers : saisie de l'End Pos d'un fader (clavier, fader, MIDI) et *CFG > main* (Check channel level, Dimmer check level).
+- **Fix : « txt autoclose » ignoré** au nommage du texte d'une alarme : la fenêtre de texte restait ouverte. Même oubli corrigé pour le nom d'une Channel View, la description/annotation d'une mémoire (séquentiel) et l'adresse IP Art-Net.
+- **Nouveau : saisie directe du texte d'une alarme** : [EDIT] enclenché, double-clic sur la case Action de l'évènement Alarm (Entrée valide, Échap annule), comme pour le nom du banger. L'ancienne méthode (F5 + clic) reste disponible.
+- **Fix : après avoir décoché [EDIT], un cran de molette modifiait encore** le type ou l'action d'un évènement (la case survolée restait « armée »). La molette n'édite plus les bangers qu'en mode édition. Au passage, la molette vers le bas sur une Action pouvait la faire passer en négatif (mauvais index testé).
+- **Fix : la molette faisait varier les circuits sélectionnés** pendant qu'elle servait à une fenêtre : édition d'un banger, listes du lecteur audio, listes de fichiers Save/Load, liste « Change Reaction » de la config MIDI. Elle ne pilote plus les circuits quand une fenêtre l'utilise.
+
+### Channel Views — nommage
+
+- **Nouveau : saisie directe du nom d'une Channel View** par double-clic sur son titre (Entrée valide, Échap annule). L'ancienne méthode (F5 + clic) reste disponible. Le nom est désormais borné à 25 caractères (un nom plus long débordait, un `%` dans le nom était interprété).
+
 ### Divers
 
 - **Fix : damper — valeur tronquée au lieu d'arrondie** : la position lissée était convertie en 0-255 par troncature (254,9 → 254), ce qui défavorisait le haut de course. Arrondi rétabli. *Rappel : avec un damper fort et un LFO rapide, le fader n'atteint pas les extrêmes — il suit le LFO avec un retard, c'est le principe du lissage.*

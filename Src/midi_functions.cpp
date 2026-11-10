@@ -1148,7 +1148,7 @@ int lStopPos=999;
     switch(dmx_view)
     {
     case 0:
-    lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
+    lStopPos=(atof(numeric)>0) ? (int)((atof(numeric) *2.55) +1) : 0;//+1 pour arrondir le % (0 -> 0)
     break;
     case 1:
     lStopPos=atol(numeric);
@@ -3712,6 +3712,7 @@ else if(mouse_x > bx+2 && mouse_x < bx+bar_w-2 && mouse_y > thumb_y && mouse_y <
 // Molette souris sur la zone Change Reaction
 if(mouse_x >= xrep && mouse_x <= xrep+200 && mouse_y >= yrep && mouse_y <= yrep+210)
 {
+  wheel_used_by_window = 1; // [molette] la liste prend la molette, pas les circuits
   int wdelta = mouse_z - last_scroll_mouse_for_midi_changesignal;
   if(wdelta != 0)
   {

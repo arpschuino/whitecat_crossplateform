@@ -439,7 +439,7 @@ int do_main_config(int cfgnetw_X, int cfgnetw_Y, int largeurCFGdmxwindow, int ha
                 if (!dmx_view)
                 {
                     if (oi != 1) {
-                        param_data_in = (int)(atoi(numeric) * 2.55) + 1;
+                        param_data_in = (atoi(numeric) > 0) ? (int)(atoi(numeric) * 2.55) + 1 : 0; // 0 % -> 0
                     } else {
                         param_data_in = atoi(numeric);
                     }
@@ -1059,6 +1059,7 @@ int do_dmx_config(int cfgdmx_X, int cfgdmx_Y, int largeurCFGdmxwindow, int haute
                     Close_single_dmx_interface(1);
                     sprintf(ip_artnet, numeric);
                     reset_numeric_entry();
+                    if (index_text_auto_close == 1) { index_type = 0; } // txt autoclose
                     Init_single_dmx_interface(1);
                     mouse_released = 1;
                 }

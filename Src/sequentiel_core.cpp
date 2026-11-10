@@ -317,6 +317,7 @@ annotation_memoires[position_onstage][49]='\0';
 }
 
 reset_numeric_entry();numeric_postext=0;
+if(index_text_auto_close==1){index_type=0;}// txt autoclose
 mouse_released=1;
 }
 else if (mouse_double_click) {

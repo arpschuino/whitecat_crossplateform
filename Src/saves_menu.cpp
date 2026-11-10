@@ -243,6 +243,7 @@ static void save_scrollbar_wheel(int area_x, int area_y, int area_w, int area_h,
         mouse_x >= area_x && mouse_x <= area_x + area_w &&
         mouse_y >= area_y && mouse_y <= area_y + area_h)
     {
+        wheel_used_by_window = 1; // [molette] la liste prend la molette, pas les circuits
         int wdelta = mouse_z - *last_z;
         if (wdelta != 0) {
             *line_pos -= wdelta;

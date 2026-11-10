@@ -67,6 +67,7 @@ bool Channel_View_MODE[nbre_de_vues_circuits]; // les 16 indexes de vision
 int Channel_View_ROUTING[nbre_de_vues_circuits][514];
 int channel_view_is = 0; // 0 pas touché car sortie du patch
 char channel_view_Name[nbre_de_vues_circuits][25];
+bool wheel_used_by_window = 0; // [molette] une zone de fenetre survolee utilise la molette (lu/remis a 0 par DoMouseLevel)
 int channel_view_link_type[nbre_de_vues_circuits]; // 0:no link 1:memory 2: fader
 int channel_view_link_ref[nbre_de_vues_circuits];  // num de mem ou de fader. desaffectation=-1;
 int channel_view_type_of_behaviour[nbre_de_vues_circuits]; // 0 normal view // 1 mem // 2 fader

@@ -214,13 +214,23 @@ int DoMouseLevel()
          _steps = _d > 0 ? _d * _d * _coef[_lvl] : 1;  // Normal : 1→1, 2→1, 3→5, 4→20, 5→45
          if (_steps > _cap[_lvl]) _steps = _cap[_lvl]; // plafond
      }
-     for (int _i = 0; _i < _steps; _i++) {
-         if (_delta > 0) key_up();
-         else            key_down();
+     // [molette] si une fenetre utilise la molette pour elle-meme, elle ne pilote PAS les circuits
+     // selectionnes (sinon editer un banger / defiler la liste audio fait varier les niveaux)
+     bool _wheel_for_window =
+         (window_focus_id==W_BANGER && index_enable_edit_banger==1 && mouse_x>=X_banger && mouse_x<=X_banger+480 && mouse_y>=Y_banger && mouse_y<=Y_banger+300)
+      || (window_focus_id==W_AUDIO && mouse_x>XAudio+350 && mouse_x<XAudio+590)
+      || wheel_used_by_window; // zones posees par les fenetres a la frame precedente (listes Save/Load, MIDI Change Reaction)
+     if (!_wheel_for_window) {
+         for (int _i = 0; _i < _steps; _i++) {
+             if (_delta > 0) key_up();
+             else            key_down();
+         }
      }
      last_scroll_mouse_for_chan = mouse_z;
  }
  }
+
+ wheel_used_by_window = 0; // re-pose par les zones survolees pendant cette frame
 
  // molette sur la fenêtre audio
  if(window_focus_id == W_AUDIO && mouse_x > XAudio+350 && mouse_x < XAudio+590)
@@ -247,7 +257,7 @@ int DoMouseLevel()
   }
  }
 
- if (window_focus_id==W_BANGER &&  mouse_x>=X_banger && mouse_x<=X_banger+480 && mouse_y>=Y_banger && mouse_y<=Y_banger+300  )//banger
+ if (window_focus_id==W_BANGER && index_enable_edit_banger==1 &&  mouse_x>=X_banger && mouse_x<=X_banger+480 && mouse_y>=Y_banger && mouse_y<=Y_banger+300  )//banger
  {
     if(over_family==0)
     {
@@ -300,7 +310,7 @@ int DoMouseLevel()
                 mouse_level_for_banger=mouse_z;
                 mouse_level_for_event=mouse_z;
                 bangers_action[index_banger_selected][over_banger_action-1]--;
-                if(bangers_action[index_banger_selected][over_banger_action]<0){
+                if(bangers_action[index_banger_selected][over_banger_action-1]<0){
                     bangers_action[index_banger_selected][over_banger_action-1]=0;
                 }
                 reset_banger_params(index_banger_selected,over_banger_action-1);
@@ -416,11 +426,18 @@ int do_logical_Draw_Channel_Preset_Title(int xchan, int ychan, int prst_v)
  //TITRE VIEW
  if(mouse_x> xchan+40 && mouse_x<xchan+40+210)
  {
- if(prst_v>0 && index_type==1 )
+ // [inline edit] double-clic -> saisie directe du nom (sans F5), comme banger/chaser/grid
+ if(prst_v>0 && mouse_double_click)
  {
- sprintf( channel_view_Name[prst_v],numeric);
+ wc_inline_begin(channel_view_Name[prst_v], 25, 200, 0);
+ mouse_released=1;
+ }
+ else if(prst_v>0 && index_type==1 ) // ancien chemin F5 conserve
+ {
+ snprintf( channel_view_Name[prst_v],25,"%s",numeric);
  reset_numeric_entry();
  numeric_postext=0;
+ if(index_text_auto_close==1){index_type=0;}// txt autoclose
  mouse_released=1;
  }
  }

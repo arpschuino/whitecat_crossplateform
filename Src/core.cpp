@@ -1667,6 +1667,7 @@ int constrain_banger_param(int lp)
             string_alarm[index_banger_selected][24]='\0';
             reset_numeric_entry();
             numeric_postext=0;
+            if(index_text_auto_close==1){index_type=0;}// txt autoclose (comme les autres saisies de texte)
             sprintf(string_Last_Order,">>GIVED NAME ALARM FOR BANGER %d ",index_banger_selected+1);
         }
         break;
@@ -4600,7 +4601,7 @@ int do_action_on_selected_minifaders(int action)
                     {
                         int lStopPos=999;
                         if (!dmx_view) {
-                            lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
+                            lStopPos=(atof(numeric)>0) ? (int)((atof(numeric) *2.55) +1) : 0;//+1 pour arrondir le % (0 -> 0)
                         } else {
                             lStopPos=atol(numeric);
                         }

@@ -445,7 +445,8 @@ int Draw_Channel_Preset_Title(int xchan, int ychan, int prst_v)
 
     neuromoyen.Print( ol::ToString(prst_v), xchan+25,ychan+15);
 
-    neuromoyen.Print( channel_view_Name[prst_v], xchan+45,ychan+15);
+    if(wc_inline_editing(channel_view_Name[prst_v])) wc_inline_render(xchan+45, ychan+15, ychan+3, ychan+18);// [inline edit]
+    else neuromoyen.Print( channel_view_Name[prst_v], xchan+45,ychan+15);
     Line(Vec2D(xchan,ychan+25),Vec2D(xchan+600,ychan+25)).Draw(CouleurLigne);
 
 

@@ -1774,7 +1774,7 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
           switch(dmx_view)
           {
            case 0:
-            lStopP=(int)((((float)param2_is) *2.55)+1);//+1 pour arrondir le %
+            lStopP=(param2_is>0) ? (int)((((float)param2_is) *2.55)+1) : 0;//+1 pour arrondir le % (0 -> 0)
            break;
            case 1:
             lStopP=param2_is;
@@ -3545,27 +3545,27 @@ if(bang_the_chan_is>0 && bang_the_chan_is<513)
      {
       case 0://"/100 Set At");
             if(index_blind==0){
-                  bufferSaisie[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  bufferSaisie[bang_the_chan_is]=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
                   if(bufferSaisie[bang_the_chan_is]>=255){bufferSaisie[bang_the_chan_is]=255;}
             }
             else{
-                  bufferBlind[bang_the_chan_is]=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  bufferBlind[bang_the_chan_is]=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
                   if(bufferBlind[bang_the_chan_is]>=255){bufferBlind[bang_the_chan_is]=255;}
             }
             sprintf(string_event,"SetChan %d at %d/100",bang_the_chan_is,bang_val_the_chan_is);
             break;
       case 1://"/100 Set +");
             if(index_blind==0){
-                  if(bufferSaisie[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
-                        bufferSaisie[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferSaisie[bang_the_chan_is]+(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0)<255){
+                        bufferSaisie[bang_the_chan_is]+=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
                   }
                   else{
                         bufferSaisie[bang_the_chan_is]=255;
                   }
             }
             else{
-                  if(bufferBlind[bang_the_chan_is]+(int)(( (float)bang_val_the_chan_is*2.55)+1)<255){
-                        bufferBlind[bang_the_chan_is]+=(int)(( (float)bang_val_the_chan_is*2.55)+1);
+                  if(bufferBlind[bang_the_chan_is]+(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0)<255){
+                        bufferBlind[bang_the_chan_is]+=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);
                   }
                   else {
                         bufferBlind[bang_the_chan_is]=255;
@@ -3575,15 +3575,15 @@ if(bang_the_chan_is>0 && bang_the_chan_is<513)
             break;
       case 2://"/100 Set -");
             if(index_blind==0){
-                  if( bufferSaisie[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0)
+                  if( bufferSaisie[bang_the_chan_is]-(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0)>0)
                   {
-                  bufferSaisie[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  bufferSaisie[bang_the_chan_is]-=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
                   }
                   else {bufferSaisie[bang_the_chan_is]=0;}
             }
             else{
-                  if(bufferBlind[bang_the_chan_is]-(int)(( (float)bang_val_the_chan_is*2.55)+1)>0){
-                        bufferBlind[bang_the_chan_is]-=(int)(( (float)bang_val_the_chan_is*2.55)+1);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
+                  if(bufferBlind[bang_the_chan_is]-(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0)>0){
+                        bufferBlind[bang_the_chan_is]-=(bang_val_the_chan_is>0 ? (int)(( (float)bang_val_the_chan_is*2.55)+1) : 0);// + 1 pour arrondir le pourcentage lors de la conversion % -> dmx
                   }
                   else{
                         bufferBlind[bang_the_chan_is]=0;
@@ -5156,8 +5156,16 @@ if(fire){bangers_type[index_banger_selected][lp]++;reset_banger_event(index_bang
 wc_request_refresh();
 }
 
+//texte d'alarme : double-clic -> saisie directe (mode edit requis)
+if(window_focus_id==917 && index_enable_edit_banger==1 && bangers_type[index_banger_selected][lp]==4 && mouse_double_click
+   && mouse_x>xb+145 && mouse_x<xb+145+170 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20)
+{
+wc_inline_begin(string_alarm[index_banger_selected], 25, 160, 0);
+banger_alarm_edit_row=lp;
+mouse_released=1;
+}
 //change type action
-if(window_focus_id==917 && mouse_x>xb+150 && mouse_x<xb+150+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1 )
+else if(window_focus_id==917 && mouse_x>xb+150 && mouse_x<xb+150+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1 )
 {
 static Uint32 a_hold=0,a_last_call=0,a_last_fire=0; static int a_held=-1;
 Uint32 now=SDL_GetTicks();

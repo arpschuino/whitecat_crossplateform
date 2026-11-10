@@ -484,7 +484,7 @@ int do_logical_lfo_fader_functions (int cmptfader, int x, int y,int largeur, int
             switch(dmx_view)
             {
             case 0:
-            lStopPos=(int)((atof(numeric) *2.55) +1);//+1 pour arrondir le %
+            lStopPos=(atof(numeric)>0) ? (int)((atof(numeric) *2.55) +1) : 0;//+1 pour arrondir le % (0 -> 0)
             break;
             case 1:
             lStopPos=atol(numeric);

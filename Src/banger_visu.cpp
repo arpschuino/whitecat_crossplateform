@@ -1429,7 +1429,9 @@ BoxAlarm.Draw(CouleurBleuProcedure);
 }
 if(bangers_type[index_banger_selected][lp]!=0)
 {
-petitchiffre.Print(bangers_type_action,xb+150,yb+113+(lp*30));
+if(bangers_type[index_banger_selected][lp]==4 && banger_alarm_edit_row==lp && wc_inline_editing(string_alarm[index_banger_selected]))
+{wc_inline_render(xb+150, yb+113+(lp*30), yb+101+(lp*30), yb+119+(lp*30));}// [inline edit] texte d'alarme
+else {petitchiffre.Print(bangers_type_action,xb+150,yb+113+(lp*30));}
 sprintf(numev,"%d",bangers_params[index_banger_selected][lp][1]);//val 2
 petitchiffre.Print(numev,xb+325,yb+113+(lp*30));
 sprintf(numev,"%.1f",bangers_delay[index_banger_selected][lp]);//delay

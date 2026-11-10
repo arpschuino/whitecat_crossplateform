@@ -76,6 +76,7 @@ extern int Channel_View_ROUTING[nbre_de_vues_circuits][514];
 extern int channel_view_is;
 
 extern char channel_view_Name[nbre_de_vues_circuits][25];
+extern bool wheel_used_by_window; // [molette] une zone de fenetre survolee utilise la molette (lu/remis a 0 par DoMouseLevel)
 extern int channel_view_link_type[nbre_de_vues_circuits];
 extern int channel_view_link_ref[nbre_de_vues_circuits];
 
