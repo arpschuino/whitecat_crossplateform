@@ -23,6 +23,7 @@
 <li class="level2"><div class="li"><a href="#sources">Récupérer les sources</a></div></li>
 <li class="level2"><div class="li"><a href="#windows">Compiler sous Windows</a></div></li>
 <li class="level2"><div class="li"><a href="#linux">Compiler sous Linux</a></div></li>
+<li class="level2"><div class="li"><a href="#macos">Compiler sous macOS</a></div></li>
 <li class="level2"><div class="li"><a href="#code">Se repérer dans le code</a></div></li>
 <li class="level2"><div class="li"><a href="#contribuer">Proposer une modification</a></div></li>
 <li class="level2"><div class="li"><a href="#doxygen">Commenter le code (Doxygen)</a></div></li>
@@ -121,6 +122,20 @@ make -f Makefile.linux -j4</pre>
 
 <p class="level2">
 L'exécutable est produit dans <code>whitecatbuild/build/linux/Whitecat_Crossplatform</code>. Copiez à côté de lui les dossiers d'exécution (<code>Fonts/</code>, <code>gfx/</code>, <code>ressources/</code>, <code>user/</code>…) pris dans l'archive Linux de la dernière <a href="https://github.com/arpschuino/whitecat_crossplateform/releases" class="urlextern" rel="nofollow">release</a>. Sous Linux, la casse des noms de fichiers compte : utilisez bien ceux de l'archive Linux.
+</p>
+
+<h2><a name="macos" id="macos">Compiler sous macOS</a></h2>
+
+<p class="level2">
+Sous macOS (Apple Silicon ou Intel), il faut les <strong>Command Line Tools</strong> Xcode (<code>xcode-select --install</code>) et <a href="https://brew.sh" class="urlextern" rel="nofollow">Homebrew</a>. Le script <code>setup_macos.sh</code> installe les bibliothèques (<code>sdl2 sdl2_ttf sdl2_image sdl2_mixer libharu rtmidi</code>) et copie les dossiers d'exécution (<code>Fonts/</code>, <code>gfx/</code>, <code>ressources/</code>, <code>user/</code>…) depuis l'archive Linux de la release, sans jamais écraser un fichier existant :
+</p>
+
+<pre class="code">./setup_macos.sh
+make -f Makefile.macos -j8
+cd whitecatbuild/build/macos &amp;&amp; ./Whitecat_Crossplatform</pre>
+
+<p class="level2">
+Le MIDI passe par CoreMIDI. En DMX : Art-Net, Enttec Open et Enttec Pro (pilote FTDI intégré à macOS, ports <code>/dev/cu.usbserial-*</code>) ; Sunlite n'est pas disponible et le tracking vidéo est désactivé, comme sous Linux. Au premier lancement, macOS peut demander d'autoriser les connexions réseau entrantes (Art-Net) : acceptez.
 </p>
 
 <h2><a name="code" id="code">Se repérer dans le code</a></h2>
