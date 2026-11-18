@@ -55,13 +55,35 @@ if(device==0)
 {
 if(serial0.Open(arduino_com0,arduino_baud_rate0))
 {
+#ifdef _WIN32
 sprintf(string_Arduino_status,">> Open Arduino on PORT %d rate: %d >> OK !",arduino_com0,arduino_baud_rate0);
+#else
+snprintf(string_Arduino_status,sizeof(string_Arduino_status),">> Open Arduino on PORT %d (%s) rate: %d >> OK !",arduino_com0,serial0.PortName(),arduino_baud_rate0);
+#endif
 arduino_device_0_is_ignited=1;
 //rest(1000); //temps d'initialisation avant communication ( sinon pense recuperer script)
 }
 else
 {
+#ifdef _WIN32
 sprintf(string_Arduino_status,">> Open Arduino on PORT %d >> FAILED !",arduino_com0);
+#else
+// Linux/macOS : PORT n = n-ieme port serie USB -> on liste ceux qui existent
+char ports[WC_SERIAL_MAX_PORTS][64];
+int nports=wc_serial_list_ports(ports,WC_SERIAL_MAX_PORTS);
+if(nports==0)
+{
+snprintf(string_Arduino_status,sizeof(string_Arduino_status),">> Open Arduino on PORT %d >> FAILED ! No USB serial port found",arduino_com0);
+}
+else
+{
+int len=snprintf(string_Arduino_status,sizeof(string_Arduino_status),">> PORT %d FAILED ! Ports:",arduino_com0);
+for(int i=0;i<nports && len<(int)sizeof(string_Arduino_status);i++)
+{
+len+=snprintf(string_Arduino_status+len,sizeof(string_Arduino_status)-len," %d=%s",i+1,ports[i]+5);//sans "/dev/"
+}
+}
+#endif
 arduino_device_0_is_ignited=0;
 }
 }
