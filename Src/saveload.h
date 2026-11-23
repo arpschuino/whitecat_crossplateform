@@ -46,6 +46,11 @@ extern char string_save_load_report[256][64]; // 256 slot de report de 64 char
 extern int position_view_line;            // pour defilement affichage
 extern char string_typeexport_view[24];
 extern bool index_is_saving; // pour eviter de planter les pointeurs en faisant deux saves simulatnnés
+// [save/load] nombre de passages de timers de fond (ticker, 10e de s, full loop) en cours.
+// Save/Load posent index_is_saving puis attendent qu'il retombe a 0 avant de toucher aux donnees.
+#include <atomic>
+extern std::atomic<int> wc_bg_busy;
+void wc_wait_background_idle(); // a appeler juste apres index_is_saving=1 (thread principal)
 extern int timer_save_tmp;
 extern int temps_sauvegarde_tmp; // secondes
 extern bool index_please_do_not_save;

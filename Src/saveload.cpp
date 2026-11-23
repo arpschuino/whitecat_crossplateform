@@ -46,6 +46,7 @@ char string_save_load_report[256][64]; // 256 slot de report de 64 char
 int position_view_line = 0;            // pour defilement affichage
 char string_typeexport_view[24];
 bool index_is_saving = 0; // pour eviter de planter les pointeurs en faisant deux saves simulatnnés
+std::atomic<int> wc_bg_busy(0);
 int timer_save_tmp = 0;
 int temps_sauvegarde_tmp = 15 * 60; // secondes
 bool index_please_do_not_save = 0;

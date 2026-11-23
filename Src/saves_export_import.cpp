@@ -155,6 +155,7 @@ static void wc_fprint_name_latin1(FILE* fp, const char* utf8)
 int do_ASCII_import()
 {
 index_is_saving=1;
+wc_wait_background_idle();
 sprintf(rep,"%s/import_export/ascii",mondirectory);
 chdir(rep);
 
@@ -555,6 +556,7 @@ int do_ASCII_export()
 {
 
 index_is_saving=1;
+wc_wait_background_idle();
 rest(100);
 sprintf(rep,"%s/import_export/ascii",mondirectory);
 
@@ -873,6 +875,7 @@ int do_Schwartzpeter_import()
 {
 rest(10);
 index_is_saving=1;
+wc_wait_background_idle();
 sprintf(rep,"%s/import_export/schwz/%s",mondirectory,importfile_name);
 chdir(rep);
 
@@ -998,6 +1001,7 @@ index_is_saving=0;
 int do_Alq_import()
 {
 index_is_saving=1;
+wc_wait_background_idle();
 sprintf(rep,"%s/import_export/ascii",mondirectory);
 chdir(rep);
 ////////////////////////////////////////////////////////////////////////////////
