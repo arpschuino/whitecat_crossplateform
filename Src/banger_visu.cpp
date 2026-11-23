@@ -908,6 +908,9 @@ case 11://set channel
       case 15:
       sprintf(bangers_type_action,"FromTo Macro4 OFF");
       break;
+      case 16:
+      sprintf(bangers_type_action,"Freeze");
+      break;
       default:
       sprintf(bangers_type_action,"-");
       break;

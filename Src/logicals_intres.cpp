@@ -1158,22 +1158,7 @@ int operations_confirmation()
  {
  if(Selected_Channel[fz]==1)
  {
- if(freeze_levels.count(fz)==0)   // pas gele -> geler (capturer le niveau courant)
- {
-     if(bufferSequenciel[fz]>=bufferFaders[fz])
-    {
-      freeze_levels[fz]=wc::lvl_to_dmx8(bufferSequenciel[fz]);   // [2c-2B] freeze stocke en 8 bit (0-255)
-    }
-    if(bufferFaders[fz]>bufferSequenciel[fz])
-    {
-      freeze_levels[fz]=wc::lvl_to_dmx8(bufferFaders[fz]);
-    }
-}
- else                             // gele -> degeler (restaurer puis retirer)
- {
-   bufferSaisie[fz]=wc::dmx8_to_lvl(freeze_levels.at(fz));   // [2c-2B] 8 bit -> 16 bit
-   freeze_levels.erase(fz);
- }
+ set_channel_freeze(fz, freeze_levels.count(fz)==0);// bascule (fonction commune avec les bangers)
  }
 
  }
