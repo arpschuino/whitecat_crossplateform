@@ -4441,7 +4441,7 @@ idf++;
 { // [compression] text_mems : si gzip (nouveau, format 50) -> gz_load_block ; sinon ancien code (detection 25/50)
 unsigned char gzmagic[2] = {0,0};
 FILE* gzprobe = fopen(file_text_mems, "rb");
-if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fclose(gzprobe); }
+if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fseek(gzprobe, 0, SEEK_END); if (ftell(gzprobe) == 10000L*50) { gzmagic[0] = 0; } fclose(gzprobe); } // taille brute exacte = non compresse (show resauve par 0.9.2 : le texte peut commencer par 1f 8b)
 if (gzmagic[0]==0x1f && gzmagic[1]==0x8b)
 { gz_load_block(file_text_mems, descriptif_memoires, text_mems_size, idf); }
 else
@@ -4476,7 +4476,7 @@ idf++;
 { // [compression] text_annots : si gzip (nouveau, format 50) -> gz_load_block ; sinon ancien code (detection 25/50)
 unsigned char gzmagic[2] = {0,0};
 FILE* gzprobe = fopen(file_text_annots, "rb");
-if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fclose(gzprobe); }
+if (gzprobe) { fread(gzmagic, 1, 2, gzprobe); fseek(gzprobe, 0, SEEK_END); if (ftell(gzprobe) == 10000L*50) { gzmagic[0] = 0; } fclose(gzprobe); } // taille brute exacte = non compresse (show resauve par 0.9.2 : le texte peut commencer par 1f 8b)
 if (gzmagic[0]==0x1f && gzmagic[1]==0x8b)
 { gz_load_block(file_text_annots, annotation_memoires, text_annots_size, idf); }
 else
