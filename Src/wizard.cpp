@@ -1,6 +1,7 @@
 #include "wc_tus.h"
 #include "wizard.h"
 #include "wizard_operations.h"
+#include "fixturectl_visu.h"   // [devices] attributs des fixtures (Wizard CH)
 
 //////////////WIZARD /////////////////////////
 int Xwizard = 100;
@@ -25,6 +26,7 @@ int position_ligne_wizard_in = 0;
 bool wizard_buffer_out[514];
 char show_buff_wizOUT[37][73];
 int position_ligne_wizard_out = 0;
+char wizard_attr_key[24] = {0};   // [devices] "" = Intensity
 ////////////WIZARD MEM//////////////////////////
 int wizard_action_mem = 0;
 int position_ligne_wizard_mem = 0;
@@ -34,6 +36,7 @@ int mode_rebuild = 0; // 0 digit 1 unit 2 dizaines
 int variable_wizard_mem = 0;
 bool Wiz_MemoiresExistantes[10000];
 unsigned short Wiz_Memoires[10000][514];// [mem16] presse-papier wizard en 16 bit (RAM, non sauve)
+unsigned short Wiz_Memoires_devval[10000][514];// [devices] presse-papier wizard des attributs de fixtures (RAM, non sauve)
 float Wiz_Times_Memoires[10000][4];
 bool Wiz_Links_Memoires[10000];
 int Wiz_Banger_Memoire[10000];
@@ -777,6 +780,76 @@ if(mouse_button==1 && mouse_released==0)
 {
 wizard_action=4;
 mouse_released=1;
+}
+}
+
+////////////ATTRIBUT (devices) : Set/Add/Reduce sur un attribut des fixtures//////////////
+// Zone du bas (celle de "To Channels", inutilisee hors Replace/Swap). "" = Intensity (circuits).
+{
+static int wiz_last_z = 0;
+if(wizard_action<=2)
+{
+ std::string wkeys[64];
+ int nk=fxc_attr_keys_for_circuits(wizard_buffer_in, wkeys, 64);
+ int cur=-1; // -1 = Intensity
+ for(int i=0;i<nk;i++){ if(wkeys[i]==wizard_attr_key){cur=i;break;} }
+ if(cur==-1){ wizard_attr_key[0]=0; }
+ int step=0;
+
+ petitchiffre.Print("Attribute:",xb+20,yb+300);
+ Circle aPrev(Vec2D(xb+125,yb+295),12);
+ Circle aNext(Vec2D(xb+305,yb+295),12);
+ aPrev.Draw(CouleurFond); aNext.Draw(CouleurFond);
+ Rect aName(Vec2D(xb+145,yb+283), Vec2D(140,24));
+ aName.SetRoundness(7.5);
+ aName.Draw(wizard_attr_key[0] ? CouleurFader.WithAlpha(0.6) : CouleurFond.WithAlpha(0.5));
+ aName.DrawOutline(CouleurLigne);
+ if(window_focus_id==W_WIZARD && mouse_y>yb+283 && mouse_y<yb+307)
+ {
+  if(mouse_x>xb+113 && mouse_x<xb+137)
+  { aPrev.Draw(CouleurSurvol); if(mouse_button==1 && mouse_released==0){ step=-1; mouse_released=1; } }
+  else if(mouse_x>xb+293 && mouse_x<xb+317)
+  { aNext.Draw(CouleurSurvol); if(mouse_button==1 && mouse_released==0){ step=1; mouse_released=1; } }
+ }
+ // molette sur la zone : fait defiler les attributs (et ne pilote pas les circuits selectionnes)
+ if(window_focus_id==W_WIZARD && mouse_x>xb+10 && mouse_x<xb+430 && mouse_y>yb+270 && mouse_y<yb+370)
+ {
+  wheel_used_by_window=1;
+  int wd=mouse_z-wiz_last_z;
+  if(wd>0){step=-1;} else if(wd<0){step=1;}
+ }
+ wiz_last_z=mouse_z;
+ if(step!=0)
+ {
+  cur+=step;
+  if(cur<-1){cur=nk-1;} else if(cur>=nk){cur=-1;}
+  if(cur<0){ wizard_attr_key[0]=0; }
+  else { snprintf(wizard_attr_key,sizeof(wizard_attr_key),"%s",wkeys[cur].c_str()); }
+  wc_request_refresh();
+ }
+ aPrev.DrawOutline(CouleurLigne); aNext.DrawOutline(CouleurLigne);
+ petitchiffre.Print("<",xb+121,yb+300);
+ petitchiffre.Print(">",xb+302,yb+300);
+ petitchiffre.Print(wizard_attr_key[0] ? wizard_attr_key : "Intensity",xb+155,yb+300);
+
+ char ainfo[72];
+ if(wizard_attr_key[0]==0)
+ {
+  if(nk>0){ snprintf(ainfo,sizeof(ainfo),"Intensity of the selected channels (%d attributes available)",nk); }
+  else    { snprintf(ainfo,sizeof(ainfo),"Intensity of the selected channels"); }
+ }
+ else
+ {
+  int nhave=0;
+  for(int co=1;co<513;co++){ if(wizard_buffer_in[co]==1 && fxc_attr_output_for_circuit(co,wizard_attr_key)>0){nhave++;} }
+  snprintf(ainfo,sizeof(ainfo),"%d / %d selected channels have this attribute",nhave,number_inchannels);
+ }
+ petitpetitchiffre.Print(ainfo,xb+20,yb+335);
+}
+else
+{
+ wizard_attr_key[0]=0; // Replace / Swap : intensite seulement
+ wiz_last_z=mouse_z;
 }
 }
 

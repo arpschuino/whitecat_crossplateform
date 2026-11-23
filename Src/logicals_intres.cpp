@@ -456,10 +456,10 @@ else if( index_do_banger_membeforeone==1)
  switch((int)wizard_amplitude_is_global)
  {
  case 0:
- sprintf(string_confirmation,"Do Wizard CH from Mem %d.%d to Mem %d.%d ?",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
+ sprintf(string_confirmation,"Do Wizard CH %s from Mem %d.%d to Mem %d.%d ?",wizard_attr_key[0]?wizard_attr_key:"",wizard_from_mem/10,wizard_from_mem%10,wizard_to_mem/10,wizard_to_mem%10);
  break;
  case 1:
- sprintf(string_confirmation,"Do Wizard CH Action on ALL memories ?");
+ sprintf(string_confirmation,"Do Wizard CH %s Action on ALL memories ?",wizard_attr_key[0]?wizard_attr_key:"");
  break;
  }
  }

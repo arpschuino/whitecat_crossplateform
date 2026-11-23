@@ -2197,7 +2197,7 @@ int minifader_lockselection_record(int mf_preset_is)
 
 int refresh_stage()
 {
-    for (int l=1; l<512; l++)
+    for (int l=1; l<513; l++)
     {
         bufferSaisie[l]=Memoires[position_onstage][l];   // [mem16] rappel 16 bit direct
     }

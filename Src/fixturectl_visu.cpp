@@ -406,6 +406,45 @@ static void fxc_apply_home(const std::string& key)
     }
 }
 
+// [wizard] Attributs des devices dont le circuit est marque dans circ[] (Wizard CH : wizard_buffer_in).
+int fxc_attr_keys_for_circuits(const bool* circ, std::string* out, int maxn)
+{
+    std::vector<std::string> keys;
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circuit=(int)wc_patch[f].channels[0].circuit;
+        if(circuit<1 || circuit>512 || !circ[circuit]) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER || ch.attribute==wc::ATTR_RAW) continue;
+            std::string k=fxc_chan_key(ch);
+            if(std::find(keys.begin(),keys.end(),k)==keys.end()) keys.push_back(k);
+        }
+    }
+    std::stable_sort(keys.begin(),keys.end(),[](const std::string& a,const std::string& b){ return fxc_category(a)<fxc_category(b); });
+    int n=0;
+    for(size_t i=0;i<keys.size() && n<maxn;i++) out[n++]=keys[i];
+    return n;
+}
+
+// [wizard] Output (coarse) portant l'attribut <key> du device rattache a <circuit> ; 0 si aucun.
+int fxc_attr_output_for_circuit(int circuit, const char* key)
+{
+    if(!key || !key[0]) return 0;
+    std::string k(key);
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty() || (int)wc_patch[f].channels[0].circuit!=circuit) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER || ch.attribute==wc::ATTR_RAW) continue;
+            if(fxc_chan_key(ch)!=k) continue;
+            int o=(int)ch.coarse_addr;
+            return (o>0 && o<514) ? o : 0;
+        }
+    }
+    return 0;
+}
+
 // ============================================================================
 // Layout horizontal + defilement FLUIDE au pixel.
 //   cx_rel[i] = decalage du centre du rouleau i par rapport au centre du 1er (cx_rel[0]=0).

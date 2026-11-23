@@ -24,6 +24,7 @@ extern int position_ligne_wizard_in;
 extern bool wizard_buffer_out[514];
 extern char show_buff_wizOUT[37][73];
 extern int position_ligne_wizard_out;
+extern char wizard_attr_key[24];   // [devices] attribut cible de Set/Add/Reduce ("" = Intensity = circuits)
 
 ////////////WIZARD MEM//////////////////////////
 extern int wizard_action_mem;
@@ -34,6 +35,7 @@ extern int mode_rebuild;
 extern int variable_wizard_mem;
 extern bool Wiz_MemoiresExistantes[10000];
 extern unsigned short Wiz_Memoires[10000][514];// [mem16]
+extern unsigned short Wiz_Memoires_devval[10000][514];// [devices] presse-papier wizard des attributs de fixtures
 extern float Wiz_Times_Memoires[10000][4];
 extern bool Wiz_Links_Memoires[10000];
 extern int Wiz_Banger_Memoire[10000];

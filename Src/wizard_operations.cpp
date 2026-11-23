@@ -42,6 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 #include "wc_tus.h"
+#include "fixturectl_visu.h"   // [devices] attribut -> output (Wizard CH)
 
 int wizard_detect_unused_channels(int wizard_from_mem, int wizard_to_mem)
 {
@@ -103,6 +104,7 @@ if(Wiz_MemoiresExistantes[look]==1)
 MemoiresExistantes[mem_p]=Wiz_MemoiresExistantes[look];
 for(int cho=0;cho<513;cho++)
 {Memoires[mem_p][cho]=Wiz_Memoires[look][cho];}
+for(int o=0;o<514;o++){Memoires_devval[mem_p][o]=Wiz_Memoires_devval[look][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {Times_Memoires[mem_p][t]=Wiz_Times_Memoires[look][t];}
 Links_Memoires[mem_p]=Wiz_Links_Memoires[look];
@@ -134,6 +136,7 @@ for(int cho=0;cho<513;cho++)
 {
 Wiz_Memoires[pm][cho]=0;
 }
+for(int o=0;o<514;o++){Wiz_Memoires_devval[pm][o]=0;} // [devices] attributs des fixtures suivent la memoire
 Wiz_Times_Memoires[pm][0]=0.0;
 Wiz_Times_Memoires[pm][1]=0.0;
 Wiz_Times_Memoires[pm][2]=0.0;
@@ -157,6 +160,7 @@ for(int cho=0;cho<513;cho++)
 {
 Memoires[pm][cho]=0;
 }
+for(int o=0;o<514;o++){Memoires_devval[pm][o]=0;} // [devices] attributs des fixtures suivent la memoire
 Times_Memoires[pm][0]=0.0;
 Times_Memoires[pm][1]=0.0;
 Times_Memoires[pm][2]=0.0;
@@ -201,6 +205,7 @@ for(int cho=0;cho<513;cho++)
 {
 Wiz_Memoires[pm][cho]=Memoires[pm][cho];
 }
+for(int o=0;o<514;o++){Wiz_Memoires_devval[pm][o]=Memoires_devval[pm][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {
 Wiz_Times_Memoires[pm][t]=Times_Memoires[pm][t];
@@ -260,6 +265,7 @@ for(int cho=0;cho<513;cho++)
 {
 Memoires[pm][cho]=0;
 }
+for(int o=0;o<514;o++){Memoires_devval[pm][o]=0;} // [devices] attributs des fixtures suivent la memoire
 Times_Memoires[pm][0]=0.0;
 Times_Memoires[pm][1]=0.0;
 Times_Memoires[pm][2]=0.0;
@@ -280,6 +286,7 @@ if(Wiz_MemoiresExistantes[look]==1 && look+variable_wizard_mem<10000)
 MemoiresExistantes[look+variable_wizard_mem]=Wiz_MemoiresExistantes[look];
 for(int cho=0;cho<513;cho++)
 {Memoires[look+variable_wizard_mem][cho]=Wiz_Memoires[look][cho];}
+for(int o=0;o<514;o++){Memoires_devval[look+variable_wizard_mem][o]=Wiz_Memoires_devval[look][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {Times_Memoires[look+variable_wizard_mem][t]=Wiz_Times_Memoires[look][t];}
 Links_Memoires[look+variable_wizard_mem]=Wiz_Links_Memoires[look];
@@ -314,6 +321,7 @@ for(int cho=0;cho<513;cho++)
 {
 Wiz_Memoires[pm][cho]=Memoires[pm][cho];
 }
+for(int o=0;o<514;o++){Wiz_Memoires_devval[pm][o]=Memoires_devval[pm][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {
 Wiz_Times_Memoires[pm][t]=Times_Memoires[pm][t];
@@ -332,6 +340,7 @@ for(int cho=0;cho<513;cho++)
 {
 Memoires[pm][cho]=0;
 }
+for(int o=0;o<514;o++){Memoires_devval[pm][o]=0;} // [devices] attributs des fixtures suivent la memoire
 Times_Memoires[pm][0]=0.0;
 Times_Memoires[pm][1]=0.0;
 Times_Memoires[pm][2]=0.0;
@@ -354,6 +363,7 @@ if((variable_wizard_mem+index_mem)<10000)
 MemoiresExistantes[variable_wizard_mem+index_mem]=Wiz_MemoiresExistantes[look];
 for(int cho=0;cho<513;cho++)
 {Memoires[variable_wizard_mem+index_mem][cho]=Wiz_Memoires[look][cho];}
+for(int o=0;o<514;o++){Memoires_devval[variable_wizard_mem+index_mem][o]=Wiz_Memoires_devval[look][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {Times_Memoires[variable_wizard_mem+index_mem][t]=Wiz_Times_Memoires[look][t];}
 Links_Memoires[variable_wizard_mem+index_mem]=Wiz_Links_Memoires[look];
@@ -377,6 +387,7 @@ if((look-index_mem)>0)
 MemoiresExistantes[look]=Wiz_MemoiresExistantes[look-index_mem];
 for(int cho=0;cho<513;cho++)
 {Memoires[look][cho]=Wiz_Memoires[look-index_mem][cho];}
+for(int o=0;o<514;o++){Memoires_devval[look][o]=Wiz_Memoires_devval[look-index_mem][o];} // [devices] attributs des fixtures suivent la memoire
 for(int t=0;t<4;t++)
 {Times_Memoires[look][t]=Wiz_Times_Memoires[look-index_mem][t];}
 Links_Memoires[look]=Wiz_Links_Memoires[look-index_mem];
@@ -485,6 +496,40 @@ return(0);
 
 
 
+// [devices] Wizard CH sur un attribut de fixture (wizard_attr_key) : Set/Add/Reduce de la valeur
+// enregistree (Memoires_devval, 16 bit par output coarse) dans les memoires de la plage.
+// Les circuits sans cet attribut sont ignores. Valeur saisie en % (ou 0-255 en vue DMX).
+static void do_wizard_ch_attribute()
+{
+int outs[514]; int nouts=0;
+for(int co=1;co<513;co++)
+{
+ if(wizard_buffer_in[co]==1)
+ {
+  int o=fxc_attr_output_for_circuit(co,wizard_attr_key);
+  if(o>0 && o<514){ outs[nouts++]=o; }
+ }
+}
+int v;
+if(dmx_view==0){ int p=wizard_level_is; if(p>100){p=100;} if(p<0){p=0;} v=wc::pct_to_lvl(p); }
+else { int d=wizard_level_is; if(d>255){d=255;} if(d<0){d=0;} v=wc::dmx8_to_lvl((unsigned char)d); }
+for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
+{
+ if(m<0 || m>9999 || MemoiresExistantes[m]!=1) continue;
+ for(int i=0;i<nouts;i++)
+ {
+  int cur=Memoires_devval[m][outs[i]];
+  switch(wizard_action)
+  {
+  case 0: cur=v; break;                 // Set at
+  case 1: cur+=v; if(cur>65535){cur=65535;} break;   // Add (meme a 0 : 0 est une vraie valeur d'attribut)
+  case 2: cur-=v; if(cur<0){cur=0;} break;           // Reduce
+  }
+  Memoires_devval[m][outs[i]]=(unsigned short)cur;
+ }
+}
+}
+
 int do_wizard_ch()
 {
 if(wizard_amplitude_is_global==1)
@@ -505,6 +550,14 @@ wizard_to_mem=m;
 }
 
 
+if(wizard_attr_key[0]!=0 && wizard_action<=2)
+{
+do_wizard_ch_attribute();
+refresh_stage();
+if(index_go==0 && index_go_back==0 && index_pause==0){ refresh_mem_onpreset(position_preset); }
+return(0);
+}
+
 switch(wizard_action) // 0 Set at level / 1 Add / 2 Reduce / 3 replace
 {
 case 0://Set at level
@@ -512,7 +565,7 @@ for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
 {
 if(MemoiresExistantes[m]==1)
 {
-for(int co=1;co<512;co++)
+for(int co=1;co<513;co++)
 {
 if(wizard_buffer_in[co]==1)
 {
@@ -543,7 +596,7 @@ for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
 {
 if(MemoiresExistantes[m]==1)
 {
-for(int co=1;co<512;co++)
+for(int co=1;co<513;co++)
 {
 if(wizard_buffer_in[co]==1)
 {
@@ -577,7 +630,7 @@ for(int m=wizard_from_mem;m<=wizard_to_mem;m++)
 {
 if(MemoiresExistantes[m]==1)
 {
-for(int co=1;co<512;co++)
+for(int co=1;co<513;co++)
 {
 if(wizard_buffer_in[co]==1)
 {

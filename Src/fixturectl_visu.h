@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // [devices] Rendu et logique de la fenetre "Control Fixtures" (W_FIXTURECTL).
 // fixturectl_window        : dessine la coquille (appele depuis graphics_rebuild1.cpp)
 // do_logical_fixturectl    : gestion des clics/interactions (appele depuis procs_visuels_rebuild1.cpp)
@@ -20,3 +22,9 @@ bool fxc_dropdown_wheel(int delta);
 // [devices] Marque la molette <key> comme actionnee (drag OU molette souris) -> sa valeur s'affiche en
 // info-bulle ~0,6 s. Appelee par channels_core.cpp au scroll.
 void fxc_mark_turning(const char* key);
+
+// [wizard] Attributs NON-Dimmer (clefs = noms GDTF, comme Control Fixtures) des devices dont le circuit est
+// marque dans circ[1..512], dedupliques et regroupes par categorie. Retourne le nombre (<= maxn).
+int fxc_attr_keys_for_circuits(const bool* circ, std::string* out, int maxn);
+// [wizard] Output DMX (coarse) qui porte l'attribut <key> du device rattache a <circuit> ; 0 si aucun.
+int fxc_attr_output_for_circuit(int circuit, const char* key);
