@@ -175,11 +175,20 @@ EXE  := $(OUT)/Whitecat_Crossplatform.exe
 # Cibles
 # ============================================================
 
-.PHONY: all clean pch dirs
+.PHONY: all clean pch dirs release
 
 all: dirs $(PCH) $(EXE)
 	@echo.
 	@echo [OK] $(EXE)
+
+# Release : copie sans symboles de debug (~3 Mo au lieu de ~16 Mo)
+# L'exe de dev garde -g pour gdb ; distribuer Whitecat_release.exe
+STRIP := $(CURDIR_F)/tools/MinGW/bin/strip.exe
+REL   := $(OUT)/Whitecat_release.exe
+
+release: all
+	$(STRIP) -s -o $(REL) $(EXE)
+	@echo [OK] $(REL)
 
 # Linkage
 $(EXE): $(OBJS) $(RES)
