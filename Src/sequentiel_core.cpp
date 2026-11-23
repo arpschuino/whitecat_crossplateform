@@ -67,6 +67,7 @@ if (MemoiresExistantes[mem_to_call]==1 && mem_to_call!=0)//eviter cherger mem 0 
 sprintf(string_Last_Order,"Loaded %d.%d on Stage", mem_to_call/10,mem_to_call%10);
 position_onstage=mem_to_call;
 refresh_mem_onstage(position_onstage);
+stage_is_crossfade_snapshot=0;// [show change] scene = memoire chargee : comparaison valable
 detect_mem_before_one();
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
@@ -136,6 +137,7 @@ bufferSaisie[a]=bufferBlind[a];
 }
 // [devices] la cue qui arrive sur scene impose ses attributs devices (LTP snap en fin de GO)
 for (int o=1;o<514;o++) { output_devval[o]=Memoires_devval[mem_is_now_onstage][o]; }
+stage_is_crossfade_snapshot=0;// [show change] scene = memoire en scene : comparaison a nouveau valable
 detect_mem_preset();
 refresh_mem_onpreset(position_preset);
 detect_mem_before_one();
@@ -157,6 +159,7 @@ for (int po=1;po<514;po++)
 {
 bufferSaisie[po]=bufferSequenciel[po];
 }
+stage_is_crossfade_snapshot=1;// [show change] scene = melange en cours, pas une modif manuelle
 niveauX1=65535;
 niveauX2=0;
 prepare_crossfade();

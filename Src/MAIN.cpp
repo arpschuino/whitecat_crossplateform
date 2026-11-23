@@ -385,7 +385,19 @@ void ticker() {
                 }
             }
             // audio_active : garde l'attente stable a 40ms pendant la lecture (anti-gel seekbar).
-            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1) || audio_active;
+            // show change /mem ON : les circuits differents de la memoire en scene (ou en preset
+            // en blind) clignotent dans l'espace circuits -> garder le rendu eveille (sinon le
+            // clignotement ne s'anime que si autre chose rafraichit l'ecran).
+            bool mem_change_blink = false;
+            if (index_blink_change_memories == 1 && !(index_blind == 0 && stage_is_crossfade_snapshot)) {
+                for (int _c = 1; _c <= 512; _c++) {
+                    if (index_blind == 0 ? (bufferSaisie[_c] != Memoires[position_onstage][_c])
+                                         : (bufferBlind[_c] != Memoires[position_preset][_c])) {
+                        mem_change_blink = true; break;
+                    }
+                }
+            }
+            wc_blink_needed = (index_false_shift != 0) || (index_false_control != 0) || has_popup || (seq_editing_mem >= 0) || (index_type == 1) || audio_active || mem_change_blink;
             // L'info-bulle du rapport (chemin de sauvegarde) deborde hors de la fenetre : repeindre le
             // fond persistant chaque frame tant qu'elle est ouverte, sinon un "ghost" du texte reste
             // hors fenetre apres le survol (dirty-rects Phase 6).

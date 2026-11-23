@@ -196,7 +196,7 @@ int ClassicalChannelSpace( int xchan, int ychan,  int scroll)//les 512 circuits
                     if(index_blind==0)//differencec avec mem enregistrée
                     {
 
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1 && !stage_is_crossfade_snapshot)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
@@ -647,7 +647,7 @@ int Draw_Channel_Preset_View(int xchan, int ychan,  int prst_v)
 
 //BLIND
                     if(index_blind==0){//differencec avec mem enregistrée                    
-                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1)
+                        if(bufferSaisie[num_circ]!=Memoires[position_onstage][num_circ] && index_blink_change_memories==1 && !stage_is_crossfade_snapshot)
                         {
                             ChannelRect.Draw(CouleurNiveau.WithAlpha(alpha_blinker));
                         }
