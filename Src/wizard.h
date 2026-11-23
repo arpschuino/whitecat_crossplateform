@@ -43,6 +43,8 @@ extern char Wiz_descriptif_memoires[10000][50];
 extern char Wiz_annotation_memoires[10000][50];
 extern bool MemoiresDetruites[10000];
 extern bool index_wizard_do_reload_from_disk;
+extern bool index_wizard_do_undo;      // [undo] demande de confirmation "Undo last Wizard action"
+extern bool wizard_undo_available;     // [undo] une copie d'avant le dernier DO IT existe (fichier temp)
 
 int clear_wizard_store_ch_in();
 int clear_wizard_store_ch_out();

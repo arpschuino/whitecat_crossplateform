@@ -44,6 +44,8 @@ char Wiz_descriptif_memoires[10000][50];
 char Wiz_annotation_memoires[10000][50];
 bool MemoiresDetruites[10000];
 bool index_wizard_do_reload_from_disk = 0;
+bool index_wizard_do_undo = 0;
+bool wizard_undo_available = 0;
 
 /*-------------------------------------------------------------------------------------------------------------
                                  |
@@ -856,12 +858,13 @@ else
 }
 
 
-////////////////////recharger depuis le disque dur////////////////////////////////////
-Rect cancelit(Vec2D((xb+85),(yb+380)), Vec2D( 110,30));
+////////////////////recharger les memoires depuis la derniere sauvegarde////////////////////
+// (recharge TOUTES les memoires : toute modif de memoire depuis la sauvegarde est perdue)
+Rect cancelit(Vec2D((xb+20),(yb+380)), Vec2D( 110,30));
 cancelit.SetRoundness(15);
 cancelit.SetLineWidth(epaisseur_ligne_fader);
 
-if(window_focus_id==W_WIZARD && mouse_x>xb+85 && mouse_x<xb+195 && mouse_y>yb+380 && mouse_y<yb+410 )
+if(window_focus_id==W_WIZARD && mouse_x>xb+20 && mouse_x<xb+130 && mouse_y>yb+380 && mouse_y<yb+410 )
 {
 cancelit.Draw(CouleurFond.WithAlpha(0.5));
 if(mouse_button==1 && mouse_released==0)
@@ -869,12 +872,39 @@ if(mouse_button==1 && mouse_released==0)
 reset_indexs_confirmation();
 index_wizard_do_reload_from_disk=1;
 index_ask_confirm=1;
+mouse_released=1;
 }
 }
 
 cancelit.DrawOutline(CouleurLigne);
 
-petitchiffre.Print("Reload from disk",xb+90,yb+400);
+petitchiffre.Print("Reload mems",xb+38,yb+400);
+////////////////////UNDO : annule la derniere action du Wizard////////////////////////////
+Rect undoit(Vec2D((xb+175),(yb+380)), Vec2D( 80,30));
+undoit.SetRoundness(15);
+undoit.SetLineWidth(epaisseur_ligne_fader);
+if(wizard_undo_available)
+{
+if(window_focus_id==W_WIZARD && mouse_x>xb+175 && mouse_x<xb+255 && mouse_y>yb+380 && mouse_y<yb+410 )
+{
+undoit.Draw(CouleurFond.WithAlpha(0.5));
+if(mouse_button==1 && mouse_released==0)
+{
+reset_indexs_confirmation();
+index_wizard_do_undo=1;
+index_ask_confirm=1;
+mouse_released=1;
+}
+}
+undoit.DrawOutline(CouleurLigne);
+petitchiffre.Print("Undo",xb+200,yb+400);
+}
+else
+{
+undoit.DrawOutline(CouleurLigne.WithAlpha(0.3));
+petitchiffre.Print("Undo",xb+200,yb+400);
+undoit.Draw(CouleurFond.WithAlpha(0.5));   // grise : rien a annuler
+}
 ////////////////////FAIRE L ACTION DEMANDEE////////////////////////////////////
 Rect doit(Vec2D((xb+285),(yb+380)), Vec2D( 110,30));
 doit.SetRoundness(15);

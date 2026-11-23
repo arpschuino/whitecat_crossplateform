@@ -495,9 +495,13 @@ else if(index_do_wizard_mem==1)
   }
  }
 }
+else if(index_wizard_do_undo==1)
+{
+sprintf(string_confirmation,"Undo last Wizard action ?");
+}
 else if(index_wizard_do_reload_from_disk==1)
 {
-sprintf(string_confirmation,"Reload from disk ALL memories ?");
+sprintf(string_confirmation,"Reload ALL memories from last save ? (every memory change since is lost)");
 }
 
 else if(index_do_record_direct_ch==1)//direct channel
@@ -1255,14 +1259,23 @@ sprintf(string_Last_Order,">> Attributed banger %d to memory %d.%d", affect_bang
 
 else if(index_do_wizard_ch==1)
 {
+wizard_undo_snapshot();
 do_wizard_ch();
+wizard_undo_commit();
 sprintf(string_Last_Order,">> Wizard CH done");
 }
 
 else if(index_do_wizard_mem==1)
 {
+if(wizard_action_mem!=4){ wizard_undo_snapshot(); }   // 4 = Inspect : ne modifie rien
 do_wizard_mem();
+if(wizard_action_mem!=4){ wizard_undo_commit(); }
 sprintf(string_Last_Order,">> Wizard MEM done");
+}
+
+else if(index_wizard_do_undo==1)
+{
+wizard_undo_restore();
 }
 
 else if(index_wizard_do_reload_from_disk==1)
@@ -1588,6 +1601,14 @@ else if(index_ask_clear_banger==1)
 
 
 
+// Largeur de la fenetre de confirmation : 500 par defaut, elargie si le message est plus long
+// (texte a XConfirm+110, marge droite 30).
+int confirm_window_width()
+{
+ int w = 110 + neuromoyen.TextWidth(string_confirmation) + 30;
+ return (w > 500) ? w : 500;
+}
+
 int fenetre_confirm()
 {
  entetes_confirmation();
@@ -1597,7 +1618,8 @@ int fenetre_confirm()
  int confirm_h  = _show_name_field ? 145 : 100;
  int btn_y      = _show_name_field ? YConfirm + 103 : YConfirm + 60;
 
- Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(500,confirm_h));
+ int confirm_w = confirm_window_width();
+ Rect FenetreConfirm(Vec2D(XConfirm,YConfirm),Vec2D(confirm_w,confirm_h));
  FenetreConfirm.SetRoundness(15);
  FenetreConfirm.SetLineWidth(epaisseur_ligne_fader*3);
  FenetreConfirm.Draw(CouleurFond);
@@ -1608,7 +1630,7 @@ int fenetre_confirm()
  }
  else { FenetreConfirm.DrawOutline(CouleurLigne);}
 
- neuromoyen.Print( string_confirmation,XConfirm+110,YConfirm+10+18, 350,  JUSTIFY);
+ neuromoyen.Print( string_confirmation,XConfirm+110,YConfirm+10+18, confirm_w-140,  JUSTIFY);
 
  // Champ nom — création de mémoire (avec ou sans faders)
  if (_show_name_field)

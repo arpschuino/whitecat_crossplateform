@@ -42,6 +42,7 @@ WWWWWWWW           C  WWWWWWWW   |
 **/
 
 #include "wc_tus.h"
+#include <zlib.h>   // [undo] copie compressee des memoires
 #include "fixturectl_visu.h"   // [devices] attribut -> output (Wizard CH)
 
 int wizard_detect_unused_channels(int wizard_from_mem, int wizard_to_mem)
@@ -792,3 +793,124 @@ refresh_stage();
  return(0);
 }
 
+// ============================================================================
+// [undo] Annulation de la derniere action du Wizard -- VRAI undo (seulement ce que le Wizard a change).
+// 1. wizard_undo_snapshot() AVANT DO IT : toutes les memoires, enregistrement par enregistrement,
+//    dans un fichier gzip temporaire (pas de RAM en plus).
+// 2. wizard_undo_commit() APRES DO IT : relit cette copie et ne garde (fichier diff) que les memoires
+//    modifiees par le Wizard : numero + etat avant + etat apres.
+// 3. wizard_undo_restore() : pour chaque memoire du diff, si elle est encore dans l'etat "apres"
+//    (pas retouchee depuis), elle revient a l'etat "avant" ; sinon elle est gardee (conflit compte).
+// Un seul niveau. Invalide au chargement d'un show (Load_Show).
+// ============================================================================
+struct WizMemRec {
+    unsigned short lev[514];
+    unsigned short dev[514];
+    float times[4];
+    int banger;
+    int ratio;
+    char desc[50];
+    char annot[50];
+    unsigned char exists, links, destroyed, pad;
+};
+static void wiz_rec_get(int m, WizMemRec& r)
+{
+    memset(&r, 0, sizeof(r));
+    memcpy(r.lev, Memoires[m], sizeof(r.lev));
+    memcpy(r.dev, Memoires_devval[m], sizeof(r.dev));
+    memcpy(r.times, Times_Memoires[m], sizeof(r.times));
+    r.banger=Banger_Memoire[m]; r.ratio=ratio_cross_manuel[m];
+    memcpy(r.desc, descriptif_memoires[m], sizeof(r.desc));
+    memcpy(r.annot, annotation_memoires[m], sizeof(r.annot));
+    r.exists=MemoiresExistantes[m]; r.links=Links_Memoires[m]; r.destroyed=MemoiresDetruites[m];
+}
+static void wiz_rec_set(int m, const WizMemRec& r)
+{
+    memcpy(Memoires[m], r.lev, sizeof(r.lev));
+    memcpy(Memoires_devval[m], r.dev, sizeof(r.dev));
+    memcpy(Times_Memoires[m], r.times, sizeof(r.times));
+    Banger_Memoire[m]=r.banger; ratio_cross_manuel[m]=r.ratio;
+    memcpy(descriptif_memoires[m], r.desc, sizeof(r.desc));
+    memcpy(annotation_memoires[m], r.annot, sizeof(r.annot));
+    MemoiresExistantes[m]=r.exists; Links_Memoires[m]=r.links; MemoiresDetruites[m]=r.destroyed;
+}
+static void wiz_undo_path(char* out, int n, const char* name)
+{
+    char t[400]; wc_get_temp_dir(t, sizeof(t));
+    snprintf(out, n, "%s%s", t, name);
+}
+static int wiz_undo_pos_before[2] = {0,0};
+
+int wizard_undo_snapshot()
+{
+    char path[512]; wiz_undo_path(path, sizeof(path), "whitecat_wizard_before.gz");
+    gzFile gz=gzopen(path, "wb1");   // niveau 1 : rapide (memoires surtout a zero)
+    if(gz==NULL){ sprintf(string_Last_Order,">> Wizard: undo copy failed (%s)", path); return(1); }
+    wiz_undo_pos_before[0]=position_onstage; wiz_undo_pos_before[1]=position_preset;
+    static WizMemRec r;
+    bool ok=true;
+    for(int m=0;m<10000 && ok;m++){ wiz_rec_get(m,r); if(gzwrite(gz,&r,sizeof(r))!=(int)sizeof(r)) ok=false; }
+    gzclose(gz);
+    if(!ok){ remove(path); }
+    return(ok ? 0 : 1);
+}
+
+int wizard_undo_commit()
+{
+    char pb[512]; wiz_undo_path(pb, sizeof(pb), "whitecat_wizard_before.gz");
+    char pd[512]; wiz_undo_path(pd, sizeof(pd), "whitecat_wizard_undo.gz");
+    gzFile in=gzopen(pb, "rb");
+    if(in==NULL){ return(1); }   // pas de copie avant : l'undo precedent reste valable
+    gzFile out=gzopen(pd, "wb1");
+    if(out==NULL){ gzclose(in); remove(pb); wizard_undo_available=0; return(1); }
+    int pos[4]={wiz_undo_pos_before[0],wiz_undo_pos_before[1],position_onstage,position_preset};
+    gzwrite(out,pos,sizeof(pos));
+    static WizMemRec rb, ra;
+    int changed=0; bool ok=true;
+    for(int m=0;m<10000;m++)
+    {
+        if(gzread(in,&rb,sizeof(rb))!=(int)sizeof(rb)){ ok=false; break; }
+        wiz_rec_get(m,ra);
+        if(memcmp(&rb,&ra,sizeof(rb))!=0)
+        {
+            if(gzwrite(out,&m,sizeof(m))!=(int)sizeof(m) || gzwrite(out,&rb,sizeof(rb))!=(int)sizeof(rb) || gzwrite(out,&ra,sizeof(ra))!=(int)sizeof(ra)){ ok=false; break; }
+            changed++;
+        }
+    }
+    gzclose(in); gzclose(out); remove(pb);
+    wizard_undo_available = (ok && changed>0) ? 1 : 0;
+    return(ok ? 0 : 1);
+}
+
+int wizard_undo_restore()
+{
+    if(!wizard_undo_available) return(1);
+    char pd[512]; wiz_undo_path(pd, sizeof(pd), "whitecat_wizard_undo.gz");
+    gzFile gz=gzopen(pd, "rb");
+    if(gz==NULL){ wizard_undo_available=0; sprintf(string_Last_Order,">> Wizard: undo copy not found"); return(1); }
+    index_is_saving=1;            // fige les timers de fond pendant la reecriture des memoires
+    wc_wait_background_idle();
+    int pos[4]={0,0,0,0};
+    bool ok = gzread(gz,pos,sizeof(pos))==(int)sizeof(pos);
+    static WizMemRec rb, ra, rc;
+    int restored=0, kept=0, m=0;
+    while(ok && gzread(gz,&m,sizeof(m))==(int)sizeof(m))
+    {
+        if(gzread(gz,&rb,sizeof(rb))!=(int)sizeof(rb) || gzread(gz,&ra,sizeof(ra))!=(int)sizeof(ra) || m<0 || m>9999){ ok=false; break; }
+        wiz_rec_get(m,rc);
+        if(memcmp(&rc,&ra,sizeof(rc))==0){ wiz_rec_set(m,rb); restored++; }
+        else { kept++; }          // retouchee depuis le Wizard : on garde la version actuelle
+    }
+    gzclose(gz);
+    if(position_onstage==pos[2]){ position_onstage=pos[0]; }
+    refresh_mem_onstage(position_onstage);
+    detect_mem_before_one();
+    if(position_preset==pos[3]){ position_preset=pos[1]; }
+    refresh_mem_onpreset(position_preset);
+    index_is_saving=0;
+    wizard_undo_available=0;      // un seul niveau d'annulation
+    if(!ok){ sprintf(string_Last_Order,">> Wizard: undo copy damaged !"); }
+    else if(kept>0){ sprintf(string_Last_Order,">> Wizard undone: %d mems restored, %d edited since were kept",restored,kept); }
+    else { sprintf(string_Last_Order,">> Wizard undone: %d mems restored",restored); }
+    return(ok ? 0 : 1);
+}

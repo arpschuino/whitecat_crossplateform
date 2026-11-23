@@ -56,6 +56,7 @@ WWWWWWWW           C  WWWWWWWW   |
 #include "audio_core.h"
 #include "gestionaire_fenetres2.h"
 #include "grider_core.h"
+#include "logicals_intres.h"   // confirm_window_width()
 #include "fixturectl_visu.h"
 #include "devicepatch_visu.h"
 #include "minifaders_core.h"
@@ -133,7 +134,7 @@ switch(window_opened[i])
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_ASKCONFIRM:
-        if(mouse_x>=XConfirm && mouse_x<=XConfirm+500 && mouse_y>=YConfirm && mouse_y<=YConfirm+100 )
+        if(mouse_x>=XConfirm && mouse_x<=XConfirm+confirm_window_width() && mouse_y>=YConfirm && mouse_y<=YConfirm+100 )
         {window_is=window_opened[i];stop_detect=1;}
         break;
         case W_PLOT:

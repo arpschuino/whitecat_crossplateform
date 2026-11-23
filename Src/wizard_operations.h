@@ -15,3 +15,7 @@ int wizard_move_mems();
 int wizard_reset_to_default_time();
 int do_wizard_mem();
 int do_wizard_ch();
+// [undo] Copie des memoires (fichier temp gzip) avant chaque DO IT du Wizard / restauration.
+int wizard_undo_snapshot();   // avant DO IT
+int wizard_undo_commit();     // apres DO IT : ne garde que ce que le Wizard a change
+int wizard_undo_restore();

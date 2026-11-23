@@ -671,6 +671,7 @@ int reset_indexs_confirmation()
     index_do_wizard_ch=0;
     index_do_wizard_mem=0;
     index_wizard_do_reload_from_disk=0;
+    index_wizard_do_undo=0;
     //direct ch
     index_do_record_direct_ch=0;
 

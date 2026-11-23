@@ -4355,6 +4355,7 @@ return(0);
 
 int Load_Show()
 {
+wizard_undo_available=0; // [undo] la copie Wizard ne correspond plus aux memoires chargees
 sprintf(rep,"%s/%s%s",mondirectory,rep_saves,nomduspectacle);
 chdir(rep);
 
