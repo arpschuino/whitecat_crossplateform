@@ -1774,7 +1774,7 @@ if(the_fader_is>=0 && the_fader_is<core_user_define_nb_faders)
           switch(dmx_view)
           {
            case 0:
-            lStopP=(int)((((float)param2_is) *2.55)+1);//+1 pour arrondir le %
+            lStopP=(param2_is>0) ? (int)((((float)param2_is) *2.55)+1) : 0;//+1 pour arrondir le % (0 -> 0)
            break;
            case 1:
             lStopP=param2_is;
@@ -3548,18 +3548,18 @@ if(bang_the_chan_is>0 && bang_the_chan_is<513)
      switch(bangers_action[banger_num][event_num])
      {
       case 0:{//"/100 Set At");
-            int t=(int)(((float)bang_val_the_chan_is*2.55)+1); if(t>255){t=255;}
+            int t=(bang_val_the_chan_is>0 ? (int)(((float)bang_val_the_chan_is*2.55)+1) : 0); if(t>255){t=255;}
             buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)t);
             sprintf(string_event,"SetChan %d at %d/100",bang_the_chan_is,bang_val_the_chan_is);
             break;}
       case 1:{//"/100 Set +");
-            int d=(int)(((float)bang_val_the_chan_is*2.55)+1);
+            int d=(bang_val_the_chan_is>0 ? (int)(((float)bang_val_the_chan_is*2.55)+1) : 0);
             if(cur+d<255){cur+=d;} else {cur=255;}
             buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d + %d/100",bang_the_chan_is,bang_val_the_chan_is);
             break;}
       case 2:{//"/100 Set -");
-            int d=(int)(((float)bang_val_the_chan_is*2.55)+1);
+            int d=(bang_val_the_chan_is>0 ? (int)(((float)bang_val_the_chan_is*2.55)+1) : 0);
             if(cur-d>0){cur-=d;} else {cur=0;}
             buf[bang_the_chan_is]=wc::dmx8_to_lvl((unsigned char)cur);
             sprintf(string_event,"SetChan %d - %d/100",bang_the_chan_is,bang_val_the_chan_is);
@@ -5089,8 +5089,16 @@ if(fire){bangers_type[index_banger_selected][lp]++;reset_banger_event(index_bang
 wc_request_refresh();
 }
 
+//texte d'alarme : double-clic -> saisie directe (mode edit requis)
+if(window_focus_id==917 && index_enable_edit_banger==1 && bangers_type[index_banger_selected][lp]==4 && mouse_double_click
+   && mouse_x>xb+145 && mouse_x<xb+145+170 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20)
+{
+wc_inline_begin(string_alarm[index_banger_selected], 25, 160, 0);
+banger_alarm_edit_row=lp;
+mouse_released=1;
+}
 //change type action
-if(window_focus_id==917 && mouse_x>xb+150 && mouse_x<xb+150+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1 )
+else if(window_focus_id==917 && mouse_x>xb+150 && mouse_x<xb+150+100 && mouse_y>yb+100+(lp*30) && mouse_y<yb+100+(lp*30)+20 && index_enable_edit_banger==1 )
 {
 static Uint32 a_hold=0,a_last_call=0,a_last_fire=0; static int a_held=-1;
 Uint32 now=SDL_GetTicks();
