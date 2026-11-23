@@ -292,6 +292,7 @@ const char file_dofreeze[24]={"ch_dofreeze.whc"};//position user etc...
 unsigned int dofreeze_size=514;
 const char file_freeze_state[24]={"ch_freezestate.whc"};//position user etc...
 unsigned int freezestate_size=514;
+const char file_devval_freeze[24]={"devval_freeze.whc"};// [devices] gel d'attributs : bool[514] + ushort[514]
 const char file_excluded_chan[24]={"ch_exclude_GM.whc"};//exclusion de l'action du grand master
 unsigned int excluded_chan_size=514; //bool Channels_excluded_from_grand_master[514];
 //////////BANGER///////////////////////////////////////
@@ -2150,6 +2151,16 @@ sprintf(string_save_load_report[idf],"Opened file %s",  file_freeze_state);
 if (fwrite( freezestate_tmp, sizeof(unsigned char), freezestate_size, fp) !=   freezestate_size)
 { sprintf(string_save_load_report[idf],"Error writting %s", file_freeze_state); b_report_error[idf]=1;}
 else sprintf(string_save_load_report[idf],"Saved file %s", file_freeze_state);
+fclose(fp);
+}
+ idf++;
+if ((fp=fopen(file_devval_freeze, "wb"))==NULL)
+{ sprintf(string_save_load_report[idf],"Error opening file %s", file_devval_freeze); b_report_error[idf]=1;}
+else
+{
+if (fwrite(devval_frozen, sizeof(bool), 514, fp)!=514 || fwrite(devval_freeze_val, sizeof(unsigned short), 514, fp)!=514)
+{ sprintf(string_save_load_report[idf],"Error writting %s", file_devval_freeze); b_report_error[idf]=1;}
+else sprintf(string_save_load_report[idf],"Saved file %s", file_devval_freeze);
 fclose(fp);
 }
  idf++;
@@ -4804,6 +4815,19 @@ else sprintf(string_save_load_report[idf],"Loaded file %s",file_freeze_state);
 // [buffer sparse] reconstruit la map depuis les tableaux denses charges
 freeze_levels.clear();
 for(int c=0;c<514;c++){ if(dofreeze_tmp[c]){ freeze_levels[c]=freezestate_tmp[c]; } }
+idf++;
+// [devices] gel d'attributs (absent = vieux show : rien de gele)
+memset(devval_frozen, 0, sizeof(devval_frozen));
+memset(devval_freeze_val, 0, sizeof(devval_freeze_val));
+if ((fp=fopen(file_devval_freeze, "rb"))!=NULL)
+{
+if (fread(devval_frozen, sizeof(bool), 514, fp)!=514 || fread(devval_freeze_val, sizeof(unsigned short), 514, fp)!=514)
+{ sprintf(string_save_load_report[idf],"Error Loaded %s", file_devval_freeze); b_report_error[idf]=1;
+  memset(devval_frozen, 0, sizeof(devval_frozen)); }
+else sprintf(string_save_load_report[idf],"Loaded file %s", file_devval_freeze);
+fclose(fp);
+}
+else sprintf(string_save_load_report[idf],"No %s (old show)", file_devval_freeze);
 idf++;
 if ((fp=fopen(  file_excluded_chan, "rb"))==NULL)
 { sprintf(string_save_load_report[idf],"Error opening file %s", file_excluded_chan);b_report_error[idf]=1;}

@@ -1323,6 +1323,8 @@ int Merger() {
             unsigned short lvl16;
             if (out_attr == wc::ATTR_DIMMER) {
                 lvl16 = MergerArray[circrootpatch];
+            } else if (devval_frozen[i]) {
+                lvl16 = devval_freeze_val[i];   // [devices] attribut gele : ni cue, ni fondu, ni molette
             } else {
                 int from = output_devval[i];
                 int to   = devval_preset[i];

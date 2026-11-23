@@ -25,6 +25,8 @@ int output_fine[514];   // [2b] pour un output coarse : son output fine (LSB) ; 
 bool is_fine[514];      // [2b] cet output est le LSB d'un canal 16 bit (rendu par son coarse)
 unsigned char output_attribute[514];   // [devices] attribut GDTF de l'output (wc::AttrId) ; rempli par rebuild_patch_from_fixtures
 unsigned short output_devval[514];     // [devices] valeur vivante 16 bit par output des attributs NON-Dimmer (0 par defaut)
+bool           devval_frozen[514];     // [devices] attribut gele (Freeze d'attribut, Control Fixtures)
+unsigned short devval_freeze_val[514]; // [devices] valeur gelee 16 bit
 unsigned short devval_preset[514];     // [devices] endpoint cue entrante du crossfade (cf. patch.h)
 unsigned short output_devdefault[514]; // [devices] valeur "home" (defaut GDTF) par output, posee au patch (bouton home)
 std::vector<wc::Fixture> wc_patch;   // [Fixtures] SOURCE DE VERITE du patch (tableaux ci-dessus = cache derive)

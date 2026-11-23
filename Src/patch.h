@@ -45,6 +45,8 @@ extern unsigned short output_devval[514];      // [devices] valeur vivante 16 bi
                                                //           (Pan/Tilt/RGBW/Zoom/Shutter...) ; l'intensite reste dans MergerArray[circuit].
                                                //           = endpoint "plateau/live" du crossfade devices (analogue de bufferSaisie).
                                                //           Ecrit par l'editeur de la fenetre Control Fixtures + palettes.
+extern bool           devval_frozen[514];     // [devices] attribut gele (par output coarse) : sortie = devval_freeze_val
+extern unsigned short devval_freeze_val[514]; // [devices] valeur gelee 16 bit (capturee a la sortie du moment)
 extern unsigned short devval_preset[514];      // [devices] endpoint "cue entrante" du crossfade (analogue de bufferBlind) ;
                                                //           rempli par refresh_mem_onpreset depuis Memoires_devval[preset].
                                                //           Le hot path interpole output_devval -> devval_preset via niveauX2.

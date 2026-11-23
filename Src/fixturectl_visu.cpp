@@ -445,6 +445,65 @@ int fxc_attr_output_for_circuit(int circuit, const char* key)
     return 0;
 }
 
+// [devices] Freeze d'attribut : etat sur les devices selectionnes -> 0 aucun gele, 1 certains, 2 tous.
+// Int : Freeze des circuits (freeze_levels) sur les circuits selectionnes.
+static int fxc_freeze_state(const std::string& key)
+{
+    int n=0, nf=0;
+    if(fxc_is_int(key)){
+        for(int c=1;c<513;c++) if(Selected_Channel[c]==1){ n++; if(freeze_levels.count(c)) nf++; }
+    } else {
+        for(size_t f=0; f<wc_patch.size(); f++){
+            if(wc_patch[f].channels.empty()) continue;
+            int circ=(int)wc_patch[f].channels[0].circuit;
+            if(!fxc_circuit_selected_device(circ)) continue;
+            for(size_t c=0;c<wc_patch[f].channels.size();c++){
+                const wc::Channel& ch=wc_patch[f].channels[c];
+                if(ch.attribute==wc::ATTR_DIMMER || fxc_chan_key(ch)!=key) continue;
+                int o=(int)ch.coarse_addr;
+                if(o>0&&o<514){ n++; if(devval_frozen[o]) nf++; }
+                break;
+            }
+        }
+    }
+    if(nf==0) return 0;
+    return (nf==n) ? 2 : 1;
+}
+
+// Bascule le Freeze de l'attribut <key> sur les devices selectionnes : tous geles -> degel ; sinon gel
+// de ceux qui ne le sont pas, a la valeur de SORTIE du moment (fondu en cours compris).
+// Au degel, la valeur gelee devient la valeur live (output_devval) : pas de saut.
+static void fxc_apply_freeze(const std::string& key)
+{
+    bool unfreeze = (fxc_freeze_state(key)==2);
+    if(fxc_is_int(key)){
+        for(int c=1;c<513;c++) if(Selected_Channel[c]==1) set_channel_freeze(c, !unfreeze);
+        return;
+    }
+    for(size_t f=0; f<wc_patch.size(); f++){
+        if(wc_patch[f].channels.empty()) continue;
+        int circ=(int)wc_patch[f].channels[0].circuit;
+        if(!fxc_circuit_selected_device(circ)) continue;
+        for(size_t c=0;c<wc_patch[f].channels.size();c++){
+            const wc::Channel& ch=wc_patch[f].channels[c];
+            if(ch.attribute==wc::ATTR_DIMMER || fxc_chan_key(ch)!=key) continue;
+            int o=(int)ch.coarse_addr;
+            if(o>0&&o<514){
+                if(unfreeze){
+                    if(devval_frozen[o]){ output_devval[o]=devval_freeze_val[o]; devval_frozen[o]=0; }
+                } else if(!devval_frozen[o]){
+                    int from=output_devval[o], to=devval_preset[o];   // meme calcul que la sortie (dmx_functions)
+                    int v=from+(int)((long long)(to-from)*niveauX2/wc::LVL_MAX);
+                    if(v<0)v=0; if(v>65535)v=65535;
+                    devval_freeze_val[o]=(unsigned short)v;
+                    devval_frozen[o]=1;
+                }
+            }
+            break;
+        }
+    }
+}
+
 // ============================================================================
 // Layout horizontal + defilement FLUIDE au pixel.
 //   cx_rel[i] = decalage du centre du rouleau i par rapport au centre du 1er (cx_rel[0]=0).
@@ -846,6 +905,14 @@ int fixturectl_window(int xf, int yf)
             Home.Draw(CouleurGrisAnthracite);
             Home.DrawOutline(CouleurGrisClair);
             petitpetitchiffre.Print("home", scx - petitpetitchiffre.TextWidth("home")/2, hy+11);
+            // [devices] Freeze d'attribut : rouge = gele sur tous les selectionnes, rouge pale = sur certains
+            int fz = fxc_freeze_state(disp[i]);
+            Rect Frz(Vec2D(scx+18, hy), Vec2D(14,14)); Frz.SetRoundness(3);   // petit carre arrondi (comme home) a droite de home
+            Frz.Draw(CouleurGrisAnthracite);
+            if(fz==2) Frz.Draw(CouleurRed);
+            else if(fz==1) Frz.Draw(CouleurRed.WithAlpha(0.4));
+            Frz.DrawOutline(CouleurGrisClair);
+            petitpetitchiffre.Print("F", scx+25 - petitpetitchiffre.TextWidth("F")/2, hy+11);
         }
         prev_cat_all = cat; prev_scx_all = scx;
     }
@@ -890,6 +957,20 @@ static std::string fxc_home_at_point(int xf, int yf, int px, int py)
         int scx = fxc_scx(xf, i, cx_rel);
         if(scx+16 < VL || scx-16 > VR) continue;
         if(px>scx-16 && px<scx+16 && py>hy && py<hy+14) return disp[i];
+    }
+    return std::string();
+}
+
+// [devices] Attribut (clef) du bouton frz VISIBLE sous (px,py), ou "".
+static std::string fxc_freeze_at_point(int xf, int yf, int px, int py)
+{
+    std::string disp[FXC_MAXENC]; int n = fxc_build_display(disp, FXC_MAXENC);
+    int cx_rel[FXC_MAXENC], content_w; fxc_layout(disp, n, cx_rel, content_w); fxc_clamp_scroll(content_w, xf);
+    int cy = yf + FXC_ENC_CY, hy = cy + FXC_ROL_H/2 + 26, VL = fxc_view_left(xf), VR = fxc_view_right(xf);
+    for(int i=0;i<n;i++){
+        int scx = fxc_scx(xf, i, cx_rel);
+        if(scx+32 < VL || scx+18 > VR) continue;
+        if(px>scx+18 && px<scx+32 && py>hy && py<hy+14) return disp[i];
     }
     return std::string();
 }
@@ -1094,8 +1175,11 @@ int do_logical_fixturectl(int xf, int yf)
                     && mouse_click_y>yf+fixturectl_window_h-16 && mouse_click_y<yf+fixturectl_window_h+4;
         std::string home_key = in_grip ? std::string() : fxc_home_at_point(xf, yf, mouse_click_x, mouse_click_y);
 
+        std::string frz_key = (in_grip || !home_key.empty()) ? std::string() : fxc_freeze_at_point(xf, yf, mouse_click_x, mouse_click_y);
+
         if(in_grip){ drag_resize = true; }
         else if(!home_key.empty()){ fxc_apply_home(home_key); }
+        else if(!frz_key.empty()){ fxc_apply_freeze(frz_key); wc_request_refresh(); }
         else
         {
             // ascenseur horizontal ?

@@ -3071,7 +3071,7 @@ int patch_straight()
     wc_patch.clear();
     synthesize_fixtures_from_legacy();
     rebuild_patch_from_fixtures();               // [devices] regenere output_attribute[] (sinon des attributs
-    for(int o=0;o<514;o++) output_devval[o]=0;   // device restent -> les outputs lisent output_devval, figes)
+    for(int o=0;o<514;o++){ output_devval[o]=0; devval_frozen[o]=0; }   // device restent -> les outputs lisent output_devval, figes)
     if(index_build_patch_from_plot==1)
     {
         reconstruct_plot_dimmer_list_from_patch();
@@ -3103,8 +3103,8 @@ static void patch_forget_devices_on_selected()
             {
                 int co=(int)fx.channels[c].coarse_addr;
                 int fo=(int)fx.channels[c].fine_addr;
-                if(co>0&&co<514){ Patch[co]=0; output_fine[co]=0; is_fine[co]=0; curves[co]=0; output_attribute[co]=wc::ATTR_DIMMER; output_devval[co]=0; }
-                if(fo>0&&fo<514){ Patch[fo]=0; output_fine[fo]=0; is_fine[fo]=0; curves[fo]=0; output_attribute[fo]=wc::ATTR_DIMMER; output_devval[fo]=0; }
+                if(co>0&&co<514){ Patch[co]=0; output_fine[co]=0; is_fine[co]=0; curves[co]=0; output_attribute[co]=wc::ATTR_DIMMER; output_devval[co]=0; devval_frozen[co]=0; }
+                if(fo>0&&fo<514){ Patch[fo]=0; output_fine[fo]=0; is_fine[fo]=0; curves[fo]=0; output_attribute[fo]=wc::ATTR_DIMMER; output_devval[fo]=0; devval_frozen[fo]=0; }
             }
             wc_patch.erase(wc_patch.begin()+f);
         }
@@ -5554,7 +5554,7 @@ int GlobInit()
         wc_patch.clear();
         synthesize_fixtures_from_legacy();
         rebuild_patch_from_fixtures();               // [devices] regenere output_attribute[]
-        for(int o=0;o<514;o++) output_devval[o]=0;   // reset = plus aucun device
+        for(int o=0;o<514;o++){ output_devval[o]=0; devval_frozen[o]=0; }   // reset = plus aucun device
     }
 
     if(specify_who_to_save_load[9]==1)//patch HTP/LTP//////////////////////////////
